@@ -304,6 +304,80 @@ const CASES = [
       ],
     },
   },
+  {
+    id: 6,
+    theme: "blue",
+    vol: "VOL.06",
+    volJp: "",
+    co: "Arcana \u00b7 Workspace",
+    title: "ARCANA WORKSPACE",
+    desc: "Bloomberg-style modular launchpad for institutional investors \u2014 grid-based workspaces with configurable widgets for real-time market monitoring",
+    impact: "0\u21921 shipped",
+    tags: ["feature", "prototype"],
+    kpis: [
+      { v: "7", l: "Priority widgets designed" },
+      { v: "V1", l: "Full PRD \u2192 prototype shipped" },
+      { v: "\u221e", l: "Workspace configurations possible" },
+    ],
+    content: {
+      problem:
+        "Institutional investors, analysts, and researchers operate in a high-frequency, high-cognitive-load environment. They simultaneously monitor live prices, charts, news, alerts, and global market context while switching across multiple asset classes. This workflow consistently exposes four critical pain points: <strong>Fragmented information</strong> \u2014 prices, charts, news, alerts, and market hours live in separate views, forcing users to mentally stitch insights together. <strong>High context-switching cost</strong> \u2014 switching between workflows (e.g., market open vs research) requires complete re-navigation, and analysts lose time reconstructing views multiple times a day. <strong>One-size-fits-all interfaces</strong> \u2014 different users track different assets, regions, and time horizons, yet the interface offers no personalisation. <strong>Poor state persistence</strong> \u2014 layouts, filters, and configurations do not persist across sessions, forcing repeated rework to analyse the same data.",
+      approach:
+        "I started with market research anchored on Bloomberg Launchpad \u2014 one of the most heavily used terminal features \u2014 which solves this exact problem through customisable, persistent widgets and workspaces. A typical Bloomberg Launchpad user combines price monitors, charts, and news feeds to correlate headlines with price reactions, uses alerts to catch significant moves without continuous hovering, and saves workflows by theme (commodity tracking, earnings day, global markets). This mirrors how our target users segment their day: morning pre-open scan, live session monitoring, and post-close analysis. I prioritised 7 widgets for V1 based on this research: <strong>Equity Price Monitor</strong> (most basic, most used), <strong>Index Tracker</strong> (macro sentiment gauge), <strong>Commodity Prices</strong> (cross-asset views), <strong>Real-Time Chart</strong> (visual trend confirmation), <strong>Live News Feed</strong> (context to price movements), <strong>Alerts</strong> (catch key events passively), and <strong>Timezone/Market Hours</strong> (global region support). We chose a grid-based canvas over free-form positioning to optimise for scale, stability, and cognitive clarity in a high-frequency environment, while still allowing flexibility through resizing and reordering. V1 focuses on the monitoring layer (signal intake + context + workflow persistence), with V2 planned for outcome measurement (performance analytics, risk attribution, order execution).",
+      solution: [
+        "Designed Arcana Workspace \u2014 a modular, grid-based canvas (similar to Metabase dashboards) where users create, save, and switch between personalised workspaces composed of configurable widgets",
+        "Built workspace creation flow with three entry points: auto-optimised view for screen resolution, sample view templates (Portfolio Analysis, Single Stock Analysis), or blank canvas",
+        "Designed preset templates with global settings \u2014 e.g., a Single Stock Analysis template requires selecting a stock that powers all widgets; a Portfolio template uses a benchmark as the global parameter",
+        "Implemented multi-page architecture where each workspace supports multiple pages as sub-contexts (e.g., Price, Valuation, Macro) with add, delete, reorder, rename, and share capabilities",
+        "Created a full widget system \u2014 widgets are modular atomic blocks with multiple responsive UIs across grid sizes (inspired by Apple widget paradigm), supporting configure, add, resize, reposition, and remove actions",
+        "Designed workspace state management: Empty, Draft (unsaved changes with discard/save), Saved, Selected, and Deleted states with explicit save commits and version handling",
+        "Built widget search bar in the primary toolbar that shows all categories, individual widgets with previews, and templates \u2014 adding a widget places it in the next vacant grid position at default size",
+        "Designed three-toolbar architecture: Toolbar 1 for workspace switching and search, Toolbar 2 for workspace actions (save copy, share, customise/save with edit mode toggle), Toolbar 3 for page tabs",
+        "Specified edit mode capabilities \u2014 widgets can be resized, rearranged, and removed; workspaces and pages can be renamed and deleted; all destructive actions gated behind edit mode",
+        "Defined edge cases: widget added but never configured, workspace switch with unsaved changes triggers confirmation, page/workspace deleted while active falls back to next available, full-page prevents widget addition",
+        "Designed Group Components system (V1: global settings during template creation; V2: full Group Manager for cross-widget security linking)",
+        "Established success metrics framework: Workspace Creation Rate, Activation Rate (\u22653 widgets saved), Template Usage Rate, DAU Ratio, Default Launch Rate, D1\u2013D30 retention, avg widgets/pages per workspace, page/workspace switching rates",
+      ],
+      impact: {
+        text: "Arcana Workspace was designed as a <strong>0\u21921 product feature</strong> from PRD through high-fidelity prototype. The modular workspace directly addresses product stickiness \u2014 custom dashboards correlate with higher retention and daily engagement by becoming the user\u2019s first preference for daily monitoring. The design follows proven market precedent (Bloomberg Launchpad) while adapting it for a modern, web-based fintech platform.",
+        items: [
+          {
+            v: "7",
+            l: "Priority widgets for V1 launch",
+            c: "#3B82F6",
+          },
+          {
+            v: "3",
+            l: "Workspace creation paths",
+            c: "#3B82F6",
+          },
+          {
+            v: "12+",
+            l: "Success metrics defined",
+            c: "#F0C040",
+          },
+          {
+            v: "0\u21921",
+            l: "Full PRD to prototype",
+            c: "#4ade80",
+          },
+        ],
+      },
+      tags: [
+        "0\u21921 Product",
+        "PRD",
+        "Figma",
+        "Prototyping",
+        "Fintech",
+        "Widget System",
+        "Bloomberg",
+        "Market Research",
+      ],
+      prdLink:
+        "https://docs.google.com/document/d/1MZGAA0LmIOjF_hVQIMYgjWKM06vQP8Aq66b8-xf2xFQ/edit?tab=t.0",
+      prototypeLink: "https://coin-move-54711900.figma.site",
+    },
+  },
 ];
 
 function accentColor(t: string) {
@@ -313,6 +387,7 @@ function accentColor(t: string) {
     gold: "#F0C040",
     purple: "#C084FC",
     teal: "#2DD4BF",
+    blue: "#3B82F6",
   };
   return m[t] || "#E8273A";
 }
@@ -1576,6 +1651,7 @@ export default function App() {
                       modalCase.theme === "teal"
                         ? "#000"
                         : "#fff",
+
                   }}
                 >
                   {modalCase.vol} &middot; {modalCase.co}
@@ -1617,6 +1693,56 @@ export default function App() {
                     </span>
                   ))}
                 </div>
+                {(modalCase.content.prdLink ||
+                  modalCase.content.prototypeLink) && (
+                  <div className="modal-links-row">
+                    {modalCase.content.prdLink && (
+                      <a
+                        href={modalCase.content.prdLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="modal-link-btn"
+                        style={{
+                          borderColor: ac,
+                          color: ac,
+                        }}
+                      >
+                        &#8599; View PRD
+                      </a>
+                    )}
+                    {modalCase.content.prototypeLink && (
+                      <a
+                        href={
+                          modalCase.content.prototypeLink
+                        }
+                        target="_blank"
+                        rel="noreferrer"
+                        className="modal-link-btn"
+                        style={{
+                          borderColor: ac,
+                          color: ac,
+                        }}
+                      >
+                        &#8599; View Prototype
+                      </a>
+                    )}
+                  </div>
+                )}
+                {modalCase.content.prototypeLink && (
+                  <div className="modal-prototype-embed">
+                    <div className="proto-label">
+                      Prototype Preview
+                    </div>
+                    <iframe
+                      src={
+                        modalCase.content.prototypeLink
+                      }
+                      title="Prototype Preview"
+                      className="proto-iframe"
+                      allow="fullscreen"
+                    />
+                  </div>
+                )}
                 <div className="mchapter">
                   <div className="ch-label">
                     <span
