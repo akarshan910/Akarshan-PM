@@ -16,7 +16,7 @@ const CASES = [
     title: "PUJA ENGAGEMENT PLATFORM",
     desc: "WhatsApp-native puja booking with AI recommendations and spiritual calendar to increase repeat devotion",
     impact: "+30% monthly orders",
-    tags: ["feature", "crm", "prototype", "product", "whatsapp", "personalization", "monetization", "engagement"],
+    tags: ["crm", "personalization", "monetization", "engagement", "prototype"],
     kpis: [
       { v: "30%", l: "Monthly orders per user uplift target" },
       { v: "12%", l: "WhatsApp conversion rate goal" },
@@ -151,7 +151,7 @@ const CASES = [
     title: "WORD GAMES MONETISATION STRATEGY",
     desc: "Streamlined onboarding + IAP optimization + retention mechanics to unlock #3 app store ranking and 1.35x MAU growth",
     impact: "+1.35× MAU in 12mo",
-    tags: ["analytics", "feature", "prototype", "monetization", "retention", "mobile", "games", "engagement"],
+    tags: [ "monetization", "retention", "mobile", "games", "engagement"],
     kpis: [
       { v: "50%", l: "Day 1 retention target (vs 35% baseline)" },
       { v: "3.5%", l: "IAP conversion (2.5% → 3.5%)" },
@@ -311,7 +311,7 @@ const CASES = [
     title: "ARCANA WORKSPACE",
     desc: "Bloomberg-style modular launchpad for institutional investors — grid-based workspaces with configurable widgets for real-time market monitoring",
     impact: "0→1 shipped",
-    tags: ["feature", "prototype", "analytics", "b2b", "fintech"],
+    tags: ["0→1", "b2b", "prototype", "workflows", "fintech"],
     kpis: [
       { v: "7", l: "Priority widgets designed" },
       { v: "V1", l: "Full PRD → prototype shipped" },
