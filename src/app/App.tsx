@@ -321,44 +321,178 @@ const CASES = [
     ],
     content: {
       problem:
-        "Institutional investors, analysts, and researchers operate in a high-frequency, high-cognitive-load environment. They simultaneously monitor live prices, charts, news, alerts, and global market context while switching across multiple asset classes. This workflow consistently exposes four critical pain points: <strong>Fragmented information</strong> \u2014 prices, charts, news, alerts, and market hours live in separate views, forcing users to mentally stitch insights together. <strong>High context-switching cost</strong> \u2014 switching between workflows (e.g., market open vs research) requires complete re-navigation, and analysts lose time reconstructing views multiple times a day. <strong>One-size-fits-all interfaces</strong> \u2014 different users track different assets, regions, and time horizons, yet the interface offers no personalisation. <strong>Poor state persistence</strong> \u2014 layouts, filters, and configurations do not persist across sessions, forcing repeated rework to analyse the same data.",
+        "Institutional investors, analysts, and researchers operate in a high-frequency, high-cognitive-load environment \u2014 simultaneously monitoring live prices, charts, news, alerts, and global market context while switching across multiple asset classes. Four systemic pain points emerged:<br/><br/><strong>Fragmented information</strong> \u2014 Prices, charts, news, alerts, and market hours live in separate views. Users must mentally stitch insights together by exploring each view independently.<br/><br/><strong>High context-switching cost</strong> \u2014 Switching between workflows (e.g., market open vs. research) requires complete re-navigation. Analysts lose time reconstructing views multiple times a day.<br/><br/><strong>One-size-fits-all interfaces</strong> \u2014 A commodity trader, an equity analyst, and a risk manager all see the same default layout despite tracking entirely different assets, regions, and time horizons.<br/><br/><strong>Poor state persistence</strong> \u2014 Layouts, filters, and configurations do not persist across sessions, forcing repeated rework just to analyse the same thing.",
+      whyItMatters: [
+        "A modular workspace increases product stickiness. Custom dashboards directly correlate with higher retention and daily engagement \u2014 once a user has configured their workspace, Arcana becomes their default first screen.",
+        "Bloomberg Launchpad is the most heavily used feature on the Bloomberg Terminal because it solves this exact problem through customisable, persistent widgets and workspaces. Market precedent is established and proven at scale.",
+        "Personalisation enables different user archetypes (commodity traders, equity analysts, risk managers) to build optimal views \u2014 unlocking the full breadth of what Arcana offers rather than forcing everyone into the same surface.",
+      ],
+      vision:
+        "Build Arcana Workspace \u2014 a modular, Bloomberg-style Launchpad that allows users to create, save, and switch between personalised workspaces composed of configurable widgets, optimised for real-time monitoring, clarity, and execution with speed. V1 = Signal intake + context + workflow persistence. V2 = Outcome measurement (performance analytics, risk attribution, order execution).",
+      v1Goals: [
+        "Enable users to build custom workspaces from modular widgets \u2014 from scratch or via premade templates (Portfolio Analysis, Single Stock Analysis, News, etc.)",
+        "Support adding, resizing, configuring, and saving widget layouts on a grid-based canvas \u2014 chosen over free-form positioning to optimise for scale, stability, and cognitive clarity",
+        "Allow multiple pages per workspace, each representing a distinct sub-context (e.g., Price, Valuation, Macro) with full add / delete / reorder / rename / share capabilities",
+        "Enable fast switching between workspaces and pages, with full edit / copy / save / share flows accessible from a persistent three-toolbar architecture",
+        "Preserve widget-level intelligence across sessions \u2014 a ticker selected in the price monitor persists in the linked chart and news feed without reconfiguration",
+      ],
       approach:
-        "I started with market research anchored on Bloomberg Launchpad \u2014 one of the most heavily used terminal features \u2014 which solves this exact problem through customisable, persistent widgets and workspaces. A typical Bloomberg Launchpad user combines price monitors, charts, and news feeds to correlate headlines with price reactions, uses alerts to catch significant moves without continuous hovering, and saves workflows by theme (commodity tracking, earnings day, global markets). This mirrors how our target users segment their day: morning pre-open scan, live session monitoring, and post-close analysis. I prioritised 7 widgets for V1 based on this research: <strong>Equity Price Monitor</strong> (most basic, most used), <strong>Index Tracker</strong> (macro sentiment gauge), <strong>Commodity Prices</strong> (cross-asset views), <strong>Real-Time Chart</strong> (visual trend confirmation), <strong>Live News Feed</strong> (context to price movements), <strong>Alerts</strong> (catch key events passively), and <strong>Timezone/Market Hours</strong> (global region support). We chose a grid-based canvas over free-form positioning to optimise for scale, stability, and cognitive clarity in a high-frequency environment, while still allowing flexibility through resizing and reordering. V1 focuses on the monitoring layer (signal intake + context + workflow persistence), with V2 planned for outcome measurement (performance analytics, risk attribution, order execution).",
+        "I started with competitive analysis anchored on Bloomberg Launchpad. A typical Launchpad user combines price monitors, charts, and news feeds to correlate headlines with price reactions \u2014 uses alerts to catch significant moves without continuous hovering \u2014 and saves workflows by theme (commodity tracking, earnings day, global markets). This mirrors how target users segment their day: <strong>morning pre-open scan</strong>, <strong>live session monitoring</strong>, and <strong>post-close analysis</strong>.<br/><br/>From this I derived the minimum viable widget set for V1, then mapped each widget to its Bloomberg equivalent to validate prioritisation. I chose a grid-based canvas over free-form drag-and-drop because it reduces layout instability in high-density configurations \u2014 exactly the failure mode that frustrates power users. The Metabase dashboard builder served as the implementation reference for grid mechanics.",
+      widgets: [
+        {
+          name: "Equity Price Monitor",
+          rationale:
+            "Most basic, most used \u2014 priority 1 for every analyst workflow. Live bid/ask, % change, volume at a glance.",
+        },
+        {
+          name: "Index Tracker",
+          rationale:
+            "Global indices (S&P 500, Nifty, DAX, Hang Seng) \u2014 the macro sentiment gauge. First thing every analyst looks at every morning.",
+        },
+        {
+          name: "Commodity Prices",
+          rationale:
+            "Oil, Gold, Copper, Natural Gas. Critical for cross-asset correlation \u2014 mirrors Bloomberg\u2019s most-accessed commodities widget.",
+        },
+        {
+          name: "Real-Time Chart",
+          rationale:
+            "Visual confirmation of trend and pattern. Supports time-range switching and overlay indicators. Core to every workflow.",
+        },
+        {
+          name: "Live News Feed",
+          rationale:
+            "Correlating a news headline with a price spike is the core analyst superpower. Heavily used on Bloomberg; heavily requested here.",
+        },
+        {
+          name: "Alerts",
+          rationale:
+            "Simple price threshold alerts. Lets analysts catch key moves passively \u2014 without hovering \u2014 during high-frequency sessions.",
+        },
+        {
+          name: "Timezone / Market Hours",
+          rationale:
+            "Shows open/close status across exchanges globally. Essential for multi-region asset tracking and pre-market prep.",
+        },
+      ],
       solution: [
-        "Designed Arcana Workspace \u2014 a modular, grid-based canvas (similar to Metabase dashboards) where users create, save, and switch between personalised workspaces composed of configurable widgets",
-        "Built workspace creation flow with three entry points: auto-optimised view for screen resolution, sample view templates (Portfolio Analysis, Single Stock Analysis), or blank canvas",
-        "Designed preset templates with global settings \u2014 e.g., a Single Stock Analysis template requires selecting a stock that powers all widgets; a Portfolio template uses a benchmark as the global parameter",
-        "Implemented multi-page architecture where each workspace supports multiple pages as sub-contexts (e.g., Price, Valuation, Macro) with add, delete, reorder, rename, and share capabilities",
-        "Created a full widget system \u2014 widgets are modular atomic blocks with multiple responsive UIs across grid sizes (inspired by Apple widget paradigm), supporting configure, add, resize, reposition, and remove actions",
-        "Designed workspace state management: Empty, Draft (unsaved changes with discard/save), Saved, Selected, and Deleted states with explicit save commits and version handling",
-        "Built widget search bar in the primary toolbar that shows all categories, individual widgets with previews, and templates \u2014 adding a widget places it in the next vacant grid position at default size",
-        "Designed three-toolbar architecture: Toolbar 1 for workspace switching and search, Toolbar 2 for workspace actions (save copy, share, customise/save with edit mode toggle), Toolbar 3 for page tabs",
-        "Specified edit mode capabilities \u2014 widgets can be resized, rearranged, and removed; workspaces and pages can be renamed and deleted; all destructive actions gated behind edit mode",
-        "Defined edge cases: widget added but never configured, workspace switch with unsaved changes triggers confirmation, page/workspace deleted while active falls back to next available, full-page prevents widget addition",
-        "Designed Group Components system (V1: global settings during template creation; V2: full Group Manager for cross-widget security linking)",
-        "Established success metrics framework: Workspace Creation Rate, Activation Rate (\u22653 widgets saved), Template Usage Rate, DAU Ratio, Default Launch Rate, D1\u2013D30 retention, avg widgets/pages per workspace, page/workspace switching rates",
+        "Designed the full workspace hierarchy: Workspace \u2192 Pages \u2192 Widgets on a grid canvas \u2014 each layer independently configurable, persistable, and shareable",
+        "Three entry points for workspace creation: auto-optimised layout for current screen resolution, sample view from template gallery with visual previews, or blank canvas",
+        "Preset templates with global settings \u2014 a Single Stock Analysis template prompts for a ticker that powers all widgets; a Portfolio template uses a benchmark; settings can be changed post-creation",
+        "Three-toolbar architecture: Toolbar 1 (workspace switching + search bar), Toolbar 2 (workspace name, global setting indicator, save copy / share / customise), Toolbar 3 (page tabs with add / delete / reorder)",
+        "Widget search bar shows all categories and individual widgets with previews \u2014 selecting a widget places it in the next vacant grid position at default size; it cannot be added twice on the same page",
+        "Edit mode gates all destructive actions (resize, rearrange, remove, rename, delete) \u2014 toggled by a single Customise / Save button; clicking Save exits edit mode and commits to backend",
+        "Full state machine for workspaces (Empty, Draft, Saved, Deleted) and widgets (Unconfigured, Configured, Deleted, with position/size/parameter state persisted)",
+        "Group Components \u2014 V1: global settings link widgets during template creation; V2: full Group Manager for cross-widget security linking (selecting AAPL in the price monitor auto-updates the linked chart and news feed)",
+        "Edge cases specced: widget on full page cannot be added (user informed), workspace switch with unsaved changes triggers confirmation dialog, deleted active page/workspace falls back to the next available",
+      ],
+      userJourneys: [
+        {
+          title: "First-Time User",
+          steps: [
+            "Opens Arcana Workspace \u2014 no existing workspaces, entry state is an empty toolbar with only \u201cCreate New\u201d and \u201cSettings\u201d",
+            "Clicks Create New \u2014 chooses from auto-optimised view, sample view gallery, or blank canvas",
+            "Toolbar + Page 1 appear with a search bar; clicking it surfaces all widget categories and templates with previews",
+            "Adds first widget (Monitor / Chart / News) or selects a premade template",
+            "Configures parameters, adjusts position and size, optionally renames the widget",
+            "Saves workspace \u2014 transitions from Draft to Saved state",
+          ],
+        },
+        {
+          title: "Building a Multi-Page Workspace",
+          steps: [
+            "Clicks + New Page beside existing tab \u2014 names the page (defaults to Page 2, Page 3, etc.)",
+            "Adds widgets for a different context (e.g., Asia markets on Page 2, News on Page 3)",
+            "Right-clicks a page tab to rename, copy, delete, or share",
+            "Drags page tabs to reorder \u2014 switches instantly by clicking the target tab",
+            "Saves the workspace \u2014 exit state: one workspace, multiple task-specific pages",
+          ],
+        },
+        {
+          title: "Returning User Daily Flow",
+          steps: [
+            "Logs in \u2014 last-used workspace auto-opens if no default is set",
+            "Scans price monitors and alert panel \u2014 passive signal intake, morning pre-open routine",
+            "Switches page or workspace with a single tab click \u2014 zero re-navigation",
+            "Makes minor edits during the session \u2014 auto-save or manual save persists state",
+          ],
+        },
+      ],
+      metricsAdoption: [
+        {
+          name: "Workspace Creation Rate",
+          def: "% of active users who create \u22651 workspace within 7 days of activation",
+          why: "Indicates initial value discovery \u2014 are users getting past the empty state?",
+        },
+        {
+          name: "Activation Rate",
+          def: "% of users who create a workspace, add \u22653 widgets, and save it",
+          why: "Confirms meaningful usage, not just exploration clicks",
+        },
+        {
+          name: "Template Usage Rate",
+          def: "% of workspace creations using a template vs. blank canvas",
+          why: "Validates whether templates reduce friction in the creation flow",
+        },
+        {
+          name: "Creation Drop-off Rate",
+          def: "% of users who start creation but abandon before saving",
+          why: "Identifies the specific friction point in the workspace creation funnel",
+        },
+      ],
+      metricsEngagement: [
+        {
+          name: "Workspace DAU Ratio",
+          def: "Workspace DAU \u00f7 Total Platform DAU",
+          why: "Core north star \u2014 directly measures whether Workspace is a daily-use feature",
+        },
+        {
+          name: "Default Launch Rate",
+          def: "% of sessions where Workspace opens as the default landing surface",
+          why: "Signals habit formation \u2014 user has chosen Workspace as their primary entry point",
+        },
+        {
+          name: "Repeat Usage Rate",
+          def: "Avg. Workspace sessions per user per day \u00f7 total sessions",
+          why: "Measures within-day frequency \u2014 is it used once or continuously throughout the day?",
+        },
+        {
+          name: "D1\u2013D30 Retention",
+          def: "Day-over-day retention for users who activated Workspace",
+          why: "Validates long-term stickiness \u2014 the ultimate measure of daily ritual formation",
+        },
+        {
+          name: "Avg. Widgets per Workspace",
+          def: "Average number of widgets added across all saved workspaces",
+          why: "Richness signal \u2014 more widgets = more invested user = higher predicted retention",
+        },
+        {
+          name: "Page Switching Rate",
+          def: "% of users who switch between pages within a single session",
+          why: "Validates page-level value \u2014 are multi-page workspaces being actively navigated?",
+        },
       ],
       impact: {
-        text: "Arcana Workspace was designed as a <strong>0\u21921 product feature</strong> from PRD through high-fidelity prototype. The modular workspace directly addresses product stickiness \u2014 custom dashboards correlate with higher retention and daily engagement by becoming the user\u2019s first preference for daily monitoring. The design follows proven market precedent (Bloomberg Launchpad) while adapting it for a modern, web-based fintech platform.",
+        text: "Arcana Workspace was taken from zero to a fully scoped <strong>PRD + interactive prototype</strong>. The modular workspace directly addresses product stickiness \u2014 custom dashboards correlate with higher retention and daily engagement by becoming the user\u2019s default first screen. The design draws a direct line from Bloomberg Launchpad\u2019s success to a modern, web-native fintech surface.",
         items: [
           {
             v: "7",
-            l: "Priority widgets for V1 launch",
+            l: "Priority widgets fully specced",
             c: "#3B82F6",
           },
           {
             v: "3",
-            l: "Workspace creation paths",
+            l: "User journeys designed end-to-end",
             c: "#3B82F6",
           },
           {
-            v: "12+",
-            l: "Success metrics defined",
+            v: "10+",
+            l: "Success metrics framework defined",
             c: "#F0C040",
           },
           {
             v: "0\u21921",
-            l: "Full PRD to prototype",
+            l: "PRD \u2192 prototype shipped",
             c: "#4ade80",
           },
         ],
@@ -1760,15 +1894,66 @@ export default function App() {
                     }}
                   />
                 </div>
+                {/* Why it matters */}
+                {(modalCase.content as any).whyItMatters && (
+                  <div className="mchapter">
+                    <div className="ch-label">
+                      <span className="ch-n" style={{ color: ac }}>02</span>
+                      <span className="ch-t">Why This Is Worth Solving</span>
+                    </div>
+                    <ul className="why-list">
+                      {(modalCase.content as any).whyItMatters.map(
+                        (w: string, i: number) => (
+                          <li key={i}>
+                            <span className="why-bullet" style={{ color: ac }}>&#9654;</span>
+                            {w}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+                {/* Vision + V1 Goals */}
+                {(modalCase.content as any).vision && (
+                  <div className="mchapter">
+                    <div className="ch-label">
+                      <span className="ch-n" style={{ color: ac }}>03</span>
+                      <span className="ch-t">Product Vision & V1 Scope</span>
+                    </div>
+                    <div
+                      className="vision-callout"
+                      style={{ borderLeftColor: ac }}
+                    >
+                      {(modalCase.content as any).vision}
+                    </div>
+                    {(modalCase.content as any).v1Goals && (
+                      <>
+                        <div className="es-sublabel">V1 Goals</div>
+                        <ol className="goals-list">
+                          {(modalCase.content as any).v1Goals.map(
+                            (g: string, i: number) => (
+                              <li key={i}>
+                                <span className="goal-n" style={{ color: ac }}>
+                                  {String(i + 1).padStart(2, "0")}
+                                </span>
+                                {g}
+                              </li>
+                            ),
+                          )}
+                        </ol>
+                      </>
+                    )}
+                  </div>
+                )}
                 <div className="mchapter">
                   <div className="ch-label">
                     <span
                       className="ch-n"
                       style={{ color: ac }}
                     >
-                      02
+                      04
                     </span>
-                    <span className="ch-t">The Approach</span>
+                    <span className="ch-t">Market Research & Approach</span>
                   </div>
                   <div
                     className="ch-body"
@@ -1777,15 +1962,42 @@ export default function App() {
                     }}
                   />
                 </div>
+                {/* Widget taxonomy */}
+                {(modalCase.content as any).widgets && (
+                  <div className="mchapter">
+                    <div className="ch-label">
+                      <span className="ch-n" style={{ color: ac }}>05</span>
+                      <span className="ch-t">Priority Widget Taxonomy</span>
+                    </div>
+                    <div className="es-sublabel">7 widgets selected for V1 \u2014 each mapped to Bloomberg usage patterns</div>
+                    <div className="widget-grid">
+                      {(modalCase.content as any).widgets.map(
+                        (w: { name: string; rationale: string }, i: number) => (
+                          <div
+                            className="widget-card"
+                            key={i}
+                            style={{ borderColor: `${ac}30` }}
+                          >
+                            <div className="wc-n" style={{ color: ac }}>
+                              {String(i + 1).padStart(2, "0")}
+                            </div>
+                            <div className="wc-name">{w.name}</div>
+                            <div className="wc-rationale">{w.rationale}</div>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
                 <div className="mchapter">
                   <div className="ch-label">
                     <span
                       className="ch-n"
                       style={{ color: ac }}
                     >
-                      03
+                      06
                     </span>
-                    <span className="ch-t">The Solution</span>
+                    <span className="ch-t">What I Built</span>
                   </div>
                   <ul className="ch-list">
                     {modalCase.content.solution.map((s, i) => (
@@ -1793,13 +2005,91 @@ export default function App() {
                     ))}
                   </ul>
                 </div>
+                {/* User Journeys */}
+                {(modalCase.content as any).userJourneys && (
+                  <div className="mchapter">
+                    <div className="ch-label">
+                      <span className="ch-n" style={{ color: ac }}>07</span>
+                      <span className="ch-t">Key User Journeys</span>
+                    </div>
+                    <div className="journey-blocks">
+                      {(modalCase.content as any).userJourneys.map(
+                        (j: { title: string; steps: string[] }, ji: number) => (
+                          <div className="journey-block" key={ji}>
+                            <div
+                              className="journey-title"
+                              style={{ borderLeftColor: ac }}
+                            >
+                              {j.title}
+                            </div>
+                            <ol className="journey-steps">
+                              {j.steps.map((s: string, si: number) => (
+                                <li key={si}>
+                                  <span
+                                    className="js-n"
+                                    style={{ color: ac }}
+                                  >
+                                    {String(si + 1).padStart(2, "0")}
+                                  </span>
+                                  {s}
+                                </li>
+                              ))}
+                            </ol>
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+                {/* Success Metrics */}
+                {((modalCase.content as any).metricsAdoption ||
+                  (modalCase.content as any).metricsEngagement) && (
+                  <div className="mchapter">
+                    <div className="ch-label">
+                      <span className="ch-n" style={{ color: ac }}>08</span>
+                      <span className="ch-t">Success Metrics</span>
+                    </div>
+                    {(modalCase.content as any).metricsAdoption && (
+                      <div className="metrics-section">
+                        <div className="metrics-label" style={{ color: ac }}>
+                          Adoption & Activation
+                        </div>
+                        {(modalCase.content as any).metricsAdoption.map(
+                          (m: { name: string; def: string; why: string }, i: number) => (
+                            <div className="metric-row" key={i}>
+                              <div className="metric-name" style={{ color: ac }}>{m.name}</div>
+                              <div className="metric-def">{m.def}</div>
+                              <div className="metric-why">{m.why}</div>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    )}
+                    {(modalCase.content as any).metricsEngagement && (
+                      <div className="metrics-section">
+                        <div className="metrics-label" style={{ color: ac }}>
+                          Engagement & Habit Formation
+                        </div>
+                        {(modalCase.content as any).metricsEngagement.map(
+                          (m: { name: string; def: string; why: string }, i: number) => (
+                            <div className="metric-row" key={i}>
+                              <div className="metric-name" style={{ color: ac }}>{m.name}</div>
+                              <div className="metric-def">{m.def}</div>
+                              <div className="metric-why">{m.why}</div>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="mchapter">
                   <div className="ch-label">
                     <span
                       className="ch-n"
                       style={{ color: ac }}
                     >
-                      04
+                      09
                     </span>
                     <span className="ch-t">The Impact</span>
                   </div>
