@@ -638,6 +638,7 @@ body.on-light #ring{border-color:rgba(232,39,58,.6)}
 .mbook-co{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;opacity:.85}
 .mbook-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.04em;line-height:1.05;color:var(--white);margin-bottom:8px;}
 .mbook-desc{font-size:10.5px;line-height:1.6;color:rgba(240,238,248,.5);font-weight:300;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mbook-tags{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
 .mimpact{display:inline-flex;align-items:center;gap:4px;margin-top:10px;padding:4px 10px;border-radius:2px;border:1px solid currentColor;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.05em;background:rgba(0,0,0,.4);transition:background .3s}
 .mbook:hover .mimpact{background:rgba(0,0,0,.6)}
 .mbook-overlay{position:absolute;inset:0;z-index:5;background:rgba(6,6,10,.96);opacity:0;transition:opacity .4s ease;}
@@ -676,9 +677,9 @@ body.on-light #ring{border-color:rgba(232,39,58,.6)}
 .modal-link-btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 18px;border:1px solid;border-radius:3px;text-decoration:none;transition:background .2s,color .2s;display:inline-block}
 .modal-link-btn:hover{background:currentColor}
 .modal-link-btn:hover{color:#0a0a0a}
-.modal-prototype-embed{margin-bottom:32px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.modal-prototype-embed{margin-bottom:32px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.08);height:calc(100vh - 240px)}
 .proto-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.08)}
-.proto-iframe{width:100%;height:480px;border:none;background:#111}
+.proto-iframe{width:100%;min-height:74vh;max-height:82vh;border:none;background:#111}
 
 #modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;}
 #modal.open{pointer-events:all}

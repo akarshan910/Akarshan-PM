@@ -12,54 +12,134 @@ const CASES = [
     theme: "red",
     vol: "VOL.01",
     volJp: "",
-    co: "SugarFit \u00b7 GLP-1",
-    title: "GLP-1 RENEWAL STRATEGY",
-    desc: "VOC analysis of 4,819 notes revealing an 80% GLP awareness gap among eligible patients",
-    impact: "80% gap found",
-    tags: ["analytics", "crm"],
+    co: "Sri Mandir",
+    title: "PUJA ENGAGEMENT PLATFORM",
+    desc: "WhatsApp-native puja booking with AI recommendations and spiritual calendar to increase repeat devotion",
+    impact: "+30% monthly orders",
+    tags: ["feature", "crm", "prototype", "product", "whatsapp", "personalization", "monetization", "engagement"],
     kpis: [
-      { v: "80%", l: "Awareness gap identified" },
-      { v: "4.8K", l: "Notes analysed" },
-      { v: "3\u00d7", l: "Doctor counselling uplift target" },
+      { v: "30%", l: "Monthly orders per user uplift target" },
+      { v: "12%", l: "WhatsApp conversion rate goal" },
+      { v: "5", l: "Regional languages in Phase 1" },
     ],
     content: {
-      problem:
-        "GLP-1 medication is clinically indicated for patients with BMI >= 23, yet the majority of eligible patients were never informed about the program. The team had no systematic data on <strong>why</strong> this gap existed \u2014 whether it was a doctor behaviour issue, a CRM gap, or a patient awareness problem.",
-      approach:
-        "I ran a full VOC analysis across 4,819 consultation notes from Jan-Feb 2026. Using keyword matching (GLP, Ozempic, Wegovy, Mounjaro, weight loss) and intent classification \u2014 doctor recommended vs incidental mention vs patient-initiated \u2014 I built the complete picture of where the breakdown was happening.",
-      solution: [
-        "Built an interactive React/Recharts VOC dashboard for clinical leadership",
-        "Redesigned the doctor counselling protocol with a structured GLP trigger checklist",
-        "Created 5 WhatsApp CRM templates for renewal campaign targeting eligible patients",
-        "Shipped SQL monitoring queries to track protocol adoption weekly",
-        "Presented findings in a stakeholder deck leading to a pilot counselling program",
-      ],
-      impact: {
-        text: "The analysis revealed <strong>80.7% of eligible patients had zero GLP conversation</strong> \u2014 a doctor-side protocol gap, not patient-side. The redesigned protocol is now in pilot with an initial cohort of doctors.",
-        items: [
-          { v: "80%", l: "Coverage gap found", c: "#E8273A" },
-          {
-            v: "0",
-            l: "Patient-initiated asks (pre-intervention)",
-            c: "#E8273A",
-          },
-          {
-            v: "50%",
-            l: "Drug mentions with active counselling",
-            c: "#F0C040",
-          },
-          { v: "5+", l: "CRM templates shipped", c: "#00D4FF" },
-        ],
+      opportunity:
+        "<strong>The Opportunity:</strong> Sri Mandir attracts a uniquely diverse base of devotees across age, tech-fluency, and geography. Yet the platform experiences high single-session churn and low repeat rates. Users treat puja booking as a transactional one-off rather than a spiritual practice. The gap is not in the puja quality (priests and rituals are authentic) — it's in how users discover, trust, and stay connected to the platform.",
+      userChallenges: {
+        millennialsNRIs:
+          "<strong>Tech-Savvy Millennials & NRIs:</strong> Desire spirituality without friction. They browse curated puja recommendations tied to their life events (birthdays, anniversaries, housewarming) and expect personalized reminders for auspicious dates. Currently, they must manually search through 100+ pujas with no context.",
+        elderlyUsers:
+          "<strong>Non-Digital Elderly Users (55+):</strong> Trust WhatsApp implicitly (use daily for family) but distrust app-based payments. They need simple, templated booking flows on WhatsApp with clear confirmation. They wish to gift pujas to family without forcing them to install another app.",
+        firstTimeUsers:
+          "<strong>First-Time / Skeptical Users:</strong> Uncertainty about authenticity. They want proof — video evidence of the ritual being performed, clarity on Gotra usage, and zero hidden charges. Social proof ('1,247 devotees booked this puja this month') builds confidence.",
       },
-      tags: [
-        "SQL \u00b7 Trino",
-        "React",
-        "Recharts",
-        "VOC Analysis",
-        "CRM",
-        "Clinical Ops",
-        "WhatsApp API",
+      whyNow:
+        "<strong>Why This Matters:</strong> Spirituality is aspirational and habit-forming. Users who experience one personalized, well-executed puja are 3× more likely to return for milestone moments (Diwali, anniversaries, Ekadashi). This unlocks a subscription economy (monthly spiritual packages) and a word-of-mouth channel (gifting to family). WhatsApp is the distribution layer — already trusted, already installed, already the primary communication channel for Indian users.",
+      strategicDvisions: [
+        {
+          name: "Friction Elimination",
+          detail:
+            "WhatsApp as the primary booking channel. Full booking + confirmation + prasad tracking flow, zero app installs required.",
+        },
+        {
+          name: "Discovery & Personalisation",
+          detail:
+            "Recommendation engine powered by past bookings, personal dates, Gotra, and auspicious calendar. 'For You' carousel becomes the default entry point for returning users.",
+        },
+        {
+          name: "Trust Through Transparency",
+          detail:
+            "Short-form video feed (Reels-style) showing actual puja performances. Real-time ritual confirmation sent to users post-completion. Gotra verification modal ensures ceremonial accuracy.",
+        },
+        {
+          name: "Habit Formation",
+          detail:
+            "Spiritual Calendar with push + WhatsApp reminders for personal milestones and festival dates. Streaks and milestones celebrate consistency.",
+        },
+        {
+          name: "Accessibility",
+          detail:
+            "Phased rollout of 5 regional languages (Hindi, Tamil, Telugu, Kannada, Bengali). Each language includes culturally relevant puja variants and priest profiles.",
+        },
       ],
+      keyFeatures: [
+        {
+          title: "WhatsApp Booking Gateway",
+          desc: "Users tap a menu in WhatsApp → browse top 5 pujas → select package → pay via deep-link → confirmation + tracking on WhatsApp. TAT from tap to confirmation: 60 seconds.",
+        },
+        {
+          title: "AI Recommendations",
+          desc: "Cold-start (new users): location + trending pujas. Warm (returning users): past bookings + saved pujas + personal dates + Gotra. Refreshes 24-hourly.",
+        },
+        {
+          title: "Video Feed",
+          desc: "Dedicated tab showing 30-second clips of actual puja performances, chadhavs, and aartis. Tap 'Book This Puja' to jump directly to booking.",
+        },
+        {
+          title: "Spiritual Calendar",
+          desc: "Personal dates (birthdays, anniversaries) + Hindu festival calendar (Ekadashi, Navratri, Diwali). Reminders 7 days and 1 day before. Curated puja suggestions for each date.",
+        },
+        {
+          title: "Profile Sync",
+          desc: "Simple modal on first visit: Gotra, birthday, anniversary, marital status. Each field explains its purpose. Editable anytime. Data powers all personalization.",
+        },
+      ],
+      userJourneys: [
+        {
+          persona: "First-Time User (Millennial)",
+          flow: "Opens app → sees trending pujas + video feed → watches 2 videos → builds trust → WhatsApp prompt 'Book on WhatsApp' → books Ganesh Puja in 60 seconds → receives confirmation on WhatsApp.",
+        },
+        {
+          persona: "Returning Devotee (Elderly via WhatsApp)",
+          flow: "Receives WhatsApp reminder '7 days until your birthday — recommended pujas inside' → taps link → Puja booking menu → selects Saraswati Puja → shares confirmation with family WhatsApp group.",
+        },
+        {
+          persona: "NRI User (Diaspora)",
+          flow: "Logs in, sees 'For You' carousel → 'Grih Pravesh Pujas for your housewarming' → adds to cart → WhatsApp reminder before ceremony → video proof of ritual sent post-completion → forwards to parents.",
+        },
+        {
+          persona: "Festival Season User",
+          flow: "Gets Diwali calendar notification → 'Popular Diwali Pujas in your city' → browses trending recommendations → books 3 pujas → tracks all via WhatsApp over 5 days.",
+        },
+      ],
+      metrics: [
+        {
+          category: "Adoption & Day 1 Success",
+          items: [
+            "First-time booking completion rate: 35% (baseline) → 42% (target)",
+            "WhatsApp opt-in rate within 7 days: 45%",
+            "Profile data collection: Gotra filled by 38% of new users",
+          ],
+        },
+        {
+          category: "Engagement & Repeat",
+          items: [
+            "Monthly orders per active user: 1.2x (baseline) → 1.6x (target) +30%",
+            "WhatsApp booking conversion: 12% of reached users book within 7 days",
+            "Puja section bounce rate: 60% → 42% (-18pp)",
+          ],
+        },
+        {
+          category: "Expansion & Accessibility",
+          items: [
+            "Vernacular user bookings: 8% (baseline) → 15% (9-month target)",
+            "Video feed session depth: ≥4 videos per session",
+            "Calendar reminder CTR: ≥25%",
+          ],
+        },
+      ],
+      tags: [
+        "WhatsApp Business API",
+        "Recommendation Engine",
+        "Spiritual Calendar",
+        "Video Feed",
+        "Vernacular Localization",
+        "Trust Design",
+        "Habit Formation",
+        "Monetization",
+        "Engagement",
+      ],
+      prototypeLink: "/sri_mandir_prototype.html",
     },
   },
   {
@@ -67,311 +147,587 @@ const CASES = [
     theme: "cyan",
     vol: "VOL.02",
     volJp: "",
-    co: "SugarFit \u00b7 CGM",
-    title: "CGM PHOTO GATE",
-    desc: "0\u21921 feature that cut device crash rate by 40% and lifted compliance to 85%+",
-    impact: "\u221240% crashes",
-    tags: ["analytics", "feature"],
+    co: "Word Trip · Playsimple",
+    title: "WORD GAMES MONETISATION STRATEGY",
+    desc: "Streamlined onboarding + IAP optimization + retention mechanics to unlock #3 app store ranking and 1.35x MAU growth",
+    impact: "+1.35× MAU in 12mo",
+    tags: ["analytics", "feature", "prototype", "monetization", "retention", "mobile", "games", "engagement"],
     kpis: [
-      { v: "40%", l: "CGM crash rate reduction" },
-      { v: "85%+", l: "Compliance rate post-launch" },
-      { v: "2.7K", l: "CS tickets analysed" },
+      { v: "50%", l: "Day 1 retention target (vs 35% baseline)" },
+      { v: "3.5%", l: "IAP conversion (2.5% → 3.5%)" },
+      { v: "8.8M", l: "MAU target (6.5M → 8.8M)" },
     ],
     content: {
-      problem:
-        "CGM sensor replacements were being approved without photographic evidence of malfunction. Users could claim replacements without genuine need, driving replacement rates and inventory costs up. The CS team was drowning in ambiguous tickets with no way to adjudicate quickly.",
-      approach:
-        "I started with a CS ticket deep-dive \u2014 pulled and classified 2,772 tickets across TAT, CSAT, misfiling rates, and resolution patterns. This established the baseline cost before a single line of code was written. Then mapped the full user journey for replacement requests and identified the exact friction point.",
-      solution: [
-        "Designed mandatory photo upload gate before CGM replacement requests could be submitted",
-        "Worked with engineering on the verification pipeline \u2014 image validation, storage, CS review queue",
-        "Built multi-tab React/Recharts leadership dashboard: funnel compliance, crash trends, time-to-upload, ticket attribution",
-        "Ran phased rollout \u2014 soft gate first (warning), then hard gate (blocking) \u2014 to avoid a support spike",
-        "Created CS team playbook for photo review and escalation decisions",
+      competitiveGap: {
+        overview:
+          "<strong>The Problem:</strong> Word Trip is #5 by revenue (~$500K/mo) with 6.5M MAU. Word Escapes generates 4.4× more revenue (+$2M/mo) with only 1.7M incremental users. This is not a user acquisition problem — it's a monetization and retention crisis.",
+        benchmark: {
+          wordTrip: { mau: "6.5M", revenue: "$500K/mo", conversion: "~2.5%", rank: "#62 App Store" },
+          wordEscapes: {
+            mau: "8.2M",
+            revenue: "$2.2M/mo",
+            conversion: "~4%",
+            rank: "#6 App Store",
+          },
+          wordsFriends: {
+            mau: "13.8M",
+            revenue: "$2.7M/mo",
+            conversion: "~4.5%",
+            rank: "#51 App Store",
+          },
+        },
+        insight:
+          "The gap is 1pp conversion rate (2.5% vs 3.5%+). On 6.5M MAU, a 1pp swing = +$65K/mo immediate revenue. Better retention enables reinvestment into UA.",
+      },
+      rootCauseAnalysis: [
+        {
+          cause: "High Pre-Gameplay Friction",
+          evidence:
+            "5+ modal pop-ups before first puzzle. Competitors: ≤2 clicks. Each additional click raises drop-off by ~20% (GameAnalytics). Users install 3 games simultaneously and play the one with fastest time-to-gameplay.",
+          impact: "Day 0 → Day 1 drop-off = 65% (vs 50% industry benchmark)",
+        },
+        {
+          cause: "Single Game Format",
+          evidence:
+            "Only one word puzzle mode available initially. Players exhaust novelty loop in 10–15 minutes. No incentive to return Day 2.",
+          impact: "Session length = 15 min avg (vs 22–45 min top performers). Early churn accelerates.",
+        },
+        {
+          cause: "Suboptimal IAP Hierarchy",
+          evidence:
+            "Best-value bundle placed 3rd. Urgency mechanics absent (no countdown timers, no flash sales). Purchase restore missing — reinstalls = lost purchases = low confidence to spend.",
+          impact: "Conversion 2.5% vs 3.5%+ benchmark. Top spenders churn after 1 bad reinstall experience.",
+        },
+        {
+          cause: "No Retention Infrastructure",
+          evidence:
+            "No leaderboards, daily streaks, seasonal events, or PvP. Top competitors all have these. Users see no reason to return.",
+          impact: "D7 retention 18% (vs 25%+ benchmark). No habit loop.",
+        },
       ],
-      impact: {
-        text: "The photo gate eliminated fraudulent replacement requests at source. <strong>Crash rate dropped 40% in the first 8 weeks.</strong> CS ticket volume attributable to the flow dropped significantly, and CSAT on the category improved.",
-        items: [
-          { v: "40%", l: "Crash rate reduction", c: "#00D4FF" },
-          { v: "85%+", l: "Photo compliance", c: "#00D4FF" },
-          {
-            v: "2.7K",
-            l: "Tickets baseline-studied",
-            c: "#F0C040",
-          },
-          {
-            v: "\u2191CSAT",
-            l: "CS satisfaction improved",
-            c: "#4ade80",
-          },
+      strategicInitiatives: [
+        {
+          title: "Streamline Onboarding",
+          ricePriority: "RICE 18 (#1)",
+          timing: "Q1 (Weeks 1–3)",
+          approach:
+            "Reduce click-to-gameplay to ≤2. Tutorial puzzle → optional account creation (post-game) → direct to Level 1. Defer all permission requests to contextually relevant moments (Day 3, after 5 puzzles). Result: 15-second cold-start.",
+        },
+        {
+          title: "Optimize IAP",
+          ricePriority: "RICE 6.8 (#2)",
+          timing: "Q1 (Weeks 3–6)",
+          approach:
+            "Restructure bundle hierarchy: most popular first, best-value highlighted. Add 24-hour countdown timers on session 1 & 4. Implement purchase restore. Test personalised first-purchase offers. Target: 3.5% conversion within 3 months.",
+        },
+        {
+          title: "Unlock Multiple Game Formats",
+          ricePriority: "RICE 4.0 (#3)",
+          timing: "Q2 (Weeks 7–12)",
+          approach:
+            "Daily Challenge with rotating formats (Word Wheel, Crossword, Anagram Sprint). Secondary Word Puzzle unlocked from Level 1, not gated. Independent progress tracking per format prevents format-switching fatigue.",
+        },
+        {
+          title: "Retention Layers",
+          ricePriority: "RICE 3.4 (#4)",
+          timing: "Q2 (Weeks 13–18)",
+          approach:
+            "Global + Friends leaderboard (weekly resets, rank always visible). 7-day login streak with Day 7 premium reward (hints, ad-free hour, bonus miles). Win-back push for 7+ day lapsed users. Seasonal events framework for Holi, Diwali, Christmas.",
+        },
+      ],
+      roadmap: [
+        {
+          quarter: "Q1",
+          months: "Months 1–3",
+          deliverables:
+            "Onboarding cleanup (≤2 clicks) · IAP revamp (hierarchy, timers, restore) · Ad frequency cap (sessions 1–3)",
+          kpiTarget:
+            "Day 1 retention ≥48% | IAP conv. ≥3.1% | Session length ≥18 min",
+        },
+        {
+          quarter: "Q2",
+          months: "Months 4–6",
+          deliverables:
+            "Daily Challenge · Word Puzzle secondary format (Level 1+) · Global + Friends leaderboard · 7-day streak system",
+          kpiTarget:
+            "Day 7 retention ≥22% | Session length ≥22 min | DAU/MAU ≥23%",
+        },
+        {
+          quarter: "Q3",
+          months: "Months 7–9",
+          deliverables:
+            "Seasonal events · Personalized IAP bundles · Market research for localization · Win-back campaign",
+          kpiTarget:
+            "Day 28 retention ≥18% | MAU ≥7.5M | ARPU ≥$0.68",
+        },
+        {
+          quarter: "Q4",
+          months: "Months 10–12",
+          deliverables:
+            "PvP word battles · 2 localized markets (6M+ population each) · Travel Companions social system",
+          kpiTarget:
+            "MAU ≥8.8M | App Store rank ≤#30 | ARPU ≥$0.75 | Revenue ≥$800K/mo",
+        },
+      ],
+      successFramework: {
+        retentionMetrics: [
+          "Day 1 Retention: 35% (baseline) → 48% target (+13pp) — first 24h experience is critical",
+          "Day 7 Retention: ~18% → 25% (+7pp) — habit formation checkpoint",
+          "Day 28 Retention: ~12% → 18% (+6pp) — LTV signal, subscription-readiness indicator",
+          "Session Length: 15 min avg → 22 min (+7 min) — multiple formats and engagement depth",
+        ],
+        monetizationMetrics: [
+          "IAP Conversion: 2.5% → 3.5% within 3 months of Q1 launch (+1pp = +$65K/mo at baseline MAU)",
+          "Average Session Value: Current ~$0.08 → $0.12 (estimated post-IAP revamp)",
+          "ARPU: $0.60 → $0.75 in 12 months (+25%)",
+          "Revenue: $500K/mo → $800K/mo by Month 12 (+60%)",
+        ],
+        growthMetrics: [
+          "MAU: 6.5M → 8.8M in 12 months (+1.35× organic growth + UA)",
+          "App Store Ranking: #62 → #30 within 12 months (retention improves ranking algorithms)",
+          "Play Store Ranking: #23 → #15 (retention + review lift)",
+          "DAU/MAU: 18% → 25%+ (better habit formation = stickier cohorts)",
         ],
       },
       tags: [
-        "React",
-        "Recharts",
-        "0\u21921 Feature",
-        "Analytics",
-        "CS Ops",
-        "SQL",
-        "Dashboard Design",
+        "Mobile Games",
+        "Monetization Strategy",
+        "Retention Design",
+        "IAP Optimization",
+        "Leaderboards",
+        "Seasonal Events",
+        "Competitive Analysis",
+        "Engagement",
       ],
+      prototypeLink: "/word_trip_prototype.html",
     },
   },
   {
     id: 3,
-    theme: "gold",
+    theme: "blue",
     vol: "VOL.03",
     volJp: "",
-    co: "SugarFit \u00b7 LINX",
-    title: "3D BODY SCAN JOURNEY",
-    desc: "React + Three.js mobile onboarding prototype with clay-rendered body models",
-    impact: "v1 shipped",
-    tags: ["feature", "prototype"],
-    kpis: [
-      { v: "3D", l: "Clay body model rendering" },
-      { v: "v1", l: "Prototype shipped to stakeholders" },
-      { v: "60fps", l: "Smooth on mid-range Android" },
-    ],
-    content: {
-      problem:
-        "The CGM LINX partner program needed premium onboarding without a native app. The web-based flow felt generic and did not convey the body composition insights the product promised. Users were dropping off at the onboarding stage.",
-      approach:
-        "Prototyped multiple directions in Figma \u2014 static illustration, 2D silhouette, and 3D interactive. The 3D route was clearly right for the body scan narrative. Built a working prototype in React using Three.js with a clay-rendered body model that could be rotated and annotated with health data overlays.",
-      solution: [
-        "Built full 3D body scan journey in React + Three.js \u2014 no native app required",
-        "Clay-style shaded body model with real-time rotation using OrbitControls",
-        "Health data overlay layer \u2014 BMI zone, body fat region highlights, CGM sensor placement guide",
-        "Smooth animation transitions between onboarding steps \u2014 felt like a premium health app",
-        "Lightweight enough to run in mobile browser without lag on mid-range Android devices",
-      ],
-      impact: {
-        text: "The prototype was presented to the LINX partner team and stakeholders. It <strong>unblocked the partner conversation</strong> and gave engineering a concrete spec to work from rather than wireframes alone.",
-        items: [
-          {
-            v: "3D",
-            l: "Three.js rendering in browser",
-            c: "#F0C040",
-          },
-          {
-            v: "60fps",
-            l: "Smooth on mid-range Android",
-            c: "#F0C040",
-          },
-          {
-            v: "v1",
-            l: "Prototype to partner demo",
-            c: "#4ade80",
-          },
-          {
-            v: "0",
-            l: "Native app installs required",
-            c: "#00D4FF",
-          },
-        ],
-      },
-      tags: [
-        "Three.js",
-        "React",
-        "Mobile UX",
-        "Prototyping",
-        "3D Rendering",
-        "Figma",
-        "Animation",
-      ],
-    },
-  },
-  {
-    id: 4,
-    theme: "purple",
-    vol: "VOL.04",
-    volJp: "",
-    co: "SugarFit \u00b7 Diagnostics",
-    title: "WHATSAPP BOOKING FUNNEL",
-    desc: "Meta-compliant WhatsApp utility templates driving diagnostics bookings for GLP cohort",
-    impact: "5+ live templates",
-    tags: ["crm", "feature"],
-    kpis: [
-      { v: "5+", l: "Templates live in production" },
-      { v: "Meta", l: "Compliance framework (Kaleyra)" },
-      { v: "GLP", l: "Full patient cohort covered" },
-    ],
-    content: {
-      problem:
-        "GLP-eligible patients were missing critical diagnostic tests \u2014 not because they did not want them, but because the booking touchpoint was buried deep in the app. Drop-off between consultation recommendation and actual test booking was high and invisible.",
-      approach:
-        "Mapped the full patient journey from diagnostic recommendation to lab booking to result upload. Found 3 specific drop-off points where a timed WhatsApp message could dramatically improve conversion. Designed the message architecture to comply with Meta utility template framework (non-promotional, transactional, opt-in) via Kaleyra.",
-      solution: [
-        "Designed 5 Meta-approved WhatsApp utility message templates across the booking journey",
-        "Template 1: Post-consultation diagnostic reminder (triggered 4hrs after consult)",
-        "Template 2: Booking confirmation with lab details and prep instructions",
-        "Template 3: 24hr pre-test reminder with fasting guidelines where applicable",
-        "Template 4: Result upload nudge once test due date passed",
-        "Template 5: Renewal prompt linking diagnostic results to GLP eligibility score",
-        "Set up Kaleyra flows and tested end-to-end across user segments",
-      ],
-      impact: {
-        text: "Templates went live covering the full GLP cohort. <strong>WhatsApp became the primary high-conversion touchpoint</strong>, replacing a low-response email + in-app notification combination.",
-        items: [
-          {
-            v: "5+",
-            l: "Templates in production",
-            c: "#C084FC",
-          },
-          {
-            v: "Meta",
-            l: "Full compliance \u2014 utility class",
-            c: "#C084FC",
-          },
-          {
-            v: "\u2191",
-            l: "Test booking conversion rate",
-            c: "#4ade80",
-          },
-          {
-            v: "4hrs",
-            l: "Post-consult trigger window",
-            c: "#F0C040",
-          },
-        ],
-      },
-      tags: [
-        "WhatsApp Business API",
-        "Kaleyra",
-        "Meta Compliance",
-        "CRM",
-        "Funnel Design",
-        "GLP Program",
-      ],
-    },
-  },
-  {
-    id: 5,
-    theme: "teal",
-    vol: "VOL.05",
-    volJp: "",
-    co: "SugarFit \u00b7 CS Ops",
-    title: "CS TICKET IMPACT STUDY",
-    desc: "Deep analysis of 2,772 support tickets to quantify CGM photo gate support cost",
-    impact: "2.7K tickets",
-    tags: ["analytics"],
-    kpis: [
-      { v: "2.7K", l: "Tickets classified and analysed" },
-      { v: "TAT", l: "Average resolution time mapped" },
-      { v: "CSAT", l: "Full distribution charted" },
-    ],
-    content: {
-      problem:
-        "Before shipping the CGM photo gate, we needed to prove the support cost of the current replacement request flow. Leadership wanted hard numbers: How many tickets? What is the resolution time? What is the misfiling rate? Without this baseline, the photo gate would be a nice-to-have, not a business case.",
-      approach:
-        "Pulled 2,772 CS tickets from the CGM replacement category over a 6-month window using SQL against the support data warehouse. Classified each ticket by: resolution outcome, TAT (business hours), CSAT score, misfiling rate, and escalation rate.",
-      solution: [
-        "SQL query pipeline to extract, clean, and classify 2,772 tickets from the support warehouse",
-        "Custom TAT calculation logic (business hours vs wall clock, first response vs resolution)",
-        "CSAT distribution analysis \u2014 binned by ticket type and resolution path",
-        "Misfiling rate analysis \u2014 percentage of tickets opened in the wrong category",
-        "Ticket cost model \u2014 estimated CS-minutes per ticket type \u00d7 salary cost \u2192 total team-hours burned",
-        "One-pager and chart pack for leadership to anchor the photo gate business case",
-      ],
-      impact: {
-        text: "The study gave the feature team a rigorous business case. <strong>The analysis justified the engineering investment</strong> and became the post-launch measurement baseline \u2014 we knew what success looked like before shipping.",
-        items: [
-          { v: "2.7K", l: "Tickets analysed", c: "#2DD4BF" },
-          {
-            v: "6mo",
-            l: "Historical window covered",
-            c: "#2DD4BF",
-          },
-          {
-            v: "\u20b9Xk",
-            l: "CS cost quantified (confidential)",
-            c: "#F0C040",
-          },
-          {
-            v: "1",
-            l: "Business case \u2192 feature greenlit",
-            c: "#4ade80",
-          },
-        ],
-      },
-      tags: [
-        "SQL \u00b7 Trino",
-        "Data Analysis",
-        "CS Operations",
-        "TAT Analysis",
-        "CSAT",
-        "Business Case",
-        "Metrics",
-      ],
-    },
-  },
-  {
-    id: 6,
-    theme: "blue",
-    vol: "VOL.06",
-    volJp: "",
-    co: "Arcana \u00b7 Workspace",
+    co: "Arcana · Workspace",
     title: "ARCANA WORKSPACE",
-    desc: "Bloomberg-style modular launchpad for institutional investors \u2014 grid-based workspaces with configurable widgets for real-time market monitoring",
-    impact: "0\u21921 shipped",
-    tags: ["feature", "prototype"],
+    desc: "Bloomberg-style modular launchpad for institutional investors — grid-based workspaces with configurable widgets for real-time market monitoring",
+    impact: "0→1 shipped",
+    tags: ["feature", "prototype", "analytics", "b2b", "fintech"],
     kpis: [
       { v: "7", l: "Priority widgets designed" },
-      { v: "V1", l: "Full PRD \u2192 prototype shipped" },
-      { v: "\u221e", l: "Workspace configurations possible" },
+      { v: "V1", l: "Full PRD → prototype shipped" },
+      { v: "∞", l: "Workspace configurations possible" },
     ],
     content: {
-      problem:
-        "Institutional investors, analysts, and researchers operate in a high-frequency, high-cognitive-load environment. They simultaneously monitor live prices, charts, news, alerts, and global market context while switching across multiple asset classes. This workflow consistently exposes four critical pain points: <strong>Fragmented information</strong> \u2014 prices, charts, news, alerts, and market hours live in separate views, forcing users to mentally stitch insights together. <strong>High context-switching cost</strong> \u2014 switching between workflows (e.g., market open vs research) requires complete re-navigation, and analysts lose time reconstructing views multiple times a day. <strong>One-size-fits-all interfaces</strong> \u2014 different users track different assets, regions, and time horizons, yet the interface offers no personalisation. <strong>Poor state persistence</strong> \u2014 layouts, filters, and configurations do not persist across sessions, forcing repeated rework to analyse the same data.",
-      approach:
-        "I started with market research anchored on Bloomberg Launchpad \u2014 one of the most heavily used terminal features \u2014 which solves this exact problem through customisable, persistent widgets and workspaces. A typical Bloomberg Launchpad user combines price monitors, charts, and news feeds to correlate headlines with price reactions, uses alerts to catch significant moves without continuous hovering, and saves workflows by theme (commodity tracking, earnings day, global markets). This mirrors how our target users segment their day: morning pre-open scan, live session monitoring, and post-close analysis. I prioritised 7 widgets for V1 based on this research: <strong>Equity Price Monitor</strong> (most basic, most used), <strong>Index Tracker</strong> (macro sentiment gauge), <strong>Commodity Prices</strong> (cross-asset views), <strong>Real-Time Chart</strong> (visual trend confirmation), <strong>Live News Feed</strong> (context to price movements), <strong>Alerts</strong> (catch key events passively), and <strong>Timezone/Market Hours</strong> (global region support). We chose a grid-based canvas over free-form positioning to optimise for scale, stability, and cognitive clarity in a high-frequency environment, while still allowing flexibility through resizing and reordering. V1 focuses on the monitoring layer (signal intake + context + workflow persistence), with V2 planned for outcome measurement (performance analytics, risk attribution, order execution).",
-      solution: [
-        "Designed Arcana Workspace \u2014 a modular, grid-based canvas (similar to Metabase dashboards) where users create, save, and switch between personalised workspaces composed of configurable widgets",
-        "Built workspace creation flow with three entry points: auto-optimised view for screen resolution, sample view templates (Portfolio Analysis, Single Stock Analysis), or blank canvas",
-        "Designed preset templates with global settings \u2014 e.g., a Single Stock Analysis template requires selecting a stock that powers all widgets; a Portfolio template uses a benchmark as the global parameter",
-        "Implemented multi-page architecture where each workspace supports multiple pages as sub-contexts (e.g., Price, Valuation, Macro) with add, delete, reorder, rename, and share capabilities",
-        "Created a full widget system \u2014 widgets are modular atomic blocks with multiple responsive UIs across grid sizes (inspired by Apple widget paradigm), supporting configure, add, resize, reposition, and remove actions",
-        "Designed workspace state management: Empty, Draft (unsaved changes with discard/save), Saved, Selected, and Deleted states with explicit save commits and version handling",
-        "Built widget search bar in the primary toolbar that shows all categories, individual widgets with previews, and templates \u2014 adding a widget places it in the next vacant grid position at default size",
-        "Designed three-toolbar architecture: Toolbar 1 for workspace switching and search, Toolbar 2 for workspace actions (save copy, share, customise/save with edit mode toggle), Toolbar 3 for page tabs",
-        "Specified edit mode capabilities \u2014 widgets can be resized, rearranged, and removed; workspaces and pages can be renamed and deleted; all destructive actions gated behind edit mode",
-        "Defined edge cases: widget added but never configured, workspace switch with unsaved changes triggers confirmation, page/workspace deleted while active falls back to next available, full-page prevents widget addition",
-        "Designed Group Components system (V1: global settings during template creation; V2: full Group Manager for cross-widget security linking)",
-        "Established success metrics framework: Workspace Creation Rate, Activation Rate (\u22653 widgets saved), Template Usage Rate, DAU Ratio, Default Launch Rate, D1\u2013D30 retention, avg widgets/pages per workspace, page/workspace switching rates",
+      problemStatement: {
+        overview:
+          "Institutional investors, analysts & researchers operate in a high frequency, high cognitive load environment. Their daily workflow involves simultaneously monitoring live prices, charts, news, alerts, and global market context while switching context across multiple asset classes.",
+        challenges: [
+          {
+            title: "Fragmented Information",
+            desc: "Prices, charts, news, alerts, and market hours live in separate views. Users must mentally stitch insights together by exploring each view.",
+          },
+          {
+            title: "High Context Switching Cost",
+            desc: "Switching between workflows (e.g., market open vs research) requires re-navigation. Analysts lose time reconstructing views multiple times a day.",
+          },
+          {
+            title: "One-Size-Fits-All Interfaces",
+            desc: "Different users track different assets, regions, and time horizons. Yet interfaces offer no personalisation.",
+          },
+          {
+            title: "Poor State Persistence",
+            desc: "Users expect layouts, filters, and configurations to persist across sessions. Rework to analyse the same thing wastes time.",
+          },
+        ],
+      },
+      whyItMatters:
+        "<strong>Product stickiness multiplier:</strong> Custom dashboards directly correlate with higher retention and daily engagement, by becoming their first preference for daily monitoring. Market precedent: Bloomberg Launchpad is one of the most heavily used terminal features because it solves this exact problem through customizable, persistent widgets & workspaces.",
+      productVision:
+        "Build Arcana Workspace, a modular, Bloomberg-style Launchpad that allows users to create, save, and switch between personalised workspaces composed of configurable widgets — optimised for real-time monitoring, clarity, and execution with speed, leading to repeat daily usage.",
+      v1Goals: [
+        "Enable users to build custom workspaces using modular widgets from scratch or premade templates",
+        "Templates are workspace formats with pre-configured widgets (NEWS, Portfolio, Research) for distinct use cases with must-have global settings (e.g., Index/Stock selector for Portfolio)",
+        "Support adding, resizing, configuring, and saving widget layouts",
+        "Allow multiple tabs/pages per workspace with add, delete, reorder, rename, and share capabilities",
+        "Preserve widget-level intelligence (e.g., Nvidia selected in both price monitor & performance chart)",
       ],
-      impact: {
-        text: "Arcana Workspace was designed as a <strong>0\u21921 product feature</strong> from PRD through high-fidelity prototype. The modular workspace directly addresses product stickiness \u2014 custom dashboards correlate with higher retention and daily engagement by becoming the user\u2019s first preference for daily monitoring. The design follows proven market precedent (Bloomberg Launchpad) while adapting it for a modern, web-based fintech platform.",
-        items: [
+      marketResearch: {
+        userBehavior:
+          "A Bloomberg Launchpad user typically: (1) combines price monitors + charts + news feeds to correlate headlines with price reactions, (2) uses alerts to catch significant moves without continuous hovering, (3) saves workflows by theme (commodity tracking, earnings day, global markets).",
+        daySegmentation:
+          "This mirrors how users segment their day: morning pre-open scan, live session monitoring, post-close analysis.",
+        widgetPriority: [
           {
-            v: "7",
-            l: "Priority widgets for V1 launch",
-            c: "#3B82F6",
+            widget: "Equity Price Monitor",
+            rationale: "Most basic, most used — priority 1 for every workflow",
           },
           {
-            v: "3",
-            l: "Workspace creation paths",
-            c: "#3B82F6",
+            widget: "Index Tracker",
+            rationale: "Global indices (S&P, Nifty). Macro sentiment gauge — widely used by analysts",
           },
           {
-            v: "12+",
-            l: "Success metrics defined",
-            c: "#F0C040",
+            widget: "Commodity Prices",
+            rationale: "Critical for cross-asset views (similar to Bloomberg's commodities widget)",
           },
           {
-            v: "0\u21921",
-            l: "Full PRD to prototype",
-            c: "#4ade80",
+            widget: "Real-Time Chart",
+            rationale: "Visual confirmation of trends & patterns — core to workflows",
+          },
+          {
+            widget: "Live News Feed",
+            rationale: "Provides context to price movements — heavily used",
+          },
+          {
+            widget: "Alerts",
+            rationale: "Simple price threshold alerts. Helps catch key events without always watching",
+          },
+          {
+            widget: "Timezone / Market Hours",
+            rationale: "Supports a global view across regions",
+          },
+        ],
+        layerStrategy:
+          "V1 = Signal intake + context + workflow persistence. V2 = Outcome measurement (performance, deep analytics, risk, attribution, order execution integration).",
+      },
+      coreCapabilities: [
+        {
+          title: "Workspace (Grid-Based Canvas)",
+          features: [
+            "Grid-based canvas (like Metabase) customizable by creating views",
+            "Preset templates for core use cases (Portfolio Analysis, Single Stock Analysis) with pre-specified widgets",
+            "Global settings applied during creation (e.g., stock selection powers all widgets)",
+            "Workspaces can be copied, renamed, shared, and managed from settings",
+            "Workspaces appear as tabs, switchable instantly",
+          ],
+        },
+        {
+          title: "Widgets",
+          features: [
+            "Modular, atomic blocks with multiple responsive UIs across grid sizes (Apple widget paradigm)",
+            "Configurable, resizable, repositionable, removable",
+            "Widgets retain their capabilities (e.g., Summary widget retains % AUM & % Gross selection)",
+            "Export widget data in Excel format",
+            "No overlapping; automatic grid placement",
+          ],
+        },
+        {
+          title: "Pages",
+          features: [
+            "Each workspace supports multiple pages representing sub-contexts (Portfolio: Price, Valuation, Macro)",
+            "Pages visible side-by-side, selectable with tab navigation",
+            "Add, delete, reorder, rename, share, and customize from settings",
+            "Independent widget configurations per page",
+          ],
+        },
+        {
+          title: "Group Components (V1 Foundation)",
+          features: [
+            "V1: Global settings during template creation for workspace-wide securities",
+            "V2 (Full Manager): Users can create groups of components that auto-update when security changes",
+            "Enables cross-widget context linking",
+          ],
+        },
+      ],
+      userJourneys: [
+        {
+          journey: "First-Time User Experience",
+          steps: [
+            "Opens Arcana Workspace → clicks Create New",
+            "Selects one of three options: (1) Auto-optimized view for screen resolution, (2) Sample view template, (3) Blank canvas",
+            "Sees Launchpad toolbar with search bar for components/templates",
+            "Adds first widget (e.g., Equity Price Monitor) or selects a template",
+            "Configures widget parameters (columns, filters, indicators) and adjusts position/size",
+            "Saves the workspace",
+            "Exit State: Saved workspace with ≥1 page and ≥1 widget",
+          ],
+        },
+        {
+          journey: "Adding & Configuring a Widget",
+          steps: [
+            "Clicks search bar → opens Component/Template Browser",
+            "Searches or browses popular components/templates",
+            "Selects component; it appears on canvas in default state",
+            "Configures columns, filters, indicators, and optional rename",
+            "Saves the widget and workspace",
+          ],
+        },
+        {
+          journey: "Building a Multi-Page Workspace",
+          steps: [
+            "Clicks +New Page → creates Page 2 inside same workspace",
+            "Adds different widgets (e.g., Asia markets) or templates",
+            "Options to copy, rename, rearrange, delete, share, customize the page",
+            "Saves page and workspace",
+            "Exit State: One workspace, multiple task-specific pages",
+          ],
+        },
+        {
+          journey: "Returning User Daily Flow",
+          steps: [
+            "Logs in → last-used workspace auto-opens (or default)",
+            "Scans monitors, switches page/workspace",
+            "Makes minor edits",
+            "Auto-save or manual save persists state",
+          ],
+        },
+        {
+          journey: "Power User — Pre-market Open",
+          steps: [
+            "Opens pre-market workspace template (heatmap, price monitor, watchlist)",
+            "Configures filters for Asia/EM/US open",
+            "Sets alert thresholds for earnings or large moves",
+            "Pins relevant charts and quick-exec links for live trading",
+            "Shares snapshot with desk or downstream execution team",
+          ],
+        },
+        {
+          journey: "Research-to-Execution",
+          steps: [
+            "Researcher builds workspace with valuation & news widgets",
+            "Publishes workspace as a template or shares with trader",
+            "Trader imports workspace, attaches execution blocks, and routes orders",
+            "Trade executed; P&L widget reflects result and persists as a template",
+          ],
+        },
+        {
+          journey: "Collaborative Review",
+          steps: [
+            "Analyst assembles a story workspace for earnings day",
+            "Shares workspace link with team for synchronous review",
+            "Comments and annotations are added to widgets",
+            "Final workspace is saved as a shared template for future events",
+          ],
+        },
+        {
+          journey: "Admin / Enterprise Onboarding",
+          steps: [
+            "Admin provisions seats & default templates via settings",
+            "Rolls out organisation templates and governance policies",
+            "Monitors adoption metrics and distributes training materials",
+          ],
+        },
+      ],
+      stateHandling: {
+        workspaceStates: [
+          "Empty (no widgets)",
+          "Draft (unsaved changes) → Discard or Save options",
+          "Saved → persists to backend",
+          "Selected / Unselected",
+        ],
+        pageStates: [
+          "Empty → Save to commit",
+          "Draft (unsaved changes) → Delete or Save",
+          "Saved with widget states",
+        ],
+        widgetStates: [
+          "Unconfigured → Configured → Linked (V2)",
+          "Deleted state",
+          "Position & Size layout tracking",
+          "Parameter selection persistence",
+        ],
+        saveRules: [
+          "Draft state persists locally",
+          "Explicit save commits to backend",
+          "Deleting active workspace → redirect to next/default",
+          "Version handling of workspace changes",
+        ],
+      },
+      infoArchitecture: [
+        {
+          toolbar: "Toolbar 1: Workspace Switching & Creation",
+          elements: [
+            "Search Bar → add widgets & templates to active page",
+            "Workspace Tabs → click to switch workspaces instantly",
+            "Create New (rightmost) → create additional workspaces",
+            "Workspace tabs draggable to reorder",
+          ],
+        },
+        {
+          toolbar: "Toolbar 2: Workspace Actions & Controls",
+          elements: [
+            "Workspace Name (clickable to rename)",
+            "Global Settings Indicator (shows active grouping if template-based)",
+            "Save a Copy (duplicate workspace)",
+            "Share (share with users)",
+            "Customise / Save (toggle Edit Mode)",
+          ],
+          editModeCapabilities: [
+            "Widgets can be resized, rearranged, removed",
+            "Workspace & Pages can be renamed & deleted",
+            "All destructive actions gated behind Edit Mode",
+            "Save button exits Edit Mode & persists configuration",
+          ],
+        },
+        {
+          toolbar: "Toolbar 3: Pages (Tabs Within Workspace)",
+          elements: [
+            "Page Tabs (all pages visible side-by-side)",
+            "Create Page button (add new page with sequential naming: Page 2, Page 3)",
+            "Right-click page tab for rename/delete options",
+            "Draggable tabs to reorder pages",
+          ],
+        },
+        {
+          canvas: "Canvas Area (Widget Surface)",
+          behavior: [
+            "Located below Toolbar 3",
+            "Displays all widgets for selected page",
+            "In Edit Mode: widgets draggable, droppable, resizable, removable",
+            "Widgets do not overlap; automatic grid placement",
+            "If full or min-size constraint violated: user informed widget cannot be added",
+          ],
+        },
+      ],
+      successMetrics: {
+        adoptionActivation: [
+          {
+            metric: "Workspace Creation Rate",
+            definition: "% of active users who create ≥1 workspace within 7 days",
+            why: "Indicates initial value discovery",
+            target: "8–12% within 30 days",
+          },
+          {
+            metric: "Activation Rate",
+            definition: "% of users who create a workspace, add ≥3 widgets, and save it",
+            why: "Confirms meaningful usage, not just exploration",
+            target: "5–9%",
+          },
+          {
+            metric: "Template Usage Rate",
+            definition: "% of users using a template vs blank canvas",
+            why: "Validates usefulness of pre-built templates",
+            target: "~40% of creators",
+          },
+        ],
+        engagementHabitFormation: [
+          {
+            metric: "Workspace DAU Ratio",
+            definition: "Workspace DAU ÷ Total DAU",
+            why: "Indicates daily stickiness",
+            target: "20–30% for heavy workflows",
+          },
+          {
+            metric: "Default Workspace Launch Rate",
+            definition: "% of sessions where Workspace opens by default",
+            why: "Signals habit formation",
+            target: "≥35% for power users",
+          },
+          {
+            metric: "Day-over-Day Retention",
+            definition: "D1, D2, D3 … D30 retention for Workspace users",
+            why: "Validates long-term stickiness",
+            target: "D7 ≥ 22%, D30 ≥ 12%",
+          },
+          {
+            metric: "Avg. Widgets per Workspace",
+            definition: "Average number of widgets added per workspace",
+            why: "Indicates richness of user setup",
+            target: "3–6 widgets",
+          },
+          {
+            metric: "Page Switching Rate",
+            definition: "% of users switching pages within a session",
+            why: "Validates page-level value and multi-context usage",
+            target: "≥18%",
+          },
+        ],
+        monetizationMetrics: [
+          {
+            metric: "Paid Workspace Conversion",
+            definition: "% of organisations converting to paid workspace seats or premium templates",
+            why: "Direct revenue signal for enterprise productisation",
+            target: "0.5–1% (seed) → 2% in 12 months",
+          },
+          {
+            metric: "ARPA (Workspace Customers)",
+            definition: "Average revenue per account for workspace-paying customers",
+            why: "Revenue health for the workspace product",
+            target: "$300–800 / month (initial benchmark)",
+          },
+        ],
+        growthMetrics: [
+          {
+            metric: "MAU Growth (Workspace Users)",
+            definition: "Monthly active users who use the Workspace feature",
+            why: "Usage baseline for product prioritisation",
+            target: ">+40% YoY for the workspace cohort",
+          },
+        ],
+      },
+      metrics: [
+        {
+          category: "Adoption & Activation",
+          items: [
+            "Workspace Creation Rate: target 8–12% within 30 days (aim 10%)",
+            "Activation (≥3 widgets saved): target 5–9% (aim 7%)",
+            "Template Adoption: ~40% of creators (aim 45% with highlights)",
+          ],
+        },
+        {
+          category: "Engagement",
+          items: [
+            "Workspace DAU Ratio: 20–30%",
+            "Avg Widgets per Workspace: 3–6 (aim 4.5)",
+            "Page Switching Rate: ≥18%",
+          ],
+        },
+        {
+          category: "Monetization",
+          items: [
+            "Paid Workspace Conversion: seed 0.5–1% → 2% in 12 months",
+            "ARPA (Workspace Customers): $300–800 / month",
+          ],
+        },
+      ],
+      operationalMetrics: [
+        {
+          name: "UI & Data SLAs",
+          items: [
+            "Widget initial render latency: <300ms target",
+            "Widget data refresh: <5s for streaming feeds, <30s for batched sources",
+            "API availability SLO: 99.9%",
+            "Error rate (5xx): <0.1%",
+          ],
+        },
+        {
+          name: "Data Freshness",
+          items: [
+            "Market ticks supported: 10k+ events/s",
+            "Max data lag tolerated: <500ms for market-critical widgets",
+          ],
+        },
+      ],
+      experimentation: {
+        objectives: [
+          "Increase Workspace Creation Rate",
+          "Improve Activation (≥3 widgets saved)",
+          "Improve Template Adoption",
+        ],
+        experiments: [
+          {
+            name: "Onboarding CTA Test",
+            hypothesis: "Defaulting to a sample template increases creation rate by 10%",
+            metric: "Workspace Creation Rate",
+            duration: "4 weeks",
+          },
+          {
+            name: "Template Highlighting",
+            hypothesis: "Highlighting best-value templates increases template adoption by 15%",
+            metric: "Template Adoption",
+            duration: "6 weeks",
           },
         ],
       },
       tags: [
-        "0\u21921 Product",
+        "0→1 Product",
         "PRD",
-        "Figma",
-        "Prototyping",
+        "Figma Prototype",
         "Fintech",
         "Widget System",
         "Bloomberg",
         "Market Research",
+        "Information Architecture",
+        "B2B",
       ],
       prdLink:
         "https://docs.google.com/document/d/1MZGAA0LmIOjF_hVQIMYgjWKM06vQP8Aq66b8-xf2xFQ/edit?tab=t.0",
@@ -379,6 +735,8 @@ const CASES = [
     },
   },
 ];
+
+
 
 function accentColor(t: string) {
   const m: Record<string, string> = {
@@ -398,7 +756,7 @@ function speedSVG(c: string) {
 
 function buildBookHTML(c: (typeof CASES)[0]) {
   const ac = accentColor(c.theme);
-  return `<div class="mbook" data-theme="${c.theme}" data-id="${c.id}"><div class="mbook-body"><div class="mbook-spine"><div class="mspine-txt">${c.co}</div></div><div class="mbook-speed">${speedSVG(ac)}</div><div class="mbook-cover-bg"></div><div class="mbook-pattern"></div><div class="mbook-num">${String(c.id).padStart(2, "0")}</div><div class="mbook-overlay"></div><div class="mbook-cover"><div class="mvol"><span>${c.vol}</span><span class="mvol-jp">${c.volJp}</span></div><div class="mbook-bottom"><div class="mbook-co">${c.co}</div><div class="mbook-title">${c.title}</div><div class="mbook-desc">${c.desc}</div><div class="mimpact" style="color:${ac};border-color:${ac}">&#9650; ${c.impact}</div></div></div><div class="mbook-hover-panel"><div class="mhp-co" style="color:${ac}">${c.co}</div><div class="mhp-title">${c.title}</div><div class="mhp-desc">${c.desc}</div><div class="mhp-impact" style="color:${ac}"><span class="mhp-impact-val">${c.impact.split(" ")[0]}</span><span class="mhp-impact-lbl">${c.impact.split(" ").slice(1).join(" ")}</span></div><button class="mhp-cta">Read Case Study &#8599;</button></div></div></div>`;
+  return `<div class="mbook" data-theme="${c.theme}" data-id="${c.id}"><div class="mbook-body"><div class="mbook-spine"><div class="mspine-txt">${c.co}</div></div><div class="mbook-speed">${speedSVG(ac)}</div><div class="mbook-cover-bg"></div><div class="mbook-pattern"></div><div class="mbook-num">${String(c.id).padStart(2, "0")}</div><div class="mbook-overlay"></div><div class="mbook-cover"><div class="mvol"><span>${c.vol}</span><span class="mvol-jp">${c.volJp}</span></div><div class="mbook-bottom"><div class="mbook-co">${c.co}</div><div class="mbook-title">${c.title}</div><div class="mbook-desc">${c.desc}</div><div class="mbook-tags">${(c.tags || []).map(t => '<span class="chip">' + t + '</span>').join('')}</div><div class="mimpact" style="color:${ac};border-color:${ac}">&#9650; ${c.impact}</div></div></div><div class="mbook-hover-panel"><div class="mhp-co" style="color:${ac}">${c.co}</div><div class="mhp-title">${c.title}</div><div class="mhp-desc">${c.desc}</div><div class="mhp-impact" style="color:${ac}"><span class="mhp-impact-val">${c.impact.split(" ")[0]}</span><span class="mhp-impact-lbl">${c.impact.split(" ").slice(1).join(" ")}</span></div><button class="mhp-cta">Read Case Study &#8599;</button></div></div></div>`;
 }
 
 const LinkedInSVG = () => (
@@ -551,6 +909,20 @@ export default function App() {
     setModalOpen(false);
     document.body.style.overflow = "";
   }, []);
+
+  useEffect(() => {
+    // Auto-open modal when URL contains ?open=<caseId>
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const open = params.get("open") || params.get("openCase") || params.get("open_case");
+      if (open) {
+        const id = Number(open);
+        if (!Number.isNaN(id)) openModal(id);
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [openModal]);
 
   // Render books
   useEffect(() => {
@@ -948,6 +1320,12 @@ export default function App() {
   const ac = modalCase
     ? accentColor(modalCase.theme)
     : "#E8273A";
+  const protoHref =
+    modalCase && modalCase.content.prototypeLink
+      ? modalCase.content.prototypeLink.startsWith("http")
+        ? modalCase.content.prototypeLink
+        : `${window.location.origin}${modalCase.content.prototypeLink}`
+      : null;
 
   return (
     <div
@@ -1699,31 +2077,32 @@ export default function App() {
                     {modalCase.content.prdLink && (
                       <a
                         href={modalCase.content.prdLink}
-                        target="_blank"
-                        rel="noreferrer"
                         className="modal-link-btn"
                         style={{
                           borderColor: ac,
                           color: ac,
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.location.href = modalCase.content.prdLink;
                         }}
                       >
                         &#8599; View PRD
                       </a>
                     )}
-                    {modalCase.content.prototypeLink && (
+                    {protoHref && (
                       <a
-                        href={
-                          modalCase.content.prototypeLink
-                        }
+                        href={protoHref}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noreferrer noopener"
                         className="modal-link-btn"
                         style={{
                           borderColor: ac,
                           color: ac,
+                          marginLeft: 8,
                         }}
                       >
-                        &#8599; View Prototype
+                        ⤢ Open Live Prototype
                       </a>
                     )}
                   </div>
@@ -1734,100 +2113,464 @@ export default function App() {
                       Prototype Preview
                     </div>
                     <iframe
-                      src={
-                        modalCase.content.prototypeLink
-                      }
+                      src={protoHref || ""}
                       title="Prototype Preview"
                       className="proto-iframe"
                       allow="fullscreen"
                     />
                   </div>
                 )}
-                <div className="mchapter">
-                  <div className="ch-label">
-                    <span
-                      className="ch-n"
-                      style={{ color: ac }}
-                    >
-                      01
-                    </span>
-                    <span className="ch-t">The Problem</span>
-                  </div>
-                  <div
-                    className="ch-body"
-                    dangerouslySetInnerHTML={{
-                      __html: `<p>${modalCase.content.problem}</p>`,
-                    }}
-                  />
-                </div>
-                <div className="mchapter">
-                  <div className="ch-label">
-                    <span
-                      className="ch-n"
-                      style={{ color: ac }}
-                    >
-                      02
-                    </span>
-                    <span className="ch-t">The Approach</span>
-                  </div>
-                  <div
-                    className="ch-body"
-                    dangerouslySetInnerHTML={{
-                      __html: `<p>${modalCase.content.approach}</p>`,
-                    }}
-                  />
-                </div>
-                <div className="mchapter">
-                  <div className="ch-label">
-                    <span
-                      className="ch-n"
-                      style={{ color: ac }}
-                    >
-                      03
-                    </span>
-                    <span className="ch-t">The Solution</span>
-                  </div>
-                  <ul className="ch-list">
-                    {modalCase.content.solution.map((s, i) => (
-                      <li key={i}>{s}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mchapter">
-                  <div className="ch-label">
-                    <span
-                      className="ch-n"
-                      style={{ color: ac }}
-                    >
-                      04
-                    </span>
-                    <span className="ch-t">The Impact</span>
-                  </div>
-                  <div className="impact-blk">
-                    <div className="ib-lbl">Impact Summary</div>
-                    <div
-                      className="ch-body"
-                      dangerouslySetInnerHTML={{
-                        __html: `<p>${modalCase.content.impact.text}</p>`,
-                      }}
-                    />
-                    <div className="impact-items">
-                      {modalCase.content.impact.items.map(
-                        (it, i) => (
-                          <div className="iitem" key={i}>
-                            <div
-                              className="iiv"
-                              style={{ color: it.c }}
-                            >
-                              {it.v}
-                            </div>
-                            <div className="iil">{it.l}</div>
-                          </div>
-                        ),
-                      )}
+                {modalCase.content.problem && (
+                  <>
+                    <div className="mchapter">
+                      <div className="ch-label">
+                        <span
+                          className="ch-n"
+                          style={{ color: ac }}
+                        >
+                          01
+                        </span>
+                        <span className="ch-t">The Problem</span>
+                      </div>
+                      <div
+                        className="ch-body"
+                        dangerouslySetInnerHTML={{
+                          __html: `<p>${modalCase.content.problem}</p>`,
+                        }}
+                      />
                     </div>
-                  </div>
-                </div>
+                    <div className="mchapter">
+                      <div className="ch-label">
+                        <span
+                          className="ch-n"
+                          style={{ color: ac }}
+                        >
+                          02
+                        </span>
+                        <span className="ch-t">The Approach</span>
+                      </div>
+                      <div
+                        className="ch-body"
+                        dangerouslySetInnerHTML={{
+                          __html: `<p>${modalCase.content.approach}</p>`,
+                        }}
+                      />
+                    </div>
+                    <div className="mchapter">
+                      <div className="ch-label">
+                        <span
+                          className="ch-n"
+                          style={{ color: ac }}
+                        >
+                          03
+                        </span>
+                        <span className="ch-t">The Solution</span>
+                      </div>
+                      <ul className="ch-list">
+                        {modalCase.content.solution.map((s, i) => (
+                          <li key={i}>{s}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="mchapter">
+                      <div className="ch-label">
+                        <span
+                          className="ch-n"
+                          style={{ color: ac }}
+                        >
+                          04
+                        </span>
+                        <span className="ch-t">The Impact</span>
+                      </div>
+                      <div className="impact-blk">
+                        <div className="ib-lbl">Impact Summary</div>
+                        <div
+                          className="ch-body"
+                          dangerouslySetInnerHTML={{
+                            __html: `<p>${modalCase.content.impact.text}</p>`,
+                          }}
+                        />
+                        <div className="impact-items">
+                          {modalCase.content.impact.items.map(
+                            (it, i) => (
+                              <div className="iitem" key={i}>
+                                <div
+                                  className="iiv"
+                                  style={{ color: it.c }}
+                                >
+                                  {it.v}
+                                </div>
+                                <div className="iil">{it.l}</div>
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {(modalCase.content.opportunity || modalCase.content.competitiveGap) && (
+                  <>
+                    <div className="mchapter">
+                      <div className="ch-label">
+                        <span
+                          className="ch-n"
+                          style={{ color: ac }}
+                        >
+                          01
+                        </span>
+                        <span className="ch-t">Opportunity & Competitive Gap</span>
+                      </div>
+                      <div className="ch-body">
+                        {modalCase.content.opportunity && (
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: modalCase.content.opportunity,
+                            }}
+                          />
+                        )}
+                        {modalCase.content.competitiveGap && (
+                          <div>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: modalCase.content.competitiveGap.overview,
+                              }}
+                            />
+                            <h5>Benchmark</h5>
+                            <ul>
+                              {Object.entries(modalCase.content.competitiveGap.benchmark).map(
+                                ([k, v]: any) => (
+                                  <li key={k}>
+                                    <strong>{k}:</strong> {Object.entries(v)
+                                      .map(([field, value]) => `${field}: ${value}`)
+                                      .join(" · ")}
+                                  </li>
+                                ),
+                              )}
+                            </ul>
+                            <p>{modalCase.content.competitiveGap.insight}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {modalCase.content.userChallenges && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>02</span>
+                          <span className="ch-t">User Challenges</span>
+                        </div>
+                        <div className="ch-body">
+                          <ul>
+                            {Object.entries(modalCase.content.userChallenges).map(
+                              ([name, desc]: any, idx) => (
+                                <li key={idx}>
+                                  <strong>{name.replace(/([A-Z])/g, ' $1')}:</strong> <span dangerouslySetInnerHTML={{ __html: desc }} />
+                                </li>
+                              ),
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    {(modalCase.content.whyNow || modalCase.content.rootCauseAnalysis) && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>03</span>
+                          <span className="ch-t">Root Cause & Why Now</span>
+                        </div>
+                        <div className="ch-body">
+                          {modalCase.content.whyNow && (
+                            <div dangerouslySetInnerHTML={{ __html: modalCase.content.whyNow }} />
+                          )}
+                          {modalCase.content.rootCauseAnalysis && (
+                            <ul>
+                              {modalCase.content.rootCauseAnalysis.map((item: any, idx: number) => (
+                                <li key={idx}>
+                                  <strong>{item.cause}:</strong> {item.evidence} (Impact: {item.impact})
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.strategicDvisions && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>04</span>
+                          <span className="ch-t">Strategy</span>
+                        </div>
+                        <div className="ch-body">
+                          <ul>
+                            {modalCase.content.strategicDvisions.map((item: any, idx: number) => (
+                              <li key={idx}>
+                                <strong>{item.name}:</strong> {item.detail}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.strategicInitiatives && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>04</span>
+                          <span className="ch-t">Strategic Initiatives</span>
+                        </div>
+                        <div className="ch-body">
+                          <ul>
+                            {modalCase.content.strategicInitiatives.map((item: any, idx: number) => (
+                              <li key={idx}>
+                                <strong>{item.title} ({item.timing})</strong>: {item.approach}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.keyFeatures && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>05</span>
+                          <span className="ch-t">Key Features</span>
+                        </div>
+                        <div className="ch-body">
+                          <ul>
+                            {modalCase.content.keyFeatures.map((item: any, idx: number) => (
+                              <li key={idx}>
+                                <strong>{item.title}:</strong> {item.desc}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.roadmap && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>06</span>
+                          <span className="ch-t">Roadmap</span>
+                        </div>
+                        <div className="ch-body">
+                          <ul>
+                            {modalCase.content.roadmap.map((item: any, idx: number) => (
+                              <li key={idx}>
+                                <strong>{item.quarter} ({item.months}):</strong> {item.deliverables} <em>KPIs: {item.kpiTarget}</em>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.metrics && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>07</span>
+                          <span className="ch-t">Metrics</span>
+                        </div>
+                        <div className="ch-body">
+                          {modalCase.content.metrics.map((group: any, idx: number) => (
+                            <div key={idx}>
+                              <strong>{group.category}</strong>
+                              <ul>
+                                {group.items.map((item: string, j: number) => (
+                                  <li key={j}>{item}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.userJourneys && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>08</span>
+                          <span className="ch-t">User Journeys</span>
+                        </div>
+                        <div className="ch-body">
+                          <ul>
+                            {modalCase.content.userJourneys.map((u: any, i: number) => (
+                              <li key={i}>
+                                <strong>{u.journey || u.persona}:</strong> {u.flow || u.steps?.join(' → ')}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {modalCase.content.problemStatement && (
+                  <>
+                    <div className="mchapter">
+                      <div className="ch-label">
+                        <span
+                          className="ch-n"
+                          style={{ color: ac }}
+                        >
+                          01
+                        </span>
+                        <span className="ch-t">Problem Statement</span>
+                      </div>
+                      <div className="ch-body">
+                        <p>{modalCase.content.problemStatement.overview}</p>
+                        <ul>
+                          {modalCase.content.problemStatement.challenges.map((c, i) => (
+                            <li key={i}>
+                              <strong>{c.title}:</strong> {c.desc}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="mchapter">
+                      <div className="ch-label">
+                        <span
+                          className="ch-n"
+                          style={{ color: ac }}
+                        >
+                          02
+                        </span>
+                        <span className="ch-t">Why It Matters</span>
+                      </div>
+                      <div
+                        className="ch-body"
+                        dangerouslySetInnerHTML={{
+                          __html: `<p>${modalCase.content.whyItMatters}</p>`,
+                        }}
+                      />
+                    </div>
+
+                    <div className="mchapter">
+                      <div className="ch-label">
+                        <span
+                          className="ch-n"
+                          style={{ color: ac }}
+                        >
+                          03
+                        </span>
+                        <span className="ch-t">Product Vision</span>
+                      </div>
+                      <div className="ch-body">
+                        <p>{modalCase.content.productVision}</p>
+                        <h4>V1 Goals</h4>
+                        <ul>
+                          {modalCase.content.v1Goals.map((goal, i) => (
+                            <li key={i}>{goal}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    {modalCase.content.coreCapabilities && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span
+                            className="ch-n"
+                            style={{ color: ac }}
+                          >
+                            04
+                          </span>
+                          <span className="ch-t">Core Capabilities</span>
+                        </div>
+                        <div className="ch-body">
+                          {modalCase.content.coreCapabilities.map((cap, idx) => (
+                            <div key={idx}>
+                              <strong>{cap.title}</strong>
+                              <ul>
+                                {cap.features.map((f, j) => (
+                                  <li key={j}>{f}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.userJourneys && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span
+                            className="ch-n"
+                            style={{ color: ac }}
+                          >
+                            05
+                          </span>
+                          <span className="ch-t">User Journeys</span>
+                        </div>
+                        <div className="ch-body">
+                          <ul>
+                            {modalCase.content.userJourneys.map((u, i) => (
+                              <li key={i}>
+                                <strong>{u.journey || u.persona}:</strong> {u.flow || u.desc}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.marketResearch && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>06</span>
+                          <span className="ch-t">Market Research</span>
+                        </div>
+                        <div className="ch-body">
+                          <p>{modalCase.content.marketResearch.userBehavior}</p>
+                          <p>{modalCase.content.marketResearch.daySegmentation}</p>
+                          <ul>
+                            {modalCase.content.marketResearch.widgetPriority.map((wp, i) => (
+                              <li key={i}>
+                                <strong>{wp.widget}:</strong> {wp.rationale}
+                              </li>
+                            ))}
+                          </ul>
+                          {modalCase.content.marketResearch.layerStrategy && (
+                            <p><strong>Layer Strategy:</strong> {modalCase.content.marketResearch.layerStrategy}</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {modalCase.content.successMetrics && (
+                      <div className="mchapter">
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>09</span>
+                          <span className="ch-t">Success Metrics</span>
+                        </div>
+                        <div className="ch-body">
+                          {Object.entries(modalCase.content.successMetrics).map(([category, metrics]: any, idx) => (
+                            <div key={idx}>
+                              <h5>{category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}</h5>
+                              <ul>
+                                {metrics.map((m: any, j: number) => (
+                                  <li key={j}>
+                                    <strong>{m.metric}:</strong> {m.definition}
+                                    {m.why && <em> ({m.why})</em>}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             </>
           )}
