@@ -1980,9 +1980,9 @@ export default function App() {
       <div className="s-light" id="work">
         <div className="work-wrap">
           <div className="work-header">
-            <div className="eyebrow rv">— Case Studies</div>
+            <div className="eyebrow rv">— Projects</div>
             <div className="s-title rv-clip rv-d1">
-              THE <em>VOLUMES</em>
+              DECISIONS, <em>NOT FEATURES</em>
             </div>
             <div className="filter-row rv rv-d2">
               {[
