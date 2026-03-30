@@ -1987,10 +1987,11 @@ export default function App() {
             <div className="filter-row rv rv-d2">
               {[
                 ["all", "All Volumes"],
-                ["analytics", "Analytics"],
-                ["feature", "Feature Design"],
-                ["crm", "CRM & Funnels"],
+                ["monetization", "Monetization"],
+                ["workflows", "Workflows"],
+                ["personalization", "Personalization"],
                 ["prototype", "Prototyping"],
+                ["engagement", "Engagement"],
               ].map(([f, label]) => (
                 <button
                   key={f}
