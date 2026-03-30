@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Trip — App Prototype</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1b2a; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+
+  .phone { width: 390px; height: 844px; background: #fff; border-radius: 50px; overflow: hidden; position: relative; box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 2px #333, 0 0 0 6px #111; display: flex; flex-direction: column; flex-shrink: 0; }
+  .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 130px; height: 34px; background: #111; border-radius: 0 0 20px 20px; z-index: 50; }
+  .screen { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+  .wrapper { display: flex; gap: 24px; align-items: flex-start; }
+  .sidebar { display: flex; flex-direction: column; gap: 8px; padding: 16px 0; background: rgba(255,255,255,0.04); border-radius: 16px; min-width: 165px; }
+  .sidebar h3 { color: #aaa; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 0 16px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 4px; }
+  .nav-btn { background: none; border: none; color: #ccc; font-size: 13px; padding: 8px 16px; text-align: left; cursor: pointer; border-radius: 8px; transition: all .2s; display: flex; align-items: center; gap: 8px; }
+  .nav-btn:hover, .nav-btn.active { background: rgba(30,120,200,0.2); color: #4a9fd4; }
+  .nav-btn .icon { font-size: 16px; }
+
+  .app-screen { display: none; flex-direction: column; height: 100%; animation: fadeIn .3s ease; }
+  .app-screen.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── COLOURS ── */
+  :root {
+    --blue: #1a6b9a;
+    --blue-dark: #0d4f73;
+    --blue-light: #e8f4fa;
+    --gold: #f4a82e;
+    --green: #27ae60;
+    --bg: #f5f9fc;
+    --card: #fff;
+    --text: #1a1a1a;
+    --muted: #888;
+  }
+
+  /* STATUS BAR */
+  .status-bar { background: var(--blue-dark); padding: 38px 20px 6px; display: flex; justify-content: space-between; }
+  .status-bar span { color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 600; }
+
+  /* SCROLL */
+  .scroll-area { flex: 1; overflow-y: auto; background: var(--bg); padding-bottom: 80px; }
+  .scroll-area::-webkit-scrollbar { display: none; }
+
+  /* ONBOARDING / GAME */
+  .game-bg { background: linear-gradient(175deg, #0d4f73 0%, #1a6b9a 40%, #0d3f5f 100%); flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .game-header { padding: 40px 20px 12px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .game-logo { color: #fff; font-size: 22px; font-weight: 800; letter-spacing: 1px; }
+  .game-logo span { color: var(--gold); }
+  .level-badge { background: rgba(255,255,255,0.15); color: #fff; font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+  .destination { text-align: center; padding: 8px 20px 12px; }
+  .destination .dest-icon { font-size: 40px; margin-bottom: 4px; }
+  .destination h2 { color: #fff; font-size: 16px; font-weight: 700; }
+  .destination p { color: rgba(255,255,255,0.7); font-size: 12px; }
+
+  /* PUZZLE BOARD */
+  .puzzle-board { margin: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 16px; }
+  .puzzle-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 14px; }
+  .letter-cell { aspect-ratio: 1; background: rgba(255,255,255,0.85); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: var(--blue-dark); transition: all .2s; cursor: default; }
+  .letter-cell.filled { background: #fff; color: var(--blue-dark); }
+  .letter-cell.highlighted { background: var(--gold); color: #fff; transform: scale(1.05); }
+  .letter-cell.correct { background: var(--green); color: #fff; }
+  .letter-cell.empty { background: rgba(255,255,255,0.2); }
+  .word-hint { color: rgba(255,255,255,0.7); font-size: 12px; text-align: center; margin-bottom: 10px; }
+
+  /* CIRCULAR WHEEL */
+  .wheel-container { display: flex; justify-content: center; padding: 8px 0; }
+  .letter-wheel { width: 160px; height: 160px; position: relative; }
+  .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 48px; height: 48px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #fff; box-shadow: 0 4px 15px rgba(244,168,46,0.4); cursor: pointer; z-index: 2; }
+  .wheel-letter { position: absolute; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: var(--blue-dark); cursor: pointer; transition: all .15s; }
+  .wheel-letter:hover { background: #fff; transform: scale(1.1); }
+  .wheel-line { position: absolute; top: 50%; left: 50%; width: 58px; height: 2px; background: rgba(255,255,255,0.3); transform-origin: left center; }
+
+  /* HINT / POWER BAR */
+  .power-bar { display: flex; justify-content: center; gap: 16px; padding: 10px 20px; }
+  .power-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; }
+  .power-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .power-label { color: rgba(255,255,255,0.7); font-size: 10px; }
+  .power-count { color: var(--gold); font-size: 10px; font-weight: 700; }
+
+  /* COINS BAR */
+  .coins-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 20px; }
+  .coins { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); padding: 4px 12px; border-radius: 20px; }
+  .coins span { color: #fff; font-size: 13px; font-weight: 600; }
+  .miles { display: flex; align-items: center; gap: 6px; background: rgba(244,168,46,0.2); padding: 4px 12px; border-radius: 20px; }
+  .miles span { color: var(--gold); font-size: 13px; font-weight: 600; }
+
+  /* TABS */
+  .screen-tabs { display: flex; background: var(--blue-dark); }
+  .stab { flex: 1; padding: 10px; text-align: center; color: rgba(255,255,255,0.5); font-size: 12px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; }
+  .stab.active { color: #fff; border-bottom-color: var(--gold); }
+
+  /* IAP STORE */
+  .iap-bg { background: var(--bg); flex: 1; display: flex; flex-direction: column; }
+  .iap-header { background: var(--blue-dark); padding: 40px 20px 16px; color: #fff; }
+  .iap-header h2 { font-size: 20px; font-weight: 800; }
+  .iap-header p { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+  .timer-bar { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 8px 14px; margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+  .timer-bar span { color: rgba(255,255,255,0.8); font-size: 12px; }
+  .timer-val { color: var(--gold); font-weight: 700; font-size: 14px; }
+  .iap-list { padding: 12px 16px; overflow-y: auto; }
+  .iap-list::-webkit-scrollbar { display: none; }
+  .iap-card { background: var(--card); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; border: 2px solid transparent; box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: relative; overflow: hidden; cursor: pointer; transition: all .2s; }
+  .iap-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .iap-card.featured { border-color: var(--gold); background: linear-gradient(135deg, #fffdf0, #fff8e1); }
+  .iap-card .corner-tag { position: absolute; top: 0; right: 0; background: var(--gold); color: #fff; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 0 14px 0 10px; }
+  .iap-card .corner-tag.red { background: #e74c3c; }
+  .iap-card .corner-tag.blue { background: var(--blue); }
+  .iap-card-top { display: flex; align-items: center; gap: 12px; }
+  .iap-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; background: var(--blue-light); flex-shrink: 0; }
+  .iap-info h4 { font-size: 15px; font-weight: 700; color: var(--text); }
+  .iap-info .coins-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .iap-price { margin-left: auto; text-align: right; }
+  .iap-price .orig { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+  .iap-price .curr { font-size: 18px; font-weight: 800; color: var(--blue); }
+  .iap-price .save { font-size: 10px; color: var(--green); font-weight: 600; }
+  .iap-card .progress-bar { height: 4px; background: #eee; border-radius: 4px; margin-top: 10px; }
+  .iap-card .progress-fill { height: 100%; background: var(--gold); border-radius: 4px; }
+  .restore-link { text-align: center; padding: 8px; color: var(--muted); font-size: 12px; cursor: pointer; }
+  .restore-link:hover { color: var(--blue); }
+
+  /* LEADERBOARD */
+  .lb-header { background: linear-gradient(135deg, var(--blue-dark), var(--blue)); padding: 40px 20px 20px; }
+  .lb-header h2 { color: #fff; font-size: 20px; font-weight: 800; }
+  .lb-tabs { display: flex; gap: 8px; margin-top: 10px; }
+  .lb-tab { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); font-size: 12px; padding: 4px 14px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all .2s; }
+  .lb-tab.active { background: var(--gold); color: #fff; }
+  .podium { display: flex; align-items: flex-end; justify-content: center; gap: 8px; padding: 16px 20px 0; }
+  .podium-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .podium-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 3px solid transparent; }
+  .podium-item:nth-child(1) .podium-avatar { border-color: #C0C0C0; }
+  .podium-item:nth-child(2) .podium-avatar { border-color: var(--gold); width: 56px; height: 56px; font-size: 26px; }
+  .podium-item:nth-child(3) .podium-avatar { border-color: #CD7F32; }
+  .podium-name { font-size: 11px; font-weight: 600; color: var(--text); }
+  .podium-miles { font-size: 10px; color: var(--gold); font-weight: 600; }
+  .podium-block { background: var(--blue); border-radius: 8px 8px 0 0; width: 60px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; font-weight: 800; }
+  .podium-item:nth-child(1) .podium-block { height: 50px; background: #9b9b9b; width: 52px; }
+  .podium-item:nth-child(2) .podium-block { height: 70px; background: var(--gold); width: 64px; }
+  .podium-item:nth-child(3) .podium-block { height: 40px; background: #CD7F32; width: 52px; }
+  .lb-list { padding: 8px 16px; overflow-y: auto; }
+  .lb-list::-webkit-scrollbar { display: none; }
+  .lb-row { display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 12px; padding: 10px 14px; margin-bottom: 6px; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
+  .lb-row.me { background: var(--blue-light); border: 1px solid var(--blue); }
+  .lb-rank { font-size: 14px; font-weight: 800; color: var(--muted); width: 24px; flex-shrink: 0; }
+  .lb-rank.gold { color: var(--gold); }
+  .lb-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .lb-info h4 { font-size: 13px; font-weight: 600; color: var(--text); }
+  .lb-info p { font-size: 11px; color: var(--muted); }
+  .lb-score { margin-left: auto; text-align: right; }
+  .lb-score .miles-val { font-size: 14px; font-weight: 700; color: var(--gold); }
+  .lb-score .level { font-size: 10px; color: var(--muted); }
+
+  /* DAILY STREAK */
+  .streak-card { margin: 12px 16px; background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-radius: 16px; padding: 14px; }
+  .streak-card h3 { font-size: 14px; font-weight: 700; color: #6d4c41; margin-bottom: 10px; }
+  .streak-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .sday { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .sday-circle { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; font-size: 14px; border: 2px solid rgba(0,0,0,0.1); transition: all .2s; }
+  .sday-circle.done { background: var(--green); border-color: var(--green); }
+  .sday-circle.today { background: var(--blue); border-color: var(--blue); animation: pulse 1.5s infinite; }
+  .sday-circle.premium { background: var(--gold); border-color: var(--gold); }
+  .sday-label { font-size: 9px; color: #6d4c41; font-weight: 600; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(26,107,154,0.4); } 50% { box-shadow: 0 0 0 6px rgba(26,107,154,0); } }
+  .streak-note { font-size: 11px; color: #6d4c41; margin-top: 8px; }
+
+  /* DAILY CHALLENGE CARD */
+  .challenge-card { margin: 0 16px 12px; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); border-radius: 16px; padding: 14px 16px; color: #fff; position: relative; overflow: hidden; }
+  .challenge-card::after { content: '✈️'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 40px; opacity: 0.2; }
+  .challenge-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .challenge-card p { font-size: 12px; opacity: 0.85; }
+  .challenge-card .reward { background: rgba(255,255,255,0.15); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; display: inline-block; margin-top: 8px; }
+  .challenge-card .play-now { background: var(--gold); color: #fff; border: none; padding: 7px 18px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 8px; margin-left: 8px; }
+
+  /* ONBOARDING FLOW */
+  .ob-bg { background: linear-gradient(175deg, #0d4f73, #1a6b9a); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: hidden; }
+  .ob-dots { display: flex; gap: 6px; position: absolute; top: 48px; left: 50%; transform: translateX(-50%); }
+  .ob-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+  .ob-dot.active { background: var(--gold); width: 20px; border-radius: 4px; }
+  .ob-emoji { font-size: 80px; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .ob-title { color: #fff; font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+  .ob-sub { color: rgba(255,255,255,0.75); font-size: 14px; text-align: center; line-height: 1.5; margin-bottom: 32px; }
+  .ob-btn { background: var(--gold); color: #fff; border: none; padding: 14px 40px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px rgba(244,168,46,0.4); transition: transform .2s; width: 100%; }
+  .ob-btn:hover { transform: scale(1.02); }
+  .ob-skip { color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 14px; cursor: pointer; }
+  .ob-features { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; width: 100%; }
+  .ob-feature { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 14px; }
+  .ob-feature .ficon { font-size: 22px; }
+  .ob-feature p { color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 500; }
+  .pop-strip { background: rgba(255,255,255,0.12); border-radius: 12px; padding: 10px 14px; margin-bottom: 20px; width: 100%; }
+  .pop-strip p { color: rgba(255,255,255,0.75); font-size: 12px; text-align: center; }
+  .pop-strip .att { color: rgba(255,255,255,0.4); font-size: 11px; text-align: center; margin-top: 4px; }
+
+  /* SECONDARY FORMAT */
+  .sec-bg { background: linear-gradient(175deg, #2c3e50, #34495e); flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .crossword-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; margin: 12px 16px; }
+  .cw-cell { aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; cursor: default; }
+  .cw-cell.black { background: #1a1a1a; }
+  .cw-cell.white { background: rgba(255,255,255,0.85); color: #1a1a1a; }
+  .cw-cell.filled { background: #fff; color: var(--blue-dark); }
+  .cw-cell.correct { background: var(--green); color: #fff; }
+  .cw-cell.active { background: var(--gold); color: #fff; }
+  .clue-box { margin: 8px 16px; background: rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 14px; }
+  .clue-box h4 { color: rgba(255,255,255,0.7); font-size: 11px; text-transform: uppercase; margin-bottom: 4px; }
+  .clue-box p { color: #fff; font-size: 13px; font-weight: 600; }
+  .keyboard-row { display: flex; gap: 4px; justify-content: center; }
+  .keyboard-area { padding: 8px 12px; background: rgba(0,0,0,0.2); }
+  .key { background: rgba(255,255,255,0.85); border-radius: 6px; padding: 8px 6px; font-size: 13px; font-weight: 700; color: #1a1a1a; min-width: 28px; text-align: center; cursor: pointer; transition: all .15s; }
+  .key:hover { background: #fff; transform: scale(1.05); }
+  .key.special { background: rgba(255,255,255,0.4); color: rgba(255,255,255,0.9); font-size: 11px; min-width: 44px; }
+
+  /* GENERAL */
+  .section-header { padding: 12px 16px 6px; display: flex; justify-content: space-between; align-items: center; }
+  .section-header h2 { font-size: 14px; font-weight: 700; color: var(--text); }
+  .section-header a { font-size: 12px; color: var(--blue); text-decoration: none; font-weight: 500; }
+
+  .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; display: flex; padding: 8px 0 20px; box-shadow: 0 -2px 12px rgba(0,0,0,0.07); }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 2px 0; }
+  .nav-item .n-icon { font-size: 20px; }
+  .nav-item .n-label { font-size: 10px; color: #aaa; font-weight: 500; }
+  .nav-item.active .n-label { color: var(--blue); font-weight: 700; }
+
+  .tag-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+  .tag-pop { background: #e8f5e9; color: var(--green); }
+  .tag-new { background: #e3f2fd; color: var(--blue); }
+  .tag-sale { background: #fce4ec; color: #c62828; }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h3>✈️ Word Trip Prototype</h3>
+    <button class="nav-btn active" onclick="showScreen('onboarding')" id="btn-onboarding"><span class="icon">🚀</span> Streamlined Onboarding</button>
+    <button class="nav-btn" onclick="showScreen('game')" id="btn-game"><span class="icon">🧩</span> Core Puzzle (Main)</button>
+    <button class="nav-btn" onclick="showScreen('secondary')" id="btn-secondary"><span class="icon">🔤</span> Crossword Format (New)</button>
+    <button class="nav-btn" onclick="showScreen('iap')" id="btn-iap"><span class="icon">💎</span> IAP Store (Revamped)</button>
+    <button class="nav-btn" onclick="showScreen('leaderboard')" id="btn-leaderboard"><span class="icon">🏆</span> Leaderboard</button>
+    <button class="nav-btn" onclick="showScreen('retention')" id="btn-retention"><span class="icon">📅</span> Daily Streak & Challenges</button>
+    <br>
+    <div style="padding: 0 16px; font-size: 11px; color: #666; line-height: 1.6;">
+      <strong style="color: #4a9fd4;">Features shown:</strong><br>
+      · 2-tap to gameplay (no popups)<br>
+      · Guest mode onboarding<br>
+      · IAP hierarchy revamp<br>
+      · Urgency timers + restore<br>
+      · Crossword secondary format<br>
+      · Daily Challenge mode<br>
+      · Global + friends leaderboard<br>
+      · 7-day streak calendar<br>
+      · Travel-theme rewards (miles)
+    </div>
+  </div>
+
+  <!-- PHONE -->
+  <div class="phone">
+    <div class="notch"></div>
+
+    <!-- ═══ ONBOARDING ═══ -->
+    <div class="app-screen active" id="screen-onboarding">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="ob-bg">
+        <div class="ob-dots">
+          <div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div>
+        </div>
+        <div class="ob-emoji">✈️</div>
+        <div class="ob-title">Journey Begins Now</div>
+        <div class="ob-sub">Solve words. Explore the world. Your first destination awaits.</div>
+        <div class="ob-features">
+          <div class="ob-feature"><span class="ficon">🌍</span><p>Travel the world through words</p></div>
+          <div class="ob-feature"><span class="ficon">🏆</span><p>Compete on global leaderboards</p></div>
+          <div class="ob-feature"><span class="ficon">🎯</span><p>Daily challenges & rewards</p></div>
+        </div>
+        <button class="ob-btn" onclick="showScreen('game')">▶  Play Now — No Sign-up Needed</button>
+        <div class="ob-skip" onclick="showScreen('game')">Already have an account? Sign in</div>
+      </div>
+    </div>
+
+    <!-- ═══ CORE GAME ═══ -->
+    <div class="app-screen" id="screen-game">
+      <div class="status-bar"><span>9:42</span><span>📶 🔋</span></div>
+      <div class="game-bg">
+        <!-- Top bar -->
+        <div class="coins-bar">
+          <div class="coins"><span>🪙</span><span>1,240</span></div>
+          <div class="level-badge">Level 12 · Rome 🏛️</div>
+          <div class="miles"><span>✈️</span><span>3,450 mi</span></div>
+        </div>
+
+        <!-- Destination -->
+        <div class="destination">
+          <div class="dest-icon">🏛️</div>
+          <h2>Rome, Italy</h2>
+          <p>Discovered 8 of 24 words</p>
+        </div>
+
+        <!-- Puzzle board (4 words found) -->
+        <div class="puzzle-board">
+          <div class="puzzle-grid">
+            <div class="letter-cell correct">A</div><div class="letter-cell correct">R</div><div class="letter-cell correct">T</div><div class="letter-cell empty"></div><div class="letter-cell empty"></div>
+            <div class="letter-cell correct">F</div><div class="letter-cell correct">O</div><div class="letter-cell correct">R</div><div class="letter-cell correct">U</div><div class="letter-cell correct">M</div>
+            <div class="letter-cell highlighted">R</div><div class="letter-cell highlighted">O</div><div class="letter-cell highlighted">M</div><div class="letter-cell highlighted">E</div><div class="letter-cell empty"></div>
+            <div class="letter-cell empty"></div><div class="letter-cell empty"></div><div class="letter-cell empty"></div><div class="letter-cell empty"></div><div class="letter-cell empty"></div>
+          </div>
+          <div class="word-hint">3 letters · Tap the circles to form a word</div>
+
+          <!-- Letter Wheel -->
+          <div class="wheel-container">
+            <div class="letter-wheel">
+              <!-- Lines -->
+              <div class="wheel-line" style="transform:rotate(0deg);"></div>
+              <div class="wheel-line" style="transform:rotate(45deg);"></div>
+              <div class="wheel-line" style="transform:rotate(90deg);"></div>
+              <div class="wheel-line" style="transform:rotate(135deg);"></div>
+              <div class="wheel-line" style="transform:rotate(180deg);"></div>
+              <div class="wheel-line" style="transform:rotate(225deg);"></div>
+              <!-- Letters around wheel -->
+              <div class="wheel-letter" style="top:0;left:50%;transform:translateX(-50%);">R</div>
+              <div class="wheel-letter" style="top:18%;right:2%;">O</div>
+              <div class="wheel-letter" style="bottom:18%;right:2%;">M</div>
+              <div class="wheel-letter" style="bottom:0;left:50%;transform:translateX(-50%);">E</div>
+              <div class="wheel-letter" style="bottom:18%;left:2%;">A</div>
+              <div class="wheel-letter" style="top:18%;left:2%;">F</div>
+              <!-- Center -->
+              <div class="wheel-center">T</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Power-ups -->
+        <div class="power-bar">
+          <div class="power-btn"><div class="power-icon">💡</div><span class="power-label">Hint</span><span class="power-count">×3</span></div>
+          <div class="power-btn"><div class="power-icon">🔤</div><span class="power-label">Shuffle</span><span class="power-count">×5</span></div>
+          <div class="power-btn" onclick="showScreen('iap')"><div class="power-icon">💎</div><span class="power-label">Get More</span></div>
+          <div class="power-btn" onclick="showScreen('leaderboard')"><div class="power-icon">🏆</div><span class="power-label">Rank #47</span></div>
+        </div>
+
+        <!-- Tab bar for formats -->
+        <div class="screen-tabs">
+          <div class="stab active">🧩 Word Trip</div>
+          <div class="stab" onclick="showScreen('secondary')">🔤 Crossword</div>
+          <div class="stab" onclick="showScreen('retention')">📅 Daily</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECONDARY FORMAT ═══ -->
+    <div class="app-screen" id="screen-secondary">
+      <div class="status-bar" style="background:#2c3e50;"><span>9:45</span><span>📶 🔋</span></div>
+      <div class="sec-bg">
+        <div class="coins-bar">
+          <div class="coins"><span>🪙</span><span>1,240</span></div>
+          <div class="level-badge">Daily Crossword · Rome 🏛️</div>
+          <div class="miles"><span>✈️</span><span>3,450 mi</span></div>
+        </div>
+
+        <!-- Crossword grid -->
+        <div class="crossword-grid">
+          <div class="cw-cell correct">R</div><div class="cw-cell black"></div><div class="cw-cell correct">F</div><div class="cw-cell black"></div><div class="cw-cell white"></div><div class="cw-cell black"></div>
+          <div class="cw-cell correct">O</div><div class="cw-cell black"></div><div class="cw-cell correct">O</div><div class="cw-cell black"></div><div class="cw-cell white"></div><div class="cw-cell black"></div>
+          <div class="cw-cell correct">M</div><div class="cw-cell correct">A</div><div class="cw-cell correct">R</div><div class="cw-cell correct">B</div><div class="cw-cell active">L</div><div class="cw-cell white"></div>
+          <div class="cw-cell correct">E</div><div class="cw-cell black"></div><div class="cw-cell correct">U</div><div class="cw-cell black"></div><div class="cw-cell white"></div><div class="cw-cell black"></div>
+          <div class="cw-cell black"></div><div class="cw-cell black"></div><div class="cw-cell correct">M</div><div class="cw-cell black"></div><div class="cw-cell white"></div><div class="cw-cell black"></div>
+        </div>
+
+        <!-- Clue -->
+        <div class="clue-box">
+          <h4>3 Across</h4>
+          <p>Ancient amphitheatre in Rome famous for gladiator battles (6 letters)</p>
+        </div>
+
+        <!-- Keyboard -->
+        <div class="keyboard-area">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div class="keyboard-row">
+              <div class="key">Q</div><div class="key">W</div><div class="key">E</div><div class="key">R</div><div class="key">T</div><div class="key">Y</div><div class="key">U</div><div class="key">I</div><div class="key">O</div><div class="key">P</div>
+            </div>
+            <div class="keyboard-row">
+              <div class="key">A</div><div class="key">S</div><div class="key">D</div><div class="key">F</div><div class="key">G</div><div class="key">H</div><div class="key">J</div><div class="key">K</div><div class="key" style="background:var(--gold);color:#fff;">L</div>
+            </div>
+            <div class="keyboard-row">
+              <div class="key special">⇧</div><div class="key">Z</div><div class="key">X</div><div class="key">C</div><div class="key">V</div><div class="key">B</div><div class="key">N</div><div class="key">M</div><div class="key special">⌫</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Power bar -->
+        <div class="power-bar" style="background:rgba(0,0,0,0.15);">
+          <div class="power-btn"><div class="power-icon">💡</div><span class="power-label">Reveal Letter</span><span class="power-count">×2</span></div>
+          <div class="power-btn"><div class="power-icon">🔍</div><span class="power-label">Check Word</span><span class="power-count">×3</span></div>
+          <div class="power-btn" onclick="showScreen('iap')"><div class="power-icon">💎</div><span class="power-label">Get More</span></div>
+        </div>
+        <div class="screen-tabs" style="background:rgba(0,0,0,0.2);">
+          <div class="stab" onclick="showScreen('game')">🧩 Word Trip</div>
+          <div class="stab active">🔤 Crossword</div>
+          <div class="stab" onclick="showScreen('retention')">📅 Daily</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ IAP STORE ═══ -->
+    <div class="app-screen" id="screen-iap">
+      <div class="status-bar" style="background:var(--blue-dark);"><span>9:50</span><span>📶 🔋</span></div>
+      <div class="iap-bg">
+        <div class="iap-header">
+          <span onclick="showScreen('game')" style="cursor:pointer; font-size:18px; display:block; margin-bottom:8px;">← Back</span>
+          <h2>🎒 Travel Store</h2>
+          <p>Power up your word journey with coins & hints</p>
+          <div class="timer-bar">
+            <span>⚡ Flash Sale ends in:</span>
+            <span class="timer-val" id="iap-timer">05:47:12</span>
+          </div>
+        </div>
+
+        <div class="iap-list">
+          <!-- #1 Most Popular — FEATURED at top -->
+          <div class="iap-card featured">
+            <div class="corner-tag">⭐ MOST POPULAR</div>
+            <div class="iap-card-top">
+              <div class="iap-icon" style="background:#fff3cd;">🪙</div>
+              <div class="iap-info">
+                <h4>Explorer Pack</h4>
+                <div class="coins-detail">500 Coins + 5 Hints + 2 Shuffles</div>
+                <div><span class="tag-badge tag-pop">✓ 68% of players choose this</span></div>
+              </div>
+              <div class="iap-price">
+                <div class="orig">₹349</div>
+                <div class="curr">₹249</div>
+                <div class="save">Save 29%</div>
+              </div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:68%"></div></div>
+          </div>
+
+          <!-- #2 Best Value -->
+          <div class="iap-card">
+            <div class="corner-tag blue">💎 BEST VALUE</div>
+            <div class="iap-card-top">
+              <div class="iap-icon" style="background:#e3f2fd;">💎</div>
+              <div class="iap-info">
+                <h4>Expedition Bundle</h4>
+                <div class="coins-detail">1,500 Coins + 20 Hints + Unlock 3 Destinations</div>
+              </div>
+              <div class="iap-price">
+                <div class="orig">₹999</div>
+                <div class="curr">₹599</div>
+                <div class="save">Save 40%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- #3 Starter -->
+          <div class="iap-card">
+            <div class="iap-card-top">
+              <div class="iap-icon">🎒</div>
+              <div class="iap-info">
+                <h4>Starter Pack</h4>
+                <div class="coins-detail">150 Coins + 3 Hints</div>
+                <div><span class="tag-badge tag-new">✨ Best for first purchase</span></div>
+              </div>
+              <div class="iap-price">
+                <div class="curr">₹99</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- One-time offer with timer -->
+          <div class="iap-card" style="border-color:#e74c3c; background:linear-gradient(135deg,#fff5f5,#fff);">
+            <div class="corner-tag red">⏱️ ONE-TIME OFFER</div>
+            <div class="iap-card-top">
+              <div class="iap-icon" style="background:#fce4ec;">🎁</div>
+              <div class="iap-info">
+                <h4>Welcome Traveller Pack</h4>
+                <div class="coins-detail">300 Coins + 10 Hints + Ad-Free 1 week</div>
+                <div><span class="tag-badge tag-sale">🔥 Only for new players</span></div>
+              </div>
+              <div class="iap-price">
+                <div class="orig">₹499</div>
+                <div class="curr">₹149</div>
+                <div class="save">Save 70%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ad-Free -->
+          <div class="iap-card">
+            <div class="iap-card-top">
+              <div class="iap-icon" style="background:#e8f5e9;">🚫</div>
+              <div class="iap-info">
+                <h4>Ad-Free Pass</h4>
+                <div class="coins-detail">Remove all ads for 30 days</div>
+              </div>
+              <div class="iap-price">
+                <div class="curr">₹199/mo</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="restore-link" onclick="showRestoreToast()">↩ Restore Previous Purchases</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LEADERBOARD ═══ -->
+    <div class="app-screen" id="screen-leaderboard">
+      <div class="status-bar" style="background:var(--blue-dark);"><span>9:55</span><span>📶 🔋</span></div>
+      <div style="display:flex; flex-direction:column; height:100%;">
+        <div class="lb-header">
+          <span onclick="showScreen('game')" style="cursor:pointer; font-size:14px; color:rgba(255,255,255,0.7); display:block; margin-bottom:6px;">← Back to Game</span>
+          <h2>🏆 Leaderboard</h2>
+          <div class="lb-tabs">
+            <div class="lb-tab active">🌍 Global</div>
+            <div class="lb-tab" onclick="this.parentNode.querySelectorAll('.lb-tab').forEach(e=>e.classList.remove('active')); this.classList.add('active')">👥 Friends</div>
+            <div class="lb-tab" onclick="this.parentNode.querySelectorAll('.lb-tab').forEach(e=>e.classList.remove('active')); this.classList.add('active')">🗓 Weekly</div>
+          </div>
+        </div>
+
+        <!-- Podium -->
+        <div style="background:var(--blue-light); padding-bottom:8px;">
+          <div class="podium">
+            <div class="podium-item">
+              <div class="podium-avatar" style="background:#e0e0e0; font-size:20px;">😎</div>
+              <div class="podium-name">Priya K.</div>
+              <div class="podium-miles">8,920 mi</div>
+              <div class="podium-block">2</div>
+            </div>
+            <div class="podium-item">
+              <div class="podium-avatar" style="background:#fff3cd; font-size:26px;">👑</div>
+              <div class="podium-name">Rahul M.</div>
+              <div class="podium-miles">11,450 mi</div>
+              <div class="podium-block">1</div>
+            </div>
+            <div class="podium-item">
+              <div class="podium-avatar" style="background:#ffe0cc; font-size:20px;">🤓</div>
+              <div class="podium-name">Sneha T.</div>
+              <div class="podium-miles">7,340 mi</div>
+              <div class="podium-block">3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lb-list" style="flex:1; overflow-y:auto;">
+          <div class="lb-row"><span class="lb-rank">4</span><div class="lb-avatar">🏄</div><div class="lb-info"><h4>Ankit S.</h4><p>Level 28 · Sydney</p></div><div class="lb-score"><div class="miles-val">6,210 mi</div><div class="level">Lv. 28</div></div></div>
+          <div class="lb-row"><span class="lb-rank">5</span><div class="lb-avatar">🎓</div><div class="lb-info"><h4>Divya R.</h4><p>Level 24 · Paris</p></div><div class="lb-score"><div class="miles-val">5,890 mi</div><div class="level">Lv. 24</div></div></div>
+          <div class="lb-row"><span class="lb-rank">6</span><div class="lb-avatar">🎮</div><div class="lb-info"><h4>Karan P.</h4><p>Level 21 · Tokyo</p></div><div class="lb-score"><div class="miles-val">5,230 mi</div><div class="level">Lv. 21</div></div></div>
+          <!-- ME row -->
+          <div class="lb-row me"><span class="lb-rank gold">47</span><div class="lb-avatar" style="background:var(--gold);">😊</div><div class="lb-info"><h4>You · Akarshan</h4><p>Level 12 · Rome</p></div><div class="lb-score"><div class="miles-val">3,450 mi</div><div class="level" style="color:var(--blue);font-weight:600;">↑ 3 this week</div></div></div>
+          <div class="lb-row"><span class="lb-rank">48</span><div class="lb-avatar">🎯</div><div class="lb-info"><h4>Meera V.</h4><p>Level 11 · Cairo</p></div><div class="lb-score"><div class="miles-val">3,390 mi</div></div></div>
+          <div style="text-align:center; color:var(--muted); font-size:12px; padding:8px;">Earn miles to climb the ranks ✈️</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ RETENTION / DAILY ═══ -->
+    <div class="app-screen" id="screen-retention">
+      <div class="status-bar" style="background:var(--blue-dark);"><span>9:58</span><span>📶 🔋</span></div>
+      <div style="display:flex;flex-direction:column;height:100%; background:var(--bg);">
+        <div style="background:linear-gradient(135deg,var(--blue-dark),var(--blue)); padding:40px 20px 16px; color:#fff;">
+          <h2 style="font-size:20px; font-weight:800;">📅 Daily Hub</h2>
+          <p style="font-size:12px; opacity:0.8; margin-top:4px;">Your streak, challenges & rewards — all in one place</p>
+        </div>
+
+        <div style="flex:1; overflow-y:auto;">
+          <div style="padding:0 0 8px;">
+            <!-- 7-day streak -->
+            <div class="streak-card">
+              <h3>🔥 Day 5 Streak — Keep It Going!</h3>
+              <div class="streak-days">
+                <div class="sday"><div class="sday-circle done">✓</div><div class="sday-label">Mon</div></div>
+                <div class="sday"><div class="sday-circle done">✓</div><div class="sday-label">Tue</div></div>
+                <div class="sday"><div class="sday-circle done">✓</div><div class="sday-label">Wed</div></div>
+                <div class="sday"><div class="sday-circle done">✓</div><div class="sday-label">Thu</div></div>
+                <div class="sday"><div class="sday-circle today">🎮</div><div class="sday-label">Today</div></div>
+                <div class="sday"><div class="sday-circle" style="opacity:0.4;">·</div><div class="sday-label">Sat</div></div>
+                <div class="sday"><div class="sday-circle premium">🏆</div><div class="sday-label">Day 7</div></div>
+              </div>
+              <div class="streak-note">🏆 Day 7 reward: <strong>50 Hints + Ad-Free Weekend!</strong> — 2 days to go</div>
+            </div>
+
+            <!-- Daily Challenge -->
+            <div class="section-header"><h2>⚡ Today's Challenges</h2></div>
+            <div class="challenge-card">
+              <h3>🌍 Daily Word Challenge</h3>
+              <p>Theme: Ancient Civilisations · Word Wheel format</p>
+              <div class="reward">🏅 Reward: 100 miles + 30 coins</div>
+              <button class="play-now" onclick="showScreen('secondary')">Play Now →</button>
+            </div>
+
+            <div class="challenge-card" style="background:linear-gradient(135deg,#2c3e50,#8e44ad); margin-top:8px;">
+              <h3>🔤 Crossword Sprint — 3 min</h3>
+              <p>Fill all blanks before time runs out!</p>
+              <div class="reward">🏅 Reward: 80 miles + bonus coins</div>
+              <button class="play-now" onclick="showScreen('secondary')">Play Now →</button>
+            </div>
+
+            <!-- Seasonal Event -->
+            <div class="section-header"><h2>🌸 Seasonal Event</h2><a href="#">Learn more</a></div>
+            <div style="margin:0 16px; background:linear-gradient(135deg,#f39c12,#e67e22); border-radius:16px; padding:14px; color:#fff; margin-bottom:10px;">
+              <div style="font-size:11px; opacity:0.85; margin-bottom:4px;">🪔 DIWALI SPECIAL · Ends in 3 days</div>
+              <div style="font-size:16px; font-weight:800; margin-bottom:4px;">Festival of Words</div>
+              <div style="font-size:12px; opacity:0.85; margin-bottom:10px;">Complete 5 festival puzzles to earn the Diwali Trophy 🏆</div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="flex:1; background:rgba(255,255,255,0.2); border-radius:10px; height:8px;"><div style="width:60%; background:#fff; border-radius:10px; height:100%;"></div></div>
+                <span style="font-size:12px; font-weight:600;">3/5 done</span>
+              </div>
+            </div>
+
+            <!-- Win-back push preview -->
+            <div class="section-header"><h2>🎁 Your Unclaimed Rewards</h2></div>
+            <div style="margin:0 16px 16px; background:#e8f5e9; border-radius:14px; padding:14px; border-left:4px solid var(--green);">
+              <div style="font-size:13px; font-weight:700; color:#2e7d32; margin-bottom:4px;">Welcome back! Here's a gift 🎁</div>
+              <div style="font-size:12px; color:#388e3c; margin-bottom:8px;">You missed 2 days — we saved your 100 bonus miles.</div>
+              <button style="background:var(--green); color:#fff; border:none; padding:7px 18px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer;">Claim 100 Miles →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item" onclick="showScreen('game')"><span class="n-icon">🧩</span><span class="n-label">Play</span></div>
+          <div class="nav-item active"><span class="n-icon">📅</span><span class="n-label">Daily</span></div>
+          <div class="nav-item" onclick="showScreen('leaderboard')"><span class="n-icon">🏆</span><span class="n-label">Ranks</span></div>
+          <div class="nav-item" onclick="showScreen('iap')"><span class="n-icon">💎</span><span class="n-label">Store</span></div>
+          <div class="nav-item"><span class="n-icon">👤</span><span class="n-label">Profile</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /phone -->
+</div>
+
+<!-- Toast -->
+<div id="restore-toast" style="display:none; position:fixed; bottom:100px; left:50%; transform:translateX(-50%); background:#1a6b9a; color:#fff; padding:12px 24px; border-radius:30px; font-weight:600; font-size:14px; z-index:999; box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+  ✅ Purchases restored successfully!
+</div>
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  const btn = document.getElementById('btn-' + name);
+  if (btn) btn.classList.add('active');
+}
+
+function showRestoreToast() {
+  const t = document.getElementById('restore-toast');
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+// IAP countdown
+function updateIAPTimer() {
+  const el = document.getElementById('iap-timer');
+  if (!el) return;
+  let parts = el.textContent.split(':').map(Number);
+  let total = parts[0]*3600 + parts[1]*60 + parts[2] - 1;
+  if (total < 0) total = 86399;
+  const h = Math.floor(total/3600), m = Math.floor((total%3600)/60), s = total%60;
+  el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+setInterval(updateIAPTimer, 1000);
+</script>
+</body>
+</html>

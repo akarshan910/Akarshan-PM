@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Mandir — App Prototype</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+
+  /* Phone shell */
+  .phone { width: 390px; height: 844px; background: #fff; border-radius: 50px; overflow: hidden; position: relative; box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 2px #333, 0 0 0 6px #111; display: flex; flex-direction: column; flex-shrink: 0; }
+  .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 130px; height: 34px; background: #111; border-radius: 0 0 20px 20px; z-index: 50; }
+  .screen { flex: 1; overflow: hidden; display: flex; flex-direction: column; background: #fdf8f5; }
+
+  /* Sidebar nav */
+  .wrapper { display: flex; gap: 24px; align-items: flex-start; }
+  .sidebar { display: flex; flex-direction: column; gap: 8px; padding: 16px 0; background: rgba(255,255,255,0.05); border-radius: 16px; min-width: 160px; }
+  .sidebar h3 { color: #aaa; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 0 16px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 4px; }
+  .nav-btn { background: none; border: none; color: #ccc; font-size: 13px; padding: 8px 16px; text-align: left; cursor: pointer; border-radius: 8px; transition: all .2s; display: flex; align-items: center; gap: 8px; }
+  .nav-btn:hover, .nav-btn.active { background: rgba(192,57,43,0.2); color: #e8625a; }
+  .nav-btn .icon { font-size: 16px; }
+
+  /* Screens */
+  .app-screen { display: none; flex-direction: column; height: 100%; animation: fadeIn .3s ease; }
+  .app-screen.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Status bar */
+  .status-bar { background: #c0392b; padding: 10px 20px 6px; display: flex; justify-content: space-between; align-items: center; padding-top: 38px; }
+  .status-time { color: #fff; font-size: 13px; font-weight: 600; }
+  .status-icons { color: #fff; font-size: 11px; display: flex; gap: 4px; }
+
+  /* App header */
+  .app-header { background: #c0392b; padding: 12px 20px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .app-header h1 { color: #fff; font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .app-header .bell { color: rgba(255,255,255,0.8); font-size: 20px; cursor: pointer; }
+  .location { color: rgba(255,255,255,0.85); font-size: 12px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
+  /* Scrollable content */
+  .scroll-area { flex: 1; overflow-y: auto; padding: 0 0 80px; }
+  .scroll-area::-webkit-scrollbar { display: none; }
+
+  /* Search bar */
+  .search-bar { margin: 12px 16px; background: #fff; border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .search-bar input { border: none; outline: none; flex: 1; font-size: 13px; color: #333; background: transparent; }
+  .search-bar .search-icon { color: #999; font-size: 15px; }
+
+  /* Section headers */
+  .section-header { padding: 16px 16px 8px; display: flex; justify-content: space-between; align-items: center; }
+  .section-header h2 { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+  .section-header a { font-size: 12px; color: #c0392b; text-decoration: none; font-weight: 500; }
+
+  /* For You banner */
+  .for-you-banner { margin: 8px 16px; background: linear-gradient(135deg, #c0392b, #e74c3c); border-radius: 16px; padding: 14px 16px; color: #fff; }
+  .for-you-banner .tag { background: rgba(255,255,255,0.25); font-size: 10px; padding: 3px 8px; border-radius: 20px; display: inline-block; margin-bottom: 6px; font-weight: 600; }
+  .for-you-banner h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .for-you-banner p { font-size: 12px; opacity: 0.9; margin-bottom: 10px; }
+  .for-you-banner .meta { display: flex; gap: 12px; font-size: 11px; opacity: 0.85; margin-bottom: 12px; }
+  .btn-white { background: #fff; color: #c0392b; border: none; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: transform .15s; }
+  .btn-white:hover { transform: scale(1.03); }
+
+  /* Horizontal scroll cards */
+  .cards-row { display: flex; gap: 12px; padding: 4px 16px 8px; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .cards-row::-webkit-scrollbar { display: none; }
+  .puja-card { min-width: 130px; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); scroll-snap-align: start; flex-shrink: 0; cursor: pointer; transition: transform .2s; }
+  .puja-card:hover { transform: translateY(-2px); }
+  .puja-card img { width: 100%; height: 80px; object-fit: cover; }
+  .puja-card-img { width: 100%; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+  .puja-card-body { padding: 8px; }
+  .puja-card-body h4 { font-size: 12px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+  .puja-card-body .temple { font-size: 10px; color: #888; margin-top: 2px; }
+  .puja-card-body .price { font-size: 12px; font-weight: 700; color: #c0392b; margin-top: 4px; }
+  .puja-card-body .social { font-size: 10px; color: #27ae60; margin-top: 2px; font-weight: 500; }
+  .card-bg-1 { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+  .card-bg-2 { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+  .card-bg-3 { background: linear-gradient(135deg, #d4fc79, #96e6a1); }
+  .card-bg-4 { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
+  .card-bg-5 { background: linear-gradient(135deg, #ffeaa7, #fab1a0); }
+
+  /* Social proof strip */
+  .social-strip { margin: 0 16px; background: #fff8e1; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-left: 3px solid #f39c12; }
+  .social-strip .faces { display: flex; }
+  .social-strip .face { width: 22px; height: 22px; border-radius: 50%; background: #c0392b; border: 2px solid #fff; margin-left: -6px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 700; }
+  .social-strip .face:first-child { margin-left: 0; }
+  .social-strip p { font-size: 11px; color: #6d4c41; font-weight: 500; }
+
+  /* Calendar strip */
+  .cal-strip { display: flex; gap: 8px; padding: 4px 16px 8px; overflow-x: auto; }
+  .cal-strip::-webkit-scrollbar { display: none; }
+  .cal-day { min-width: 52px; background: #fff; border-radius: 12px; padding: 8px 4px; text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,0.07); flex-shrink: 0; }
+  .cal-day.today { background: #c0392b; color: #fff; }
+  .cal-day .day-name { font-size: 10px; color: inherit; opacity: 0.7; text-transform: uppercase; }
+  .cal-day .day-num { font-size: 16px; font-weight: 700; }
+  .cal-day .event { width: 5px; height: 5px; background: #c0392b; border-radius: 50%; margin: 3px auto 0; }
+  .cal-day.today .event { background: #fff; }
+
+  /* WhatsApp section */
+  .wa-card { margin: 8px 16px; background: #25d366; border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+  .wa-icon { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .wa-text h4 { color: #fff; font-size: 14px; font-weight: 600; }
+  .wa-text p { color: rgba(255,255,255,0.85); font-size: 11px; margin-top: 2px; }
+
+  /* Bottom nav */
+  .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; display: flex; padding: 8px 0 20px; box-shadow: 0 -2px 15px rgba(0,0,0,0.08); }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 4px 0; transition: all .2s; }
+  .nav-item .nav-icon { font-size: 20px; }
+  .nav-item .nav-label { font-size: 10px; color: #aaa; font-weight: 500; }
+  .nav-item.active .nav-label { color: #c0392b; font-weight: 600; }
+  .nav-item.active .nav-icon { filter: drop-shadow(0 0 4px rgba(192,57,43,0.4)); }
+
+  /* VIDEO FEED */
+  .video-feed { flex: 1; background: #000; overflow: hidden; position: relative; }
+  .video-item { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; position: relative; padding: 16px; background: linear-gradient(to top, rgba(0,0,0,0.85) 40%, transparent 80%); }
+  .video-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 100px; opacity: 0.15; z-index: 0; }
+  .video-bg-img { position: absolute; inset: 0; background: linear-gradient(135deg, #2c3e50, #8e44ad); opacity: 0.6; }
+  .video-content { position: relative; z-index: 1; }
+  .video-side { position: absolute; right: 12px; bottom: 80px; display: flex; flex-direction: column; gap: 20px; z-index: 2; align-items: center; }
+  .video-action { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+  .video-action .va-icon { font-size: 26px; color: #fff; }
+  .video-action span { font-size: 11px; color: #fff; font-weight: 500; }
+  .video-title { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .video-sub { color: rgba(255,255,255,0.8); font-size: 12px; margin-bottom: 10px; }
+  .video-cta { background: #c0392b; color: #fff; border: none; padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-block; }
+  .video-tabs { display: flex; padding: 6px 12px; gap: 4px; background: #000; overflow-x: auto; }
+  .video-tabs::-webkit-scrollbar { display: none; }
+  .vtab { color: rgba(255,255,255,0.5); font-size: 12px; padding: 4px 10px; cursor: pointer; border-radius: 20px; white-space: nowrap; transition: all .2s; }
+  .vtab.active { background: #c0392b; color: #fff; font-weight: 600; }
+  .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 2; cursor: pointer; }
+
+  /* BOOKING FLOW */
+  .booking-header { background: #c0392b; padding: 40px 16px 20px; color: #fff; }
+  .booking-header h2 { font-size: 18px; font-weight: 700; }
+  .booking-header .back { font-size: 20px; cursor: pointer; margin-bottom: 8px; display: block; }
+  .booking-content { padding: 16px; flex: 1; overflow-y: auto; }
+  .booking-content::-webkit-scrollbar { display: none; }
+  .trust-row { display: flex; gap: 8px; margin-bottom: 16px; }
+  .trust-badge { flex: 1; background: #fff; border-radius: 10px; padding: 10px 8px; text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+  .trust-badge .tb-icon { font-size: 20px; margin-bottom: 4px; }
+  .trust-badge p { font-size: 10px; color: #555; font-weight: 500; }
+  .pkg-card { background: #fff; border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 2px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; transition: all .2s; }
+  .pkg-card:hover, .pkg-card.selected { border-color: #c0392b; background: #fdf2f0; }
+  .pkg-card .pkg-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .pkg-card h4 { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+  .pkg-card .price-tag { font-size: 16px; font-weight: 700; color: #c0392b; }
+  .pkg-card p { font-size: 12px; color: #777; margin-top: 4px; }
+  .popular-tag { background: #e8f5e9; color: #27ae60; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; display: inline-block; margin-top: 4px; }
+  .gotra-box { background: #fff3cd; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; border-left: 4px solid #f39c12; }
+  .gotra-box h4 { font-size: 13px; font-weight: 600; color: #6d4c41; margin-bottom: 4px; }
+  .gotra-box p { font-size: 11px; color: #6d4c41; }
+  .gotra-box input { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 8px 10px; font-size: 13px; margin-top: 8px; outline: none; }
+  .book-btn { width: calc(100% - 32px); margin: 12px 16px; background: #c0392b; color: #fff; border: none; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; }
+  .book-btn:hover { background: #a93226; }
+  .urgency-strip { background: #fff3cd; border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .urgency-strip .uicon { font-size: 16px; }
+  .urgency-strip p { font-size: 11px; color: #6d4c41; font-weight: 500; }
+  .timer { font-weight: 700; color: #c0392b; }
+
+  /* WHATSAPP screen */
+  .wa-screen { background: #ece5dd; flex: 1; display: flex; flex-direction: column; }
+  .wa-header { background: #075e54; padding: 10px 16px 10px; display: flex; align-items: center; gap: 10px; padding-top: 38px; }
+  .wa-avatar { width: 36px; height: 36px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .wa-header-info h4 { color: #fff; font-size: 14px; font-weight: 600; }
+  .wa-header-info p { color: rgba(255,255,255,0.7); font-size: 11px; }
+  .wa-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+  .wa-messages::-webkit-scrollbar { display: none; }
+  .wa-msg { max-width: 78%; padding: 8px 12px; border-radius: 12px; font-size: 12px; line-height: 1.5; position: relative; }
+  .wa-msg.incoming { background: #fff; border-radius: 0 12px 12px 12px; align-self: flex-start; color: #1a1a1a; }
+  .wa-msg.outgoing { background: #dcf8c6; border-radius: 12px 0 12px 12px; align-self: flex-end; color: #1a1a1a; }
+  .wa-msg .msg-time { font-size: 10px; color: #aaa; margin-top: 4px; text-align: right; }
+  .wa-video-msg { background: #1a1a1a; border-radius: 10px; margin: 6px 0; padding: 6px; display: flex; align-items: center; gap: 8px; }
+  .wa-video-msg .vthumb { width: 60px; height: 60px; background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .wa-video-msg .vinfo h5 { color: #fff; font-size: 11px; font-weight: 600; }
+  .wa-video-msg .vinfo p { color: #aaa; font-size: 10px; }
+  .wa-action-btns { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+  .wa-btn { background: #25d366; color: #fff; border: none; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; width: 100%; text-align: left; }
+  .wa-btn.secondary { background: transparent; border: 1px solid #25d366; color: #075e54; }
+  .wa-input-bar { background: #f0f0f0; padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #ddd; }
+  .wa-input { flex: 1; background: #fff; border-radius: 20px; padding: 8px 14px; font-size: 12px; border: none; outline: none; }
+  .wa-send { background: #25d366; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; border: none; cursor: pointer; flex-shrink: 0; }
+
+  /* SPIRITUAL CALENDAR */
+  .cal-header { background: #c0392b; padding: 40px 16px 20px; color: #fff; }
+  .cal-header h2 { font-size: 18px; font-weight: 700; }
+  .cal-header p { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+  .month-grid { background: #fff; margin: 12px 16px; border-radius: 14px; padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .month-grid .month-title { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; display: flex; justify-content: space-between; }
+  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .day-header { text-align: center; font-size: 10px; color: #aaa; font-weight: 600; padding: 4px 0; text-transform: uppercase; }
+  .grid-day { text-align: center; font-size: 12px; padding: 6px 2px; border-radius: 8px; cursor: pointer; position: relative; }
+  .grid-day:hover { background: #fdf2f0; }
+  .grid-day.today { background: #c0392b; color: #fff; font-weight: 700; border-radius: 50%; }
+  .grid-day.has-event { font-weight: 600; color: #c0392b; }
+  .grid-day.has-event::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #c0392b; border-radius: 50%; }
+  .grid-day.today::after { background: #fff; }
+  .event-list { padding: 0 16px; }
+  .event-item { background: #fff; border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; display: flex; gap: 12px; align-items: center; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  .event-date { width: 40px; text-align: center; flex-shrink: 0; }
+  .event-date .eday { font-size: 20px; font-weight: 700; color: #c0392b; line-height: 1; }
+  .event-date .emon { font-size: 10px; color: #999; text-transform: uppercase; }
+  .event-info h4 { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .event-info p { font-size: 11px; color: #888; margin-top: 2px; }
+  .event-info .remind-btn { background: #fdf2f0; color: #c0392b; border: none; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px; cursor: pointer; margin-top: 6px; }
+
+  /* RECOMMENDATION MODAL */
+  .modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: flex-end; }
+  .modal-sheet { background: #fff; border-radius: 24px 24px 0 0; width: 100%; padding: 20px; max-height: 70%; overflow-y: auto; }
+  .modal-sheet::-webkit-scrollbar { display: none; }
+  .modal-handle { width: 40px; height: 4px; background: #ddd; border-radius: 2px; margin: 0 auto 16px; }
+  .modal-sheet h3 { font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+  .modal-sheet .subtitle { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .form-field { margin-bottom: 12px; }
+  .form-field label { font-size: 12px; font-weight: 600; color: #555; display: block; margin-bottom: 4px; }
+  .form-field input, .form-field select { width: 100%; border: 1px solid #e0e0e0; border-radius: 10px; padding: 10px 12px; font-size: 13px; outline: none; color: #1a1a1a; background: #fafafa; }
+  .form-field input:focus, .form-field select:focus { border-color: #c0392b; background: #fff; }
+  .modal-hint { background: #e8f5e9; border-radius: 8px; padding: 8px 10px; font-size: 11px; color: #2e7d32; margin-bottom: 16px; display: flex; gap: 6px; }
+  .save-btn { width: 100%; background: #c0392b; color: #fff; border: none; padding: 13px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .skip-link { text-align: center; color: #aaa; font-size: 12px; margin-top: 10px; cursor: pointer; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <!-- SIDEBAR NAV -->
+  <div class="sidebar">
+    <h3>🛕 Sri Mandir Prototype</h3>
+    <button class="nav-btn active" onclick="showScreen('home')" id="btn-home"><span class="icon">🏠</span> Home / Puja Feed</button>
+    <button class="nav-btn" onclick="showScreen('recommendation')" id="btn-recommendation"><span class="icon">✨</span> Puja Recommendations</button>
+    <button class="nav-btn" onclick="showScreen('video')" id="btn-video"><span class="icon">🎥</span> Video Feed</button>
+    <button class="nav-btn" onclick="showScreen('booking')" id="btn-booking"><span class="icon">📿</span> Puja Booking Flow</button>
+    <button class="nav-btn" onclick="showScreen('whatsapp')" id="btn-whatsapp"><span class="icon">💬</span> WhatsApp Integration</button>
+    <button class="nav-btn" onclick="showScreen('calendar')" id="btn-calendar"><span class="icon">📅</span> Spiritual Calendar</button>
+    <br>
+    <div style="padding: 0 16px; font-size: 11px; color: #666; line-height: 1.5;">
+      <strong style="color: #e8625a;">Features shown:</strong><br>
+      · For You carousel (personalised)<br>
+      · Cold-start recommendations<br>
+      · Video feed with booking CTA<br>
+      · WhatsApp booking & education<br>
+      · Spiritual calendar & reminders<br>
+      · Gotra-aware booking flow<br>
+      · Social proof signals<br>
+      · Urgency timers
+    </div>
+  </div>
+
+  <!-- PHONE -->
+  <div class="phone">
+    <div class="notch"></div>
+
+    <!-- ═══════════════ HOME SCREEN ═══════════════ -->
+    <div class="app-screen active" id="screen-home">
+      <div class="status-bar"><span class="status-time">10:30</span><span class="status-icons">▶▶ 📶 🔋</span></div>
+      <div class="app-header">
+        <div>
+          <h1>🛕 Sri Mandir</h1>
+          <div class="location">📍 Bengaluru, Karnataka <span>▼</span></div>
+        </div>
+        <span class="bell" onclick="showScreen('whatsapp')">🔔</span>
+      </div>
+
+      <div class="scroll-area">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Search temples, events, pujas…">
+        </div>
+
+        <!-- WhatsApp CTA -->
+        <div class="wa-card" onclick="showScreen('whatsapp')">
+          <div class="wa-icon">💬</div>
+          <div class="wa-text">
+            <h4>Book pujas on WhatsApp</h4>
+            <p>No app needed — just send a message</p>
+          </div>
+          <span style="color:rgba(255,255,255,0.7); margin-left:auto;">›</span>
+        </div>
+
+        <!-- Social proof -->
+        <div class="social-strip" style="margin-top:10px;">
+          <div class="faces">
+            <div class="face">A</div><div class="face">R</div><div class="face">S</div><div class="face">+</div>
+          </div>
+          <p><strong>1,247 devotees</strong> booked a puja this week in Bengaluru</p>
+        </div>
+
+        <!-- FOR YOU (personalised) -->
+        <div class="section-header"><h2>✨ For You</h2><a href="#" onclick="showScreen('recommendation')">See all</a></div>
+        <div class="for-you-banner" onclick="showScreen('booking')">
+          <div class="tag">🎂 BASED ON YOUR BIRTHDAY</div>
+          <h3>Ayushya Homa — Your Special Day</h3>
+          <div class="meta">
+            <span>🕌 ISKCON Bengaluru</span>
+            <span>📅 April 2</span>
+          </div>
+          <p>"Performed on your birthday for health, longevity & blessings for the year ahead"</p>
+          <button class="btn-white">Book Now — ₹1,100</button>
+        </div>
+
+        <!-- Trending pujas -->
+        <div class="section-header"><h2>🔥 Trending in Bengaluru</h2><a href="#">All</a></div>
+        <div class="cards-row">
+          <div class="puja-card" onclick="showScreen('booking')">
+            <div class="puja-card-img card-bg-1">🪔</div>
+            <div class="puja-card-body">
+              <h4>Lakshmi Puja</h4>
+              <div class="temple">ISKCON Temple</div>
+              <div class="social">👥 342 booked this week</div>
+              <div class="price">₹851</div>
+            </div>
+          </div>
+          <div class="puja-card" onclick="showScreen('booking')">
+            <div class="puja-card-img card-bg-2">🐘</div>
+            <div class="puja-card-body">
+              <h4>Ganesh Puja</h4>
+              <div class="temple">Sri Gavi Gangadhar</div>
+              <div class="social">👥 218 booked</div>
+              <div class="price">₹1,251</div>
+            </div>
+          </div>
+          <div class="puja-card" onclick="showScreen('booking')">
+            <div class="puja-card-img card-bg-3">⭐</div>
+            <div class="puja-card-body">
+              <h4>Navgraha Shanti</h4>
+              <div class="temple">Dodda Ganapati</div>
+              <div class="social">👥 189 booked</div>
+              <div class="price">₹2,100</div>
+            </div>
+          </div>
+          <div class="puja-card" onclick="showScreen('booking')">
+            <div class="puja-card-img card-bg-4">🌸</div>
+            <div class="puja-card-body">
+              <h4>Satyanarayana Puja</h4>
+              <div class="temple">Venkateswara</div>
+              <div class="social">👥 96 booked</div>
+              <div class="price">₹3,500</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar strip -->
+        <div class="section-header"><h2>📅 Upcoming Occasions</h2><a href="#" onclick="showScreen('calendar')">View calendar</a></div>
+        <div class="cal-strip">
+          <div class="cal-day"><div class="day-name">Mon</div><div class="day-num">28</div></div>
+          <div class="cal-day"><div class="day-name">Tue</div><div class="day-num">29</div></div>
+          <div class="cal-day today"><div class="day-name">Wed</div><div class="day-num">30</div><div class="event"></div></div>
+          <div class="cal-day" style="border:2px solid #c0392b;"><div class="day-name">Thu</div><div class="day-num">31</div><div class="event"></div></div>
+          <div class="cal-day"><div class="day-name">Fri</div><div class="day-num">1</div></div>
+          <div class="cal-day" style="border:2px solid #c0392b;"><div class="day-name">Sat</div><div class="day-num">2</div><div class="event"></div></div>
+          <div class="cal-day"><div class="day-name">Sun</div><div class="day-num">3</div></div>
+        </div>
+        <div style="padding: 0 16px 8px; font-size: 11px; color: #888;">📍 Ekadashi — Apr 1  ·  🎂 Your Birthday — Apr 2</div>
+
+        <!-- Video teaser -->
+        <div class="section-header"><h2>🎥 Watch & Book</h2><a href="#" onclick="showScreen('video')">Watch all</a></div>
+        <div class="cards-row">
+          <div class="puja-card" onclick="showScreen('video')" style="min-width: 150px;">
+            <div class="puja-card-img" style="background:linear-gradient(135deg,#2c3e50,#8e44ad); font-size:28px;">🎬</div>
+            <div class="puja-card-body"><h4>Lakshmi Aarti Live</h4><div class="temple">▶️ 2:45 min · 1.8k views</div></div>
+          </div>
+          <div class="puja-card" onclick="showScreen('video')" style="min-width: 150px;">
+            <div class="puja-card-img" style="background:linear-gradient(135deg,#e74c3c,#c0392b); font-size:28px;">🎬</div>
+            <div class="puja-card-body"><h4>Ganesh Puja Full</h4><div class="temple">▶️ 4:12 min · 3.2k views</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Nav -->
+      <div class="bottom-nav">
+        <div class="nav-item active"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+        <div class="nav-item" onclick="showScreen('recommendation')"><span class="nav-icon">🙏</span><span class="nav-label">Puja</span></div>
+        <div class="nav-item" onclick="showScreen('video')"><span class="nav-icon">🎥</span><span class="nav-label">Videos</span></div>
+        <div class="nav-item" onclick="showScreen('calendar')"><span class="nav-icon">🎵</span><span class="nav-label">Music</span></div>
+        <div class="nav-item" onclick="showScreen('whatsapp')"><span class="nav-icon">💬</span><span class="nav-label">Chadhavs</span></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ RECOMMENDATION SCREEN ═══════════════ -->
+    <div class="app-screen" id="screen-recommendation">
+      <div class="status-bar"><span class="status-time">10:32</span><span class="status-icons">▶▶ 📶 🔋</span></div>
+      <div class="app-header">
+        <div>
+          <h1>✨ Puja for You</h1>
+          <div class="location">📍 Bengaluru, Karnataka</div>
+        </div>
+        <span class="bell">🔔</span>
+      </div>
+      <div class="scroll-area">
+        <!-- Personalised sections -->
+        <div class="for-you-banner" style="background: linear-gradient(135deg,#8e44ad,#c0392b); margin: 12px 16px;" onclick="showScreen('booking')">
+          <div class="tag">🎂 YOUR ANNIVERSARY IS IN 12 DAYS</div>
+          <h3>Satyanarayan Puja — For Couples</h3>
+          <div class="meta"><span>🕌 Sri Venkateswara</span><span>📅 April 11</span></div>
+          <p>Seek blessings for a harmonious, prosperous married life</p>
+          <button class="btn-white">Book — ₹3,500</button>
+        </div>
+
+        <div class="section-header"><h2>🪔 Pujas for Your Prosperity</h2><a href="#">See all</a></div>
+        <div class="cards-row">
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-1">🪔</div><div class="puja-card-body"><h4>Lakshmi Puja</h4><div class="temple">ISKCON Temple</div><div class="social">👥 342 booked</div><div class="price">₹851</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-5">💰</div><div class="puja-card-body"><h4>Kubera Puja</h4><div class="temple">Sri Gavi</div><div class="social">👥 98 booked</div><div class="price">₹1,500</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-2">✨</div><div class="puja-card-body"><h4>Vastu Shanti</h4><div class="temple">ISKCON</div><div class="social">👥 67 booked</div><div class="price">₹4,500</div></div></div>
+        </div>
+
+        <div class="section-header"><h2>🌟 Blessings on Important Dates</h2><a href="#">See all</a></div>
+        <div class="cards-row">
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-3">⭐</div><div class="puja-card-body"><h4>Navgraha Shanti</h4><div class="temple">Dodda Ganapati</div><div class="social">👥 189 booked</div><div class="price">₹2,100</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-4">🌸</div><div class="puja-card-body"><h4>Ayushya Homa</h4><div class="temple">Venkateswara</div><div class="social">👥 156 booked</div><div class="price">₹1,100</div></div></div>
+        </div>
+
+        <div class="section-header"><h2>👨‍👩‍👧 Puja for Your Family</h2><a href="#">See all</a></div>
+        <div class="cards-row">
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-1">🏠</div><div class="puja-card-body"><h4>Griha Pravesh</h4><div class="temple">ISKCON Temple</div><div class="social">👥 54 booked</div><div class="price">₹5,100</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-2">👶</div><div class="puja-card-body"><h4>Naamkaran Puja</h4><div class="temple">Sri Gavi</div><div class="social">👥 43 booked</div><div class="price">₹2,500</div></div></div>
+        </div>
+
+        <div class="section-header"><h2>📍 Nearby Top Picks</h2></div>
+        <div class="cards-row">
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-5">🐘</div><div class="puja-card-body"><h4>Ganesh Chaturthi Puja</h4><div class="temple">Dodda Ganapati</div><div class="social">👥 421 booked</div><div class="price">₹1,251</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-3">🙏</div><div class="puja-card-body"><h4>Rudrabhishek</h4><div class="temple">Venkateswara</div><div class="social">👥 87 booked</div><div class="price">₹1,800</div></div></div>
+        </div>
+      </div>
+
+      <!-- Personalisation modal -->
+      <div class="modal-overlay" id="pref-modal">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <h3>🙏 Personalise Your Puja Feed</h3>
+          <p class="subtitle">Help us find the most relevant pujas for you and your family</p>
+          <div class="modal-hint">✅ This information is only used to recommend relevant pujas and ritual reminders</div>
+          <div class="form-field"><label>Your Gotra</label><input type="text" placeholder="e.g., Bharadwaja, Kashyap, Atri…"></div>
+          <div class="form-field"><label>Date of Birth</label><input type="date" value="1990-04-02"></div>
+          <div class="form-field"><label>Marital Status</label><select><option>Married</option><option>Single</option><option>Prefer not to say</option></select></div>
+          <div class="form-field"><label>Anniversary Date (optional)</label><input type="date" value="2018-04-11"></div>
+          <div class="form-field"><label>Spouse's Birthday (optional)</label><input type="date"></div>
+          <button class="save-btn" onclick="closeModal()">Save & See My Puja Feed</button>
+          <div class="skip-link" onclick="closeModal()">Skip for now</div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showScreen('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+        <div class="nav-item active"><span class="nav-icon">🙏</span><span class="nav-label">Puja</span></div>
+        <div class="nav-item" onclick="showScreen('video')"><span class="nav-icon">🎥</span><span class="nav-label">Videos</span></div>
+        <div class="nav-item" onclick="showScreen('calendar')"><span class="nav-icon">🎵</span><span class="nav-label">Music</span></div>
+        <div class="nav-item" onclick="showScreen('whatsapp')"><span class="nav-icon">💬</span><span class="nav-label">Chadhavs</span></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VIDEO FEED ═══════════════ -->
+    <div class="app-screen" id="screen-video">
+      <div class="status-bar" style="background:#000;"><span class="status-time">10:35</span><span class="status-icons">▶▶ 📶 🔋</span></div>
+      <div class="video-tabs">
+        <div class="vtab active">Special</div>
+        <div class="vtab" onclick="this.parentNode.querySelectorAll('.vtab').forEach(e=>e.classList.remove('active')); this.classList.add('active')">Puja</div>
+        <div class="vtab" onclick="this.parentNode.querySelectorAll('.vtab').forEach(e=>e.classList.remove('active')); this.classList.add('active')">Music</div>
+        <div class="vtab" onclick="this.parentNode.querySelectorAll('.vtab').forEach(e=>e.classList.remove('active')); this.classList.add('active')">Chadhavs</div>
+        <div class="vtab" onclick="this.parentNode.querySelectorAll('.vtab').forEach(e=>e.classList.remove('active')); this.classList.add('active')">Videos</div>
+      </div>
+      <div class="video-feed">
+        <div class="video-bg-img"></div>
+        <div class="video-bg">🕉️</div>
+        <div class="play-btn">▶</div>
+        <div class="video-side">
+          <div class="video-action"><span class="va-icon">❤️</span><span>1.8k</span></div>
+          <div class="video-action"><span class="va-icon">💬</span><span>89</span></div>
+          <div class="video-action"><span class="va-icon">↗️</span><span>23</span></div>
+          <div class="video-action"><span class="va-icon">⋮</span></div>
+        </div>
+        <div class="video-content">
+          <div class="video-title">Libra Lakshmi Puja — Unlock Charm & Creativity</div>
+          <div class="video-sub">Elevate your Libra Energy… <span style="color:#aaa;">READ MORE</span></div>
+          <button class="video-cta" onclick="showScreen('booking')">Book Puja — ₹800 ›</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ BOOKING FLOW ═══════════════ -->
+    <div class="app-screen" id="screen-booking">
+      <div class="booking-header">
+        <span class="back" onclick="showScreen('home')">← Back</span>
+        <h2>🪔 Lakshmi Puja</h2>
+        <div style="font-size:12px; opacity:0.85; margin-top:4px;">📍 ISKCON Temple, Bengaluru</div>
+      </div>
+      <div class="booking-content">
+        <!-- Trust badges -->
+        <div class="trust-row">
+          <div class="trust-badge"><div class="tb-icon">✅</div><p>Verified Priests</p></div>
+          <div class="trust-badge"><div class="tb-icon">📦</div><p>Prasad Delivery</p></div>
+          <div class="trust-badge"><div class="tb-icon">🎥</div><p>Live Video</p></div>
+          <div class="trust-badge"><div class="tb-icon">🔒</div><p>Secure Payment</p></div>
+        </div>
+
+        <!-- Urgency -->
+        <div class="urgency-strip">
+          <span class="uicon">⏳</span>
+          <p>Navratri special ends in <span class="timer" id="timer">02:14:38</span> · <strong>342 devotees</strong> booked this week</p>
+        </div>
+
+        <!-- Gotra field -->
+        <div class="gotra-box">
+          <h4>🙏 Your Gotra</h4>
+          <p>Used to perform the puja correctly in your family lineage. This is confirmed with you before the ceremony.</p>
+          <input type="text" placeholder="Enter your Gotra (e.g., Kashyap)">
+        </div>
+
+        <!-- Packages -->
+        <div style="font-size:14px; font-weight:700; color:#1a1a1a; margin-bottom:8px;">Select Package</div>
+        <div class="pkg-card selected" onclick="selectPkg(this)">
+          <div class="pkg-top"><h4>🌟 Individual Puja</h4><span class="price-tag">₹851</span></div>
+          <p>Puja performed for you + prasad delivery + puja video</p>
+          <div><span class="popular-tag">✓ MOST POPULAR</span></div>
+        </div>
+        <div class="pkg-card" onclick="selectPkg(this)">
+          <div class="pkg-top"><h4>👨‍👩‍👧 Family Puja</h4><span class="price-tag">₹1,451</span></div>
+          <p>Puja for entire family + prasad for all + priority priest</p>
+        </div>
+        <div class="pkg-card" onclick="selectPkg(this)">
+          <div class="pkg-top"><h4>♻️ Monthly Subscription</h4><span class="price-tag">₹699/mo</span></div>
+          <p>Auto-booked monthly · Save 18% · Cancel anytime</p>
+          <div><span style="background:#e3f2fd; color:#1565c0; font-size:10px; padding:2px 8px; border-radius:10px; font-weight:600; display:inline-block; margin-top:4px;">BEST VALUE</span></div>
+        </div>
+      </div>
+      <button class="book-btn" onclick="showSuccess()">Proceed to Pay — ₹851</button>
+    </div>
+
+    <!-- ═══════════════ WHATSAPP SCREEN ═══════════════ -->
+    <div class="app-screen" id="screen-whatsapp">
+      <div class="wa-header">
+        <div class="wa-avatar">🛕</div>
+        <div class="wa-header-info">
+          <h4>Sri Mandir Official ✓</h4>
+          <p>Online · Your spiritual companion</p>
+        </div>
+        <span style="color:rgba(255,255,255,0.7); margin-left:auto; font-size:20px;">⋮</span>
+      </div>
+      <div class="wa-messages">
+        <div class="wa-msg incoming">
+          🙏 <strong>Welcome to Sri Mandir!</strong><br><br>
+          Performing a sacred Puja from your home is now simple and guided.<br><br>
+          Here's what you can do through the app:<br>
+          📿 Book personalised Pujas at renowned temples<br>
+          📺 Watch rituals live from the mandir<br>
+          🎁 Get Prasad delivered at home<br>
+          🔔 Receive WhatsApp updates and reminders<br>
+          📋 View booking details anytime<br><br>
+          No confusion, no hassle — just devotion made easy. 🙏
+          <div class="msg-time">10:30 AM</div>
+        </div>
+
+        <div class="wa-msg incoming">
+          <div class="wa-video-msg">
+            <div class="vthumb">🪔</div>
+            <div class="vinfo">
+              <h5>Lakshmi Puja — Book Your Spot Now</h5>
+              <p>2:45 min · Tap to watch</p>
+            </div>
+          </div>
+          🔴 <strong>Lakshmi Puja — Book Your Spot Now!</strong><br><br>
+          Dear Devotee,<br>
+          Join us in a sacred Lakshmi Puja to invite wealth, peace, and prosperity into your home. 🪔<br><br>
+          📅 Date: 27 April<br>
+          ⏰ Time: 10:30 AM<br>
+          📍 Location: Vaishakha Amavasya
+          <div class="wa-action-btns">
+            <button class="wa-btn" onclick="showScreen('booking')">📿 Book Online Puja</button>
+          </div>
+          <div class="msg-time">10:31 AM</div>
+        </div>
+
+        <div class="wa-msg outgoing">
+          Book Online Puja
+          <div class="msg-time">10:31 AM ✓✓</div>
+        </div>
+
+        <div class="wa-msg incoming">
+          Great! Please select your package:<br><br>
+          <div class="wa-action-btns">
+            <button class="wa-btn">👤 Individual — ₹851</button>
+            <button class="wa-btn secondary">👨‍👩‍👧 Family — ₹1,451</button>
+            <button class="wa-btn secondary">♻️ Monthly — ₹699/mo</button>
+          </div>
+          <div class="msg-time">10:31 AM</div>
+        </div>
+
+        <div class="wa-msg outgoing">
+          Individual package is selected ✓
+          <div class="msg-time">10:32 AM ✓✓</div>
+        </div>
+
+        <div class="wa-msg incoming">
+          ✅ <strong>Your puja is confirmed!</strong><br><br>
+          🪔 Lakshmi Puja<br>
+          📍 ISKCON Bengaluru<br>
+          📅 27 April, 10:30 AM<br>
+          💰 ₹851 paid<br><br>
+          🎁 Prasad will be delivered in 5–7 days.<br>
+          📺 You'll receive the live puja link 1 hour before the start.
+          <div class="msg-time">10:33 AM</div>
+        </div>
+      </div>
+      <div class="wa-input-bar">
+        <input class="wa-input" type="text" placeholder="Type a message…">
+        <button class="wa-send">➤</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════ SPIRITUAL CALENDAR ═══════════════ -->
+    <div class="app-screen" id="screen-calendar">
+      <div class="cal-header">
+        <h2>📅 Your Spiritual Calendar</h2>
+        <p>Personal dates + Hindu auspicious calendar</p>
+      </div>
+      <div class="scroll-area">
+        <div class="month-grid">
+          <div class="month-title"><span>April 2026</span><span style="font-size:16px; cursor:pointer;">‹ ›</span></div>
+          <div class="day-grid">
+            <div class="day-header">Su</div><div class="day-header">Mo</div><div class="day-header">Tu</div><div class="day-header">We</div><div class="day-header">Th</div><div class="day-header">Fr</div><div class="day-header">Sa</div>
+            <div class="grid-day"></div><div class="grid-day"></div><div class="grid-day">1</div><div class="grid-day has-event">2</div><div class="grid-day">3</div><div class="grid-day">4</div><div class="grid-day">5</div>
+            <div class="grid-day has-event">6</div><div class="grid-day">7</div><div class="grid-day">8</div><div class="grid-day">9</div><div class="grid-day has-event">10</div><div class="grid-day has-event">11</div><div class="grid-day">12</div>
+            <div class="grid-day">13</div><div class="grid-day has-event">14</div><div class="grid-day">15</div><div class="grid-day">16</div><div class="grid-day">17</div><div class="grid-day">18</div><div class="grid-day">19</div>
+            <div class="grid-day">20</div><div class="grid-day">21</div><div class="grid-day">22</div><div class="grid-day">23</div><div class="grid-day">24</div><div class="grid-day">25</div><div class="grid-day has-event">26</div>
+            <div class="grid-day today">27</div><div class="grid-day">28</div><div class="grid-day">29</div><div class="grid-day">30</div>
+          </div>
+        </div>
+
+        <div class="section-header" style="padding-top:4px;"><h2>🗓 Upcoming Events</h2></div>
+        <div class="event-list">
+          <div class="event-item" style="border-left:3px solid #c0392b;">
+            <div class="event-date"><div class="eday">2</div><div class="emon">Apr</div></div>
+            <div class="event-info">
+              <h4>🎂 Your Birthday</h4>
+              <p>Personal · Ayushya Homa recommended</p>
+              <button class="remind-btn" onclick="showScreen('booking')">📿 Book Puja →</button>
+            </div>
+          </div>
+          <div class="event-item" style="border-left:3px solid #8e44ad;">
+            <div class="event-date"><div class="eday">6</div><div class="emon">Apr</div></div>
+            <div class="event-info">
+              <h4>🌙 Ekadashi Fast</h4>
+              <p>Hindu Calendar · Vishnu Puja recommended</p>
+              <button class="remind-btn" onclick="showScreen('booking')">Set Reminder</button>
+            </div>
+          </div>
+          <div class="event-item" style="border-left:3px solid #e67e22;">
+            <div class="event-date"><div class="eday">11</div><div class="emon">Apr</div></div>
+            <div class="event-info">
+              <h4>💑 Wedding Anniversary</h4>
+              <p>Personal · Satyanarayan Puja recommended</p>
+              <button class="remind-btn" onclick="showScreen('booking')">📿 Book Puja →</button>
+            </div>
+          </div>
+          <div class="event-item" style="border-left:3px solid #27ae60;">
+            <div class="event-date"><div class="eday">14</div><div class="emon">Apr</div></div>
+            <div class="event-info">
+              <h4>🌅 Baisakhi / Vishu</h4>
+              <p>Hindu Calendar · Regional festival</p>
+              <button class="remind-btn">Set Reminder</button>
+            </div>
+          </div>
+          <div class="event-item" style="border-left:3px solid #c0392b;">
+            <div class="event-date"><div class="eday">26</div><div class="emon">Apr</div></div>
+            <div class="event-info">
+              <h4>🪔 Vaishakha Purnima</h4>
+              <p>Auspicious · Lakshmi Puja recommended</p>
+              <button class="remind-btn" onclick="showScreen('booking')">📿 Book Puja →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showScreen('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+        <div class="nav-item" onclick="showScreen('recommendation')"><span class="nav-icon">🙏</span><span class="nav-label">Puja</span></div>
+        <div class="nav-item" onclick="showScreen('video')"><span class="nav-icon">🎥</span><span class="nav-label">Videos</span></div>
+        <div class="nav-item active"><span class="nav-icon">🎵</span><span class="nav-label">Music</span></div>
+        <div class="nav-item"><span class="nav-icon">💬</span><span class="nav-label">Chadhavs</span></div>
+      </div>
+    </div>
+
+  </div><!-- /phone -->
+</div><!-- /wrapper -->
+
+<!-- Success toast (overlay) -->
+<div id="success-toast" style="display:none; position:fixed; bottom:100px; left:50%; transform:translateX(-50%); background:#27ae60; color:#fff; padding:12px 24px; border-radius:30px; font-weight:600; font-size:14px; z-index:999; box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+  ✅ Puja Booked! Confirmation on WhatsApp.
+</div>
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  const btn = document.getElementById('btn-' + name);
+  if (btn) btn.classList.add('active');
+  if (name === 'recommendation') {
+    setTimeout(() => { document.getElementById('pref-modal').style.display = 'flex'; }, 800);
+  }
+}
+
+function closeModal() {
+  document.getElementById('pref-modal').style.display = 'none';
+}
+
+function selectPkg(el) {
+  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function showSuccess() {
+  const toast = document.getElementById('success-toast');
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; showScreen('whatsapp'); }, 2500);
+}
+
+// Countdown timer
+function updateTimer() {
+  const el = document.getElementById('timer');
+  if (!el) return;
+  let parts = el.textContent.split(':').map(Number);
+  let total = parts[0]*3600 + parts[1]*60 + parts[2] - 1;
+  if (total < 0) total = 9999;
+  const h = Math.floor(total/3600), m = Math.floor((total%3600)/60), s = total%60;
+  el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+setInterval(updateTimer, 1000);
+</script>
+</body>
+</html>
