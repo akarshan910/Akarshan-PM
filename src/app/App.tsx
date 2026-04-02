@@ -734,6 +734,148 @@ const CASES = [
       prototypeLink: "https://coin-move-54711900.figma.site",
     },
   },
+  {
+    id: 4,
+    theme: "teal",
+    vol: "VOL.04",
+    volJp: "",
+    co: "GLP Health",
+    title: "GLP-1 DIGITAL SCAFFOLD",
+    desc: "Repositioning a GLP app from activity tracker to outcome-driven metabolic platform for durable weight loss",
+    impact: "+2.5 kg lost by protocol followers",
+    tags: ["engagement", "personalization", "monetization"],
+    kpis: [
+      { v: "64%", l: "Users currently losing >1 kg — baseline to improve" },
+      { v: "2.5kg", l: "Additional loss for protocol followers vs non-followers" },
+      { v: "25%", l: "Fitness MAU — structural engagement gap to close" },
+    ],
+    content: {
+      opportunity:
+        "<strong>The Opportunity:</strong> GLP-1 medications have redefined what is clinically possible in weight loss — but real-world outcomes remain fragile. The gap is no longer pharmacology; it is <strong>behavioral persistence, expectation management, and metabolic protection</strong>. Today's GLP app is optimised for recording activity, not driving outcomes. Users can log weight, meals, fitness, and side effects — but the product does not help them interpret stalled progress, understand body recomposition, protect muscle mass, or stay adherent through plateaus and side effects. The next phase requires a strategic shift from tracking behaviour to <strong>owning outcomes</strong>.",
+      userChallenges: {
+        invisibleProgress:
+          "<strong>Progress Feels Invisible:</strong> Users anchor success entirely to scale weight. Data shows users who lose ≥1 kg show –2 cm waist reduction, while non-losers show +1 cm gain. Waist and body composition changes are real signals of progress — but they're invisible in the current product. Without visible progress signals beyond the scale, motivation collapses during natural weight plateaus.",
+        expectationMismatch:
+          "<strong>Expectation Mismatch With GLP-1:</strong> Users believe 'medication will do the work — I can eat freely.' The clinical reality: GLP-1 reduces appetite, not muscle loss risk. Without guided exercise, lean mass declines, RMR falls, and weight regain risk increases. The app does not currently reset these expectations early enough in the user journey.",
+        fitnessAvoidance:
+          "<strong>Fitness Avoidance Is a Structural Risk:</strong> Fitness MAU is ~25%, with most users completing only one session. Clinically, this creates sarcopenic obesity risk and unsustainable weight loss. Fitness is treated as optional when it is medically essential for metabolic protection.",
+        genderOutcomeGap:
+          "<strong>Gender-Based Outcome Gap:</strong> Men average 1.66 kg loss vs women at 1.26 kg. Testosterone supports muscle preservation; women require more intentional resistance training. A gender-blind fitness experience fails the majority of the user base. Fitness cannot be optional — especially for female users.",
+      },
+      whyNow:
+        "<strong>Why Now:</strong> Between 2022–2024, the GLP-1 market optimised for access — rapid prescriber onboarding, consumer-led demand, medication-first value propositions. By 2025–2026, structural shifts are forcing a reset: medication prices are falling, prescription access is commoditising, and GLP-only platforms are losing defensibility. <strong>Differentiation has moved downstream</strong> — from getting users on medication to ensuring outcomes persist. The next category leader will sell metabolic integrity, not just weight loss. Platforms that remain logging-centric will struggle. Platforms that own outcomes, expectations, and persistence will define the category.",
+      competitiveGap: {
+        overview:
+          "<strong>What Winning Products Do Differently:</strong> Across Noom, Omada, Found, and HealthifyMe, a consistent pattern emerges: medication enables weight loss, but engagement architecture determines durability. High-performing weight-loss platforms converge on three principles that the current product does not deliver.",
+        benchmark: {
+          outcomeVisibility: { principle: "Outcome visibility beats activity logging", finding: "Users need interpretation, not raw data. Progress signals must go beyond scale weight." },
+          humanDigital: { principle: "Human + digital hybrids outperform pure automation", finding: "Coaching access materially improves adherence and persistence. Current ~80% M2 chat usage is an underutilised asset." },
+          musclePreservation: { principle: "Muscle preservation is the new moat", finding: "Fast weight loss without muscle protection leads to metabolic slowdown and rebound. No competitor owns this positioning yet." },
+        },
+        insight:
+          "The current product has strong foundational tracking primitives and high coach engagement. The gap is in connecting these assets to a unified outcome narrative — making protocol adherence visible, actionable, and clinically reinforced.",
+      },
+      rootCauseAnalysis: [
+        {
+          cause: "Biological Friction",
+          evidence: "Nausea, GI distress, and fatigue in early weeks create unmanaged dropout signals. No structured side-effect monitoring or rapid escalation path to coaches/doctors.",
+          impact: "Early dropout — 50–70% discontinuation within 12 months, with highest drop in first 90 days.",
+        },
+        {
+          cause: "Psychological Friction",
+          evidence: "Food identity shifts, stigma, and confusion about what medication 'should' be doing. App does not reset GLP-1 expectations or reframe progress beyond weight.",
+          impact: "Loss of confidence — users interpret lack of scale movement as product/medication failure rather than normal recomposition.",
+        },
+        {
+          cause: "Metric Friction",
+          evidence: "Scale plateaus despite active fat loss and waist reduction. Body composition and non-scale victories are invisible. Progress is perceived as binary: weight down = success, else failure.",
+          impact: "Motivation collapse — users disengage from the app and discontinue medication during natural progress plateaus.",
+        },
+        {
+          cause: "No Protocol Visibility",
+          evidence: "Protocol followers lose ~2.5 kg more. Weight-loss cohort logs 2× more meals and connects ~30% more with doctors. But adherence is implicit — not surfaced or reinforced in the product.",
+          impact: "Missed activation — users who would benefit most from protocol guidance receive no signal that their behaviours are causal.",
+        },
+      ],
+      keyFeatures: [
+        {
+          title: "Pillar 1: Progress Visibility Beyond the Scale",
+          desc: "Smart scale integration (where available), waist and measurement trends surfaced prominently, full-body scan to visualise recomposition, and explicit plateau education. Progress is no longer binary.",
+        },
+        {
+          title: "Pillar 2: Muscle Preservation & Fitness as Core Outcome",
+          desc: "Resistance-first fitness programs, proactive 1:1 fitness consultations, clear framing of fitness = metabolic protection, and gender-aware guidance. Fitness becomes essential, not optional.",
+        },
+        {
+          title: "Pillar 3: Clinical Adherence & Side-Effect Triage",
+          desc: "Structured side-effect monitoring, rapid escalation to coach/doctor, dosage expectation education, and early-week intervention loops. Side-effect resolution builds trust and reduces dropout.",
+        },
+        {
+          title: "Pillar 4: Protocol-Driven Experience",
+          desc: "Clear weekly protocol with visible adherence signals and outcome-based milestones (not task completion). Transforms the app from a passive logger to an active guide.",
+        },
+      ],
+      strategicInitiatives: [
+        {
+          title: "Primary Engagement Loop",
+          timing: "Core",
+          approach: "Progress clarity → confidence → adherence → outcomes. Every product surface reinforces that visible signals (waist, composition, energy) compound into durable metabolic change.",
+        },
+        {
+          title: "Human Accountability Loop",
+          timing: "Retention",
+          approach: "Leverage the existing ~80% M2 coach chat usage as a structured check-in cadence, not reactive support. Proactive coach touchpoints at risk moments (plateau weeks, side-effect spikes).",
+        },
+        {
+          title: "Visual Reinforcement Loop",
+          timing: "Engagement",
+          approach: "Body scans, composition change visualisations, and waist trend charts shown contextually — not just in a data tab. Progress is surfaced where users are already looking.",
+        },
+        {
+          title: "Safety Loop",
+          timing: "Trust",
+          approach: "Side-effect resolution workflows that proactively surface guidance and escalation options. Trust is built through managed adversity, not avoided friction.",
+        },
+      ],
+      metrics: [
+        {
+          category: "Outcome Improvement",
+          items: [
+            "Users losing >1 kg: 64% baseline → 75% target",
+            "Average weight loss vs protocol followers gap: close from 2.5 kg to <1 kg",
+            "Non-scale victory visibility: waist tracking adoption >50%",
+          ],
+        },
+        {
+          category: "Fitness & Muscle Protection",
+          items: [
+            "Fitness MAU: ~25% baseline → 45% target",
+            "Users completing ≥3 resistance sessions/week: <5% baseline → 20% target",
+            "Female fitness engagement parity within 6 months",
+          ],
+        },
+        {
+          category: "Adherence & Retention",
+          items: [
+            "12-month retention: 30–50% baseline → 55% target",
+            "First-90-day dropout: reduce by 30%",
+            "Coach escalation within 48hr of side-effect log: >80%",
+          ],
+        },
+      ],
+      tags: [
+        "GLP-1",
+        "Metabolic Health",
+        "Digital Health",
+        "Engagement Architecture",
+        "Muscle Preservation",
+        "Retention",
+        "Behavioral Design",
+        "Clinical Adherence",
+        "Market Strategy",
+      ],
+    },
+  },
   //  {
   //   id: 3,
   //   theme: "blue",
@@ -2268,24 +2410,24 @@ export default function App() {
                         )}
                         {modalCase.content.competitiveGap && (
                           <div>
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: modalCase.content.competitiveGap.overview,
-                              }}
-                            />
-                            <h5>Benchmark</h5>
-                            <ul>
+                            <div dangerouslySetInnerHTML={{ __html: modalCase.content.competitiveGap.overview }} />
+                            <div className="bench-wrap">
                               {Object.entries(modalCase.content.competitiveGap.benchmark).map(
                                 ([k, v]: any) => (
-                                  <li key={k}>
-                                    <strong>{k}:</strong> {Object.entries(v)
-                                      .map(([field, value]) => `${field}: ${value}`)
-                                      .join(" · ")}
-                                  </li>
+                                  <div className="bench-row" key={k}>
+                                    <div className="bc-label">{k.replace(/([A-Z])/g, ' $1').replace(/^./, (s: string) => s.toUpperCase())}</div>
+                                    <div className="bc-vals">
+                                      {Object.entries(v).map(([field, value]: any) => (
+                                        <span className="bc-val" key={field}>
+                                          <span>{field}</span>{value}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  </div>
                                 ),
                               )}
-                            </ul>
-                            <p>{modalCase.content.competitiveGap.insight}</p>
+                            </div>
+                            <div className="ch-body" style={{ marginTop: 12 }}><p>{modalCase.content.competitiveGap.insight}</p></div>
                           </div>
                         )}
                       </div>
@@ -2297,16 +2439,14 @@ export default function App() {
                           <span className="ch-n" style={{ color: ac }}>02</span>
                           <span className="ch-t">User Challenges</span>
                         </div>
-                        <div className="ch-body">
-                          <ul>
-                            {Object.entries(modalCase.content.userChallenges).map(
-                              ([name, desc]: any, idx) => (
-                                <li key={idx}>
-                                  <strong>{name.replace(/([A-Z])/g, ' $1')}:</strong> <span dangerouslySetInnerHTML={{ __html: desc }} />
-                                </li>
-                              ),
-                            )}
-                          </ul>
+                        <div className="ch-cards">
+                          {Object.entries(modalCase.content.userChallenges).map(
+                            ([, desc]: any, idx) => (
+                              <div className="ch-card" key={idx}>
+                                <div className="cc-body" dangerouslySetInnerHTML={{ __html: desc }} />
+                              </div>
+                            ),
+                          )}
                         </div>
                       </div>
                     )}
@@ -2322,13 +2462,19 @@ export default function App() {
                             <div dangerouslySetInnerHTML={{ __html: modalCase.content.whyNow }} />
                           )}
                           {modalCase.content.rootCauseAnalysis && (
-                            <ul>
+                            <div className="rca-stack">
                               {modalCase.content.rootCauseAnalysis.map((item: any, idx: number) => (
-                                <li key={idx}>
-                                  <strong>{item.cause}:</strong> {item.evidence} (Impact: {item.impact})
-                                </li>
+                                <div className="rca-card" key={idx}>
+                                  <div className="rca-left">
+                                    <div className="rc-cause">{item.cause}</div>
+                                    <div className="rc-impact">{item.impact}</div>
+                                  </div>
+                                  <div className="rca-right">
+                                    <div className="rc-ev">{item.evidence}</div>
+                                  </div>
+                                </div>
                               ))}
-                            </ul>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -2340,14 +2486,15 @@ export default function App() {
                           <span className="ch-n" style={{ color: ac }}>04</span>
                           <span className="ch-t">Strategy</span>
                         </div>
-                        <div className="ch-body">
-                          <ul>
-                            {modalCase.content.strategicDvisions.map((item: any, idx: number) => (
-                              <li key={idx}>
-                                <strong>{item.name}:</strong> {item.detail}
-                              </li>
-                            ))}
-                          </ul>
+                        <div className="init-stack">
+                          {modalCase.content.strategicDvisions.map((item: any, idx: number) => (
+                            <div className="init-card" key={idx}>
+                              <div className="ic-body">
+                                <div className="ic-title">{item.name}</div>
+                                <div className="ic-approach">{item.detail}</div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -2358,14 +2505,16 @@ export default function App() {
                           <span className="ch-n" style={{ color: ac }}>04</span>
                           <span className="ch-t">Strategic Initiatives</span>
                         </div>
-                        <div className="ch-body">
-                          <ul>
-                            {modalCase.content.strategicInitiatives.map((item: any, idx: number) => (
-                              <li key={idx}>
-                                <strong>{item.title} ({item.timing})</strong>: {item.approach}
-                              </li>
-                            ))}
-                          </ul>
+                        <div className="init-stack">
+                          {modalCase.content.strategicInitiatives.map((item: any, idx: number) => (
+                            <div className="init-card" key={idx}>
+                              {item.timing && <div className="ic-tag">{item.timing}</div>}
+                              <div className="ic-body">
+                                <div className="ic-title">{item.title}</div>
+                                <div className="ic-approach">{item.approach}</div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -2376,14 +2525,13 @@ export default function App() {
                           <span className="ch-n" style={{ color: ac }}>05</span>
                           <span className="ch-t">Key Features</span>
                         </div>
-                        <div className="ch-body">
-                          <ul>
-                            {modalCase.content.keyFeatures.map((item: any, idx: number) => (
-                              <li key={idx}>
-                                <strong>{item.title}:</strong> {item.desc}
-                              </li>
-                            ))}
-                          </ul>
+                        <div className="feat-grid">
+                          {modalCase.content.keyFeatures.map((item: any, idx: number) => (
+                            <div className="feat-card" key={idx}>
+                              <div className="fc-title">{item.title}</div>
+                              <div className="fc-desc">{item.desc}</div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -2412,15 +2560,15 @@ export default function App() {
                           <span className="ch-n" style={{ color: ac }}>07</span>
                           <span className="ch-t">Metrics</span>
                         </div>
-                        <div className="ch-body">
+                        <div className="met-section">
                           {modalCase.content.metrics.map((group: any, idx: number) => (
                             <div key={idx}>
-                              <strong>{group.category}</strong>
-                              <ul>
+                              <div className="mg-cat">{group.category}</div>
+                              <div className="mg-rows">
                                 {group.items.map((item: string, j: number) => (
-                                  <li key={j}>{item}</li>
+                                  <div className="mg-row" key={j}>{item}</div>
                                 ))}
-                              </ul>
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -2433,14 +2581,13 @@ export default function App() {
                           <span className="ch-n" style={{ color: ac }}>08</span>
                           <span className="ch-t">User Journeys</span>
                         </div>
-                        <div className="ch-body">
-                          <ul>
-                            {modalCase.content.userJourneys.map((u: any, i: number) => (
-                              <li key={i}>
-                                <strong>{u.journey || u.persona}:</strong> {u.flow || u.steps?.join(' → ')}
-                              </li>
-                            ))}
-                          </ul>
+                        <div className="journey-stack">
+                          {modalCase.content.userJourneys.map((u: any, i: number) => (
+                            <div className="journey-card" key={i}>
+                              <div className="jc-persona">{u.journey || u.persona}</div>
+                              <div className="jc-flow">{u.flow || u.steps?.join(' → ')}</div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -2459,15 +2606,16 @@ export default function App() {
                         </span>
                         <span className="ch-t">Problem Statement</span>
                       </div>
-                      <div className="ch-body">
-                        <p>{modalCase.content.problemStatement.overview}</p>
-                        <ul>
+                      <div>
+                        <div className="ch-body" style={{ marginBottom: 12 }}><p>{modalCase.content.problemStatement.overview}</p></div>
+                        <div className="ch-cards">
                           {modalCase.content.problemStatement.challenges.map((c, i) => (
-                            <li key={i}>
-                              <strong>{c.title}:</strong> {c.desc}
-                            </li>
+                            <div className="ch-card" key={i}>
+                              <div className="cc-ttl">{c.title}</div>
+                              <div className="cc-body">{c.desc}</div>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     </div>
 
@@ -2521,15 +2669,15 @@ export default function App() {
                           </span>
                           <span className="ch-t">Core Capabilities</span>
                         </div>
-                        <div className="ch-body">
+                        <div>
                           {modalCase.content.coreCapabilities.map((cap, idx) => (
-                            <div key={idx}>
-                              <strong>{cap.title}</strong>
-                              <ul>
+                            <div className="cap-group" key={idx}>
+                              <div className="cap-title">{cap.title}</div>
+                              <div className="cap-items">
                                 {cap.features.map((f, j) => (
-                                  <li key={j}>{f}</li>
+                                  <div className="cap-item" key={j}>{f}</div>
                                 ))}
-                              </ul>
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -2547,14 +2695,13 @@ export default function App() {
                           </span>
                           <span className="ch-t">User Journeys</span>
                         </div>
-                        <div className="ch-body">
-                          <ul>
-                            {modalCase.content.userJourneys.map((u, i) => (
-                              <li key={i}>
-                                <strong>{u.journey || u.persona}:</strong> {u.flow || u.desc}
-                              </li>
-                            ))}
-                          </ul>
+                        <div className="journey-stack">
+                          {modalCase.content.userJourneys.map((u, i) => (
+                            <div className="journey-card" key={i}>
+                              <div className="jc-persona">{(u as any).journey || (u as any).persona}</div>
+                              <div className="jc-flow">{(u as any).flow || (u as any).desc}</div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -2588,18 +2735,19 @@ export default function App() {
                           <span className="ch-n" style={{ color: ac }}>09</span>
                           <span className="ch-t">Success Metrics</span>
                         </div>
-                        <div className="ch-body">
+                        <div>
                           {Object.entries(modalCase.content.successMetrics).map(([category, metrics]: any, idx) => (
-                            <div key={idx}>
-                              <h5>{category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}</h5>
-                              <ul>
+                            <div className="sm-group" key={idx}>
+                              <div className="sm-cat">{category.replace(/([A-Z])/g, ' $1').replace(/^./, (s: string) => s.toUpperCase())}</div>
+                              <div className="sm-rows">
                                 {metrics.map((m: any, j: number) => (
-                                  <li key={j}>
-                                    <strong>{m.metric}:</strong> {m.definition}
-                                    {m.why && <em> ({m.why})</em>}
-                                  </li>
+                                  <div className="sm-row" key={j}>
+                                    <div className="sm-metric">{m.metric}</div>
+                                    <div className="sm-def">{m.definition}</div>
+                                    {m.why && <div className="sm-why">{m.why}</div>}
+                                  </div>
                                 ))}
-                              </ul>
+                              </div>
                             </div>
                           ))}
                         </div>
