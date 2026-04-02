@@ -39,7 +39,7 @@ const CASES = [
         {
           num: "01",
           title: "Assignment Objective",
-          body: "Improve the <strong>order per user (Monthly order frequency)</strong> for the puja service at Sri Mandir.",
+          body: "Improve the order per user (Monthly order frequency) for the puja service at Sri Mandir.",
           items: null,
         },
         {
@@ -47,10 +47,10 @@ const CASES = [
           title: "Assumptions",
           body: null,
           items: [
-            "<strong>Core Puja Performance is Authentic:</strong> We assume the religious rituals are performed authentically by verified priests according to scriptures, and the challenge lies in communicating and ensuring this authenticity in the online format.",
-            "<strong>Technological Infrastructure:</strong> Sri Mandir possesses or can acquire the necessary technological infrastructure to implement proposed digital enhancements, including localisation.",
-            "<strong>Access to User Data:</strong> Basic user data regarding puja bookings, frequency, location (inferred), and stated preferences is accessible for analysis and personalisation efforts.",
-            "<strong>Motivation Beyond One-Time Need:</strong> While specific needs might drive initial bookings, there's an underlying desire among users for ongoing spiritual connection, seeking blessings, and performing religious duties regularly.",
+            "Core Puja Performance is Authentic: We assume the religious rituals are performed authentically by verified priests according to scriptures, and the challenge lies in communicating and ensuring this authenticity in the online format.",
+            "Technological Infrastructure: Sri Mandir possesses or can acquire the necessary technological infrastructure to implement proposed digital enhancements, including localisation.",
+            "Access to User Data: Basic user data regarding puja bookings, frequency, location (inferred), and stated preferences is accessible for analysis and personalisation efforts.",
+            "Motivation Beyond One-Time Need: While specific needs might drive initial bookings, there's an underlying desire among users for ongoing spiritual connection, seeking blessings, and performing religious duties regularly.",
           ],
         },
         {
@@ -98,24 +98,24 @@ const CASES = [
             {
               title: "Key Motivations",
               items: [
-                "<strong>Spiritual Connection & Fulfillment:</strong> Seeking blessings and maintaining religious practice. Staying connected to traditional roots — often through listening to aartis and bhajans.",
-                "<strong>Convenience & Accessibility:</strong> Booking and participating from anywhere, anytime.",
-                "<strong>Time & Effort Saving:</strong> Avoiding logistical hassles of offline pujas.",
-                "<strong>Authenticity & Trust (Desired):</strong> Expectation that rituals are performed correctly by qualified priests.",
-                "<strong>Bridging Distance:</strong> Connecting with specific temples or traditions from afar.",
-                "<strong>Receiving Prasad & Blessings:</strong> The tangible outcome of the puja.",
+                "Spiritual Connection & Fulfillment: Seeking blessings and maintaining religious practice. Staying connected to traditional roots — often through listening to aartis and bhajans.",
+                "Convenience & Accessibility: Booking and participating from anywhere, anytime.",
+                "Time & Effort Saving: Avoiding logistical hassles of offline pujas.",
+                "Authenticity & Trust (Desired): Expectation that rituals are performed correctly by qualified priests.",
+                "Bridging Distance: Connecting with specific temples or traditions from afar.",
+                "Receiving Prasad & Blessings: The tangible outcome of the puja.",
               ],
             },
             {
               title: "Pain Points (from Google Play Reviews & App Usage)",
               items: [
-                "<strong>Lack of Personalisation & Context:</strong> The puja service page is generic, lacking recommendations based on user history, preferences, or local relevance (e.g., what others are booking in that location).",
-                "<strong>Product Education:</strong> Low awareness & discoverability of the Puja service and its offerings.",
-                "<strong>Lack of Trust Signals:</strong> Absence of trust on online payments. No social proofing (e.g., how many users viewed/booked). Concerns about divine box quality and missing items. Lack of clarity on puja venue. Critical issue of incorrect Gotra being used. Insufficient communication regarding venue changes or Prasad issues.",
-                "<strong>Accessibility Limitations:</strong> Service primarily in Hindi and English alienates users comfortable only in regional languages.",
-                "<strong>Learning Curve:</strong> Multiple steps and unfamiliar interactions differ from typical app flows (like FB, WhatsApp), creating a barrier especially for first-time users.",
-                "<strong>Lack of Urgency/Timeliness Cues:</strong> No timer on critical pujas where timing is significant to create booking urgency.",
-                "<strong>Limited Guidance on Options:</strong> Difficulty identifying the 'most picked plans' or best options without personalisation.",
+                "Lack of Personalisation & Context: The puja service page is generic, lacking recommendations based on user history, preferences, or local relevance (e.g., what others are booking in that location).",
+                "Product Education: Low awareness & discoverability of the Puja service and its offerings.",
+                "Lack of Trust Signals: Absence of trust on online payments. No social proofing (e.g., how many users viewed/booked). Concerns about divine box quality and missing items. Lack of clarity on puja venue. Critical issue of incorrect Gotra being used. Insufficient communication regarding venue changes or Prasad issues.",
+                "Accessibility Limitations: Service primarily in Hindi and English alienates users comfortable only in regional languages.",
+                "Learning Curve: Multiple steps and unfamiliar interactions differ from typical app flows (like FB, WhatsApp), creating a barrier especially for first-time users.",
+                "Lack of Urgency/Timeliness Cues: No timer on critical pujas where timing is significant to create booking urgency.",
+                "Limited Guidance on Options: Difficulty identifying the 'most picked plans' or best options without personalisation.",
               ],
             },
           ],
@@ -125,13 +125,13 @@ const CASES = [
           title: "Opportunities for Improvement",
           body: "Opportunities lie in addressing identified pain points to build trust, enhance convenience, and create a more personalised and engaging experience that encourages repeat and more frequent bookings.",
           items: [
-            "<strong>Build and Communicate Trust:</strong> Proactively address concerns about authenticity, Prasad, Gotra, and venue transparency.",
-            "<strong>Enhance Personalisation & Relevance:</strong> Make the puja discovery and booking process highly relevant based on profile, history, and context (location, auspicious dates).",
-            "<strong>Product Education:</strong> Build awareness & product education experience for users.",
-            "<strong>Subscriptions:</strong> Offer easy ways to book recurring pujas and manage spiritual obligations.",
-            "<strong>Improve Accessibility:</strong> Cater to users in their preferred language & community (e.g., Bihari, Bengali).",
-            "<strong>Optimise for Conversion:</strong> Use urgency cues wherever appropriate to reduce booking time.",
-            "<strong>Improve Post-Booking Experience:</strong> Ensure smooth Prasad delivery and clear communication throughout the process.",
+            "Build and Communicate Trust: Proactively address concerns about authenticity, Prasad, Gotra, and venue transparency.",
+            "Enhance Personalisation & Relevance: Make the puja discovery and booking process highly relevant based on profile, history, and context (location, auspicious dates).",
+            "Product Education: Build awareness & product education experience for users.",
+            "Subscriptions: Offer easy ways to book recurring pujas and manage spiritual obligations.",
+            "Improve Accessibility: Cater to users in their preferred language & community (e.g., Bihari, Bengali).",
+            "Optimise for Conversion: Use urgency cues wherever appropriate to reduce booking time.",
+            "Improve Post-Booking Experience: Ensure smooth Prasad delivery and clear communication throughout the process.",
             "Implement robust data collection for Gotra and integrate it clearly into booking and confirmation.",
             "Develop a personalised dashboard showing recommended pujas, upcoming events, and loyalty status.",
             "Display social proof metrics (e.g., 'X users viewing,' 'Y users booked this week').",
@@ -151,7 +151,7 @@ const CASES = [
                 "Puja Recommendation Engine",
                 "Personalised Spiritual Calendar & Reminders",
                 "Subscription Packages",
-                "<em>Metrics:</em> Puja Order ↑ · Subscription Adoption & Renewal % · Reminder Click Rate",
+                "Metrics: Puja Order ↑ · Subscription Adoption & Renewal % · Reminder Click Rate",
               ],
             },
             {
@@ -160,7 +160,7 @@ const CASES = [
                 "Personalised Recommendations by region/tradition",
                 "Spiritual Calendar with local timezone",
                 "Gift a Puja",
-                "<em>Metrics:</em> Repeat Booking Rate from NRIs · Gifting Feature Usage · NRI Engagement %",
+                "Metrics: Repeat Booking Rate from NRIs · Gifting Feature Usage · NRI Engagement %",
               ],
             },
             {
@@ -168,7 +168,7 @@ const CASES = [
               items: [
                 "Problem-Specific Recommendation Engine",
                 "Monthly Curated Focus Pujas",
-                "<em>Metrics:</em> Engagement with Focus Pujas · Bounce Rate on Need-Based Pages ↓ · Booking Conversion Rate ↑",
+                "Metrics: Engagement with Focus Pujas · Bounce Rate on Need-Based Pages ↓ · Booking Conversion Rate ↑",
               ],
             },
             {
@@ -179,7 +179,7 @@ const CASES = [
                 "Tiered Loyalty Rewards",
                 "Puja & Aashirvaad Box Authenticity",
                 "Complementary Puja Suggestions",
-                "<em>Metrics:</em> Puja Users ↑ · Puja Booked ↑ · Loyalty Program Participation · Subscription Adoption & Renewal % · # Puja Box Complaints",
+                "Metrics: Puja Users ↑ · Puja Booked ↑ · Loyalty Program Participation · Subscription Adoption & Renewal % · # Puja Box Complaints",
               ],
             },
             {
@@ -188,7 +188,7 @@ const CASES = [
                 "Product Education",
                 "Video feed of puja, chadhavs or rituals",
                 "WhatsApp Integration",
-                "<em>Metrics:</em> Engagement Rate on Education · Video View Count · Engagement & retention on video feed · Conversion Rate via WhatsApp",
+                "Metrics: Engagement Rate on Education · Video View Count · Engagement & retention on video feed · Conversion Rate via WhatsApp",
               ],
             },
             {
@@ -197,7 +197,7 @@ const CASES = [
                 "Post-Puja Transparency (video, photo, prasad)",
                 "Responsive Support",
                 "Social Proofing & User Testimonials",
-                "<em>Metrics:</em> First-Time Booking Conversion Rate · Support Ticket Resolution Time ↓ · NPS / CSAT Score ↑",
+                "Metrics: First-Time Booking Conversion Rate · Support Ticket Resolution Time ↓ · NPS / CSAT Score ↑",
               ],
             },
             {
@@ -207,7 +207,7 @@ const CASES = [
                 "Regional Language Video/Audio Mantras",
                 "Local Language Support Team",
                 "Puja Descriptions in Native Tongues",
-                "<em>Metrics:</em> Drop-off Rate in Non-Hindi/English Regions ↓ · Increase in Bookings from Vernacular Users · Language Preference Opt-in Rate ↑",
+                "Metrics: Drop-off Rate in Non-Hindi/English Regions ↓ · Increase in Bookings from Vernacular Users · Language Preference Opt-in Rate ↑",
               ],
             },
           ],
@@ -217,9 +217,9 @@ const CASES = [
           title: "Priority Segments",
           body: "To boost monthly orders per user, we will prioritise these key segments:",
           items: [
-            "<strong>1. Time-Constrained Professionals / Millennials / Gen Z:</strong> Their busy, tech-savvy nature makes them highly receptive to convenient, recurring digital solutions like subscriptions, offering the greatest potential for increased monthly frequency.",
-            "<strong>2. Tech-informed Devotees Seeking Regular Practice:</strong> Already inclined towards regular practice, they will benefit from streamlined processes, personalisation and subscriptions to maintain or slightly increase their existing high frequency.",
-            "<strong>3. Non-Technological Regular Devotees</strong> (like mothers and grandparents): Social media users who struggle with online payments due to trust issues. Their strong religious commitment drives high repeat engagement and potential for increased order frequency.",
+            "1. Time-Constrained Professionals / Millennials / Gen Z: Their busy, tech-savvy nature makes them highly receptive to convenient, recurring digital solutions like subscriptions, offering the greatest potential for increased monthly frequency.",
+            "2. Tech-informed Devotees Seeking Regular Practice: Already inclined towards regular practice, they will benefit from streamlined processes, personalisation and subscriptions to maintain or slightly increase their existing high frequency.",
+            "3. Non-Technological Regular Devotees (like mothers and grandparents): Social media users who struggle with online payments due to trust issues. Their strong religious commitment drives high repeat engagement and potential for increased order frequency.",
           ],
         },
         {
@@ -248,16 +248,16 @@ const CASES = [
         {
           num: "09",
           title: "WhatsApp Integration",
-          body: "We'll leverage WhatsApp as a <strong>dual-purpose channel</strong> — first, to deliver bite-sized, conversational product education (interactive tutorials, rich media demos, and targeted tips) that helps devotees discover and understand all puja services; and second, to enable <strong>seamless inbound booking requests</strong> directly within the chat interface, so users can simply message or tap menu options to schedule, personalize, and confirm their puja without ever leaving WhatsApp.",
+          body: "We'll leverage WhatsApp as a dual-purpose channel — first, to deliver bite-sized, conversational product education (interactive tutorials, rich media demos, and targeted tips) that helps devotees discover and understand all puja services; and second, to enable seamless inbound booking requests directly within the chat interface, so users can simply message or tap menu options to schedule, personalize, and confirm their puja without ever leaving WhatsApp.",
           items: [
-            "<strong>Product Education via WhatsApp:</strong> Bite-sized, conversational tutorials and rich media demos delivered in-chat to drive discovery and awareness.",
-            "<strong>Puja Booking Service via WhatsApp:</strong> Users tap a menu → browse top pujas → select package → pay via deep-link → confirmation + tracking on WhatsApp. TAT from tap to confirmation: 60 seconds.",
+            "Product Education via WhatsApp: Bite-sized, conversational tutorials and rich media demos delivered in-chat to drive discovery and awareness.",
+            "Puja Booking Service via WhatsApp: Users tap a menu → browse top pujas → select package → pay via deep-link → confirmation + tracking on WhatsApp. TAT from tap to confirmation: 60 seconds.",
           ],
         },
         {
           num: "10",
           title: "Video Feed",
-          body: "Introducing a <strong>dedicated video section</strong> where devotees can endlessly scroll through immersive clips — creating session depth & improving engagement. By showcasing pujas, rituals, and Chadhavs in action, this video-led discovery format meets modern users' evolving browsing habits. Just as Meesho's in-app video feed lets shoppers see products in use and builds trust before purchase, our videos will foster <strong>authenticity and confidence</strong> in every puja experience.",
+          body: "Introducing a dedicated video section where devotees can endlessly scroll through immersive clips — creating session depth & improving engagement. By showcasing pujas, rituals, and Chadhavs in action, this video-led discovery format meets modern users' evolving browsing habits. Just as Meesho's in-app video feed lets shoppers see products in use and builds trust before purchase, our videos will foster authenticity and confidence in every puja experience.",
           items: null,
         },
         {
@@ -269,17 +269,17 @@ const CASES = [
             {
               title: "Cold-Start (No User Data)",
               items: [
-                "<strong>Show local favorites:</strong> Detect the user's location to highlight the most-booked pujas in their city or region.",
-                "<strong>Feature upcoming & seasonal events:</strong> Surface major monthly pujas and festivals (e.g., Navratri, Sankashti) so newcomers see timely, relevant offerings.",
-                "<strong>Highlight platform trends:</strong> 'What's Trending' strip showcasing pujas with high view or booking counts across all users, building social proof and driving initial engagement.",
+                "Show local favorites: Detect the user's location to highlight the most-booked pujas in their city or region.",
+                "Feature upcoming & seasonal events: Surface major monthly pujas and festivals (e.g., Navratri, Sankashti) so newcomers see timely, relevant offerings.",
+                "Highlight platform trends: 'What's Trending' strip showcasing pujas with high view or booking counts across all users, building social proof and driving initial engagement.",
               ],
             },
             {
               title: "When User Data Is Available",
               items: [
-                "<strong>Leverage profile attributes:</strong> Pull in Gotra, birthdates, anniversaries and astrological details to surface rituals that align with heritage and life events.",
-                "<strong>Tailor to important dates:</strong> Analyse their important days and suggest relevant pujas.",
-                "<strong>Build a dynamic 'For You' carousel:</strong> Continuously updated with new recommendations — 'Based on your last Ganesh Puja' or 'Anniversary special for 5 years of devotion.' Incorporates past booking data and app interaction.",
+                "Leverage profile attributes: Pull in Gotra, birthdates, anniversaries and astrological details to surface rituals that align with heritage and life events.",
+                "Tailor to important dates: Analyse their important days and suggest relevant pujas.",
+                "Build a dynamic 'For You' carousel: Continuously updated with new recommendations — 'Based on your last Ganesh Puja' or 'Anniversary special for 5 years of devotion.' Incorporates past booking data and app interaction.",
               ],
             },
           ],
@@ -318,7 +318,7 @@ const CASES = [
         {
           num: "01",
           title: "Word Trip Overview",
-          body: "WordTrip is a word puzzle game that combines elements of crosswords and word searches with travel-themed visuals and progression. The game primarily monetizes through <strong>in-app purchases and advertising</strong>. Current position: <strong>#5 by revenue (~$500K/mo) with 6.5M MAU</strong>. Word Escapes generates 4.4× more revenue with only 1.7M incremental users — this is not a user acquisition problem, it's a <strong>monetization and retention gap</strong>.",
+          body: "WordTrip is a word puzzle game that combines elements of crosswords and word searches with travel-themed visuals and progression. The game primarily monetizes through in-app purchases and advertising. Current position: #5 by revenue (~$500K/mo) with 6.5M MAU. Word Escapes generates 4.4× more revenue with only 1.7M incremental users — this is not a user acquisition problem, it's a monetization and retention gap.",
           items: null,
         },
         {
@@ -363,34 +363,34 @@ const CASES = [
             {
               title: "1. High Onboarding Friction",
               items: [
-                "Word Trip shows 3 consecutive pop-ups (thank you message, iOS ads tracking, notifications) before even asking for login/account creation — then lands on the first product experience. This creates <strong>5+ clicks before first gameplay</strong>, the highest among all competitors.",
-                "<strong>How competitors do it differently:</strong> Word Escapes: only EULA acceptance before product demo. Word Connect: iOS ad tracking then immediately starts gameplay. Word Cookies: just two pop-ups before gameplay.",
-                "<strong>Why this matters:</strong> First-time UX directly impacts install-to-player conversion. Each additional click before gameplay increases drop-off by ~20% (GameAnalytics). Acquisition costs are wasted when users abandon before experiencing core gameplay. High friction creates negative first impressions leading to poor store ratings.",
+                "Word Trip shows 3 consecutive pop-ups (thank you message, iOS ads tracking, notifications) before even asking for login/account creation — then lands on the first product experience. This creates 5+ clicks before first gameplay, the highest among all competitors.",
+                "How competitors do it differently: Word Escapes: only EULA acceptance before product demo. Word Connect: iOS ad tracking then immediately starts gameplay. Word Cookies: just two pop-ups before gameplay.",
+                "Why this matters: First-time UX directly impacts install-to-player conversion. Each additional click before gameplay increases drop-off by ~20% (GameAnalytics). Acquisition costs are wasted when users abandon before experiencing core gameplay. High friction creates negative first impressions leading to poor store ratings.",
               ],
             },
             {
               title: "2. Limited Game Formats",
               items: [
-                "Word Trip offers only <strong>one format of word game</strong> unlocked at initial level. The travel theme with hidden bonus words is engaging but becomes repetitive without alternative modes.",
-                "<strong>How competitors do it differently:</strong> Zynga Word With Friends: multiple game modes accessible at all levels — daily puzzle, match of the day, solo challenge, word wheel, social gaming, PvP, crosswords, Clubs. Word Connect: offers sentence completion. Word Escapes: crossword-style gameplay as an alternative format.",
-                "<strong>Why this matters:</strong> Different formats appeal to various skill levels and play preferences. Udonis Research shows variety significantly reduces churn by preventing gameplay fatigue. Limited formats restrict session length. Multiple formats create cross-promotion opportunities.",
+                "Word Trip offers only one format of word game unlocked at initial level. The travel theme with hidden bonus words is engaging but becomes repetitive without alternative modes.",
+                "How competitors do it differently: Zynga Word With Friends: multiple game modes accessible at all levels — daily puzzle, match of the day, solo challenge, word wheel, social gaming, PvP, crosswords, Clubs. Word Connect: offers sentence completion. Word Escapes: crossword-style gameplay as an alternative format.",
+                "Why this matters: Different formats appeal to various skill levels and play preferences. Udonis Research shows variety significantly reduces churn by preventing gameplay fatigue. Limited formats restrict session length. Multiple formats create cross-promotion opportunities.",
               ],
             },
             {
               title: "3. Suboptimal Monetization & IAP Strategy",
               items: [
-                "<strong>Poor IAP Bundle Design:</strong> Best value packs are hidden; first item (600 INR) is neither popular nor best value. Most popular plan placed in the second fold. No restore plan option or mega sale timer.",
-                "<strong>Ad Overload:</strong> Excessive ads during the second session, leading to a frustrating user experience.",
-                "<strong>How competitors do it differently:</strong> Word Escapes: better bundling, exclusive time-sensitive bundling at start, red color to highlight value. Zynga: places 'most popular' first, uses time-associated offers with shimmer animation. Word Connect: 'one time offer' creating urgency, restore option. Word Cookies: sale timer, most popular bundles at top.",
-                "<strong>Why this matters:</strong> IAP optimization impacts revenue without requiring additional users. Optimal IAP presentation can increase conversion by 25–35% (Liftoff). Early ad bombardment damages retention. Urgency mechanics (timers, limited offers) are proven psychological triggers.",
+                "Poor IAP Bundle Design: Best value packs are hidden; first item (600 INR) is neither popular nor best value. Most popular plan placed in the second fold. No restore plan option or mega sale timer.",
+                "Ad Overload: Excessive ads during the second session, leading to a frustrating user experience.",
+                "How competitors do it differently: Word Escapes: better bundling, exclusive time-sensitive bundling at start, red color to highlight value. Zynga: places 'most popular' first, uses time-associated offers with shimmer animation. Word Connect: 'one time offer' creating urgency, restore option. Word Cookies: sale timer, most popular bundles at top.",
+                "Why this matters: IAP optimization impacts revenue without requiring additional users. Optimal IAP presentation can increase conversion by 25–35% (Liftoff). Early ad bombardment damages retention. Urgency mechanics (timers, limited offers) are proven psychological triggers.",
               ],
             },
             {
               title: "4. Missing Retention Mechanisms",
               items: [
-                "Word Trip lacks <strong>leaderboards, daily/weekly milestones, temporal events</strong> (Holi, Diwali), and social gaming features like PvP. Engagement features like clubs and daily spelling bee only unlock at higher levels.",
-                "<strong>How competitors do it differently:</strong> Word Escapes: leaderboards for competitive play. Zynga: leaderboards for global & friends, solo challenge, Clubs at all levels. Word Connect: daily tasks with progress promoting retention. Word Cookies: milestones with reward rates. Word With Friends: daily free claim section improving daily behaviour.",
-                "<strong>Why this matters:</strong> Retention is the primary driver of LTV in free-to-play games. GameRefinery research shows games with robust retention features maintain 30–40% higher DAU/MAU ratios. Social features create organic growth. Seasonal events create reasons to return.",
+                "Word Trip lacks leaderboards, daily/weekly milestones, temporal events (Holi, Diwali), and social gaming features like PvP. Engagement features like clubs and daily spelling bee only unlock at higher levels.",
+                "How competitors do it differently: Word Escapes: leaderboards for competitive play. Zynga: leaderboards for global & friends, solo challenge, Clubs at all levels. Word Connect: daily tasks with progress promoting retention. Word Cookies: milestones with reward rates. Word With Friends: daily free claim section improving daily behaviour.",
+                "Why this matters: Retention is the primary driver of LTV in free-to-play games. GameRefinery research shows games with robust retention features maintain 30–40% higher DAU/MAU ratios. Social features create organic growth. Seasonal events create reasons to return.",
               ],
             },
           ],
@@ -417,13 +417,13 @@ const CASES = [
         {
           num: "05",
           title: "Market Share Positioning Strategy",
-          body: "<strong>Current Position:</strong> Word Trip is the #5 player in the word games category. <strong>Target Position:</strong> Reach #3 within 12 months. The strategy leverages Word Trip's unique travel theme as differentiation while filling competitive gaps in formats, retention, and monetization.",
+          body: "Current Position: Word Trip is the #5 player in the word games category. Target Position: Reach #3 within 12 months. The strategy leverages Word Trip's unique travel theme as differentiation while filling competitive gaps in formats, retention, and monetization.",
           items: [
-            "<strong>Travel Companions:</strong> Friend system framed as 'travel buddies' who can assist with hints or play together. Ability to send postcards (messages/challenges) from unlocked destinations.",
-            "<strong>Travel Rewards Economy:</strong> Convert traditional coins/gems into 'miles' redeemable for game benefits. Premium 'expeditions' for IAP purchases taking players to exclusive destinations. Travel-themed power-ups (e.g., 'Local Guide' for hints, 'Translation Book' for word reveals).",
-            "<strong>Fill competitive gaps:</strong> Multiple game formats and retention mechanics to match top performers.",
-            "<strong>Monetization innovation:</strong> Personalized IAP bundles based on user behaviour and spend patterns.",
-            "<strong>New Market Expansion:</strong> Identify new markets for localized experiences — inspired by Words of Wonders gaining 60 million installs in 18 months through localization for Russia and Turkey.",
+            "Travel Companions: Friend system framed as 'travel buddies' who can assist with hints or play together. Ability to send postcards (messages/challenges) from unlocked destinations.",
+            "Travel Rewards Economy: Convert traditional coins/gems into 'miles' redeemable for game benefits. Premium 'expeditions' for IAP purchases taking players to exclusive destinations. Travel-themed power-ups (e.g., 'Local Guide' for hints, 'Translation Book' for word reveals).",
+            "Fill competitive gaps: Multiple game formats and retention mechanics to match top performers.",
+            "Monetization innovation: Personalized IAP bundles based on user behaviour and spend patterns.",
+            "New Market Expansion: Identify new markets for localized experiences — inspired by Words of Wonders gaining 60 million installs in 18 months through localization for Russia and Turkey.",
           ],
         },
         {
@@ -458,7 +458,7 @@ const CASES = [
                 "Reduce clicks from 5 to 2 (game demo → optional account creation)",
                 "A/B test streamlined flows",
                 "Implement progressive permission requests at different milestones",
-                "<em>KPIs:</em> First-time user conversion: 65% → 85% · Day 1 retention",
+                "KPIs: First-time user conversion: 65% → 85% · Day 1 retention",
               ],
             },
             {
@@ -468,7 +468,7 @@ const CASES = [
                 "Implement timed exclusive offers",
                 "Add 'Restore Purchase' option",
                 "Improve bundle naming focused on value",
-                "<em>KPIs:</em> IAP conversion rate: 2.5% → 3.1% · Total IAP purchases",
+                "KPIs: IAP conversion rate: 2.5% → 3.1% · Total IAP purchases",
               ],
             },
             {
@@ -477,7 +477,7 @@ const CASES = [
                 "Reduce ad frequency in first 3 sessions",
                 "Implement rewarded video ads with valuable rewards",
                 "Optimize ad placement based on user journey & milestones",
-                "<em>KPIs:</em> Ad revenue per DAU · 7-day retention",
+                "KPIs: Ad revenue per DAU · 7-day retention",
               ],
             },
           ],
@@ -494,7 +494,7 @@ const CASES = [
                 "Add 'Word Puzzles' format from level 1",
                 "Introduce 'Daily Challenge' with rotating formats",
                 "Create seamless navigation between game types",
-                "<em>KPIs:</em> Average session time · Average sessions per day",
+                "KPIs: Average session time · Average sessions per day",
               ],
             },
             {
@@ -502,7 +502,7 @@ const CASES = [
               items: [
                 "Implement global and friends leaderboards",
                 "Add daily milestone system with rewards encouraging users to login",
-                "<em>KPIs:</em> 30-day retention · DAU/MAU ratio",
+                "KPIs: 30-day retention · DAU/MAU ratio",
               ],
             },
             {
@@ -510,7 +510,7 @@ const CASES = [
               items: [
                 "Add word challenges between friends",
                 "Create social sharing for achievements",
-                "<em>KPIs:</em> Average sessions duration · Social feature engagement",
+                "KPIs: Average sessions duration · Social feature engagement",
               ],
             },
           ],
@@ -526,7 +526,7 @@ const CASES = [
               items: [
                 "Implement seasonal event framework",
                 "Add limited-time rewards and collections",
-                "<em>KPIs:</em> Event participation rate · Revenue during events",
+                "KPIs: Event participation rate · Revenue during events",
               ],
             },
             {
@@ -534,7 +534,7 @@ const CASES = [
               items: [
                 "Implement user segmentation based on behaviour",
                 "Create personalized & dynamic IAP bundles",
-                "<em>KPIs:</em> IAP conversion for targeted segments · Retention rate",
+                "KPIs: IAP conversion for targeted segments · Retention rate",
               ],
             },
             {
@@ -543,7 +543,7 @@ const CASES = [
                 "Do market study of new markets for word games",
                 "Create capabilities to support localised experience",
                 "Formulate GTM for targeted new markets",
-                "<em>KPIs:</em> Total addressable market expansion",
+                "KPIs: Total addressable market expansion",
               ],
             },
           ],
@@ -558,7 +558,7 @@ const CASES = [
               title: "Advanced Game Formats",
               items: [
                 "Add 'Word Wheel', 'Sentence Completion', 'Wordle' and other high-engaging word game formats",
-                "<em>KPIs:</em> New user growth: +15% · Cross-format engagement: 30% of users",
+                "KPIs: New user growth: +15% · Cross-format engagement: 30% of users",
               ],
             },
             {
@@ -566,7 +566,7 @@ const CASES = [
               items: [
                 "Implement PvP word battles",
                 "Add different game formats for PvP battles",
-                "<em>KPIs:</em> Social feature engagement · Retention rate · Average session time",
+                "KPIs: Social feature engagement · Retention rate · Average session time",
               ],
             },
             {
@@ -577,7 +577,7 @@ const CASES = [
                 "Launch localised leaderboards",
                 "Launch Regional Live Events",
                 "ASO for new markets",
-                "<em>KPIs:</em> Total addressable market · Revenue · MAU · DAU",
+                "KPIs: Total addressable market · Revenue · MAU · DAU",
               ],
             },
           ],
@@ -607,12 +607,12 @@ const CASES = [
       impact: { text: "", items: [] as { v: string; l: string; c: string }[] },
       tags: ["PRD","Figma","Bloomberg Launchpad","Fintech","Workspace Design","Widget System","State Management","Success Metrics"],
       customSections: [
-        { num: "01", title: "Problem Statement", body: "Institutional investors, analysts & researchers operate in a <strong>high frequency, high cognitive load environment</strong>. Their daily workflow involves simultaneously monitoring live prices, charts, news, alerts, and global market context while switching context across multiple asset classes.", items: ["<strong>Fragmented Information</strong> \u2014 Prices, charts, news, alerts, and market hours live in separate views. Users must mentally stitch insights together by exploring each view independently.","<strong>High Context Switching Cost</strong> \u2014 Switching between workflows (e.g., market open vs research) requires re-navigation. Analysts lose time reconstructing views multiple times a day.","<strong>One-Size-Fits-All Interfaces</strong> \u2014 Different users track different assets, regions, and time horizons. A single default layout fails all of them.","<strong>Poor State Persistence</strong> \u2014 Users expect their layouts, filters, and configurations to persist across sessions. Without this, they rework the same setup every time they log in."] },
-        { num: "02", title: "Why This Is Worth Solving", body: null, items: ["A modular workspace increases <strong>product stickiness</strong>. Custom dashboards directly correlate with higher retention and daily engagement by becoming the user\u2019s <strong>first preference</strong> for daily monitoring.","There is <strong>already a market precedent</strong> set by <strong>Bloomberg Launchpad</strong> \u2014 one of the most heavily used terminal features \u2014 because it solves this exact problem through customizable, persistent widgets & workspaces."] },
-        { num: "03", title: "Product Vision", body: "Build <strong>Arcana Workspace</strong> \u2014 a modular, <strong>Bloomberg-style Launchpad</strong> that allows users to create, save, and switch between personalised workspaces composed of configurable widgets \u2014 optimised for real-time monitoring, clarity, and execution with speed, leading to repeat daily usage.", items: null },
-        { num: "04", title: "Goals for V1", body: null, items: ["Enable users to build custom workspaces using modular widgets from scratch or premade templates","Templates are workspace formats with widgets designed for unique use cases (NEWS, Portfolio, Research) \u2014 with optional Global Settings that are must-haves (e.g., Portfolio template requires selecting an index/equity to power widgets)","Support adding, resizing, configuring, and saving widget layouts","Allow multiple tabs/pages per workspace","Ability to edit / copy / add / save / share workspace & pages, with fast switching between them","Preserve widget-level intelligence (e.g., Nvidia selected in index & performance widget persists)","<strong>V1 = Signal intake + context + workflow persistence.</strong> V2 = Outcome measurement (performance, deep analytics, risk, attribution, order execution integration)"] },
-        { num: "05", title: "Market Research", body: "A Bloomberg Launchpad user typically combines price monitors + charts + news feeds to correlate headlines with price reactions, uses alerts to catch significant moves without continuous hovering, and saves workflows by theme (commodity tracking, earnings day, global markets). This mirrors how users segment their day:", items: ["<strong>Morning pre-open scan</strong> \u2014 Macro indices, overnight movers, news catch-up","<strong>Live session monitoring</strong> \u2014 Real-time price action, alerts firing, chart patterns","<strong>Post-close analysis</strong> \u2014 P&L review, sector performance, next-day prep"] },
-        { num: "06", title: "Prioritised Widgets", body: "These cover the <strong>core workflows of watching prices & signals</strong> \u2014 the top job of users. We are launching the monitoring layer, not the outcome layer.", items: null, widgets: [{ name: "Equity Price Monitor", rationale: "Most basic, most used \u2014 priority 1 for every workflow" },{ name: "Index Tracker", rationale: "Global indices (S&P, Nifty) \u2014 macro sentiment gauge widely used by analysts" },{ name: "Commodity Prices", rationale: "Critical for cross-asset views (similar to Bloomberg\u2019s commodities widget)" },{ name: "Real-Time Chart", rationale: "Visual confirmation of trends & patterns \u2014 core to all workflows" },{ name: "Live News Feed", rationale: "Provides context to price movements \u2014 heavily used across all personas" },{ name: "Price Alerts", rationale: "Simple price threshold alerts \u2014 helps catch key events without always watching" },{ name: "Timezone / Market Hours", rationale: "Supports a global view across regions and trading sessions" }] },
+        { num: "01", title: "Problem Statement", body: "Institutional investors, analysts & researchers operate in a high frequency, high cognitive load environment. Their daily workflow involves simultaneously monitoring live prices, charts, news, alerts, and global market context while switching context across multiple asset classes.", items: ["Fragmented Information \u2014 Prices, charts, news, alerts, and market hours live in separate views. Users must mentally stitch insights together by exploring each view independently.","High Context Switching Cost \u2014 Switching between workflows (e.g., market open vs research) requires re-navigation. Analysts lose time reconstructing views multiple times a day.","One-Size-Fits-All Interfaces \u2014 Different users track different assets, regions, and time horizons. A single default layout fails all of them.","Poor State Persistence \u2014 Users expect their layouts, filters, and configurations to persist across sessions. Without this, they rework the same setup every time they log in."] },
+        { num: "02", title: "Why This Is Worth Solving", body: null, items: ["A modular workspace increases product stickiness. Custom dashboards directly correlate with higher retention and daily engagement by becoming the user\u2019s first preference for daily monitoring.","There is already a market precedent set by Bloomberg Launchpad \u2014 one of the most heavily used terminal features \u2014 because it solves this exact problem through customizable, persistent widgets & workspaces."] },
+        { num: "03", title: "Product Vision", body: "Build Arcana Workspace \u2014 a modular, Bloomberg-style Launchpad that allows users to create, save, and switch between personalised workspaces composed of configurable widgets \u2014 optimised for real-time monitoring, clarity, and execution with speed, leading to repeat daily usage.", items: null },
+        { num: "04", title: "Goals for V1", body: null, items: ["Enable users to build custom workspaces using modular widgets from scratch or premade templates","Templates are workspace formats with widgets designed for unique use cases (NEWS, Portfolio, Research) \u2014 with optional Global Settings that are must-haves (e.g., Portfolio template requires selecting an index/equity to power widgets)","Support adding, resizing, configuring, and saving widget layouts","Allow multiple tabs/pages per workspace","Ability to edit / copy / add / save / share workspace & pages, with fast switching between them","Preserve widget-level intelligence (e.g., Nvidia selected in index & performance widget persists)","V1 = Signal intake + context + workflow persistence. V2 = Outcome measurement (performance, deep analytics, risk, attribution, order execution integration)"] },
+        { num: "05", title: "Market Research", body: "A Bloomberg Launchpad user typically combines price monitors + charts + news feeds to correlate headlines with price reactions, uses alerts to catch significant moves without continuous hovering, and saves workflows by theme (commodity tracking, earnings day, global markets). This mirrors how users segment their day:", items: ["Morning pre-open scan \u2014 Macro indices, overnight movers, news catch-up","Live session monitoring \u2014 Real-time price action, alerts firing, chart patterns","Post-close analysis \u2014 P&L review, sector performance, next-day prep"] },
+        { num: "06", title: "Prioritised Widgets", body: "These cover the core workflows of watching prices & signals \u2014 the top job of users. We are launching the monitoring layer, not the outcome layer.", items: null, widgets: [{ name: "Equity Price Monitor", rationale: "Most basic, most used \u2014 priority 1 for every workflow" },{ name: "Index Tracker", rationale: "Global indices (S&P, Nifty) \u2014 macro sentiment gauge widely used by analysts" },{ name: "Commodity Prices", rationale: "Critical for cross-asset views (similar to Bloomberg\u2019s commodities widget)" },{ name: "Real-Time Chart", rationale: "Visual confirmation of trends & patterns \u2014 core to all workflows" },{ name: "Live News Feed", rationale: "Provides context to price movements \u2014 heavily used across all personas" },{ name: "Price Alerts", rationale: "Simple price threshold alerts \u2014 helps catch key events without always watching" },{ name: "Timezone / Market Hours", rationale: "Supports a global view across regions and trading sessions" }] },
         { num: "07", title: "Core Capabilities", body: null, items: null, subsections: [{ title: "Workspace", items: ["Grid-based canvas (like Metabase dashboard layout) \u2014 chosen over free-form positioning to optimise for scale, stability, and cognitive clarity in high-load environments","Preset templates for core use cases (Portfolio Analysis, Single Stock Analysis, etc.) with pre-specified widgets and optional Global Settings","Workspaces can be copied, renamed, shared, rearranged, customised and managed from settings","Added workspaces appear side-by-side and switch instantly on click"] },{ title: "Widgets", items: ["Modular, atomic blocks of the workspace with multiple responsive UI sizes (like Apple widgets \u2014 different UI for different grid sizes)","Can be configured (columns/filters/indicators/flags), added, resized, repositioned, renamed, or removed","Widgets retain their full capabilities inside the workspace (e.g., Summary widget retains % AUM & % Gross selections)","Users can add any widget from the terminal directly to a workspace page; widget lands in the next vacant grid area","Widgets cannot overlap. Option to export widget data in relevant Excel format"] },{ title: "Pages", items: ["Each workspace supports multiple pages representing sub-contexts (e.g., Price, Valuation within a Portfolio template)","Pages visible side-by-side with add, delete, reorder, rename, copy, share capabilities","Pages can be managed from settings or via right-click context menu"] },{ title: "Group Components (V1 \u2192 V2)", items: ["V1: Global Settings for presets \u2014 groupings are done during template creation (e.g., selecting a stock links all widgets)","V2: Fully-fledged Group Manager where users can map components to each other, change a security in one component and all grouped components update"] }] },
         { num: "08", title: "User Journeys", body: null, items: null, journeys: [{ name: "First-Time User Experience", entry: "No existing workspaces", steps: ["User opens Arcana Workspace, clicks Create New \u2192 3 options: optimised view for screen, sample view from manager, or blank canvas","On blank canvas: Launchpad toolbar appears with Page 1 and no widgets. Search bar available to add components or select templates","User adds first component or selects template, configures parameters/global settings, adjusts position & size","User saves the view and workspace"], exit: "Saved workspace with at least one page and widget" },{ name: "Adding & Configuring a Widget", entry: "Active workspace with at least one page", steps: ["User clicks search \u2192 Component/Template Browser opens with categories and previews","Selects component \u2192 appears on canvas in default state","User configures columns/filters/indicators/flags, optionally renames widget","A widget can\u2019t exist in the same state twice on a particular page"], exit: "Configured widget on active page" },{ name: "Building a Multi-Page Workspace", entry: "Workspace with at least one saved page", steps: ["User clicks +New Page, creates Page 2 inside the same workspace","Adds different widgets (e.g., Asia markets) or templates from search","Right-click options: copy, rename, rearrange, delete, share, customise","Pages appear side-by-side, switch instantly on click"], exit: "One workspace, multiple task-specific pages" },{ name: "Returning User Daily Flow", entry: "Existing saved workspaces", steps: ["User logs in \u2192 last-used workspace auto-opens (if no default set)","Scans monitors, switches pages/workspaces as needed","Makes minor edits \u2192 auto-save or manual save persists state"], exit: "Updated workspace state persisted for next session" }] },
         { num: "09", title: "Success Metrics", body: null, items: null, metricGroups: [{ name: "Adoption & Activation", subtitle: "Is Workspace Valuable?", metrics: [{ metric: "Workspace Creation Rate", definition: "% of active users who create \u22651 workspace within 7 days", why: "Indicates initial value discovery" },{ metric: "Activation Rate", definition: "% of users who create a workspace, add \u22653 widgets & save it", why: "Confirms meaningful usage, not just exploration" },{ metric: "Template Usage Rate", definition: "% of users using a template vs blank canvas", why: "Validates usefulness of templates" },{ metric: "Creation Drop-off Rate", definition: "% of users who abandon creation flow before saving", why: "Identifies friction in workspace creation" }] },{ name: "Engagement & Habit Formation", subtitle: "Is It Becoming a Daily Tool?", metrics: [{ metric: "Workspace DAU Ratio", definition: "Workspace DAU \u00f7 Total DAU", why: "Indicates daily stickiness" },{ metric: "Default Launch Rate", definition: "% of sessions where Workspace opens by default", why: "Signals habit formation" },{ metric: "Repeat Usage Rate", definition: "Avg workspace sessions per user per day \u00f7 total sessions", why: "Measures frequency of use" },{ metric: "D1\u2013D30 Retention", definition: "Day-over-day retention for Workspace users", why: "Validates long-term platform stickiness" },{ metric: "Avg Widgets per Workspace", definition: "Average widgets added per workspace", why: "Indicates richness of setup" },{ metric: "Page Switching Rate", definition: "% of users switching pages within a session", why: "Validates page-level value" }] }] },
@@ -650,14 +650,14 @@ const CASES = [
         {
           num: "01",
           title: "Summary",
-          body: "GLP-1 medications have redefined what is clinically possible in weight loss — but real-world outcomes remain fragile. The gap is no longer pharmacology; it is <strong>behavioral persistence, expectation management, and metabolic protection</strong>. Today's GLP app is optimised for <em>recording activity</em>, not <em>driving outcomes</em>.",
+          body: "GLP-1 medications have redefined what is clinically possible in weight loss — but real-world outcomes remain fragile. The gap is no longer pharmacology; it is behavioral persistence, expectation management, and metabolic protection. Today's GLP app is optimised for recording activity, not driving outcomes.",
           items: [
-            "The product does not help users <strong>interpret stalled progress</strong>",
-            "The product does not help users <strong>understand body recomposition</strong>",
-            "The product does not help users <strong>protect muscle mass</strong>",
-            "The product does not help users <strong>stay adherent through plateaus and side effects</strong>",
-            "As a result: only <strong>64% of users lose >1 kg</strong> · fitness engagement is <strong>~25% MAU</strong> · progress is perceived as binary ('weight down = success, else failure')",
-            "The next phase requires a strategic shift from <strong>tracking behaviour</strong> to <strong>owning outcomes</strong> — repositioning the GLP app as a <strong>Digital Scaffold</strong> that translates medication into durable metabolic outcomes.",
+            "The product does not help users interpret stalled progress",
+            "The product does not help users understand body recomposition",
+            "The product does not help users protect muscle mass",
+            "The product does not help users stay adherent through plateaus and side effects",
+            "As a result: only 64% of users lose >1 kg · fitness engagement is ~25% MAU · progress is perceived as binary ('weight down = success, else failure')",
+            "The next phase requires a strategic shift from tracking behaviour to owning outcomes — repositioning the GLP app as a Digital Scaffold that translates medication into durable metabolic outcomes.",
           ],
         },
         {
@@ -669,30 +669,30 @@ const CASES = [
             {
               title: "2.1 The GLP-1 Market Has Entered Its Second Act",
               items: [
-                "<strong>2022–2024 optimised for access:</strong> Rapid prescriber onboarding · Consumer-led demand · Medication-first value propositions",
-                "<strong>2025–2026 structural shifts forcing a reset:</strong> Medication prices are falling · Prescription access is commoditising · 'GLP-only' platforms are losing defensibility",
-                "<strong>Differentiation has moved downstream</strong> — from getting users on medication to ensuring outcomes persist.",
-                "Across Noom, Omada, Found, and HealthifyMe, a consistent pattern: <em>'Medication enables weight loss. Engagement architecture determines durability.'</em>",
+                "2022–2024 optimised for access: Rapid prescriber onboarding · Consumer-led demand · Medication-first value propositions",
+                "2025–2026 structural shifts forcing a reset: Medication prices are falling · Prescription access is commoditising · 'GLP-only' platforms are losing defensibility",
+                "Differentiation has moved downstream — from getting users on medication to ensuring outcomes persist.",
+                "Across Noom, Omada, Found, and HealthifyMe, a consistent pattern: 'Medication enables weight loss. Engagement architecture determines durability.'",
               ],
             },
             {
               title: "2.2 The Persistence Crisis Is the Real Bottleneck",
               items: [
-                "Real-world GLP-1 programs show <strong>50–70% discontinuation within 12 months</strong>, with highest dropout in the <strong>first 90 days</strong>.",
-                "This is not due to lack of intent — it's due to unmanaged friction across <strong>The Attrition Triad</strong>:",
-                "<strong>Biological:</strong> Nausea, GI distress, fatigue → Early dropout",
-                "<strong>Psychological:</strong> Food identity shifts, stigma, confusion → Loss of confidence",
-                "<strong>Metric:</strong> Scale plateaus despite fat loss → Motivation collapse",
-                "Most products fail because they treat weight loss as <strong>linear</strong>. Users experience it as <strong>non-linear, emotional, and confusing</strong>.",
+                "Real-world GLP-1 programs show 50–70% discontinuation within 12 months, with highest dropout in the first 90 days.",
+                "This is not due to lack of intent — it's due to unmanaged friction across The Attrition Triad:",
+                "Biological: Nausea, GI distress, fatigue → Early dropout",
+                "Psychological: Food identity shifts, stigma, confusion → Loss of confidence",
+                "Metric: Scale plateaus despite fat loss → Motivation collapse",
+                "Most products fail because they treat weight loss as linear. Users experience it as non-linear, emotional, and confusing.",
               ],
             },
             {
               title: "2.3 What Winning Products Do Differently",
               items: [
-                "<strong>Outcome visibility beats activity logging</strong> — Users need interpretation, not raw data.",
-                "<strong>Human + digital hybrids outperform pure automation</strong> — Coaching access materially improves adherence and persistence.",
-                "<strong>Muscle preservation is emerging as the new moat</strong> — Fast weight loss without muscle protection leads to metabolic slowdown and rebound.",
-                "This creates a clear opening: <em>The next category leader will sell <strong>metabolic integrity</strong>, not just weight loss.</em>",
+                "Outcome visibility beats activity logging — Users need interpretation, not raw data.",
+                "Human + digital hybrids outperform pure automation — Coaching access materially improves adherence and persistence.",
+                "Muscle preservation is emerging as the new moat — Fast weight loss without muscle protection leads to metabolic slowdown and rebound.",
+                "This creates a clear opening: The next category leader will sell metabolic integrity, not just weight loss.",
               ],
             },
           ],
@@ -700,7 +700,7 @@ const CASES = [
         {
           num: "03",
           title: "Why Now",
-          body: "<strong>The End of 'Prescription as Product':</strong> As GLP-1 access becomes ubiquitous, users will ask harder questions. A logging-centric app cannot answer them. An outcome-owning product can. This is the inflection point where <strong>clinical ownership becomes the product</strong>.",
+          body: "The End of 'Prescription as Product': As GLP-1 access becomes ubiquitous, users will ask harder questions. A logging-centric app cannot answer them. An outcome-owning product can. This is the inflection point where clinical ownership becomes the product.",
           items: [
             "Does weight loss persist beyond 3 months?",
             "Is muscle mass preserved?",
@@ -718,7 +718,7 @@ const CASES = [
               title: "What's Working",
               items: [
                 "Strong foundational tracking primitives (weight, meals, fitness, side effects)",
-                "High engagement with human coaches (~<strong>80% M2 chat usage</strong>)",
+                "High engagement with human coaches (~80% M2 chat usage)",
                 "Embedded clinical access",
               ],
             },
@@ -730,7 +730,7 @@ const CASES = [
                 "Body composition invisible",
                 "Protocol adherence implicit, not explicit",
                 "Users log, but are not guided",
-                "<em>The product records the journey — but does not <strong>direct</strong> it.</em>",
+                "The product records the journey — but does not direct it.",
               ],
             },
           ],
@@ -745,17 +745,17 @@ const CASES = [
               title: "5.1 Progress Feels Invisible",
               items: [
                 "Users anchor success entirely to scale weight.",
-                "Users who lose ≥1 kg show <strong>–2 cm waist reduction</strong>",
-                "Users who don't lose weight show <strong>+1 cm waist gain</strong>",
+                "Users who lose ≥1 kg show –2 cm waist reduction",
+                "Users who don't lose weight show +1 cm waist gain",
                 "Waist tracking strongly correlates with perceived success",
-                "This does <strong>not</strong> imply waist logging causes weight loss. It shows that <strong>visible signals sustain motivation</strong> — and these signals need not be absolute weight loss.",
+                "This does not imply waist logging causes weight loss. It shows that visible signals sustain motivation — and these signals need not be absolute weight loss.",
               ],
             },
             {
               title: "5.2 Expectation Mismatch With GLP-1",
               items: [
-                "<strong>User belief:</strong> 'Medication will do the work. I can eat anything freely.'",
-                "<strong>Clinical reality:</strong> GLP-1 reduces appetite — not muscle loss risk.",
+                "User belief: 'Medication will do the work. I can eat anything freely.'",
+                "Clinical reality: GLP-1 reduces appetite — not muscle loss risk.",
                 "Without guidance: Exercise drops · Lean mass declines · RMR falls · Weight regain risk increases",
                 "The app does not currently reset expectations early enough.",
               ],
@@ -764,15 +764,15 @@ const CASES = [
               title: "5.3 Fitness Avoidance Is a Structural Risk",
               items: [
                 "Fitness MAU ~25% · Majority complete only one session",
-                "<strong>Clinical implication:</strong> Sarcopenic obesity risk · Unsustainable weight loss",
+                "Clinical implication: Sarcopenic obesity risk · Unsustainable weight loss",
               ],
             },
             {
               title: "5.4 Gender-Based Outcome Gap (New Insight)",
               items: [
-                "Men: <strong>1.66 kg</strong> average loss · Women: <strong>1.26 kg</strong> average loss",
-                "<strong>Clinical context:</strong> Testosterone supports muscle preservation. Women require more intentional resistance training.",
-                "<strong>Strategic implication:</strong> Fitness cannot be optional — especially for female users.",
+                "Men: 1.66 kg average loss · Women: 1.26 kg average loss",
+                "Clinical context: Testosterone supports muscle preservation. Women require more intentional resistance training.",
+                "Strategic implication: Fitness cannot be optional — especially for female users.",
               ],
             },
           ],
@@ -780,12 +780,12 @@ const CASES = [
         {
           num: "06",
           title: "What the Data Is Actually Saying",
-          body: "These are correlations, not causal claims. But they clearly indicate: when protocol adherence is understood and maintained, outcomes improve. <strong>Engagement clusters around success</strong> — not the other way around. The product must make adherence <strong>visible, actionable, and reinforced</strong>.",
+          body: "These are correlations, not causal claims. But they clearly indicate: when protocol adherence is understood and maintained, outcomes improve. Engagement clusters around success — not the other way around. The product must make adherence visible, actionable, and reinforced.",
           items: [
-            "Protocol followers lose <strong>~2.5 kg more</strong>",
-            "Weight-loss cohort logs <strong>2× more meals</strong>",
-            "Weight-loss cohort connects <strong>~30% more with doctors</strong>",
-            "Non-weight-loss cohort shows <strong>waist gain</strong>",
+            "Protocol followers lose ~2.5 kg more",
+            "Weight-loss cohort logs 2× more meals",
+            "Weight-loss cohort connects ~30% more with doctors",
+            "Non-weight-loss cohort shows waist gain",
           ],
         },
         {
@@ -808,7 +808,7 @@ const CASES = [
               items: [
                 "Resistance-first fitness programs",
                 "Proactive 1:1 fitness consultations",
-                "Clear framing: <em>fitness = metabolic protection</em>",
+                "Clear framing: fitness = metabolic protection",
                 "Gender-aware guidance (especially for women)",
               ],
             },
@@ -840,16 +840,16 @@ const CASES = [
             {
               title: "Primary Loop",
               items: [
-                "<strong>Progress clarity → confidence → adherence → outcomes</strong>",
+                "Progress clarity → confidence → adherence → outcomes",
               ],
             },
             {
               title: "Secondary Loops",
               items: [
-                "<strong>Human accountability loop:</strong> Coach touchpoints at risk moments (plateau weeks, side-effect spikes) — not reactive support. Leverages existing ~80% M2 chat engagement.",
-                "<strong>Visual reinforcement loop:</strong> Body scans, composition change visualisations, and waist trend charts shown contextually — where users are already looking.",
-                "<strong>Safety loop:</strong> Side-effect resolution workflows that proactively surface guidance and escalation options. Trust built through managed adversity.",
-                "These loops align with industry evidence that <strong>hybrid human + digital models materially improve persistence</strong>.",
+                "Human accountability loop: Coach touchpoints at risk moments (plateau weeks, side-effect spikes) — not reactive support. Leverages existing ~80% M2 chat engagement.",
+                "Visual reinforcement loop: Body scans, composition change visualisations, and waist trend charts shown contextually — where users are already looking.",
+                "Safety loop: Side-effect resolution workflows that proactively surface guidance and escalation options. Trust built through managed adversity.",
+                "These loops align with industry evidence that hybrid human + digital models materially improve persistence.",
               ],
             },
           ],
@@ -892,7 +892,7 @@ const CASES = [
         {
           num: "10",
           title: "Final Takeaway",
-          body: "The GLP market is shifting from <strong>access to accountability</strong>. Products that remain logging-centric will struggle to differentiate. Platforms that <strong>own outcomes, expectations, and persistence</strong> will define the category.",
+          body: "The GLP market is shifting from access to accountability. Products that remain logging-centric will struggle to differentiate. Platforms that own outcomes, expectations, and persistence will define the category.",
           items: null,
         },
       ],
@@ -1606,19 +1606,19 @@ export default function App() {
         <div className="hero-stats">
           <div className="hero-stat">
             <div className="hs-val">
-              30<em>Cr+</em>
+              30Cr+
             </div>
             <div className="hs-lbl">Annual Revenue Driven</div>
           </div>
           <div className="hero-stat">
             <div className="hs-val">
-              8<em>yr</em>
+              8yr
             </div>
             <div className="hs-lbl">Product Experience</div>
           </div>
           <div className="hero-stat">
             <div className="hs-val">
-              300<em>M+</em>
+              300M+
             </div>
             <div className="hs-lbl">Users Served</div>
           </div>
@@ -1663,8 +1663,8 @@ export default function App() {
           </div>
           <p className="hero-tagline">
             Product Manager with{" "}
-            <strong>8 years experience</strong> driving{" "}
-            <strong>30 Cr+ in annual revenue</strong> across
+            8 years experience driving{" "}
+            30 Cr+ in annual revenue across
             consumer, health-tech, and D2C platforms. Proven
             track record in 0&rarr;1 and 1&rarr;100 product
             journeys across personalization, user experience,
@@ -1769,27 +1769,27 @@ export default function App() {
           <div className="about-right-panel rv rv-d2">
             <div className="about-body">
               <p>
-                I'm a PM at <strong>SugarFit</strong> &mdash;
+                I'm a PM at SugarFit &mdash;
                 leading product &amp; analytics for Type 2
                 diabetes, GLP, and Active Foods D2C. Before
                 this, I spent 3 years at{" "}
-                <strong>Glance (InMobi Group)</strong> owning
+                Glance (InMobi Group) owning
                 Content Experience &amp; Serving for GlanceTV,
                 driving the NFL launch on Google NAB, and
                 leading GDPR readiness for EU launch.
               </p>
               <p>
-                From <strong>Razorpay</strong> to{" "}
-                <strong>Vedantu</strong> to{" "}
-                <strong>Wipro</strong> &mdash; I've driven
+                From Razorpay to{" "}
+                Vedantu to{" "}
+                Wipro &mdash; I've driven
                 cross-functional impact across payments, edtech,
                 and global operations.
               </p>
               <p>
                 My unfair advantage:{" "}
-                <strong>
+                
                   8 years across consumer, health-tech, and D2C
-                </strong>{" "}
+                {" "}
                 with a proven track record of driving 30 Cr+ in
                 annual revenue, shipping 0&rarr;1 products, and
                 scaling 1&rarr;100.
@@ -1801,9 +1801,9 @@ export default function App() {
                 Currently building
               </div>
               <div className="ctxt">
-                <strong>
+                
                   GLP, Active Foods D2C &amp; Product Analytics
-                </strong>{" "}
+                {" "}
                 at SugarFit.
               </div>
               <div className="csub">
@@ -1817,7 +1817,7 @@ export default function App() {
         <div className="kpi-band rv">
           <div className="kpi-cell rv-scale">
             <div className="kn rv-pop">
-              30<em>Cr+</em>
+              30Cr+
             </div>
             <div className="kl">
               Annual revenue driven across products
@@ -1825,7 +1825,7 @@ export default function App() {
           </div>
           <div className="kpi-cell rv-scale">
             <div className="kn rv-pop">
-              $1.4<em>M</em>
+              $1.4M
             </div>
             <div className="kl">
               ARR generated via 110M lockscreen impressions
@@ -1833,7 +1833,7 @@ export default function App() {
           </div>
           <div className="kpi-cell rv-scale">
             <div className="kn rv-pop">
-              12<em>M</em>
+              12M
             </div>
             <div className="kl">
               Impressions on nationwide brand campaigns
@@ -1841,7 +1841,7 @@ export default function App() {
           </div>
           <div className="kpi-cell rv-scale">
             <div className="kn rv-pop">
-              8<em>yr</em>
+              8yr
             </div>
             <div className="kl">
               Cross-functional product experience
@@ -1855,7 +1855,7 @@ export default function App() {
         <div className="skills-wrap">
           <div className="eyebrow rv">— Skills</div>
           <div className="s-title rv-clip rv-d1">
-            WHAT I <em>BRING</em>
+            WHAT I BRING
           </div>
           <div className="skills-cols">
             <div className="sk-col rv-scale rv-d1">
@@ -1967,7 +1967,7 @@ export default function App() {
             — Experience
           </div>
           <div className="s-title light rv-clip rv-d1">
-            WHERE I'VE <em>BUILT</em>
+            WHERE I'VE BUILT
           </div>
           <div className="exp-list">
             <div className="exp-item">
@@ -2146,7 +2146,7 @@ export default function App() {
           <div className="work-header">
             <div className="eyebrow rv">— Projects</div>
             <div className="s-title rv-clip rv-d1">
-              DECISIONS, <em>NOT FEATURES</em>
+              DECISIONS, NOT FEATURES
             </div>
             <div className="filter-row rv rv-d2">
               {[
@@ -2533,7 +2533,7 @@ export default function App() {
                           <ul>
                             {(modalCase.content as any).roadmap.map((item: any, idx: number) => (
                               <li key={idx}>
-                                <strong>{item.quarter} ({item.months}):</strong> {item.deliverables} <em>KPIs: {item.kpiTarget}</em>
+                                {item.quarter} ({item.months}): {item.deliverables} KPIs: {item.kpiTarget}
                               </li>
                             ))}
                           </ul>
@@ -2705,12 +2705,12 @@ export default function App() {
                           <ul>
                             {modalCase.content.marketResearch.widgetPriority.map((wp, i) => (
                               <li key={i}>
-                                <strong>{wp.widget}:</strong> {wp.rationale}
+                                {wp.widget}: {wp.rationale}
                               </li>
                             ))}
                           </ul>
                           {modalCase.content.marketResearch.layerStrategy && (
-                            <p><strong>Layer Strategy:</strong> {modalCase.content.marketResearch.layerStrategy}</p>
+                            <p>Layer Strategy: {modalCase.content.marketResearch.layerStrategy}</p>
                           )}
                         </div>
                       </div>
@@ -2836,7 +2836,7 @@ export default function App() {
               — Testimonials
             </div>
             <div className="s-title light rv-clip rv-d1">
-              WHAT TEAMMATES <em>SAY</em>
+              WHAT TEAMMATES SAY
             </div>
           </div>
           <div className="testi-ticker-outer rv rv-d2">
@@ -2862,7 +2862,7 @@ export default function App() {
             className="s-title rv-clip rv-d1"
             style={{ color: "var(--void)" }}
           >
-            WHEN I'M <em>NOT</em>
+            WHEN I'M NOT
             <br />
             SHIPPING
           </div>
@@ -3761,14 +3761,14 @@ export default function App() {
           — Thanks for stopping by —
         </div>
         <div className="c-big rv rv-d1">
-          LET'S <em className="red">BUILD</em>
+          LET'S <em className="red">BUILD
           <br />
           <span className="stroke">SOMETHING</span>
           <br />
-          <em className="red">IMPACTFUL</em>
+          <em className="red">IMPACTFUL
         </div>
         <p className="c-sub rv rv-d2">
-          Open to <strong>senior PM roles</strong> in health
+          Open to senior PM roles in health
           tech, consumer, or fintech. Data fluency, clinical
           context, ability to ship — fast.
         </p>
