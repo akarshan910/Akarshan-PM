@@ -302,438 +302,438 @@ const CASES = [
       prototypeLink: "/word_trip_prototype.html",
     },
   },
-  {
-    id: 3,
-    theme: "blue",
-    vol: "VOL.03",
-    volJp: "",
-    co: "Arcana · Workspace",
-    title: "ARCANA WORKSPACE",
-    desc: "Bloomberg-style modular launchpad for institutional investors — grid-based workspaces with configurable widgets for real-time market monitoring",
-    impact: "0→1 shipped",
-    tags: ["0→1", "b2b", "prototype", "workflows", "fintech"],
-    kpis: [
-      { v: "7", l: "Priority widgets designed" },
-      { v: "V1", l: "Full PRD → prototype shipped" },
-      { v: "∞", l: "Workspace configurations possible" },
-    ],
-    content: {
-      problemStatement: {
-        overview:
-          "Institutional investors, analysts & researchers operate in a high frequency, high cognitive load environment. Their daily workflow involves simultaneously monitoring live prices, charts, news, alerts, and global market context while switching context across multiple asset classes.",
-        challenges: [
-          {
-            title: "Fragmented Information",
-            desc: "Prices, charts, news, alerts, and market hours live in separate views. Users must mentally stitch insights together by exploring each view.",
-          },
-          {
-            title: "High Context Switching Cost",
-            desc: "Switching between workflows (e.g., market open vs research) requires re-navigation. Analysts lose time reconstructing views multiple times a day.",
-          },
-          {
-            title: "One-Size-Fits-All Interfaces",
-            desc: "Different users track different assets, regions, and time horizons. Yet interfaces offer no personalisation.",
-          },
-          {
-            title: "Poor State Persistence",
-            desc: "Users expect layouts, filters, and configurations to persist across sessions. Rework to analyse the same thing wastes time.",
-          },
-        ],
-      },
-      whyItMatters:
-        "<strong>Product stickiness multiplier:</strong> Custom dashboards directly correlate with higher retention and daily engagement, by becoming their first preference for daily monitoring. Market precedent: Bloomberg Launchpad is one of the most heavily used terminal features because it solves this exact problem through customizable, persistent widgets & workspaces.",
-      productVision:
-        "Build Arcana Workspace, a modular, Bloomberg-style Launchpad that allows users to create, save, and switch between personalised workspaces composed of configurable widgets — optimised for real-time monitoring, clarity, and execution with speed, leading to repeat daily usage.",
-      v1Goals: [
-        "Enable users to build custom workspaces using modular widgets from scratch or premade templates",
-        "Templates are workspace formats with pre-configured widgets (NEWS, Portfolio, Research) for distinct use cases with must-have global settings (e.g., Index/Stock selector for Portfolio)",
-        "Support adding, resizing, configuring, and saving widget layouts",
-        "Allow multiple tabs/pages per workspace with add, delete, reorder, rename, and share capabilities",
-        "Preserve widget-level intelligence (e.g., Nvidia selected in both price monitor & performance chart)",
-      ],
-      marketResearch: {
-        userBehavior:
-          "A Bloomberg Launchpad user typically: (1) combines price monitors + charts + news feeds to correlate headlines with price reactions, (2) uses alerts to catch significant moves without continuous hovering, (3) saves workflows by theme (commodity tracking, earnings day, global markets).",
-        daySegmentation:
-          "This mirrors how users segment their day: morning pre-open scan, live session monitoring, post-close analysis.",
-        widgetPriority: [
-          {
-            widget: "Equity Price Monitor",
-            rationale: "Most basic, most used — priority 1 for every workflow",
-          },
-          {
-            widget: "Index Tracker",
-            rationale: "Global indices (S&P, Nifty). Macro sentiment gauge — widely used by analysts",
-          },
-          {
-            widget: "Commodity Prices",
-            rationale: "Critical for cross-asset views (similar to Bloomberg's commodities widget)",
-          },
-          {
-            widget: "Real-Time Chart",
-            rationale: "Visual confirmation of trends & patterns — core to workflows",
-          },
-          {
-            widget: "Live News Feed",
-            rationale: "Provides context to price movements — heavily used",
-          },
-          {
-            widget: "Alerts",
-            rationale: "Simple price threshold alerts. Helps catch key events without always watching",
-          },
-          {
-            widget: "Timezone / Market Hours",
-            rationale: "Supports a global view across regions",
-          },
-        ],
-        layerStrategy:
-          "V1 = Signal intake + context + workflow persistence. V2 = Outcome measurement (performance, deep analytics, risk, attribution, order execution integration).",
-      },
-      coreCapabilities: [
-        {
-          title: "Workspace (Grid-Based Canvas)",
-          features: [
-            "Grid-based canvas (like Metabase) customizable by creating views",
-            "Preset templates for core use cases (Portfolio Analysis, Single Stock Analysis) with pre-specified widgets",
-            "Global settings applied during creation (e.g., stock selection powers all widgets)",
-            "Workspaces can be copied, renamed, shared, and managed from settings",
-            "Workspaces appear as tabs, switchable instantly",
-          ],
-        },
-        {
-          title: "Widgets",
-          features: [
-            "Modular, atomic blocks with multiple responsive UIs across grid sizes (Apple widget paradigm)",
-            "Configurable, resizable, repositionable, removable",
-            "Widgets retain their capabilities (e.g., Summary widget retains % AUM & % Gross selection)",
-            "Export widget data in Excel format",
-            "No overlapping; automatic grid placement",
-          ],
-        },
-        {
-          title: "Pages",
-          features: [
-            "Each workspace supports multiple pages representing sub-contexts (Portfolio: Price, Valuation, Macro)",
-            "Pages visible side-by-side, selectable with tab navigation",
-            "Add, delete, reorder, rename, share, and customize from settings",
-            "Independent widget configurations per page",
-          ],
-        },
-        {
-          title: "Group Components (V1 Foundation)",
-          features: [
-            "V1: Global settings during template creation for workspace-wide securities",
-            "V2 (Full Manager): Users can create groups of components that auto-update when security changes",
-            "Enables cross-widget context linking",
-          ],
-        },
-      ],
-      userJourneys: [
-        {
-          journey: "First-Time User Experience",
-          steps: [
-            "Opens Arcana Workspace → clicks Create New",
-            "Selects one of three options: (1) Auto-optimized view for screen resolution, (2) Sample view template, (3) Blank canvas",
-            "Sees Launchpad toolbar with search bar for components/templates",
-            "Adds first widget (e.g., Equity Price Monitor) or selects a template",
-            "Configures widget parameters (columns, filters, indicators) and adjusts position/size",
-            "Saves the workspace",
-            "Exit State: Saved workspace with ≥1 page and ≥1 widget",
-          ],
-        },
-        {
-          journey: "Adding & Configuring a Widget",
-          steps: [
-            "Clicks search bar → opens Component/Template Browser",
-            "Searches or browses popular components/templates",
-            "Selects component; it appears on canvas in default state",
-            "Configures columns, filters, indicators, and optional rename",
-            "Saves the widget and workspace",
-          ],
-        },
-        {
-          journey: "Building a Multi-Page Workspace",
-          steps: [
-            "Clicks +New Page → creates Page 2 inside same workspace",
-            "Adds different widgets (e.g., Asia markets) or templates",
-            "Options to copy, rename, rearrange, delete, share, customize the page",
-            "Saves page and workspace",
-            "Exit State: One workspace, multiple task-specific pages",
-          ],
-        },
-        {
-          journey: "Returning User Daily Flow",
-          steps: [
-            "Logs in → last-used workspace auto-opens (or default)",
-            "Scans monitors, switches page/workspace",
-            "Makes minor edits",
-            "Auto-save or manual save persists state",
-          ],
-        },
-        {
-          journey: "Power User — Pre-market Open",
-          steps: [
-            "Opens pre-market workspace template (heatmap, price monitor, watchlist)",
-            "Configures filters for Asia/EM/US open",
-            "Sets alert thresholds for earnings or large moves",
-            "Pins relevant charts and quick-exec links for live trading",
-            "Shares snapshot with desk or downstream execution team",
-          ],
-        },
-        {
-          journey: "Research-to-Execution",
-          steps: [
-            "Researcher builds workspace with valuation & news widgets",
-            "Publishes workspace as a template or shares with trader",
-            "Trader imports workspace, attaches execution blocks, and routes orders",
-            "Trade executed; P&L widget reflects result and persists as a template",
-          ],
-        },
-        {
-          journey: "Collaborative Review",
-          steps: [
-            "Analyst assembles a story workspace for earnings day",
-            "Shares workspace link with team for synchronous review",
-            "Comments and annotations are added to widgets",
-            "Final workspace is saved as a shared template for future events",
-          ],
-        },
-        {
-          journey: "Admin / Enterprise Onboarding",
-          steps: [
-            "Admin provisions seats & default templates via settings",
-            "Rolls out organisation templates and governance policies",
-            "Monitors adoption metrics and distributes training materials",
-          ],
-        },
-      ],
-      stateHandling: {
-        workspaceStates: [
-          "Empty (no widgets)",
-          "Draft (unsaved changes) → Discard or Save options",
-          "Saved → persists to backend",
-          "Selected / Unselected",
-        ],
-        pageStates: [
-          "Empty → Save to commit",
-          "Draft (unsaved changes) → Delete or Save",
-          "Saved with widget states",
-        ],
-        widgetStates: [
-          "Unconfigured → Configured → Linked (V2)",
-          "Deleted state",
-          "Position & Size layout tracking",
-          "Parameter selection persistence",
-        ],
-        saveRules: [
-          "Draft state persists locally",
-          "Explicit save commits to backend",
-          "Deleting active workspace → redirect to next/default",
-          "Version handling of workspace changes",
-        ],
-      },
-      infoArchitecture: [
-        {
-          toolbar: "Toolbar 1: Workspace Switching & Creation",
-          elements: [
-            "Search Bar → add widgets & templates to active page",
-            "Workspace Tabs → click to switch workspaces instantly",
-            "Create New (rightmost) → create additional workspaces",
-            "Workspace tabs draggable to reorder",
-          ],
-        },
-        {
-          toolbar: "Toolbar 2: Workspace Actions & Controls",
-          elements: [
-            "Workspace Name (clickable to rename)",
-            "Global Settings Indicator (shows active grouping if template-based)",
-            "Save a Copy (duplicate workspace)",
-            "Share (share with users)",
-            "Customise / Save (toggle Edit Mode)",
-          ],
-          editModeCapabilities: [
-            "Widgets can be resized, rearranged, removed",
-            "Workspace & Pages can be renamed & deleted",
-            "All destructive actions gated behind Edit Mode",
-            "Save button exits Edit Mode & persists configuration",
-          ],
-        },
-        {
-          toolbar: "Toolbar 3: Pages (Tabs Within Workspace)",
-          elements: [
-            "Page Tabs (all pages visible side-by-side)",
-            "Create Page button (add new page with sequential naming: Page 2, Page 3)",
-            "Right-click page tab for rename/delete options",
-            "Draggable tabs to reorder pages",
-          ],
-        },
-        {
-          canvas: "Canvas Area (Widget Surface)",
-          behavior: [
-            "Located below Toolbar 3",
-            "Displays all widgets for selected page",
-            "In Edit Mode: widgets draggable, droppable, resizable, removable",
-            "Widgets do not overlap; automatic grid placement",
-            "If full or min-size constraint violated: user informed widget cannot be added",
-          ],
-        },
-      ],
-      successMetrics: {
-        adoptionActivation: [
-          {
-            metric: "Workspace Creation Rate",
-            definition: "% of active users who create ≥1 workspace within 7 days",
-            why: "Indicates initial value discovery",
-            target: "8–12% within 30 days",
-          },
-          {
-            metric: "Activation Rate",
-            definition: "% of users who create a workspace, add ≥3 widgets, and save it",
-            why: "Confirms meaningful usage, not just exploration",
-            target: "5–9%",
-          },
-          {
-            metric: "Template Usage Rate",
-            definition: "% of users using a template vs blank canvas",
-            why: "Validates usefulness of pre-built templates",
-            target: "~40% of creators",
-          },
-        ],
-        engagementHabitFormation: [
-          {
-            metric: "Workspace DAU Ratio",
-            definition: "Workspace DAU ÷ Total DAU",
-            why: "Indicates daily stickiness",
-            target: "20–30% for heavy workflows",
-          },
-          {
-            metric: "Default Workspace Launch Rate",
-            definition: "% of sessions where Workspace opens by default",
-            why: "Signals habit formation",
-            target: "≥35% for power users",
-          },
-          {
-            metric: "Day-over-Day Retention",
-            definition: "D1, D2, D3 … D30 retention for Workspace users",
-            why: "Validates long-term stickiness",
-            target: "D7 ≥ 22%, D30 ≥ 12%",
-          },
-          {
-            metric: "Avg. Widgets per Workspace",
-            definition: "Average number of widgets added per workspace",
-            why: "Indicates richness of user setup",
-            target: "3–6 widgets",
-          },
-          {
-            metric: "Page Switching Rate",
-            definition: "% of users switching pages within a session",
-            why: "Validates page-level value and multi-context usage",
-            target: "≥18%",
-          },
-        ],
-        monetizationMetrics: [
-          {
-            metric: "Paid Workspace Conversion",
-            definition: "% of organisations converting to paid workspace seats or premium templates",
-            why: "Direct revenue signal for enterprise productisation",
-            target: "0.5–1% (seed) → 2% in 12 months",
-          },
-          {
-            metric: "ARPA (Workspace Customers)",
-            definition: "Average revenue per account for workspace-paying customers",
-            why: "Revenue health for the workspace product",
-            target: "$300–800 / month (initial benchmark)",
-          },
-        ],
-        growthMetrics: [
-          {
-            metric: "MAU Growth (Workspace Users)",
-            definition: "Monthly active users who use the Workspace feature",
-            why: "Usage baseline for product prioritisation",
-            target: ">+40% YoY for the workspace cohort",
-          },
-        ],
-      },
-      metrics: [
-        {
-          category: "Adoption & Activation",
-          items: [
-            "Workspace Creation Rate: target 8–12% within 30 days (aim 10%)",
-            "Activation (≥3 widgets saved): target 5–9% (aim 7%)",
-            "Template Adoption: ~40% of creators (aim 45% with highlights)",
-          ],
-        },
-        {
-          category: "Engagement",
-          items: [
-            "Workspace DAU Ratio: 20–30%",
-            "Avg Widgets per Workspace: 3–6 (aim 4.5)",
-            "Page Switching Rate: ≥18%",
-          ],
-        },
-        {
-          category: "Monetization",
-          items: [
-            "Paid Workspace Conversion: seed 0.5–1% → 2% in 12 months",
-            "ARPA (Workspace Customers): $300–800 / month",
-          ],
-        },
-      ],
-      operationalMetrics: [
-        {
-          name: "UI & Data SLAs",
-          items: [
-            "Widget initial render latency: <300ms target",
-            "Widget data refresh: <5s for streaming feeds, <30s for batched sources",
-            "API availability SLO: 99.9%",
-            "Error rate (5xx): <0.1%",
-          ],
-        },
-        {
-          name: "Data Freshness",
-          items: [
-            "Market ticks supported: 10k+ events/s",
-            "Max data lag tolerated: <500ms for market-critical widgets",
-          ],
-        },
-      ],
-      experimentation: {
-        objectives: [
-          "Increase Workspace Creation Rate",
-          "Improve Activation (≥3 widgets saved)",
-          "Improve Template Adoption",
-        ],
-        experiments: [
-          {
-            name: "Onboarding CTA Test",
-            hypothesis: "Defaulting to a sample template increases creation rate by 10%",
-            metric: "Workspace Creation Rate",
-            duration: "4 weeks",
-          },
-          {
-            name: "Template Highlighting",
-            hypothesis: "Highlighting best-value templates increases template adoption by 15%",
-            metric: "Template Adoption",
-            duration: "6 weeks",
-          },
-        ],
-      },
-      tags: [
-        "0→1 Product",
-        "PRD",
-        "Figma Prototype",
-        "Fintech",
-        "Widget System",
-        "Bloomberg",
-        "Market Research",
-        "Information Architecture",
-        "B2B",
-      ],
-      prdLink:
-        "https://docs.google.com/document/d/1MZGAA0LmIOjF_hVQIMYgjWKM06vQP8Aq66b8-xf2xFQ/edit?tab=t.0",
-      prototypeLink: "https://coin-move-54711900.figma.site",
-    },
-  },
+  // {
+  //   id: 3,
+  //   theme: "blue",
+  //   vol: "VOL.03",
+  //   volJp: "",
+  //   co: "Arcana · Workspace",
+  //   title: "ARCANA WORKSPACE",
+  //   desc: "Bloomberg-style modular launchpad for institutional investors — grid-based workspaces with configurable widgets for real-time market monitoring",
+  //   impact: "0→1 shipped",
+  //   tags: ["0→1", "b2b", "prototype", "workflows", "fintech"],
+  //   kpis: [
+  //     { v: "7", l: "Priority widgets designed" },
+  //     { v: "V1", l: "Full PRD → prototype shipped" },
+  //     { v: "∞", l: "Workspace configurations possible" },
+  //   ],
+  //   content: {
+  //     problemStatement: {
+  //       overview:
+  //         "Institutional investors, analysts & researchers operate in a high frequency, high cognitive load environment. Their daily workflow involves simultaneously monitoring live prices, charts, news, alerts, and global market context while switching context across multiple asset classes.",
+  //       challenges: [
+  //         {
+  //           title: "Fragmented Information",
+  //           desc: "Prices, charts, news, alerts, and market hours live in separate views. Users must mentally stitch insights together by exploring each view.",
+  //         },
+  //         {
+  //           title: "High Context Switching Cost",
+  //           desc: "Switching between workflows (e.g., market open vs research) requires re-navigation. Analysts lose time reconstructing views multiple times a day.",
+  //         },
+  //         {
+  //           title: "One-Size-Fits-All Interfaces",
+  //           desc: "Different users track different assets, regions, and time horizons. Yet interfaces offer no personalisation.",
+  //         },
+  //         {
+  //           title: "Poor State Persistence",
+  //           desc: "Users expect layouts, filters, and configurations to persist across sessions. Rework to analyse the same thing wastes time.",
+  //         },
+  //       ],
+  //     },
+  //     whyItMatters:
+  //       "<strong>Product stickiness multiplier:</strong> Custom dashboards directly correlate with higher retention and daily engagement, by becoming their first preference for daily monitoring. Market precedent: Bloomberg Launchpad is one of the most heavily used terminal features because it solves this exact problem through customizable, persistent widgets & workspaces.",
+  //     productVision:
+  //       "Build Arcana Workspace, a modular, Bloomberg-style Launchpad that allows users to create, save, and switch between personalised workspaces composed of configurable widgets — optimised for real-time monitoring, clarity, and execution with speed, leading to repeat daily usage.",
+  //     v1Goals: [
+  //       "Enable users to build custom workspaces using modular widgets from scratch or premade templates",
+  //       "Templates are workspace formats with pre-configured widgets (NEWS, Portfolio, Research) for distinct use cases with must-have global settings (e.g., Index/Stock selector for Portfolio)",
+  //       "Support adding, resizing, configuring, and saving widget layouts",
+  //       "Allow multiple tabs/pages per workspace with add, delete, reorder, rename, and share capabilities",
+  //       "Preserve widget-level intelligence (e.g., Nvidia selected in both price monitor & performance chart)",
+  //     ],
+  //     marketResearch: {
+  //       userBehavior:
+  //         "A Bloomberg Launchpad user typically: (1) combines price monitors + charts + news feeds to correlate headlines with price reactions, (2) uses alerts to catch significant moves without continuous hovering, (3) saves workflows by theme (commodity tracking, earnings day, global markets).",
+  //       daySegmentation:
+  //         "This mirrors how users segment their day: morning pre-open scan, live session monitoring, post-close analysis.",
+  //       widgetPriority: [
+  //         {
+  //           widget: "Equity Price Monitor",
+  //           rationale: "Most basic, most used — priority 1 for every workflow",
+  //         },
+  //         {
+  //           widget: "Index Tracker",
+  //           rationale: "Global indices (S&P, Nifty). Macro sentiment gauge — widely used by analysts",
+  //         },
+  //         {
+  //           widget: "Commodity Prices",
+  //           rationale: "Critical for cross-asset views (similar to Bloomberg's commodities widget)",
+  //         },
+  //         {
+  //           widget: "Real-Time Chart",
+  //           rationale: "Visual confirmation of trends & patterns — core to workflows",
+  //         },
+  //         {
+  //           widget: "Live News Feed",
+  //           rationale: "Provides context to price movements — heavily used",
+  //         },
+  //         {
+  //           widget: "Alerts",
+  //           rationale: "Simple price threshold alerts. Helps catch key events without always watching",
+  //         },
+  //         {
+  //           widget: "Timezone / Market Hours",
+  //           rationale: "Supports a global view across regions",
+  //         },
+  //       ],
+  //       layerStrategy:
+  //         "V1 = Signal intake + context + workflow persistence. V2 = Outcome measurement (performance, deep analytics, risk, attribution, order execution integration).",
+  //     },
+  //     coreCapabilities: [
+  //       {
+  //         title: "Workspace (Grid-Based Canvas)",
+  //         features: [
+  //           "Grid-based canvas (like Metabase) customizable by creating views",
+  //           "Preset templates for core use cases (Portfolio Analysis, Single Stock Analysis) with pre-specified widgets",
+  //           "Global settings applied during creation (e.g., stock selection powers all widgets)",
+  //           "Workspaces can be copied, renamed, shared, and managed from settings",
+  //           "Workspaces appear as tabs, switchable instantly",
+  //         ],
+  //       },
+  //       {
+  //         title: "Widgets",
+  //         features: [
+  //           "Modular, atomic blocks with multiple responsive UIs across grid sizes (Apple widget paradigm)",
+  //           "Configurable, resizable, repositionable, removable",
+  //           "Widgets retain their capabilities (e.g., Summary widget retains % AUM & % Gross selection)",
+  //           "Export widget data in Excel format",
+  //           "No overlapping; automatic grid placement",
+  //         ],
+  //       },
+  //       {
+  //         title: "Pages",
+  //         features: [
+  //           "Each workspace supports multiple pages representing sub-contexts (Portfolio: Price, Valuation, Macro)",
+  //           "Pages visible side-by-side, selectable with tab navigation",
+  //           "Add, delete, reorder, rename, share, and customize from settings",
+  //           "Independent widget configurations per page",
+  //         ],
+  //       },
+  //       {
+  //         title: "Group Components (V1 Foundation)",
+  //         features: [
+  //           "V1: Global settings during template creation for workspace-wide securities",
+  //           "V2 (Full Manager): Users can create groups of components that auto-update when security changes",
+  //           "Enables cross-widget context linking",
+  //         ],
+  //       },
+  //     ],
+  //     userJourneys: [
+  //       {
+  //         journey: "First-Time User Experience",
+  //         steps: [
+  //           "Opens Arcana Workspace → clicks Create New",
+  //           "Selects one of three options: (1) Auto-optimized view for screen resolution, (2) Sample view template, (3) Blank canvas",
+  //           "Sees Launchpad toolbar with search bar for components/templates",
+  //           "Adds first widget (e.g., Equity Price Monitor) or selects a template",
+  //           "Configures widget parameters (columns, filters, indicators) and adjusts position/size",
+  //           "Saves the workspace",
+  //           "Exit State: Saved workspace with ≥1 page and ≥1 widget",
+  //         ],
+  //       },
+  //       {
+  //         journey: "Adding & Configuring a Widget",
+  //         steps: [
+  //           "Clicks search bar → opens Component/Template Browser",
+  //           "Searches or browses popular components/templates",
+  //           "Selects component; it appears on canvas in default state",
+  //           "Configures columns, filters, indicators, and optional rename",
+  //           "Saves the widget and workspace",
+  //         ],
+  //       },
+  //       {
+  //         journey: "Building a Multi-Page Workspace",
+  //         steps: [
+  //           "Clicks +New Page → creates Page 2 inside same workspace",
+  //           "Adds different widgets (e.g., Asia markets) or templates",
+  //           "Options to copy, rename, rearrange, delete, share, customize the page",
+  //           "Saves page and workspace",
+  //           "Exit State: One workspace, multiple task-specific pages",
+  //         ],
+  //       },
+  //       {
+  //         journey: "Returning User Daily Flow",
+  //         steps: [
+  //           "Logs in → last-used workspace auto-opens (or default)",
+  //           "Scans monitors, switches page/workspace",
+  //           "Makes minor edits",
+  //           "Auto-save or manual save persists state",
+  //         ],
+  //       },
+  //       {
+  //         journey: "Power User — Pre-market Open",
+  //         steps: [
+  //           "Opens pre-market workspace template (heatmap, price monitor, watchlist)",
+  //           "Configures filters for Asia/EM/US open",
+  //           "Sets alert thresholds for earnings or large moves",
+  //           "Pins relevant charts and quick-exec links for live trading",
+  //           "Shares snapshot with desk or downstream execution team",
+  //         ],
+  //       },
+  //       {
+  //         journey: "Research-to-Execution",
+  //         steps: [
+  //           "Researcher builds workspace with valuation & news widgets",
+  //           "Publishes workspace as a template or shares with trader",
+  //           "Trader imports workspace, attaches execution blocks, and routes orders",
+  //           "Trade executed; P&L widget reflects result and persists as a template",
+  //         ],
+  //       },
+  //       {
+  //         journey: "Collaborative Review",
+  //         steps: [
+  //           "Analyst assembles a story workspace for earnings day",
+  //           "Shares workspace link with team for synchronous review",
+  //           "Comments and annotations are added to widgets",
+  //           "Final workspace is saved as a shared template for future events",
+  //         ],
+  //       },
+  //       {
+  //         journey: "Admin / Enterprise Onboarding",
+  //         steps: [
+  //           "Admin provisions seats & default templates via settings",
+  //           "Rolls out organisation templates and governance policies",
+  //           "Monitors adoption metrics and distributes training materials",
+  //         ],
+  //       },
+  //     ],
+  //     stateHandling: {
+  //       workspaceStates: [
+  //         "Empty (no widgets)",
+  //         "Draft (unsaved changes) → Discard or Save options",
+  //         "Saved → persists to backend",
+  //         "Selected / Unselected",
+  //       ],
+  //       pageStates: [
+  //         "Empty → Save to commit",
+  //         "Draft (unsaved changes) → Delete or Save",
+  //         "Saved with widget states",
+  //       ],
+  //       widgetStates: [
+  //         "Unconfigured → Configured → Linked (V2)",
+  //         "Deleted state",
+  //         "Position & Size layout tracking",
+  //         "Parameter selection persistence",
+  //       ],
+  //       saveRules: [
+  //         "Draft state persists locally",
+  //         "Explicit save commits to backend",
+  //         "Deleting active workspace → redirect to next/default",
+  //         "Version handling of workspace changes",
+  //       ],
+  //     },
+  //     infoArchitecture: [
+  //       {
+  //         toolbar: "Toolbar 1: Workspace Switching & Creation",
+  //         elements: [
+  //           "Search Bar → add widgets & templates to active page",
+  //           "Workspace Tabs → click to switch workspaces instantly",
+  //           "Create New (rightmost) → create additional workspaces",
+  //           "Workspace tabs draggable to reorder",
+  //         ],
+  //       },
+  //       {
+  //         toolbar: "Toolbar 2: Workspace Actions & Controls",
+  //         elements: [
+  //           "Workspace Name (clickable to rename)",
+  //           "Global Settings Indicator (shows active grouping if template-based)",
+  //           "Save a Copy (duplicate workspace)",
+  //           "Share (share with users)",
+  //           "Customise / Save (toggle Edit Mode)",
+  //         ],
+  //         editModeCapabilities: [
+  //           "Widgets can be resized, rearranged, removed",
+  //           "Workspace & Pages can be renamed & deleted",
+  //           "All destructive actions gated behind Edit Mode",
+  //           "Save button exits Edit Mode & persists configuration",
+  //         ],
+  //       },
+  //       {
+  //         toolbar: "Toolbar 3: Pages (Tabs Within Workspace)",
+  //         elements: [
+  //           "Page Tabs (all pages visible side-by-side)",
+  //           "Create Page button (add new page with sequential naming: Page 2, Page 3)",
+  //           "Right-click page tab for rename/delete options",
+  //           "Draggable tabs to reorder pages",
+  //         ],
+  //       },
+  //       {
+  //         canvas: "Canvas Area (Widget Surface)",
+  //         behavior: [
+  //           "Located below Toolbar 3",
+  //           "Displays all widgets for selected page",
+  //           "In Edit Mode: widgets draggable, droppable, resizable, removable",
+  //           "Widgets do not overlap; automatic grid placement",
+  //           "If full or min-size constraint violated: user informed widget cannot be added",
+  //         ],
+  //       },
+  //     ],
+  //     successMetrics: {
+  //       adoptionActivation: [
+  //         {
+  //           metric: "Workspace Creation Rate",
+  //           definition: "% of active users who create ≥1 workspace within 7 days",
+  //           why: "Indicates initial value discovery",
+  //           target: "8–12% within 30 days",
+  //         },
+  //         {
+  //           metric: "Activation Rate",
+  //           definition: "% of users who create a workspace, add ≥3 widgets, and save it",
+  //           why: "Confirms meaningful usage, not just exploration",
+  //           target: "5–9%",
+  //         },
+  //         {
+  //           metric: "Template Usage Rate",
+  //           definition: "% of users using a template vs blank canvas",
+  //           why: "Validates usefulness of pre-built templates",
+  //           target: "~40% of creators",
+  //         },
+  //       ],
+  //       engagementHabitFormation: [
+  //         {
+  //           metric: "Workspace DAU Ratio",
+  //           definition: "Workspace DAU ÷ Total DAU",
+  //           why: "Indicates daily stickiness",
+  //           target: "20–30% for heavy workflows",
+  //         },
+  //         {
+  //           metric: "Default Workspace Launch Rate",
+  //           definition: "% of sessions where Workspace opens by default",
+  //           why: "Signals habit formation",
+  //           target: "≥35% for power users",
+  //         },
+  //         {
+  //           metric: "Day-over-Day Retention",
+  //           definition: "D1, D2, D3 … D30 retention for Workspace users",
+  //           why: "Validates long-term stickiness",
+  //           target: "D7 ≥ 22%, D30 ≥ 12%",
+  //         },
+  //         {
+  //           metric: "Avg. Widgets per Workspace",
+  //           definition: "Average number of widgets added per workspace",
+  //           why: "Indicates richness of user setup",
+  //           target: "3–6 widgets",
+  //         },
+  //         {
+  //           metric: "Page Switching Rate",
+  //           definition: "% of users switching pages within a session",
+  //           why: "Validates page-level value and multi-context usage",
+  //           target: "≥18%",
+  //         },
+  //       ],
+  //       monetizationMetrics: [
+  //         {
+  //           metric: "Paid Workspace Conversion",
+  //           definition: "% of organisations converting to paid workspace seats or premium templates",
+  //           why: "Direct revenue signal for enterprise productisation",
+  //           target: "0.5–1% (seed) → 2% in 12 months",
+  //         },
+  //         {
+  //           metric: "ARPA (Workspace Customers)",
+  //           definition: "Average revenue per account for workspace-paying customers",
+  //           why: "Revenue health for the workspace product",
+  //           target: "$300–800 / month (initial benchmark)",
+  //         },
+  //       ],
+  //       growthMetrics: [
+  //         {
+  //           metric: "MAU Growth (Workspace Users)",
+  //           definition: "Monthly active users who use the Workspace feature",
+  //           why: "Usage baseline for product prioritisation",
+  //           target: ">+40% YoY for the workspace cohort",
+  //         },
+  //       ],
+  //     },
+  //     metrics: [
+  //       {
+  //         category: "Adoption & Activation",
+  //         items: [
+  //           "Workspace Creation Rate: target 8–12% within 30 days (aim 10%)",
+  //           "Activation (≥3 widgets saved): target 5–9% (aim 7%)",
+  //           "Template Adoption: ~40% of creators (aim 45% with highlights)",
+  //         ],
+  //       },
+  //       {
+  //         category: "Engagement",
+  //         items: [
+  //           "Workspace DAU Ratio: 20–30%",
+  //           "Avg Widgets per Workspace: 3–6 (aim 4.5)",
+  //           "Page Switching Rate: ≥18%",
+  //         ],
+  //       },
+  //       {
+  //         category: "Monetization",
+  //         items: [
+  //           "Paid Workspace Conversion: seed 0.5–1% → 2% in 12 months",
+  //           "ARPA (Workspace Customers): $300–800 / month",
+  //         ],
+  //       },
+  //     ],
+  //     operationalMetrics: [
+  //       {
+  //         name: "UI & Data SLAs",
+  //         items: [
+  //           "Widget initial render latency: <300ms target",
+  //           "Widget data refresh: <5s for streaming feeds, <30s for batched sources",
+  //           "API availability SLO: 99.9%",
+  //           "Error rate (5xx): <0.1%",
+  //         ],
+  //       },
+  //       {
+  //         name: "Data Freshness",
+  //         items: [
+  //           "Market ticks supported: 10k+ events/s",
+  //           "Max data lag tolerated: <500ms for market-critical widgets",
+  //         ],
+  //       },
+  //     ],
+  //     experimentation: {
+  //       objectives: [
+  //         "Increase Workspace Creation Rate",
+  //         "Improve Activation (≥3 widgets saved)",
+  //         "Improve Template Adoption",
+  //       ],
+  //       experiments: [
+  //         {
+  //           name: "Onboarding CTA Test",
+  //           hypothesis: "Defaulting to a sample template increases creation rate by 10%",
+  //           metric: "Workspace Creation Rate",
+  //           duration: "4 weeks",
+  //         },
+  //         {
+  //           name: "Template Highlighting",
+  //           hypothesis: "Highlighting best-value templates increases template adoption by 15%",
+  //           metric: "Template Adoption",
+  //           duration: "6 weeks",
+  //         },
+  //       ],
+  //     },
+  //     tags: [
+  //       "0→1 Product",
+  //       "PRD",
+  //       "Figma Prototype",
+  //       "Fintech",
+  //       "Widget System",
+  //       "Bloomberg",
+  //       "Market Research",
+  //       "Information Architecture",
+  //       "B2B",
+  //     ],
+  //     prdLink:
+  //       "https://docs.google.com/document/d/1MZGAA0LmIOjF_hVQIMYgjWKM06vQP8Aq66b8-xf2xFQ/edit?tab=t.0",
+  //     prototypeLink: "https://coin-move-54711900.figma.site",
+  //   },
+  // },
   {
     id: 4,
     theme: "teal",
@@ -877,19 +877,19 @@ const CASES = [
     },
   },
   {
-    id: 6,
-    theme: "orange",
-    vol: "VOL.06",
+    id: 3,
+    theme: "blue",
+    vol: "VOL.03",
     volJp: "",
-    co: "Arcana \u00b7 Fintech",
+    co: "Arcana · Workspace",
     title: "ARCANA WORKSPACE",
-    desc: "Bloomberg-style modular workspace PRD for institutional investors — widgets, pages, templates & real-time monitoring",
-    impact: "PRD shipped",
-    tags: ["feature", "prototype"],
+    desc: "Bloomberg-style modular launchpad for institutional investors — grid-based workspaces with configurable widgets for real-time market monitoring",
+    impact: "0→1 shipped",
+    tags: ["0→1", "b2b", "prototype", "workflows", "fintech"],
     kpis: [
-      { v: "7", l: "Widget types prioritised" },
-      { v: "4", l: "User journeys designed" },
-      { v: "V1", l: "Full PRD & live prototype" },
+      { v: "7", l: "Priority widgets designed" },
+      { v: "V1", l: "Full PRD → prototype shipped" },
+      { v: "∞", l: "Workspace configurations possible" },
     ],
     prdLink: "https://docs.google.com/document/d/1MZGAA0LmIOjF_hVQIMYgjWKM06vQP8Aq66b8-xf2xFQ/edit?tab=t.0#heading=h.su9f7jlfuspx",
     prototypeUrl: "https://workspace-nu-liard.vercel.app/",
