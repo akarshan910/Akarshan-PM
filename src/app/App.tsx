@@ -23,111 +23,6 @@ const CASES = [
       { v: "5", l: "Regional languages in Phase 1" },
     ],
     content: {
-      opportunity:
-        "<strong>The Opportunity:</strong> Sri Mandir attracts a uniquely diverse base of devotees across age, tech-fluency, and geography. Yet the platform experiences high single-session churn and low repeat rates. Users treat puja booking as a transactional one-off rather than a spiritual practice. The gap is not in the puja quality (priests and rituals are authentic) — it's in how users discover, trust, and stay connected to the platform.",
-      userChallenges: {
-        millennialsNRIs:
-          "<strong>Tech-Savvy Millennials & NRIs:</strong> Desire spirituality without friction. They browse curated puja recommendations tied to their life events (birthdays, anniversaries, housewarming) and expect personalized reminders for auspicious dates. Currently, they must manually search through 100+ pujas with no context.",
-        elderlyUsers:
-          "<strong>Non-Digital Elderly Users (55+):</strong> Trust WhatsApp implicitly (use daily for family) but distrust app-based payments. They need simple, templated booking flows on WhatsApp with clear confirmation. They wish to gift pujas to family without forcing them to install another app.",
-        firstTimeUsers:
-          "<strong>First-Time / Skeptical Users:</strong> Uncertainty about authenticity. They want proof — video evidence of the ritual being performed, clarity on Gotra usage, and zero hidden charges. Social proof ('1,247 devotees booked this puja this month') builds confidence.",
-      },
-      whyNow:
-        "<strong>Why This Matters:</strong> Spirituality is aspirational and habit-forming. Users who experience one personalized, well-executed puja are 3× more likely to return for milestone moments (Diwali, anniversaries, Ekadashi). This unlocks a subscription economy (monthly spiritual packages) and a word-of-mouth channel (gifting to family). WhatsApp is the distribution layer — already trusted, already installed, already the primary communication channel for Indian users.",
-      strategicDvisions: [
-        {
-          name: "Friction Elimination",
-          detail:
-            "WhatsApp as the primary booking channel. Full booking + confirmation + prasad tracking flow, zero app installs required.",
-        },
-        {
-          name: "Discovery & Personalisation",
-          detail:
-            "Recommendation engine powered by past bookings, personal dates, Gotra, and auspicious calendar. 'For You' carousel becomes the default entry point for returning users.",
-        },
-        {
-          name: "Trust Through Transparency",
-          detail:
-            "Short-form video feed (Reels-style) showing actual puja performances. Real-time ritual confirmation sent to users post-completion. Gotra verification modal ensures ceremonial accuracy.",
-        },
-        {
-          name: "Habit Formation",
-          detail:
-            "Spiritual Calendar with push + WhatsApp reminders for personal milestones and festival dates. Streaks and milestones celebrate consistency.",
-        },
-        {
-          name: "Accessibility",
-          detail:
-            "Phased rollout of 5 regional languages (Hindi, Tamil, Telugu, Kannada, Bengali). Each language includes culturally relevant puja variants and priest profiles.",
-        },
-      ],
-      keyFeatures: [
-        {
-          title: "WhatsApp Booking Gateway",
-          desc: "Users tap a menu in WhatsApp → browse top 5 pujas → select package → pay via deep-link → confirmation + tracking on WhatsApp. TAT from tap to confirmation: 60 seconds.",
-        },
-        {
-          title: "AI Recommendations",
-          desc: "Cold-start (new users): location + trending pujas. Warm (returning users): past bookings + saved pujas + personal dates + Gotra. Refreshes 24-hourly.",
-        },
-        {
-          title: "Video Feed",
-          desc: "Dedicated tab showing 30-second clips of actual puja performances, chadhavs, and aartis. Tap 'Book This Puja' to jump directly to booking.",
-        },
-        {
-          title: "Spiritual Calendar",
-          desc: "Personal dates (birthdays, anniversaries) + Hindu festival calendar (Ekadashi, Navratri, Diwali). Reminders 7 days and 1 day before. Curated puja suggestions for each date.",
-        },
-        {
-          title: "Profile Sync",
-          desc: "Simple modal on first visit: Gotra, birthday, anniversary, marital status. Each field explains its purpose. Editable anytime. Data powers all personalization.",
-        },
-      ],
-      userJourneys: [
-        {
-          persona: "First-Time User (Millennial)",
-          flow: "Opens app → sees trending pujas + video feed → watches 2 videos → builds trust → WhatsApp prompt 'Book on WhatsApp' → books Ganesh Puja in 60 seconds → receives confirmation on WhatsApp.",
-        },
-        {
-          persona: "Returning Devotee (Elderly via WhatsApp)",
-          flow: "Receives WhatsApp reminder '7 days until your birthday — recommended pujas inside' → taps link → Puja booking menu → selects Saraswati Puja → shares confirmation with family WhatsApp group.",
-        },
-        {
-          persona: "NRI User (Diaspora)",
-          flow: "Logs in, sees 'For You' carousel → 'Grih Pravesh Pujas for your housewarming' → adds to cart → WhatsApp reminder before ceremony → video proof of ritual sent post-completion → forwards to parents.",
-        },
-        {
-          persona: "Festival Season User",
-          flow: "Gets Diwali calendar notification → 'Popular Diwali Pujas in your city' → browses trending recommendations → books 3 pujas → tracks all via WhatsApp over 5 days.",
-        },
-      ],
-      metrics: [
-        {
-          category: "Adoption & Day 1 Success",
-          items: [
-            "First-time booking completion rate: 35% (baseline) → 42% (target)",
-            "WhatsApp opt-in rate within 7 days: 45%",
-            "Profile data collection: Gotra filled by 38% of new users",
-          ],
-        },
-        {
-          category: "Engagement & Repeat",
-          items: [
-            "Monthly orders per active user: 1.2x (baseline) → 1.6x (target) +30%",
-            "WhatsApp booking conversion: 12% of reached users book within 7 days",
-            "Puja section bounce rate: 60% → 42% (-18pp)",
-          ],
-        },
-        {
-          category: "Expansion & Accessibility",
-          items: [
-            "Vernacular user bookings: 8% (baseline) → 15% (9-month target)",
-            "Video feed session depth: ≥4 videos per session",
-            "Calendar reminder CTR: ≥25%",
-          ],
-        },
-      ],
       tags: [
         "WhatsApp Business API",
         "Recommendation Engine",
@@ -140,6 +35,256 @@ const CASES = [
         "Engagement",
       ],
       prototypeLink: "/sri_mandir_prototype.html",
+      customSections: [
+        {
+          num: "01",
+          title: "Assignment Objective",
+          body: "Improve the <strong>order per user (Monthly order frequency)</strong> for the puja service at Sri Mandir.",
+          items: null,
+        },
+        {
+          num: "02",
+          title: "Assumptions",
+          body: null,
+          items: [
+            "<strong>Core Puja Performance is Authentic:</strong> We assume the religious rituals are performed authentically by verified priests according to scriptures, and the challenge lies in communicating and ensuring this authenticity in the online format.",
+            "<strong>Technological Infrastructure:</strong> Sri Mandir possesses or can acquire the necessary technological infrastructure to implement proposed digital enhancements, including localisation.",
+            "<strong>Access to User Data:</strong> Basic user data regarding puja bookings, frequency, location (inferred), and stated preferences is accessible for analysis and personalisation efforts.",
+            "<strong>Motivation Beyond One-Time Need:</strong> While specific needs might drive initial bookings, there's an underlying desire among users for ongoing spiritual connection, seeking blessings, and performing religious duties regularly.",
+          ],
+        },
+        {
+          num: "03",
+          title: "Target User Segments",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Tech-Savvy Devotees (Millennials & Gen Z)",
+              items: ["Individuals who integrate technology into their lives and seek convenient ways to practice faith."],
+            },
+            {
+              title: "NRIs & Geographically Distant Devotees",
+              items: ["Those living away from their preferred temples or countries, seeking to stay connected to their spiritual roots."],
+            },
+            {
+              title: "Time-Constrained Individuals",
+              items: ["Users with busy schedules who prioritise efficiency — seeking convenience & accessibility to easily book and participate from home."],
+            },
+            {
+              title: "Individuals with Specific Needs",
+              items: ["Users booking for particular life events, astrological reasons, or personal challenges."],
+            },
+            {
+              title: "Tech-informed Devotees Seeking Regular Practice",
+              items: ["Tech-comfortable individuals who value consistency in spiritual rituals and seek regular puja participation."],
+            },
+            {
+              title: "Non-Technological Regular Devotees",
+              items: ["Older, tradition-focused individuals deeply devoted to puja but less comfortable with digital tools. Typically use WhatsApp or Facebook. May struggle with online payments."],
+            },
+            {
+              title: "Non-Hindi/English Speaking Devotees",
+              items: ["A potentially underserved segment comfortable in regional Indian languages."],
+            },
+          ],
+        },
+        {
+          num: "04",
+          title: "User Motivations & Pain Points",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Key Motivations",
+              items: [
+                "<strong>Spiritual Connection & Fulfillment:</strong> Seeking blessings and maintaining religious practice. Staying connected to traditional roots — often through listening to aartis and bhajans.",
+                "<strong>Convenience & Accessibility:</strong> Booking and participating from anywhere, anytime.",
+                "<strong>Time & Effort Saving:</strong> Avoiding logistical hassles of offline pujas.",
+                "<strong>Authenticity & Trust (Desired):</strong> Expectation that rituals are performed correctly by qualified priests.",
+                "<strong>Bridging Distance:</strong> Connecting with specific temples or traditions from afar.",
+                "<strong>Receiving Prasad & Blessings:</strong> The tangible outcome of the puja.",
+              ],
+            },
+            {
+              title: "Pain Points (from Google Play Reviews & App Usage)",
+              items: [
+                "<strong>Lack of Personalisation & Context:</strong> The puja service page is generic, lacking recommendations based on user history, preferences, or local relevance (e.g., what others are booking in that location).",
+                "<strong>Product Education:</strong> Low awareness & discoverability of the Puja service and its offerings.",
+                "<strong>Lack of Trust Signals:</strong> Absence of trust on online payments. No social proofing (e.g., how many users viewed/booked). Concerns about divine box quality and missing items. Lack of clarity on puja venue. Critical issue of incorrect Gotra being used. Insufficient communication regarding venue changes or Prasad issues.",
+                "<strong>Accessibility Limitations:</strong> Service primarily in Hindi and English alienates users comfortable only in regional languages.",
+                "<strong>Learning Curve:</strong> Multiple steps and unfamiliar interactions differ from typical app flows (like FB, WhatsApp), creating a barrier especially for first-time users.",
+                "<strong>Lack of Urgency/Timeliness Cues:</strong> No timer on critical pujas where timing is significant to create booking urgency.",
+                "<strong>Limited Guidance on Options:</strong> Difficulty identifying the 'most picked plans' or best options without personalisation.",
+              ],
+            },
+          ],
+        },
+        {
+          num: "05",
+          title: "Opportunities for Improvement",
+          body: "Opportunities lie in addressing identified pain points to build trust, enhance convenience, and create a more personalised and engaging experience that encourages repeat and more frequent bookings.",
+          items: [
+            "<strong>Build and Communicate Trust:</strong> Proactively address concerns about authenticity, Prasad, Gotra, and venue transparency.",
+            "<strong>Enhance Personalisation & Relevance:</strong> Make the puja discovery and booking process highly relevant based on profile, history, and context (location, auspicious dates).",
+            "<strong>Product Education:</strong> Build awareness & product education experience for users.",
+            "<strong>Subscriptions:</strong> Offer easy ways to book recurring pujas and manage spiritual obligations.",
+            "<strong>Improve Accessibility:</strong> Cater to users in their preferred language & community (e.g., Bihari, Bengali).",
+            "<strong>Optimise for Conversion:</strong> Use urgency cues wherever appropriate to reduce booking time.",
+            "<strong>Improve Post-Booking Experience:</strong> Ensure smooth Prasad delivery and clear communication throughout the process.",
+            "Implement robust data collection for Gotra and integrate it clearly into booking and confirmation.",
+            "Develop a personalised dashboard showing recommended pujas, upcoming events, and loyalty status.",
+            "Display social proof metrics (e.g., 'X users viewing,' 'Y users booked this week').",
+            "Offer multiple language selection options for content and communication.",
+            "Streamline the booking flow, clearly presenting options like single booking vs. subscription.",
+          ],
+        },
+        {
+          num: "06",
+          title: "Proposed Solutions by Segment",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Time-Constrained Professional / Millennial / Gen Z",
+              items: [
+                "Puja Recommendation Engine",
+                "Personalised Spiritual Calendar & Reminders",
+                "Subscription Packages",
+                "<em>Metrics:</em> Puja Order ↑ · Subscription Adoption & Renewal % · Reminder Click Rate",
+              ],
+            },
+            {
+              title: "NRI / Geographically Distant Devotee",
+              items: [
+                "Personalised Recommendations by region/tradition",
+                "Spiritual Calendar with local timezone",
+                "Gift a Puja",
+                "<em>Metrics:</em> Repeat Booking Rate from NRIs · Gifting Feature Usage · NRI Engagement %",
+              ],
+            },
+            {
+              title: "Needs-Based / Occasional User",
+              items: [
+                "Problem-Specific Recommendation Engine",
+                "Monthly Curated Focus Pujas",
+                "<em>Metrics:</em> Engagement with Focus Pujas · Bounce Rate on Need-Based Pages ↓ · Booking Conversion Rate ↑",
+              ],
+            },
+            {
+              title: "Tech-informed Devotees Seeking Regular Practice",
+              items: [
+                "Subscription Packages",
+                "Personalised Spiritual Calendar & Reminders",
+                "Tiered Loyalty Rewards",
+                "Puja & Aashirvaad Box Authenticity",
+                "Complementary Puja Suggestions",
+                "<em>Metrics:</em> Puja Users ↑ · Puja Booked ↑ · Loyalty Program Participation · Subscription Adoption & Renewal % · # Puja Box Complaints",
+              ],
+            },
+            {
+              title: "Non-Technological Regular Devotees",
+              items: [
+                "Product Education",
+                "Video feed of puja, chadhavs or rituals",
+                "WhatsApp Integration",
+                "<em>Metrics:</em> Engagement Rate on Education · Video View Count · Engagement & retention on video feed · Conversion Rate via WhatsApp",
+              ],
+            },
+            {
+              title: "Skeptical / New Online Puja User",
+              items: [
+                "Post-Puja Transparency (video, photo, prasad)",
+                "Responsive Support",
+                "Social Proofing & User Testimonials",
+                "<em>Metrics:</em> First-Time Booking Conversion Rate · Support Ticket Resolution Time ↓ · NPS / CSAT Score ↑",
+              ],
+            },
+            {
+              title: "Non-Hindi/English Speaking Devotees",
+              items: [
+                "Multi-Language UI & Booking Flow",
+                "Regional Language Video/Audio Mantras",
+                "Local Language Support Team",
+                "Puja Descriptions in Native Tongues",
+                "<em>Metrics:</em> Drop-off Rate in Non-Hindi/English Regions ↓ · Increase in Bookings from Vernacular Users · Language Preference Opt-in Rate ↑",
+              ],
+            },
+          ],
+        },
+        {
+          num: "07",
+          title: "Priority Segments",
+          body: "To boost monthly orders per user, we will prioritise these key segments:",
+          items: [
+            "<strong>1. Time-Constrained Professionals / Millennials / Gen Z:</strong> Their busy, tech-savvy nature makes them highly receptive to convenient, recurring digital solutions like subscriptions, offering the greatest potential for increased monthly frequency.",
+            "<strong>2. Tech-informed Devotees Seeking Regular Practice:</strong> Already inclined towards regular practice, they will benefit from streamlined processes, personalisation and subscriptions to maintain or slightly increase their existing high frequency.",
+            "<strong>3. Non-Technological Regular Devotees</strong> (like mothers and grandparents): Social media users who struggle with online payments due to trust issues. Their strong religious commitment drives high repeat engagement and potential for increased order frequency.",
+          ],
+        },
+        {
+          num: "08",
+          title: "RICE Prioritisation",
+          body: null,
+          items: null,
+          metricGroups: [
+            {
+              name: "Feature Priority Ranking",
+              subtitle: "Reach × Impact × Confidence ÷ Effort",
+              metrics: [
+                { metric: "WhatsApp Integration", definition: "Reach: 9 · Impact: 2.5 · Confidence: 85% · Effort: 2 mo", why: "RICE Score 9.6 — Priority #1" },
+                { metric: "Product Education", definition: "Reach: 7 · Impact: 2 · Confidence: 65% · Effort: 1 mo", why: "RICE Score 9.1 — Priority #2" },
+                { metric: "Puja Recommendation Engine", definition: "Reach: 9 · Impact: 2.7 · Confidence: 90% · Effort: 3 mo", why: "RICE Score 7.3 — Priority #3" },
+                { metric: "Video Feed", definition: "Reach: 9 · Impact: 2.5 · Confidence: 95% · Effort: 3 mo", why: "RICE Score 7.1 — Priority #4" },
+                { metric: "Personalised Spiritual Calendar & Reminders", definition: "Reach: 9 · Impact: 2 · Confidence: 95% · Effort: 2.5 mo", why: "RICE Score 6.8 — Priority #5" },
+                { metric: "Subscription Packages", definition: "Reach: 8 · Impact: 2.5 · Confidence: 85% · Effort: 1.5 mo", why: "RICE Score 5.7 — Priority #6" },
+                { metric: "Complementary Puja Suggestions", definition: "Reach: 6 · Impact: 2 · Confidence: 65% · Effort: 2 mo", why: "RICE Score 3.9 — Priority #7" },
+                { metric: "Tiered Loyalty Rewards", definition: "Reach: 6 · Impact: 2 · Confidence: 65% · Effort: 3 mo", why: "RICE Score 2.6 — Priority #8" },
+                { metric: "Puja & Aashirvaad Box Authenticity", definition: "Reach: 5 · Impact: 1.5 · Confidence: 60% · Effort: 2 mo", why: "RICE Score 2.3 — Priority #9" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "09",
+          title: "WhatsApp Integration",
+          body: "We'll leverage WhatsApp as a <strong>dual-purpose channel</strong> — first, to deliver bite-sized, conversational product education (interactive tutorials, rich media demos, and targeted tips) that helps devotees discover and understand all puja services; and second, to enable <strong>seamless inbound booking requests</strong> directly within the chat interface, so users can simply message or tap menu options to schedule, personalize, and confirm their puja without ever leaving WhatsApp.",
+          items: [
+            "<strong>Product Education via WhatsApp:</strong> Bite-sized, conversational tutorials and rich media demos delivered in-chat to drive discovery and awareness.",
+            "<strong>Puja Booking Service via WhatsApp:</strong> Users tap a menu → browse top pujas → select package → pay via deep-link → confirmation + tracking on WhatsApp. TAT from tap to confirmation: 60 seconds.",
+          ],
+        },
+        {
+          num: "10",
+          title: "Video Feed",
+          body: "Introducing a <strong>dedicated video section</strong> where devotees can endlessly scroll through immersive clips — creating session depth & improving engagement. By showcasing pujas, rituals, and Chadhavs in action, this video-led discovery format meets modern users' evolving browsing habits. Just as Meesho's in-app video feed lets shoppers see products in use and builds trust before purchase, our videos will foster <strong>authenticity and confidence</strong> in every puja experience.",
+          items: null,
+        },
+        {
+          num: "11",
+          title: "Puja Recommendation Engine",
+          body: "We'll gently collect key details — Gotra, birthdays, anniversaries, children's information — at right moments in the app (e.g., when user clicks on puja), always explaining the benefit. By collecting relevant info we deliver truly relevant puja recommendations, build trust, and avoid overload.",
+          items: null,
+          subsections: [
+            {
+              title: "Cold-Start (No User Data)",
+              items: [
+                "<strong>Show local favorites:</strong> Detect the user's location to highlight the most-booked pujas in their city or region.",
+                "<strong>Feature upcoming & seasonal events:</strong> Surface major monthly pujas and festivals (e.g., Navratri, Sankashti) so newcomers see timely, relevant offerings.",
+                "<strong>Highlight platform trends:</strong> 'What's Trending' strip showcasing pujas with high view or booking counts across all users, building social proof and driving initial engagement.",
+              ],
+            },
+            {
+              title: "When User Data Is Available",
+              items: [
+                "<strong>Leverage profile attributes:</strong> Pull in Gotra, birthdates, anniversaries and astrological details to surface rituals that align with heritage and life events.",
+                "<strong>Tailor to important dates:</strong> Analyse their important days and suggest relevant pujas.",
+                "<strong>Build a dynamic 'For You' carousel:</strong> Continuously updated with new recommendations — 'Based on your last Ganesh Puja' or 'Anniversary special for 5 years of devotion.' Incorporates past booking data and app interaction.",
+              ],
+            },
+          ],
+        },
+      ],
     },
   },
   {
@@ -158,137 +303,6 @@ const CASES = [
       { v: "8.8M", l: "MAU target (6.5M → 8.8M)" },
     ],
     content: {
-      competitiveGap: {
-        overview:
-          "<strong>The Problem:</strong> Word Trip is #5 by revenue (~$500K/mo) with 6.5M MAU. Word Escapes generates 4.4× more revenue (+$2M/mo) with only 1.7M incremental users. This is not a user acquisition problem — it's a monetization and retention crisis.",
-        benchmark: {
-          wordTrip: { mau: "6.5M", revenue: "$500K/mo", conversion: "~2.5%", rank: "#62 App Store" },
-          wordEscapes: {
-            mau: "8.2M",
-            revenue: "$2.2M/mo",
-            conversion: "~4%",
-            rank: "#6 App Store",
-          },
-          wordsFriends: {
-            mau: "13.8M",
-            revenue: "$2.7M/mo",
-            conversion: "~4.5%",
-            rank: "#51 App Store",
-          },
-        },
-        insight:
-          "The gap is 1pp conversion rate (2.5% vs 3.5%+). On 6.5M MAU, a 1pp swing = +$65K/mo immediate revenue. Better retention enables reinvestment into UA.",
-      },
-      rootCauseAnalysis: [
-        {
-          cause: "High Pre-Gameplay Friction",
-          evidence:
-            "5+ modal pop-ups before first puzzle. Competitors: ≤2 clicks. Each additional click raises drop-off by ~20% (GameAnalytics). Users install 3 games simultaneously and play the one with fastest time-to-gameplay.",
-          impact: "Day 0 → Day 1 drop-off = 65% (vs 50% industry benchmark)",
-        },
-        {
-          cause: "Single Game Format",
-          evidence:
-            "Only one word puzzle mode available initially. Players exhaust novelty loop in 10–15 minutes. No incentive to return Day 2.",
-          impact: "Session length = 15 min avg (vs 22–45 min top performers). Early churn accelerates.",
-        },
-        {
-          cause: "Suboptimal IAP Hierarchy",
-          evidence:
-            "Best-value bundle placed 3rd. Urgency mechanics absent (no countdown timers, no flash sales). Purchase restore missing — reinstalls = lost purchases = low confidence to spend.",
-          impact: "Conversion 2.5% vs 3.5%+ benchmark. Top spenders churn after 1 bad reinstall experience.",
-        },
-        {
-          cause: "No Retention Infrastructure",
-          evidence:
-            "No leaderboards, daily streaks, seasonal events, or PvP. Top competitors all have these. Users see no reason to return.",
-          impact: "D7 retention 18% (vs 25%+ benchmark). No habit loop.",
-        },
-      ],
-      strategicInitiatives: [
-        {
-          title: "Streamline Onboarding",
-          ricePriority: "RICE 18 (#1)",
-          timing: "Q1 (Weeks 1–3)",
-          approach:
-            "Reduce click-to-gameplay to ≤2. Tutorial puzzle → optional account creation (post-game) → direct to Level 1. Defer all permission requests to contextually relevant moments (Day 3, after 5 puzzles). Result: 15-second cold-start.",
-        },
-        {
-          title: "Optimize IAP",
-          ricePriority: "RICE 6.8 (#2)",
-          timing: "Q1 (Weeks 3–6)",
-          approach:
-            "Restructure bundle hierarchy: most popular first, best-value highlighted. Add 24-hour countdown timers on session 1 & 4. Implement purchase restore. Test personalised first-purchase offers. Target: 3.5% conversion within 3 months.",
-        },
-        {
-          title: "Unlock Multiple Game Formats",
-          ricePriority: "RICE 4.0 (#3)",
-          timing: "Q2 (Weeks 7–12)",
-          approach:
-            "Daily Challenge with rotating formats (Word Wheel, Crossword, Anagram Sprint). Secondary Word Puzzle unlocked from Level 1, not gated. Independent progress tracking per format prevents format-switching fatigue.",
-        },
-        {
-          title: "Retention Layers",
-          ricePriority: "RICE 3.4 (#4)",
-          timing: "Q2 (Weeks 13–18)",
-          approach:
-            "Global + Friends leaderboard (weekly resets, rank always visible). 7-day login streak with Day 7 premium reward (hints, ad-free hour, bonus miles). Win-back push for 7+ day lapsed users. Seasonal events framework for Holi, Diwali, Christmas.",
-        },
-      ],
-      roadmap: [
-        {
-          quarter: "Q1",
-          months: "Months 1–3",
-          deliverables:
-            "Onboarding cleanup (≤2 clicks) · IAP revamp (hierarchy, timers, restore) · Ad frequency cap (sessions 1–3)",
-          kpiTarget:
-            "Day 1 retention ≥48% | IAP conv. ≥3.1% | Session length ≥18 min",
-        },
-        {
-          quarter: "Q2",
-          months: "Months 4–6",
-          deliverables:
-            "Daily Challenge · Word Puzzle secondary format (Level 1+) · Global + Friends leaderboard · 7-day streak system",
-          kpiTarget:
-            "Day 7 retention ≥22% | Session length ≥22 min | DAU/MAU ≥23%",
-        },
-        {
-          quarter: "Q3",
-          months: "Months 7–9",
-          deliverables:
-            "Seasonal events · Personalized IAP bundles · Market research for localization · Win-back campaign",
-          kpiTarget:
-            "Day 28 retention ≥18% | MAU ≥7.5M | ARPU ≥$0.68",
-        },
-        {
-          quarter: "Q4",
-          months: "Months 10–12",
-          deliverables:
-            "PvP word battles · 2 localized markets (6M+ population each) · Travel Companions social system",
-          kpiTarget:
-            "MAU ≥8.8M | App Store rank ≤#30 | ARPU ≥$0.75 | Revenue ≥$800K/mo",
-        },
-      ],
-      successFramework: {
-        retentionMetrics: [
-          "Day 1 Retention: 35% (baseline) → 48% target (+13pp) — first 24h experience is critical",
-          "Day 7 Retention: ~18% → 25% (+7pp) — habit formation checkpoint",
-          "Day 28 Retention: ~12% → 18% (+6pp) — LTV signal, subscription-readiness indicator",
-          "Session Length: 15 min avg → 22 min (+7 min) — multiple formats and engagement depth",
-        ],
-        monetizationMetrics: [
-          "IAP Conversion: 2.5% → 3.5% within 3 months of Q1 launch (+1pp = +$65K/mo at baseline MAU)",
-          "Average Session Value: Current ~$0.08 → $0.12 (estimated post-IAP revamp)",
-          "ARPU: $0.60 → $0.75 in 12 months (+25%)",
-          "Revenue: $500K/mo → $800K/mo by Month 12 (+60%)",
-        ],
-        growthMetrics: [
-          "MAU: 6.5M → 8.8M in 12 months (+1.35× organic growth + UA)",
-          "App Store Ranking: #62 → #30 within 12 months (retention improves ranking algorithms)",
-          "Play Store Ranking: #23 → #15 (retention + review lift)",
-          "DAU/MAU: 18% → 25%+ (better habit formation = stickier cohorts)",
-        ],
-      },
       tags: [
         "Mobile Games",
         "Monetization Strategy",
@@ -300,6 +314,275 @@ const CASES = [
         "Engagement",
       ],
       prototypeLink: "/word_trip_prototype.html",
+      customSections: [
+        {
+          num: "01",
+          title: "Word Trip Overview",
+          body: "WordTrip is a word puzzle game that combines elements of crosswords and word searches with travel-themed visuals and progression. The game primarily monetizes through <strong>in-app purchases and advertising</strong>. Current position: <strong>#5 by revenue (~$500K/mo) with 6.5M MAU</strong>. Word Escapes generates 4.4× more revenue with only 1.7M incremental users — this is not a user acquisition problem, it's a <strong>monetization and retention gap</strong>.",
+          items: null,
+        },
+        {
+          num: "02",
+          title: "Competitive Landscape",
+          body: null,
+          items: null,
+          metricGroups: [
+            {
+              name: "Game Comparison",
+              subtitle: "MAU · Monthly Revenue · App Store Ranking · Rating",
+              metrics: [
+                { metric: "Word Trip", definition: "MAU: 6.5M · Revenue: ~$500K/mo · App Store: #62 · Play Store: #23 · Rating: 4.6/4.4", why: "Current baseline — lowest revenue per user in category" },
+                { metric: "Word Escapes", definition: "MAU: 8.2M · Revenue: ~$2.2M/mo · App Store: #6 · Play Store: #9 · Rating: 4.8/4.5", why: "Primary benchmark — 4.4× revenue on 1.7M more users" },
+                { metric: "Words With Friends (Zynga)", definition: "MAU: 13.8M · Revenue: ~$2.7M/mo · App Store: #51 · Play Store: #21 · Rating: 4.5/3.5", why: "Largest MAU — strong social features and multi-format" },
+                { metric: "Word Connect", definition: "MAU: 7.5M · Revenue: ~$500K/mo · App Store: #23 · Play Store: #136 · Rating: 4.8/4.6", why: "Comparable MAU to Word Trip; similar revenue — sentence completion adds variety" },
+                { metric: "Word Cookies", definition: "MAU: 5.2M · Revenue: ~$400K/mo · App Store: #36 · Play Store: #56 · Rating: 4.5/4.5", why: "Lower MAU but better IAP strategy — milestone-based monetization" },
+                { metric: "Words of Wonders", definition: "MAU: N/A · Revenue: ~$300K/mo · App Store: #10 · Play Store: #8 · Rating: 4.9/4.8", why: "Highest rating — localization success story (60M installs in 18mo via Russia/Turkey)" },
+              ],
+            },
+            {
+              name: "Top Performer Benchmarks",
+              subtitle: "Industry benchmarks for mobile word games (GameAnalytics)",
+              metrics: [
+                { metric: "Day 1 Retention", definition: "Up to 43–50%", why: "Word Trip baseline: ~35%" },
+                { metric: "Day 7 Retention", definition: "Up to 18–35%", why: "Word Trip baseline: ~18%" },
+                { metric: "Day 28 Retention", definition: "Up to 20–29%", why: "Word Trip baseline: ~12%" },
+                { metric: "IAP Conversion Rate", definition: "~3–5%", why: "Word Trip baseline: ~2.5%" },
+                { metric: "Session Length", definition: "Up to 27–45 minutes", why: "Word Trip baseline: ~15 min" },
+                { metric: "ARPPU", definition: "Up to $10", why: "Mobile game analytics benchmark" },
+                { metric: "ARPU", definition: "~$0.60", why: "Word Trip baseline comparable" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "03",
+          title: "User Pain Points",
+          body: "Based on observations from Word Trip & competitor app usage over multiple days:",
+          items: null,
+          subsections: [
+            {
+              title: "1. High Onboarding Friction",
+              items: [
+                "Word Trip shows 3 consecutive pop-ups (thank you message, iOS ads tracking, notifications) before even asking for login/account creation — then lands on the first product experience. This creates <strong>5+ clicks before first gameplay</strong>, the highest among all competitors.",
+                "<strong>How competitors do it differently:</strong> Word Escapes: only EULA acceptance before product demo. Word Connect: iOS ad tracking then immediately starts gameplay. Word Cookies: just two pop-ups before gameplay.",
+                "<strong>Why this matters:</strong> First-time UX directly impacts install-to-player conversion. Each additional click before gameplay increases drop-off by ~20% (GameAnalytics). Acquisition costs are wasted when users abandon before experiencing core gameplay. High friction creates negative first impressions leading to poor store ratings.",
+              ],
+            },
+            {
+              title: "2. Limited Game Formats",
+              items: [
+                "Word Trip offers only <strong>one format of word game</strong> unlocked at initial level. The travel theme with hidden bonus words is engaging but becomes repetitive without alternative modes.",
+                "<strong>How competitors do it differently:</strong> Zynga Word With Friends: multiple game modes accessible at all levels — daily puzzle, match of the day, solo challenge, word wheel, social gaming, PvP, crosswords, Clubs. Word Connect: offers sentence completion. Word Escapes: crossword-style gameplay as an alternative format.",
+                "<strong>Why this matters:</strong> Different formats appeal to various skill levels and play preferences. Udonis Research shows variety significantly reduces churn by preventing gameplay fatigue. Limited formats restrict session length. Multiple formats create cross-promotion opportunities.",
+              ],
+            },
+            {
+              title: "3. Suboptimal Monetization & IAP Strategy",
+              items: [
+                "<strong>Poor IAP Bundle Design:</strong> Best value packs are hidden; first item (600 INR) is neither popular nor best value. Most popular plan placed in the second fold. No restore plan option or mega sale timer.",
+                "<strong>Ad Overload:</strong> Excessive ads during the second session, leading to a frustrating user experience.",
+                "<strong>How competitors do it differently:</strong> Word Escapes: better bundling, exclusive time-sensitive bundling at start, red color to highlight value. Zynga: places 'most popular' first, uses time-associated offers with shimmer animation. Word Connect: 'one time offer' creating urgency, restore option. Word Cookies: sale timer, most popular bundles at top.",
+                "<strong>Why this matters:</strong> IAP optimization impacts revenue without requiring additional users. Optimal IAP presentation can increase conversion by 25–35% (Liftoff). Early ad bombardment damages retention. Urgency mechanics (timers, limited offers) are proven psychological triggers.",
+              ],
+            },
+            {
+              title: "4. Missing Retention Mechanisms",
+              items: [
+                "Word Trip lacks <strong>leaderboards, daily/weekly milestones, temporal events</strong> (Holi, Diwali), and social gaming features like PvP. Engagement features like clubs and daily spelling bee only unlock at higher levels.",
+                "<strong>How competitors do it differently:</strong> Word Escapes: leaderboards for competitive play. Zynga: leaderboards for global & friends, solo challenge, Clubs at all levels. Word Connect: daily tasks with progress promoting retention. Word Cookies: milestones with reward rates. Word With Friends: daily free claim section improving daily behaviour.",
+                "<strong>Why this matters:</strong> Retention is the primary driver of LTV in free-to-play games. GameRefinery research shows games with robust retention features maintain 30–40% higher DAU/MAU ratios. Social features create organic growth. Seasonal events create reasons to return.",
+              ],
+            },
+          ],
+        },
+        {
+          num: "04",
+          title: "RICE Prioritisation",
+          body: null,
+          items: null,
+          metricGroups: [
+            {
+              name: "Initiative Priority Ranking",
+              subtitle: "Reach × Impact × Confidence ÷ Effort",
+              metrics: [
+                { metric: "Streamline Onboarding", definition: "Reach: 10 · Impact: 2 · Confidence: 90% · Effort: 1 mo", why: "RICE Score 18 — Priority #1" },
+                { metric: "Optimize IAP Strategy", definition: "Reach: 8 · Impact: 3 · Confidence: 85% · Effort: 3 mo", why: "RICE Score 6.8 — Priority #2" },
+                { metric: "Add Multiple Game Formats", definition: "Reach: 8 · Impact: 2.5 · Confidence: 80% · Effort: 4 mo", why: "RICE Score 4 — Priority #3" },
+                { metric: "Implement Retention Features", definition: "Reach: 9 · Impact: 2 · Confidence: 75% · Effort: 4 mo", why: "RICE Score 3.38 — Priority #4" },
+                { metric: "Add Social Gaming", definition: "Reach: 6 · Impact: 2 · Confidence: 70% · Effort: 3 mo", why: "RICE Score 2.8 — Priority #5" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "05",
+          title: "Market Share Positioning Strategy",
+          body: "<strong>Current Position:</strong> Word Trip is the #5 player in the word games category. <strong>Target Position:</strong> Reach #3 within 12 months. The strategy leverages Word Trip's unique travel theme as differentiation while filling competitive gaps in formats, retention, and monetization.",
+          items: [
+            "<strong>Travel Companions:</strong> Friend system framed as 'travel buddies' who can assist with hints or play together. Ability to send postcards (messages/challenges) from unlocked destinations.",
+            "<strong>Travel Rewards Economy:</strong> Convert traditional coins/gems into 'miles' redeemable for game benefits. Premium 'expeditions' for IAP purchases taking players to exclusive destinations. Travel-themed power-ups (e.g., 'Local Guide' for hints, 'Translation Book' for word reveals).",
+            "<strong>Fill competitive gaps:</strong> Multiple game formats and retention mechanics to match top performers.",
+            "<strong>Monetization innovation:</strong> Personalized IAP bundles based on user behaviour and spend patterns.",
+            "<strong>New Market Expansion:</strong> Identify new markets for localized experiences — inspired by Words of Wonders gaining 60 million installs in 18 months through localization for Russia and Turkey.",
+          ],
+        },
+        {
+          num: "06",
+          title: "Expected Growth Metrics",
+          body: null,
+          items: null,
+          metricGroups: [
+            {
+              name: "Growth Targets",
+              subtitle: "6-Month vs 12-Month targets (relative to baseline)",
+              metrics: [
+                { metric: "Monthly Active Users", definition: "6-Month: 1.2× · 12-Month: 1.35×", why: "6.5M → 8.8M target" },
+                { metric: "Average Revenue Per User", definition: "6-Month: 1.25× · 12-Month: 1.44×", why: "$0.60 → $0.75 ARPU" },
+                { metric: "Market Share Ranking", definition: "6-Month: 1.5× · 12-Month: 1.1×", why: "App Store #62 → #30 target" },
+                { metric: "Day 1 Retention", definition: "6-Month: 1.4× · 12-Month: 1.5×", why: "35% → 48% target" },
+                { metric: "Day 30 Retention", definition: "6-Month: 1.1× · 12-Month: 1.15×", why: "12% → ~14% target" },
+                { metric: "IAP Conversion Rate", definition: "6-Month: 1.2× · 12-Month: 1.4×", why: "2.5% → 3.5% target" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "07",
+          title: "Q1 Roadmap: Onboarding & Monetization",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Onboarding Optimization",
+              items: [
+                "Reduce clicks from 5 to 2 (game demo → optional account creation)",
+                "A/B test streamlined flows",
+                "Implement progressive permission requests at different milestones",
+                "<em>KPIs:</em> First-time user conversion: 65% → 85% · Day 1 retention",
+              ],
+            },
+            {
+              title: "IAP Strategy Revamp",
+              items: [
+                "Reorganize IAP bundles (most popular/best value first)",
+                "Implement timed exclusive offers",
+                "Add 'Restore Purchase' option",
+                "Improve bundle naming focused on value",
+                "<em>KPIs:</em> IAP conversion rate: 2.5% → 3.1% · Total IAP purchases",
+              ],
+            },
+            {
+              title: "Ad Strategy Optimization",
+              items: [
+                "Reduce ad frequency in first 3 sessions",
+                "Implement rewarded video ads with valuable rewards",
+                "Optimize ad placement based on user journey & milestones",
+                "<em>KPIs:</em> Ad revenue per DAU · 7-day retention",
+              ],
+            },
+          ],
+        },
+        {
+          num: "08",
+          title: "Q2 Roadmap: Game Expansion & Engagement",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Multiple Game Format Introduction",
+              items: [
+                "Add 'Word Puzzles' format from level 1",
+                "Introduce 'Daily Challenge' with rotating formats",
+                "Create seamless navigation between game types",
+                "<em>KPIs:</em> Average session time · Average sessions per day",
+              ],
+            },
+            {
+              title: "Retention Mechanisms",
+              items: [
+                "Implement global and friends leaderboards",
+                "Add daily milestone system with rewards encouraging users to login",
+                "<em>KPIs:</em> 30-day retention · DAU/MAU ratio",
+              ],
+            },
+            {
+              title: "Social Features Phase 1",
+              items: [
+                "Add word challenges between friends",
+                "Create social sharing for achievements",
+                "<em>KPIs:</em> Average sessions duration · Social feature engagement",
+              ],
+            },
+          ],
+        },
+        {
+          num: "09",
+          title: "Q3 Roadmap: Monetization & Live Ops",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Live Ops & Seasonal Events",
+              items: [
+                "Implement seasonal event framework",
+                "Add limited-time rewards and collections",
+                "<em>KPIs:</em> Event participation rate · Revenue during events",
+              ],
+            },
+            {
+              title: "Personalization Engine",
+              items: [
+                "Implement user segmentation based on behaviour",
+                "Create personalized & dynamic IAP bundles",
+                "<em>KPIs:</em> IAP conversion for targeted segments · Retention rate",
+              ],
+            },
+            {
+              title: "New Market Expansion Research",
+              items: [
+                "Do market study of new markets for word games",
+                "Create capabilities to support localised experience",
+                "Formulate GTM for targeted new markets",
+                "<em>KPIs:</em> Total addressable market expansion",
+              ],
+            },
+          ],
+        },
+        {
+          num: "10",
+          title: "Q4 Roadmap: Advanced Features & Expansion",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Advanced Game Formats",
+              items: [
+                "Add 'Word Wheel', 'Sentence Completion', 'Wordle' and other high-engaging word game formats",
+                "<em>KPIs:</em> New user growth: +15% · Cross-format engagement: 30% of users",
+              ],
+            },
+            {
+              title: "Social Features Phase 2",
+              items: [
+                "Implement PvP word battles",
+                "Add different game formats for PvP battles",
+                "<em>KPIs:</em> Social feature engagement · Retention rate · Average session time",
+              ],
+            },
+            {
+              title: "Market Expansion 2",
+              items: [
+                "Integrate Local Payment Methods",
+                "Run targeted regional campaigns",
+                "Launch localised leaderboards",
+                "Launch Regional Live Events",
+                "ASO for new markets",
+                "<em>KPIs:</em> Total addressable market · Revenue · MAU · DAU",
+              ],
+            },
+          ],
+        },
+      ],
     },
   },
   {
@@ -1829,7 +2112,7 @@ export default function App() {
                         }}
                         onClick={(e) => {
                           e.preventDefault();
-                          window.location.href = modalCase.content.prdLink;
+                          window.location.href = modalCase.content.prdLink!;
                         }}
                       >
                         &#8599; View PRD
@@ -2047,14 +2330,14 @@ export default function App() {
                       </div>
                     )}
 
-                    {modalCase.content.strategicDvisions && (
+                    {(modalCase.content as any).strategicDvisions && (
                       <div className="mchapter">
                         <div className="ch-label">
                           <span className="ch-n" style={{ color: ac }}>04</span>
                           <span className="ch-t">Strategy</span>
                         </div>
                         <div className="init-stack">
-                          {modalCase.content.strategicDvisions.map((item: any, idx: number) => (
+                          {(modalCase.content as any).strategicDvisions.map((item: any, idx: number) => (
                             <div className="init-card" key={idx}>
                               <div className="ic-body">
                                 <div className="ic-title">{item.name}</div>
@@ -2103,7 +2386,7 @@ export default function App() {
                       </div>
                     )}
 
-                    {modalCase.content.roadmap && (
+                    {(modalCase.content as any).roadmap && (
                       <div className="mchapter">
                         <div className="ch-label">
                           <span className="ch-n" style={{ color: ac }}>06</span>
@@ -2111,7 +2394,7 @@ export default function App() {
                         </div>
                         <div className="ch-body">
                           <ul>
-                            {modalCase.content.roadmap.map((item: any, idx: number) => (
+                            {(modalCase.content as any).roadmap.map((item: any, idx: number) => (
                               <li key={idx}>
                                 <strong>{item.quarter} ({item.months}):</strong> {item.deliverables} <em>KPIs: {item.kpiTarget}</em>
                               </li>
@@ -2142,14 +2425,14 @@ export default function App() {
                       </div>
                     )}
 
-                    {modalCase.content.userJourneys && (
+                    {(modalCase.content as any).userJourneys && (
                       <div className="mchapter">
                         <div className="ch-label">
                           <span className="ch-n" style={{ color: ac }}>08</span>
                           <span className="ch-t">User Journeys</span>
                         </div>
                         <div className="journey-stack">
-                          {modalCase.content.userJourneys.map((u: any, i: number) => (
+                          {(modalCase.content as any).userJourneys.map((u: any, i: number) => (
                             <div className="journey-card" key={i}>
                               <div className="jc-persona">{u.journey || u.persona}</div>
                               <div className="jc-flow">{u.flow || u.steps?.join(' → ')}</div>
