@@ -635,119 +635,6 @@ const CASES = [
       { v: "25%", l: "Fitness MAU — structural engagement gap to close" },
     ],
     content: {
-      opportunity:
-        "<strong>The Opportunity:</strong> GLP-1 medications have redefined what is clinically possible in weight loss — but real-world outcomes remain fragile. The gap is no longer pharmacology; it is <strong>behavioral persistence, expectation management, and metabolic protection</strong>. Today's GLP app is optimised for recording activity, not driving outcomes. Users can log weight, meals, fitness, and side effects — but the product does not help them interpret stalled progress, understand body recomposition, protect muscle mass, or stay adherent through plateaus and side effects. The next phase requires a strategic shift from tracking behaviour to <strong>owning outcomes</strong>.",
-      userChallenges: {
-        invisibleProgress:
-          "<strong>Progress Feels Invisible:</strong> Users anchor success entirely to scale weight. Data shows users who lose ≥1 kg show –2 cm waist reduction, while non-losers show +1 cm gain. Waist and body composition changes are real signals of progress — but they're invisible in the current product. Without visible progress signals beyond the scale, motivation collapses during natural weight plateaus.",
-        expectationMismatch:
-          "<strong>Expectation Mismatch With GLP-1:</strong> Users believe 'medication will do the work — I can eat freely.' The clinical reality: GLP-1 reduces appetite, not muscle loss risk. Without guided exercise, lean mass declines, RMR falls, and weight regain risk increases. The app does not currently reset these expectations early enough in the user journey.",
-        fitnessAvoidance:
-          "<strong>Fitness Avoidance Is a Structural Risk:</strong> Fitness MAU is ~25%, with most users completing only one session. Clinically, this creates sarcopenic obesity risk and unsustainable weight loss. Fitness is treated as optional when it is medically essential for metabolic protection.",
-        genderOutcomeGap:
-          "<strong>Gender-Based Outcome Gap:</strong> Men average 1.66 kg loss vs women at 1.26 kg. Testosterone supports muscle preservation; women require more intentional resistance training. A gender-blind fitness experience fails the majority of the user base. Fitness cannot be optional — especially for female users.",
-      },
-      whyNow:
-        "<strong>Why Now:</strong> Between 2022–2024, the GLP-1 market optimised for access — rapid prescriber onboarding, consumer-led demand, medication-first value propositions. By 2025–2026, structural shifts are forcing a reset: medication prices are falling, prescription access is commoditising, and GLP-only platforms are losing defensibility. <strong>Differentiation has moved downstream</strong> — from getting users on medication to ensuring outcomes persist. The next category leader will sell metabolic integrity, not just weight loss. Platforms that remain logging-centric will struggle. Platforms that own outcomes, expectations, and persistence will define the category.",
-      competitiveGap: {
-        overview:
-          "<strong>What Winning Products Do Differently:</strong> Across Noom, Omada, Found, and HealthifyMe, a consistent pattern emerges: medication enables weight loss, but engagement architecture determines durability. High-performing weight-loss platforms converge on three principles that the current product does not deliver.",
-        benchmark: {
-          outcomeVisibility: { principle: "Outcome visibility beats activity logging", finding: "Users need interpretation, not raw data. Progress signals must go beyond scale weight." },
-          humanDigital: { principle: "Human + digital hybrids outperform pure automation", finding: "Coaching access materially improves adherence and persistence. Current ~80% M2 chat usage is an underutilised asset." },
-          musclePreservation: { principle: "Muscle preservation is the new moat", finding: "Fast weight loss without muscle protection leads to metabolic slowdown and rebound. No competitor owns this positioning yet." },
-        },
-        insight:
-          "The current product has strong foundational tracking primitives and high coach engagement. The gap is in connecting these assets to a unified outcome narrative — making protocol adherence visible, actionable, and clinically reinforced.",
-      },
-      rootCauseAnalysis: [
-        {
-          cause: "Biological Friction",
-          evidence: "Nausea, GI distress, and fatigue in early weeks create unmanaged dropout signals. No structured side-effect monitoring or rapid escalation path to coaches/doctors.",
-          impact: "Early dropout — 50–70% discontinuation within 12 months, with highest drop in first 90 days.",
-        },
-        {
-          cause: "Psychological Friction",
-          evidence: "Food identity shifts, stigma, and confusion about what medication 'should' be doing. App does not reset GLP-1 expectations or reframe progress beyond weight.",
-          impact: "Loss of confidence — users interpret lack of scale movement as product/medication failure rather than normal recomposition.",
-        },
-        {
-          cause: "Metric Friction",
-          evidence: "Scale plateaus despite active fat loss and waist reduction. Body composition and non-scale victories are invisible. Progress is perceived as binary: weight down = success, else failure.",
-          impact: "Motivation collapse — users disengage from the app and discontinue medication during natural progress plateaus.",
-        },
-        {
-          cause: "No Protocol Visibility",
-          evidence: "Protocol followers lose ~2.5 kg more. Weight-loss cohort logs 2× more meals and connects ~30% more with doctors. But adherence is implicit — not surfaced or reinforced in the product.",
-          impact: "Missed activation — users who would benefit most from protocol guidance receive no signal that their behaviours are causal.",
-        },
-      ],
-      keyFeatures: [
-        {
-          title: "Pillar 1: Progress Visibility Beyond the Scale",
-          desc: "Smart scale integration (where available), waist and measurement trends surfaced prominently, full-body scan to visualise recomposition, and explicit plateau education. Progress is no longer binary.",
-        },
-        {
-          title: "Pillar 2: Muscle Preservation & Fitness as Core Outcome",
-          desc: "Resistance-first fitness programs, proactive 1:1 fitness consultations, clear framing of fitness = metabolic protection, and gender-aware guidance. Fitness becomes essential, not optional.",
-        },
-        {
-          title: "Pillar 3: Clinical Adherence & Side-Effect Triage",
-          desc: "Structured side-effect monitoring, rapid escalation to coach/doctor, dosage expectation education, and early-week intervention loops. Side-effect resolution builds trust and reduces dropout.",
-        },
-        {
-          title: "Pillar 4: Protocol-Driven Experience",
-          desc: "Clear weekly protocol with visible adherence signals and outcome-based milestones (not task completion). Transforms the app from a passive logger to an active guide.",
-        },
-      ],
-      strategicInitiatives: [
-        {
-          title: "Primary Engagement Loop",
-          timing: "Core",
-          approach: "Progress clarity → confidence → adherence → outcomes. Every product surface reinforces that visible signals (waist, composition, energy) compound into durable metabolic change.",
-        },
-        {
-          title: "Human Accountability Loop",
-          timing: "Retention",
-          approach: "Leverage the existing ~80% M2 coach chat usage as a structured check-in cadence, not reactive support. Proactive coach touchpoints at risk moments (plateau weeks, side-effect spikes).",
-        },
-        {
-          title: "Visual Reinforcement Loop",
-          timing: "Engagement",
-          approach: "Body scans, composition change visualisations, and waist trend charts shown contextually — not just in a data tab. Progress is surfaced where users are already looking.",
-        },
-        {
-          title: "Safety Loop",
-          timing: "Trust",
-          approach: "Side-effect resolution workflows that proactively surface guidance and escalation options. Trust is built through managed adversity, not avoided friction.",
-        },
-      ],
-      metrics: [
-        {
-          category: "Outcome Improvement",
-          items: [
-            "Users losing >1 kg: 64% baseline → 75% target",
-            "Average weight loss vs protocol followers gap: close from 2.5 kg to <1 kg",
-            "Non-scale victory visibility: waist tracking adoption >50%",
-          ],
-        },
-        {
-          category: "Fitness & Muscle Protection",
-          items: [
-            "Fitness MAU: ~25% baseline → 45% target",
-            "Users completing ≥3 resistance sessions/week: <5% baseline → 20% target",
-            "Female fitness engagement parity within 6 months",
-          ],
-        },
-        {
-          category: "Adherence & Retention",
-          items: [
-            "12-month retention: 30–50% baseline → 55% target",
-            "First-90-day dropout: reduce by 30%",
-            "Coach escalation within 48hr of side-effect log: >80%",
-          ],
-        },
-      ],
       tags: [
         "GLP-1",
         "Metabolic Health",
@@ -758,6 +645,256 @@ const CASES = [
         "Behavioral Design",
         "Clinical Adherence",
         "Market Strategy",
+      ],
+      customSections: [
+        {
+          num: "01",
+          title: "Summary",
+          body: "GLP-1 medications have redefined what is clinically possible in weight loss — but real-world outcomes remain fragile. The gap is no longer pharmacology; it is <strong>behavioral persistence, expectation management, and metabolic protection</strong>. Today's GLP app is optimised for <em>recording activity</em>, not <em>driving outcomes</em>.",
+          items: [
+            "The product does not help users <strong>interpret stalled progress</strong>",
+            "The product does not help users <strong>understand body recomposition</strong>",
+            "The product does not help users <strong>protect muscle mass</strong>",
+            "The product does not help users <strong>stay adherent through plateaus and side effects</strong>",
+            "As a result: only <strong>64% of users lose >1 kg</strong> · fitness engagement is <strong>~25% MAU</strong> · progress is perceived as binary ('weight down = success, else failure')",
+            "The next phase requires a strategic shift from <strong>tracking behaviour</strong> to <strong>owning outcomes</strong> — repositioning the GLP app as a <strong>Digital Scaffold</strong> that translates medication into durable metabolic outcomes.",
+          ],
+        },
+        {
+          num: "02",
+          title: "Market Research: Why the Old Model Is Breaking",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "2.1 The GLP-1 Market Has Entered Its Second Act",
+              items: [
+                "<strong>2022–2024 optimised for access:</strong> Rapid prescriber onboarding · Consumer-led demand · Medication-first value propositions",
+                "<strong>2025–2026 structural shifts forcing a reset:</strong> Medication prices are falling · Prescription access is commoditising · 'GLP-only' platforms are losing defensibility",
+                "<strong>Differentiation has moved downstream</strong> — from getting users on medication to ensuring outcomes persist.",
+                "Across Noom, Omada, Found, and HealthifyMe, a consistent pattern: <em>'Medication enables weight loss. Engagement architecture determines durability.'</em>",
+              ],
+            },
+            {
+              title: "2.2 The Persistence Crisis Is the Real Bottleneck",
+              items: [
+                "Real-world GLP-1 programs show <strong>50–70% discontinuation within 12 months</strong>, with highest dropout in the <strong>first 90 days</strong>.",
+                "This is not due to lack of intent — it's due to unmanaged friction across <strong>The Attrition Triad</strong>:",
+                "<strong>Biological:</strong> Nausea, GI distress, fatigue → Early dropout",
+                "<strong>Psychological:</strong> Food identity shifts, stigma, confusion → Loss of confidence",
+                "<strong>Metric:</strong> Scale plateaus despite fat loss → Motivation collapse",
+                "Most products fail because they treat weight loss as <strong>linear</strong>. Users experience it as <strong>non-linear, emotional, and confusing</strong>.",
+              ],
+            },
+            {
+              title: "2.3 What Winning Products Do Differently",
+              items: [
+                "<strong>Outcome visibility beats activity logging</strong> — Users need interpretation, not raw data.",
+                "<strong>Human + digital hybrids outperform pure automation</strong> — Coaching access materially improves adherence and persistence.",
+                "<strong>Muscle preservation is emerging as the new moat</strong> — Fast weight loss without muscle protection leads to metabolic slowdown and rebound.",
+                "This creates a clear opening: <em>The next category leader will sell <strong>metabolic integrity</strong>, not just weight loss.</em>",
+              ],
+            },
+          ],
+        },
+        {
+          num: "03",
+          title: "Why Now",
+          body: "<strong>The End of 'Prescription as Product':</strong> As GLP-1 access becomes ubiquitous, users will ask harder questions. A logging-centric app cannot answer them. An outcome-owning product can. This is the inflection point where <strong>clinical ownership becomes the product</strong>.",
+          items: [
+            "Does weight loss persist beyond 3 months?",
+            "Is muscle mass preserved?",
+            "Are side effects managed early?",
+            "Is cardiometabolic risk actually improving?",
+          ],
+        },
+        {
+          num: "04",
+          title: "Current Product Reality",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "What's Working",
+              items: [
+                "Strong foundational tracking primitives (weight, meals, fitness, side effects)",
+                "High engagement with human coaches (~<strong>80% M2 chat usage</strong>)",
+                "Embedded clinical access",
+              ],
+            },
+            {
+              title: "Where the Experience Breaks",
+              items: [
+                "No unified definition of 'progress'",
+                "Fitness treated as optional, not essential",
+                "Body composition invisible",
+                "Protocol adherence implicit, not explicit",
+                "Users log, but are not guided",
+                "<em>The product records the journey — but does not <strong>direct</strong> it.</em>",
+              ],
+            },
+          ],
+        },
+        {
+          num: "05",
+          title: "Core User Pain Points (Data-Backed)",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "5.1 Progress Feels Invisible",
+              items: [
+                "Users anchor success entirely to scale weight.",
+                "Users who lose ≥1 kg show <strong>–2 cm waist reduction</strong>",
+                "Users who don't lose weight show <strong>+1 cm waist gain</strong>",
+                "Waist tracking strongly correlates with perceived success",
+                "This does <strong>not</strong> imply waist logging causes weight loss. It shows that <strong>visible signals sustain motivation</strong> — and these signals need not be absolute weight loss.",
+              ],
+            },
+            {
+              title: "5.2 Expectation Mismatch With GLP-1",
+              items: [
+                "<strong>User belief:</strong> 'Medication will do the work. I can eat anything freely.'",
+                "<strong>Clinical reality:</strong> GLP-1 reduces appetite — not muscle loss risk.",
+                "Without guidance: Exercise drops · Lean mass declines · RMR falls · Weight regain risk increases",
+                "The app does not currently reset expectations early enough.",
+              ],
+            },
+            {
+              title: "5.3 Fitness Avoidance Is a Structural Risk",
+              items: [
+                "Fitness MAU ~25% · Majority complete only one session",
+                "<strong>Clinical implication:</strong> Sarcopenic obesity risk · Unsustainable weight loss",
+              ],
+            },
+            {
+              title: "5.4 Gender-Based Outcome Gap (New Insight)",
+              items: [
+                "Men: <strong>1.66 kg</strong> average loss · Women: <strong>1.26 kg</strong> average loss",
+                "<strong>Clinical context:</strong> Testosterone supports muscle preservation. Women require more intentional resistance training.",
+                "<strong>Strategic implication:</strong> Fitness cannot be optional — especially for female users.",
+              ],
+            },
+          ],
+        },
+        {
+          num: "06",
+          title: "What the Data Is Actually Saying",
+          body: "These are correlations, not causal claims. But they clearly indicate: when protocol adherence is understood and maintained, outcomes improve. <strong>Engagement clusters around success</strong> — not the other way around. The product must make adherence <strong>visible, actionable, and reinforced</strong>.",
+          items: [
+            "Protocol followers lose <strong>~2.5 kg more</strong>",
+            "Weight-loss cohort logs <strong>2× more meals</strong>",
+            "Weight-loss cohort connects <strong>~30% more with doctors</strong>",
+            "Non-weight-loss cohort shows <strong>waist gain</strong>",
+          ],
+        },
+        {
+          num: "07",
+          title: "The Four Pillars of the GLP Digital Scaffold",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Pillar 1: Progress Visibility Beyond the Scale",
+              items: [
+                "Smart scale integration (where available)",
+                "Waist and measurement trends surfaced prominently",
+                "Full-body scan to visualise recomposition",
+                "Explicit plateau education",
+              ],
+            },
+            {
+              title: "Pillar 2: Muscle Preservation & Fitness as a Core Outcome",
+              items: [
+                "Resistance-first fitness programs",
+                "Proactive 1:1 fitness consultations",
+                "Clear framing: <em>fitness = metabolic protection</em>",
+                "Gender-aware guidance (especially for women)",
+              ],
+            },
+            {
+              title: "Pillar 3: Clinical Adherence & Side-Effect Triage",
+              items: [
+                "Structured side-effect monitoring",
+                "Rapid escalation to coach/doctor",
+                "Dosage expectation education",
+                "Early-week intervention loops",
+              ],
+            },
+            {
+              title: "Pillar 4: Protocol-Driven Experience",
+              items: [
+                "Clear weekly protocol",
+                "Visible adherence signals",
+                "Outcome-based milestones vs task completion",
+              ],
+            },
+          ],
+        },
+        {
+          num: "08",
+          title: "Engagement & Retention Loops",
+          body: null,
+          items: null,
+          subsections: [
+            {
+              title: "Primary Loop",
+              items: [
+                "<strong>Progress clarity → confidence → adherence → outcomes</strong>",
+              ],
+            },
+            {
+              title: "Secondary Loops",
+              items: [
+                "<strong>Human accountability loop:</strong> Coach touchpoints at risk moments (plateau weeks, side-effect spikes) — not reactive support. Leverages existing ~80% M2 chat engagement.",
+                "<strong>Visual reinforcement loop:</strong> Body scans, composition change visualisations, and waist trend charts shown contextually — where users are already looking.",
+                "<strong>Safety loop:</strong> Side-effect resolution workflows that proactively surface guidance and escalation options. Trust built through managed adversity.",
+                "These loops align with industry evidence that <strong>hybrid human + digital models materially improve persistence</strong>.",
+              ],
+            },
+          ],
+        },
+        {
+          num: "09",
+          title: "Success Metrics",
+          body: null,
+          items: null,
+          metricGroups: [
+            {
+              name: "Outcome Improvement",
+              subtitle: "Are users actually losing weight and keeping it off?",
+              metrics: [
+                { metric: "Users losing >1 kg", definition: "64% baseline → 75% target", why: "Primary outcome signal — closes the gap between medication efficacy and real-world results" },
+                { metric: "Protocol followers weight gap", definition: "Close from 2.5 kg to <1 kg vs non-followers", why: "Protocol adherence is the primary causal lever" },
+                { metric: "Waist tracking adoption", definition: ">50% of active users logging waist measurements", why: "Non-scale visibility drives motivation through plateaus" },
+              ],
+            },
+            {
+              name: "Fitness & Muscle Protection",
+              subtitle: "Is the metabolic protection layer working?",
+              metrics: [
+                { metric: "Fitness MAU", definition: "~25% baseline → 45% target", why: "Structural engagement gap — fitness is medically essential, not optional" },
+                { metric: "Resistance sessions/week", definition: "Users completing ≥3 sessions: <5% baseline → 20% target", why: "Resistance training is the primary muscle preservation mechanism" },
+                { metric: "Female fitness engagement parity", definition: "Close the 0.4 kg gender outcome gap within 6 months", why: "Gender-blind fitness experience fails the majority of the user base" },
+              ],
+            },
+            {
+              name: "Adherence & Retention",
+              subtitle: "Is the scaffold keeping users on protocol?",
+              metrics: [
+                { metric: "12-month retention", definition: "30–50% baseline → 55% target", why: "50–70% discontinuation is the core problem this entire strategy addresses" },
+                { metric: "First-90-day dropout", definition: "Reduce by 30%", why: "Highest dropout in first 90 days — early intervention is highest leverage" },
+                { metric: "Coach escalation speed", definition: ">80% escalation within 48hr of side-effect log", why: "Rapid escalation converts biological friction into trust-building moments" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "10",
+          title: "Final Takeaway",
+          body: "The GLP market is shifting from <strong>access to accountability</strong>. Products that remain logging-centric will struggle to differentiate. Platforms that <strong>own outcomes, expectations, and persistence</strong> will define the category.",
+          items: null,
+        },
       ],
     },
   },
@@ -2099,12 +2236,12 @@ export default function App() {
                     </span>
                   ))}
                 </div>
-                {(modalCase.content.prdLink ||
+                {((modalCase.content as any).prdLink ||
                   modalCase.content.prototypeLink) && (
                   <div className="modal-links-row">
-                    {modalCase.content.prdLink && (
+                    {(modalCase.content as any).prdLink && (
                       <a
-                        href={modalCase.content.prdLink}
+                        href={(modalCase.content as any).prdLink}
                         className="modal-link-btn"
                         style={{
                           borderColor: ac,
@@ -2112,7 +2249,7 @@ export default function App() {
                         }}
                         onClick={(e) => {
                           e.preventDefault();
-                          window.location.href = modalCase.content.prdLink!;
+                          window.location.href = (modalCase.content as any).prdLink;
                         }}
                       >
                         &#8599; View PRD
