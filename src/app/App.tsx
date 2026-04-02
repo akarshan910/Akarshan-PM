@@ -2227,7 +2227,7 @@ export default function App() {
       {/* MODAL */}
       <div id="modal" className={modalOpen ? "open" : ""}>
         <div id="modal-backdrop" onClick={closeModal} />
-        <div id="modal-sheet">
+        <div id="modal-sheet" style={{ '--ac': ac } as React.CSSProperties}>
           <div className="modal-handle" />
           <div className="modal-head">
             <div>
