@@ -876,6 +876,40 @@ const CASES = [
       ],
     },
   },
+  {
+    id: 6,
+    theme: "orange",
+    vol: "VOL.06",
+    volJp: "",
+    co: "Arcana \u00b7 Fintech",
+    title: "ARCANA WORKSPACE",
+    desc: "Bloomberg-style modular workspace PRD for institutional investors — widgets, pages, templates & real-time monitoring",
+    impact: "PRD shipped",
+    tags: ["feature", "prototype"],
+    kpis: [
+      { v: "7", l: "Widget types prioritised" },
+      { v: "4", l: "User journeys designed" },
+      { v: "V1", l: "Full PRD & live prototype" },
+    ],
+    prdLink: "https://docs.google.com/document/d/1MZGAA0LmIOjF_hVQIMYgjWKM06vQP8Aq66b8-xf2xFQ/edit?tab=t.0#heading=h.su9f7jlfuspx",
+    prototypeUrl: "https://workspace-nu-liard.vercel.app/",
+    content: {
+      problem: "", approach: "", solution: [] as string[],
+      impact: { text: "", items: [] as { v: string; l: string; c: string }[] },
+      tags: ["PRD","Figma","Bloomberg Launchpad","Fintech","Workspace Design","Widget System","State Management","Success Metrics"],
+      customSections: [
+        { num: "01", title: "Problem Statement", body: "Institutional investors, analysts & researchers operate in a <strong>high frequency, high cognitive load environment</strong>. Their daily workflow involves simultaneously monitoring live prices, charts, news, alerts, and global market context while switching context across multiple asset classes.", items: ["<strong>Fragmented Information</strong> \u2014 Prices, charts, news, alerts, and market hours live in separate views. Users must mentally stitch insights together by exploring each view independently.","<strong>High Context Switching Cost</strong> \u2014 Switching between workflows (e.g., market open vs research) requires re-navigation. Analysts lose time reconstructing views multiple times a day.","<strong>One-Size-Fits-All Interfaces</strong> \u2014 Different users track different assets, regions, and time horizons. A single default layout fails all of them.","<strong>Poor State Persistence</strong> \u2014 Users expect their layouts, filters, and configurations to persist across sessions. Without this, they rework the same setup every time they log in."] },
+        { num: "02", title: "Why This Is Worth Solving", body: null, items: ["A modular workspace increases <strong>product stickiness</strong>. Custom dashboards directly correlate with higher retention and daily engagement by becoming the user\u2019s <strong>first preference</strong> for daily monitoring.","There is <strong>already a market precedent</strong> set by <strong>Bloomberg Launchpad</strong> \u2014 one of the most heavily used terminal features \u2014 because it solves this exact problem through customizable, persistent widgets & workspaces."] },
+        { num: "03", title: "Product Vision", body: "Build <strong>Arcana Workspace</strong> \u2014 a modular, <strong>Bloomberg-style Launchpad</strong> that allows users to create, save, and switch between personalised workspaces composed of configurable widgets \u2014 optimised for real-time monitoring, clarity, and execution with speed, leading to repeat daily usage.", items: null },
+        { num: "04", title: "Goals for V1", body: null, items: ["Enable users to build custom workspaces using modular widgets from scratch or premade templates","Templates are workspace formats with widgets designed for unique use cases (NEWS, Portfolio, Research) \u2014 with optional Global Settings that are must-haves (e.g., Portfolio template requires selecting an index/equity to power widgets)","Support adding, resizing, configuring, and saving widget layouts","Allow multiple tabs/pages per workspace","Ability to edit / copy / add / save / share workspace & pages, with fast switching between them","Preserve widget-level intelligence (e.g., Nvidia selected in index & performance widget persists)","<strong>V1 = Signal intake + context + workflow persistence.</strong> V2 = Outcome measurement (performance, deep analytics, risk, attribution, order execution integration)"] },
+        { num: "05", title: "Market Research", body: "A Bloomberg Launchpad user typically combines price monitors + charts + news feeds to correlate headlines with price reactions, uses alerts to catch significant moves without continuous hovering, and saves workflows by theme (commodity tracking, earnings day, global markets). This mirrors how users segment their day:", items: ["<strong>Morning pre-open scan</strong> \u2014 Macro indices, overnight movers, news catch-up","<strong>Live session monitoring</strong> \u2014 Real-time price action, alerts firing, chart patterns","<strong>Post-close analysis</strong> \u2014 P&L review, sector performance, next-day prep"] },
+        { num: "06", title: "Prioritised Widgets", body: "These cover the <strong>core workflows of watching prices & signals</strong> \u2014 the top job of users. We are launching the monitoring layer, not the outcome layer.", items: null, widgets: [{ name: "Equity Price Monitor", rationale: "Most basic, most used \u2014 priority 1 for every workflow" },{ name: "Index Tracker", rationale: "Global indices (S&P, Nifty) \u2014 macro sentiment gauge widely used by analysts" },{ name: "Commodity Prices", rationale: "Critical for cross-asset views (similar to Bloomberg\u2019s commodities widget)" },{ name: "Real-Time Chart", rationale: "Visual confirmation of trends & patterns \u2014 core to all workflows" },{ name: "Live News Feed", rationale: "Provides context to price movements \u2014 heavily used across all personas" },{ name: "Price Alerts", rationale: "Simple price threshold alerts \u2014 helps catch key events without always watching" },{ name: "Timezone / Market Hours", rationale: "Supports a global view across regions and trading sessions" }] },
+        { num: "07", title: "Core Capabilities", body: null, items: null, subsections: [{ title: "Workspace", items: ["Grid-based canvas (like Metabase dashboard layout) \u2014 chosen over free-form positioning to optimise for scale, stability, and cognitive clarity in high-load environments","Preset templates for core use cases (Portfolio Analysis, Single Stock Analysis, etc.) with pre-specified widgets and optional Global Settings","Workspaces can be copied, renamed, shared, rearranged, customised and managed from settings","Added workspaces appear side-by-side and switch instantly on click"] },{ title: "Widgets", items: ["Modular, atomic blocks of the workspace with multiple responsive UI sizes (like Apple widgets \u2014 different UI for different grid sizes)","Can be configured (columns/filters/indicators/flags), added, resized, repositioned, renamed, or removed","Widgets retain their full capabilities inside the workspace (e.g., Summary widget retains % AUM & % Gross selections)","Users can add any widget from the terminal directly to a workspace page; widget lands in the next vacant grid area","Widgets cannot overlap. Option to export widget data in relevant Excel format"] },{ title: "Pages", items: ["Each workspace supports multiple pages representing sub-contexts (e.g., Price, Valuation within a Portfolio template)","Pages visible side-by-side with add, delete, reorder, rename, copy, share capabilities","Pages can be managed from settings or via right-click context menu"] },{ title: "Group Components (V1 \u2192 V2)", items: ["V1: Global Settings for presets \u2014 groupings are done during template creation (e.g., selecting a stock links all widgets)","V2: Fully-fledged Group Manager where users can map components to each other, change a security in one component and all grouped components update"] }] },
+        { num: "08", title: "User Journeys", body: null, items: null, journeys: [{ name: "First-Time User Experience", entry: "No existing workspaces", steps: ["User opens Arcana Workspace, clicks Create New \u2192 3 options: optimised view for screen, sample view from manager, or blank canvas","On blank canvas: Launchpad toolbar appears with Page 1 and no widgets. Search bar available to add components or select templates","User adds first component or selects template, configures parameters/global settings, adjusts position & size","User saves the view and workspace"], exit: "Saved workspace with at least one page and widget" },{ name: "Adding & Configuring a Widget", entry: "Active workspace with at least one page", steps: ["User clicks search \u2192 Component/Template Browser opens with categories and previews","Selects component \u2192 appears on canvas in default state","User configures columns/filters/indicators/flags, optionally renames widget","A widget can\u2019t exist in the same state twice on a particular page"], exit: "Configured widget on active page" },{ name: "Building a Multi-Page Workspace", entry: "Workspace with at least one saved page", steps: ["User clicks +New Page, creates Page 2 inside the same workspace","Adds different widgets (e.g., Asia markets) or templates from search","Right-click options: copy, rename, rearrange, delete, share, customise","Pages appear side-by-side, switch instantly on click"], exit: "One workspace, multiple task-specific pages" },{ name: "Returning User Daily Flow", entry: "Existing saved workspaces", steps: ["User logs in \u2192 last-used workspace auto-opens (if no default set)","Scans monitors, switches pages/workspaces as needed","Makes minor edits \u2192 auto-save or manual save persists state"], exit: "Updated workspace state persisted for next session" }] },
+        { num: "09", title: "Success Metrics", body: null, items: null, metricGroups: [{ name: "Adoption & Activation", subtitle: "Is Workspace Valuable?", metrics: [{ metric: "Workspace Creation Rate", definition: "% of active users who create \u22651 workspace within 7 days", why: "Indicates initial value discovery" },{ metric: "Activation Rate", definition: "% of users who create a workspace, add \u22653 widgets & save it", why: "Confirms meaningful usage, not just exploration" },{ metric: "Template Usage Rate", definition: "% of users using a template vs blank canvas", why: "Validates usefulness of templates" },{ metric: "Creation Drop-off Rate", definition: "% of users who abandon creation flow before saving", why: "Identifies friction in workspace creation" }] },{ name: "Engagement & Habit Formation", subtitle: "Is It Becoming a Daily Tool?", metrics: [{ metric: "Workspace DAU Ratio", definition: "Workspace DAU \u00f7 Total DAU", why: "Indicates daily stickiness" },{ metric: "Default Launch Rate", definition: "% of sessions where Workspace opens by default", why: "Signals habit formation" },{ metric: "Repeat Usage Rate", definition: "Avg workspace sessions per user per day \u00f7 total sessions", why: "Measures frequency of use" },{ metric: "D1\u2013D30 Retention", definition: "Day-over-day retention for Workspace users", why: "Validates long-term platform stickiness" },{ metric: "Avg Widgets per Workspace", definition: "Average widgets added per workspace", why: "Indicates richness of setup" },{ metric: "Page Switching Rate", definition: "% of users switching pages within a session", why: "Validates page-level value" }] }] },
+      ],
+    },
+  },
   //  {
   //   id: 3,
   //   theme: "blue",
@@ -923,6 +957,7 @@ function accentColor(t: string) {
     purple: "#C084FC",
     teal: "#2DD4BF",
     blue: "#3B82F6",
+    orange: "#F97316",
   };
   return m[t] || "#E8273A";
 }
@@ -2753,6 +2788,86 @@ export default function App() {
                         </div>
                       </div>
                     )}
+                  </>
+                )}
+
+                {(modalCase.content as any).customSections && (
+                  <>
+                    {((modalCase.content as any).customSections as any[]).map((section: any, idx: number) => (
+                      <div className="mchapter" key={idx}>
+                        <div className="ch-label">
+                          <span className="ch-n" style={{ color: ac }}>{section.num}</span>
+                          <span className="ch-t">{section.title}</span>
+                        </div>
+                        {section.body && (
+                          <div className="ch-body" dangerouslySetInnerHTML={{ __html: `<p>${section.body}</p>` }} />
+                        )}
+                        {section.items && (
+                          <ul className="ch-list" style={{ marginTop: section.body ? 10 : 0 }}>
+                            {section.items.map((item: string, i: number) => (
+                              <li key={i} dangerouslySetInnerHTML={{ __html: item }} />
+                            ))}
+                          </ul>
+                        )}
+                        {section.widgets && (
+                          <div className="feat-grid">
+                            {section.widgets.map((w: any, i: number) => (
+                              <div className="feat-card" key={i}>
+                                <div className="fc-title">{w.name}</div>
+                                <div className="fc-desc">{w.rationale}</div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {section.subsections && section.subsections.map((sub: any, i: number) => (
+                          <div className="cap-group" key={i}>
+                            <div className="cap-title">{sub.title}</div>
+                            <div className="cap-items">
+                              {sub.items.map((f: string, j: number) => (
+                                <div className="cap-item" key={j}>{f}</div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                        {section.journeys && (
+                          <div className="journey-stack">
+                            {section.journeys.map((j: any, i: number) => (
+                              <div className="cs-jcard" key={i}>
+                                <div className="cj-name">{j.name}</div>
+                                <div className="cj-meta">
+                                  <div className="cj-badge">Entry <span>{j.entry}</span></div>
+                                  <div className="cj-badge">Exit <span>{j.exit}</span></div>
+                                </div>
+                                <div className="cj-steps">
+                                  {j.steps.map((s: string, k: number) => (
+                                    <div className="cj-step" key={k}>{s}</div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {section.metricGroups && (
+                          <div className="cs-metrics">
+                            {section.metricGroups.map((g: any, i: number) => (
+                              <div className="cs-mg" key={i}>
+                                <div className="cs-mg-name">{g.name}</div>
+                                {g.subtitle && <div className="cs-mg-sub">{g.subtitle}</div>}
+                                <div className="cs-mg-rows">
+                                  {g.metrics.map((m: any, j: number) => (
+                                    <div className="cs-mg-row" key={j}>
+                                      <div className="cs-mg-metric">{m.metric}</div>
+                                      <div className="cs-mg-def">{m.definition}</div>
+                                      {m.why && <div className="cs-mg-why">{m.why}</div>}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </>
                 )}
               </div>
