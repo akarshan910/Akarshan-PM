@@ -734,7 +734,7 @@ const CASES = [
   //     prototypeLink: "https://coin-move-54711900.figma.site",
   //   },
   // },
-  
+  {
     id: 3,
     theme: "blue",
     vol: "VOL.03",
