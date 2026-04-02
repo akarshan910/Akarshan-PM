@@ -945,8 +945,7 @@ const CASES = [
   //     { num: "09", title: "Success Metrics", body: null, items: null, metricGroups: [{ name: "Adoption & Activation", subtitle: "Is Workspace Valuable?", metrics: [{ metric: "Workspace Creation Rate", definition: "% of active users who create \u22651 workspace within 7 days", why: "Indicates initial value discovery" },{ metric: "Activation Rate", definition: "% of users who create a workspace, add \u22653 widgets & save it", why: "Confirms meaningful usage, not just exploration" },{ metric: "Template Usage Rate", definition: "% of users using a template vs blank canvas", why: "Validates usefulness of templates" },{ metric: "Creation Drop-off Rate", definition: "% of users who abandon creation flow before saving", why: "Identifies friction in workspace creation" }] },{ name: "Engagement & Habit Formation", subtitle: "Is It Becoming a Daily Tool?", metrics: [{ metric: "Workspace DAU Ratio", definition: "Workspace DAU \u00f7 Total DAU", why: "Indicates daily stickiness" },{ metric: "Default Launch Rate", definition: "% of sessions where Workspace opens by default", why: "Signals habit formation" },{ metric: "Repeat Usage Rate", definition: "Avg workspace sessions per user per day \u00f7 total sessions", why: "Measures frequency of use" },{ metric: "D1\u2013D30 Retention", definition: "Day-over-day retention for Workspace users", why: "Validates long-term platform stickiness" },{ metric: "Avg Widgets per Workspace", definition: "Average widgets added per workspace", why: "Indicates richness of setup" },{ metric: "Page Switching Rate", definition: "% of users switching pages within a session", why: "Validates page-level value" }] }] },
   //   ],
   // },
-  
-];
+// ];
 
 
 
