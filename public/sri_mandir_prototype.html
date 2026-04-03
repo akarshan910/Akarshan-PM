@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sri Mandir — App Prototype</title>
+<title>Sri Mandir — Puja Engagement Prototype</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
@@ -15,9 +15,9 @@
 
   /* Sidebar nav */
   .wrapper { display: flex; gap: 24px; align-items: flex-start; }
-  .sidebar { display: flex; flex-direction: column; gap: 8px; padding: 16px 0; background: rgba(255,255,255,0.05); border-radius: 16px; min-width: 160px; }
+  .sidebar { display: flex; flex-direction: column; gap: 6px; padding: 16px 0; background: rgba(255,255,255,0.05); border-radius: 16px; min-width: 180px; }
   .sidebar h3 { color: #aaa; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 0 16px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 4px; }
-  .nav-btn { background: none; border: none; color: #ccc; font-size: 13px; padding: 8px 16px; text-align: left; cursor: pointer; border-radius: 8px; transition: all .2s; display: flex; align-items: center; gap: 8px; }
+  .nav-btn { background: none; border: none; color: #ccc; font-size: 13px; padding: 7px 16px; text-align: left; cursor: pointer; border-radius: 8px; transition: all .2s; display: flex; align-items: center; gap: 8px; }
   .nav-btn:hover, .nav-btn.active { background: rgba(192,57,43,0.2); color: #e8625a; }
   .nav-btn .icon { font-size: 16px; }
 
@@ -52,10 +52,11 @@
   .section-header a { font-size: 12px; color: #c0392b; text-decoration: none; font-weight: 500; }
 
   /* For You banner */
-  .for-you-banner { margin: 8px 16px; background: linear-gradient(135deg, #c0392b, #e74c3c); border-radius: 16px; padding: 14px 16px; color: #fff; }
+  .for-you-banner { margin: 8px 16px; background: linear-gradient(135deg, #c0392b, #e74c3c); border-radius: 16px; padding: 14px 16px; color: #fff; cursor: pointer; }
   .for-you-banner .tag { background: rgba(255,255,255,0.25); font-size: 10px; padding: 3px 8px; border-radius: 20px; display: inline-block; margin-bottom: 6px; font-weight: 600; }
   .for-you-banner h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
   .for-you-banner p { font-size: 12px; opacity: 0.9; margin-bottom: 10px; }
+  .for-you-banner .meta { font-size: 11px; opacity: 0.85; margin-bottom: 6px; display: flex; gap: 12px; }
   .btn-white { background: #fff; color: #c0392b; border: none; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: transform .15s; }
   .btn-white:hover { transform: scale(1.03); }
 
@@ -64,13 +65,13 @@
   .cards-row::-webkit-scrollbar { display: none; }
   .puja-card { min-width: 130px; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); scroll-snap-align: start; flex-shrink: 0; cursor: pointer; transition: transform .2s; }
   .puja-card:hover { transform: translateY(-2px); }
-  .puja-card img { width: 100%; height: 80px; object-fit: cover; }
   .puja-card-img { width: 100%; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
   .puja-card-body { padding: 8px; }
   .puja-card-body h4 { font-size: 12px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
   .puja-card-body .temple { font-size: 10px; color: #888; margin-top: 2px; }
   .puja-card-body .price { font-size: 12px; font-weight: 700; color: #c0392b; margin-top: 4px; }
   .puja-card-body .social { font-size: 10px; color: #27ae60; margin-top: 2px; font-weight: 500; }
+  .puja-card-body .reason { font-size: 9px; color: #8e44ad; margin-top: 2px; font-weight: 600; background: #f3e8ff; padding: 2px 6px; border-radius: 4px; display: inline-block; }
   .card-bg-1 { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
   .card-bg-2 { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
   .card-bg-3 { background: linear-gradient(135deg, #d4fc79, #96e6a1); }
@@ -94,24 +95,23 @@
   .cal-day .event { width: 5px; height: 5px; background: #c0392b; border-radius: 50%; margin: 3px auto 0; }
   .cal-day.today .event { background: #fff; }
 
-  /* WhatsApp section */
-  .wa-card { margin: 8px 16px; background: #25d366; border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+  /* WhatsApp CTA card */
+  .wa-card { margin: 8px 16px; background: #25d366; border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform .15s; }
+  .wa-card:hover { transform: scale(1.01); }
   .wa-icon { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
   .wa-text h4 { color: #fff; font-size: 14px; font-weight: 600; }
   .wa-text p { color: rgba(255,255,255,0.85); font-size: 11px; margin-top: 2px; }
 
   /* Bottom nav */
-  .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; display: flex; padding: 8px 0 20px; box-shadow: 0 -2px 15px rgba(0,0,0,0.08); }
+  .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; display: flex; padding: 8px 0 20px; box-shadow: 0 -2px 15px rgba(0,0,0,0.08); z-index: 10; }
   .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; padding: 4px 0; transition: all .2s; }
   .nav-item .nav-icon { font-size: 20px; }
   .nav-item .nav-label { font-size: 10px; color: #aaa; font-weight: 500; }
   .nav-item.active .nav-label { color: #c0392b; font-weight: 600; }
-  .nav-item.active .nav-icon { filter: drop-shadow(0 0 4px rgba(192,57,43,0.4)); }
 
   /* VIDEO FEED */
   .video-feed { flex: 1; background: #000; overflow: hidden; position: relative; }
   .video-item { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; position: relative; padding: 16px; background: linear-gradient(to top, rgba(0,0,0,0.85) 40%, transparent 80%); }
-  .video-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 100px; opacity: 0.15; z-index: 0; }
   .video-bg-img { position: absolute; inset: 0; background: linear-gradient(135deg, #2c3e50, #8e44ad); opacity: 0.6; }
   .video-content { position: relative; z-index: 1; }
   .video-side { position: absolute; right: 12px; bottom: 80px; display: flex; flex-direction: column; gap: 20px; z-index: 2; align-items: center; }
@@ -125,7 +125,8 @@
   .video-tabs::-webkit-scrollbar { display: none; }
   .vtab { color: rgba(255,255,255,0.5); font-size: 12px; padding: 4px 10px; cursor: pointer; border-radius: 20px; white-space: nowrap; transition: all .2s; }
   .vtab.active { background: #c0392b; color: #fff; font-weight: 600; }
-  .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 2; cursor: pointer; }
+  .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 2; cursor: pointer; backdrop-filter: blur(4px); }
+  .mute-badge { position: absolute; top: 50px; right: 12px; background: rgba(0,0,0,0.5); color: #fff; font-size: 10px; padding: 4px 8px; border-radius: 12px; z-index: 2; }
 
   /* BOOKING FLOW */
   .booking-header { background: #c0392b; padding: 40px 16px 20px; color: #fff; }
@@ -143,17 +144,24 @@
   .pkg-card h4 { font-size: 14px; font-weight: 600; color: #1a1a1a; }
   .pkg-card .price-tag { font-size: 16px; font-weight: 700; color: #c0392b; }
   .pkg-card p { font-size: 12px; color: #777; margin-top: 4px; }
+  .pkg-card .includes { font-size: 11px; color: #555; margin-top: 6px; line-height: 1.6; }
   .popular-tag { background: #e8f5e9; color: #27ae60; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; display: inline-block; margin-top: 4px; }
   .gotra-box { background: #fff3cd; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; border-left: 4px solid #f39c12; }
   .gotra-box h4 { font-size: 13px; font-weight: 600; color: #6d4c41; margin-bottom: 4px; }
   .gotra-box p { font-size: 11px; color: #6d4c41; }
+  .gotra-box .tooltip { font-size: 10px; color: #8e44ad; margin-top: 4px; font-style: italic; }
   .gotra-box input { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 8px 10px; font-size: 13px; margin-top: 8px; outline: none; }
+  .gotra-box input:focus { border-color: #c0392b; }
   .book-btn { width: calc(100% - 32px); margin: 12px 16px; background: #c0392b; color: #fff; border: none; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; }
   .book-btn:hover { background: #a93226; }
   .urgency-strip { background: #fff3cd; border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
   .urgency-strip .uicon { font-size: 16px; }
   .urgency-strip p { font-size: 11px; color: #6d4c41; font-weight: 500; }
   .timer { font-weight: 700; color: #c0392b; }
+  .wa-optin { background: #e8f8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; border: 1px solid #25d366; }
+  .wa-optin .wa-check { width: 20px; height: 20px; border: 2px solid #25d366; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; background: #25d366; color: #fff; flex-shrink: 0; }
+  .wa-optin .wa-info { font-size: 11px; color: #2d7a4f; line-height: 1.4; }
+  .wa-optin .wa-info strong { color: #075e54; }
 
   /* WHATSAPP screen */
   .wa-screen { background: #ece5dd; flex: 1; display: flex; flex-direction: column; }
@@ -167,6 +175,7 @@
   .wa-msg.incoming { background: #fff; border-radius: 0 12px 12px 12px; align-self: flex-start; color: #1a1a1a; }
   .wa-msg.outgoing { background: #dcf8c6; border-radius: 12px 0 12px 12px; align-self: flex-end; color: #1a1a1a; }
   .wa-msg .msg-time { font-size: 10px; color: #aaa; margin-top: 4px; text-align: right; }
+  .wa-msg .msg-label { font-size: 9px; color: #8e44ad; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
   .wa-video-msg { background: #1a1a1a; border-radius: 10px; margin: 6px 0; padding: 6px; display: flex; align-items: center; gap: 8px; }
   .wa-video-msg .vthumb { width: 60px; height: 60px; background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
   .wa-video-msg .vinfo h5 { color: #fff; font-size: 11px; font-weight: 600; }
@@ -177,31 +186,83 @@
   .wa-input-bar { background: #f0f0f0; padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #ddd; }
   .wa-input { flex: 1; background: #fff; border-radius: 20px; padding: 8px 14px; font-size: 12px; border: none; outline: none; }
   .wa-send { background: #25d366; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; border: none; cursor: pointer; flex-shrink: 0; }
+  .wa-day-label { text-align: center; font-size: 10px; color: #888; background: #e2ddd5; padding: 3px 10px; border-radius: 8px; align-self: center; margin: 4px 0; }
+  .wa-menu-card { background: #f0f7ff; border-radius: 10px; padding: 10px; margin: 4px 0; }
+  .wa-menu-card h5 { font-size: 12px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+  .wa-menu-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #e8e8e8; font-size: 11px; }
+  .wa-menu-item:last-child { border-bottom: none; }
+  .wa-menu-item .mi-name { color: #333; font-weight: 500; }
+  .wa-menu-item .mi-price { color: #c0392b; font-weight: 700; }
 
   /* SPIRITUAL CALENDAR */
   .cal-header { background: #c0392b; padding: 40px 16px 20px; color: #fff; }
   .cal-header h2 { font-size: 18px; font-weight: 700; }
   .cal-header p { font-size: 12px; opacity: 0.85; margin-top: 4px; }
   .month-grid { background: #fff; margin: 12px 16px; border-radius: 14px; padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
-  .month-grid .month-title { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; display: flex; justify-content: space-between; }
-  .day-grid { background: #fff; margin: 12px 16px; border-radius: 14px; padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
-  .day-grid .month-title { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; display: flex; justify-content: space-between; }
-  .day-grid .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .month-grid .month-title { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .month-grid .month-nav { display: flex; gap: 12px; }
+  .month-grid .month-nav span { cursor: pointer; color: #c0392b; font-weight: 700; }
+  .day-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 6px; }
+  .day-labels span { text-align: center; font-size: 10px; color: #aaa; font-weight: 600; }
+  .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .days-grid .d { text-align: center; padding: 6px 2px; font-size: 12px; border-radius: 8px; cursor: default; position: relative; }
+  .days-grid .d.today { background: #c0392b; color: #fff; font-weight: 700; border-radius: 50%; }
+  .days-grid .d.auspicious { color: #c0392b; font-weight: 700; }
+  .days-grid .d.auspicious::after { content: ''; position: absolute; bottom: 1px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #c0392b; border-radius: 50%; }
+  .days-grid .d.personal { color: #8e44ad; font-weight: 700; }
+  .days-grid .d.personal::after { content: ''; position: absolute; bottom: 1px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #8e44ad; border-radius: 50%; }
+  .days-grid .d.empty { visibility: hidden; }
+  .event-card { background: #fff; margin: 8px 16px; border-radius: 12px; padding: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); display: flex; gap: 10px; align-items: center; }
+  .event-card .ev-icon { width: 40px; height: 40px; background: #fdf2f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .event-card .ev-body h4 { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .event-card .ev-body p { font-size: 11px; color: #888; margin-top: 2px; }
+  .event-card .ev-action { margin-left: auto; background: #c0392b; color: #fff; border: none; padding: 6px 12px; border-radius: 16px; font-size: 11px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+  .reminder-settings { background: #fff; margin: 8px 16px; border-radius: 12px; padding: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  .reminder-settings h4 { font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 10px; }
+  .reminder-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+  .reminder-row:last-child { border-bottom: none; }
+  .reminder-row .rl { font-size: 12px; color: #555; }
+  .toggle { width: 40px; height: 22px; background: #ccc; border-radius: 11px; position: relative; cursor: pointer; transition: background .2s; }
+  .toggle.on { background: #25d366; }
+  .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; background: #fff; border-radius: 50%; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .toggle.on::after { transform: translateX(18px); }
 
   /* RECOMMENDATION MODAL */
   .modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: flex-end; }
-  .modal-sheet { background: #fff; border-radius: 24px 24px 0 0; width: 100%; padding: 20px; max-height: 70%; overflow-y: auto; }
+  .modal-sheet { background: #fff; border-radius: 24px 24px 0 0; width: 100%; padding: 20px; max-height: 75%; overflow-y: auto; }
   .modal-sheet::-webkit-scrollbar { display: none; }
   .modal-handle { width: 40px; height: 4px; background: #ddd; border-radius: 2px; margin: 0 auto 16px; }
   .modal-sheet h3 { font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
   .modal-sheet .subtitle { font-size: 12px; color: #888; margin-bottom: 16px; }
   .form-field { margin-bottom: 12px; }
   .form-field label { font-size: 12px; font-weight: 600; color: #555; display: block; margin-bottom: 4px; }
+  .form-field .field-hint { font-size: 10px; color: #8e44ad; margin-top: 2px; font-style: italic; }
   .form-field input, .form-field select { width: 100%; border: 1px solid #e0e0e0; border-radius: 10px; padding: 10px 12px; font-size: 13px; outline: none; color: #1a1a1a; background: #fafafa; }
   .form-field input:focus, .form-field select:focus { border-color: #c0392b; background: #fff; }
   .modal-hint { background: #e8f5e9; border-radius: 8px; padding: 8px 10px; font-size: 11px; color: #2e7d32; margin-bottom: 16px; display: flex; gap: 6px; }
   .save-btn { width: 100%; background: #c0392b; color: #fff; border: none; padding: 13px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; }
   .skip-link { text-align: center; color: #aaa; font-size: 12px; margin-top: 10px; cursor: pointer; }
+
+  /* PRODUCT EDUCATION */
+  .edu-step { background: #fff; margin: 8px 16px; border-radius: 14px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; gap: 12px; align-items: flex-start; }
+  .edu-step .step-num { width: 32px; height: 32px; background: #c0392b; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .edu-step .step-body h4 { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .edu-step .step-body p { font-size: 11px; color: #777; margin-top: 4px; line-height: 1.5; }
+  .proof-card { background: #fff; margin: 8px 16px; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .proof-card .proof-img { height: 120px; background: linear-gradient(135deg, #c0392b, #e74c3c); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+  .proof-card .proof-body { padding: 12px; }
+  .proof-card .proof-body h4 { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .proof-card .proof-body p { font-size: 11px; color: #777; margin-top: 4px; }
+  .trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 16px; }
+  .trust-item { background: #fff; border-radius: 12px; padding: 14px; text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  .trust-item .ti-icon { font-size: 28px; margin-bottom: 6px; }
+  .trust-item h4 { font-size: 12px; font-weight: 600; color: #1a1a1a; }
+  .trust-item p { font-size: 10px; color: #888; margin-top: 2px; }
+  .stats-row { display: flex; gap: 8px; margin: 8px 16px; }
+  .stat-card { flex: 1; background: #fff; border-radius: 12px; padding: 12px; text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  .stat-card .stat-val { font-size: 22px; font-weight: 800; color: #c0392b; }
+  .stat-card .stat-label { font-size: 10px; color: #888; margin-top: 2px; }
+
   .hidden { display: none !important; }
 </style>
 </head>
@@ -210,24 +271,25 @@
 <div class="wrapper">
   <!-- SIDEBAR NAV -->
   <div class="sidebar">
-    <h3>🛕 Sri Mandir Prototype</h3>
-    <button class="nav-btn active" onclick="showScreen('home')" id="btn-home"><span class="icon">🏠</span> Home / Puja Feed</button>
-    <button class="nav-btn" onclick="showScreen('recommendation')" id="btn-recommendation"><span class="icon">✨</span> Puja Recommendations</button>
+    <h3>🛕 Sri Mandir PRD v1.0</h3>
+    <button class="nav-btn active" onclick="showScreen('home')" id="btn-home"><span class="icon">🏠</span> Home / Discovery</button>
+    <button class="nav-btn" onclick="showScreen('recommendation')" id="btn-recommendation"><span class="icon">✨</span> Recommendations</button>
     <button class="nav-btn" onclick="showScreen('video')" id="btn-video"><span class="icon">🎥</span> Video Feed</button>
-    <button class="nav-btn" onclick="showScreen('booking')" id="btn-booking"><span class="icon">📿</span> Puja Booking Flow</button>
+    <button class="nav-btn" onclick="showScreen('booking')" id="btn-booking"><span class="icon">📿</span> Booking Flow</button>
     <button class="nav-btn" onclick="showScreen('whatsapp')" id="btn-whatsapp"><span class="icon">💬</span> WhatsApp Integration</button>
     <button class="nav-btn" onclick="showScreen('calendar')" id="btn-calendar"><span class="icon">📅</span> Spiritual Calendar</button>
+    <button class="nav-btn" onclick="showScreen('education')" id="btn-education"><span class="icon">🛡️</span> Education & Trust</button>
     <br>
     <div style="padding: 0 16px; font-size: 11px; color: #666; line-height: 1.5;">
-      <strong style="color: #e8625a;">Features shown:</strong><br>
-      · For You carousel (personalised)<br>
-      · Cold-start recommendations<br>
-      · Video feed with booking CTA<br>
-      · WhatsApp booking & education<br>
-      · Spiritual calendar & reminders<br>
+      <strong style="color: #e8625a;">PRD Features:</strong><br>
+      · WhatsApp booking (P0, RICE 9.6)<br>
+      · Product education (P0, RICE 9.1)<br>
+      · Puja recommendations (P0, RICE 7.3)<br>
+      · Video feed (P0, RICE 7.1)<br>
+      · Spiritual calendar (P0, RICE 6.8)<br>
       · Gotra-aware booking flow<br>
-      · Social proof signals<br>
-      · Urgency timers
+      · Social proof & urgency timers<br>
+      · Profile data collection modal
     </div>
   </div>
 
@@ -241,7 +303,7 @@
       <div class="app-header">
         <div>
           <h1>🛕 Sri Mandir</h1>
-          <div class="location">📍 Bengaluru, Karnataka <span>▼</span></div>
+          <div class="location">📍 Bengaluru, Karnataka <span style="cursor:pointer">▼</span></div>
         </div>
         <span class="bell" onclick="showScreen('whatsapp')">🔔</span>
       </div>
@@ -249,20 +311,20 @@
       <div class="scroll-area">
         <div class="search-bar">
           <span class="search-icon">🔍</span>
-          <input type="text" placeholder="Search temples, events, pujas…">
+          <input type="text" placeholder="Search temples, pujas, festivals…">
         </div>
 
-        <!-- WhatsApp CTA -->
+        <!-- WhatsApp CTA — PRD 7.1 -->
         <div class="wa-card" onclick="showScreen('whatsapp')">
           <div class="wa-icon">💬</div>
           <div class="wa-text">
             <h4>Book pujas on WhatsApp</h4>
-            <p>No app needed — just send a message</p>
+            <p>No app needed — browse, select & pay via chat</p>
           </div>
           <span style="color:rgba(255,255,255,0.7); margin-left:auto;">›</span>
         </div>
 
-        <!-- Social proof -->
+        <!-- Social proof — PRD 7.2 P1 -->
         <div class="social-strip" style="margin-top:10px;">
           <div class="faces">
             <div class="face">A</div><div class="face">R</div><div class="face">S</div><div class="face">+</div>
@@ -270,20 +332,20 @@
           <p><strong>1,247 devotees</strong> booked a puja this week in Bengaluru</p>
         </div>
 
-        <!-- FOR YOU (personalised) -->
+        <!-- FOR YOU carousel — PRD 7.2 P0 Personalised 'For You' -->
         <div class="section-header"><h2>✨ For You</h2><a href="#" onclick="showScreen('recommendation')">See all</a></div>
         <div class="for-you-banner" onclick="showScreen('booking')">
           <div class="tag">🎂 BASED ON YOUR BIRTHDAY</div>
           <h3>Ayushya Homa — Your Special Day</h3>
           <div class="meta">
             <span>🕌 ISKCON Bengaluru</span>
-            <span>📅 April 2</span>
+            <span>📅 April 12</span>
           </div>
           <p>"Performed on your birthday for health, longevity & blessings for the year ahead"</p>
           <button class="btn-white">Book Now — ₹1,100</button>
         </div>
 
-        <!-- Trending pujas -->
+        <!-- Trending pujas — PRD 7.2 P0 Cold-start -->
         <div class="section-header"><h2>🔥 Trending in Bengaluru</h2><a href="#">All</a></div>
         <div class="cards-row">
           <div class="puja-card" onclick="showScreen('booking')">
@@ -324,20 +386,20 @@
           </div>
         </div>
 
-        <!-- Calendar strip -->
+        <!-- Upcoming Occasions — PRD 7.4 -->
         <div class="section-header"><h2>📅 Upcoming Occasions</h2><a href="#" onclick="showScreen('calendar')">View calendar</a></div>
         <div class="cal-strip">
-          <div class="cal-day"><div class="day-name">Mon</div><div class="day-num">28</div></div>
-          <div class="cal-day"><div class="day-name">Tue</div><div class="day-num">29</div></div>
-          <div class="cal-day today"><div class="day-name">Wed</div><div class="day-num">30</div><div class="event"></div></div>
-          <div class="cal-day" style="border:2px solid #c0392b;"><div class="day-name">Thu</div><div class="day-num">31</div><div class="event"></div></div>
-          <div class="cal-day"><div class="day-name">Fri</div><div class="day-num">1</div></div>
-          <div class="cal-day" style="border:2px solid #c0392b;"><div class="day-name">Sat</div><div class="day-num">2</div><div class="event"></div></div>
-          <div class="cal-day"><div class="day-name">Sun</div><div class="day-num">3</div></div>
+          <div class="cal-day"><div class="day-name">Tue</div><div class="day-num">1</div></div>
+          <div class="cal-day"><div class="day-name">Wed</div><div class="day-num">2</div></div>
+          <div class="cal-day today"><div class="day-name">Thu</div><div class="day-num">3</div><div class="event"></div></div>
+          <div class="cal-day" style="border:2px solid #c0392b;"><div class="day-name">Fri</div><div class="day-num">4</div><div class="event"></div></div>
+          <div class="cal-day"><div class="day-name">Sat</div><div class="day-num">5</div></div>
+          <div class="cal-day" style="border:2px solid #8e44ad;"><div class="day-name">Sun</div><div class="day-num">6</div><div class="event"></div></div>
+          <div class="cal-day"><div class="day-name">Mon</div><div class="day-num">7</div></div>
         </div>
-        <div style="padding: 0 16px 8px; font-size: 11px; color: #888;">📍 Ekadashi — Apr 1  ·  🎂 Your Birthday — Apr 2</div>
+        <div style="padding: 0 16px 8px; font-size: 11px; color: #888;">📍 Ram Navami — Apr 6  ·  🎂 Your Birthday — Apr 12</div>
 
-        <!-- Video teaser -->
+        <!-- Watch & Book — PRD 7.3 -->
         <div class="section-header"><h2>🎥 Watch & Book</h2><a href="#" onclick="showScreen('video')">Watch all</a></div>
         <div class="cards-row">
           <div class="puja-card" onclick="showScreen('video')" style="min-width: 150px;">
@@ -349,6 +411,16 @@
             <div class="puja-card-body"><h4>Ganesh Puja Full</h4><div class="temple">▶️ 4:12 min · 3.2k views</div></div>
           </div>
         </div>
+
+        <!-- Product Education teaser — PRD 5.3 -->
+        <div class="section-header"><h2>🛡️ How It Works</h2><a href="#" onclick="showScreen('education')">Learn more</a></div>
+        <div style="margin: 0 16px 16px; background: linear-gradient(135deg, #fdf2f0, #fff); border-radius: 14px; padding: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); cursor:pointer;" onclick="showScreen('education')">
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+            <span style="font-size:20px;">🙏</span>
+            <span style="font-size:13px; font-weight:600; color:#1a1a1a;">New to Sri Mandir?</span>
+          </div>
+          <p style="font-size:11px; color:#777; line-height:1.5;">See how verified priests perform your puja, get video proof, and track prasad delivery — all with trust & transparency.</p>
+        </div>
       </div>
 
       <!-- Bottom Nav -->
@@ -356,8 +428,8 @@
         <div class="nav-item active"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
         <div class="nav-item" onclick="showScreen('recommendation')"><span class="nav-icon">🙏</span><span class="nav-label">Puja</span></div>
         <div class="nav-item" onclick="showScreen('video')"><span class="nav-icon">🎥</span><span class="nav-label">Videos</span></div>
-        <div class="nav-item" onclick="showScreen('calendar')"><span class="nav-icon">🎵</span><span class="nav-label">Music</span></div>
-        <div class="nav-item" onclick="showScreen('whatsapp')"><span class="nav-icon">💬</span><span class="nav-label">Chadhavs</span></div>
+        <div class="nav-item" onclick="showScreen('calendar')"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></div>
+        <div class="nav-item" onclick="showScreen('education')"><span class="nav-icon">☰</span><span class="nav-label">More</span></div>
       </div>
     </div>
 
@@ -372,29 +444,643 @@
         <span class="bell">🔔</span>
       </div>
       <div class="scroll-area">
-        <!-- Personalised sections -->
+        <!-- Personalised banner — PRD 7.2 P0 For You carousel -->
         <div class="for-you-banner" style="background: linear-gradient(135deg,#8e44ad,#c0392b); margin: 12px 16px;" onclick="showScreen('booking')">
           <div class="tag">🎂 YOUR ANNIVERSARY IS IN 12 DAYS</div>
           <h3>Satyanarayan Puja — For Couples</h3>
-          <div class="meta"><span>🕌 Sri Venkateswara</span><span>📅 April 11</span></div>
+          <div class="meta"><span>🕌 Sri Venkateswara</span><span>📅 April 15</span></div>
           <p>Seek blessings for a harmonious, prosperous married life</p>
           <button class="btn-white">Book — ₹3,500</button>
         </div>
 
-        <div class="section-header"><h2>🪔 Pujas for Your Prosperity</h2><a href="#">See all</a></div>
+        <!-- Based on last booking — PRD 7.2 P0 -->
+        <div class="section-header"><h2>🪔 Based on Your Last Ganesh Puja</h2><a href="#">See all</a></div>
         <div class="cards-row">
-          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-1">🪔</div><div class="puja-card-body"><h4>Lakshmi Puja</h4><div class="temple">ISKCON Temple</div><div class="social">👥 342 booked</div><div class="price">₹851</div></div></div>
-          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-5">💰</div><div class="puja-card-body"><h4>Kubera Puja</h4><div class="temple">Sri Gavi</div><div class="social">👥 98 booked</div><div class="price">₹1,500</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-1">🪔</div><div class="puja-card-body"><h4>Lakshmi Puja</h4><div class="temple">ISKCON Temple</div><div class="reason">Based on your last Ganesh Puja</div><div class="social">👥 342 booked</div><div class="price">₹851</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-5">💰</div><div class="puja-card-body"><h4>Kubera Puja</h4><div class="temple">Sri Gavi</div><div class="reason">Devotees also booked</div><div class="social">👥 98 booked</div><div class="price">₹1,500</div></div></div>
           <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-2">✨</div><div class="puja-card-body"><h4>Vastu Shanti</h4><div class="temple">ISKCON</div><div class="social">👥 67 booked</div><div class="price">₹4,500</div></div></div>
         </div>
 
-        <div class="section-header"><h2>🌟 Blessings on Important Dates</h2><a href="#">See all</a></div>
+        <!-- Trending by location — PRD 7.2 P0 Cold-start -->
+        <div class="section-header"><h2>🌟 Trending Near You</h2><a href="#">See all</a></div>
         <div class="cards-row">
-          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-3">⭐</div><div class="puja-card-body"><h4>Navgraha Shanti</h4><div class="temple">Dodda Ganapati</div><div class="social">👥 189 booked</div><div class="price">₹2,100</div></div></div>
-          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-4">🌸</div><div class="puja-card-body"><h4>Ayushya Homa</h4><div class="temple">Venkateswara</div><div class="social">👥 156 booked</div><div class="price">₹1,100</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-3">⭐</div><div class="puja-card-body"><h4>Navgraha Shanti</h4><div class="temple">Dodda Ganapati</div><div class="reason">📍 Trending in Bengaluru</div><div class="social">👥 189 booked</div><div class="price">₹2,100</div></div></div>
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-4">🌸</div><div class="puja-card-body"><h4>Ayushya Homa</h4><div class="temple">Venkateswara</div><div class="reason">📅 Ram Navami special</div><div class="social">👥 156 booked</div><div class="price">₹1,100</div></div></div>
         </div>
 
+        <!-- Complementary suggestions — PRD 7.2 P1 -->
         <div class="section-header"><h2>👨‍👩‍👧 Puja for Your Family</h2><a href="#">See all</a></div>
         <div class="cards-row">
           <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-1">🏠</div><div class="puja-card-body"><h4>Griha Pravesh</h4><div class="temple">ISKCON Temple</div><div class="social">👥 54 booked</div><div class="price">₹5,100</div></div></div>
-          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-2">👶</div><div class=... (truncated)
+          <div class="puja-card" onclick="showScreen('booking')"><div class="puja-card-img card-bg-2">👶</div><div class="puja-card-body"><h4>Naamkaran Puja</h4><div class="temple">Local Pandit</div><div class="social">👥 34 booked</div><div class="price">₹2,500</div></div></div>
+        </div>
+
+        <div style="height: 40px;"></div>
+      </div>
+
+      <!-- Profile data collection modal — PRD 7.2 P0 -->
+      <div class="modal-overlay" id="profile-modal">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <h3>🙏 Personalise Your Experience</h3>
+          <div class="subtitle">Help us recommend pujas that matter to you</div>
+          <div class="modal-hint">
+            <span>💡</span>
+            <span>Your data is stored securely and used only for puja recommendations. You can edit anytime in Settings.</span>
+          </div>
+          <div class="form-field">
+            <label>Your Gotra</label>
+            <input type="text" placeholder="e.g. Bharadwaj, Kashyap, Vasishtha…">
+            <div class="field-hint">Used to ensure the puja is performed correctly in your name</div>
+          </div>
+          <div class="form-field">
+            <label>Date of Birth</label>
+            <input type="date">
+            <div class="field-hint">We'll recommend pujas on your birthday & auspicious days</div>
+          </div>
+          <div class="form-field">
+            <label>Anniversary Date</label>
+            <input type="date">
+            <div class="field-hint">Get reminders for couples' pujas and blessings</div>
+          </div>
+          <div class="form-field">
+            <label>Marital Status</label>
+            <select>
+              <option value="">Select…</option>
+              <option>Single</option>
+              <option>Married</option>
+              <option>Widowed</option>
+            </select>
+          </div>
+          <button class="save-btn" onclick="document.getElementById('profile-modal').classList.add('hidden')">Save & Get Recommendations</button>
+          <div class="skip-link" onclick="document.getElementById('profile-modal').classList.add('hidden')">Skip for now</div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showScreen('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+        <div class="nav-item active"><span class="nav-icon">🙏</span><span class="nav-label">Puja</span></div>
+        <div class="nav-item" onclick="showScreen('video')"><span class="nav-icon">🎥</span><span class="nav-label">Videos</span></div>
+        <div class="nav-item" onclick="showScreen('calendar')"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></div>
+        <div class="nav-item" onclick="showScreen('education')"><span class="nav-icon">☰</span><span class="nav-label">More</span></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ VIDEO FEED SCREEN ═══════════════ -->
+    <div class="app-screen" id="screen-video">
+      <div class="status-bar" style="background:#000;"><span class="status-time">10:35</span><span class="status-icons">▶▶ 📶 🔋</span></div>
+      <!-- Video category tabs — PRD 7.3 P0 -->
+      <div class="video-tabs">
+        <div class="vtab active">Special</div>
+        <div class="vtab">Puja</div>
+        <div class="vtab">Music</div>
+        <div class="vtab">Chadhavs</div>
+        <div class="vtab">Aarti</div>
+      </div>
+      <div class="video-feed">
+        <div class="video-bg-img"></div>
+        <div class="mute-badge">🔇 Tap to unmute</div>
+        <div class="play-btn">▶</div>
+        <div class="video-item">
+          <div class="video-side">
+            <div class="video-action"><span class="va-icon">❤️</span><span>2.4k</span></div>
+            <div class="video-action"><span class="va-icon">💬</span><span>186</span></div>
+            <div class="video-action"><span class="va-icon">↗️</span><span>Share</span></div>
+            <div class="video-action"><span class="va-icon">🔖</span><span>Save</span></div>
+          </div>
+          <div class="video-content">
+            <div class="video-title">🪔 Lakshmi Aarti at ISKCON Bengaluru</div>
+            <div class="video-sub">Watch how our verified pandit performs the sacred aarti with devotion and precision</div>
+            <button class="video-cta" onclick="showScreen('booking')">📿 Book This Puja — ₹851</button>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showScreen('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+        <div class="nav-item" onclick="showScreen('recommendation')"><span class="nav-icon">🙏</span><span class="nav-label">Puja</span></div>
+        <div class="nav-item active"><span class="nav-icon">🎥</span><span class="nav-label">Videos</span></div>
+        <div class="nav-item" onclick="showScreen('calendar')"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></div>
+        <div class="nav-item" onclick="showScreen('education')"><span class="nav-icon">☰</span><span class="nav-label">More</span></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ BOOKING FLOW SCREEN ═══════════════ -->
+    <div class="app-screen" id="screen-booking">
+      <div class="booking-header">
+        <span class="back" onclick="showScreen('home')">← Back</span>
+        <h2>📿 Lakshmi Puja Booking</h2>
+        <div style="font-size:12px; opacity:0.85; margin-top:4px;">ISKCON Temple, Bengaluru</div>
+      </div>
+      <div class="booking-content">
+        <!-- Trust badges — PRD 5.3 -->
+        <div class="trust-row">
+          <div class="trust-badge"><div class="tb-icon">✅</div><p>Verified Priests</p></div>
+          <div class="trust-badge"><div class="tb-icon">🎥</div><p>Video Proof</p></div>
+          <div class="trust-badge"><div class="tb-icon">📦</div><p>Prasad Delivery</p></div>
+        </div>
+
+        <!-- Social proof — PRD 7.2 P1 -->
+        <div class="social-strip" style="margin: 0 0 12px;">
+          <div class="faces">
+            <div class="face">A</div><div class="face">K</div><div class="face">+</div>
+          </div>
+          <p><strong>342 devotees</strong> booked this puja this week</p>
+        </div>
+
+        <!-- Urgency timer — PRD 7.2 P1 -->
+        <div class="urgency-strip">
+          <span class="uicon">⏰</span>
+          <p>Chaitra Navratri window closes in <span class="timer" id="countdown">2h 34m 12s</span></p>
+        </div>
+
+        <!-- Package selection -->
+        <div class="pkg-card selected">
+          <div class="pkg-top">
+            <div>
+              <h4>🪔 Basic Puja</h4>
+              <p>Standard ritual with one pandit</p>
+              <div class="includes">✓ Puja performance ✓ Photo proof ✓ Prasad (standard)</div>
+            </div>
+            <span class="price-tag">₹851</span>
+          </div>
+        </div>
+        <div class="pkg-card">
+          <div class="pkg-top">
+            <div>
+              <h4>✨ Premium Puja</h4>
+              <p>Extended ritual with senior pandit</p>
+              <div class="includes">✓ Full ritual ✓ Video proof ✓ Premium prasad ✓ Personal call</div>
+              <span class="popular-tag">⭐ Most Popular</span>
+            </div>
+            <span class="price-tag">₹1,551</span>
+          </div>
+        </div>
+
+        <!-- Gotra input — PRD 5.3 & 7.2 P0 -->
+        <div class="gotra-box">
+          <h4>🙏 Enter Your Gotra</h4>
+          <p>The puja will be performed using your Gotra to ensure ritual accuracy</p>
+          <div class="tooltip">ℹ️ Why do we ask? Your Gotra identifies your spiritual lineage. Entering it correctly ensures the ceremony is performed in your name as per Vedic tradition.</div>
+          <input type="text" placeholder="e.g. Bharadwaj, Kashyap…">
+        </div>
+
+        <!-- WhatsApp opt-in — PRD 7.1 P1 -->
+        <div class="wa-optin">
+          <div class="wa-check">✓</div>
+          <div class="wa-info">
+            <strong>📱 Get updates on WhatsApp</strong><br>
+            Receive booking confirmation, puja reminders & prasad tracking on WhatsApp
+          </div>
+        </div>
+
+        <!-- Complementary suggestion — PRD 7.2 P1 -->
+        <div style="background:#f8f4ff; border-radius:12px; padding:12px; margin-bottom:12px; border:1px solid #e8d5f5;">
+          <div style="font-size:12px; font-weight:600; color:#8e44ad; margin-bottom:6px;">✨ Devotees who booked Lakshmi Puja also booked:</div>
+          <div style="display:flex; gap:8px;">
+            <div style="flex:1; background:#fff; border-radius:8px; padding:8px; text-align:center; cursor:pointer;">
+              <div style="font-size:20px; margin-bottom:4px;">💰</div>
+              <div style="font-size:11px; font-weight:600;">Kubera Puja</div>
+              <div style="font-size:10px; color:#c0392b; font-weight:700;">₹1,500</div>
+            </div>
+            <div style="flex:1; background:#fff; border-radius:8px; padding:8px; text-align:center; cursor:pointer;">
+              <div style="font-size:20px; margin-bottom:4px;">⭐</div>
+              <div style="font-size:11px; font-weight:600;">Navgraha Shanti</div>
+              <div style="font-size:10px; color:#c0392b; font-weight:700;">₹2,100</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="book-btn">🛕 Book Now — ₹851</button>
+    </div>
+
+    <!-- ═══════════════ WHATSAPP SCREEN ═══════════════ -->
+    <div class="app-screen" id="screen-whatsapp">
+      <div class="wa-header">
+        <span style="color:#fff; cursor:pointer; font-size:18px;" onclick="showScreen('home')">←</span>
+        <div class="wa-avatar">🛕</div>
+        <div class="wa-header-info">
+          <h4>Sri Mandir</h4>
+          <p>Verified Business · Online</p>
+        </div>
+      </div>
+
+      <div class="wa-messages">
+        <!-- Day 0 — PRD 7.1 P0 Product education broadcast -->
+        <div class="wa-day-label">Day 0 · Welcome</div>
+        <div class="wa-msg incoming">
+          <div class="msg-label">📚 Education Series 1/3</div>
+          <strong>🛕 Welcome to Sri Mandir!</strong><br><br>
+          Namaste! We're glad you're here. Sri Mandir connects you with verified priests at sacred temples across India.<br><br>
+          Here's how it works:<br>
+          1️⃣ Choose a puja for your need<br>
+          2️⃣ Our verified pandit performs it at the temple<br>
+          3️⃣ Get video proof + prasad delivered home<br><br>
+          <em>No app needed — book right here on WhatsApp!</em>
+          <div class="msg-time">9:00 AM ✓✓</div>
+        </div>
+
+        <!-- Inbound booking menu — PRD 7.1 P0 -->
+        <div class="wa-msg incoming">
+          <strong>📿 Quick Puja Menu</strong><br>
+          Tap to browse our top pujas:
+          <div class="wa-menu-card">
+            <h5>🔥 Top 5 Pujas This Week</h5>
+            <div class="wa-menu-item"><span class="mi-name">🪔 Lakshmi Puja</span><span class="mi-price">₹851</span></div>
+            <div class="wa-menu-item"><span class="mi-name">🐘 Ganesh Puja</span><span class="mi-price">₹1,251</span></div>
+            <div class="wa-menu-item"><span class="mi-name">⭐ Navgraha Shanti</span><span class="mi-price">₹2,100</span></div>
+            <div class="wa-menu-item"><span class="mi-name">🌸 Satyanarayana Puja</span><span class="mi-price">₹3,500</span></div>
+            <div class="wa-menu-item"><span class="mi-name">💰 Kubera Puja</span><span class="mi-price">₹1,500</span></div>
+          </div>
+          <div class="wa-action-btns">
+            <button class="wa-btn">📿 Book Lakshmi Puja</button>
+            <button class="wa-btn secondary">📋 View All Pujas</button>
+          </div>
+          <div class="msg-time">9:01 AM ✓✓</div>
+        </div>
+
+        <div class="wa-msg outgoing">
+          Book Lakshmi Puja please 🙏
+          <div class="msg-time">9:15 AM ✓✓</div>
+        </div>
+
+        <!-- Booking confirmation — PRD 7.1 P0 -->
+        <div class="wa-msg incoming">
+          <strong>✅ Booking Confirmed!</strong><br><br>
+          📿 <strong>Lakshmi Puja</strong><br>
+          📅 April 8, 2026 · 10:30 AM IST<br>
+          🕌 ISKCON Temple, Bengaluru<br>
+          💰 ₹851 (Paid)<br><br>
+          📦 Prasad will be delivered in 5–7 days<br>
+          🔗 <u>Track your prasad →</u><br><br>
+          You'll receive a video of the puja after completion 🎥
+          <div class="msg-time">9:16 AM ✓✓</div>
+        </div>
+
+        <!-- Day 2 — education series -->
+        <div class="wa-day-label">Day 2 · How It Works</div>
+        <div class="wa-msg incoming">
+          <div class="msg-label">📚 Education Series 2/3</div>
+          <strong>🎥 See Your Puja in Action</strong><br><br>
+          Every puja at Sri Mandir is performed by verified priests. After your puja, you receive:<br><br>
+          ✅ Video proof of the complete ritual<br>
+          ✅ Photo with your name sankalp<br>
+          ✅ Prasad delivered to your doorstep<br><br>
+          <em>Your trust is our priority 🙏</em>
+          <div class="msg-time">9:00 AM ✓✓</div>
+        </div>
+
+        <!-- Rich-media video — PRD 7.1 P1 -->
+        <div class="wa-msg incoming">
+          <strong>🎬 Your Puja Video is Ready!</strong>
+          <div class="wa-video-msg">
+            <div class="vthumb">▶</div>
+            <div class="vinfo">
+              <h5>Lakshmi Puja — ISKCON Bengaluru</h5>
+              <p>📹 2:45 min · Performed by Pt. Sharma</p>
+            </div>
+          </div>
+          <div class="msg-time">4:30 PM ✓✓</div>
+        </div>
+
+        <!-- Day 5 — first puja offer -->
+        <div class="wa-day-label">Day 5 · Special Offer</div>
+        <div class="wa-msg incoming">
+          <div class="msg-label">📚 Education Series 3/3</div>
+          <strong>🎁 Special Offer for You!</strong><br><br>
+          As a new devotee, enjoy 15% off your next puja booking!<br><br>
+          Use code: <strong>NAMASTE15</strong><br><br>
+          🪔 Recommended for you: <strong>Ganesh Puja</strong> — for removing obstacles and new beginnings<br>
+          <div class="wa-action-btns">
+            <button class="wa-btn">📿 Book Ganesh Puja — ₹1,063</button>
+            <button class="wa-btn secondary">🔍 Browse More Pujas</button>
+          </div>
+          <div class="msg-time">9:00 AM ✓✓</div>
+        </div>
+
+        <!-- Gift puja — PRD 5.1 NRI user story -->
+        <div class="wa-msg incoming">
+          <strong>🎁 Gift a Puja to Family</strong><br><br>
+          Send a puja booking link to your parents — they don't need the app!<br>
+          <div class="wa-action-btns">
+            <button class="wa-btn secondary">🔗 Share Puja Gift Link</button>
+          </div>
+          <div class="msg-time">9:02 AM ✓✓</div>
+        </div>
+      </div>
+
+      <div class="wa-input-bar">
+        <div class="wa-input">Type a message…</div>
+        <div class="wa-send">➤</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ SPIRITUAL CALENDAR SCREEN ═══════════════ -->
+    <div class="app-screen" id="screen-calendar">
+      <div class="cal-header">
+        <span style="cursor:pointer; font-size:18px;" onclick="showScreen('home')">← Back</span>
+        <h2>📅 Spiritual Calendar</h2>
+        <p>Your personalised Hindu calendar with puja reminders</p>
+      </div>
+      <div class="scroll-area">
+        <!-- Month grid — PRD 7.4 P0 -->
+        <div class="month-grid">
+          <div class="month-title">
+            <span>April 2026</span>
+            <div class="month-nav"><span>‹</span><span>›</span></div>
+          </div>
+          <div class="day-labels">
+            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+          </div>
+          <div class="days-grid">
+            <div class="d empty">.</div><div class="d empty">.</div><div class="d empty">.</div><div class="d">1</div><div class="d">2</div><div class="d today">3</div><div class="d auspicious">4</div>
+            <div class="d">5</div><div class="d personal">6</div><div class="d">7</div><div class="d">8</div><div class="d auspicious">9</div><div class="d">10</div><div class="d">11</div>
+            <div class="d personal">12</div><div class="d">13</div><div class="d auspicious">14</div><div class="d">15</div><div class="d">16</div><div class="d">17</div><div class="d">18</div>
+            <div class="d">19</div><div class="d auspicious">20</div><div class="d">21</div><div class="d">22</div><div class="d">23</div><div class="d">24</div><div class="d">25</div>
+            <div class="d">26</div><div class="d">27</div><div class="d">28</div><div class="d">29</div><div class="d">30</div><div class="d empty">.</div><div class="d empty">.</div>
+          </div>
+        </div>
+
+        <div style="padding: 4px 16px 8px; display:flex; gap:12px; font-size:10px; color:#888;">
+          <span><span style="display:inline-block;width:8px;height:8px;background:#c0392b;border-radius:50;margin-right:4px;"></span> Auspicious</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:#8e44ad;border-radius:50%;margin-right:4px;"></span> Personal</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:#c0392b;border-radius:50%;border:2px solid #fff;margin-right:4px;"></span> Today</span>
+        </div>
+
+        <!-- Upcoming events — PRD 7.4 P0 -->
+        <div class="section-header"><h2>📌 Upcoming Events</h2></div>
+        <div class="event-card">
+          <div class="ev-icon">🏹</div>
+          <div class="ev-body">
+            <h4>Ram Navami</h4>
+            <p>April 6 · Festival — Lord Rama's birthday</p>
+          </div>
+          <button class="ev-action" onclick="showScreen('booking')">Book</button>
+        </div>
+        <div class="event-card">
+          <div class="ev-icon" style="background:#f3e8ff;">🎂</div>
+          <div class="ev-body">
+            <h4>Your Birthday</h4>
+            <p>April 12 · Personal — Ayushya Homa recommended</p>
+          </div>
+          <button class="ev-action" onclick="showScreen('booking')">Book</button>
+        </div>
+        <div class="event-card">
+          <div class="ev-icon">🌙</div>
+          <div class="ev-body">
+            <h4>Ekadashi</h4>
+            <p>April 14 · Auspicious — Vishnu worship</p>
+          </div>
+          <button class="ev-action" onclick="showScreen('booking')">Book</button>
+        </div>
+        <div class="event-card">
+          <div class="ev-icon">💍</div>
+          <div class="ev-body">
+            <h4>Your Anniversary</h4>
+            <p>April 15 · Personal — Satyanarayan Puja</p>
+          </div>
+          <button class="ev-action" onclick="showScreen('booking')">Book</button>
+        </div>
+        <div class="event-card">
+          <div class="ev-icon">🕉️</div>
+          <div class="ev-body">
+            <h4>Hanuman Jayanti</h4>
+            <p>April 20 · Festival — Hanuman Puja</p>
+          </div>
+          <button class="ev-action" onclick="showScreen('booking')">Book</button>
+        </div>
+
+        <!-- Reminder settings — PRD 7.4 P0 -->
+        <div class="reminder-settings">
+          <h4>🔔 Reminder Settings</h4>
+          <div class="reminder-row">
+            <span class="rl">7-day advance reminder</span>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="reminder-row">
+            <span class="rl">1-day advance reminder</span>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="reminder-row">
+            <span class="rl">Push notifications</span>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="reminder-row">
+            <span class="rl">WhatsApp reminders</span>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+
+        <div style="height:40px;"></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showScreen('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+        <div class="nav-item" onclick="showScreen('recommendation')"><span class="nav-icon">🙏</span><span class="nav-label">Puja</span></div>
+        <div class="nav-item" onclick="showScreen('video')"><span class="nav-icon">🎥</span><span class="nav-label">Videos</span></div>
+        <div class="nav-item active"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></div>
+        <div class="nav-item" onclick="showScreen('education')"><span class="nav-icon">☰</span><span class="nav-label">More</span></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ PRODUCT EDUCATION & TRUST SCREEN ═══════════════ -->
+    <div class="app-screen" id="screen-education">
+      <div class="status-bar"><span class="status-time">10:40</span><span class="status-icons">▶▶ 📶 🔋</span></div>
+      <div class="app-header">
+        <div>
+          <h1>🛡️ Trust & Transparency</h1>
+          <div class="location">How Sri Mandir works</div>
+        </div>
+      </div>
+      <div class="scroll-area">
+        <!-- How it works — PRD 5.3 -->
+        <div class="section-header"><h2>🙏 How Sri Mandir Works</h2></div>
+        <div class="edu-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Choose Your Puja</h4>
+            <p>Browse pujas by need, festival, or personal occasion. See social proof — know how many devotees booked this week.</p>
+          </div>
+        </div>
+        <div class="edu-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Verified Priest Performs</h4>
+            <p>Our vetted pandits perform the puja at sacred temples. Your Gotra & name are used in the sankalp for ritual accuracy.</p>
+          </div>
+        </div>
+        <div class="edu-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Video Proof & Prasad</h4>
+            <p>Receive a video/photo of the completed puja as confirmation. Blessed prasad is shipped to your doorstep within 5–7 days.</p>
+          </div>
+        </div>
+
+        <!-- Post-puja proof — PRD 5.3 -->
+        <div class="section-header"><h2>🎥 Post-Puja Video Proof</h2></div>
+        <div class="proof-card">
+          <div class="proof-img">🎬</div>
+          <div class="proof-body">
+            <h4>Lakshmi Puja at ISKCON Bengaluru</h4>
+            <p>Performed by Pt. Sharma · 2:45 min · Sent to 342 devotees this week</p>
+          </div>
+        </div>
+
+        <!-- Trust signals -->
+        <div class="section-header"><h2>✅ Why Devotees Trust Us</h2></div>
+        <div class="trust-grid">
+          <div class="trust-item">
+            <div class="ti-icon">🧑‍🦲</div>
+            <h4>Verified Priests</h4>
+            <p>All pandits are vetted & certified</p>
+          </div>
+          <div class="trust-item">
+            <div class="ti-icon">🕌</div>
+            <h4>Sacred Temples</h4>
+            <p>Partnered with 500+ temples</p>
+          </div>
+          <div class="trust-item">
+            <div class="ti-icon">🎥</div>
+            <h4>Video Proof</h4>
+            <p>Every puja recorded & shared</p>
+          </div>
+          <div class="trust-item">
+            <div class="ti-icon">📦</div>
+            <h4>Prasad Tracked</h4>
+            <p>Real-time delivery tracking</p>
+          </div>
+        </div>
+
+        <!-- Gotra explainer -->
+        <div class="section-header"><h2>🙏 Why We Ask for Gotra</h2></div>
+        <div style="margin: 0 16px 12px; background:#fff; border-radius:14px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+          <p style="font-size:12px; color:#555; line-height:1.6;">Your <strong>Gotra</strong> identifies your spiritual lineage in Vedic tradition. When performing a sankalp (sacred vow), the priest invokes your Gotra to ensure the ritual is performed correctly in your name.</p>
+          <p style="font-size:11px; color:#8e44ad; margin-top:8px; font-weight:500;">ℹ️ You can enter & confirm your Gotra during booking. It's displayed back to you for verification before the puja is performed.</p>
+        </div>
+
+        <!-- Social proof stats — PRD 8 Success Metrics -->
+        <div class="section-header"><h2>📊 Community Impact</h2></div>
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-val">50K+</div>
+            <div class="stat-label">Pujas performed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val">4.7★</div>
+            <div class="stat-label">App rating</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val">98%</div>
+            <div class="stat-label">Satisfaction</div>
+          </div>
+        </div>
+
+        <!-- Persona highlights -->
+        <div class="section-header"><h2>👥 Built for Every Devotee</h2></div>
+        <div style="margin: 0 16px 16px; display:flex; flex-direction:column; gap:8px;">
+          <div style="background:#fff; border-radius:10px; padding:10px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.05); display:flex; gap:8px; align-items:center;">
+            <span style="font-size:20px;">👩‍💻</span>
+            <div>
+              <div style="font-size:12px; font-weight:600; color:#1a1a1a;">Millennial / Gen Z</div>
+              <div style="font-size:10px; color:#888;">Personalised 'For You' feed + quick booking</div>
+            </div>
+          </div>
+          <div style="background:#fff; border-radius:10px; padding:10px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.05); display:flex; gap:8px; align-items:center;">
+            <span style="font-size:20px;">🌏</span>
+            <div>
+              <div style="font-size:12px; font-weight:600; color:#1a1a1a;">NRI Devotees</div>
+              <div style="font-size:10px; color:#888;">Gift pujas to family via WhatsApp link</div>
+            </div>
+          </div>
+          <div style="background:#fff; border-radius:10px; padding:10px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.05); display:flex; gap:8px; align-items:center;">
+            <span style="font-size:20px;">🧓</span>
+            <div>
+              <div style="font-size:12px; font-weight:600; color:#1a1a1a;">Non-Tech Devotees</div>
+              <div style="font-size:10px; color:#888;">Book entirely via WhatsApp — no app needed</div>
+            </div>
+          </div>
+          <div style="background:#fff; border-radius:10px; padding:10px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.05); display:flex; gap:8px; align-items:center;">
+            <span style="font-size:20px;">🤔</span>
+            <div>
+              <div style="font-size:12px; font-weight:600; color:#1a1a1a;">First-Time / Skeptical</div>
+              <div style="font-size:10px; color:#888;">Video proof + social proof builds confidence</div>
+            </div>
+          </div>
+          <div style="background:#fff; border-radius:10px; padding:10px 12px; box-shadow:0 1px 4px rgba(0,0,0,0.05); display:flex; gap:8px; align-items:center;">
+            <span style="font-size:20px;">🔁</span>
+            <div>
+              <div style="font-size:12px; font-weight:600; color:#1a1a1a;">Regular Devotees</div>
+              <div style="font-size:10px; color:#888;">Subscriptions + loyalty rewards coming soon</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:40px;"></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="showScreen('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+        <div class="nav-item" onclick="showScreen('recommendation')"><span class="nav-icon">🙏</span><span class="nav-label">Puja</span></div>
+        <div class="nav-item" onclick="showScreen('video')"><span class="nav-icon">🎥</span><span class="nav-label">Videos</span></div>
+        <div class="nav-item" onclick="showScreen('calendar')"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></div>
+        <div class="nav-item active"><span class="nav-icon">☰</span><span class="nav-label">More</span></div>
+      </div>
+    </div>
+
+  </div><!-- end phone -->
+</div>
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('btn-' + name);
+  if (btn) btn.classList.add('active');
+
+  // Re-show profile modal when navigating to recommendation
+  if (name === 'recommendation') {
+    document.getElementById('profile-modal').classList.remove('hidden');
+  }
+}
+
+// Urgency countdown timer — PRD 7.2 P1
+function startCountdown() {
+  let total = 2 * 3600 + 34 * 60 + 12;
+  const el = document.getElementById('countdown');
+  if (!el) return;
+  setInterval(() => {
+    if (total <= 0) return;
+    total--;
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    el.textContent = h + 'h ' + String(m).padStart(2, '0') + 'm ' + String(s).padStart(2, '0') + 's';
+  }, 1000);
+}
+
+// Video tab switching
+document.querySelectorAll('.vtab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+
+// Package selection
+document.querySelectorAll('.pkg-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    const price = card.querySelector('.price-tag').textContent;
+    document.querySelector('.book-btn').textContent = '🛕 Book Now — ' + price;
+  });
+});
+
+// Toggle switches
+document.querySelectorAll('.toggle').forEach(t => {
+  t.addEventListener('click', () => t.classList.toggle('on'));
+});
+
+startCountdown();
+</script>
+</body>
+</html>
