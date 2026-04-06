@@ -898,7 +898,250 @@ const CASES = [
       ],
     },
   },
-  
+  {
+    id: 5,
+    theme: "orange",
+    vol: "VOL.05",
+    volJp: "",
+    co: "FarmVille 3 · Zynga",
+    title: "REVENUE GROWTH STRATEGY",
+    desc: "Pain-point-driven monetization via subscription, consumables, and community events to unlock 5% monthly incremental revenue",
+    impact: "+5% monthly revenue (~$50K)",
+    tags: ["monetization", "mobile", "games", "engagement", "retention"],
+    kpis: [
+      { v: "$50-65K", l: "Projected net incremental monthly revenue" },
+      { v: "$2.10+", l: "ARPU target (from $2.00 baseline)" },
+      { v: "5", l: "Features across 4 player segments" },
+    ],
+    content: {
+      tags: [
+        "Mobile Games",
+        "F2P Monetization",
+        "IAP Strategy",
+        "Player Segmentation",
+        "Subscription Design",
+        "Community Events",
+        "Behavioral Economics",
+        "Competitive Analysis",
+        "Revenue Modeling",
+      ],
+      customSections: [
+        {
+          num: "01",
+          title: "Executive Summary",
+          body: "FarmVille 3 generates ~$1M/month from ~500K MAU with two revenue drivers: direct IAP purchases and gem spending. The strategy targets <strong>$50K incremental monthly revenue (5% lift)</strong> via IAP-only mechanics without any ads or partnerships. Three progression bottlenecks are identified — sticker scarcity, tree fatigue, and exotic quest walls — and five features are proposed across four player segments, from a $2.99 subscription to community-driven competitive events.",
+          items: [
+            "<strong>Current Revenue:</strong> ~$1M/month · <strong>Target Lift:</strong> +5% · <strong>Projected Net Impact:</strong> $50–65K/mo · <strong>ARPU Target:</strong> $2.10+",
+            "<strong>Revenue Driver 1: Direct Purchase</strong> — Loot boxes, DLC, bundles bought with real money",
+            "<strong>Revenue Driver 2: Gem Purchases</strong> — More gem spending = more real-money top-ups",
+            "<strong>Approach:</strong> New ways to spend real money directly + increasing gem spending on in-game items — driven by solving real player frustrations, not adding more friction.",
+          ],
+        },
+        {
+          num: "02",
+          title: "Market Context",
+          body: "FarmVille 3 under-monetizes vs. farming genre leaders. Its animal breeding (gacha) mechanic is its unique strength — it creates a high completionist drive. But the same mechanic creates the highest frustration when stickers or exotic animals are gated. <strong>The opportunity is to reduce this friction for a price.</strong>",
+          items: null,
+          metricGroups: [
+            {
+              name: "Competitive Benchmark",
+              subtitle: "FarmVille 3 vs. Farming Genre Leaders",
+              metrics: [
+                { metric: "Est. Monthly Revenue", definition: "FarmVille 3: ~$1M · Hay Day: $15–20M · Township: $25–30M", why: "FarmVille 3 is significantly under-monetized relative to MAU" },
+                { metric: "Est. MAU", definition: "FarmVille 3: ~500K · Hay Day: 5–8M · Township: 10–15M", why: "Smaller audience but comparable ARPU opportunity" },
+                { metric: "ARPU (Monthly)", definition: "FarmVille 3: $2.00 · Hay Day: $2.50–3.00 · Township: $2.00–2.50", why: "Target is to close the ARPU gap to $2.10+ via pain-point monetization" },
+                { metric: "IAP Conversion Rate", definition: "FarmVille 3: 2–3% · Hay Day: 3–5% · Township: 3–4%", why: "Conversion gap is the primary revenue lever" },
+                { metric: "Primary Monetization", definition: "FarmVille 3: Gems + Farm Pass · Hay Day: Diamonds + trading · Township: Events + content depth", why: "Events and content depth are underutilized in FarmVille 3" },
+                { metric: "Key Differentiator", definition: "FarmVille 3: Animal gacha/breeding · Hay Day: No forced tutorial · Township: City + farm hybrid", why: "Breeding mechanic is both the strength and the source of highest player frustration" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "03",
+          title: "Player Segmentation",
+          body: "Spend-behavior segmentation reveals the real revenue levers: 400K 'Never Spent' players are the largest conversion pool, while 30K 'Frequent Buyers' offer the deepest ARPU expansion. A Level 35 player who has never spent is fundamentally different from a Level 20 who buys every pass — level-based segmentation misses this.",
+          items: null,
+          metricGroups: [
+            {
+              name: "Segment Profiles & Monetization Strategies",
+              subtitle: "4 Segments · Based on F2P Benchmarks (GameAnalytics 2024/2026)",
+              metrics: [
+                { metric: "Never Spent (75–80% · ~400K)", definition: "Play daily, social-heavy; never made a purchase", why: "Convert via low-friction subscription ($2.99/mo) — largest conversion pool" },
+                { metric: "Occasional Spender (12–15% · ~65K)", definition: "Buy Farm Pass ($4.99) once or twice; use gems for level-ups", why: "Increase spend frequency via contextual bundles + XP boosters" },
+                { metric: "Frequent Buyer (5–7% · ~30K)", definition: "Spend on energy, time-skips, Sky Races; actively pursue exotic collections", why: "Deepen progression spend via sticker bundles, breeding boosters, event passes" },
+                { metric: "Power Spender (1–2% · ~5K)", definition: "Max out collections; buy every bundle; competitive status-driven", why: "Create prestige spend via animal showoffs and exclusive community events" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "04",
+          title: "Growth Levers: Three Pain Points = Three Opportunities",
+          body: "<strong>Principle: Monetize the solution to player frustration, not the frustration itself.</strong>",
+          items: null,
+          subsections: [
+            {
+              title: "The Sticker Bottleneck",
+              items: [
+                "Players report extreme difficulty leveling up Farmhands due to rare sticker scarcity — the #1 complaint in app store reviews",
+                "<strong>Opportunity:</strong> Sticker swap mechanics, targeted bundles",
+                "<strong>Target:</strong> Occasional Spenders & Frequent Buyers",
+              ],
+            },
+            {
+              title: "Tree Fatigue",
+              items: [
+                "Trees wither after 3 harvests. Replacing costs coins/gems and high energy — creates negative friction that causes churn rather than spend",
+                "<strong>Opportunity:</strong> Subscription that removes withering",
+                "<strong>Target:</strong> Never Spent & Occasional Spenders",
+              ],
+            },
+            {
+              title: "Exotic Quest Walls",
+              items: [
+                "Many players are stuck on Chapter 10+ Exotic Quests because animal levels are too low — the gap feels unbridgeable",
+                "<strong>Opportunity:</strong> Contextual bundles + breeding boosters",
+                "<strong>Target:</strong> Frequent Buyers & Power Spenders",
+              ],
+            },
+          ],
+        },
+        {
+          num: "05",
+          title: "Solutions: Converting 'Never Spent' & Accelerating Progression",
+          body: "A subscription + two consumables target the largest untapped revenue pool. Projected combined revenue (net of 30% store cut): <strong>$30K–$43K/month</strong>.",
+          items: null,
+          subsections: [
+            {
+              title: "Farm Hand Club @ $2.99/month",
+              items: [
+                "Low-commitment entry below Farm Pass ($4.99) — priced to minimize friction for first-time buyers",
+                "<strong>Infinite Tree Life</strong> — trees stop withering (solves #2 pain point)",
+                "<strong>Weekly Sticker Swap</strong> — 3 dupes for 1 choice sticker (solves #1 pain point)",
+                "<strong>+10% XP bonus</strong> on all farming activities",
+                "Exclusive 'Club Member' farm badge",
+                "<strong>Target:</strong> Never Spent (400K) → 3–4% conversion · <strong>Projected:</strong> $25K–$34K/mo net",
+              ],
+            },
+            {
+              title: "Farm Master Tonic (XP Booster)",
+              items: [
+                "Consumable: doubles XP for 30 mins ($0.99) or 1 hr ($1.49)",
+                "Purchasable via gems OR real money (dual sink)",
+                "<strong>Target:</strong> Occasional Spenders — helps level up faster",
+              ],
+            },
+            {
+              title: "Lucky Charm Serum (Breed Boost)",
+              items: [
+                "Applied during breeding: +30–40% rare animal chance",
+                "Priced at $1.49 / 30 gems per use",
+                "<strong>Target:</strong> Occasional & Frequent — collection psychology",
+                "<strong>Combined XP Booster + Breed Boost projected:</strong> $5K–$9K/mo net",
+              ],
+            },
+          ],
+        },
+        {
+          num: "06",
+          title: "Solutions: Engagement, Social & Contextual Spend",
+          body: "Community events + showoffs + smart bundles capture the high-value segments. Projected combined revenue (net): <strong>$25K–$46K/month</strong>.",
+          items: null,
+          subsections: [
+            {
+              title: "Community Events",
+              items: [
+                "<strong>Great Harvest Day:</strong> Seasonal localized crops, leaderboards, milestone skins",
+                "<strong>World Fair Day:</strong> Team co-op, mini-games, coin gambling for farm items",
+                "Monetization: Community Day Pass @ $2.99 · 4 events/month",
+                "<strong>Target:</strong> All segments · <strong>Projected:</strong> $12K–$22K/mo net",
+              ],
+            },
+            {
+              title: "Animal Showoffs",
+              items: [
+                "<strong>Theme-Based Decoration:</strong> Seasonal packs (Christmas, Diwali) for animals — $1.99–$4.99",
+                "<strong>Voting & Leaderboards:</strong> Weekly shows; players vote for best animal; winners get exclusive skins",
+                "Monetization: Entry fee 50 gems ($0.99) · Decoration packs $1.99–$4.99",
+                "<strong>Target:</strong> Frequent & Power Spenders · <strong>Projected:</strong> $8K–$14K/mo net",
+              ],
+            },
+            {
+              title: "Contextual 'Missing Piece' Bundles",
+              items: [
+                "Trigger: fail Exotic Quest 3× or hit Farmhand level cap",
+                "Bundle contains exact stickers/food needed to bridge the gap",
+                "Monetization: $1.99–$7.99 per bundle · 30-min purchase window",
+                "<strong>Target:</strong> Frequent & Power Spenders · <strong>Projected:</strong> $5K–$10K/mo net",
+              ],
+            },
+          ],
+        },
+        {
+          num: "07",
+          title: "Financial Model: ARPU Bridge $2.00 → $2.10+",
+          body: "All figures net of 30% Apple/Google store cut. Conservative scenario delivers 5.5% lift; moderate scenario delivers 8.9% lift.",
+          items: null,
+          metricGroups: [
+            {
+              name: "Initiative-Level Revenue Breakdown",
+              subtitle: "Baseline: 500K MAU × $2.00 = $1.0M/mo → Target: $2.10 ARPU (+5%)",
+              metrics: [
+                { metric: "Farm Hand Club ($2.99/mo)", definition: "Never Spent (400K) · 3–4% conv. · $25K–$34K net", why: "+$0.05–$0.07 ARPU lift — biggest single lever" },
+                { metric: "XP Booster + Breed Boost", definition: "Occasional (265K) · 2–3% conv. · $5K–$9K net", why: "+$0.01–$0.02 ARPU lift" },
+                { metric: "Community Events ($2.99)", definition: "All active (500K) · 3–5% conv. · $12K–$22K net", why: "+$0.02–$0.04 ARPU lift" },
+                { metric: "Animal Showoffs", definition: "Frequent + Power (35K) · 15–20% conv. · $8K–$14K net", why: "+$0.02–$0.03 ARPU lift" },
+                { metric: "Contextual Bundles", definition: "Frequent + Power (35K) · 5–8% conv. · $5K–$10K net", why: "+$0.01–$0.02 ARPU lift" },
+                { metric: "TOTAL (net of 30% cut)", definition: "$55K–$89K/month incremental", why: "+$0.11–$0.18 ARPU · Conservative: 5.5% lift · Moderate: 8.9% lift" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "08",
+          title: "Prioritization & Risks",
+          body: "Ship quick wins first, validate before investing in complex infrastructure. 10-week rollout: P0+P1 Ship (Wk 1–3) → P2 Sub Launch (Wk 3–5) → P3 Events Build (Wk 5–8) → P4 Showoffs + Full Rollout (Wk 8–10).",
+          items: null,
+          metricGroups: [
+            {
+              name: "Feature Prioritization",
+              subtitle: "Ordered by Impact-to-Effort ratio",
+              metrics: [
+                { metric: "P0 · XP Booster + Breed Boost", definition: "Impact: $5–9K · Effort: Low", why: "Fastest to validate; consumable pattern proven in category" },
+                { metric: "P1 · Contextual Bundles", definition: "Impact: $5–10K · Effort: Low", why: "Trigger logic on existing quest system — minimal new infra" },
+                { metric: "P2 · Farm Hand Club", definition: "Impact: $25–34K · Effort: Med", why: "Biggest single lever; creates recurring revenue base" },
+                { metric: "P3 · Community Events", definition: "Impact: $12–22K · Effort: High", why: "Highest engagement ceiling; needs event infrastructure" },
+                { metric: "P4 · Animal Showoffs", definition: "Impact: $8–14K · Effort: High", why: "Requires UGC system, voting, and moderation layer" },
+              ],
+            },
+            {
+              name: "Risk Register",
+              subtitle: "Key risks and mitigations",
+              metrics: [
+                { metric: "Farm Pass cannibalization · MED", definition: "A/B test Month 1", why: "Add Premium tier ($7.99) if >15% downgrade observed" },
+                { metric: "Pay-to-win perception · HIGH", definition: "All items are progression aids or cosmetic", why: "No competitive advantage — preserve fairness perception" },
+                { metric: "Event fatigue / gem sink · MED", definition: "Cap 4 events/month", why: "Monitor existing gem conversion 30 days post-launch" },
+              ],
+            },
+          ],
+        },
+        {
+          num: "09",
+          title: "Recommendation",
+          body: "<strong>Fix the pain, and the revenue follows.</strong>",
+          items: [
+            "<strong>01 · Ship P0/P1</strong> consumables + contextual bundles in Weeks 1–3 — validate spend appetite ($10–19K/mo net)",
+            "<strong>02 · Launch Farm Hand Club</strong> ($2.99/mo) in Week 4 — biggest single lever at $25–34K/mo net, creates recurring revenue",
+            "<strong>03 · Build Community Events + Animal Showoffs</strong> in parallel — highest engagement and social retention ceiling",
+            "<strong>04 · Guard retention as a kill-switch</strong> — if D30 drops >2pp in any segment, pause and recalibrate immediately",
+            "<strong>Success Metrics (30/60/90 Day):</strong> ARPU: $2.00 → $2.04 → $2.07 → $2.10+ · Conv. Rate: 2.5% → 3.0% → 3.5% · D30 Retention: No drop >2pp",
+          ],
+        },
+      ],
+    },
+  },
+
 ];
 
 function accentColor(t: string) {
