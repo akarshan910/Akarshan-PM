@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmVille 3 — Revenue Strategy Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: radial-gradient(ellipse at center, #1a4a0a 0%, #0a2005 100%);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    min-height: 100vh; padding: 30px 20px; gap: 20px;
+  }
+
+  /* ── LAYOUT ── */
+  .wrapper { display: flex; gap: 22px; align-items: flex-start; }
+  .sidebar {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 14px 0;
+    background: rgba(0,0,0,0.35);
+    border-radius: 14px; min-width: 172px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .sidebar h3 {
+    color: #FDB935; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1.5px; padding: 0 14px 8px;
+    border-bottom: 1px solid rgba(253,185,53,0.2); margin-bottom: 4px;
+    font-weight: 800;
+  }
+  .nav-section { padding: 6px 14px 2px; color: rgba(255,255,255,0.35); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .nav-btn {
+    background: none; border: none; color: #c8e8a0; font-size: 12px; font-weight: 700;
+    padding: 7px 14px; text-align: left; cursor: pointer;
+    border-radius: 8px; transition: all .18s;
+    display: flex; align-items: center; gap: 8px; width: 100%;
+  }
+  .nav-btn:hover { background: rgba(72,152,46,0.25); color: #8DE540; }
+  .nav-btn.active {
+    background: linear-gradient(135deg, rgba(72,152,46,0.4), rgba(58,128,30,0.4));
+    color: #8DE540; border-left: 2px solid #FDB935;
+  }
+  .nav-btn .icon { font-size: 14px; width: 16px; text-align: center; }
+
+  /* ── PHONE SHELL (LANDSCAPE) ── */
+  .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .phone-label { color: rgba(253,185,53,0.6); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+  .phone {
+    width: 844px; height: 400px;
+    background: #0a1a05;
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 0 2px #3A2010,
+      0 0 0 5px #1a0a02,
+      0 0 0 7px #4a3020,
+      0 30px 60px rgba(0,0,0,0.8),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    display: flex; flex-direction: column;
+    flex-shrink: 0;
+  }
+  /* Side buttons */
+  .phone::before {
+    content: ''; position: absolute; left: -8px; top: 80px;
+    width: 5px; height: 60px; background: #3A2010;
+    border-radius: 3px 0 0 3px;
+    box-shadow: 0 70px 0 #3A2010;
+  }
+  .phone::after {
+    content: ''; position: absolute; right: -8px; top: 110px;
+    width: 5px; height: 80px; background: #3A2010;
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* ── SCREENS ── */
+  .app-screen { display: none; flex-direction: column; height: 100%; animation: fadeIn .25s ease; }
+  .app-screen.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
+
+  /* ══════════════════════════════════════
+     GLOBAL DESIGN TOKENS — FV3 3D STYLE
+  ══════════════════════════════════════ */
+  :root {
+    --fv-green: #489820;
+    --fv-green-light: #7DD63F;
+    --fv-green-dark: #2D6A00;
+    --fv-brown: #4E220A;
+    --fv-brown-dark: #2A1005;
+    --fv-gold: #FDB935;
+    --fv-gold-dark: #CC7000;
+    --fv-orange: #AA6700;
+    --fv-cream: #FBF0D0;
+    --fv-cream-dark: #EDD8A0;
+    --fv-red: #CC2200;
+    --fv-blue: #225599;
+  }
+
+  /* ── 3D HUD BAR ── */
+  .hud {
+    background: linear-gradient(180deg, #5A2810 0%, #4E220A 60%, #3A1808 100%);
+    border-bottom: 3px solid #1A0A02;
+    box-shadow: 0 3px 0 #180600, 0 5px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+    padding: 0 14px;
+    height: 44px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .hud-logo {
+    font-size: 16px; font-weight: 900; color: #8DE540;
+    text-shadow: 0 1px 0 #2D6A00, 0 2px 4px rgba(0,0,0,0.5), -1px -1px 0 #1A4000, 1px 1px 0 rgba(0,0,0,0.3);
+    letter-spacing: 0.5px;
+  }
+  .hud-logo span { color: #FDB935; }
+  .hud-resources { display: flex; gap: 6px; align-items: center; }
+  .res-pill {
+    background: linear-gradient(180deg, #3A1808 0%, #2A1005 100%);
+    border: 1.5px solid #6B3010;
+    border-bottom: 2.5px solid #180800;
+    border-radius: 20px;
+    padding: 3px 10px 3px 6px;
+    display: flex; align-items: center; gap: 5px;
+    box-shadow: 0 2px 0 #100400, inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .res-icon { font-size: 15px; }
+  .res-val { color: #fff; font-size: 12px; font-weight: 800; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
+  .res-plus {
+    width: 20px; height: 20px;
+    background: linear-gradient(180deg, #FFD060 0%, #FDB935 50%, #CC7000 100%);
+    border: 1.5px solid #8B4A00; border-bottom: 2.5px solid #5A2800;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 900; color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 0 2px 0 #3A1000, inset 0 1px 0 rgba(255,255,255,0.3);
+    cursor: pointer;
+  }
+  .hud-right { display: flex; align-items: center; gap: 8px; }
+  .hud-icon-btn {
+    width: 28px; height: 28px;
+    background: linear-gradient(180deg, #6B3A20 0%, #4E220A 100%);
+    border: 1.5px solid #8B5030; border-bottom: 2.5px solid #2A1005;
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; cursor: pointer;
+    box-shadow: 0 2px 0 #1A0800, inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  /* ── GAME CONTENT AREA ── */
+  .game-content {
+    flex: 1; overflow: hidden;
+    display: flex;
+    position: relative;
+  }
+
+  /* ── BOTTOM NAV BAR ── */
+  .bottom-bar {
+    background: linear-gradient(180deg, #3A1808 0%, #2A1005 100%);
+    border-top: 2px solid #6B3010;
+    box-shadow: 0 -3px 0 #180600, inset 0 1px 0 rgba(255,255,255,0.08);
+    height: 46px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 0 10px;
+  }
+  .bnav {
+    display: flex; flex-direction: column; align-items: center; gap: 1px;
+    cursor: pointer; padding: 2px 10px;
+    border-radius: 10px; transition: all .15s;
+  }
+  .bnav:hover { background: rgba(72,152,46,0.2); }
+  .bnav.active { background: rgba(72,152,46,0.25); }
+  .bnav-icon { font-size: 18px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
+  .bnav-label { font-size: 9px; font-weight: 800; color: #a8c890; text-transform: uppercase; letter-spacing: 0.5px; }
+  .bnav.active .bnav-label { color: #FDB935; }
+
+  /* ── 3D PANEL / CARD ── */
+  .panel {
+    background: linear-gradient(180deg, #FBF2D8 0%, #F0DFA8 100%);
+    border: 2.5px solid #8B5E2A;
+    border-top: 2.5px solid #B07840;
+    border-bottom: 4px solid #4E220A;
+    border-radius: 14px;
+    box-shadow: 0 5px 0 #2A1005, 0 8px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  .panel-header {
+    background: linear-gradient(180deg, #5A2810 0%, #4E220A 100%);
+    border-bottom: 2px solid #2A1005;
+    padding: 7px 12px;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .panel-header h3 {
+    color: #FDB935; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6), -1px -1px 0 rgba(0,0,0,0.3);
+  }
+  .panel-body { padding: 10px 12px; }
+
+  /* ── 3D BUTTONS ── */
+  .btn-green {
+    background: linear-gradient(180deg, #8DE540 0%, #5DBF1A 40%, #489820 60%, #3A8000 100%);
+    border: 2px solid #2D6A00;
+    border-bottom: 4px solid #1A3D00;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.2);
+    color: #fff; font-size: 13px; font-weight: 900; font-family: 'Nunito', sans-serif;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 -1px 0 rgba(0,0,0,0.3);
+    padding: 9px 18px; cursor: pointer;
+    transition: transform .1s, box-shadow .1s;
+    letter-spacing: 0.3px;
+  }
+  .btn-green:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.4); }
+
+  .btn-gold {
+    background: linear-gradient(180deg, #FFD060 0%, #FDB935 35%, #E89000 65%, #CC7000 100%);
+    border: 2px solid #8B5000;
+    border-bottom: 4px solid #5A3000;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 rgba(0,0,0,0.2);
+    color: #fff; font-size: 13px; font-weight: 900; font-family: 'Nunito', sans-serif;
+    text-shadow: 0 1px 3px rgba(100,50,0,0.7);
+    padding: 9px 18px; cursor: pointer;
+    transition: transform .1s, box-shadow .1s;
+  }
+  .btn-gold:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.4); }
+
+  .btn-red {
+    background: linear-gradient(180deg, #FF5535 0%, #CC2200 50%, #991500 100%);
+    border: 2px solid #6B0A00; border-bottom: 4px solid #3A0500;
+    border-radius: 10px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+    color: #fff; font-size: 12px; font-weight: 900; font-family: 'Nunito', sans-serif;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    padding: 7px 14px; cursor: pointer;
+  }
+
+  .btn-sm {
+    font-size: 11px !important; padding: 6px 12px !important;
+    border-bottom: 3px solid !important;
+  }
+
+  /* ── 3D PROGRESS BAR ── */
+  .prog-wrap {
+    background: linear-gradient(180deg, #1A0A00 0%, #2A1005 100%);
+    border: 1.5px solid #4E220A; border-radius: 20px; height: 14px;
+    padding: 2px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .prog-fill {
+    height: 100%; border-radius: 20px;
+    background: linear-gradient(180deg, #8DE540 0%, #489820 60%, #3A8000 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 4px rgba(72,152,46,0.5);
+    position: relative; overflow: hidden;
+  }
+  .prog-fill::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shine 2s infinite;
+  }
+  @keyframes shine { to { left: 200%; } }
+
+  .prog-fill-gold {
+    background: linear-gradient(180deg, #FFD060 0%, #FDB935 60%, #CC7000 100%);
+  }
+  .prog-fill-blue {
+    background: linear-gradient(180deg, #5BA8FF 0%, #225599 60%, #143370 100%);
+  }
+
+  /* ── COIN/GEM BADGE ── */
+  .badge-gold {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(180deg, #FFD060 0%, #FDB935 100%);
+    border: 1.5px solid #8B5000; border-bottom: 2.5px solid #5A3000;
+    border-radius: 20px; padding: 3px 10px;
+    font-size: 12px; font-weight: 900; color: #fff;
+    text-shadow: 0 1px 2px rgba(100,50,0,0.6);
+    box-shadow: 0 2px 0 #3A1800, inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+  .badge-green {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(180deg, #7DD63F 0%, #489820 100%);
+    border: 1.5px solid #2D6A00; border-bottom: 2.5px solid #1A3D00;
+    border-radius: 20px; padding: 3px 10px;
+    font-size: 11px; font-weight: 900; color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 0 #1A3800, inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+
+  /* ── SCROLLABLE ── */
+  .scroll { overflow-y: auto; overflow-x: hidden; }
+  .scroll::-webkit-scrollbar { width: 4px; }
+  .scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 2px; }
+  .scroll::-webkit-scrollbar-thumb { background: #6B3010; border-radius: 2px; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, #8B5E2A 30%, #8B5E2A 70%, transparent); margin: 8px 0; opacity: 0.5; }
+
+  /* ══════════════════════════════════════
+     SCREEN 1 — FARM HOME
+  ══════════════════════════════════════ */
+  .farm-bg {
+    flex: 1;
+    background:
+      linear-gradient(180deg, #87CEEB 0%, #B0E8FF 25%, #6FB543 25%, #5A9E30 50%, #4A8A20 70%, #3A7010 100%);
+    position: relative; overflow: hidden;
+  }
+  .farm-clouds { position: absolute; top: 5px; left: 0; right: 0; pointer-events: none; }
+  .cloud { position: absolute; background: rgba(255,255,255,0.85); border-radius: 30px; }
+  .c1 { top: 8px; left: 50px; width: 80px; height: 24px; }
+  .c2 { top: 12px; left: 180px; width: 60px; height: 18px; }
+  .c3 { top: 6px; right: 80px; width: 100px; height: 26px; }
+  .farm-objects { position: absolute; bottom: 0; left: 0; right: 0; height: 75%; display: flex; align-items: flex-end; padding: 0 30px 8px; gap: 10px; }
+  .farm-obj { font-size: 44px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); cursor: pointer; transition: transform .15s; }
+  .farm-obj:hover { transform: scale(1.08) translateY(-3px); }
+  .farm-obj.sm { font-size: 32px; }
+  .farm-obj.lg { font-size: 56px; }
+
+  .tree-tag {
+    position: absolute; bottom: 70px; left: 36px;
+    background: linear-gradient(180deg, #FFD060 0%, #FDB935 100%);
+    border: 1.5px solid #8B5000; border-bottom: 2px solid #5A3000;
+    border-radius: 10px; padding: 2px 8px;
+    font-size: 9px; font-weight: 900; color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 0 #3A1800;
+  }
+  .club-scene-badge {
+    position: absolute; top: 52px; left: 14px;
+    background: linear-gradient(180deg, #5DBF1A 0%, #3A8000 100%);
+    border: 1.5px solid #2D6A00; border-bottom: 2px solid #1A3D00;
+    border-radius: 10px; padding: 3px 8px;
+    font-size: 9px; font-weight: 900; color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 0 #1A3800;
+  }
+
+  /* Right HUD overlay */
+  .farm-right-hud {
+    position: absolute; right: 10px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .hud-action-btn {
+    width: 48px; height: 48px;
+    background: linear-gradient(180deg, #FFD060 0%, #FDB935 40%, #CC7000 100%);
+    border: 2px solid #8B5000; border-bottom: 3px solid #4A2800;
+    border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #2A1000, 0 5px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.3);
+    transition: transform .1s;
+  }
+  .hud-action-btn:hover { transform: scale(1.05); }
+  .hud-action-btn .hab-icon { font-size: 20px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); }
+  .hud-action-btn .hab-label { font-size: 7px; font-weight: 900; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.5); }
+  .hab-new { position: relative; }
+  .hab-new::after {
+    content: 'NEW'; position: absolute; top: -5px; right: -5px;
+    background: #CC2200; color: #fff; font-size: 7px; font-weight: 900;
+    padding: 1px 4px; border-radius: 6px;
+    box-shadow: 0 1px 0 #660A00;
+  }
+
+  /* Left farmhand panel */
+  .farm-left-panel {
+    position: absolute; left: 10px; bottom: 56px;
+    width: 180px;
+  }
+  .fh-panel {
+    background: linear-gradient(180deg, rgba(78,34,10,0.92) 0%, rgba(42,16,5,0.92) 100%);
+    border: 1.5px solid #8B5030; border-bottom: 3px solid #180600;
+    border-radius: 12px; padding: 8px 10px;
+    box-shadow: 0 4px 0 #100300, 0 6px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+    backdrop-filter: blur(4px);
+  }
+  .fh-title { color: #FDB935; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .fh-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .fh-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #6B9A3A, #4A7020);
+    border: 2px solid #FDB935;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+    box-shadow: 0 2px 0 #8B5000, inset 0 1px 0 rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+  .fh-info { flex: 1; }
+  .fh-name { color: #fff; font-size: 10px; font-weight: 800; }
+  .fh-level { color: #a8c880; font-size: 9px; font-weight: 700; }
+  .sticker-alert {
+    background: linear-gradient(180deg, #5A2810 0%, #3A1808 100%);
+    border: 1px solid #8B5030; border-radius: 8px;
+    padding: 5px 7px; display: flex; align-items: center; gap: 5px; margin-top: 4px;
+  }
+  .sa-text { color: #FDB935; font-size: 9px; font-weight: 800; flex: 1; }
+  .sa-btn {
+    background: linear-gradient(180deg, #FFD060 0%, #CC7000 100%);
+    border: 1px solid #5A3000; border-bottom: 2px solid #2A1000;
+    border-radius: 6px; padding: 2px 7px;
+    color: #fff; font-size: 9px; font-weight: 900; cursor: pointer;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    box-shadow: 0 1px 0 #1A0800;
+  }
+
+  /* ══════════════════════════════════════
+     SCREEN 2 — FARM HAND CLUB
+  ══════════════════════════════════════ */
+  .club-bg {
+    flex: 1;
+    background: linear-gradient(135deg, #1A3A0A 0%, #0A2005 100%);
+    display: flex; align-items: stretch; padding: 10px; gap: 10px;
+    overflow: hidden;
+  }
+
+  /* Hero left */
+  .club-hero-col {
+    width: 200px; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; gap: 8px;
+  }
+  .club-crest {
+    width: 90px; height: 90px;
+    background: linear-gradient(135deg, #FFD060 0%, #FDB935 50%, #CC7000 100%);
+    border: 3px solid #8B5000; border-bottom: 5px solid #3A2000;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 44px;
+    box-shadow: 0 6px 0 #1A0800, 0 10px 20px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.4);
+  }
+  .club-name {
+    color: #FDB935; font-size: 16px; font-weight: 900; line-height: 1.1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5), -1px -1px 0 rgba(0,0,0,0.3);
+  }
+  .club-tagline { color: #a8d880; font-size: 10px; font-weight: 700; }
+  .price-banner {
+    background: linear-gradient(180deg, #FFD060 0%, #FDB935 40%, #CC7000 100%);
+    border: 2px solid #8B5000; border-bottom: 4px solid #3A2000;
+    border-radius: 20px; padding: 6px 16px;
+    box-shadow: 0 4px 0 #1A0800, inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+  .price-main { color: #fff; font-size: 20px; font-weight: 900; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+  .price-sub { color: rgba(255,255,255,0.85); font-size: 10px; font-weight: 700; }
+
+  /* Benefits grid */
+  .club-benefits-col { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+  .benefit-row-item {
+    display: flex; align-items: center; gap: 8px;
+    background: linear-gradient(180deg, rgba(78,34,10,0.6) 0%, rgba(42,16,5,0.6) 100%);
+    border: 1.5px solid #6B3010; border-bottom: 2.5px solid #2A1005;
+    border-radius: 10px; padding: 7px 10px;
+    box-shadow: 0 2px 0 #180600, inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .benefit-icon-3d {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .bi-green { background: linear-gradient(180deg, #7DD63F 0%, #3A8000 100%); border-color: #2D6A00; }
+  .bi-gold  { background: linear-gradient(180deg, #FFD060 0%, #CC7000 100%); border-color: #8B5000; }
+  .bi-blue  { background: linear-gradient(180deg, #5BA8FF 0%, #143370 100%); border-color: #0A2060; }
+  .bi-purple{ background: linear-gradient(180deg, #C084FC 0%, #6B21A8 100%); border-color: #3A0068; }
+  .benefit-text { flex: 1; }
+  .bt-title { color: #FDB935; font-size: 11px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .bt-desc { color: #c0d8a0; font-size: 10px; font-weight: 700; margin-top: 1px; }
+  .bt-fix { color: #8DE540; font-size: 9px; font-weight: 700; margin-top: 1px; }
+
+  /* CTA col */
+  .club-cta-col {
+    width: 160px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 8px; justify-content: center;
+  }
+  .compare-box {
+    background: linear-gradient(180deg, rgba(78,34,10,0.7) 0%, rgba(42,16,5,0.7) 100%);
+    border: 1.5px solid #6B3010; border-bottom: 3px solid #180600;
+    border-radius: 12px; padding: 10px; text-align: center;
+    box-shadow: 0 3px 0 #100300, inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .compare-vs { color: #a0b880; font-size: 9px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+  .compare-row-3d { display: flex; gap: 6px; align-items: center; justify-content: center; }
+  .cmp { flex: 1; text-align: center; }
+  .cmp-label { color: #a0b880; font-size: 8px; font-weight: 700; }
+  .cmp-val { font-size: 15px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .cmp-old { color: #888; }
+  .cmp-new { color: #FDB935; }
+  .cmp-arrow { color: #8DE540; font-size: 16px; }
+  .cta-full {
+    width: 100%; text-align: center;
+    background: linear-gradient(180deg, #8DE540 0%, #5DBF1A 40%, #489820 60%, #3A8000 100%);
+    border: 2px solid #2D6A00; border-bottom: 5px solid #1A3D00;
+    border-radius: 12px; padding: 11px;
+    color: #fff; font-size: 13px; font-weight: 900; font-family: 'Nunito', sans-serif;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    cursor: pointer;
+    box-shadow: 0 5px 0 #0A2000, 0 8px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.35);
+    transition: transform .1s;
+  }
+  .cta-full:active { transform: translateY(2px); }
+  .cta-note { color: #809860; font-size: 9px; font-weight: 700; text-align: center; line-height: 1.3; }
+
+  /* ══════════════════════════════════════
+     SCREEN 3 — STICKER EXCHANGE
+  ══════════════════════════════════════ */
+  .sticker-bg {
+    flex: 1;
+    background: linear-gradient(135deg, #1A3A0A 0%, #0A2005 100%);
+    display: flex; align-items: stretch; padding: 10px; gap: 10px;
+    overflow: hidden;
+  }
+  .sticker-swap-col { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+  .sticker-bundle-col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+  .swap-box {
+    background: linear-gradient(180deg, rgba(78,34,10,0.7) 0%, rgba(42,16,5,0.7) 100%);
+    border: 2px solid #8B5E2A; border-bottom: 3px solid #2A1005;
+    border-radius: 14px; padding: 10px;
+    box-shadow: 0 4px 0 #180600, inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .swap-title-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+  .swap-h { color: #FDB935; font-size: 12px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .club-tag {
+    background: linear-gradient(180deg, #7DD63F 0%, #3A8000 100%);
+    border: 1px solid #2D6A00; border-bottom: 1.5px solid #1A3D00;
+    border-radius: 8px; padding: 2px 7px;
+    font-size: 8px; font-weight: 900; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 0 #0A2000;
+  }
+
+  .sticker-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+  .sticker-3d {
+    width: 54px; height: 54px; border-radius: 12px; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    cursor: pointer; transition: transform .15s;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .sticker-3d:hover { transform: translateY(-2px) scale(1.05); }
+  .st-dupe {
+    background: linear-gradient(180deg, #5A8030 0%, #3A5820 100%);
+    border: 2px solid #7AB040; border-bottom: 3px solid #2A4010;
+  }
+  .st-selected {
+    background: linear-gradient(180deg, #FFD060 0%, #8B5000 100%);
+    border: 2px solid #FDB935; border-bottom: 3px solid #3A2000;
+  }
+  .st-choice {
+    background: linear-gradient(180deg, #5A2810 0%, #2A1005 100%);
+    border: 2.5px solid #FDB935; border-bottom: 3px solid #3A2000;
+  }
+  .sticker-3d .s-emoji { font-size: 24px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); }
+  .sticker-3d .s-label { font-size: 7px; font-weight: 900; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.5); }
+  .arrow-3d { color: #FDB935; font-size: 18px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+
+  .swap-timer { display: flex; align-items: center; gap: 5px; }
+  .timer-pill-3d {
+    background: linear-gradient(180deg, #3A1808 0%, #2A1005 100%);
+    border: 1.5px solid #6B3010; border-bottom: 2px solid #180600;
+    border-radius: 20px; padding: 3px 10px;
+    font-size: 10px; font-weight: 900; color: #FDB935;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    box-shadow: 0 1px 0 #0A0300, inset 0 1px 0 rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  .bundle-3d {
+    background: linear-gradient(180deg, rgba(78,34,10,0.7) 0%, rgba(42,16,5,0.7) 100%);
+    border: 2px solid #8B5E2A; border-bottom: 3px solid #2A1005;
+    border-radius: 12px; padding: 9px 10px;
+    box-shadow: 0 3px 0 #180600, inset 0 1px 0 rgba(255,255,255,0.06);
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .bundle-3d.featured {
+    border-color: #FDB935; border-bottom-color: #5A3000;
+    background: linear-gradient(180deg, rgba(100,60,10,0.8) 0%, rgba(60,30,5,0.8) 100%);
+  }
+  .bundle-top-row { display: flex; align-items: center; gap: 8px; }
+  .bundle-icon-3d {
+    width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+    background: linear-gradient(180deg, #5A2810 0%, #2A1005 100%);
+    border: 1.5px solid #8B5030; border-bottom: 2.5px solid #180600;
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+    box-shadow: 0 2px 0 #100300, inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .bundle-meta { flex: 1; }
+  .bundle-name { color: #FDB935; font-size: 11px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .bundle-sub { color: #a0b880; font-size: 10px; font-weight: 700; }
+  .bundle-items-row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .b-item-chip {
+    background: linear-gradient(180deg, #2A1808 0%, #180A00 100%);
+    border: 1px solid #6B3010; border-bottom: 1.5px solid #0A0300;
+    border-radius: 8px; padding: 2px 7px;
+    font-size: 10px; font-weight: 700; color: #d8c080;
+    box-shadow: 0 1px 0 #060100;
+  }
+  .bundle-footer-row { display: flex; align-items: center; justify-content: space-between; }
+  .bundle-price-3d { color: #FDB935; font-size: 18px; font-weight: 900; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+
+  /* ══════════════════════════════════════
+     SCREEN 4 — BREED LAB
+  ══════════════════════════════════════ */
+  .breed-bg {
+    flex: 1;
+    background: linear-gradient(135deg, #0D1B2A 0%, #051020 100%);
+    display: flex; align-items: stretch; padding: 10px; gap: 10px;
+    overflow: hidden;
+  }
+  .breed-left { width: 240px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+  .breed-right { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+  .animal-pair {
+    background: linear-gradient(180deg, rgba(30,60,90,0.8) 0%, rgba(10,20,40,0.8) 100%);
+    border: 2px solid #2A5080; border-bottom: 3px solid #051020;
+    border-radius: 14px; padding: 10px;
+    box-shadow: 0 3px 0 #030812, inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .pair-title { color: #5BA8FF; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .pair-row { display: flex; align-items: center; gap: 6px; }
+  .animal-slot {
+    flex: 1; border-radius: 12px; padding: 8px 6px; text-align: center;
+    background: linear-gradient(180deg, #1A4060 0%, #0A2040 100%);
+    border: 1.5px solid #3A70A0; border-bottom: 2.5px solid #051020;
+    box-shadow: 0 2px 0 #030810, inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .animal-emoji { font-size: 30px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+  .animal-name { color: #9BC8E0; font-size: 9px; font-weight: 800; margin-top: 2px; }
+  .animal-lv { color: #5BA8FF; font-size: 8px; font-weight: 700; }
+  .pair-plus { color: #5BA8FF; font-size: 18px; font-weight: 900; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+
+  .result-box {
+    background: linear-gradient(180deg, rgba(30,60,90,0.8) 0%, rgba(10,20,40,0.8) 100%);
+    border: 2px solid #FDB935; border-bottom: 3px solid #3A2000;
+    border-radius: 14px; padding: 10px; text-align: center;
+    box-shadow: 0 3px 0 #1A0800, 0 5px 20px rgba(253,185,53,0.15), inset 0 1px 0 rgba(253,185,53,0.1);
+  }
+  .result-title { color: #FDB935; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .result-animal-3d {
+    width: 64px; height: 64px; margin: 0 auto 6px;
+    background: linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%);
+    border: 3px solid #FDB935; border-bottom: 4px solid #5A3000;
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center; font-size: 36px;
+    box-shadow: 0 4px 0 #1A0800, 0 8px 20px rgba(253,185,53,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+    animation: glow 2s ease-in-out infinite;
+  }
+  @keyframes glow { 0%,100% { box-shadow: 0 4px 0 #1A0800, 0 8px 20px rgba(253,185,53,0.2); } 50% { box-shadow: 0 4px 0 #1A0800, 0 8px 30px rgba(253,185,53,0.5); } }
+
+  .chance-section { }
+  .chance-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .chance-label-text { color: #9BC8E0; font-size: 10px; font-weight: 700; }
+  .chance-val { color: #FDB935; font-size: 13px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .chance-bar-3d {
+    background: linear-gradient(180deg, #0A1020 0%, #161E30 100%);
+    border: 1.5px solid #2A4060; border-radius: 20px; height: 14px; padding: 2px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+  }
+  .chance-base { height: 100%; width: 15%; border-radius: 20px; background: linear-gradient(180deg, #5BA8FF 0%, #225599 100%); display: inline-block; }
+  .chance-boost-bar {
+    height: 100%; border-radius: 20px; margin-top: -100%;
+    background: linear-gradient(180deg, #FFD060 0%, #CC7000 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+    width: 52%; position: relative;
+  }
+  .chance-bar-inner { height: 100%; border-radius: 20px; background: linear-gradient(180deg, #FFD060 0%, #CC7000 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.3); }
+
+  .serum-box {
+    background: linear-gradient(180deg, rgba(80,50,5,0.9) 0%, rgba(50,25,0,0.9) 100%);
+    border: 2px solid #FDB935; border-bottom: 3px solid #3A2000;
+    border-radius: 14px; padding: 10px;
+    box-shadow: 0 3px 0 #1A0800, inset 0 1px 0 rgba(253,185,53,0.1);
+  }
+  .serum-name { color: #FDB935; font-size: 12px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .serum-opts { display: flex; gap: 6px; margin-bottom: 8px; }
+  .serum-opt-3d {
+    flex: 1; border-radius: 10px; padding: 7px 6px; text-align: center; cursor: pointer;
+    background: linear-gradient(180deg, #3A2010 0%, #2A1005 100%);
+    border: 1.5px solid #6B4020; border-bottom: 2.5px solid #180600;
+    box-shadow: 0 2px 0 #100300, inset 0 1px 0 rgba(255,255,255,0.06);
+    transition: all .15s;
+  }
+  .serum-opt-3d.sel {
+    background: linear-gradient(180deg, #FFD060 0%, #CC7000 100%);
+    border-color: #8B5000; border-bottom-color: #3A2000;
+    box-shadow: 0 2px 0 #1A0800, inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .so-price { font-size: 15px; font-weight: 900; color: #FDB935; }
+  .serum-opt-3d.sel .so-price { color: #fff; }
+  .so-desc { font-size: 9px; font-weight: 700; color: #a08060; }
+  .serum-opt-3d.sel .so-desc { color: rgba(255,255,255,0.85); }
+
+  .xp-box {
+    background: linear-gradient(180deg, rgba(10,30,70,0.9) 0%, rgba(5,15,40,0.9) 100%);
+    border: 2px solid #3A70C0; border-bottom: 3px solid #0A1030;
+    border-radius: 14px; padding: 10px;
+    box-shadow: 0 3px 0 #030810, inset 0 1px 0 rgba(91,168,255,0.1);
+  }
+  .xp-name { color: #5BA8FF; font-size: 12px; font-weight: 900; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .xp-opts { display: flex; gap: 6px; margin-bottom: 8px; }
+  .xp-opt-3d {
+    flex: 1; border-radius: 10px; padding: 7px 6px; text-align: center; cursor: pointer;
+    background: linear-gradient(180deg, #1A3060 0%, #0A1840 100%);
+    border: 1.5px solid #2A5080; border-bottom: 2.5px solid #050F28;
+    box-shadow: 0 2px 0 #030810, inset 0 1px 0 rgba(91,168,255,0.08);
+    transition: all .15s;
+  }
+  .xp-opt-3d.sel {
+    background: linear-gradient(180deg, #5BA8FF 0%, #143370 100%);
+    border-color: #2A5CAA; border-bottom-color: #051020;
+    box-shadow: 0 2px 0 #030810, inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .xo-time { font-size: 11px; font-weight: 900; color: #5BA8FF; }
+  .xp-opt-3d.sel .xo-time { color: #fff; }
+  .xo-price { font-size: 15px; font-weight: 900; color: #fff; }
+  .xo-alt { font-size: 9px; font-weight: 700; color: #4A7AA0; }
+  .xp-opt-3d.sel .xo-alt { color: rgba(255,255,255,0.7); }
+
+  /* ══════════════════════════════════════
+     SCREEN 5 — COMMUNITY EVENT
+  ══════════════════════════════════════ */
+  .event-bg {
+    flex: 1;
+    background: linear-gradient(135deg, #2A1005 0%, #4A1800 50%, #3A1000 100%);
+    display: flex; align-items: stretch; padding: 10px; gap: 10px;
+    overflow: hidden;
+  }
+  .event-left { width: 240px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+  .event-right { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+  .event-banner-3d {
+    background: linear-gradient(180deg, rgba(100,50,0,0.9) 0%, rgba(60,25,0,0.9) 100%);
+    border: 2px solid #FDB935; border-bottom: 3px solid #3A2000;
+    border-radius: 14px; padding: 10px;
+    box-shadow: 0 3px 0 #1A0800, 0 5px 15px rgba(253,185,53,0.1), inset 0 1px 0 rgba(253,185,53,0.1);
+  }
+  .event-name { color: #FDB935; font-size: 14px; font-weight: 900; text-shadow: 0 1px 3px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 6px; }
+  .event-desc { color: #d0a860; font-size: 10px; font-weight: 700; margin-top: 2px; margin-bottom: 8px; }
+  .countdown-3d {
+    background: linear-gradient(180deg, #3A1808 0%, #2A1005 100%);
+    border: 1.5px solid #6B3010; border-bottom: 2px solid #180600;
+    border-radius: 10px; padding: 5px 10px;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 0 #0A0300, inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .cd-label { color: #a0b880; font-size: 9px; font-weight: 700; }
+  .cd-time { color: #FDB935; font-size: 12px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+
+  .milestones-box {
+    background: linear-gradient(180deg, rgba(78,34,10,0.7) 0%, rgba(42,16,5,0.7) 100%);
+    border: 2px solid #8B5E2A; border-bottom: 3px solid #2A1005;
+    border-radius: 14px; padding: 10px;
+    box-shadow: 0 3px 0 #180600, inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .ms-title { color: #FDB935; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; }
+  .ms-row { display: flex; gap: 5px; }
+  .ms-item {
+    flex: 1; border-radius: 10px; padding: 7px 4px; text-align: center;
+    background: linear-gradient(180deg, #3A1808 0%, #2A1005 100%);
+    border: 1.5px solid #6B3010; border-bottom: 2px solid #180600;
+    box-shadow: 0 2px 0 #0A0300;
+  }
+  .ms-item.done {
+    background: linear-gradient(180deg, #FFD060 0%, #8B5000 100%);
+    border-color: #FDB935; border-bottom-color: #3A2000;
+    box-shadow: 0 2px 0 #1A0800;
+  }
+  .ms-icon { font-size: 16px; }
+  .ms-pts { font-size: 8px; font-weight: 900; color: #a08060; margin-top: 2px; }
+  .ms-item.done .ms-pts { color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.3); }
+
+  .lb-box {
+    flex: 1;
+    background: linear-gradient(180deg, rgba(78,34,10,0.7) 0%, rgba(42,16,5,0.7) 100%);
+    border: 2px solid #8B5E2A; border-bottom: 3px solid #2A1005;
+    border-radius: 14px; overflow: hidden;
+    box-shadow: 0 3px 0 #180600, inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .lb-head {
+    background: linear-gradient(180deg, #5A2810 0%, #3A1808 100%);
+    border-bottom: 2px solid #2A1005;
+    padding: 6px 10px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .lb-head-title { color: #FDB935; font-size: 11px; font-weight: 900; }
+  .lb-row-3d { display: flex; align-items: center; gap: 7px; padding: 7px 10px; border-bottom: 1px solid rgba(139,94,42,0.3); }
+  .lb-row-3d:last-child { border-bottom: none; }
+  .lb-row-3d.me { background: rgba(72,152,46,0.15); }
+  .lb-rank-3d {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .r1 { background: linear-gradient(180deg, #FFD060 0%, #CC7000 100%); border: 1.5px solid #8B5000; }
+  .r2 { background: linear-gradient(180deg, #C0C8D0 0%, #708090 100%); border: 1.5px solid #5A6070; }
+  .r3 { background: linear-gradient(180deg, #E0A060 0%, #8B5A30 100%); border: 1.5px solid #6B3A10; }
+  .rx { background: linear-gradient(180deg, #4A2810 0%, #2A1005 100%); border: 1.5px solid #6B3010; color: #a0b880; }
+  .lb-emo { font-size: 18px; }
+  .lb-name-3d { flex: 1; color: #e8d8a0; font-size: 11px; font-weight: 800; }
+  .you-tag { color: #8DE540; font-size: 8px; font-weight: 900; margin-left: 4px; }
+  .lb-score-3d { color: #FDB935; font-size: 11px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+
+  .pass-box-3d {
+    background: linear-gradient(180deg, rgba(20,60,20,0.9) 0%, rgba(10,30,10,0.9) 100%);
+    border: 2px solid #489820; border-bottom: 3px solid #1A3D00;
+    border-radius: 14px; padding: 10px;
+    box-shadow: 0 3px 0 #0A2000, inset 0 1px 0 rgba(141,229,64,0.1);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .pass-icon-3d { font-size: 32px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+  .pass-info-3d { flex: 1; }
+  .pass-name { color: #8DE540; font-size: 13px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .pass-desc { color: #a0c880; font-size: 10px; font-weight: 700; margin-top: 2px; }
+  .pass-perks-row { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+  .perk-3d {
+    background: linear-gradient(180deg, #2A5010 0%, #1A3008 100%);
+    border: 1px solid #4A8020; border-bottom: 1.5px solid #0A1800;
+    border-radius: 8px; padding: 2px 6px;
+    font-size: 9px; font-weight: 700; color: #a8d880;
+    box-shadow: 0 1px 0 #060C00;
+  }
+
+  /* ══════════════════════════════════════
+     SCREEN 6 — ANIMAL SHOWOFFS
+  ══════════════════════════════════════ */
+  .showoff-bg {
+    flex: 1;
+    background: linear-gradient(135deg, #1A0030 0%, #2A0050 50%, #150028 100%);
+    display: flex; align-items: stretch; padding: 10px; gap: 10px;
+    overflow: hidden;
+  }
+  .showoff-left { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+  .showoff-right { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+  .theme-box {
+    background: linear-gradient(180deg, rgba(50,0,80,0.8) 0%, rgba(25,0,45,0.8) 100%);
+    border: 2px solid #6B21A8; border-bottom: 3px solid #1A0030;
+    border-radius: 14px; padding: 8px 10px;
+    box-shadow: 0 3px 0 #0A0018, inset 0 1px 0 rgba(192,132,252,0.1);
+  }
+  .theme-scroll { display: flex; gap: 5px; overflow-x: auto; }
+  .theme-scroll::-webkit-scrollbar { display: none; }
+  .theme-chip-3d {
+    flex-shrink: 0; border-radius: 20px; padding: 4px 10px;
+    display: flex; align-items: center; gap: 5px;
+    background: linear-gradient(180deg, #3A1060 0%, #1A0030 100%);
+    border: 1.5px solid #6B21A8; border-bottom: 2px solid #0A0018;
+    cursor: pointer; transition: all .15s;
+    box-shadow: 0 2px 0 #050010;
+    white-space: nowrap;
+  }
+  .theme-chip-3d.active {
+    background: linear-gradient(180deg, #C084FC 0%, #6B21A8 100%);
+    border-color: #9333EA; border-bottom-color: #3A0068;
+    box-shadow: 0 2px 0 #1A0030, 0 3px 10px rgba(147,51,234,0.3);
+  }
+  .tc-icon { font-size: 14px; }
+  .tc-label { color: #C084FC; font-size: 10px; font-weight: 800; }
+  .theme-chip-3d.active .tc-label { color: #fff; }
+
+  .deco-grid-3d { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .deco-card-3d {
+    border-radius: 12px; overflow: hidden; cursor: pointer;
+    background: linear-gradient(180deg, rgba(50,0,80,0.7) 0%, rgba(25,0,45,0.7) 100%);
+    border: 2px solid #6B21A8; border-bottom: 3px solid #1A0030;
+    box-shadow: 0 3px 0 #0A0018, inset 0 1px 0 rgba(192,132,252,0.08);
+    transition: transform .15s;
+  }
+  .deco-card-3d:hover { transform: translateY(-2px); }
+  .deco-card-3d.owned { border-color: #8DE540; border-bottom-color: #1A3D00; }
+  .deco-preview-3d {
+    padding: 12px 0; text-align: center; font-size: 36px;
+    background: linear-gradient(180deg, rgba(80,0,120,0.5) 0%, rgba(40,0,70,0.5) 100%);
+    position: relative;
+  }
+  .owned-badge-3d {
+    position: absolute; top: 4px; right: 4px;
+    background: linear-gradient(180deg, #7DD63F 0%, #3A8000 100%);
+    border: 1px solid #2D6A00; border-bottom: 1.5px solid #1A3D00;
+    border-radius: 6px; padding: 1px 5px;
+    font-size: 8px; font-weight: 900; color: #fff;
+    box-shadow: 0 1px 0 #0A2000;
+  }
+  .deco-info-3d { padding: 6px 8px; }
+  .d-name-3d { color: #C084FC; font-size: 10px; font-weight: 800; }
+  .d-price-3d { color: #FDB935; font-size: 12px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .d-owned-3d { color: #8DE540; font-size: 10px; font-weight: 800; }
+
+  .vote-box {
+    background: linear-gradient(180deg, rgba(50,0,80,0.7) 0%, rgba(25,0,45,0.7) 100%);
+    border: 2px solid #9333EA; border-bottom: 3px solid #1A0030;
+    border-radius: 14px; padding: 9px 10px;
+    box-shadow: 0 3px 0 #0A0018, inset 0 1px 0 rgba(192,132,252,0.08);
+  }
+  .vote-title-3d { color: #C084FC; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .live-3d {
+    background: linear-gradient(180deg, #FF5535 0%, #CC1100 100%);
+    border: 1px solid #8B0800; border-bottom: 1.5px solid #3A0300;
+    border-radius: 8px; padding: 2px 6px;
+    font-size: 8px; font-weight: 900; color: #fff;
+    box-shadow: 0 1px 0 #1A0100;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+  .vote-entry { display: flex; align-items: center; gap: 7px; margin-bottom: 7px; }
+  .vote-emo { font-size: 28px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+  .vote-meta { flex: 1; }
+  .vm-name { color: #E0CFFF; font-size: 11px; font-weight: 800; }
+  .vm-owner { color: #9070C0; font-size: 9px; font-weight: 700; }
+  .vote-bar-3d {
+    background: linear-gradient(180deg, #1A0030 0%, #2A0050 100%);
+    border: 1px solid #4A1080; border-radius: 20px; height: 10px; padding: 1px;
+    box-shadow: inset 0 2px 3px rgba(0,0,0,0.5);
+    margin-bottom: 2px;
+  }
+  .vb-fill {
+    height: 100%; border-radius: 20px;
+    background: linear-gradient(180deg, #C084FC 0%, #6B21A8 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 0 6px rgba(147,51,234,0.4);
+  }
+  .vote-count-3d { color: #8060A0; font-size: 9px; font-weight: 700; }
+  .vote-btn-3d {
+    background: linear-gradient(180deg, #C084FC 0%, #6B21A8 40%, #4A0F8A 100%);
+    border: 1.5px solid #3A0068; border-bottom: 2.5px solid #1A0030;
+    border-radius: 20px; padding: 5px 12px;
+    color: #fff; font-size: 11px; font-weight: 900; font-family: 'Nunito', sans-serif;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    cursor: pointer; flex-shrink: 0;
+    box-shadow: 0 2px 0 #0A0018, inset 0 1px 0 rgba(255,255,255,0.25);
+    transition: transform .1s;
+  }
+  .vote-btn-3d:active { transform: translateY(1px); }
+
+  .entry-box-3d {
+    background: linear-gradient(180deg, rgba(60,0,100,0.9) 0%, rgba(30,0,55,0.9) 100%);
+    border: 2px solid #FDB935; border-bottom: 3px solid #3A2000;
+    border-radius: 14px; padding: 10px;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 3px 0 #1A0800, 0 5px 15px rgba(253,185,53,0.1), inset 0 1px 0 rgba(253,185,53,0.08);
+  }
+  .entry-text-3d { flex: 1; }
+  .et-title { color: #FDB935; font-size: 13px; font-weight: 900; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .et-desc { color: #C084FC; font-size: 10px; font-weight: 700; margin-top: 2px; }
+  .et-gems { color: #a080D0; font-size: 9px; font-weight: 700; margin-top: 3px; }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ── SIDEBAR NAV ── -->
+  <div class="sidebar">
+    <h3>FarmVille 3</h3>
+    <div class="nav-section">Core</div>
+    <button class="nav-btn active" onclick="show('home',this)"><span class="icon">🌾</span> Farm Home</button>
+    <div class="nav-section">Features</div>
+    <button class="nav-btn" onclick="show('club',this)"><span class="icon">🏡</span> Farm Hand Club</button>
+    <button class="nav-btn" onclick="show('sticker',this)"><span class="icon">🧩</span> Sticker Exchange</button>
+    <button class="nav-btn" onclick="show('breed',this)"><span class="icon">🧪</span> Breed Lab</button>
+    <button class="nav-btn" onclick="show('event',this)"><span class="icon">🌽</span> Community Event</button>
+    <button class="nav-btn" onclick="show('showoff',this)"><span class="icon">🏆</span> Animal Showoffs</button>
+  </div>
+
+  <!-- ── PHONE ── -->
+  <div class="phone-wrap">
+    <div class="phone-label">Landscape · 844 × 400</div>
+    <div class="phone">
+
+      <!-- ═══════════ SCREEN 1: FARM HOME ═══════════ -->
+      <div class="app-screen active" id="screen-home">
+        <!-- HUD -->
+        <div class="hud">
+          <div class="hud-logo">Farm<span>Ville</span> 3</div>
+          <div class="hud-resources">
+            <div class="res-pill"><span class="res-icon">💰</span><span class="res-val">12,400</span><span class="res-plus">+</span></div>
+            <div class="res-pill"><span class="res-icon">💎</span><span class="res-val">1,240</span><span class="res-plus">+</span></div>
+            <div class="res-pill"><span class="res-icon">⚡</span><span class="res-val">48/60</span></div>
+            <div class="res-pill"><span class="res-icon">🌾</span><span class="res-val">4,820</span></div>
+          </div>
+          <div class="hud-right">
+            <div class="hud-icon-btn">⚙️</div>
+            <div class="hud-icon-btn">📦</div>
+            <div class="hud-icon-btn">👤</div>
+          </div>
+        </div>
+        <!-- Game Content -->
+        <div class="game-content">
+          <div class="farm-bg">
+            <div class="farm-clouds">
+              <div class="cloud c1"></div>
+              <div class="cloud c2"></div>
+              <div class="cloud c3"></div>
+            </div>
+            <div class="farm-objects">
+              <span class="farm-obj sm">🌻</span>
+              <span class="farm-obj">🌳</span>
+              <span class="farm-obj sm">🐄</span>
+              <span class="farm-obj lg">🏚️</span>
+              <span class="farm-obj">🌲</span>
+              <span class="farm-obj sm">🐑</span>
+              <span class="farm-obj">🌳</span>
+              <span class="farm-obj sm">🐔</span>
+              <span class="farm-obj sm">🌻</span>
+            </div>
+            <div class="tree-tag">♾️ Trees Never Wither</div>
+            <div class="club-scene-badge">🏡 Club Member</div>
+
+            <!-- Left farmhand panel -->
+            <div class="farm-left-panel">
+              <div class="fh-panel">
+                <div class="fh-title">🧑‍🌾 Farmhand Progress</div>
+                <div class="fh-row">
+                  <div class="fh-avatar">👨‍🌾</div>
+                  <div class="fh-info">
+                    <div class="fh-name">Elara · Lv 4</div>
+                    <div class="fh-level">480/600 XP to Level 5</div>
+                  </div>
+                </div>
+                <div class="prog-wrap"><div class="prog-fill" style="width:80%"></div></div>
+                <div class="sticker-alert" style="margin-top:6px;">
+                  <div class="sa-text">Need: Harvest Moon ×2</div>
+                  <button class="sa-btn" onclick="show('sticker',document.querySelectorAll('.nav-btn')[2])">Get →</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right HUD buttons -->
+            <div class="farm-right-hud">
+              <div class="hud-action-btn hab-new" onclick="show('club',document.querySelectorAll('.nav-btn')[1])">
+                <div class="hab-icon">🏡</div>
+                <div class="hab-label">CLUB</div>
+              </div>
+              <div class="hud-action-btn" onclick="show('breed',document.querySelectorAll('.nav-btn')[3])">
+                <div class="hab-icon">🧪</div>
+                <div class="hab-label">BREED</div>
+              </div>
+              <div class="hud-action-btn" onclick="show('event',document.querySelectorAll('.nav-btn')[4])">
+                <div class="hab-icon">🌽</div>
+                <div class="hab-label">EVENT</div>
+              </div>
+              <div class="hud-action-btn" onclick="show('showoff',document.querySelectorAll('.nav-btn')[5])">
+                <div class="hab-icon">🏆</div>
+                <div class="hab-label">SHOW</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Nav -->
+        <div class="bottom-bar">
+          <div class="bnav active"><div class="bnav-icon">🏡</div><div class="bnav-label">Farm</div></div>
+          <div class="bnav" onclick="show('breed',document.querySelectorAll('.nav-btn')[3])"><div class="bnav-icon">🧪</div><div class="bnav-label">Breed</div></div>
+          <div class="bnav" onclick="show('sticker',document.querySelectorAll('.nav-btn')[2])"><div class="bnav-icon">🧩</div><div class="bnav-label">Stickers</div></div>
+          <div class="bnav" onclick="show('event',document.querySelectorAll('.nav-btn')[4])"><div class="bnav-icon">🌽</div><div class="bnav-label">Events</div></div>
+          <div class="bnav" onclick="show('showoff',document.querySelectorAll('.nav-btn')[5])"><div class="bnav-icon">🏆</div><div class="bnav-label">Showoffs</div></div>
+          <div class="bnav"><div class="bnav-icon">🛒</div><div class="bnav-label">Shop</div></div>
+        </div>
+      </div>
+
+      <!-- ═══════════ SCREEN 2: FARM HAND CLUB ═══════════ -->
+      <div class="app-screen" id="screen-club">
+        <div class="hud">
+          <div class="hud-logo">Farm<span>Ville</span> 3 · <span style="color:#C084FC;">Farm Hand Club</span></div>
+          <div class="hud-resources">
+            <div class="res-pill"><span class="res-icon">💰</span><span class="res-val">12,400</span></div>
+            <div class="res-pill"><span class="res-icon">💎</span><span class="res-val">1,240</span></div>
+          </div>
+          <div class="hud-icon-btn" onclick="show('home',document.querySelectorAll('.nav-btn')[0])" style="font-size:11px;color:#FDB935;padding:0 8px;width:auto;">← Back</div>
+        </div>
+        <div class="game-content">
+          <div class="club-bg">
+            <!-- Hero col -->
+            <div class="club-hero-col">
+              <div class="club-crest">🏡</div>
+              <div class="club-name">Farm Hand<br>Club</div>
+              <div class="club-tagline">Solve your biggest frustrations</div>
+              <div class="price-banner">
+                <div class="price-main">$2.99<span style="font-size:13px;">/mo</span></div>
+                <div class="price-sub">Below Farm Pass ($4.99)</div>
+              </div>
+            </div>
+            <!-- Benefits col -->
+            <div class="club-benefits-col">
+              <div class="benefit-row-item">
+                <div class="benefit-icon-3d bi-green">♾️</div>
+                <div class="benefit-text">
+                  <div class="bt-title">Infinite Tree Life</div>
+                  <div class="bt-desc">Trees never wither — harvest endlessly</div>
+                  <div class="bt-fix">✓ Fixes Tree Fatigue (Pain #2)</div>
+                </div>
+              </div>
+              <div class="benefit-row-item">
+                <div class="benefit-icon-3d bi-gold">🔄</div>
+                <div class="benefit-text">
+                  <div class="bt-title">Weekly Sticker Swap</div>
+                  <div class="bt-desc">3 dupes → 1 choice sticker, every Monday</div>
+                  <div class="bt-fix">✓ Fixes Sticker Bottleneck (Pain #1)</div>
+                </div>
+              </div>
+              <div class="benefit-row-item">
+                <div class="benefit-icon-3d bi-blue">⚡</div>
+                <div class="benefit-text">
+                  <div class="bt-title">+10% XP on Everything</div>
+                  <div class="bt-desc">Level up Farmhands 10% faster, every day</div>
+                </div>
+              </div>
+              <div class="benefit-row-item">
+                <div class="benefit-icon-3d bi-purple">🎖️</div>
+                <div class="benefit-text">
+                  <div class="bt-title">Exclusive Club Member Badge</div>
+                  <div class="bt-desc">Displayed on your farm + in community events</div>
+                </div>
+              </div>
+            </div>
+            <!-- CTA col -->
+            <div class="club-cta-col">
+              <div class="compare-box">
+                <div class="compare-vs">Vs. Current</div>
+                <div class="compare-row-3d">
+                  <div class="cmp"><div class="cmp-label">Without</div><div class="cmp-val cmp-old">Free</div></div>
+                  <div class="cmp-arrow">→</div>
+                  <div class="cmp"><div class="cmp-label">With Club</div><div class="cmp-val cmp-new">$2.99</div></div>
+                </div>
+              </div>
+              <button class="cta-full">🌱 Join Now<br><span style="font-size:11px;">$2.99 / month</span></button>
+              <div class="cta-note">Cancel anytime<br>No commitment · Billed monthly</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <div class="bnav" onclick="show('home',document.querySelectorAll('.nav-btn')[0])"><div class="bnav-icon">🏡</div><div class="bnav-label">Farm</div></div>
+          <div class="bnav active"><div class="bnav-icon">🏡</div><div class="bnav-label">Club</div></div>
+          <div class="bnav" onclick="show('sticker',document.querySelectorAll('.nav-btn')[2])"><div class="bnav-icon">🧩</div><div class="bnav-label">Stickers</div></div>
+          <div class="bnav" onclick="show('breed',document.querySelectorAll('.nav-btn')[3])"><div class="bnav-icon">🧪</div><div class="bnav-label">Breed</div></div>
+          <div class="bnav" onclick="show('event',document.querySelectorAll('.nav-btn')[4])"><div class="bnav-icon">🌽</div><div class="bnav-label">Events</div></div>
+        </div>
+      </div>
+
+      <!-- ═══════════ SCREEN 3: STICKER EXCHANGE ═══════════ -->
+      <div class="app-screen" id="screen-sticker">
+        <div class="hud">
+          <div class="hud-logo">Farm<span>Ville</span> 3 · <span style="color:#FDB935;">Sticker Exchange</span></div>
+          <div class="hud-resources">
+            <div class="res-pill"><span class="res-icon">💰</span><span class="res-val">12,400</span></div>
+            <div class="res-pill"><span class="res-icon">💎</span><span class="res-val">1,240</span></div>
+          </div>
+          <div class="hud-icon-btn" onclick="show('home',document.querySelectorAll('.nav-btn')[0])" style="font-size:11px;color:#FDB935;padding:0 8px;width:auto;">← Back</div>
+        </div>
+        <div class="game-content">
+          <div class="sticker-bg">
+            <!-- Swap col -->
+            <div class="sticker-swap-col">
+              <div class="swap-box">
+                <div class="swap-title-row">
+                  <div class="swap-h">Weekly Swap</div>
+                  <div class="club-tag">🏡 Club Benefit</div>
+                </div>
+                <div style="color:#a0b880;font-size:10px;font-weight:700;margin-bottom:8px;">3 dupes → 1 choice sticker. Resets Monday.</div>
+                <div class="sticker-row">
+                  <div class="sticker-3d st-selected"><span class="s-emoji">⭐</span><span class="s-label">Starlight ×4</span></div>
+                  <div class="sticker-3d st-selected"><span class="s-emoji">🌙</span><span class="s-label">Moonbeam ×6</span></div>
+                  <div class="sticker-3d st-selected"><span class="s-emoji">🌸</span><span class="s-label">Blossom ×3</span></div>
+                  <div class="arrow-3d">→</div>
+                  <div class="sticker-3d st-choice"><span class="s-emoji">🌾</span><span class="s-label">Harvest Moon</span></div>
+                </div>
+                <div class="swap-timer">
+                  <span style="color:#a0b880;font-size:10px;font-weight:700;">Resets in:</span>
+                  <div class="timer-pill-3d">⏱ 4d 12h 08m</div>
+                  <span style="color:#a0b880;font-size:10px;font-weight:700;margin-left:auto;">0 / 1 used</span>
+                </div>
+              </div>
+              <button class="btn-green" style="width:100%">✓ Confirm Swap → Get Harvest Moon</button>
+              <div style="color:#809860;font-size:9px;font-weight:700;text-align:center;">Farm Hand Club members get 1 swap/week</div>
+            </div>
+
+            <!-- Bundle col -->
+            <div class="sticker-bundle-col">
+              <div style="color:#FDB935;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:8px;">
+                Missing Piece Bundles
+                <span style="background:linear-gradient(180deg,#CC7000,#8B4A00);border:1px solid #5A2800;border-bottom:1.5px solid #2A1000;border-radius:8px;padding:2px 7px;font-size:8px;color:#fff;box-shadow:0 1px 0 #1A0800;">🎯 Triggered for you</span>
+              </div>
+              <div class="bundle-3d featured">
+                <div class="bundle-top-row">
+                  <div class="bundle-icon-3d">🌾</div>
+                  <div class="bundle-meta">
+                    <div class="bundle-name">Elara's Finishing Pack</div>
+                    <div class="bundle-sub">Exactly what you need to level up Elara</div>
+                  </div>
+                  <div class="timer-pill-3d">⏱ 28:47</div>
+                </div>
+                <div class="bundle-items-row">
+                  <div class="b-item-chip">🌾 Harvest Moon ×2</div>
+                  <div class="b-item-chip">⚡ Energy ×30</div>
+                  <div class="b-item-chip">💰 Coins ×5K</div>
+                </div>
+                <div class="bundle-footer-row">
+                  <div class="bundle-price-3d">$1.99</div>
+                  <button class="btn-gold btn-sm">Get Bundle</button>
+                </div>
+              </div>
+              <div class="bundle-3d">
+                <div class="bundle-top-row">
+                  <div class="bundle-icon-3d">🧩</div>
+                  <div class="bundle-meta">
+                    <div class="bundle-name">Rare Sticker Chest</div>
+                    <div class="bundle-sub">5 guaranteed rare stickers</div>
+                  </div>
+                </div>
+                <div class="bundle-items-row">
+                  <div class="b-item-chip">🌟 Rare ×5</div>
+                  <div class="b-item-chip">🎴 Any type</div>
+                </div>
+                <div class="bundle-footer-row">
+                  <div class="bundle-price-3d">$4.99</div>
+                  <button class="btn-gold btn-sm">Get Bundle</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <div class="bnav" onclick="show('home',document.querySelectorAll('.nav-btn')[0])"><div class="bnav-icon">🏡</div><div class="bnav-label">Farm</div></div>
+          <div class="bnav" onclick="show('club',document.querySelectorAll('.nav-btn')[1])"><div class="bnav-icon">🏡</div><div class="bnav-label">Club</div></div>
+          <div class="bnav active"><div class="bnav-icon">🧩</div><div class="bnav-label">Stickers</div></div>
+          <div class="bnav" onclick="show('breed',document.querySelectorAll('.nav-btn')[3])"><div class="bnav-icon">🧪</div><div class="bnav-label">Breed</div></div>
+          <div class="bnav" onclick="show('event',document.querySelectorAll('.nav-btn')[4])"><div class="bnav-icon">🌽</div><div class="bnav-label">Events</div></div>
+        </div>
+      </div>
+
+      <!-- ═══════════ SCREEN 4: BREED LAB ═══════════ -->
+      <div class="app-screen" id="screen-breed">
+        <div class="hud" style="background:linear-gradient(180deg,#1A2A3A 0%,#0D1B2A 100%);border-bottom-color:#051020;box-shadow:0 3px 0 #020810,0 5px 12px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.06);">
+          <div class="hud-logo" style="color:#5BA8FF;text-shadow:0 1px 0 #0A2060,0 2px 4px rgba(0,0,0,0.5);">Farm<span style="color:#FDB935;">Ville</span> 3 · <span>Breed Lab</span></div>
+          <div class="hud-resources">
+            <div class="res-pill"><span class="res-icon">💰</span><span class="res-val">12,400</span></div>
+            <div class="res-pill"><span class="res-icon">💎</span><span class="res-val">1,240</span></div>
+          </div>
+          <div class="hud-icon-btn" onclick="show('home',document.querySelectorAll('.nav-btn')[0])" style="font-size:11px;color:#FDB935;padding:0 8px;width:auto;">← Back</div>
+        </div>
+        <div class="game-content">
+          <div class="breed-bg">
+            <div class="breed-left">
+              <div class="animal-pair">
+                <div class="pair-title">⚗️ Active Breeding Pair</div>
+                <div class="pair-row">
+                  <div class="animal-slot">
+                    <div class="animal-emoji">🐄</div>
+                    <div class="animal-name">Daisy</div>
+                    <div class="animal-lv">Lv 7 · Rare</div>
+                  </div>
+                  <div class="pair-plus">+</div>
+                  <div class="animal-slot">
+                    <div class="animal-emoji">🐄</div>
+                    <div class="animal-name">Buttercup</div>
+                    <div class="animal-lv">Lv 5 · Uncommon</div>
+                  </div>
+                </div>
+              </div>
+              <div class="serum-box">
+                <div class="serum-name">🧪 Lucky Charm Serum <span style="background:linear-gradient(180deg,#FF5535 0%,#CC1100 100%);border:1px solid #8B0800;border-bottom:1.5px solid #3A0300;border-radius:6px;padding:2px 6px;font-size:8px;font-weight:900;color:#fff;box-shadow:0 1px 0 #1A0100;">HOT</span></div>
+                <div style="color:#d0a860;font-size:10px;font-weight:700;margin-bottom:7px;">+30–40% rare animal chance per breed</div>
+                <div class="serum-opts">
+                  <div class="serum-opt-3d sel">
+                    <div class="so-price">$1.49</div>
+                    <div class="so-desc">1 use · 30 💎</div>
+                  </div>
+                  <div class="serum-opt-3d">
+                    <div class="so-price">$3.49</div>
+                    <div class="so-desc">3 uses · save 22%</div>
+                  </div>
+                </div>
+                <button class="btn-gold" style="width:100%">🧬 Breed with Lucky Charm — $1.49</button>
+              </div>
+            </div>
+            <div class="breed-right">
+              <div class="result-box">
+                <div class="result-title">🌟 Possible Outcome</div>
+                <div class="result-animal-3d">✨</div>
+                <div style="color:#9BC8E0;font-size:10px;font-weight:700;">Epic Calf (if stars align)</div>
+              </div>
+              <div style="background:linear-gradient(180deg,rgba(30,60,90,0.8) 0%,rgba(10,20,40,0.8) 100%);border:2px solid #2A5080;border-bottom:3px solid #051020;border-radius:14px;padding:10px;box-shadow:0 3px 0 #030812,inset 0 1px 0 rgba(255,255,255,0.06);">
+                <div class="chance-label-row">
+                  <span class="chance-label-text">Epic Calf Chance</span>
+                  <span class="chance-val">52% with Serum</span>
+                </div>
+                <div class="chance-bar-3d">
+                  <div style="height:100%;border-radius:20px;display:flex;">
+                    <div style="width:15%;height:100%;border-radius:20px 0 0 20px;background:linear-gradient(180deg,#5BA8FF 0%,#225599 100%);"></div>
+                    <div style="width:37%;height:100%;border-radius:0 20px 20px 0;background:linear-gradient(180deg,#FFD060 0%,#CC7000 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.3);"></div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                  <span style="color:#5BA8FF;font-size:9px;font-weight:700;">Base: 15%</span>
+                  <span style="color:#FDB935;font-size:9px;font-weight:700;">+37% Serum → 52%</span>
+                </div>
+              </div>
+              <div class="xp-box">
+                <div class="xp-name">⚡ Farm Master Tonic <span style="color:#3B82F6;font-size:10px;font-weight:700;">Double XP boost</span></div>
+                <div class="xp-opts">
+                  <div class="xp-opt-3d">
+                    <div class="xo-time">30 min</div>
+                    <div class="xo-price">$0.99</div>
+                    <div class="xo-alt">or 20 💎</div>
+                  </div>
+                  <div class="xp-opt-3d sel">
+                    <div class="xo-time">1 hour</div>
+                    <div class="xo-price">$1.49</div>
+                    <div class="xo-alt">or 30 💎</div>
+                  </div>
+                </div>
+                <button class="btn-green btn-sm" style="width:100%">⚡ Activate XP Booster — $1.49</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <div class="bnav" onclick="show('home',document.querySelectorAll('.nav-btn')[0])"><div class="bnav-icon">🏡</div><div class="bnav-label">Farm</div></div>
+          <div class="bnav" onclick="show('club',document.querySelectorAll('.nav-btn')[1])"><div class="bnav-icon">🏡</div><div class="bnav-label">Club</div></div>
+          <div class="bnav" onclick="show('sticker',document.querySelectorAll('.nav-btn')[2])"><div class="bnav-icon">🧩</div><div class="bnav-label">Stickers</div></div>
+          <div class="bnav active"><div class="bnav-icon">🧪</div><div class="bnav-label">Breed</div></div>
+          <div class="bnav" onclick="show('event',document.querySelectorAll('.nav-btn')[4])"><div class="bnav-icon">🌽</div><div class="bnav-label">Events</div></div>
+        </div>
+      </div>
+
+      <!-- ═══════════ SCREEN 5: COMMUNITY EVENT ═══════════ -->
+      <div class="app-screen" id="screen-event">
+        <div class="hud" style="background:linear-gradient(180deg,#5A2810 0%,#4A1800 100%);border-bottom-color:#1A0600;">
+          <div class="hud-logo">Farm<span>Ville</span> 3 · <span style="color:#FDB935;">🌽 Great Harvest Day</span></div>
+          <div class="hud-resources">
+            <div class="res-pill"><span class="res-icon">💰</span><span class="res-val">12,400</span></div>
+            <div class="res-pill"><span class="res-icon">💎</span><span class="res-val">1,240</span></div>
+            <div class="res-pill"><span class="res-icon">⭐</span><span class="res-val" style="color:#FDB935;">1,820 pts</span></div>
+          </div>
+          <div class="hud-icon-btn" onclick="show('home',document.querySelectorAll('.nav-btn')[0])" style="font-size:11px;color:#FDB935;padding:0 8px;width:auto;">← Back</div>
+        </div>
+        <div class="game-content">
+          <div class="event-bg">
+            <div class="event-left">
+              <div class="event-banner-3d">
+                <div class="event-name">🌽 Great Harvest Day</div>
+                <div class="event-desc">Grow seasonal crops · Win exclusive skins</div>
+                <div class="countdown-3d">
+                  <span class="cd-label">Ends in:</span>
+                  <span class="cd-time">2d 14h 38m</span>
+                </div>
+              </div>
+              <div class="milestones-box">
+                <div class="ms-title">🏆 Milestones</div>
+                <div class="ms-row">
+                  <div class="ms-item done"><div class="ms-icon">🌱</div><div class="ms-pts">500 pts</div></div>
+                  <div class="ms-item done"><div class="ms-icon">🌾</div><div class="ms-pts">1,500 pts</div></div>
+                  <div class="ms-item"><div class="ms-icon">🏆</div><div class="ms-pts">3,000 pts</div></div>
+                  <div class="ms-item"><div class="ms-icon">👑</div><div class="ms-pts">5,000 pts</div></div>
+                </div>
+                <div style="color:#d0a860;font-size:9px;font-weight:700;margin-top:6px;">Your score: 1,820 pts · Need 1,180 more for next milestone</div>
+              </div>
+              <div class="pass-box-3d">
+                <div class="pass-icon-3d">🎫</div>
+                <div class="pass-info-3d">
+                  <div class="pass-name">Community Day Pass</div>
+                  <div class="pass-desc">All 4 events this month</div>
+                  <div class="pass-perks-row">
+                    <div class="perk-3d">👑 Exclusive skin</div>
+                    <div class="perk-3d">🌽 2× XP</div>
+                  </div>
+                </div>
+                <button class="btn-gold" style="font-size:12px;padding:8px 12px;">$2.99</button>
+              </div>
+            </div>
+            <div class="event-right">
+              <div class="lb-box">
+                <div class="lb-head">
+                  <div class="lb-head-title">🏅 Regional Leaderboard</div>
+                  <div class="badge-gold">Top 10 → Exclusive Skin</div>
+                </div>
+                <div class="lb-row-3d">
+                  <div class="lb-rank-3d r1">1</div><div class="lb-emo">🧑‍🌾</div>
+                  <div class="lb-name-3d">FarmQueen_Priya</div>
+                  <div class="lb-score-3d">4,820 pts</div>
+                </div>
+                <div class="lb-row-3d">
+                  <div class="lb-rank-3d r2">2</div><div class="lb-emo">👩‍🌾</div>
+                  <div class="lb-name-3d">GoldenHarvest22</div>
+                  <div class="lb-score-3d">3,960 pts</div>
+                </div>
+                <div class="lb-row-3d">
+                  <div class="lb-rank-3d r3">3</div><div class="lb-emo">👨‍🌾</div>
+                  <div class="lb-name-3d">CornKing_Raj</div>
+                  <div class="lb-score-3d">3,100 pts</div>
+                </div>
+                <div class="lb-row-3d me">
+                  <div class="lb-rank-3d rx">8</div><div class="lb-emo">😊</div>
+                  <div class="lb-name-3d">You <span class="you-tag">● YOU</span></div>
+                  <div class="lb-score-3d">1,820 pts</div>
+                </div>
+                <div class="lb-row-3d">
+                  <div class="lb-rank-3d rx">9</div><div class="lb-emo">🧑</div>
+                  <div class="lb-name-3d">SunflowerFarm_K</div>
+                  <div class="lb-score-3d">1,640 pts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <div class="bnav" onclick="show('home',document.querySelectorAll('.nav-btn')[0])"><div class="bnav-icon">🏡</div><div class="bnav-label">Farm</div></div>
+          <div class="bnav" onclick="show('club',document.querySelectorAll('.nav-btn')[1])"><div class="bnav-icon">🏡</div><div class="bnav-label">Club</div></div>
+          <div class="bnav" onclick="show('sticker',document.querySelectorAll('.nav-btn')[2])"><div class="bnav-icon">🧩</div><div class="bnav-label">Stickers</div></div>
+          <div class="bnav" onclick="show('breed',document.querySelectorAll('.nav-btn')[3])"><div class="bnav-icon">🧪</div><div class="bnav-label">Breed</div></div>
+          <div class="bnav active"><div class="bnav-icon">🌽</div><div class="bnav-label">Events</div></div>
+        </div>
+      </div>
+
+      <!-- ═══════════ SCREEN 6: ANIMAL SHOWOFFS ═══════════ -->
+      <div class="app-screen" id="screen-showoff">
+        <div class="hud" style="background:linear-gradient(180deg,#2A0050 0%,#1A0030 100%);border-bottom-color:#0A0018;">
+          <div class="hud-logo" style="color:#C084FC;">Farm<span style="color:#FDB935;">Ville</span> 3 · <span>🏆 Animal Showoffs</span></div>
+          <div class="hud-resources">
+            <div class="res-pill"><span class="res-icon">💰</span><span class="res-val">12,400</span></div>
+            <div class="res-pill"><span class="res-icon">💎</span><span class="res-val">1,240</span></div>
+          </div>
+          <div class="hud-icon-btn" onclick="show('home',document.querySelectorAll('.nav-btn')[0])" style="font-size:11px;color:#FDB935;padding:0 8px;width:auto;">← Back</div>
+        </div>
+        <div class="game-content">
+          <div class="showoff-bg">
+            <div class="showoff-left">
+              <div class="theme-box">
+                <div style="color:#C084FC;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Active Themes</div>
+                <div class="theme-scroll">
+                  <div class="theme-chip-3d active"><span class="tc-icon">🌸</span><span class="tc-label">Spring</span></div>
+                  <div class="theme-chip-3d"><span class="tc-icon">🎃</span><span class="tc-label">Spooky</span></div>
+                  <div class="theme-chip-3d"><span class="tc-icon">🎄</span><span class="tc-label">Christmas</span></div>
+                  <div class="theme-chip-3d"><span class="tc-icon">🪔</span><span class="tc-label">Diwali</span></div>
+                </div>
+              </div>
+              <div style="color:#C084FC;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;">🌸 Spring Festival Packs</div>
+              <div class="deco-grid-3d">
+                <div class="deco-card-3d owned">
+                  <div class="deco-preview-3d">🐄🌸<div class="owned-badge-3d">✓ Owned</div></div>
+                  <div class="deco-info-3d"><div class="d-name-3d">Blossom Cow</div><div class="d-owned-3d">✓ Applied</div></div>
+                </div>
+                <div class="deco-card-3d">
+                  <div class="deco-preview-3d">🐔🌷</div>
+                  <div class="deco-info-3d"><div class="d-name-3d">Tulip Hen</div><div class="d-price-3d">$1.99</div></div>
+                </div>
+                <div class="deco-card-3d">
+                  <div class="deco-preview-3d">🐑🌼</div>
+                  <div class="deco-info-3d"><div class="d-name-3d">Daisy Lamb</div><div class="d-price-3d">$2.99</div></div>
+                </div>
+                <div class="deco-card-3d">
+                  <div class="deco-preview-3d">🐷🌸</div>
+                  <div class="deco-info-3d"><div class="d-name-3d">Cherry Pig</div><div class="d-price-3d">$4.99</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="showoff-right">
+              <div class="vote-box">
+                <div class="vote-title-3d">This Week's Showoff <span class="live-3d">● LIVE</span></div>
+                <div class="vote-entry">
+                  <div class="vote-emo">🐄🌸</div>
+                  <div class="vote-meta">
+                    <div class="vm-name">Blossom Cow "Rosie"</div>
+                    <div class="vm-owner">by FarmQueen_Priya</div>
+                  </div>
+                  <button class="vote-btn-3d">❤️ Vote</button>
+                </div>
+                <div class="vote-bar-3d"><div class="vb-fill" style="width:68%"></div></div>
+                <div class="vote-count-3d">1,240 votes · 68%</div>
+                <div style="height:6px;"></div>
+                <div class="vote-entry">
+                  <div class="vote-emo">🐑🌼</div>
+                  <div class="vote-meta">
+                    <div class="vm-name">Daisy Lamb "Fluffy"</div>
+                    <div class="vm-owner">by GoldenHarvest22</div>
+                  </div>
+                  <button class="vote-btn-3d">❤️ Vote</button>
+                </div>
+                <div class="vote-bar-3d"><div class="vb-fill" style="width:32%"></div></div>
+                <div class="vote-count-3d">580 votes · 32%</div>
+              </div>
+              <div class="entry-box-3d">
+                <div style="font-size:36px;filter:drop-shadow(0 2px 8px rgba(253,185,53,0.5));">🏆</div>
+                <div class="entry-text-3d">
+                  <div class="et-title">Enter Your Animal</div>
+                  <div class="et-desc">Compete for the weekly winner skin + leaderboard crown</div>
+                  <div class="et-gems">Entry fee: 50 gems (~$0.99)</div>
+                </div>
+                <button class="btn-gold" style="flex-shrink:0;font-size:12px;padding:10px 14px;">Enter<br>50 💎</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <div class="bnav" onclick="show('home',document.querySelectorAll('.nav-btn')[0])"><div class="bnav-icon">🏡</div><div class="bnav-label">Farm</div></div>
+          <div class="bnav" onclick="show('club',document.querySelectorAll('.nav-btn')[1])"><div class="bnav-icon">🏡</div><div class="bnav-label">Club</div></div>
+          <div class="bnav" onclick="show('sticker',document.querySelectorAll('.nav-btn')[2])"><div class="bnav-icon">🧩</div><div class="bnav-label">Stickers</div></div>
+          <div class="bnav" onclick="show('event',document.querySelectorAll('.nav-btn')[4])"><div class="bnav-icon">🌽</div><div class="bnav-label">Events</div></div>
+          <div class="bnav active"><div class="bnav-icon">🏆</div><div class="bnav-label">Showoffs</div></div>
+        </div>
+      </div>
+
+    </div><!-- /phone -->
+  </div><!-- /phone-wrap -->
+</div><!-- /wrapper -->
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>

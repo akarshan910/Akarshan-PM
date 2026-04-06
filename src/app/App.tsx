@@ -914,6 +914,7 @@ const CASES = [
       { v: "5", l: "Features across 4 player segments" },
     ],
     content: {
+      prototypeLink: "/farmville3_prototype.html",
       tags: [
         "Mobile Games",
         "F2P Monetization",
