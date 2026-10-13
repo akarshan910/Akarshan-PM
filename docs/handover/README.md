@@ -58,7 +58,7 @@ The other boards in `design/boards/` are earlier rounds (`Main`, `Direction*`, `
 | `EditorSettings.dc.html` | › URL & SEO | redirect, previews, unlisted, preview link, unpublish or delete |
 | `StudioWriting.dc.html` | `/studio/writing` | writing a draft, many topics, topics dropdown open, no posts, publish dialog, scheduled, published |
 | `StudioMedia.dc.html` | `/studio/media` | uploading, needs alt text, delete blocked, empty filter |
-| `StudioProfile.dc.html` | `/studio/website/profile`: Profile & facts | default, all confirmed, availability off, testimonial limit (superseded, see D14), publish with open items |
+| `StudioProfile.dc.html` | `/studio/website/profile`: Profile & facts | default, all confirmed, availability off, publish with open items |
 | `StudioPreview.dc.html` | Draft preview: device switcher, changes, share link | desktop, tablet, phone, compare, share open |
 | `StudioStates.dc.html` | Every system state: saving, toasts, dialogs, session, conflicts, uploads, empty, loading | — |
 | `StudioTablet.dc.html` | Studio at iPad portrait and landscape | — |

@@ -279,7 +279,10 @@ type Profile = {
   }[];
   contact: {
     email?: string; linkedin?: string; github?: string;
+    phone?: string; showPhone: boolean;              // the phone number is shown only when showPhone is on
     resume?: { mediaId?: string; url?: string };     // an uploaded PDF, or a link (V0: a Google Drive link)
+    letsTalk: 'contact' | 'email' | 'linkedin' | 'booking';   // where "Let's Talk" goes; 'contact' scrolls to Contact
+    booking?: string;                                // https booking page, for letsTalk: 'booking'
   };
   footer: { credit?: string };
   facts: Record<string, { source: Source; alternative?: { value: string; source: Source } }>;
@@ -287,7 +290,7 @@ type Profile = {
 };
 ```
 
-**Differences from the design-phase doc:** section headers moved to the layout (below), so `about` loses its title and `contact` keeps only the links. `heroButtons`, `about.points`, `spaces`, `education` and the `id`s on highlight groups and items are new. Each is on a board; the earlier type just hadn't caught up.
+**Differences from the design-phase doc:** section headers moved to the layout (below), so `about` loses its title and `contact` keeps only the links. `heroButtons`, `about.points`, `spaces`, `education`, the contact phone and "Let's Talk" settings, and the `id`s on highlight groups and items are new. Each is on a board; the earlier type just hadn't caught up.
 
 **Fact keys** are JSON paths into the profile, for example `proof.p-users.value` or `experience.e-sugarfit.highlights.h1.items.i2.text`. Studio's "Worth a check" list reads `unconfirmed`, and shows `facts[key].alternative` next to the live value.
 
@@ -300,7 +303,8 @@ type SiteLayout = {
 };
 
 type Section = {
-  id: string;                         // fixed ids for built-in sections; 'shelf-<uuid>' and 'text-<uuid>' for added ones
+  id: string;                         // also the DOM anchor. Built-in sections use their kind ('hero', 'about', …). Shelves and text sections get a
+                                      // unique slug of their name when created ('strategy'), and it never changes after that
   kind: 'hero' | 'proof' | 'shelf' | 'writing' | 'about' | 'experience' | 'skills'
       | 'testimonials' | 'offduty' | 'contact' | 'text' | 'footer';
   visible: boolean;                   // the hero and footer are always true
@@ -341,7 +345,10 @@ type Project = {
     hero:
       | { type: 'image' }
       | { type: 'video'; url: string }
-      | { type: 'prototype'; url: string; poster?: MediaRef; frame: 'phone' | 'tablet' | 'desktop' | 'none'; start: 'click' | 'visible'; note?: string };
+      | { type: 'prototype'; url: string; poster?: MediaRef; frame: 'phone' | 'tablet' | 'desktop' | 'none'; start: 'click' | 'visible';
+          title?: string;                                   // "Seven screens from the PRD, built to be clicked."
+          note?: string;                                    // the small line under the frame
+          screens?: { label: string; startPath: string }[] }; // the screen shortcuts on the laptop case study
     cover?: MediaRef & { focal?: { x: number; y: number } };  // none = the generated cover (C7)
     gallery: (MediaRef & { caption?: string })[];
   };
@@ -477,7 +484,13 @@ language sql stable security definer set search_path = '' as $$
     where p.published is not null and p.deleted_at is null and p.visibility = 'public'
   union all
   select r.old_path, '/writing/' || p.slug from pm.slug_redirects r join pm.posts p on p.id = r.post_id
-    where p.published is not null and p.deleted_at is null;
+    where p.published is not null and p.deleted_at is null
+  union all   -- pages that were public once and aren't any more: the "moved" note
+  select '/work/' || p.slug, '/work?moved=1' from pm.projects p
+    where p.first_published_at is not null and (p.published is null or p.deleted_at is not null) and p.visibility = 'public'
+  union all
+  select '/writing/' || p.slug, '/writing?moved=1' from pm.posts p
+    where p.published_at is not null and (p.published is null or p.deleted_at is not null);
 $$;
 revoke all on function public_redirects() from public;
 grant execute on function public_redirects() to anon, authenticated;
@@ -490,7 +503,7 @@ grant execute on function public_redirects() to anon, authenticated;
 - as `anon`: selecting `draft` from every table fails; selecting a draft, scheduled, deleted or unlisted row returns nothing; every write fails;
 - as a signed-in non-owner: every select returns zero rows and every write fails;
 - as the owner: every operation works;
-- `public_redirects()` never returns a path for an unpublished target.
+- `public_redirects()` never returns a path for a project or post that was never published.
 
 ## Auth
 

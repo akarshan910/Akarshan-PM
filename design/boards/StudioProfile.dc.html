@@ -109,7 +109,7 @@ body{margin:0;background:#F4F4F2}
 </section>
 
 <section class="card sec" aria-labelledby="h-proof">
-<div style="display: flex; justify-content: space-between; gap: 16px;"><div><h2 id="h-proof">Proof strip</h2><p class="sub">Four numbers under the hero. Where your current site and résumé disagree, pick one: nothing is published until you do.</p></div><span class="chip" style="display: {{proofChipD}}; background: var(--warnbg); color: var(--warn);">{{proofLeft}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 16px;"><div><h2 id="h-proof">Proof strip</h2><p class="sub">Four numbers under the hero. Where your current site and résumé disagree, the live value stays until you pick one.</p></div><span class="chip" style="display: {{proofChipD}}; background: var(--warnbg); color: var(--warn);">{{proofLeft}}</span></div>
 <div style="margin-top: 14px;">
 <sc-for list="{{proof}}" as="p" hint-placeholder-count="4">
 <div class="pr"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; letter-spacing: -.01em;">{{p.v}}</span><span style="font-size: 14px; line-height: 1.45;">{{p.l}}<span style="display: block; font-size: 12px; color: var(--tx3);">{{p.src}}</span></span><span class="chip" style="justify-self: end; background: {{p.chipBg}}; color: {{p.chipFg}};">{{p.chip}}</span>
@@ -133,8 +133,8 @@ body{margin:0;background:#F4F4F2}
 </section>
 
 <section class="card sec" aria-labelledby="h-tst">
-<div style="display: flex; justify-content: space-between; align-items: flex-start;"><div><h2 id="h-tst">Testimonials</h2><p class="sub">Seven on your current site. Three fit the homepage; the rest show on the testimonials page.</p></div><span class="chip" style="background: #EFEEEA; color: var(--tx2);">{{tOn}} of 3 on the homepage</span></div>
-<div style="display: {{tMaxD}}; margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: var(--warnbg); color: #5C3D00; font-size: 13px;">Three fit the homepage. Turn one off first.</div>
+<div style="display: flex; justify-content: space-between; align-items: flex-start;"><div><h2 id="h-tst">Testimonials</h2><p class="sub">Seven on your current site. Every one that’s switched on shows in the homepage carousel.</p></div><span class="chip" style="background: #EFEEEA; color: var(--tx2);">{{tOn}} of 3 on the homepage</span></div>
+
 <div style="margin-top: 12px;">
 <sc-for list="{{tst}}" as="t" hint-placeholder-count="7"><div class="tr"><span style="width: 34px; height: 34px; border-radius: 50%; background: {{t.c}}; color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 700;">{{t.ini}}</span><span style="min-width: 0;"><strong style="font-weight: 600;">{{t.name}}</strong><span style="display: block; font-size: 12px; color: var(--tx3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{t.role}}</span></span><span class="chip" style="justify-self: start; background: #EFEEEA; color: var(--tx2);">{{t.tag}}</span><button class="sw" role="switch" aria-checked="{{t.onAria}}" aria-label="Show {{t.name}} on the homepage" data-id="{{t.id}}" onClick="{{t.toggle}}"><span class="trk" aria-hidden="true" style="background: {{t.trk}};"><span class="knb" style="left: {{t.knb}}px;"></span></span><span style="font-size: 13px;">Homepage</span></button><span style="display: flex; gap: 2px;"><button class="ib sm" data-id="{{t.id}}" onClick="{{t.up}}" aria-label="Move {{t.name}} up" aria-disabled="{{t.first}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button><button class="ib sm" data-id="{{t.id}}" onClick="{{t.dn}}" aria-label="Move {{t.name}} down" aria-disabled="{{t.last}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></button></span></div></sc-for>
 </div>
@@ -149,7 +149,7 @@ body{margin:0;background:#F4F4F2}
 <div class="fld"><span class="lbl">Phone</span><div style="margin-top: 8px; height: 44px; display: flex; align-items: center; padding: 0 12px; border: 1px solid var(--ln); border-radius: 8px; background: var(--sf2); font-family: var(--fm); font-size: 13px; color: var(--tx2);">[Your phone number]</div><button class="sw" role="switch" aria-checked="{{phAria}}" onClick="{{phToggle}}"><span class="trk" aria-hidden="true" style="background: {{phTrk}};"><span class="knb" style="left: {{phKnb}}px;"></span></span>Show my phone number on the site</button></div>
 </div>
 <div class="fld"><span class="lbl">Résumé</span><a href="StudioMedia.dc.html" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border: 1px solid var(--ln); border-radius: 8px;"><span style="font-family: var(--fm); font-size: 11px; font-weight: 600; color: var(--tx2);">PDF</span><span style="flex: 1; font-family: var(--fm); font-size: 13px;">Akarshan_Kumar_Resume_2page_ATS.pdf · 88 KB</span><span style="font-size: 13px; color: var(--tx2);">Replace in Media →</span></a></div>
-<div class="fld"><span class="lbl" id="l-talk">“Let’s Talk” goes to</span><div class="seg" role="group" aria-labelledby="l-talk" style="margin-top: 8px;"><button aria-pressed="{{talkMail}}" data-v="mail" onClick="{{setTalk}}">Email</button><button aria-pressed="{{talkLi}}" data-v="li" onClick="{{setTalk}}">LinkedIn</button><button aria-pressed="{{talkCal}}" data-v="cal" onClick="{{setTalk}}">A booking link</button></div><input class="inp" aria-label="Booking link" placeholder="https://… your booking page" style="display: {{calD}};"></div>
+<div class="fld"><span class="lbl" id="l-talk">“Let’s Talk” goes to</span><div class="seg" role="group" aria-labelledby="l-talk" style="margin-top: 8px;"><button aria-pressed="{{talkSec}}" data-v="sec" onClick="{{setTalk}}">Contact section</button><button aria-pressed="{{talkMail}}" data-v="mail" onClick="{{setTalk}}">Email</button><button aria-pressed="{{talkLi}}" data-v="li" onClick="{{setTalk}}">LinkedIn</button><button aria-pressed="{{talkCal}}" data-v="cal" onClick="{{setTalk}}">A booking link</button></div><input class="inp" aria-label="Booking link" placeholder="https://… your booking page" style="display: {{calD}};"><div class="hrow"><span class="hint">{{talkHint}}</span></div></div>
 </section>
 </div>
 
@@ -184,7 +184,7 @@ body{margin:0;background:#F4F4F2}
 <div class="sr" aria-live="polite">{{announce}}</div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","all confirmed","availability off","testimonial limit","publish with open items"],"default":"default"},"$preview":{"width":1440,"height":3150}}'>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","all confirmed","availability off","publish with open items"],"default":"default"},"$preview":{"width":1440,"height":3150}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -222,8 +222,8 @@ class Component extends DCLogic {
       proof: {}, xOn: false,
       about: 'Product Manager with 8 years across product and data, 0→1 and 1→100, in consumer and health-tech. I build AI-native products, their data platforms and end-to-end user journeys.',
       expOff: {}, wiproFixed: false,
-      tOrder: this.T0.map((t) => t.id), tOn: ['t1', 't2', 't3'], tMax: false,
-      mail: 'akarshan910@gmail.com', li: 'linkedin.com/in/akarshan910', gh: 'github.com/akarshan910', talk: 'mail',
+      tOrder: this.T0.map((t) => t.id), tOn: this.T0.map((t) => t.id), tMax: false,
+      mail: 'akarshan910@gmail.com', li: 'linkedin.com/in/akarshan910', gh: 'github.com/akarshan910', talk: 'sec',
       save: 'saved', dialog: false, toast: null, announce: ''
     };
   }
@@ -231,7 +231,6 @@ class Component extends DCLogic {
     switch (n) {
       case 'all confirmed': return { titleOk: true, proof: { p1: 'a', p2: 'a', p3: 'a' }, wiproFixed: true, avOk: true };
       case 'availability off': return { av: false };
-      case 'testimonial limit': return { tMax: true };
       case 'publish with open items': return { dialog: true };
       default: return {};
     }
@@ -255,7 +254,6 @@ class Component extends DCLogic {
   toggleT(e) {
     const id = this.id(e), on = this.state.tOn;
     if (on.indexOf(id) > -1) { this.setState({ tOn: on.filter((x) => x !== id), tMax: false }); this.saved(); return; }
-    if (on.length >= 3) { this.setState({ tMax: true, announce: 'Three fit the homepage. Turn one off first.' }); return; }
     this.setState({ tOn: on.concat(id), tMax: false }); this.saved();
   }
   moveT(id, d) { const a = this.state.tOrder.slice(), i = a.indexOf(id), j = i + d; if (j < 0 || j >= a.length) return; a.splice(i, 1); a.splice(j, 0, id); this.setState({ tOrder: a }); this.saved(); }
@@ -307,7 +305,7 @@ class Component extends DCLogic {
       xOp: s.xOn ? 1 : 0.75, xStrike: s.xOn ? 'none' : 'line-through', toggleX: this.toggleX, xBtn: s.xOn ? 'Remove' : 'Add back',
       xNote: s.xOn ? 'Added back. Add a source in its note before publishing.' : 'On your current site, but not in your résumé, so it’s left off. Add it back only with a source.',
       exp, tst, tOn: s.tOn.length, tMaxD: s.tMax ? 'block' : 'none',
-      talkMail: s.talk === 'mail' ? 'true' : 'false', talkLi: s.talk === 'li' ? 'true' : 'false', talkCal: s.talk === 'cal' ? 'true' : 'false', setTalk: this.setTalk, calD: s.talk === 'cal' ? 'block' : 'none',
+      talkSec: s.talk === 'sec' ? 'true' : 'false', talkHint: { sec: 'Scrolls to Contact, as your site does today. If Contact is hidden, it opens an email.', mail: 'Opens an email to you.', li: 'Opens your LinkedIn profile in a new tab.', cal: 'Opens your booking page in a new tab.' }[s.talk], talkMail: s.talk === 'mail' ? 'true' : 'false', talkLi: s.talk === 'li' ? 'true' : 'false', talkCal: s.talk === 'cal' ? 'true' : 'false', setTalk: this.setTalk, calD: s.talk === 'cal' ? 'block' : 'none',
       pvName: s.name || 'Your name', pvTitle: s.titleOk ? s.title : 'Product Manager', pvCo: 'Sugar.fit', pvAvD: s.av && s.avText.trim() ? 'inline-flex' : 'none',
       pvProof: proof.map((p) => ({ v: p.chip === 'Needs your call' ? '—' : p.v, l: p.chip === 'Needs your call' ? 'Hidden until you confirm' : p.l })),
       checks, checkSummary: open.length ? open.length + ' to confirm. Unconfirmed numbers stay off the live site.' : 'All confirmed. Ready to publish.',
