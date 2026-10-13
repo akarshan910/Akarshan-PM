@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home — iPad, continued</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#0B0B0E}
+</style>
+</helmet>
+<div style="position: relative; width: 834px; height: 2588px; overflow: hidden; background: #0B0B0E;">
+<div style="position: absolute; left: 0; top: -7272px; width: 834px;">
+<dc-import name="HomeTablet" skills="{{skills}}" motion="{{motion}}" hint-size="834px,9860px"></dc-import>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"skills":{"editor":"enum","options":["V0: every skill regular","sizes set in Studio (example)"],"default":"sizes set in Studio (example)"},"motion":{"editor":"enum","options":["full","reduced"],"default":"full"},"$preview":{"width":834,"height":2588}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      skills: this.props.skills ?? 'sizes set in Studio (example)',
+      motion: this.props.motion ?? 'full'
+    };
+  }
+}
+</script>
+</body>
+</html>

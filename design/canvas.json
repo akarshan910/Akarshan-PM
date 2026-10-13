@@ -16,7 +16,7 @@
       "h": 7480,
       "is_interactive": true,
       "page": "public",
-      "title": "Case study — mobile 390 (tap Menu, the chapter bar or Try the prototype; Tweaks: menu open, chapter picker, prototype states)",
+      "title": "Case study — mobile 390 (tap Menu, the chapter bar or Try the prototype; Tweaks: menu open, chapter picker, prototype st",
       "w": 390,
       "x": 6858,
       "y": 0
@@ -123,27 +123,27 @@
     },
     "Home.dc.html": {
       "expand": "fill",
-      "h": 10350,
+      "h": 8000,
       "is_interactive": true,
       "page": "public",
-      "title": "Home — laptop 1440 · Volumes + Ink hero (move the cursor over the hero; hover a skill group; Tweaks: theme, motion, skill sizes)",
+      "title": "Home — laptop 1440, part 1 of 2 · Volumes + Ink hero (move the cursor over the hero; hover a skill group)",
       "w": 1440,
       "x": 1520,
       "y": 0
     },
     "HomeMobile.dc.html": {
       "h": 7460,
+      "is_interactive": true,
       "page": "public",
       "title": "Home — mobile 390 · Volumes + Ink hero (tap Menu; tap a skill group; Tweaks: menu open, motion, skill sizes)",
       "w": 390,
       "x": 3954,
-      "y": 0,
-      "is_interactive": true
+      "y": 0
     },
     "HomeTablet.dc.html": {
-      "h": 9860,
+      "h": 8000,
       "page": "public",
-      "title": "Home — iPad 834 · Volumes + Ink hero (one floating preview; tap a skill group; Tweaks: motion, skill sizes)",
+      "title": "Home — iPad 834, part 1 of 2 · one floating preview; tap a skill group",
       "w": 834,
       "x": 3040,
       "y": 0
@@ -286,7 +286,7 @@
     "StudioAuthFlow.dc.html": {
       "h": 3720,
       "page": "cms",
-      "title": "Studio — sign-in flow: a code by email, owner only (every path: first sign-in, other addresses, wrong or old codes, limits, deep link, signed out mid-edit, signing out, phone)",
+      "title": "Studio — sign-in flow: a code by email, owner only (every path: first sign-in, other addresses, wrong or old codes, limi",
       "w": 2160,
       "x": 0,
       "y": 10100
@@ -306,7 +306,7 @@
       "h": 960,
       "is_interactive": true,
       "page": "cms",
-      "title": "Studio — sign in with an email code, owner only (try it: Email me a code, then type any 6 digits; 000000 shows the error. Tweaks show every state)",
+      "title": "Studio — sign in with an email code, owner only (try it: Email me a code, then type any 6 digits; 000000 shows the error",
       "w": 1440,
       "x": 0,
       "y": 0
@@ -364,7 +364,7 @@
       "h": 1700,
       "is_interactive": true,
       "page": "cms",
-      "title": "Studio — Website: turn on/off and reorder every section and widget, projects per shelf, floating previews, skill sizes, Off duty panels (Tweaks open each panel)",
+      "title": "Studio — Website: turn on/off and reorder every section and widget, projects per shelf, floating previews, skill sizes,",
       "w": 1440,
       "x": 4560,
       "y": 0
@@ -421,6 +421,24 @@
       "w": 1536,
       "x": 8944,
       "y": 0
+    },
+    "HomeLower.dc.html": {
+      "x": 1520,
+      "y": 8120,
+      "w": 1440,
+      "h": 2774,
+      "page": "public",
+      "is_interactive": true,
+      "title": "Home — laptop 1440, part 2 of 2 · Testimonials, Off duty, Contact and footer"
+    },
+    "HomeTabletLower.dc.html": {
+      "x": 3040,
+      "y": 8120,
+      "w": 834,
+      "h": 2588,
+      "page": "public",
+      "is_interactive": true,
+      "title": "Home — iPad 834, part 2 of 2 · Testimonials, Off duty, Contact and footer"
     }
   },
   "createdOnFiles": {
@@ -559,7 +577,9 @@
     "DevicesA.dc.html",
     "System.dc.html",
     "Home.dc.html",
+    "HomeLower.dc.html",
     "HomeTablet.dc.html",
+    "HomeTabletLower.dc.html",
     "HomeMobile.dc.html",
     "CaseStudy.dc.html",
     "CaseStudyTablet.dc.html",

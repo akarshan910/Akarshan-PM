@@ -2,7 +2,7 @@
 
 These are the design files for the portfolio and its CMS, Studio: every exploration and every final board. They come from the owner's design canvas and were exported on 13 Oct 2026.
 
-- **`boards/`:** the 46 boards, as `.dc.html` source.
+- **`boards/`:** the 48 boards, as `.dc.html` source. Two of them, `HomeLower` and `HomeTabletLower`, only re-show the bottom of the tall Home boards.
 - **`previews/`:** a WebP render of each board, so you can browse them on GitHub.
 - **`canvas.json`:** how the canvas lays them out: pages, sizes and titles.
 - **`covers/`:** the five V0 project covers, rendered from the Home board's cards ([07 · Covers](../docs/handover/07-v0-content.md#covers)).
@@ -67,6 +67,7 @@ V0 of the rebuilt site launches with the current site's content. [`docs/handover
 | [Home](boards/Home.dc.html) · [preview](previews/Home.webp) | `/` at 1440: hero, proof strip, shelves, About, Experience, the Skills cloud, Testimonials, the Off duty manga page, Contact | theme, motion, skill sizes |
 | [HomeTablet](boards/HomeTablet.dc.html) · [preview](previews/HomeTablet.webp) | `/` at 834 | motion, skill sizes |
 | [HomeMobile](boards/HomeMobile.dc.html) · [preview](previews/HomeMobile.webp) | `/` at 390, including the phone menu | menu open, motion, skill sizes |
+| [HomeLower](boards/HomeLower.dc.html), [HomeTabletLower](boards/HomeTabletLower.dc.html) | Viewing aids only: the bottom of `Home` and `HomeTablet` (Testimonials to the footer), because the canvas shows at most 8,000px of a board. They import the full boards; build from `Home` and `HomeTablet` | the same tweaks |
 | [CaseStudy](boards/CaseStudy.dc.html) · [preview](previews/CaseStudy.webp) | `/work/:slug` at 1440 | theme |
 | [CaseStudyTablet](boards/CaseStudyTablet.dc.html) · [preview](previews/CaseStudyTablet.webp) | `/work/:slug` at 834 | — |
 | [CaseStudyMobile](boards/CaseStudyMobile.dc.html) · [preview](previews/CaseStudyMobile.webp) | `/work/:slug` at 390 | menu, chapter picker, prototype states, motion |
