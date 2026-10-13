@@ -79,7 +79,7 @@
       "title": "Editor · Story — chapters + block builder (reorder chapters, add/move/duplicate/delete blocks, fix the RICE row)",
       "w": 1440,
       "x": 3040,
-      "y": 1700
+      "y": 2100
     },
     "EditorOutcomes.dc.html": {
       "expand": "fill",
@@ -89,17 +89,17 @@
       "title": "Editor · Outcomes — label every number (achieved/target/projected/baseline/output), credit, private evidence; honesty ch",
       "w": 1440,
       "x": 4560,
-      "y": 1700
+      "y": 2100
     },
     "EditorOverview.dc.html": {
       "expand": "fill",
-      "h": 1560,
+      "h": 1920,
       "is_interactive": true,
       "page": "cms",
       "title": "Editor · Overview — type to see autosave + live card; Publish changes opens the checklist (Tweaks: offline, save failed,",
       "w": 1440,
       "x": 0,
-      "y": 1700
+      "y": 2100
     },
     "EditorSettings.dc.html": {
       "expand": "fill",
@@ -109,17 +109,17 @@
       "title": "Editor · URL & SEO — address with redirect, search + link previews, public/unlisted, private preview link, unpublish/del",
       "w": 1440,
       "x": 6080,
-      "y": 1700
+      "y": 2100
     },
     "EditorVisuals.dc.html": {
       "expand": "fill",
-      "h": 1960,
+      "h": 2280,
       "is_interactive": true,
       "page": "cms",
       "title": "Editor · Visuals — switch hero type, click the cover to move the focal point, Add images to see uploads + alt-text check",
       "w": 1440,
       "x": 1520,
-      "y": 1700
+      "y": 2100
     },
     "Home.dc.html": {
       "expand": "fill",
@@ -289,7 +289,7 @@
       "title": "Studio — sign-in flow: a code by email, owner only (every path: first sign-in, other addresses, wrong or old codes, limits, deep link, signed out mid-edit, signing out, phone)",
       "w": 2160,
       "x": 0,
-      "y": 9400
+      "y": 10100
     },
     "StudioDashboard.dc.html": {
       "expand": "fill",
@@ -319,7 +319,7 @@
       "title": "Studio — media library (Upload shows progress + rejected files; filters; alt text; delete blocked while in use)",
       "w": 1440,
       "x": 0,
-      "y": 4100
+      "y": 4800
     },
     "StudioMobile.dc.html": {
       "h": 1040,
@@ -327,7 +327,7 @@
       "title": "Studio on phones — projects, story editor, upload sheet",
       "w": 1440,
       "x": 2280,
-      "y": 7600
+      "y": 8300
     },
     "StudioPreview.dc.html": {
       "expand": "fill",
@@ -337,7 +337,7 @@
       "title": "Studio — draft preview (desktop / tablet / phone, highlight changes, compare with live, share link)",
       "w": 1440,
       "x": 3040,
-      "y": 4100
+      "y": 4800
     },
     "StudioProfile.dc.html": {
       "expand": "fill",
@@ -347,7 +347,7 @@
       "title": "Studio — Website › Profile & facts (confirm résumé vs current-site facts; title, availability, numbers, roles, testimoni",
       "w": 1440,
       "x": 1520,
-      "y": 4100
+      "y": 4800
     },
     "StudioProjects.dc.html": {
       "expand": "fill",
@@ -376,7 +376,7 @@
       "title": "Studio — every system state (saving, toasts, confirmations, session, conflicts, uploads, empty, loading, public)",
       "w": 1440,
       "x": 4560,
-      "y": 4100
+      "y": 4800
     },
     "StudioTablet.dc.html": {
       "h": 1400,
@@ -384,7 +384,7 @@
       "title": "Studio on iPad — portrait editor + landscape dashboard",
       "w": 2200,
       "x": 0,
-      "y": 7600
+      "y": 8300
     },
     "StudioWriting.dc.html": {
       "expand": "fill",
@@ -458,7 +458,7 @@
       "text": "Project editor — one project (Sri Mandir), five tabs",
       "w": 240,
       "x": 0,
-      "y": 1400
+      "y": 1800
     },
     "cmsTitle3": {
       "kind": "title1",
@@ -467,7 +467,7 @@
       "text": "Library, profile, preview and states",
       "w": 240,
       "x": 0,
-      "y": 3800
+      "y": 4500
     },
     "cmsTitle4": {
       "kind": "title1",
@@ -476,7 +476,7 @@
       "text": "Studio on iPad and phone",
       "w": 240,
       "x": 0,
-      "y": 7300
+      "y": 8000
     },
     "cmsTitle5": {
       "kind": "title1",
@@ -485,7 +485,7 @@
       "text": "Sign-in flow — a code by email, your account only",
       "w": 240,
       "x": 0,
-      "y": 9100
+      "y": 9800
     },
     "dirTitle": {
       "kind": "title1",

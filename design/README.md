@@ -81,8 +81,8 @@ V0 of the rebuilt site launches with the current site's content. [`docs/handover
 | [StudioDashboard](boards/StudioDashboard.dc.html) · [preview](previews/StudioDashboard.webp) | `/studio` | populated, empty, loading |
 | [StudioSite](boards/StudioSite.dc.html) · [preview](previews/StudioSite.webp) | The Website builder: sections, widgets, nav, floating previews, skill sizes, Off duty panels | each panel and state |
 | [StudioProjects](boards/StudioProjects.dc.html) · [preview](previews/StudioProjects.webp) | `/studio/projects` | every list state |
-| [EditorOverview](boards/EditorOverview.dc.html) · [preview](previews/EditorOverview.webp) | Project editor › Overview | save and publish states |
-| [EditorVisuals](boards/EditorVisuals.dc.html) · [preview](previews/EditorVisuals.webp) | › Visuals: cover, gallery, video, prototype | upload and link states |
+| [EditorOverview](boards/EditorOverview.dc.html) · [preview](previews/EditorOverview.webp) | Project editor › Overview: basics, case-study summary, your part, links | save and publish states |
+| [EditorVisuals](boards/EditorVisuals.dc.html) · [preview](previews/EditorVisuals.webp) | › Visuals: top of the page, accent colour, cover, gallery, video, prototype | upload and link states |
 | [EditorCaseStudy](boards/EditorCaseStudy.dc.html) · [preview](previews/EditorCaseStudy.webp) | › Story: chapters and blocks | block builder states |
 | [EditorOutcomes](boards/EditorOutcomes.dc.html) · [preview](previews/EditorOutcomes.webp) | › Outcomes: labelled numbers | label, evidence, honesty check |
 | [EditorSettings](boards/EditorSettings.dc.html) · [preview](previews/EditorSettings.webp) | › URL & SEO | redirect, preview link, unlisted, delete |

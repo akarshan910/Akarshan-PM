@@ -79,6 +79,8 @@ body{margin:0;background:#F4F4F2}
 .st .chk{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
 .st .chk input{width:18px;height:18px;margin:0;accent-color:#141416}
 @media (prefers-reduced-motion:reduce){.st .fp,.st .crop svg,.st .bar span{transition:none}}
+.st .swatch{width:28px;height:28px;padding:0;border:0;border-radius:50%;cursor:pointer}
+.st .swatch[aria-checked="true"]{box-shadow:0 0 0 2px #fff,0 0 0 4px #141416}
 </style>
 </helmet>
 <div class="st" style="position: relative; min-height: 1960px; display: flex; background: var(--bg); color: var(--tx); font-family: var(--fu);" onKeyDown="{{onRootKey}}">
@@ -146,6 +148,12 @@ body{margin:0;background:#F4F4F2}
 </div>
 
 <div style="display: {{imgD}}; margin-top: 20px; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; background: #F2F1EE; font-size: 14px; color: var(--tx2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Uses the cover image below, cropped to 16:10.</div>
+</section>
+
+<section class="card sec" aria-labelledby="s-accent">
+<h2 id="s-accent">Accent colour</h2><p class="sub">The project’s colour on the site: its volume tag, chapter and step numbers, highlighted table rows, and the generated cover if there’s no image.</p>
+<div role="radiogroup" aria-labelledby="s-accent" style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px;"><sc-for list="{{accents}}" as="c" hint-placeholder-count="9"><button class="swatch" role="radio" aria-checked="{{c.on}}" aria-label="{{c.name}}" onClick="{{c.pick}}" style="background: {{c.hex}};"></button></sc-for></div>
+<div class="hrow" style="margin-top: 10px;"><span class="hint">{{accHint}}</span></div>
 </section>
 
 <section class="card sec" aria-labelledby="s-cover">
@@ -232,7 +240,7 @@ body{margin:0;background:#F4F4F2}
 <div class="sr" aria-live="polite">{{announce}}</div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","uploading","missing alt text","publish blocked","video hero","video link error","video from Google Drive","prototype preview link","prototype can’t embed","saving","offline","save failed","publish dialog","published"],"default":"default"},"$preview":{"width":1440,"height":1960}}'>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","uploading","missing alt text","publish blocked","video hero","video link error","video from Google Drive","prototype preview link","prototype can’t embed","saving","offline","save failed","publish dialog","published"],"default":"default"},"$preview":{"width":1440,"height":2280}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -339,7 +347,7 @@ class Component extends DCLogic {
   }
 
   boardFresh() {
-    return { hero: 'proto', frame: 'phone', start: 'click', purl: 'https://[your-prototypes].vercel.app/sri-mandir', pblock: false, vurl: '', fx: 0.5, fy: 0.42, calt: 'Three screens from the Sri Mandir prototype: home, a WhatsApp booking chat and the spiritual calendar.', gal: this.G0.map((g) => Object.assign({ st: 'done', pct: 100, deco: false }, g)), sel: 'g5', touched: false };
+    return { acc: 'Coral', hero: 'proto', frame: 'phone', start: 'click', purl: 'https://[your-prototypes].vercel.app/sri-mandir', pblock: false, vurl: '', fx: 0.5, fy: 0.42, calt: 'Three screens from the Sri Mandir prototype: home, a WhatsApp booking chat and the spiritual calendar.', gal: this.G0.map((g) => Object.assign({ st: 'done', pct: 100, deco: false }, g)), sel: 'g5', touched: false };
   }
   boardPreset(n) {
     const g = this.G0.map((x) => Object.assign({ st: 'done', pct: 100, deco: false }, x));
@@ -507,7 +515,14 @@ class Component extends DCLogic {
       selCap: sel ? sel.cap : '', onCap: this.onCap, moveLeft: this.moveLeft, moveRight: this.moveRight, remove: this.remove, resize: this.resize
     };
   }
-  renderVals() { return Object.assign(this.shellVals(), this.boardVals()); }
+  accentVals() {
+    const A = [['Teal', '#2DD4BF'], ['Amber', '#F5A524'], ['Sky', '#38BDF8'], ['Violet', '#A78BFA'], ['Coral', '#FF5A67'], ['Slate', '#94A3B8'], ['Green', '#4ADE80'], ['Yellow', '#FACC15'], ['Lime', '#A3E635']];
+    const used = { Yellow: 'Word games monetisation strategy', Slate: 'Arcana Workspace', Green: 'GLP-1 digital scaffold', Lime: 'Revenue growth strategy' };
+    const a = this.state.acc;
+    return { accents: A.map((c) => ({ name: c[0] + (used[c[0]] ? ', also used by ' + used[c[0]] : ''), hex: c[1], on: a === c[0] ? 'true' : 'false', pick: () => { this.setState({ acc: c[0], announce: c[0] + ' chosen' }); this.autosave(); } })),
+      accHint: a + (used[a] ? '. ' + used[a] + ' on the same shelf uses it too: pick another so the two stand apart.' : '. Saved with the project; text on it is always near-black.') };
+  }
+  renderVals() { return Object.assign(this.shellVals(), this.boardVals(), this.accentVals()); }
 }
 </script>
 </body>

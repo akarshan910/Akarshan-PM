@@ -126,6 +126,20 @@ body{margin:0;background:#F4F4F2}
 </div>
 </section>
 
+<section class="card sec" aria-labelledby="s-brief">
+<h2 id="s-brief">Case-study summary</h2><p class="sub">Two short columns under the prototype, next to your success measures. Each one hides on the live page while it’s empty.</p>
+<div class="fld">
+<label class="lbl" for="f-prob">The problem</label>
+<textarea id="f-prob" class="inp" data-k="prob" onChange="{{onField}}" aria-describedby="f-prob-h" value="{{prob}}" placeholder="What was broken, and how you know."></textarea>
+<div class="hrow" id="f-prob-h"><span class="hint">One or two sentences. Bold is allowed.</span><span class="cnt" style="color: {{probCntColor}};">{{probLen}}/280</span></div>
+</div>
+<div class="fld">
+<label class="lbl" for="f-prop">What I proposed</label>
+<textarea id="f-prop" class="inp" data-k="prop" onChange="{{onField}}" aria-describedby="f-prop-h" value="{{prop}}" placeholder="The approach, in a sentence or two."></textarea>
+<div class="hrow" id="f-prop-h"><span class="hint">Keep it to the decision, not the whole plan.</span><span class="cnt" style="color: {{propCntColor}};">{{propLen}}/280</span></div>
+</div>
+</section>
+
 <section class="card sec" aria-labelledby="s-ctx">
 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;"><div><h2 id="s-ctx">Your part in it</h2><p class="sub">Recruiters look for this first. Each empty field hides its line on the live page; nothing shows as blank.</p></div><span class="chip" style="display: {{ctxChipD}}; background: var(--warnbg); color: var(--warn);">{{ctxMissing}}</span></div>
 <div class="fld">
@@ -213,14 +227,14 @@ body{margin:0;background:#F4F4F2}
 <div class="sr" aria-live="polite">{{announce}}</div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","saving","offline","save failed","validation error","publish dialog","publish blocked","publishing","published"],"default":"default"},"$preview":{"width":1440,"height":1560}}'>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","saving","offline","save failed","validation error","publish dialog","publish blocked","publishing","published"],"default":"default"},"$preview":{"width":1440,"height":1920}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.init = {
       title: 'Puja engagement platform', co: 'Sri Mandir', eye: 'Consumer · Strategy + prototype',
       sum: 'WhatsApp-native booking, recommendations and a spiritual calendar to lift repeat puja orders.',
-      role: '', time: '', team: '', prd: '', shelf: 'b', kind: 'study',
+      prob: '', prop: '', role: '', time: '', team: '', prd: '', shelf: 'b', kind: 'study',
       topics: ['CRM', 'Personalisation', 'Monetisation', 'Engagement', 'Prototype']
     };
     ['onField', 'setShelf', 'setKind', 'onTopic', 'topicKey', 'removeTopic', 'retrySave', 'openPublish', 'closePublish', 'confirmPublish', 'closeToast', 'onRootKey', 'stop'].forEach((k) => { this[k] = this[k].bind(this); });
@@ -305,7 +319,8 @@ class Component extends DCLogic {
   armToast() { clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: null }), 8000); }
   closeToast() { clearTimeout(this.tt); this.setState({ toast: null }); }
   onRootKey(e) { if (e.key === 'Escape' && this.state.dialog === 'open') this.setState({ dialog: null }); }
-  renderVals() {
+  renderVals() { const s = this.state, p = s.prob || '', q = s.prop || ''; return Object.assign(this.baseVals(), { prob: p, prop: q, probLen: p.length, propLen: q.length, probCntColor: p.length > 280 ? '#B42318' : '#6A6A72', propCntColor: q.length > 280 ? '#B42318' : '#6A6A72' }); }
+  baseVals() {
     const s = this.state, i = this.init, iss = this.issues();
     const tErr = s.showErrors && !s.title.trim();
     const sOver = s.sum.length > 140, sEmpty = !s.sum.trim(), sErr = sOver || (s.showErrors && sEmpty);
