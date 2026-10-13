@@ -21,9 +21,11 @@ All boards are on one private design canvas, organised by page:
    - home at laptop, iPad and mobile, with floating previews in the hero and the standard shelf;
    - how shelves scale as projects are added ("Work at scale");
    - Writing: the homepage section, `/writing` and a post;
-   - the case study at laptop and iPad.
+   - the case study at laptop, iPad and mobile;
+   - public states: images, video and prototypes while loading or failing, 404, moved projects, previews, empty results and errors.
 5. **Studio (CMS):**
-   - sign-in and the dashboard;
+   - Google sign-in, plus the full sign-in flow (every path in and out, laptop and phone);
+   - the dashboard;
    - the Website builder, with Profile & facts;
    - projects and the five-tab project editor;
    - Writing, media and draft preview;
@@ -65,8 +67,7 @@ The canvas is private to the owner. Share it from the canvas page's Share menu.
 
 ## Still to design
 
-- The case study on phones, in the final style.
-- Public media states on the case study: video embeds and image loading. The prototype's poster, loading and error states are on the Motion page.
+Nothing in the plan is left. Every board above is on the canvas, ready for implementation.
 
 ## Documents
 

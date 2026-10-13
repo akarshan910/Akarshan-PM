@@ -50,6 +50,11 @@ Implementation is done when every line below holds on the deployed site. Check i
 
 - [ ] Each published project and post has its own URL (`/work/:slug`, `/writing/:slug`) with its own title, description, Open Graph image and canonical URL, served as prerendered HTML.
 - [ ] Old `?open=<id>` links redirect to the matching `/work/:slug`. Changed slugs redirect when the switch is on.
+- [ ] An unpublished project's address redirects to `/work` with a short note. An expired preview link shows its own page. `/work` with no results offers "Clear filters".
+- [ ] The case study matches its laptop, iPad and phone boards. On phones:
+  - the chapter bar opens a chapter list;
+  - RICE tables become one card per row;
+  - the prototype opens full screen.
 
 **Writing**
 
@@ -60,7 +65,12 @@ Implementation is done when every line below holds on the deployed site. Check i
 **Prototypes and video**
 
 - [ ] Prototypes are links: they load on click inside a sandboxed iframe, with a poster first, a loading state, and an error state with "Try again" and "Open in a new tab".
-- [ ] A host that blocks framing gets an "Open prototype ↗" button instead of a frame.
+- [ ] A host that blocks framing gets an "Open prototype ↗" button instead of a frame. A prototype that hasn't loaded after 15 seconds shows the error state.
+- [ ] Media follows the Public states board:
+  - images hold their space while loading, so CLS stays at 0;
+  - a failed image shows its alt text;
+  - nothing loads from a video host until play is pressed;
+  - a removed or private video shows "This video isn't available right now".
 - [ ] Videos embed from YouTube (privacy-enhanced), Vimeo, Loom or Google Drive only.
 
 **Motion**
@@ -90,6 +100,11 @@ Implementation is done when every line below holds on the deployed site. Check i
 - [ ] Studio signs in with Google, and only akarshan910@gmail.com gets in. Any other Google account sees "This Google account can't open Studio" and gets no data. Database policies enforce this, not just the UI.
 - [ ] New sign-ups are closed after the owner's first sign-in.
 - [ ] The email-link backup is rate-limited and never reveals which address owns the site.
+- [ ] Every path on the sign-in flow board works:
+  - a deep link returns to its page after sign-in;
+  - a cancelled sign-in shows the banner;
+  - signing out mid-edit keeps unsaved changes and syncs them after signing in;
+  - "Sign out on all devices" ends every session.
 - [ ] No service-role key or other secret ships to the browser.
 - [ ] Edits autosave within a second and show Saving, Saved, Offline or Couldn't save, with retry.
 - [ ] Two tabs editing the same thing can't silently overwrite each other: the second save gets a conflict prompt.

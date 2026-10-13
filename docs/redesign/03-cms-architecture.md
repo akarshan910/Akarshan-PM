@@ -71,7 +71,26 @@ To be built during development. Studio signs in with Google, and only the owner'
 - **Staying signed in.** Sessions refresh silently on each device, and "Sign out" is in the sidebar. On expiry, edits stay on the device and sync after signing in again (Studio › States).
 - **Where it lives.** Studio is at `[your-domain]/studio`. It isn't linked from the public site, is `noindex`, and is disallowed in `robots.txt`. Bookmark it on your laptop and phone.
 
-The designs are on the canvas: Studio › sign in, which has every state in Tweaks, and Studio › States › Session expired.
+The designs are on the canvas:
+
+- **Studio — sign in.** The interactive page, with every state in Tweaks.
+- **Studio — sign-in flow.** Every path, on laptop and phone:
+  - first sign-in;
+  - a wrong account;
+  - a cancelled sign-in;
+  - the email backup;
+  - a deep link;
+  - signed out mid-edit;
+  - signing out.
+- **Studio › States › Session expired.**
+
+Flow details to build:
+
+- **Deep links.** `redirectTo` keeps the path, so a deep link like `/studio/projects/<slug>` returns there after sign-in.
+- **Switching accounts.** "Use another Google account" passes `prompt=select_account`.
+- **Cancelled sign-in.** A cancelled Google sign-in returns `error=access_denied`, and the sign-in page shows a banner.
+- **Wrong account.** Its session is signed out at once.
+- **Signing out.** The account menu offers "Sign out" (this device) and "Sign out on all devices" (`signOut({ scope: 'global' })`).
 
 **Setup checklist for development**
 
