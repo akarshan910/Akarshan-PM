@@ -109,6 +109,20 @@ Each entry records the context, the options considered, what was chosen, and wha
   - Guessing is the main risk, which is why the CAPTCHA and limits are required, not optional.
   - In return there's no Google Cloud project or OAuth consent screen, and no window where anyone could sign up.
 
+### Share one Supabase project with the photography site
+- **Context.** Supabase's free plan allows two active projects, and the owner already uses both. One of them runs lumina-photography, the owner's photography site.
+- **Options.**
+  1. Pause or delete a project to free a slot.
+  2. Put the portfolio inside lumina's project, in its own schema.
+  3. Move to Cloudflare (D1, R2, Workers) and build sign-in and access rules in code.
+  4. Move to Appwrite Cloud.
+- **Chosen** (13 Oct 2026): share lumina's project. The portfolio is mostly text and small images, and prototypes and videos are links, so it needs very little of the shared quota. Its data lives in a `pm` schema, with its own owner table, buckets, functions and migrations. Published images are copied into the site at build, so visitors never use the shared egress.
+- **Trade-off.**
+  - The two sites share sign-in settings, the email sender, quotas, the service-role key and outages.
+  - Turning on CAPTCHA protection needs a small change to lumina's login first.
+  - The Supabase CLI's migration history can't be used, so the portfolio runs its own migrations.
+  - In return there's no new account and no cost, and lumina's traffic keeps the free project from pausing.
+
 ### A public repository with nothing to steal
 - **Chosen.**
   - No secrets in code or history.

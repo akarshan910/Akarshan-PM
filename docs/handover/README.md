@@ -123,13 +123,14 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 
 ### M3 · Supabase
 
-- [ ] Migrations for every table, policy, column grant and index in [06](06-backend.md#schema).
-- [ ] Storage buckets for images and documents, with the policies in [06](06-backend.md#storage).
+- [ ] Read [06 · The shared project](06-backend.md#the-shared-project). The Supabase project also runs lumina-photography.
+- [ ] `npm run db:migrate` and `supabase/pm/migrations/`: the `pm` schema with every table, policy, column grant and index in [06](06-backend.md#schema). Expose `pm` in the Data API settings.
+- [ ] The `pm-media-draft` and `pm-media-public` buckets, with the policies in [06](06-backend.md#storage).
 - [ ] Sign-in by email code, as in [06](06-backend.md#auth):
   - sign-ups off;
   - the owner created by `npm run setup:owner`, reading `OWNER_EMAIL` from the local shell;
   - the `owners` table and the `is_owner()` check;
-  - Turnstile through Supabase's CAPTCHA protection;
+  - Turnstile in Studio; Supabase's CAPTCHA protection switched on once lumina's login sends tokens ([09](09-decisions.md), Q8);
   - the code-only email template and custom SMTP.
 - [ ] V0 seed script loads profile, layout and projects from `src/legacy/content.ts`. See [07](07-v0-content.md).
 - [ ] The build reads published content from Supabase at prerender time and stops using the local JSON.

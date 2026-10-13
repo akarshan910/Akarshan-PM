@@ -31,11 +31,12 @@ Put these in `tokens.css`. Animations use these values only.
 | Duration | Use |
 | --- | --- |
 | 120ms | Press |
-| 200ms | Colour, hover and focus |
+| 200ms | Colour, hover and focus, the skills highlight |
 | 220ms | Nav link hover; Studio toasts and dialogs |
 | 240ms | Arrow nudge, chapter marker, phone menu fade |
-| 320ms | Card and row lift, image fade, prototype fade |
-| 560ms | Entrances and reveals |
+| 320ms | Card and row lift, Off duty panel and spine lift, image fade, prototype fade |
+| 500ms | Off duty art and speed lines on hover |
+| 560ms | Entrances and reveals, including the skills cloud |
 | 600ms | Hero tilt, cover zoom |
 | 700ms | Floating-preview fade |
 | 1.4s | Brush draw |
@@ -411,7 +412,7 @@ transition: left .32s cubic-bezier(.34,1.26,.64,1), width .32s cubic-bezier(.34,
 
 **Reduced:** no animation.
 
-**Board:** `HomeMobile.dc.html` › `.mmenu`, `.mm-l`, `.mm-cta`.
+**Boards:** `Motion.dc.html` › Phone menu; `HomeMobile.dc.html` › `.mmenu`, `.mm-l`, `.mm-cta`.
 
 ### M-CTA · Angled CTA
 
@@ -453,6 +454,76 @@ No board timing either, so these are decided too.
 **iPad and phone:** native horizontal scroll with `scroll-snap-type: x mandatory`. Tapping a dot scrolls smoothly to its card. The active dot changes width over 200ms `--eo`.
 
 **Reduced:** instant swaps and `scroll-behavior: auto`.
+
+## Skills and Off duty
+
+### M-SKILLS-REVEAL · Skills cloud entrance
+
+**Trigger:** the cloud scrolls into view, once (the same observer as [M-REVEAL](#m-reveal--section-reveal)).
+
+**Motion:** every word rises 16px and fades in: `animation: vaRise .56s var(--eo) both`. The delay is `(visual index % 5) × 80ms`, so the words arrive in five waves, across the whole cloud. The visual index is the word's place in the interleaved order, group words included.
+
+```css
+.cloud.go .cw { animation: vaRise .56s var(--eo) both; animation-delay: calc(var(--i5) * 80ms); }  /* --i5: index % 5, set inline */
+```
+
+**Reduced:** the words are in place from the start.
+
+**Boards:** `Motion.dc.html` › Skills cloud (`.mcl`, `mskWords`). The `Home*` boards show the cloud at rest.
+
+### M-SKILLS-FOCUS · Group highlight
+
+**Trigger:** hover or focus a group word (a preview), or click or tap it (pins it, and a second click unpins it). Pointer leave clears an unpinned preview. On touch there's no hover, so tap pins.
+
+**Motion:** colour and opacity only.
+
+```css
+.cw                  { transition: opacity .2s var(--eo), color .2s var(--eo); }
+.cw.g button         { transition: color .2s var(--eo), -webkit-text-stroke-color .2s var(--eo); }
+.cloud.lit .cw:not(.g):not(.on) { opacity: .16; }
+.cloud.lit .cw.on    { color: var(--tx); }
+.cloud.lit .cw.xl.on { color: #FF5A67; }
+.cw.g.on button      { color: #D61F33; -webkit-text-stroke-color: #D61F33; }
+```
+
+**Reduced:** unchanged. It's colour, not movement, and it carries information.
+
+**Boards:** `Home*.dc.html` › `.cloud`, `.cw`; `Motion.dc.html` › Skills cloud.
+
+### M-OFF-PANEL · Off duty panel hover
+
+**Trigger:** hover a panel, or focus inside it, on devices with hover. Wrap the hover rules in `@media (hover: hover)`, and add the same rules for `:focus-within`.
+
+```css
+.op      { transition: transform .32s var(--eo); }
+.op-cap  { transition: box-shadow .32s var(--eo); }
+.op-ico, .op-sl { transition: transform .5s var(--eo); }
+.op:hover          { transform: translateY(-4px); }
+.op:hover .op-cap  { box-shadow: 8px 8px 0 var(--pa); }
+.op:hover .op-ico  { transform: translate(-6px, -4px) rotate(-3deg); }
+.op:hover .op-sl   { transform: scale(1.04); }
+```
+
+If an `.op-ico` already has a positioning transform on the board, compose the two: put the hover transform on an inner `<g>`.
+
+**Reduced:** no transitions and no transforms. The caption shadow stays at 5px.
+
+**Boards:** `Motion.dc.html` › Off duty panels (`.mop`); `Home*.dc.html` › `.op`.
+
+### M-OFF-SPINE · Spine lift
+
+**Trigger:** hover a spine on devices with hover.
+
+```css
+.sp       { transition: transform .32s var(--eo); }
+.sp:hover { transform: translateY(-4px); }
+```
+
+The spine's own lift (its `padding-top`) is layout, not motion, and doesn't change.
+
+**Reduced:** none.
+
+**Boards:** as M-OFF-PANEL (`.msp i`, `.sp`).
 
 ## Cards and lists
 
@@ -587,10 +658,12 @@ Studio uses the same curve, more quietly. Its values are in the Studio boards.
 | M-ST-RING | A chapter or block moved by keyboard in the story editor | `stRingA`/`stRingB`: `box-shadow 0 0 0 3px #F5A524` to transparent, 1s |
 | M-ST-SWITCH | Switches | Track `background .15s`, knob `left .15s` |
 | M-ST-DRAG | A dragged row | Lifts to `scale(1.012)` with a shadow. `.prow` transition `box-shadow .18s, transform .18s, background-color .18s` |
-| M-ST-SPIN | Saving and upload spinners, and the Google button while it opens | `stSpin .8s linear infinite`. Reduced: 2.4s |
+| M-ST-SPIN | Saving and upload spinners, "Email me a code" while it sends, and the code boxes while checking | `stSpin .8s linear infinite`. Reduced: 2.4s |
 | M-ST-SHIM | Loading skeletons | `stShim 1.3s linear infinite`, `#ECEBE7`→`#F6F5F2` |
 | M-ST-PULSE | The "Saving…" dot | `stPulse` opacity `1 → .35 → 1` |
 | M-ST-ROW | Row hover | `background-color .15s` |
+| M-ST-OTP | The code boxes on the sign-in page | Border and focus ring: `transition: border-color .2s var(--eo), box-shadow .2s var(--eo)`. The empty box with the caret shows a 2×28px caret: `stBlink 1s steps(1) infinite` (`50% { opacity: 0 }`). Each step of the sign-in card (email, code, signed in) enters with M-ST-ENTER. Reduced: no blink, no entrance |
+| M-ST-POP | The topic picker's dropdown, and other popovers | `@keyframes msUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }`, `.22s cubic-bezier(.2,.8,.2,1)`. Closes instantly. Reduced: none |
 
 **Studio under reduced motion:** the boards use `.st * { animation-duration: .01ms !important }`, plus no transitions on rows, blocks and switches. Spinners still turn, once every 2.4s.
 

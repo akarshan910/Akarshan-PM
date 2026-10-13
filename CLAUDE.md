@@ -59,6 +59,7 @@ The repository is public, so treat every commit as published.
   - the SMTP password and Turnstile secret key go in the Supabase Auth settings.
 - **The Studio sign-in address** never appears in code, migrations, seeds or tests. Scripts read it from `OWNER_EMAIL` in the local shell, and tests use `owner@example.test`. The contact address shown on the site is content, so it's fine in `src/legacy/content.ts` and the seed.
 - **Row-level security** is on for every table, and every new table ships with its policies in the same migration.
+- **The Supabase project is shared with lumina-photography.** Everything this repo creates lives in the `pm` schema, the `pm-` buckets and the `pm-` functions. Never touch `public`, lumina's bucket, functions or auth users. Never run `supabase db push`, `db reset --linked` or `db pull` against the project, and never change an Auth setting that [06 · Auth](docs/handover/06-backend.md#auth) doesn't list. See [06 · The shared project](docs/handover/06-backend.md#the-shared-project).
 - **If a secret is ever committed,** stop. Tell the owner, rotate the secret first, then clean the history. Deleting the file isn't enough.
 - Follow [`SECURITY.md`](SECURITY.md) and [06 · Backend](docs/handover/06-backend.md#security).
 

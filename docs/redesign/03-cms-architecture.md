@@ -41,7 +41,7 @@ Google Drive). Studio stores their links; the site embeds them on click, sandbox
   | `/studio/*` | The CMS |
 
   Studio is a separate lazy-loaded chunk, so visitors never download it.
-- **Backend.** Supabase: Postgres, Auth, Storage, Edge Functions and Cron. No server of our own.
+- **Backend.** Supabase: Postgres, Auth, Storage, Edge Functions and Cron. No server of our own. The project is shared with the owner's lumina-photography site, so everything here lives in a `pm` schema with `pm-` buckets and functions. The rules for working in a shared project are in the [handover's backend chapter](../handover/06-backend.md#the-shared-project).
 - **SEO.** Public pages are prerendered at publish time, with title, description, Open Graph tags and canonical URL. A plain SPA would serve the same empty HTML to crawlers and link previews.
 
 ## Studio sections
@@ -78,7 +78,7 @@ This was decided on 13 Oct 2026. It replaces the earlier Google sign-in design, 
   - One code per minute per address.
   - The boxes lock after 5 wrong codes.
   - Supabase's per-IP limits apply.
-  - **Cloudflare Turnstile** CAPTCHA (Supabase CAPTCHA protection) guards both sending and checking codes. It's invisible unless traffic looks automated.
+  - **Cloudflare Turnstile** CAPTCHA (Supabase CAPTCHA protection) guards code requests. It's invisible unless traffic looks automated.
 - **Staying signed in.**
   - Sessions refresh silently on each device.
   - The address is remembered on that device, so signing in again is one tap.
@@ -114,18 +114,18 @@ Flow details to build:
 2. **Supabase › Authentication › Emails.** Change the "Magic Link" template to show the code (`{{ .Token }}`) and no link. Subject: "Your Studio sign-in code".
 3. **Supabase › Authentication › SMTP.** Use a custom sender, for example Resend, on the site's domain, with SPF and DKIM. The built-in sender is rate-limited and meant for testing.
 4. **Supabase › Authentication › Attack protection.**
-   - Turn on CAPTCHA with Cloudflare Turnstile and paste the Turnstile secret there.
+   - Turn on CAPTCHA with Cloudflare Turnstile and paste the Turnstile secret there. The project is shared, so do this only after lumina-photography's login sends Turnstile tokens too.
    - The site key goes in `VITE_TURNSTILE_SITE_KEY`.
-5. **URL configuration.**
-   - Site URL: `https://[your-domain]`.
-   - Redirect URLs: `https://[your-domain]/studio` and `http://localhost:5173/studio`.
-6. **Owner.** Run `npm run setup:owner` once, with `OWNER_EMAIL` and the service-role key in your local shell. It creates the owner's account (already confirmed) and the `owners` row. The address is never written into code or migrations.
+5. **URL configuration.** No change. Code sign-in doesn't redirect, and the Site URL belongs to lumina.
+6. **Owner.** Run `npm run setup:owner` once, with `OWNER_EMAIL` and the service-role key in your local shell. It finds or creates the owner's account (already confirmed) and adds the `pm.owners` row. The address is never written into code or migrations.
 7. **Test.**
    - Another address must see the same "Check your email" screen, receive nothing, and read zero rows from every table.
    - Signing out must end the session on that device.
 8. **Email account.** Turn on 2-Step Verification for the owner's mailbox: it's now the key to Studio.
 
 ## Data model
+
+All tables live in the `pm` schema. The handover's [backend chapter](../handover/06-backend.md#schema) has the build version, which keys owners by user id.
 
 ```sql
 create table owners (
@@ -628,7 +628,7 @@ The exact mapping, field by field, is in the [handover's V0 content chapter](../
 
 - No secrets in client code. The anon key is public by design, and RLS is what protects data.
 - Every mutation goes through RLS (owner only) or an edge function that re-checks the allowlist.
-- Sign-in codes: one per minute per address, a 10-minute expiry, single use, and a Turnstile CAPTCHA on sending and checking. The "Check your email" screen never reveals whether an address owns the site.
+- Sign-in codes: one per minute per address, a 10-minute expiry, single use, a per-IP limit on checks, and a Turnstile CAPTCHA on requests. The "Check your email" screen never reveals whether an address owns the site.
 - The owner's address comes from `OWNER_EMAIL` at setup, and is never written in code or migrations. The repository is public and holds no secrets (see `SECURITY.md`).
 - Sanitise rich text in projects, posts and text sections. Escape code blocks. Build RSS only from sanitised HTML.
 - Validate URLs (`https:` only), including canonical links and embeds.

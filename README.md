@@ -48,7 +48,7 @@ The full story is in [`docs/story/`](docs/story/README.md).
 Studio (/studio, owner only) ──writes drafts──▶ Supabase Postgres ◀──reads published── Public site (prerendered)
         │  sign in: 6-digit email code             │  row-level security                     ▲
         │                                          │                                         │ rebuild on publish
-        └──publish──▶ Edge Function "publish" ─────┴──copies draft → published──▶ Vercel deploy hook
+        └──publish──▶ Edge Function "pm-publish" ──┴──copies draft → published──▶ Vercel deploy hook
 ```
 
 **Content types.** There are five, and each is stored as a draft and a published copy:
@@ -64,6 +64,8 @@ Studio (/studio, owner only) ──writes drafts──▶ Supabase Postgres ◀�
 **Publishing** copies the draft to the published copy, after checks, in one transaction, keeps a revision, and rebuilds the static site. Visitors can only ever read published columns. The database enforces that, not just the UI.
 
 **Media stays light.** Prototypes and videos are links (Vercel, YouTube, Vimeo, Loom, Google Drive), loaded on click in sandboxed frames.
+
+**One backend, shared.** The Supabase project also runs the owner's photography site. The portfolio lives in its own `pm` schema, with its own buckets, functions, owner check and migrations. Published images are copied into the static site, so visitors never touch the shared quota.
 
 ### A site built from widgets
 

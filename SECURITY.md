@@ -20,7 +20,7 @@ You'll get a reply within a week.
 **Where the secrets live:**
 
 - **Vercel environment variables:** the Supabase URL, the anon key and the Turnstile site key. All three are public by design.
-- **Supabase Edge Function secrets:** the service-role key and the Vercel deploy hook.
+- **Supabase Edge Function secrets:** the Vercel deploy hook and the allowed origins. Supabase provides the service-role key to functions itself.
 - **Supabase dashboard:** SMTP credentials and the Turnstile secret key.
 
 The owner's email address for Studio is supplied as `OWNER_EMAIL` when the one-time setup script runs. It isn't written into code or migrations.
@@ -32,7 +32,9 @@ The owner's email address for Studio is supplied as `OWNER_EMAIL` when the one-t
 - Studio signs in with a 6-digit code sent by email. Sign-ups are off, so only the owner's existing account can get a code.
 - Codes expire after 10 minutes and work once.
 - One code can be requested per minute.
-- Cloudflare Turnstile guards both sending and checking codes.
+- Cloudflare Turnstile guards code requests. Supabase limits how many codes can be checked from one IP address.
+
+**One backend, two sites.** The Supabase project is shared with the owner's photography site. The portfolio keeps everything in its own `pm` schema, `pm-` storage buckets and `pm-` functions, with its own owner check. Each site's admins have no access to the other's data, and the policies and tests are written so neither site's rules can expose the other's.
 
 **Database:** row-level security on every table.
 

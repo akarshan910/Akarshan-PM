@@ -658,3 +658,74 @@ Specified in [03](03-public-site.md#page-states):
 - an expired preview;
 - no results;
 - error.
+
+## Studio components
+
+Most Studio pieces are simple enough to copy from their board's CSS: the shell, rows, switches, toasts and dialogs. [05 · Studio](05-studio.md) names the board and class for each. Two shared components carry more behaviour, so they're specified here.
+
+### S1 · Topic picker
+
+Board: `StudioWriting.dc.html` › Post settings › Topics (tweaks "writing a draft", "many topics", "topics dropdown open"; CSS `.tpadd`, `.ms-*`). The same component is used for a project's topics in `EditorOverview`.
+
+**The vocabulary** is every topic already used by posts (or by projects, for the project editor), from [06](06-backend.md#topics). It's case-insensitive: "ai" and "AI" are one topic, and the first spelling wins. The label above the field shows the count: "12 topics".
+
+**Up to 8 topics in the vocabulary: chips.**
+
+- Every topic is a toggle chip (`aria-pressed`), 30px tall, with a 1px border, inside `role="group"` labelled "Topics".
+- A dashed "+ Add topic" input (`.tpadd`) follows the chips: 118px wide, growing to 168px on focus (`width .2s`).
+- Enter adds the typed topic, or selects the existing one if it matches.
+- The hint below: "Tap to choose. Type a new one and press Enter. Past 8 topics, this becomes a dropdown with search."
+
+**More than 8: a multi-select dropdown.**
+
+- **The field** (`.ms-field`, min height 44px) holds the selected topics as dark chips (`.ms-chip`, 26px), each with a ✕ button labelled "Remove {topic}".
+- **The trigger** (`.ms-trig`) fills the rest of the field and reads "Choose topics" when none are selected, "Add topics" otherwise, with a ▾. It has `aria-haspopup="listbox"` and `aria-expanded`.
+- **The popover** (`.ms-pop`) opens under the field:
+  - a search input that's also the combobox (`role="combobox"`, `aria-controls="tp-list"`, `aria-activedescendant`), placeholder "Search or create a topic";
+  - the list (`role="listbox"`, `aria-multiselectable="true"`, max height 232px, scrolls): one option per topic, each with a checkbox mark, its name, and "N posts" on the right in mono 11px;
+  - selected topics first, then alphabetical; the search filters by substring;
+  - "No topic matches “x”." when nothing matches;
+  - "+ Create “x”" (`.ms-create`) whenever the query doesn't exactly match a topic, ignoring case;
+  - the footer: "N selected · ↑ ↓ to move, Enter to choose" and a Done button.
+- **Keyboard:** ↑ and ↓ move the active option, Enter toggles it (or creates the query when no option is active), Esc closes and returns focus to the trigger. Tab moves to Done.
+- **Clicking outside** closes the popover. Choices apply immediately; there's no cancel.
+
+**Both modes:**
+
+- Changes autosave with the rest of the post.
+- A polite live region announces "Added {topic}", "Created and added {topic}" or "Removed {topic}".
+- A new topic is trimmed, has its inner spaces collapsed, and is at most 32 characters.
+- **Motion:** M-ST-POP for the popover; the input's width transition. See [04 · Studio](04-motion.md#studio).
+
+### S2 · Code input
+
+Board: `StudioLogin.dc.html` (tweaks "enter code" to "too many tries"; CSS `.otp`, `.box`).
+
+**Structure.** One real input over six visual boxes, so paste, autofill and screen readers see a normal field:
+
+```html
+<div class="otp">
+  <div class="box">4</div> … six boxes, aria-hidden …
+  <input inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6"
+         aria-label="6-digit code" aria-invalid="false" aria-describedby="code-help code-error">
+</div>
+```
+
+- `.otp`: a 6-column grid, gap 10px, 22px above.
+- `.box`: 64px tall, radius 12, 1px `--ln2`, white, Geist Mono 600 28px.
+- The input covers the grid with `opacity: 0` and `font-size: 16px`, which stops iOS zooming in.
+
+**Box states:**
+
+| State | Style |
+| --- | --- |
+| Next to fill | `.cur`: border `--tx`, ring `0 0 0 3px rgba(20,20,22,.12)`, a blinking 2×28px caret |
+| Wrong code | `.bad`: border `--err`, ring `0 0 0 3px rgba(180,35,24,.12)` |
+| Checking, or locked | `.off`: fill `#F1F0EC`, digits in `--tx3`, input disabled |
+
+**Behaviour:**
+
+- Non-digits are dropped, so a pasted "482 913" becomes "482913".
+- Six digits submit after 150ms, with no button press needed. The "Sign in" button does the same.
+- Typing after an error clears it and returns to the normal state.
+- **Motion:** M-ST-OTP and M-ST-SPIN.
