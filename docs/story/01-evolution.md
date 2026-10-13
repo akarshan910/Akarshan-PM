@@ -86,6 +86,9 @@ Each round of the owner's comments on the canvas changed the product. In order:
 | "Off duty is plain vanilla … earlier one was okay … make something better" | Off duty became a manga page: ink panels with art, caption boxes and tags. The anime favourites became volume spines on a shelf |
 | "Can we do the CMS auth using email-based OTP?" | Studio sign-in switched from Google to a 6-digit email code, the pattern from the owner's lumina-photography admin. Turnstile, limits and closed sign-ups make it hard to abuse |
 | "Make the repo public … ensure nothing security-level is in it" | A security pass: no secrets in history, the owner's address supplied at setup only, `SECURITY.md`, and hardened ignore rules |
+| "Give options to add topics … past many topics, a multi-select dropdown" | A topic picker: chips and "+ Add topic" up to 8 topics, then a searchable multi-select dropdown, shared by posts and projects |
+| "Make sure [skills] is config-driven from the CMS" | Every part of the Skills section became editable in Studio, including its label and the order and names of skills |
+| "I've used up Supabase's free tier with two projects" | The portfolio moved into the photography site's Supabase project, in its own `pm` schema, with rules that keep the two sites apart |
 
 ## V0: the first release of the platform (decided 13 Oct 2026)
 
