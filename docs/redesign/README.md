@@ -47,7 +47,7 @@ Every board is in [`/design`](../../design/README.md): the `.dc.html` source and
 | Visual direction | Round 1 Volumes for the whole site. The hero is Round 3 A (Ink & Depth), redrawn in Round 1's tokens, type and grid. No Japanese or SFX lettering anywhere | [The final hero](02-design-system-and-directions.md#the-final-hero) |
 | Kept from the live site | The pill nav, exactly, on laptop and iPad. Phones keep the pill with Menu and Let's Talk, and Menu opens a full-screen menu. The angled-cut CTA | [Design system](02-design-system-and-directions.md) |
 | Removed | The AK monogram and the "Now" card | — |
-| Studio sign-in | A 6-digit code sent by email, to the owner's address only. No passwords and no Google setup. Sign-ups are off from day one. Codes expire after 10 minutes and work once. A Cloudflare Turnstile bot check guards sending and checking codes. Decided 13 Oct 2026; this replaces the earlier Google sign-in | [Auth](03-cms-architecture.md#auth) |
+| Studio sign-in | A 6-digit code sent by email, to the owner's address only. No passwords and no Google setup. Sign-ups are off from day one. Codes expire after 10 minutes and work once. A Cloudflare Turnstile bot check guards code requests, and Supabase limits code checks per IP. Decided 13 Oct 2026; this replaces the earlier Google sign-in | [Auth](03-cms-architecture.md#auth) |
 | What Studio controls | The whole site. Every section and every widget inside it can be turned on or off and reordered, alongside site copy, projects, posts and media | [Website builder](03-cms-architecture.md#website-builder) |
 | Skills | One word cloud, not a table. Each group name is a big outlined word, and the skills are spread through the cloud. Hovering or tapping a group lights up its skills. Each skill's size (S, M, L, XL) is set in Studio | [Skills cloud](02-design-system-and-directions.md#skills-cloud) |
 | Off duty | A manga-style page: one ink panel per hobby, with art, a caption box and a tag. The first hobby gets the big panel and an optional shelf of favourites, drawn as volume spines | [Off duty](02-design-system-and-directions.md#off-duty) |
@@ -60,6 +60,7 @@ Every board is in [`/design`](../../design/README.md): the `.dc.html` source and
 | Prototypes | Deployed separately, for example on Vercel, and added in Studio as links | [Media](03-cms-architecture.md#media) |
 | Video | Links: YouTube, Vimeo, Loom or Google Drive (shared as "Anyone with the link") | [Media](03-cms-architecture.md#media) |
 | First release (V0) | The final design with the current site's content, published at launch. The owner then rewrites each section in Studio. Decided 13 Oct 2026 | [V0 content](../handover/07-v0-content.md) |
+| Backend | One Supabase project, shared with the owner's lumina-photography site, because the free plan's two projects are in use. The portfolio lives in its own `pm` schema, with its own buckets, functions and migrations. Decided 13 Oct 2026 | [Backend](../handover/06-backend.md#the-shared-project) |
 | Public repository | The repository is public. It holds no secrets, and the owner's address is supplied at setup, never written in code | [`SECURITY.md`](../../SECURITY.md) |
 
 ## For the owner to settle in Studio after launch

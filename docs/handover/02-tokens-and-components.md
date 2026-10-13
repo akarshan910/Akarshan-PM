@@ -319,7 +319,7 @@ The two-tone split is stored data: Studio keeps the title in two fields, `title`
 
 ### C5 · Result label
 
-Every number on the site carries one, except tenure and counts ([07](07-v0-content.md#labels)).
+Every number on the site carries one, except tenure and counts ([07](07-v0-content.md#outcomes)).
 
 | Label | Class | Style |
 | --- | --- | --- |

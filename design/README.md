@@ -5,6 +5,8 @@ These are the design files for the portfolio and its CMS, Studio: every explorat
 - **`boards/`:** the 46 boards, as `.dc.html` source.
 - **`previews/`:** a WebP render of each board, so you can browse them on GitHub.
 - **`canvas.json`:** how the canvas lays them out: pages, sizes and titles.
+- **`covers/`:** the five V0 project covers, rendered from the Home board's cards ([07 · Covers](../docs/handover/07-v0-content.md#covers)).
+- **`tools/render-board.mjs`:** renders any board, in any Tweaks state, to static HTML and a PNG, for reading and for the pixel-parity checks ([08](../docs/handover/08-qa.md#pixel-parity)).
 
 The canvas itself is private to the owner. If a board changes there, the owner refreshes this folder, and the canvas stays the source.
 
@@ -22,7 +24,7 @@ The final direction is **Volumes with the Ink & Depth hero**:
 
 ## How to read a board
 
-Each `*.dc.html` file is plain HTML and CSS, plus a small template layer and one script class. Browsers can't open them directly, because they run inside the canvas runtime. Read them as source instead: every value you need is written out in the file.
+Each `*.dc.html` file is plain HTML and CSS, plus a small template layer and one script class. Browsers can't open them directly, because they run inside the canvas runtime. Read them as source, where every value you need is written out, or render one with `node design/tools/render-board.mjs <board> <out> '{"state":"…"}'` to see it.
 
 | Part | What it is | What you take from it |
 | --- | --- | --- |

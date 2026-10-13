@@ -124,7 +124,7 @@ Implementation is done when every line below holds on the deployed site. Check i
   - each new code replaces the old one;
   - one code can be requested per minute per address;
   - the boxes lock after 5 wrong codes;
-  - Turnstile guards sending and checking codes.
+  - Turnstile guards code requests once CAPTCHA protection is on, and Supabase limits code checks per IP.
 - [ ] Every path on the sign-in flow board works:
   - a deep link returns to its page after sign-in;
   - wrong, expired and too-early states show their messages;

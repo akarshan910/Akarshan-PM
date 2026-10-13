@@ -101,7 +101,7 @@ Each entry records the context, the options considered, what was chosen, and wha
 - **Chosen.** A 6-digit code by email to the owner's existing account.
   - Sign-ups are off from day one.
   - Codes are single-use, last 10 minutes, and can be requested once a minute.
-  - Cloudflare Turnstile guards sending and checking codes.
+  - Cloudflare Turnstile guards code requests, and Supabase limits code checks per IP.
   - The owner check runs in the database.
 - **Trade-off.**
   - It depends on email delivery, so a custom SMTP sender is needed.

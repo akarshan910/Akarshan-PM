@@ -37,9 +37,9 @@ Remove the Figma Make scaffolding once the owner confirms ([09](09-decisions.md)
 
 **Rebuild on publish.** Every publish calls a Vercel deploy hook. The site rebuilds in about a minute, which is the "It updates within a minute" toast on the boards.
 
-**Previews are client-rendered.** `/preview/:token` fetches the draft through the `preview` Edge Function and renders it with the same page components. It adds the draft preview bar and `noindex`.
+**Previews are client-rendered.** `/preview/:token` fetches the draft through the `pm-preview` Edge Function and renders it with the same page components. It adds the draft preview bar and `noindex`.
 
-**Unlisted projects are client-rendered too.** They're published but must not be listed anywhere, so the build never sees them. A `/work/:slug` path with no prerendered file is rewritten to a `noindex` shell. The shell asks the `project` Edge Function for that exact slug, and renders the project or the 404 page ([09](09-decisions.md), D24).
+**Unlisted projects are client-rendered too.** They're published but must not be listed anywhere, so the build never sees them. A `/work/:slug` path with no prerendered file is rewritten to a `noindex` shell. The shell asks the `pm-project` Edge Function for that exact slug, and renders the project or the 404 page ([09](09-decisions.md), D24).
 
 **Hydration.** It runs only for interactive pieces:
 
@@ -62,8 +62,8 @@ Everything else is static markup.
 | `/writing/:slug` | Prerendered, one per published post | `posts.published` |
 | `/writing/rss.xml` | Generated at build | The 20 latest posts |
 | `/sitemap.xml`, `/robots.txt` | Generated at build | Published, public pages |
-| `/work/:slug` (unlisted) | Client-only shell, `noindex` | `project` Edge Function, by exact slug |
-| `/preview/:token` | Client-only, `noindex`, `no-store` | `preview` Edge Function |
+| `/work/:slug` (unlisted) | Client-only shell, `noindex` | `pm-project` Edge Function, by exact slug |
+| `/preview/:token` | Client-only, `noindex`, `no-store` | `pm-preview` Edge Function |
 | `/studio/login` | Client-only SPA, `noindex`, `no-store` | Sign-in by email code |
 | `/studio`, `/studio/*` | Client-only SPA, `noindex`, `no-store`, disallowed in `robots.txt` | supabase-js with the owner's session |
 | Anything else | Static 404 page | — |

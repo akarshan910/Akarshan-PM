@@ -120,6 +120,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 - [ ] `/writing` and `/writing/:slug`. V0 has no posts, so `/writing` returns the 404 page and the homepage section is hidden.
 - [ ] 404, error and empty states.
 - [ ] Redirect old `?open=<id>` links to `/work/<slug>`.
+- [ ] The parity fixture `tests/fixtures/board-content.ts`, the `CONTENT_SOURCE=fixture:boards` switch and `?qa=1`, so every page can be compared with its board ([08](08-qa.md#pixel-parity)).
 
 ### M3 · Supabase
 
@@ -132,7 +133,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
   - the `owners` table and the `is_owner()` check;
   - Turnstile in Studio; Supabase's CAPTCHA protection switched on once lumina's login sends tokens ([09](09-decisions.md), Q8);
   - the code-only email template and custom SMTP.
-- [ ] V0 seed script loads profile, layout and projects from `src/legacy/content.ts`. See [07](07-v0-content.md).
+- [ ] V0 seed script (`npm run seed:v0`) loads profile, layout and projects from `src/legacy/content.ts`, with the covers from `design/covers/`. See [07](07-v0-content.md).
 - [ ] The build reads published content from Supabase at prerender time and stops using the local JSON.
 
 ### M4 · Studio
@@ -155,12 +156,15 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 
 ### M5 · Publishing and SEO
 
-- [ ] Edge Functions:
-  - `publish` (site, project, post);
-  - `preview`;
-  - `check-link`;
-  - `post-scheduler`;
-  - `purge`.
+- [ ] Edge Functions, all named `pm-…` ([06](06-backend.md#edge-functions)):
+  - `pm-publish` (site, project, post);
+  - `pm-preview`;
+  - `pm-project` (unlisted pages);
+  - `pm-check-link`;
+  - `pm-post-scheduler`;
+  - `pm-purge`.
+- [ ] Cron jobs `pm-scheduled-posts`, `pm-link-check` and `pm-purge`.
+- [ ] `scripts/fetch-media.ts` copies published images into the build.
 - [ ] A Vercel deploy hook rebuilds after every publish.
 - [ ] Per-page metadata:
   - title, description and canonical;
@@ -172,7 +176,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 
 ### M6 · QA and launch
 
-- [ ] The full [QA](08-qa.md) pass at all three sizes, motion, accessibility and performance.
+- [ ] The full [QA](08-qa.md) pass at all three sizes, motion, accessibility and performance, including the parity fixture (`tests/fixtures/board-content.ts`) and the no-leaks test.
 - [ ] The owner's launch checklist in [09-decisions](09-decisions.md#launch-checklist-owner):
   - domain;
   - SMTP sender and Turnstile keys;

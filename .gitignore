@@ -24,6 +24,7 @@ coverage/
 playwright-report/
 test-results/
 blob-report/
+qa/
 .idea/
 .vscode/*
 !.vscode/extensions.json
