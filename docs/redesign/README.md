@@ -40,6 +40,7 @@ The canvas is private to the owner. Share it from the canvas page's Share menu.
 | Visual direction | Round 1 Volumes for the whole site. The hero is Round 3 A (Ink & Depth), redrawn in Round 1's tokens, type and grid. There's no Japanese or SFX lettering anywhere | [The final hero](02-design-system-and-directions.md#the-final-hero) |
 | Kept from the live site | The pill nav, exactly, on every device. The angled-cut CTA | [Design system](02-design-system-and-directions.md) |
 | Removed | The AK monogram and the "Now" card | — |
+| Studio sign-in | Google only, and only your account (akarshan910@gmail.com), with an email-link backup. To be built during development | [Auth](03-cms-architecture.md#auth) |
 | What Studio controls | The whole site. Every section and every widget inside it can be turned on or off and reordered, alongside site copy, projects, posts and media | [Website builder](03-cms-architecture.md#website-builder) |
 | Writing | Posts live on the site: a homepage section, `/writing`, a page per post and an RSS feed. No Medium or Substack | [Writing](03-cms-architecture.md#writing) |
 | Growth | Homepage shelves have a cap. `/work` lists every project | [How shelves scale](03-cms-architecture.md#how-shelves-scale) |

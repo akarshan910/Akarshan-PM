@@ -87,7 +87,9 @@ Implementation is done when every line below holds on the deployed site. Check i
 
 **Access and saving**
 
-- [ ] Only emails on the owner allowlist can read or change anything. This is enforced by database policies, not just the UI.
+- [ ] Studio signs in with Google, and only akarshan910@gmail.com gets in. Any other Google account sees "This Google account can't open Studio" and gets no data. Database policies enforce this, not just the UI.
+- [ ] New sign-ups are closed after the owner's first sign-in.
+- [ ] The email-link backup is rate-limited and never reveals which address owns the site.
 - [ ] No service-role key or other secret ships to the browser.
 - [ ] Edits autosave within a second and show Saving, Saved, Offline or Couldn't save, with retry.
 - [ ] Two tabs editing the same thing can't silently overwrite each other: the second save gets a conflict prompt.

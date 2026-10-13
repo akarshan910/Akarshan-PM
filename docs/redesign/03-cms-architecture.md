@@ -20,7 +20,7 @@ Browser (public site)  ── reads ──▶  Supabase Postgres: published colu
         ▼                                     │
 Static host (CDN)  ◀── rebuild/revalidate ── Edge function: publish (site, project or post)
                                               ▲                      ▲
-Browser (Studio, /studio)  ── auth (magic link) ──┘      Cron: scheduled posts
+Browser (Studio, /studio)  ── auth (Google) ──────┘      Cron: scheduled posts
         │
         └── uploads ──▶ Supabase Storage: media (images, PDFs)
 
@@ -58,10 +58,38 @@ On phones these five are the bottom tabs.
 
 ## Auth
 
-- Magic-link sign-in (email OTP). There is no password to leak.
-- An `owners` allowlist table. A signed-in user who isn't on it sees "This email can't sign in to Studio" and gets no data, because the database policies check the allowlist, not the UI.
-- Sessions refresh silently. On expiry, edits stay in local storage and sync after sign-in (Studio › States).
-- Before launch, set a custom SMTP sender (for example Resend or Postmark). Supabase's built-in sender is rate-limited and meant for testing.
+To be built during development. Studio signs in with Google, and only the owner's Google account, akarshan910@gmail.com, gets in. The database enforces this, not just the UI.
+
+**How it works**
+
+- **Sign-in page.** `/studio` shows "Continue with Google". It uses Supabase Auth's Google provider with only the `openid`, `email` and `profile` scopes, which don't need Google's app review.
+- **Owner check.** After Google returns, the signed-in email is checked against the `owners` table. Every RLS policy checks the same table. Any other Google account sees "This Google account can't open Studio" and gets no data.
+- **Closed sign-ups.** New sign-ups are turned off after the owner's first sign-in, so no other account can even be created.
+- **Backup.** "Email me a sign-in link instead" sends a one-time link, in case Google sign-in is unavailable.
+  - It's rate-limited.
+  - Its "Check your inbox" message never reveals whether an address owns the site.
+- **Staying signed in.** Sessions refresh silently on each device, and "Sign out" is in the sidebar. On expiry, edits stay on the device and sync after signing in again (Studio › States).
+- **Where it lives.** Studio is at `[your-domain]/studio`. It isn't linked from the public site, is `noindex`, and is disallowed in `robots.txt`. Bookmark it on your laptop and phone.
+
+The designs are on the canvas: Studio › sign in, which has every state in Tweaks, and Studio › States › Session expired.
+
+**Setup checklist for development**
+
+1. **Google Cloud Console.**
+   - Create an OAuth client ID of type "Web application".
+   - Set up the consent screen: External, app name "Studio", scopes `openid`, `email` and `profile`.
+   - Add `https://<project-ref>.supabase.co/auth/v1/callback` as an authorised redirect URI.
+2. **Supabase › Authentication › Providers › Google.** Enable it and paste the client ID and secret. The secret stays in Supabase and never goes in the site's code.
+3. **Supabase › Authentication › URL configuration.**
+   - Site URL: `https://[your-domain]`.
+   - Redirect URLs: `https://[your-domain]/studio`, plus `http://localhost:5173/studio` for development.
+4. **Owner and policies.** Add akarshan910@gmail.com to `owners` with a migration, and apply the RLS policies below.
+5. **Close sign-ups.** Sign in once with Google, then turn off "Allow new users to sign up" in Supabase.
+6. **Test.**
+   - A different Google account must land on "This Google account can't open Studio" and read zero rows from every table.
+   - Signing out must end the session on that device.
+7. **Email sender.** Set a custom SMTP sender for the backup links, for example Resend or Postmark. Supabase's built-in sender is rate-limited and meant for testing.
+8. **Google account.** Turn on 2-Step Verification for akarshan910@gmail.com: it is now the key to the site.
 
 ## Data model
 
