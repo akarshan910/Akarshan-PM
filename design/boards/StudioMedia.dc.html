@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — media</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .nav{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;border-radius:8px;color:var(--tx2);font-size:14px;font-weight:500}
+.st .nav:hover{background:#EFEEEA;color:var(--tx)}
+.st .nav.on{background:#EAE9E4;color:var(--tx)}
+.st .card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.st .cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border:0;background:var(--ac);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.st .cta:hover{background:#E42A3F}
+.st .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:500 14px/1 var(--fu);cursor:pointer}
+.st .btn:hover{border-color:#B9B7B1}
+.st .chip{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500}
+.st .mono{font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .row{transition:background-color .15s}
+.st .row:hover{background:var(--sf2)}
+.st a:focus-visible,.st button:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+@keyframes stShim{0%{background-position:-300px 0}100%{background-position:300px 0}}
+.st .shim{background:linear-gradient(90deg,#ECEBE7 0,#F6F5F2 50%,#ECEBE7 100%);background-size:600px 100%;animation:stShim 1.3s linear infinite;border-radius:6px}
+@media (prefers-reduced-motion:reduce){.st .shim{animation:none}}
+
+.st .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.st .seg{display:inline-flex;padding:3px;border-radius:10px;background:#EAE9E4}
+.st .seg button{height:34px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--tx2);font:500 14px/1 var(--fu);cursor:pointer}
+.st .seg button[aria-pressed="true"]{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(20,20,22,.12)}
+.st .inp{display:block;width:100%;height:44px;margin-top:8px;padding:0 12px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:400 15px/1.4 var(--fu)}
+.st textarea.inp{height:auto;min-height:88px;padding:10px 12px;resize:vertical}
+.st .inp::placeholder{color:#8F8D87}
+.st .inp:focus{outline:none;border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .lbl{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.st .req{font-size:12px;font-weight:500;color:var(--tx3)}
+.st .hrow{display:flex;align-items:flex-start;gap:12px;margin-top:6px;font-size:13px;line-height:1.45}
+.st .hint{color:var(--tx3)}
+.st .err{display:flex;gap:6px;color:var(--err);font-weight:500}
+.st .cnt{margin-left:auto;font-family:var(--fm);font-size:12px;white-space:nowrap}
+.st .ib{width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--tx2);cursor:pointer}
+.st .ib:hover{background:#EFEEEA;color:var(--tx)}
+.st .sw{display:flex;align-items:center;gap:12px;min-height:40px;padding:0;border:0;background:none;text-align:left;font:400 14px/1.4 var(--fu);color:var(--tx);cursor:pointer}
+.st .trk{position:relative;flex:none;width:36px;height:20px;border-radius:10px;transition:background .15s}
+.st .knb{position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .15s}
+.st input:focus-visible,.st textarea:focus-visible{outline:none}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+.st .mt{position:relative;display:flex;flex-direction:column;gap:8px;padding:8px 8px 12px;border:1px solid var(--ln);border-radius:12px;background:#fff;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.st .mt:hover{border-color:#B9B7B1}
+.st .mt[aria-pressed="true"]{border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .th{position:relative;height:150px;border-radius:8px;overflow:hidden;display:grid;place-items:center}
+.st .fchip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:1px solid var(--ln2);border-radius:999px;background:#fff;font:500 13px/1 var(--fu);color:var(--tx2);cursor:pointer}
+.st .fchip[aria-pressed="true"]{border-color:#E5CF98;background:var(--warnbg);color:var(--warn)}
+.st .bar{height:6px;border-radius:3px;background:#EFEEEA;overflow:hidden}
+.st .bar span{display:block;height:100%;background:var(--tx);transition:width .12s linear}
+.st .dz{display:flex;align-items:center;gap:16px;padding:18px 20px;border:1.5px dashed var(--ln2);border-radius:14px;background:var(--sf2)}
+</style>
+</helmet>
+<div class="st" style="position: relative; min-height: 1320px; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--tx); font-family: var(--fu);" onKeyDown="{{onRootKey}}">
+<aside style="flex: 1 1 232px; max-width: 256px; background: #FBFBFA; border-right: 1px solid var(--ln); padding: 20px 14px; display: flex; flex-direction: column; gap: 4px;">
+<div style="padding: 4px 12px 18px; display: flex; align-items: baseline; justify-content: space-between;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 26px; letter-spacing: .04em; text-transform: uppercase;">Studio<span style="color: var(--ac);">.</span></span><span class="mono" style="font-size: 11px;">CMS</span></div>
+<a class="nav" href="StudioDashboard.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg>Dashboard</a>
+<a class="nav" href="StudioSite.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg>Website</a>
+<a class="nav" href="StudioProjects.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16"></path></svg>Projects<span style="margin-left: auto; font-size: 12px; color: var(--tx3);">9</span></a>
+<a class="nav" href="StudioWriting.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Writing</a>
+<a class="nav on" href="StudioMedia.dc.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Media</a>
+<div style="height: 1px; background: var(--ln); margin: 10px 4px;"></div>
+<a class="nav" href="Home.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg>View live site</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 10px; border: 1px solid var(--ln); background: #fff; display: flex; align-items: center; gap: 10px;"><span style="width: 34px; height: 34px; border-radius: 50%; background: #EAE9E4; display: grid; place-items: center; color: var(--tx3);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span><span style="min-width: 0;"><span style="display: block; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">akarshan910@gmail.com</span><button style="border: 0; background: none; padding: 0; font: 400 12px/1.4 var(--fu); color: var(--tx3); cursor: pointer;">Owner · Sign out</button></span></div>
+</aside>
+<main style="flex: 999 1 560px; min-width: 0; padding: 28px clamp(20px, 3vw, 40px) 48px;">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+<div><div class="mono"><a href="StudioDashboard.dc.html">Studio</a> / Media</div><h1 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; letter-spacing: -.02em;">Media</h1><p style="margin: 6px 0 0; font-size: 15px; color: var(--tx2);">Every file you’ve uploaded. Images need alt text before a page that uses them can go live.</p></div>
+<div style="display: flex; align-items: center; gap: 18px;"><div style="width: 220px;"><div style="display: flex; justify-content: space-between; font-size: 13px;"><span style="font-weight: 600;">Storage</span><span style="color: var(--tx3);">{{used}} of 1 GB</span></div><div class="bar" style="margin-top: 8px;"><span style="width: {{usedPct}}%;"></span></div><div style="margin-top: 6px; font-size: 12px; color: var(--tx3);">Prototypes and videos are links, so they don’t count.</div></div><button class="cta" onClick="{{browse}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M12 19V7M7 12l5-5 5 5M5 4h14"></path></svg>Upload</button></div>
+</div>
+
+<div class="dz" style="margin-top: 20px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px; color: var(--tx3);"><path d="M12 19V7M7 12l5-5 5 5M5 4h14"></path></svg><div style="flex: 1; font-size: 14px; line-height: 1.5; color: var(--tx2);"><strong style="color: var(--tx);">Drop files here</strong>, or <button onClick="{{browse}}" style="padding: 0; border: 0; background: none; font: 600 14px/1.5 var(--fu); color: var(--tx); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">browse</button>. Images up to 10 MB · PDFs up to 10 MB. Prototypes and videos are links: add them in a project’s Visuals tab.</div></div>
+
+<div style="display: {{probD}}; margin-top: 14px; flex-direction: column; gap: 8px;">
+<sc-for list="{{problems}}" as="p" hint-placeholder-count="2"><div role="alert" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; background: var(--errbg); color: var(--err); font-size: 14px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg><span style="flex: 1; color: #7A1A10;"><strong style="font-family: var(--fm); font-size: 13px;">{{p.name}}</strong> · {{p.msg}}</span><button data-id="{{p.id}}" onClick="{{p.dismiss}}" class="ib" aria-label="Dismiss" style="width: 30px; height: 30px; color: #7A1A10;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div></sc-for>
+</div>
+
+<div style="margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+<div class="seg" role="group" aria-label="File type"><button aria-pressed="{{fAll}}" data-f="all" onClick="{{setFilter}}">All {{nAll}}</button><button aria-pressed="{{fImg}}" data-f="img" onClick="{{setFilter}}">Images {{nImg}}</button><button aria-pressed="{{fDoc}}" data-f="doc" onClick="{{setFilter}}">Documents {{nDoc}}</button></div>
+<button class="fchip" aria-pressed="{{altAria}}" onClick="{{toggleAlt}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg>Needs alt text · {{nNeed}}</button>
+<button class="fchip" aria-pressed="{{unusedAria}}" onClick="{{toggleUnused}}">Not used anywhere · {{nUnused}}</button>
+<label style="position: relative; flex: 0 1 280px; margin-left: auto;"><span class="sr">Search files</span><input type="search" class="inp" value="{{q}}" onChange="{{onQ}}" placeholder="Search by file name" style="margin: 0;"></label>
+</div>
+
+<div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<div style="flex: 999 1 560px; min-width: 0;">
+<div style="display: {{gridD}}; grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); gap: 14px;">
+<sc-for list="{{items}}" as="m" hint-placeholder-count="12"><button class="mt" data-id="{{m.id}}" onClick="{{m.pick}}" aria-pressed="{{m.sel}}" aria-label="{{m.label}}"><span class="th" aria-hidden="true" style="background: {{m.tbg}};">
+<span style="display: {{m.imgD}}; width: 46%; height: 130%; margin-top: 30%; border-radius: 12px 12px 0 0; background: #F7F3EE; overflow: hidden; flex-direction: column; align-self: start;"><span style="height: 16%; background: {{m.hd}};"></span><span style="margin: 10% 9% 0; height: 6%; border-radius: 3px; background: #E9E3DC;"></span><span style="margin: 8% 9% 0; height: 22%; border-radius: 5px; background: {{m.blk}};"></span></span>
+<span style="display: {{m.protoD}}; flex-direction: column; gap: 6px; width: 70%;"><span style="font-family: var(--fm); font-size: 11px; font-weight: 600; color: #FFB4BC;">&lt;html&gt;</span><span style="height: 6px; width: 90%; border-radius: 3px; background: rgba(255,255,255,.25);"></span><span style="height: 6px; width: 70%; border-radius: 3px; background: rgba(255,255,255,.18);"></span><span style="height: 6px; width: 80%; border-radius: 3px; background: rgba(255,255,255,.25);"></span><span style="height: 6px; width: 50%; border-radius: 3px; background: rgba(255,255,255,.18);"></span></span>
+<span style="display: {{m.docD}}; width: 44%; height: 76%; border-radius: 4px; background: #fff; box-shadow: 0 6px 16px rgba(20,20,22,.15); flex-direction: column; gap: 6px; padding: 12px 10px;"><span style="height: 8px; width: 70%; background: #141416;"></span><span style="height: 4px; width: 90%; background: #D2D0CA;"></span><span style="height: 4px; width: 80%; background: #D2D0CA;"></span><span style="height: 4px; width: 85%; background: #D2D0CA;"></span><span style="height: 4px; width: 60%; background: #D2D0CA;"></span></span>
+<span style="display: {{m.upD}}; position: absolute; inset: 0; background: rgba(20,20,22,.6); color: #fff; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 10px; font-size: 12px; font-weight: 600;">Uploading {{m.pct}}%<span class="bar" style="background: rgba(255,255,255,.25);"><span style="width: {{m.pct}}%; background: #fff;"></span></span></span>
+<span style="position: absolute; left: 8px; top: 8px; padding: 3px 6px; border-radius: 4px; background: rgba(20,20,22,.7); color: #fff; font-family: var(--fm); font-size: 10px; font-weight: 600; letter-spacing: .06em;">{{m.ext}}</span>
+</span>
+<span style="font-family: var(--fm); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{m.name}}</span>
+<span style="display: flex; flex-wrap: wrap; gap: 6px;"><span class="chip" style="height: 22px; background: {{m.useBg}}; color: {{m.useFg}};">{{m.useText}}</span><span class="chip" style="display: {{m.needD}}; height: 22px; background: var(--warnbg); color: var(--warn);">Needs alt text</span></span>
+</button></sc-for>
+</div>
+<div style="display: {{emptyD}}; flex-direction: column; align-items: center; gap: 10px; padding: 56px 20px; border: 1px solid var(--ln); border-radius: 14px; background: #fff; text-align: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px; color: var(--tx3);"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg><div style="font-size: 17px; font-weight: 600;">{{emptyTitle}}</div><div style="font-size: 14px; color: var(--tx2);">{{emptyText}}</div><button class="btn" onClick="{{clearFilters}}">Show all files</button></div>
+</div>
+
+<aside style="flex: 1 1 300px; max-width: 360px;" aria-label="File details">
+<div class="card" style="padding: 18px;">
+<div style="display: {{noSelD}}; flex-direction: column; align-items: center; gap: 10px; padding: 36px 10px; text-align: center; font-size: 14px; color: var(--tx3);">Select a file to see where it’s used and edit its alt text.</div>
+<div style="display: {{selD}}; flex-direction: column;">
+<div style="height: 190px; border-radius: 10px; background: {{sTbg}}; display: grid; place-items: center; overflow: hidden;"><span style="display: {{sImgD}}; width: 34%; height: 120%; margin-top: 30%; border-radius: 12px 12px 0 0; background: #F7F3EE; overflow: hidden; flex-direction: column; align-self: start;"><span style="height: 16%; background: {{sHd}};"></span><span style="margin: 10% 9% 0; height: 6%; border-radius: 3px; background: #E9E3DC;"></span><span style="margin: 8% 9% 0; height: 22%; border-radius: 5px; background: {{sBlk}};"></span></span><span style="display: {{sProtoD}}; font-family: var(--fm); font-size: 13px; font-weight: 600; color: #FFB4BC;">&lt;html&gt; prototype</span><span style="display: {{sDocD}}; font-family: var(--fm); font-size: 13px; font-weight: 600; color: var(--tx2);">PDF</span></div>
+<label class="lbl" for="f-name" style="margin-top: 16px;">File name</label>
+<input id="f-name" class="inp" value="{{sName}}" onChange="{{onName}}" style="font-family: var(--fm); font-size: 13px;">
+<div style="margin-top: 8px; font-size: 13px; color: var(--tx3);">{{sMeta}}</div>
+<div style="display: {{sAltD}}; flex-direction: column; margin-top: 16px;"><label class="lbl" for="f-alt">Alt text <span class="req">Required to publish</span></label><textarea id="f-alt" class="inp" value="{{sAlt}}" onChange="{{onAlt}}" placeholder="What the image shows and why it matters" aria-invalid="{{sAltInvalid}}" style="min-height: 84px; border-color: {{sAltBorder}};"></textarea><div class="hrow"><span class="hint" style="display: {{sAltHintD}};">Used wherever this image appears. Projects can override it.</span><span class="err" style="display: {{sAltErrD}};">Needs alt text: {{sBlocks}}</span></div></div>
+
+<div style="margin-top: 16px; font-size: 14px; font-weight: 600;">Used in</div>
+<div style="margin-top: 8px; display: grid; gap: 6px;"><sc-for list="{{sUsed}}" as="u" hint-placeholder-count="1"><a href="{{u.href}}" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; border: 1px solid var(--ln); border-radius: 8px; font-size: 14px;"><span>{{u.t}}</span><span style="font-size: 12px; color: var(--tx3);">{{u.where}} →</span></a></sc-for><span style="display: {{sUnusedD}}; font-size: 14px; color: var(--tx3);">Not used anywhere yet.</span></div>
+<div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px;"><button class="btn" style="height: 38px;">Replace file</button><button class="btn" style="height: 38px;">Download</button><button data-id="{{sId}}" onClick="{{askDelete}}" style="height: 38px; padding: 0 14px; border: 1px solid #E8A39B; border-radius: 8px; background: #fff; font: 600 14px/1 var(--fu); color: var(--err); cursor: pointer;">Delete…</button></div>
+<div style="display: {{delAskD}}; margin-top: 12px; flex-direction: column; gap: 10px; padding: 12px 14px; border-radius: 10px; background: {{delBg}}; font-size: 14px; line-height: 1.5;"><span style="color: {{delFg}};">{{delText}}</span><span style="display: flex; gap: 8px;"><button class="btn" onClick="{{cancelDelete}}" style="height: 36px;">{{delCancel}}</button><button onClick="{{doDelete}}" style="display: {{delGoD}}; height: 36px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--err); color: #fff; font: 600 14px/1 var(--fu); cursor: pointer;">Delete file</button></span></div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<div style="display: {{toastD}}; position: absolute; left: 50%; bottom: 28px; z-index: 90; transform: translateX(-50%); align-items: center; gap: 14px; padding: 12px 12px 12px 18px; border-radius: 12px; background: #141416; color: #F2F1EE; font-size: 14px; box-shadow: 0 16px 40px rgba(20,20,22,.28); animation: stUp .22s ease-out;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #6FD3A0;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span>{{toastMsg}}</span><button onClick="{{closeToast}}" aria-label="Dismiss" style="width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: #B9B7B1; cursor: pointer;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="sr" aria-live="polite">{{announce}}</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","uploading","needs alt text","delete blocked","empty filter"],"default":"default"},"$preview":{"width":1440,"height":1320}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const P = { t: 'Puja engagement platform', href: 'EditorVisuals.dc.html' };
+    this.M0 = [
+      { id: 'a1', name: 'sri-mandir-home.png', kind: 'img', kb: 412, dims: '1170 × 2532', hd: '#C7372F', blk: '#F5A524', alt: 'Home screen with a personalised “For You” puja, trending pujas in Bengaluru and upcoming occasions.', used: [Object.assign({ where: 'Gallery' }, P)], up: '2 days ago' },
+      { id: 'a2', name: 'sri-mandir-for-you.png', kind: 'img', kb: 388, dims: '1170 × 2532', hd: '#C7372F', blk: '#E9A23B', alt: '“Puja for You” screen with suggestions based on the last Ganesh Puja booked.', used: [Object.assign({ where: 'Gallery' }, P)], up: '2 days ago' },
+      { id: 'a3', name: 'sri-mandir-booking.png', kind: 'img', kb: 356, dims: '1170 × 2532', hd: '#B8322B', blk: '#F2C14E', alt: 'Lakshmi Puja booking screen.', used: [Object.assign({ where: 'Gallery' }, P)], up: '2 days ago' },
+      { id: 'a4', name: 'sri-mandir-calendar.png', kind: 'img', kb: 341, dims: '1170 × 2532', hd: '#C7372F', blk: '#EADFD2', alt: 'Spiritual calendar with upcoming events.', used: [Object.assign({ where: 'Gallery' }, P)], up: '2 days ago' },
+      { id: 'a5', name: 'sri-mandir-trust.png', kind: 'img', kb: 402, dims: '1170 × 2532', hd: '#7A2E2A', blk: '#E9E3DC', alt: 'Trust and transparency screen explaining how a puja is performed, with post-puja video proof.', used: [Object.assign({ where: 'Gallery' }, P)], up: '2 days ago' },
+      { id: 'a6', name: 'sri-mandir-whatsapp.png', kind: 'img', kb: 297, dims: '1170 × 2532', hd: '#1F7A55', blk: '#DCF8C6', alt: 'Booking a puja inside a WhatsApp chat.', used: [Object.assign({ where: 'Gallery' }, P), { t: 'Puja engagement platform', where: 'Story · The bet', href: 'EditorCaseStudy.dc.html' }], up: '2 days ago' },
+      { id: 'a10', name: 'screen-08.png', kind: 'img', kb: 274, dims: '1170 × 2532', hd: '#C7372F', blk: '#F5A524', alt: '', used: [Object.assign({ where: 'Gallery · draft' }, P)], up: 'Today' },
+      { id: 'a11', name: 'flow-diagram.png', kind: 'img', kb: 1840, dims: '2400 × 1350', hd: '#4A4A51', blk: '#D2D0CA', alt: '', used: [], up: 'Today' },
+      { id: 'a12', name: 'Akarshan_Kumar_Resume_2page_ATS.pdf', kind: 'doc', kb: 88, dims: '2 pages', alt: '', used: [{ t: 'Website', where: 'Hero and Contact buttons', href: 'StudioSite.dc.html' }], up: '3 days ago' }
+    ];
+    this.k = 0;
+    ['setFilter', 'toggleAlt', 'toggleUnused', 'onQ', 'clearFilters', 'pick', 'onName', 'onAlt', 'askDelete', 'cancelDelete', 'doDelete', 'browse', 'dismiss', 'closeToast', 'onRootKey'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.state = Object.assign(this.fresh(), this.preset(props.state));
+  }
+  fresh() { return { items: this.M0.map((m) => Object.assign({ pct: 100, st: 'done' }, m)), filter: 'all', needAlt: false, unused: false, q: '', sel: 'a10', delAsk: false, problems: [], toast: null, announce: '' }; }
+  preset(n) {
+    const f = this.fresh();
+    switch (n) {
+      case 'uploading': return { items: f.items.concat([{ id: 'u1', name: 'sri-mandir-video-feed.png', kind: 'img', kb: 318, dims: '1170 × 2532', hd: '#C7372F', blk: '#3A2A2C', alt: '', used: [], up: 'Just now', st: 'up', pct: 46 }]), problems: [{ id: 'p1', name: 'walkthrough.mp4', msg: 'Video files aren’t uploaded. Paste a YouTube, Vimeo, Loom or Google Drive link in a project’s Visuals tab.' }, { id: 'p2', name: 'pitch-deck.pdf', msg: 'Too large: 18.4 MB. PDFs can be up to 10 MB.' }], sel: 'u1' };
+      case 'needs alt text': return { needAlt: true, sel: 'a10' };
+      case 'delete blocked': return { sel: 'a6', delAsk: true };
+      case 'empty filter': return { filter: 'doc', q: 'diagram', sel: null };
+      default: return {};
+    }
+  }
+  componentDidMount() { if (this.state.items.some((m) => m.st === 'up')) this.tick(); }
+  componentDidUpdate(prev) {
+    if (prev.state === this.props.state) return;
+    clearInterval(this.ut);
+    this.setState(Object.assign(this.fresh(), this.preset(this.props.state)));
+    setTimeout(() => { if (this.state.items.some((m) => m.st === 'up')) this.tick(); }, 0);
+  }
+  componentWillUnmount() { clearInterval(this.ut); clearTimeout(this.tt); }
+  toastNow(msg) { clearTimeout(this.tt); this.setState({ toast: msg, announce: msg }); this.tt = setTimeout(() => this.setState({ toast: null }), 6000); }
+  closeToast() { clearTimeout(this.tt); this.setState({ toast: null }); }
+  onRootKey(e) { if (e.key === 'Escape' && this.state.delAsk) this.setState({ delAsk: false }); }
+  setFilter(e) { this.setState({ filter: e.currentTarget.getAttribute('data-f') }); }
+  toggleAlt() { this.setState({ needAlt: !this.state.needAlt }); }
+  toggleUnused() { this.setState({ unused: !this.state.unused }); }
+  onQ(e) { this.setState({ q: e.target.value }); }
+  clearFilters() { this.setState({ filter: 'all', needAlt: false, unused: false, q: '' }); }
+  pick(e) { this.setState({ sel: e.currentTarget.getAttribute('data-id'), delAsk: false }); }
+  upd(id, p) { return this.state.items.map((m) => (m.id === id ? Object.assign({}, m, p) : m)); }
+  onName(e) { this.setState({ items: this.upd(this.state.sel, { name: e.target.value }) }); }
+  onAlt(e) { this.setState({ items: this.upd(this.state.sel, { alt: e.target.value }) }); }
+  askDelete() { this.setState({ delAsk: true }); }
+  cancelDelete() { this.setState({ delAsk: false }); }
+  doDelete() {
+    const s = this.state, m = s.items.find((x) => x.id === s.sel);
+    if (!m || m.used.length) return;
+    const items = s.items.filter((x) => x.id !== s.sel);
+    this.setState({ items, sel: null, delAsk: false });
+    this.toastNow(m.name + ' deleted.');
+  }
+  dismiss(e) { const id = e.currentTarget.getAttribute('data-id'); this.setState({ problems: this.state.problems.filter((p) => p.id !== id) }); }
+  browse() {
+    this.k += 1;
+    const id = 'n' + this.k;
+    this.setState({
+      items: this.state.items.concat([{ id, name: 'sri-mandir-video-feed' + (this.k > 1 ? '-' + this.k : '') + '.png', kind: 'img', kb: 318, dims: '1170 × 2532', hd: '#C7372F', blk: '#3A2A2C', alt: '', used: [], up: 'Just now', st: 'up', pct: 0 }]),
+      problems: [{ id: 'p1' + this.k, name: 'walkthrough.mp4', msg: 'Video files aren’t uploaded. Paste a YouTube, Vimeo, Loom or Google Drive link in a project’s Visuals tab.' }, { id: 'p2' + this.k, name: 'pitch-deck.pdf', msg: 'Too large: 18.4 MB. PDFs can be up to 10 MB.' }],
+      sel: id, filter: 'all', needAlt: false, unused: false, q: '', announce: 'Uploading 1 file. 2 files couldn’t be uploaded.'
+    });
+    this.tick();
+  }
+  tick() {
+    clearInterval(this.ut);
+    this.ut = setInterval(() => {
+      const ups = this.state.items.filter((m) => m.st === 'up');
+      if (!ups.length) { clearInterval(this.ut); return; }
+      const items = this.state.items.map((m) => (m.st !== 'up' ? m : (m.pct >= 100 ? Object.assign({}, m, { st: 'done', pct: 100 }) : Object.assign({}, m, { pct: Math.min(100, m.pct + 9) }))));
+      const done = items.filter((m, i) => m.st === 'done' && this.state.items[i] && this.state.items[i].st === 'up');
+      this.setState(done.length ? { items, announce: done[0].name + ' uploaded. Add alt text.' } : { items });
+    }, 140);
+  }
+  kb(n) { return n >= 1000 ? (n / 1000).toFixed(1) + ' MB' : n + ' KB'; }
+  renderVals() {
+    const s = this.state, q = s.q.trim().toLowerCase();
+    const need = (m) => m.kind === 'img' && m.st === 'done' && !m.alt.trim();
+    const vis = s.items.filter((m) => (s.filter === 'all' || m.kind === s.filter) && (!s.needAlt || need(m)) && (!s.unused || !m.used.length) && (!q || m.name.toLowerCase().indexOf(q) > -1));
+    const ext = { img: 'PNG', proto: 'HTML', doc: 'PDF' };
+    const items = vis.map((m) => ({
+      id: m.id, name: m.name, pick: this.pick, sel: s.sel === m.id ? 'true' : 'false', ext: m.name.split('.').pop().toUpperCase(), pct: m.pct,
+      tbg: m.kind === 'img' ? '#2A1316' : (m.kind === 'proto' ? '#1C0C0F' : '#EAE9E4'), hd: m.hd || '#C7372F', blk: m.blk || '#F5A524',
+      imgD: m.kind === 'img' ? 'flex' : 'none', protoD: m.kind === 'proto' ? 'flex' : 'none', docD: m.kind === 'doc' ? 'flex' : 'none', upD: m.st === 'up' ? 'flex' : 'none',
+      useText: m.st === 'up' ? 'Uploading' : (m.used.length ? 'Used in ' + m.used.length : 'Not used'), useBg: m.used.length ? '#EFEEEA' : '#F7F6F3', useFg: m.used.length ? '#4A4A51' : '#6A6A72',
+      needD: need(m) ? 'inline-flex' : 'none', label: m.name + (need(m) ? ', needs alt text' : '') + (m.used.length ? ', used in ' + m.used.length : ', not used')
+    }));
+    const total = s.items.reduce((a, m) => a + m.kb, 0);
+    const m = s.items.find((x) => x.id === s.sel);
+    const used = m ? m.used.length : 0;
+    const altBad = !!m && need(m);
+    return {
+      used: this.kb(total), usedPct: Math.max(1, Math.round(total / 10000)), browse: this.browse,
+      problems: s.problems.map((p) => Object.assign({ dismiss: this.dismiss }, p)), probD: s.problems.length ? 'flex' : 'none',
+      fAll: s.filter === 'all' ? 'true' : 'false', fImg: s.filter === 'img' ? 'true' : 'false', fProto: s.filter === 'proto' ? 'true' : 'false', fDoc: s.filter === 'doc' ? 'true' : 'false', setFilter: this.setFilter,
+      nAll: s.items.length, nImg: s.items.filter((x) => x.kind === 'img').length, nProto: s.items.filter((x) => x.kind === 'proto').length, nDoc: s.items.filter((x) => x.kind === 'doc').length,
+      altAria: s.needAlt ? 'true' : 'false', toggleAlt: this.toggleAlt, nNeed: s.items.filter(need).length,
+      unusedAria: s.unused ? 'true' : 'false', toggleUnused: this.toggleUnused, nUnused: s.items.filter((x) => !x.used.length && x.st === 'done').length,
+      q: s.q, onQ: this.onQ, clearFilters: this.clearFilters,
+      items, gridD: items.length ? 'grid' : 'none', emptyD: items.length ? 'none' : 'flex',
+      emptyTitle: q ? 'No files match “' + s.q + '”' : 'Nothing here with these filters', emptyText: 'Try another type, or clear the filters.',
+      noSelD: m ? 'none' : 'flex', selD: m ? 'flex' : 'none', sId: m ? m.id : '',
+      sTbg: m ? (m.kind === 'img' ? '#2A1316' : (m.kind === 'proto' ? '#1C0C0F' : '#EAE9E4')) : '#EAE9E4', sHd: m && m.hd ? m.hd : '#C7372F', sBlk: m && m.blk ? m.blk : '#F5A524',
+      sImgD: m && m.kind === 'img' ? 'flex' : 'none', sProtoD: m && m.kind === 'proto' ? 'inline' : 'none', sDocD: m && m.kind === 'doc' ? 'inline' : 'none',
+      sName: m ? m.name : '', onName: this.onName, sMeta: m ? [ext[m.kind], m.dims, this.kb(m.kb), 'uploaded ' + m.up.toLowerCase()].join(' · ') : '',
+      sAltD: m && m.kind === 'img' ? 'flex' : 'none', sAlt: m ? m.alt : '', onAlt: this.onAlt, sAltInvalid: altBad ? 'true' : 'false', sAltBorder: altBad ? '#B42318' : '#D2D0CA',
+      sAltErrD: altBad ? 'flex' : 'none', sAltHintD: altBad ? 'none' : 'inline', sBlocks: used ? 'it blocks publishing ' + m.used.map((u) => u.t).join(', ') + '.' : 'add it before you use the image.',
+      sProtoInfoD: m && m.kind === 'proto' ? 'flex' : 'none',
+      sUsed: m ? m.used : [], sUnusedD: m && !used ? 'inline' : 'none',
+      askDelete: this.askDelete, cancelDelete: this.cancelDelete, doDelete: this.doDelete, delAskD: s.delAsk && m ? 'flex' : 'none',
+      delBg: used ? '#FFF4DB' : '#FDECEA', delFg: used ? '#5C3D00' : '#7A1A10',
+      delText: used ? 'This file is used in ' + used + (used === 1 ? ' place' : ' places') + '. Remove it from ' + (used === 1 ? 'there' : 'those places') + ' first, or use Replace file to swap it everywhere at once.' : 'Delete ' + (m ? m.name : '') + '? It isn’t used anywhere. This can’t be undone.',
+      delCancel: used ? 'OK' : 'Cancel', delGoD: used ? 'none' : 'inline-flex',
+      toastD: s.toast ? 'flex' : 'none', toastMsg: s.toast || '', closeToast: this.closeToast, onRootKey: this.onRootKey, announce: s.announce
+    };
+  }
+}
+</script>
+</body>
+</html>

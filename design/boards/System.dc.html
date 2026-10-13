@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Volumes design system</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#0B0B0E}
+.va{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--ok:#3CCB8B;--okt:#9BE7C4;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.va *{box-sizing:border-box}
+.va a{color:var(--tx);text-decoration:none}
+.va .ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.va .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.va .sec{max-width:1312px;margin:0 auto;padding:72px clamp(20px,4vw,56px) 0}
+.va .sech{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;padding-bottom:20px;margin-bottom:28px;border-bottom:1px solid var(--ln)}
+.va .sw{border-radius:12px;height:76px;border:1px solid var(--ln)}
+.va .cell{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:20px}
+@keyframes vaShim{0%{background-position:-240px 0}100%{background-position:240px 0}}
+.va .shim{background:linear-gradient(90deg,#1D1D24 0,#26262E 50%,#1D1D24 100%);background-size:480px 100%;animation:vaShim 1.4s linear infinite}
+@media (prefers-reduced-motion:reduce){.va .shim{animation:none}}
+@property --vash{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes vaShine{to{--vash:360deg}}
+.va .pill{position:relative;display:inline-flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.va .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,rgba(255,255,255,1) 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:vaShine 3.5s linear infinite;filter:blur(.4px)}
+.va .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:vaShine 3.5s linear infinite;filter:blur(3px)}
+.va .pl{display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border-radius:99px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.va .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.va .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.va .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.va .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 28px;border-radius:2px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.va .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border:1px solid var(--ln2);border-radius:2px;color:var(--tx);font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.va .pill::before,.va .pill::after{animation:none}}
+</style>
+</helmet>
+<div class="va" style="background: var(--bg); color: var(--tx); font-family: var(--fu); min-height: 3700px; padding-bottom: 96px;">
+
+<header class="sec" style="padding-top: 64px;">
+<div class="mono" style="color: var(--act);">Design system 0.1 · Direction A</div>
+<h1 style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: clamp(56px, 7vw, 96px); line-height: .9; text-transform: uppercase;">Volumes<span style="color: var(--ac);">.</span></h1>
+<p style="margin: 18px 0 0; max-width: 720px; font-size: 19px; line-height: 1.6; color: var(--tx2);">One system for the public portfolio and Studio. Dark is the default theme; every token has a light value. Three device classes: laptop, iPad and mobile.</p>
+</header>
+
+<section class="sec">
+<div class="sech"><h2 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.02em;">Colour</h2><span class="mono">Contrast measured against the theme background</span></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+<div class="cell">
+<div class="mono" style="margin-bottom: 16px;">Dark (default)</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+<div><div class="sw" style="background: #0B0B0E;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">bg</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#0B0B0E</div></div>
+<div><div class="sw" style="background: #16161C;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">surface</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#16161C</div></div>
+<div><div class="sw" style="background: #1D1D24;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">surface-2</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#1D1D24</div></div>
+<div><div class="sw" style="background: #F2F1EE;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">text</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#F2F1EE · 17.4:1</div></div>
+<div><div class="sw" style="background: #B9B7B1;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">text-2</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#B9B7B1 · 9.8:1</div></div>
+<div><div class="sw" style="background: #8F8D87;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">text-3</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#8F8D87 · 5.9:1</div></div>
+<div><div class="sw" style="background: #D61F33;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">accent (fill)</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#D61F33 · white 5.1:1</div></div>
+<div><div class="sw" style="background: #FF5A67;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">accent-text</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#FF5A67 · 6.5:1</div></div>
+<div><div class="sw" style="background: #3CCB8B;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">positive</div><div style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#3CCB8B · 9.5:1</div></div>
+</div>
+</div>
+<div class="cell" style="background: #F5F5F3; color: #141416; border-color: rgba(20,20,22,.1);">
+<div style="margin-bottom: 16px; font-family: var(--fm); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #6A6A72;">Light</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+<div><div class="sw" style="background: #F5F5F3; border-color: rgba(20,20,22,.12);"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">bg</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#F5F5F3</div></div>
+<div><div class="sw" style="background: #FFFFFF; border-color: rgba(20,20,22,.12);"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">surface</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#FFFFFF</div></div>
+<div><div class="sw" style="background: #EEEEEA; border-color: rgba(20,20,22,.12);"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">surface-2</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#EEEEEA</div></div>
+<div><div class="sw" style="background: #141416;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">text</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#141416 · 16.9:1</div></div>
+<div><div class="sw" style="background: #4A4A51;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">text-2</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#4A4A51 · 8.1:1</div></div>
+<div><div class="sw" style="background: #6A6A72;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">text-3</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#6A6A72 · 4.9:1</div></div>
+<div><div class="sw" style="background: #D61F33;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">accent (fill)</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#D61F33</div></div>
+<div><div class="sw" style="background: #C2182C;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">accent-text</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#C2182C · 5.6:1</div></div>
+<div><div class="sw" style="background: #0F7A4A;"></div><div style="margin-top: 8px; font-size: 14px; font-weight: 500;">positive-text</div><div style="font-family: var(--fm); font-size: 12px; color: #6A6A72;">#0F7A4A · 5.4:1</div></div>
+</div>
+</div>
+</div>
+<div class="cell" style="margin-top: 24px;">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-bottom: 16px;"><span class="mono">Project accents — nine, one per project, chosen in Studio</span><span style="font-size: 14px; color: var(--tx3);">Covers, volume chips and chapter numbers only. Never body text.</span></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;">
+<div><div style="height: 56px; border-radius: 10px; background: #2DD4BF;"></div><div style="margin-top: 8px; font-size: 13px;">Teal <span style="font-family: var(--fm); color: var(--tx3);">#2DD4BF</span></div></div>
+<div><div style="height: 56px; border-radius: 10px; background: #F5A524;"></div><div style="margin-top: 8px; font-size: 13px;">Amber <span style="font-family: var(--fm); color: var(--tx3);">#F5A524</span></div></div>
+<div><div style="height: 56px; border-radius: 10px; background: #38BDF8;"></div><div style="margin-top: 8px; font-size: 13px;">Sky <span style="font-family: var(--fm); color: var(--tx3);">#38BDF8</span></div></div>
+<div><div style="height: 56px; border-radius: 10px; background: #A78BFA;"></div><div style="margin-top: 8px; font-size: 13px;">Violet <span style="font-family: var(--fm); color: var(--tx3);">#A78BFA</span></div></div>
+<div><div style="height: 56px; border-radius: 10px; background: #FF5A67;"></div><div style="margin-top: 8px; font-size: 13px;">Coral <span style="font-family: var(--fm); color: var(--tx3);">#FF5A67</span></div></div>
+<div><div style="height: 56px; border-radius: 10px; background: #94A3B8;"></div><div style="margin-top: 8px; font-size: 13px;">Slate <span style="font-family: var(--fm); color: var(--tx3);">#94A3B8</span></div></div>
+<div><div style="height: 56px; border-radius: 10px; background: #4ADE80;"></div><div style="margin-top: 8px; font-size: 13px;">Green <span style="font-family: var(--fm); color: var(--tx3);">#4ADE80</span></div></div>
+<div><div style="height: 56px; border-radius: 10px; background: #FACC15;"></div><div style="margin-top: 8px; font-size: 13px;">Yellow <span style="font-family: var(--fm); color: var(--tx3);">#FACC15</span></div></div>
+<div><div style="height: 56px; border-radius: 10px; background: #A3E635;"></div><div style="margin-top: 8px; font-size: 13px;">Lime <span style="font-family: var(--fm); color: var(--tx3);">#A3E635</span></div></div>
+</div>
+</div>
+<div class="cell" style="margin-top: 24px;">
+<div class="mono" style="margin-bottom: 16px;">Result labels — every number on the site carries one</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px 24px;">
+<div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex: none; padding: 3px 8px; border-radius: 4px; background: rgba(60,203,139,.12); color: var(--okt); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">ACHIEVED</span><span style="font-size: 14px; line-height: 1.5; color: var(--tx2);">Measured after launch.</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex: none; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--ln2); color: var(--tx2); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">TARGET</span><span style="font-size: 14px; line-height: 1.5; color: var(--tx2);">Goal set in the plan; not yet measured.</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex: none; padding: 3px 8px; border-radius: 4px; border: 1px dashed var(--ln2); color: var(--tx2); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">PROJECTED</span><span style="font-size: 14px; line-height: 1.5; color: var(--tx2);">Modelled estimate, such as a revenue bridge.</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex: none; padding: 3px 8px; border-radius: 4px; background: var(--sf2); color: var(--tx2); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">BASELINE</span><span style="font-size: 14px; line-height: 1.5; color: var(--tx2);">Starting point before the work.</span></div>
+<div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex: none; padding: 3px 8px; border-radius: 4px; background: rgba(255,90,103,.12); color: var(--act); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">OUTPUT</span><span style="font-size: 14px; line-height: 1.5; color: var(--tx2);">What was produced: a PRD, a prototype, widgets.</span></div>
+</div>
+<div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--ln); display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 14px; color: var(--tx2);"><span class="mono" style="color: var(--tx2);">Attribution</span><span>My ownership</span><span style="color: var(--tx3);">·</span><span>Team result</span><span style="color: var(--tx3);">·</span><span>Business outcome</span></div>
+</div>
+</section>
+
+<section class="sec">
+<div class="sech"><h2 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.02em;">Typography</h2><span class="mono">Archivo (condensed display) · Geist (interface and reading) · Geist Mono (labels, data)</span></div>
+<div style="border-top: 1px solid var(--ln);">
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; padding: 12px 0; border-bottom: 1px solid var(--ln);" class="mono"><span>Token</span><span>Sample</span><span>Laptop / iPad / mobile</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">display-xl</span><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 96px; line-height: .86; text-transform: uppercase;">Akarshan Kumar<span style="color: var(--ac);">.</span></span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">136 / 92 / 72 · lh .86</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">h1</span><span style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 64px; line-height: .98;">Puja engagement platform</span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">88 / 64 / 44 · lh .98</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">h2</span><span style="font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 52px; line-height: .95; text-transform: uppercase;">Shipped, measured, explained.</span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">64 / 48 / 36 · caps</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">h3</span><span style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 36px; line-height: 1.05;">3D body scan for GLP-1 users</span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">40 / 32 / 28</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">lead</span><span style="font-size: 30px; line-height: 1.28; letter-spacing: -.015em; color: var(--tx2);">I build <span style="color: var(--tx);">AI-native health products</span> — and the data platforms that prove they work.</span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">32 / 26 / 22 · lh 1.28</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">reading</span><span style="max-width: 680px; font-size: 19px; line-height: 1.65; color: var(--tx2);">Case-study body copy. A 680 px measure keeps lines near 70 characters, so long strategy documents stay readable on every device.</span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">19 / 18 / 17 · lh 1.65</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">body · small</span><span style="font-size: 16px; line-height: 1.6;">Interface text, 16 px. <span style="font-size: 14px; color: var(--tx2);">Secondary text, 14 px.</span></span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">16 · 14 on all devices</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">meta</span><span class="mono" style="color: var(--tx2);">Sugar.fit · AI-native health · 0→1</span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">12 minimum, never smaller</span></div>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 210px; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--ln);"><span class="mono">numeral</span><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">₹3.6 Cr  ·  230M+  ·  42 → 72</span><span style="font-family: var(--fm); font-size: 13px; color: var(--tx2);">52 / 44 / 40</span></div>
+</div>
+</section>
+
+<section class="sec">
+<div class="sech"><h2 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.02em;">Layout and breakpoints</h2><span class="mono">Fluid between breakpoints; designed at 1440, 834 and 390</span></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+<div class="cell">
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size: 18px; font-weight: 600;">Laptop</span><span class="mono">≥ 1280</span></div>
+<div style="margin-top: 16px; height: 92px; border-radius: 8px; border: 1px solid var(--ln2); padding: 10px 14px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px;"><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span></div>
+<p style="margin: 14px 0 0; font-size: 14px; line-height: 1.55; color: var(--tx2);">12 columns · 24 gutter · 56 margin · content max 1200. Hover reveals extra detail; nothing is hover-only.</p>
+</div>
+<div class="cell">
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size: 18px; font-weight: 600;">iPad</span><span class="mono">768 – 1279</span></div>
+<div style="margin-top: 16px; height: 92px; width: 70%; border-radius: 8px; border: 1px solid var(--ln2); padding: 10px 12px; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px;"><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span></div>
+<p style="margin: 14px 0 0; font-size: 14px; line-height: 1.55; color: var(--tx2);">Portrait: 8 columns · 20 gutter · 32 margin. Landscape (1024+) uses the laptop grid with 40 margins. Touch targets 44 px.</p>
+</div>
+<div class="cell">
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size: 18px; font-weight: 600;">Mobile</span><span class="mono">360 – 767</span></div>
+<div style="margin-top: 16px; height: 92px; width: 36%; border-radius: 8px; border: 1px solid var(--ln2); padding: 10px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px;"><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span><span style="background: rgba(255,90,103,.16); border-radius: 2px;"></span></div>
+<p style="margin: 14px 0 0; font-size: 14px; line-height: 1.55; color: var(--tx2);">4 columns · 16 gutter · 20 margin. Single column of content, full-width primary actions, bottom sheets instead of popovers.</p>
+</div>
+</div>
+<div class="cell" style="margin-top: 24px; padding: 0; overflow: hidden;">
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); background: var(--sf2);" class="mono"><span style="padding: 14px 20px;">Component</span><span style="padding: 14px 20px;">Laptop</span><span style="padding: 14px 20px;">iPad</span><span style="padding: 14px 20px;">Mobile</span></div>
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); border-top: 1px solid var(--ln); font-size: 14px; line-height: 1.5;"><span style="padding: 14px 20px; font-weight: 600;">Navigation</span><span style="padding: 14px 20px; color: var(--tx2);">Floating glass pill: five links + Let’s Talk</span><span style="padding: 14px 20px; color: var(--tx2);">Same pill, 28 px from the top</span><span style="padding: 14px 20px; color: var(--tx2);">Pill holds Menu + Let’s Talk; Menu opens a sheet</span></div>
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); border-top: 1px solid var(--ln); font-size: 14px; line-height: 1.5;"><span style="padding: 14px 20px; font-weight: 600;">Hero</span><span style="padding: 14px 20px; color: var(--tx2);">Ink panel tilts with the pointer; three volume previews float right</span><span style="padding: 14px 20px; color: var(--tx2);">Ink panel with a slow drift; one volume preview</span><span style="padding: 14px 20px; color: var(--tx2);">Ink panel with a slow drift; name on two lines; full-width buttons</span></div>
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); border-top: 1px solid var(--ln); font-size: 14px; line-height: 1.5;"><span style="padding: 14px 20px; font-weight: 600;">Proof strip</span><span style="padding: 14px 20px; color: var(--tx2);">4 across</span><span style="padding: 14px 20px; color: var(--tx2);">2 × 2</span><span style="padding: 14px 20px; color: var(--tx2);">2 × 2, smaller numerals</span></div>
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); border-top: 1px solid var(--ln); font-size: 14px; line-height: 1.5;"><span style="padding: 14px 20px; font-weight: 600;">Project cards</span><span style="padding: 14px 20px; color: var(--tx2);">Lead card, then 3 up; 1 to 3 rows, then “See all”</span><span style="padding: 14px 20px; color: var(--tx2);">Lead card stacked, then 2 up; same projects</span><span style="padding: 14px 20px; color: var(--tx2);">Lead card, then compact rows; same projects, then “See all”</span></div>
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); border-top: 1px solid var(--ln); font-size: 14px; line-height: 1.5;"><span style="padding: 14px 20px; font-weight: 600;">Chapter navigation</span><span style="padding: 14px 20px; color: var(--tx2);">Sticky left rail with progress</span><span style="padding: 14px 20px; color: var(--tx2);">Sticky top bar with chapter picker</span><span style="padding: 14px 20px; color: var(--tx2);">Sticky top bar; picker opens a sheet</span></div>
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); border-top: 1px solid var(--ln); font-size: 14px; line-height: 1.5;"><span style="padding: 14px 20px; font-weight: 600;">Tables (RICE)</span><span style="padding: 14px 20px; color: var(--tx2);">Full table</span><span style="padding: 14px 20px; color: var(--tx2);">Scrolls sideways, first column pinned</span><span style="padding: 14px 20px; color: var(--tx2);">One card per row</span></div>
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); border-top: 1px solid var(--ln); font-size: 14px; line-height: 1.5;"><span style="padding: 14px 20px; font-weight: 600;">Prototype embed</span><span style="padding: 14px 20px; color: var(--tx2);">Inline frame, expand to full screen</span><span style="padding: 14px 20px; color: var(--tx2);">Inline frame, expand to full screen</span><span style="padding: 14px 20px; color: var(--tx2);">Opens as a full-screen sheet</span></div>
+<div style="display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.4fr)); border-top: 1px solid var(--ln); font-size: 14px; line-height: 1.5;"><span style="padding: 14px 20px; font-weight: 600;">Studio shell</span><span style="padding: 14px 20px; color: var(--tx2);">240 px sidebar, actions in top bar</span><span style="padding: 14px 20px; color: var(--tx2);">72 px icon rail; landscape keeps the sidebar</span><span style="padding: 14px 20px; color: var(--tx2);">Bottom tab bar; sticky Save / Publish bar</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+<div class="cell">
+<div class="mono" style="margin-bottom: 16px;">Spacing — 4 px base</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-family: var(--fm); font-size: 12px; color: var(--tx2);">
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">4</span><span style="width: 4px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">8</span><span style="width: 8px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">12</span><span style="width: 12px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">16</span><span style="width: 16px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">24</span><span style="width: 24px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">32</span><span style="width: 32px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">48</span><span style="width: 48px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">64</span><span style="width: 64px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">96</span><span style="width: 96px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px;">128</span><span style="width: 128px; height: 10px; background: var(--act); border-radius: 2px;"></span></div>
+</div>
+</div>
+<div class="cell">
+<div class="mono" style="margin-bottom: 16px;">Radius</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; font-size: 13px; color: var(--tx2);">
+<div><div style="height: 56px; border: 1px solid var(--ln2); border-radius: 4px;"></div><div style="margin-top: 6px;">4 · chips</div></div>
+<div><div style="height: 56px; border: 1px solid var(--ln2); border-radius: 8px;"></div><div style="margin-top: 6px;">8 · controls</div></div>
+<div><div style="height: 56px; border: 1px solid var(--ln2); border-radius: 12px;"></div><div style="margin-top: 6px;">12 · tiles</div></div>
+<div><div style="height: 56px; border: 1px solid var(--ln2); border-radius: 16px;"></div><div style="margin-top: 6px;">16 · panels</div></div>
+<div><div style="height: 56px; border: 1px solid var(--ln2); border-radius: 22px;"></div><div style="margin-top: 6px;">22 · card shells</div></div>
+<div><div style="height: 56px; border: 1px solid var(--ln2); border-radius: 999px;"></div><div style="margin-top: 6px;">pill · status</div></div>
+</div>
+</div>
+<div class="cell">
+<div class="mono" style="margin-bottom: 16px;">Elevation — lines first, shadow only for overlays</div>
+<div style="display: grid; gap: 14px; font-size: 14px; color: var(--tx2);">
+<div style="padding: 14px 16px; border: 1px solid var(--ln); border-radius: 12px; background: var(--bg2);">e0 · resting card — hairline</div>
+<div style="padding: 14px 16px; border: 1px solid var(--ln2); border-radius: 12px; background: var(--bg2); transform: translateY(-4px);">e1 · hover — lifts 4 px, stronger line</div>
+<div style="padding: 14px 16px; border: 1px solid var(--ln2); border-radius: 12px; background: var(--sf2); box-shadow: 0 24px 64px rgba(0,0,0,.55);">e2 · dialog, sheet, toast</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="sech"><h2 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.02em;">Components</h2><span class="mono">Shared by the site and Studio</span></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 24px;">
+<div class="cell">
+<div class="mono" style="margin-bottom: 16px;">Navigation — the current site’s floating glass pill, kept as is</div>
+<div style="padding: 22px 0 30px; display: flex; justify-content: center; background: linear-gradient(180deg, transparent, transparent), repeating-linear-gradient(115deg, rgba(214,31,51,.18) 0 1px, transparent 1px 22px); border-radius: 12px; margin-bottom: 24px;"><nav class="pill" aria-label="Navigation sample"><span class="pl on">Work</span><span class="pl">About</span><span class="pl">Exp</span><span class="pl">Skills</span><span class="pl">Testimonial</span><span class="psep"></span><span class="pcta">Let’s Talk →</span></nav></div>
+<div class="mono" style="margin-bottom: 16px;">Buttons — default · hover · focus · disabled · loading</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+<span class="cta">Primary</span>
+<span class="cta" style="background: #E42A3F; transform: translateY(-2px);">Hover</span>
+<span class="cta" style="box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 4px #D61F33;">Focus</span>
+<span class="cta" style="background: #2A2A31; color: #6E6C68;">Disabled</span>
+<span class="cta"><span style="width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;"></span>Sending</span>
+</div>
+<p style="margin: 10px 0 0; font-size: 13px; line-height: 1.5; color: var(--tx3);">Angled-cut primary from the current site. Focus uses an inner ring because the cut corners would clip an outline.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 14px;">
+<span class="cta2">Secondary</span>
+<span style="height: 44px; padding: 0 14px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 500; color: var(--tx2);">Ghost</span>
+<span class="cta2" style="border-color: rgba(255,90,103,.45); color: #FF8A93;">Delete project</span>
+<span style="width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--ln); display: grid; place-items: center; color: var(--tx2);" aria-label="More actions"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.2"></circle><circle cx="12" cy="12" r="1.2"></circle><circle cx="19" cy="12" r="1.2"></circle></svg></span>
+</div>
+</div>
+<div class="cell">
+<div class="mono" style="margin-bottom: 16px;">Text field — default · focus · error</div>
+<div style="display: grid; gap: 14px;">
+<label style="display: grid; gap: 6px; font-size: 14px; font-weight: 500;">Project title<input value="Puja engagement platform" style="height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--ln2); background: var(--bg); color: var(--tx); font: 400 15px/1 var(--fu);"></label>
+<label style="display: grid; gap: 6px; font-size: 14px; font-weight: 500;">Slug<input value="puja-engagement-platform" style="height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid #FF5A67; box-shadow: 0 0 0 3px rgba(255,90,103,.18); background: var(--bg); color: var(--tx); font: 400 15px/1 var(--fm);"></label>
+<label style="display: grid; gap: 6px; font-size: 14px; font-weight: 500;">Prototype URL<input value="https://example.com/app" style="height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid #F2B53A; background: var(--bg); color: var(--tx); font: 400 15px/1 var(--fu);"><span style="display: flex; gap: 8px; font-size: 13px; font-weight: 400; color: #F2C66B;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg>This site blocks embedding. Visitors will see a link card instead.</span></label>
+</div>
+</div>
+<div class="cell">
+<div class="mono" style="margin-bottom: 16px;">Selection controls</div>
+<div style="display: grid; gap: 16px;">
+<div role="radiogroup" aria-label="Hero media" style="display: inline-flex; padding: 4px; border-radius: 10px; background: var(--bg); border: 1px solid var(--ln); width: fit-content;"><span style="height: 36px; padding: 0 14px; border-radius: 7px; display: inline-flex; align-items: center; font-size: 14px; color: var(--tx2);">Image</span><span style="height: 36px; padding: 0 14px; border-radius: 7px; display: inline-flex; align-items: center; font-size: 14px; color: var(--tx2);">Video</span><span style="height: 36px; padding: 0 14px; border-radius: 7px; display: inline-flex; align-items: center; font-size: 14px; background: var(--sf2); color: var(--tx); box-shadow: inset 0 0 0 1px var(--ln2);">Prototype</span></div>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 15px;"><span style="width: 44px; height: 26px; border-radius: 999px; background: #D61F33; position: relative;"><span style="position: absolute; right: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff;"></span></span>Featured on homepage</div>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 15px;"><span style="width: 20px; height: 20px; border-radius: 5px; background: #D61F33; display: grid; place-items: center; color: #fff;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;"><path d="M5 12l5 5 9-10"></path></svg></span>Show on public site</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;"><span style="height: 32px; padding: 0 12px; border-radius: 999px; background: var(--tx); color: var(--bg); display: inline-flex; align-items: center; font-size: 13px; font-weight: 500;">All</span><span style="height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ln2); display: inline-flex; align-items: center; font-size: 13px; color: var(--tx2);">Shipped</span><span style="height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ln2); display: inline-flex; align-items: center; font-size: 13px; color: var(--tx2);">Strategy</span></div>
+</div>
+</div>
+<div class="cell">
+<div class="mono" style="margin-bottom: 16px;">Status, feedback, loading</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<span style="display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 10px; border-radius: 999px; background: rgba(60,203,139,.12); color: var(--okt); font-size: 13px; font-weight: 500;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3CCB8B;"></span>Published</span>
+<span style="display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--sf2); color: var(--tx2); font-size: 13px; font-weight: 500;"><span style="width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid #8F8D87;"></span>Draft</span>
+<span style="display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 10px; border-radius: 999px; background: rgba(242,181,58,.12); color: #F2C66B; font-size: 13px; font-weight: 500;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #F2B53A;"></span>Unpublished changes</span>
+</div>
+<div style="margin-top: 16px; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--sf2); border: 1px solid var(--ln2); box-shadow: 0 24px 64px rgba(0,0,0,.45); font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: rgba(60,203,139,.15); color: #3CCB8B; display: grid; place-items: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;"><path d="M5 12l5 5 9-10"></path></svg></span><span style="flex: 1;">Published. Changes are live.</span><a href="#live" style="font-weight: 500; color: var(--act);">View</a></div>
+<div style="margin-top: 16px; display: grid; gap: 8px;"><div class="shim" style="height: 14px; width: 70%; border-radius: 4px;"></div><div class="shim" style="height: 14px; width: 92%; border-radius: 4px;"></div><div class="shim" style="height: 14px; width: 54%; border-radius: 4px;"></div></div>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="sech"><h2 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.02em;">Icons</h2><span class="mono">24 px grid · 1.75 stroke · round caps · one set across site and Studio</span></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 12px;">
+<sc-for list="{{icons}}" as="icon" hint-placeholder-count="24">
+<div style="height: 88px; border: 1px solid var(--ln); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--tx);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;"><path d="{{icon.d}}"></path></svg><span style="font-family: var(--fm); font-size: 11px; color: var(--tx3);">{{icon.name}}</span></div>
+</sc-for>
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const icons = [
+      { name: 'arrow-right', d: 'M5 12h14M13 6l6 6-6 6' },
+      { name: 'arrow-out', d: 'M7 17L17 7M8 7h9v9' },
+      { name: 'arrow-down', d: 'M12 5v14M6 13l6 6 6-6' },
+      { name: 'download', d: 'M12 4v11M7 10l5 5 5-5M5 20h14' },
+      { name: 'play', d: 'M8 5v14l11-7z' },
+      { name: 'pause', d: 'M8 5v14M16 5v14' },
+      { name: 'expand', d: 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5' },
+      { name: 'menu', d: 'M4 8h16M4 16h16' },
+      { name: 'close', d: 'M6 6l12 12M18 6L6 18' },
+      { name: 'sun', d: 'M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4' },
+      { name: 'moon', d: 'M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z' },
+      { name: 'check', d: 'M5 12l5 5 9-10' },
+      { name: 'alert', d: 'M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z' },
+      { name: 'info', d: 'M12 11v6M12 7h.01M12 3a9 9 0 100 18 9 9 0 000-18z' },
+      { name: 'upload', d: 'M12 20V9M7 14l5-5 5 5M5 4h14' },
+      { name: 'image', d: 'M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M15 9h.01' },
+      { name: 'video', d: 'M3 6h13v12H3zM16 10l5-3v10l-5-3' },
+      { name: 'prototype', d: 'M5 3l14 8-6 2-2 6z' },
+      { name: 'grip', d: 'M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01' },
+      { name: 'trash', d: 'M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3' },
+      { name: 'copy', d: 'M8 8h12v12H8zM4 16V4h12' },
+      { name: 'eye', d: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 100 6 3 3 0 000-6z' },
+      { name: 'link', d: 'M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1' },
+      { name: 'plus', d: 'M12 5v14M5 12h14' }
+    ];
+    return { icons };
+  }
+}
+</script>
+</body>
+</html>

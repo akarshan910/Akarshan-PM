@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 2 · Cover Story</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.cs{--red:#E8273A;--ink:#111111;--paper:#F4F0E8;--fd:'Archivo','Arial Narrow',sans-serif;--fs:'Instrument Serif',Georgia,serif;--fu:'Geist',system-ui,sans-serif;--fm:'JetBrains Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.cs *{box-sizing:border-box}
+.cs a{color:inherit;text-decoration:none}
+.cs .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.cs .lbl{font-family:var(--fm);font-size:13px;color:#7A736B}
+.cs .mh{font-family:var(--fd);font-stretch:62%;font-weight:900;text-transform:uppercase;line-height:.78;letter-spacing:-.01em}
+.cs .cl{font-family:var(--fd);font-stretch:70%;font-weight:900;text-transform:uppercase;line-height:.92}
+.cs .dek{font-family:var(--fs);font-style:italic;line-height:1.15}
+.cs .line{display:block;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.cs .line:hover{transform:translateX(8px)}
+.cs .line:hover .ul{background-size:100% 4px}
+.cs .ul{background-image:linear-gradient(#111,#111);background-repeat:no-repeat;background-position:0 100%;background-size:0 4px;transition:background-size .35s cubic-bezier(.2,.8,.2,1)}
+.cs .cta{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 30px;background:var(--ink);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.cs .cta2{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 26px;border:2px solid var(--ink);color:var(--ink);font-family:var(--fd);font-stretch:75%;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase}
+.cs .tone{background-image:radial-gradient(#111 1.3px,transparent 1.5px);background-size:8px 8px}
+.cs .px{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes csIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.cs .slide{animation:csIn .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes csSpin{to{transform:rotate(360deg)}}
+.cs .spin{animation:csSpin 22s linear infinite}
+@media (prefers-reduced-motion:reduce){.cs .slide,.cs .spin{animation:none}.cs .px,.cs .line,.cs .ul{transition:none}}
+</style>
+</helmet>
+<div class="cs" style="width: 1536px; height: 2380px; padding: 40px 48px; background: #DDD7CC; color: var(--ink); font-family: var(--fu);">
+
+<div class="lbl" style="margin-bottom: 14px;">Laptop 1440 × 900 · press Play: hover a cover line to slide in its story; the masthead and portrait sit on separate depth layers</div>
+<div onMouseMove="{{onMove}}" onMouseLeave="{{onLeave}}" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: var(--red); box-shadow: 0 0 0 10px #2A2622, 0 40px 80px rgba(0,0,0,.35);">
+
+<header style="position: absolute; left: 40px; right: 40px; top: 22px; z-index: 6; display: flex; align-items: center; gap: 24px; font-family: var(--fm); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;">
+<span>Issue 09 · October 2026 · Bengaluru</span>
+<nav aria-label="Primary" style="margin: 0 auto; display: flex; gap: 22px; font-family: var(--fd); font-stretch: 75%; font-weight: 800; font-size: 14px; letter-spacing: .12em;"><a href="#work" style="border-bottom: 3px solid var(--ink); padding-bottom: 2px;">Work</a><a href="#about">About</a><a href="#experience">Exp</a><a href="#skills">Skills</a><a href="#testimonials">Testimonial</a></nav>
+<a class="cta" href="#contact" style="height: 40px; padding: 0 16px; font-size: 13px;">Let’s Talk →</a>
+</header>
+
+<div class="px mh" aria-hidden="true" style="position: absolute; left: 30px; top: 58px; font-size: 392px; color: var(--ink); z-index: 1; transform: {{mhT}};">Akarshan</div>
+<h1 style="position: absolute; left: -9999px;">Akarshan Kumar — Product Manager</h1>
+
+<div class="px" style="position: absolute; left: 470px; top: 210px; width: 520px; height: 700px; z-index: 2; transform: {{portT}};">
+<div class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: radial-gradient(ellipse 34% 26% at 50% 26%, #000 96%, transparent 100%), radial-gradient(ellipse 60% 40% at 50% 92%, #000 96%, transparent 100%); mask-image: radial-gradient(ellipse 34% 26% at 50% 26%, #000 96%, transparent 100%), radial-gradient(ellipse 60% 40% at 50% 92%, #000 96%, transparent 100%); opacity: .82;"></div>
+<span style="position: absolute; left: 50%; top: 52%; transform: translateX(-50%); font-family: var(--fm); font-size: 12px; background: var(--paper); padding: 4px 8px; white-space: nowrap;">Your portrait — upload in Studio</span>
+</div>
+
+<div style="position: absolute; left: 40px; top: 470px; width: 420px; z-index: 4; display: grid; gap: 26px;">
+<a class="line" href="#vol-04" onMouseEnter="{{h0}}"><span class="cl ul" style="font-size: 76px;">The ₹3.6 Cr month</span><span class="dek" style="display: block; margin-top: 8px; font-size: 26px;">How he built a GLP-1 app from zero — 52% renewal</span></a>
+<a class="line" href="#vol-01" onMouseEnter="{{h1}}"><span class="cl ul" style="font-size: 36px;">He swapped a vitals vendor for a phone camera</span><span class="dek" style="display: block; margin-top: 6px; font-size: 22px;">In-house rPPG and PPG · ₹84L–1.2Cr a year saved</span></a>
+</div>
+
+<div style="position: absolute; right: 40px; top: 470px; width: 360px; z-index: 4; display: grid; gap: 26px; text-align: right;">
+<a class="line" href="#glance" onMouseEnter="{{h2}}"><span class="cl ul" style="font-size: 44px;">230M devices, one serving funnel</span><span class="dek" style="display: block; margin-top: 6px; font-size: 22px;">Serving +22% and CTR 1.7× at Glance</span></a>
+<a class="line" href="#testimonials" onMouseEnter="{{h3}}"><span class="cl" style="font-size: 26px;">Plus: seven teammates on working with him</span></a>
+</div>
+
+<div class="spin" aria-hidden="true" style="position: absolute; right: 70px; top: 214px; z-index: 5; width: 170px; height: 170px;"><svg viewBox="0 0 200 200" style="width: 100%; height: 100%;"><path d="M100 4 L114 30 L143 18 L146 49 L177 52 L165 81 L194 96 L170 116 L186 143 L156 150 L152 181 L124 172 L106 198 L88 174 L58 186 L52 156 L22 150 L36 122 L8 104 L32 84 L18 56 L48 50 L52 20 L80 30 Z" style="fill: #FFE14D; stroke: #111; stroke-width: 3;"></path></svg></div>
+<div style="position: absolute; right: 70px; top: 214px; z-index: 5; width: 170px; height: 170px; display: grid; place-items: center; text-align: center; font-family: var(--fd); font-stretch: 70%; font-weight: 900; font-size: 19px; line-height: 1; text-transform: uppercase;">Open to<br>Senior / Lead<br>PM roles</div>
+
+<div style="position: absolute; left: 40px; bottom: 30px; z-index: 5; display: flex; gap: 12px; align-items: center;"><a class="cta" href="#work">Open the issue →</a><a class="cta2" href="#resume">Résumé</a></div>
+<div aria-hidden="true" style="position: absolute; right: 40px; bottom: 26px; z-index: 5; background: #fff; padding: 10px 12px 8px; text-align: center;"><div style="width: 150px; height: 52px; background: repeating-linear-gradient(90deg, #111 0 2px, #fff 2px 4px, #111 4px 7px, #fff 7px 8px, #111 8px 9px, #fff 9px 12px);"></div><div style="margin-top: 4px; font-family: var(--fm); font-size: 11px;">VOL. 01–09 · FREE TO READ</div></div>
+
+<sc-if value="{{showPrev}}" hint-placeholder-val="{{ true }}">
+<aside class="slide" aria-label="Story preview" style="position: absolute; right: 40px; top: 96px; z-index: 7; width: 340px; background: var(--paper); border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); padding: 18px;">
+<div style="font-family: var(--fm); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--red);">{{prev.kicker}}</div>
+<div class="cl" style="margin-top: 8px; font-size: 32px;">{{prev.title}}</div>
+<p class="dek" style="margin: 10px 0 0; font-size: 19px;">{{prev.dek}}</p>
+<div style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center; font-family: var(--fm); font-size: 12px;"><span>{{prev.page}}</span><span style="font-weight: 600;">Read →</span></div>
+</aside>
+</sc-if>
+</div>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+<div>
+<div class="lbl" style="margin-bottom: 14px;">iPad 834 × 1194 · contents page (selected work)</div>
+<div style="position: relative; width: 834px; height: 1194px; overflow: hidden; border-radius: 22px; background: var(--paper); box-shadow: 0 0 0 10px #2A2622, 0 30px 60px rgba(0,0,0,.3);">
+<header style="margin: 22px 32px 0; display: flex; align-items: center; gap: 16px; padding-bottom: 14px; border-bottom: 3px solid var(--ink);"><span style="font-family: var(--fm); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;">Issue 09</span><nav aria-label="Primary" style="margin: 0 auto; display: flex; gap: 16px; font-family: var(--fd); font-stretch: 75%; font-weight: 800; font-size: 13px; letter-spacing: .1em; text-transform: uppercase;"><a href="#work" style="border-bottom: 3px solid var(--red);">Work</a><a href="#about">About</a><a href="#experience">Exp</a><a href="#skills">Skills</a><a href="#testimonials">Testimonial</a></nav><a class="cta" href="#contact" style="height: 38px; padding: 0 14px; font-size: 12px;">Talk →</a></header>
+<div style="padding: 26px 32px 0;">
+<div style="display: flex; align-items: flex-end; justify-content: space-between;"><div class="mh" style="font-size: 150px; color: var(--red);">Contents</div><div style="font-family: var(--fs); font-style: italic; font-size: 24px; text-align: right; line-height: 1.2;">Nine volumes,<br>one way of working</div></div>
+<div style="margin-top: 22px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 26px;">
+<div style="border-top: 2px solid var(--ink);">
+<div style="display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid #CFC6B8;"><span class="cl" style="font-size: 34px; color: var(--red);">12</span><span><span class="cl" style="display: block; font-size: 24px;">3D body scan for GLP-1 users</span><span class="dek" style="font-size: 18px;">Sugar.fit · ±2–3 pp vs BIA</span></span></div>
+<div style="display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid #CFC6B8;"><span class="cl" style="font-size: 34px; color: var(--red);">18</span><span><span class="cl" style="display: block; font-size: 24px;">AI food logging</span><span class="dek" style="font-size: 18px;">62% of all meal logs</span></span></div>
+<div style="display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid #CFC6B8;"><span class="cl" style="font-size: 34px; color: var(--red);">24</span><span><span class="cl" style="display: block; font-size: 24px;">The CGM journey</span><span class="dek" style="font-size: 18px;">CSAT 42 → 72, ₹3.2 Cr saved</span></span></div>
+<div style="display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid #CFC6B8;"><span class="cl" style="font-size: 34px; color: var(--red);">30</span><span><span class="cl" style="display: block; font-size: 24px;">The GLP-1 app, 0→1</span><span class="dek" style="font-size: 18px;">₹3.6 Cr in month one</span></span></div>
+<div style="display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid #CFC6B8;"><span class="cl" style="font-size: 34px;">38</span><span><span class="cl" style="display: block; font-size: 24px;">Puja engagement platform</span><span class="dek" style="font-size: 18px;">Strategy + a prototype you can try</span></span></div>
+<div style="display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid #CFC6B8;"><span class="cl" style="font-size: 34px;">44</span><span><span class="cl" style="display: block; font-size: 24px;">Arcana Workspace</span><span class="dek" style="font-size: 18px;">PRD to live prototype</span></span></div>
+</div>
+<div>
+<div style="position: relative; height: 380px; background: var(--red); overflow: hidden;"><div class="tone" style="position: absolute; inset: 0; opacity: .35;"></div><div class="mh" style="position: absolute; left: 14px; bottom: 10px; font-size: 120px; color: var(--paper);">Vol.01</div><span style="position: absolute; left: 14px; top: 14px; font-family: var(--fm); font-size: 11px; background: var(--paper); padding: 3px 6px;">COVER STORY · P.12</span></div>
+<blockquote style="margin: 22px 0 0; font-family: var(--fs); font-size: 30px; line-height: 1.15;">“One of the sharpest product minds I have had the pleasure of working with.”<span style="display: block; margin-top: 10px; font-family: var(--fm); font-size: 12px; letter-spacing: .06em; text-transform: uppercase;">Pallav Srivastava · SDE 4, Glance</span></blockquote>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div>
+<div class="lbl" style="margin-bottom: 14px;">Mobile 390 × 844 · the cover, portrait</div>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; border-radius: 44px; background: var(--red); box-shadow: 0 0 0 10px #2A2622, 0 30px 60px rgba(0,0,0,.3);">
+<header style="position: absolute; left: 18px; right: 18px; top: 18px; z-index: 5; display: flex; justify-content: space-between; align-items: center;"><button aria-label="Open menu" style="height: 42px; padding: 0 14px; border: 2px solid var(--ink); background: transparent; font-family: var(--fd); font-stretch: 75%; font-weight: 800; font-size: 13px; letter-spacing: .12em; text-transform: uppercase;">Menu</button><a class="cta" href="#contact" style="height: 42px; padding: 0 14px; font-size: 13px;">Let’s Talk →</a></header>
+<div class="mh" aria-hidden="true" style="position: absolute; left: 14px; top: 76px; font-size: 220px; color: var(--ink);">Akar<br>shan</div>
+<div class="tone" aria-hidden="true" style="position: absolute; left: 90px; top: 300px; width: 280px; height: 380px; -webkit-mask-image: radial-gradient(ellipse 30% 22% at 50% 26%, #000 96%, transparent 100%), radial-gradient(ellipse 58% 38% at 50% 94%, #000 96%, transparent 100%); mask-image: radial-gradient(ellipse 30% 22% at 50% 26%, #000 96%, transparent 100%), radial-gradient(ellipse 58% 38% at 50% 94%, #000 96%, transparent 100%); opacity: .75;"></div>
+<div style="position: absolute; left: 18px; top: 480px; width: 210px; z-index: 3;"><div class="cl" style="font-size: 44px;">The ₹3.6 Cr month</div><div class="dek" style="margin-top: 6px; font-size: 19px;">How he built a GLP-1 app from zero</div></div>
+<div style="position: absolute; left: 18px; right: 18px; bottom: 26px; z-index: 4; display: grid; gap: 10px;"><a class="cta" href="#work" style="justify-content: center;">Open the issue →</a><div style="display: flex; justify-content: space-between; align-items: flex-end;"><span style="font-family: var(--fm); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;">Issue 09 · Oct 2026</span><span aria-hidden="true" style="width: 96px; height: 34px; background: repeating-linear-gradient(90deg, #111 0 2px, #fff 2px 4px, #111 4px 7px, #fff 7px 8px); border: 4px solid #fff;"></span></div></div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":2380}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mx: 0, my: 0, active: 0 };
+    this.onMove = this.onMove.bind(this);
+    this.onLeave = this.onLeave.bind(this);
+    this.stories = [
+      { kicker: 'Cover story · p.30', title: 'The GLP-1 app, 0→1', dek: 'Owned the patient experience with Clinical, Business and Ops. 52% renewal; ₹3.6 Cr in month one.', page: 'Sugar.fit · Shipped' },
+      { kicker: 'Feature · p.12', title: 'Vitals, in-house', dek: 'Face (rPPG) and fingertip (PPG) measurement beat the vendor head to head; with the body scan, ₹84L–1.2Cr a year saved.', page: 'Sugar.fit · Shipped' },
+      { kicker: 'Report · p.52', title: 'Serving 230M devices', dek: 'Rebuilt the recommendation serving funnel: serving +22%, CTR 1.7×.', page: 'Glance (InMobi)' },
+      { kicker: 'Letters · p.60', title: 'Seven teammates', dek: '“The conviction that arises out of a detailed and thorough thought process.” — Vishal Gopal', page: 'Testimonials' }
+    ];
+    this.h = [0, 1, 2, 3].map((i) => () => this.setState({ active: i }));
+  }
+  onMove(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => { this.raf = null; this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1 }); });
+  }
+  onLeave() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.setState({ mx: 0, my: 0 });
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const { mx, my, active } = this.state;
+    const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const k = reduce ? 0 : 1;
+    return {
+      onMove: this.onMove,
+      onLeave: this.onLeave,
+      mhT: 'translate3d(' + (-mx * 10 * k).toFixed(1) + 'px, ' + (-my * 6 * k).toFixed(1) + 'px, 0)',
+      portT: 'translate3d(' + (mx * 14 * k).toFixed(1) + 'px, ' + (my * 8 * k).toFixed(1) + 'px, 0)',
+      h0: this.h[0], h1: this.h[1], h2: this.h[2], h3: this.h[3],
+      showPrev: true,
+      prev: this.stories[active]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home — laptop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#0B0B0E}
+.va{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--ok:#3CCB8B;--okt:#9BE7C4;--nav:rgba(11,11,14,.94);--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;--eo:cubic-bezier(.2,.8,.2,1);-webkit-font-smoothing:antialiased}
+.va.light{--bg:#F5F5F3;--bg2:#EEEEEA;--sf:#FFFFFF;--sf2:#F0F0EC;--ln:rgba(20,20,22,.10);--ln2:rgba(20,20,22,.22);--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--act:#C2182C;--okt:#0F7A4A;--nav:rgba(245,245,243,.94)}
+.va *{box-sizing:border-box}
+.va a{color:var(--tx);text-decoration:none}
+.va a:hover{color:var(--tx)}
+.va .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.va .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.va .wrap{max-width:1312px;margin:0 auto;padding-left:clamp(20px,4vw,56px);padding-right:clamp(20px,4vw,56px)}
+.va .nl{color:var(--tx2) !important;transition:color .2s var(--eo)}
+.va .nl:hover,.va .nl.on{color:var(--tx) !important}
+.va .btn{transition:background-color .2s var(--eo),border-color .2s var(--eo)}
+.va .btn-p:hover{background:#E42A3F !important;color:#fff !important}
+.va .btn-s:hover{border-color:var(--tx3) !important}
+.va a:focus-visible,.va button:focus-visible{outline:2px solid var(--act);outline-offset:3px}
+.va .card{transition:transform .32s var(--eo),border-color .32s var(--eo)}
+.va .card:hover{transform:translateY(-4px);border-color:var(--ln2) !important}
+.va .card .cv{transition:transform .6s var(--eo)}
+.va .card:hover .cv{transform:scale(1.03)}
+.va .card .go{transition:transform .24s var(--eo)}
+.va .card:hover .go{transform:translateX(4px)}
+.va .lrow{transition:background-color .2s var(--eo)}
+.va .lrow:hover{background:var(--bg2) !important}
+.va .lrow:hover .go{transform:translateX(4px)}
+.va .lrow .go{transition:transform .24s var(--eo)}
+.va .chip{display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--ln);font-size:13px;color:var(--tx2)}
+.va .tag-a{flex:none;padding:3px 8px;border-radius:4px;background:rgba(60,203,139,.12);color:var(--okt);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-t{flex:none;padding:3px 8px;border-radius:4px;border:1px solid var(--ln2);color:var(--tx2);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-p{flex:none;padding:3px 8px;border-radius:4px;border:1px dashed var(--ln2);color:var(--tx2);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-b{flex:none;padding:3px 8px;border-radius:4px;background:var(--sf2);color:var(--tx2);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-o{flex:none;padding:3px 8px;border-radius:4px;background:rgba(255,90,103,.12);color:var(--act);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+@keyframes vaRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes vaDraw{from{stroke-dashoffset:1400}to{stroke-dashoffset:0}}
+@keyframes vaPulse{0%,100%{box-shadow:0 0 0 0 rgba(60,203,139,.55)}50%{box-shadow:0 0 0 6px rgba(60,203,139,0)}}
+@keyframes vaScan{0%{transform:translateY(0)}50%{transform:translateY(150px)}100%{transform:translateY(0)}}
+.va .rise{animation:vaRise .56s var(--eo) both}
+.va .sl line{stroke-dasharray:1400;animation:vaDraw 1.6s var(--eo) both}
+.va .live{animation:vaPulse 2.4s ease-in-out infinite}
+.va .scan{animation:vaScan 4s var(--eo) infinite}
+@media (max-width:820px){.va .hide-sm{display:none !important}}
+@media (prefers-reduced-motion:reduce){.va .rise,.va .sl line,.va .live,.va .scan{animation:none}.va .card,.va .card .cv{transition:none}}
+@property --vash{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes vaShine{to{--vash:360deg}}
+.va .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06);transition:box-shadow .4s ease}
+.va .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,rgba(255,255,255,1) 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:vaShine 3.5s linear infinite;filter:blur(.4px)}
+.va .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:vaShine 3.5s linear infinite;filter:blur(3px)}
+.va.light .pill{background:rgba(18,16,12,.72);-webkit-backdrop-filter:blur(36px) saturate(180%);backdrop-filter:blur(36px) saturate(180%);border-color:rgba(255,255,255,.08)}
+.va.light .pill::before{background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 50deg,rgba(232,39,58,.04) 75deg,rgba(232,39,58,.35) 100deg,rgba(232,39,58,.85) 118deg,rgba(232,39,58,1) 125deg,rgba(232,39,58,.85) 132deg,rgba(232,39,58,.35) 150deg,rgba(232,39,58,.04) 175deg,transparent 200deg,transparent 360deg)}
+.va.light .pill::after{background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 60deg,rgba(232,39,58,0) 90deg,rgba(232,39,58,.12) 115deg,rgba(232,39,58,.28) 125deg,rgba(232,39,58,.12) 135deg,rgba(232,39,58,0) 160deg,transparent 200deg,transparent 360deg)}
+.va .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75) !important;text-decoration:none;padding:8px 18px;border:0;border-radius:99px;background:transparent;transition:all .22s;white-space:nowrap;font-weight:500;position:relative;z-index:1;cursor:pointer}
+.va .pl:hover{color:#F0EEF8 !important;background:rgba(240,238,248,.1)}
+.va .pl.on{color:#F0EEF8 !important;font-weight:600;background:rgba(240,238,248,.14)}
+.va .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.va .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;background:#E8273A;color:#fff !important;padding:8px 18px;border-radius:94px;margin-left:1px;flex-shrink:0;transition:background .22s,transform .22s,box-shadow .3s;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.va .pcta:hover{background:#FF4D5E;transform:scale(1.04)}
+.va .show-sm{display:none}
+@media (max-width:820px){.va .show-sm{display:inline-flex !important}}
+@media (prefers-reduced-motion:reduce){.va .pill::before{animation:none}}
+.va .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 28px;border:0;border-radius:2px;background:#D61F33;color:#fff !important;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background-color .25s var(--eo),transform .25s var(--eo)}
+.va .cta:hover{background:#E42A3F;transform:translateY(-2px)}
+.va .cta:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #D61F33}
+.va .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border:1px solid var(--ln2);border-radius:2px;background:transparent;color:var(--tx) !important;font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;cursor:pointer;transition:border-color .25s var(--eo)}
+.va .cta2:hover{border-color:var(--tx3)}
+
+.va{--tone:rgba(242,241,238,.14)}
+.va.light{--tone:rgba(20,20,22,.12)}
+.va .tone{background-image:radial-gradient(var(--tone) 1.2px,transparent 1.5px);background-size:8px 8px}
+.va .tone-r{background-image:radial-gradient(#D61F33 2px,transparent 2.4px);background-size:9px 9px}
+.va .ink{position:relative;transform-style:preserve-3d;transition:transform .6s var(--eo)}
+.va .ink-panel{position:relative;border:2px solid var(--tx);background:var(--bg2);overflow:hidden}
+.va .px{transition:transform .5s var(--eo)}
+.va .tz{position:absolute;z-index:4;width:262px;display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px;border:1px solid var(--ln2);border-radius:14px;background:var(--sf);box-shadow:0 24px 48px rgba(0,0,0,.45);transition:box-shadow .3s var(--eo)}
+.va .tz:hover{box-shadow:0 28px 56px rgba(0,0,0,.55),0 0 0 1px var(--tx3)}
+@keyframes vaInkDraw{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
+.va .brush{stroke-dasharray:900;animation:vaInkDraw 1.4s var(--eo) .4s both}
+@keyframes vaInkDrift{0%,100%{transform:rotateX(-1.5deg) rotateY(2deg)}50%{transform:rotateX(1.5deg) rotateY(-2deg)}}
+.va .drift{animation:vaInkDrift 9s ease-in-out infinite}
+@media (max-width:1100px){.va .tz{display:none}}
+@media (prefers-reduced-motion:reduce){.va .ink,.va .px{transition:none}.va .brush{animation:none;stroke-dasharray:none}.va .drift{animation:none}}
+
+.va .fl{position:absolute;z-index:4;width:262px;pointer-events:none}
+.va .fl .tz{position:relative;will-change:opacity,transform}
+.va .see-all{display:flex;flex-direction:column;justify-content:space-between;gap:18px;padding:22px;border:1px dashed var(--ln2);border-radius:20px;background:transparent}
+.va .see-all:hover{border-color:var(--tx3) !important;background:var(--bg2)}
+.va .badge{position:absolute;right:14px;top:14px;display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:6px;background:rgba(0,0,0,.5);color:#F2F1EE;font-size:12px;font-weight:500}
+.va.still .rise,.va.still .sl line,.va.still .live,.va.still .scan,.va.still .pill::before,.va.still .pill::after,.va.still .drift{animation:none}
+.va.still .brush{animation:none;stroke-dasharray:none}
+.va.still .ink,.va.still .px,.va.still .card,.va.still .card .cv{transition:none}
+
+.va .cloud{position:relative;display:flex;flex-wrap:wrap;justify-content:center;align-items:center}
+.va .cloud::before{content:'';position:absolute;inset:-24px 0;background-image:radial-gradient(var(--tone) 1.2px,transparent 1.5px);background-size:8px 8px;-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 0%,transparent 66%);mask-image:radial-gradient(ellipse at 50% 50%,#000 0%,transparent 66%);pointer-events:none}
+.va .cg,.va .cg ul{display:contents}
+.va .cg ul{margin:0;padding:0;list-style:none}
+.va .cw{position:relative;margin:0;transition:opacity .2s var(--eo),color .2s var(--eo)}
+.va .cw.g{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.va .cw.g button{padding:0;border:0;background:none;cursor:pointer;font-family:var(--fd);font-stretch:62%;font-weight:900;line-height:.86;text-transform:uppercase;color:transparent;-webkit-text-stroke:1.5px var(--tx3);transition:color .2s var(--eo),-webkit-text-stroke-color .2s var(--eo)}
+.va .cw.g button:hover,.va .cw.g.on button{color:#D61F33;-webkit-text-stroke-color:#D61F33}
+.va .cw.g .cw-sub{font-family:var(--fm);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--act)}
+.va .cw.xl{font-family:var(--fd);font-stretch:62%;font-weight:900;line-height:.9;text-transform:uppercase;color:var(--tx)}
+.va .cw.l{font-family:var(--fd);font-stretch:68%;font-weight:800;line-height:.95;text-transform:uppercase;color:var(--tx)}
+.va .cw.m{font-weight:500;line-height:1.15;color:var(--tx2)}
+.va .cw.m.alt{font-family:var(--fd);font-stretch:75%;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.va .cw.s{font-family:var(--fm);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.va .cloud.lit .cw:not(.g){opacity:.16}
+.va .cloud.lit .cw.on{opacity:1;color:var(--tx)}
+.va .cloud.lit .cw.xl.on{color:#FF5A67}
+.va .cloud.lit .cw.g:not(.on) button{-webkit-text-stroke-color:var(--ln2)}
+.va .cloud.lit .cw.g:not(.on) .cw-sub{opacity:.3}
+.va .sk-hint{margin-top:22px;text-align:center;font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.va .opage{display:grid}
+.va .op{position:relative;overflow:hidden;margin:0;border:2px solid var(--tx);background:var(--pg);transition:transform .32s var(--eo)}
+.va .op-sl{position:absolute;inset:0;width:100%;height:100%;transition:transform .5s var(--eo)}
+.va .op-tone{position:absolute;inset:-20px;background-image:radial-gradient(var(--tone) 1.2px,transparent 1.5px);background-size:8px 8px}
+.va .op-num{position:absolute;font-family:var(--fd);font-stretch:62%;font-weight:900;line-height:.8;color:transparent;-webkit-text-stroke:1.5px color-mix(in srgb,var(--pa) 50%,transparent);pointer-events:none}
+.va .op-ico{position:absolute;fill:none;stroke:var(--pa);color:var(--pa);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s var(--eo)}
+.va .op-cap{position:absolute;padding:14px 16px 16px;background:#F2F1EE;color:#0B0B0E;border:2px solid #0B0B0E;box-shadow:5px 5px 0 var(--pa);transition:box-shadow .32s var(--eo)}
+.va .op-k{font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#4A4A51}
+.va .op-t{margin:6px 0 0;font-family:var(--fd);font-stretch:68%;font-weight:800;line-height:.92;text-transform:uppercase;color:#0B0B0E}
+.va .op-d{margin:8px 0 0;font-size:14px;line-height:1.5;color:#2A2A30}
+.va .op-tag{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:4px 8px;border-radius:4px;background:#0B0B0E;color:#F2F1EE;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.va .op-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--pa)}
+.va .op-shelf{position:absolute;left:0;right:0;bottom:0;padding:0 22px 16px;background:linear-gradient(rgba(11,11,14,0),rgba(11,11,14,.88) 34%)}
+.va .op-sk{font-family:var(--fm);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--tx2)}
+.va .spines{display:flex;align-items:flex-end;gap:6px;margin:10px 0 0;padding:0;list-style:none;border-bottom:3px solid var(--tx)}
+.va .sp{border-top:7px solid var(--sh) !important;flex:none;display:flex;flex-direction:column;align-items:center;gap:8px;width:46px;padding-bottom:10px;background:var(--sf);border:1px solid var(--ln2);border-bottom:0;transition:transform .32s var(--eo)}
+.va .sp-cap{align-self:stretch;height:7px;margin-top:-1px;background:var(--sh)}
+.va .sp-n{font-family:var(--fm);font-size:10px;font-weight:600;color:var(--sh)}
+.va .sp-v{display:flex;gap:5px}
+.va .sp-t{writing-mode:vertical-rl;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;color:var(--tx)}
+.va .sp-g{writing-mode:vertical-rl;font-family:var(--fm);font-size:9px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:var(--tx3)}
+@media (hover:hover){.va .op:hover{transform:translateY(-4px)}.va .op:hover .op-cap{box-shadow:8px 8px 0 var(--pa)}.va .op:hover .op-ico{transform:translate(-6px,-4px) rotate(-3deg)}.va .op:hover .op-sl{transform:scale(1.04)}.va .sp:hover{transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){.va .op,.va .op-sl,.va .op-ico,.va .op-cap,.va .sp{transition:none}.va .op:hover,.va .op:hover .op-ico,.va .op:hover .op-sl,.va .sp:hover{transform:none}}
+.va.still .op,.va.still .op-sl,.va.still .op-ico,.va.still .op-cap,.va.still .sp{transition:none}
+.va.still .op:hover,.va.still .op:hover .op-ico,.va.still .op:hover .op-sl,.va.still .sp:hover{transform:none}
+.va .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.va .cloud{gap:14px 30px;padding:40px 0 6px}
+.va .cw.g button{font-size:104px}
+.va .cw.xl{font-size:64px}
+.va .cw.l{font-size:40px}
+.va .cw.m{font-size:24px}
+.va .cw.s{font-size:13px}
+</style>
+</helmet>
+<div class="va {{themeClass}}" style="background: var(--bg); color: var(--tx); font-family: var(--fu); min-height: 10350px;">
+
+<a href="#work" style="position: absolute; left: -9999px;">Skip to work</a>
+<div style="position: sticky; top: 28px; z-index: 30; height: 0; display: flex; justify-content: center; align-items: flex-start;">
+<nav class="pill" aria-label="Primary">
+<button class="pl show-sm" aria-expanded="false" aria-label="Open menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M4 8h16M4 16h16"></path></svg>Menu</button>
+<a class="pl on hide-sm" href="#work" aria-current="true">Work</a>
+<a class="pl hide-sm" href="#about">About</a>
+<a class="pl hide-sm" href="#experience">Exp</a>
+<a class="pl hide-sm" href="#skills">Skills</a>
+<a class="pl hide-sm" href="#testimonials">Testimonial</a>
+<span class="psep" aria-hidden="true"></span>
+<a class="pcta" href="#contact">Let’s Talk →</a>
+</nav>
+</div>
+
+<section id="top" onMouseMove="{{heroMove}}" onMouseLeave="{{heroLeave}}" aria-label="Introduction" style="position: relative; overflow: hidden; border-bottom: 1px solid var(--ln);">
+<div class="wrap" style="position: relative; padding-top: 112px; padding-bottom: 72px; perspective: 1600px; perspective-origin: 50% 40%;">
+<div class="ink" style="transform: rotateX({{hx}}deg) rotateY({{hy}}deg);">
+<div class="ink-panel" style="min-height: 660px;">
+<div class="tone px" aria-hidden="true" style="position: absolute; inset: -40px; transform: {{L1}}; -webkit-mask-image: radial-gradient(ellipse at 80% 26%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 80% 26%, #000 0%, transparent 58%);"></div>
+<div class="px" aria-hidden="true" style="position: absolute; right: -10px; bottom: -52px; transform: {{L2}}; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 260px; line-height: .8; color: transparent; -webkit-text-stroke: 1.5px var(--ln2); white-space: nowrap;">01—09</div>
+<svg class="px" viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; transform: {{L3}};"><path d="{{speedHero}}" fill="#D61F33" fill-opacity=".16"></path></svg>
+<div class="tone-r px" aria-hidden="true" style="position: absolute; right: 7%; top: 5%; width: 380px; height: 380px; border-radius: 50%; transform: {{L4}}; -webkit-mask-image: radial-gradient(circle, #000 0%, #000 24%, transparent 70%); mask-image: radial-gradient(circle, #000 0%, #000 24%, transparent 70%);"></div>
+<div class="mono" style="position: absolute; left: 26px; top: 22px; color: var(--act);">VOL.00 · Prologue</div>
+<div style="position: relative; padding: 78px 56px 60px; max-width: 860px;">
+<div class="rise" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-bottom: 32px;"><span style="display: inline-flex; align-items: center; gap: 10px; height: 32px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid rgba(60,203,139,.35); background: rgba(60,203,139,.08); color: var(--okt); font-size: 13px; font-weight: 500;"><span class="live" style="width: 8px; height: 8px; border-radius: 50%; background: var(--ok);"></span>Open to Senior / Lead PM roles</span><span class="mono" style="display: inline;">Bengaluru · IST</span></div>
+<h1 class="rise" style="margin: 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: clamp(64px, 8.4vw, 126px); line-height: .86; text-transform: uppercase; text-shadow: 5px 5px 0 var(--ac); animation-delay: 80ms;">Akarshan<br>Kumar<span style="color: var(--ac); text-shadow: none;">.</span></h1>
+<svg viewBox="0 0 560 34" aria-hidden="true" style="display: block; width: 520px; height: 32px; margin-top: 6px;"><path class="brush" d="M6 24 C 130 10, 330 6, 552 14" fill="none" stroke="#D61F33" stroke-width="8" stroke-linecap="round"></path></svg>
+<p class="rise" style="margin: 22px 0 0; max-width: 720px; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.28; letter-spacing: -.015em; color: var(--tx2); animation-delay: 160ms;">I build <span style="color: var(--tx);">AI-native health products</span> — and the <span style="color: var(--tx);">data platforms</span> that prove they work.</p>
+<p class="rise" style="margin: 16px 0 0; max-width: 600px; font-size: 17px; line-height: 1.6; color: var(--tx3); animation-delay: 240ms;">Product manager at Sugar.fit for GLP-1, Type 2 diabetes and Active Foods, leading a 10-analyst Central Analytics team. Before that: personalisation and serving for 230M+ devices at Glance (InMobi).</p>
+<div class="rise" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; animation-delay: 320ms;"><a class="cta" href="#work">See selected work<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></a><a class="cta2" href="#resume"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Résumé (PDF)</a></div>
+</div>
+</div>
+<sc-for list="{{floaters}}" as="f" hint-placeholder-count="3">
+<div class="fl" aria-hidden="true" style="left: {{f.x}}%; top: {{f.y}}%; transform: translateZ({{f.z}}px) rotate({{f.r}}deg);">
+<a class="tz" href="{{f.href}}" tabindex="-1" onMouseEnter="{{f.hold}}" onMouseLeave="{{f.release}}" style="opacity: {{f.op}}; transform: translate({{f.tx}}px, {{f.ty}}px) scale(.9); transition: {{f.tr}}; pointer-events: {{f.pe}};"><span style="display: flex; align-items: center; justify-content: space-between; gap: 8px;"><span style="padding: 3px 7px; background: {{f.hi}}; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.{{f.n}}</span><span class="mono" style="font-size: 10px;">{{f.k}}</span></span><span style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 20px; line-height: 1.05;">{{f.t}}</span><span style="display: flex; align-items: center; gap: 8px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 20px;">{{f.m}}</span><span class="tag-{{f.tag}}">{{f.tl}}</span></span></a>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section aria-label="Highlights" style="border-bottom: 1px solid var(--ln);">
+<div class="wrap">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--ln);">
+<div style="background: var(--bg); padding: 32px 28px 30px 0;"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">230M+</div><div style="margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--tx2);">devices personalised and served</div><div class="mono" style="margin-top: 10px;">Glance · InMobi</div></div>
+<div style="background: var(--bg); padding: 32px 28px 30px;"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">$2M <span style="font-size: 30px; color: var(--tx3);">ARR</span></div><div style="margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--tx2);">unlocked via Tracfone, Japan and Brazil</div><div class="mono" style="margin-top: 10px;">Glance · InMobi</div></div>
+<div style="background: var(--bg); padding: 32px 28px 30px;"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">₹3.6 Cr</div><div style="margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--tx2);">in month one from a GLP-1 app I built 0→1</div><div class="mono" style="margin-top: 10px;">Sugar.fit</div></div>
+<div style="background: var(--bg); padding: 32px 0 30px 28px;"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">~₹1.5 Cr<span style="font-size: 30px; color: var(--tx3);">/yr</span></div><div style="margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--tx2);">saved by in-housing vendor services</div><div class="mono" style="margin-top: 10px;">Sugar.fit</div></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 22px 0 26px;"><span class="mono" style="margin-right: 6px;">Problem spaces</span><span class="chip">AI-native health</span><span class="chip">Hardware-to-app (CGM)</span><span class="chip">Personalisation &amp; serving</span><span class="chip">Data platforms</span><span class="chip">Growth funnels</span><span class="chip">Monetisation</span><span class="chip">0→1</span></div>
+</div>
+</section>
+
+<section id="work" class="wrap" style="padding-top: 104px; padding-bottom: 40px;">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: 40px;">
+<div><div class="mono" style="font-weight: 500; color: var(--act);">Selected work · Shipped</div><h2 style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: clamp(40px, 5vw, 64px); line-height: .95; text-transform: uppercase;">Shipped, measured, <span style="color: var(--tx3);">explained.</span></h2></div>
+<p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.6; color: var(--tx3);">AI-native health at Sugar.fit. Every number is labelled: achieved, target, projected or baseline.</p>
+</div>
+
+<a class="card" href="#vol-01" style="display: flex; flex-wrap: wrap; gap: 32px 40px; align-items: center; padding: 16px; border: 1px solid var(--ln); border-radius: 22px; background: var(--bg2);">
+<div style="flex: 999 1 520px; min-width: 0; border-radius: 14px; overflow: hidden;">
+<div class="cv" style="position: relative; aspect-ratio: 16 / 10; background: #0D1918;">
+<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #2DD4BF; stroke-width: .7; opacity: .28;"><line x1="560" y1="250" x2="-20" y2="0"></line><line x1="560" y1="250" x2="-20" y2="90"></line><line x1="560" y1="250" x2="-20" y2="180"></line><line x1="560" y1="250" x2="-20" y2="270"></line><line x1="560" y1="250" x2="-20" y2="360"></line><line x1="560" y1="250" x2="-20" y2="450"></line><line x1="560" y1="250" x2="-20" y2="520"></line><line x1="560" y1="250" x2="200" y2="-20"></line><line x1="560" y1="250" x2="200" y2="520"></line></svg>
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 46%; height: 78%; transform: translate(-30%, -50%); fill: none; stroke: #2DD4BF; stroke-width: 1.4;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .5;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M84 120h72M82 140h76M84 160h72M96 190h48M98 215h44M100 238h40" style="stroke-dasharray: 3 4; stroke-opacity: .55;"></path><g class="scan"><rect x="56" y="54" width="128" height="2" style="fill: #2DD4BF; stroke: none;"></rect><rect x="56" y="40" width="128" height="16" style="fill: #2DD4BF; stroke: none; opacity: .12;"></rect></g></svg>
+<span style="position: absolute; left: 18px; top: 18px; padding: 6px 10px; border-radius: 6px; background: #2DD4BF; color: #04211D; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.01</span>
+<span style="position: absolute; right: 18px; top: 18px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 6px; background: rgba(0,0,0,.45); color: #E6FFFA; font-size: 13px; font-weight: 500;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #2DD4BF;"></span>Shipped · AI</span>
+<span aria-hidden="true" style="position: absolute; right: 18px; bottom: -22px; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 200px; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(45,212,191,.35);">01</span>
+</div>
+</div>
+<div style="flex: 1 1 340px; min-width: 0; padding: 8px 12px 8px 0; display: flex; flex-direction: column; gap: 18px;">
+<div class="mono">Sugar.fit · AI-native health · 0→1</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: clamp(30px, 3vw, 42px); line-height: 1.02;">3D body scan for GLP-1 users</h3>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--tx2);">Benchmarked open-source vision models, built the pipeline end to end, and retrained on an Indian dataset we collected.</p>
+<div style="display: grid; gap: 1px; background: var(--ln); border: 1px solid var(--ln); border-radius: 12px; overflow: hidden;">
+<div style="background: var(--bg2); padding: 14px 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px;"><span style="font-size: 15px;"><span style="font-weight: 600;">±2–3 pp</span> <span style="color: var(--tx2);">body fat vs 8-electrode BIA (n=110)</span></span><span class="tag-a">ACHIEVED</span></div>
+<div style="background: var(--bg2); padding: 14px 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px;"><span style="font-size: 15px;"><span style="font-weight: 600;">₹84L–1.2Cr/yr</span> <span style="color: var(--tx2);">vendor spend cut, with rPPG and PPG</span></span><span class="tag-a">ACHIEVED</span></div>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500;">Read the case study<svg class="ico go" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+</div>
+</a>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+<a class="card" href="#vol-02" style="display: flex; flex-direction: column; gap: 20px; padding: 14px 14px 22px; border: 1px solid var(--ln); border-radius: 20px; background: var(--bg2);">
+<div style="border-radius: 12px; overflow: hidden;"><div class="cv" style="position: relative; aspect-ratio: 4 / 3; background: #1A140A;">
+<svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 52%; transform: translate(-50%, -50%); fill: none; stroke: #F5A524; stroke-width: 2;"><path d="M20 50V20h30M150 20h30v30M180 150v30h-30M50 180H20v-30"></path><circle cx="100" cy="100" r="52" style="stroke-opacity: .6;"></circle><circle cx="100" cy="100" r="36" style="stroke-opacity: .35;"></circle><rect x="66" y="70" width="70" height="58" rx="6" style="stroke-dasharray: 5 4;"></rect></svg>
+<span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; border-radius: 6px; background: #F5A524; color: #2A1A00; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.02</span>
+</div></div>
+<div style="padding: 0 6px; display: flex; flex-direction: column; gap: 10px;">
+<div class="mono">Sugar.fit · LLM · Consumer</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 28px; line-height: 1.05;">Image-based food logging</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">Gemini Flash names the dish; a verified nutrition catalogue supplies macros, with a model fallback.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 6px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; line-height: 1;">62%</span><span style="font-size: 14px; color: var(--tx2);">of all meal logs</span><span class="tag-a">ACHIEVED</span></div>
+</div>
+</a>
+<a class="card" href="#vol-03" style="display: flex; flex-direction: column; gap: 20px; padding: 14px 14px 22px; border: 1px solid var(--ln); border-radius: 20px; background: var(--bg2);">
+<div style="border-radius: 12px; overflow: hidden;"><div class="cv" style="position: relative; aspect-ratio: 4 / 3; background: #0A1620;">
+<svg viewBox="0 0 320 240" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #38BDF8; stroke-width: 1.6;"><circle cx="70" cy="120" r="30"></circle><circle cx="70" cy="120" r="18" style="stroke-opacity: .5;"></circle><circle cx="70" cy="120" r="5" style="fill: #38BDF8;"></circle><rect x="226" y="62" width="64" height="116" rx="12"></rect><path d="M100 120 C140 70 180 170 226 120" style="stroke-dasharray: 4 5; stroke-opacity: .7;"></path><circle cx="112" cy="104" r="4" style="fill: #0A1620;"></circle><circle cx="130" cy="94" r="4" style="fill: #0A1620;"></circle><circle cx="150" cy="104" r="4" style="fill: #0A1620;"></circle><circle cx="166" cy="124" r="4" style="fill: #0A1620;"></circle><circle cx="184" cy="140" r="4" style="fill: #0A1620;"></circle><circle cx="202" cy="138" r="4" style="fill: #0A1620;"></circle><circle cx="218" cy="126" r="4" style="fill: #38BDF8;"></circle></svg>
+<span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; border-radius: 6px; background: #38BDF8; color: #04202E; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.03</span>
+</div></div>
+<div style="padding: 0 6px; display: flex; flex-direction: column; gap: 10px;">
+<div class="mono">Sugar.fit · Hardware to app</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 28px; line-height: 1.05;">The CGM journey, end to end</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">Seven stages, from sensor delivery to the 14-day data experience.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 6px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; line-height: 1;">42 → 72</span><span style="font-size: 14px; color: var(--tx2);">CSAT · ₹3.2 Cr saved YoY</span><span class="tag-a">ACHIEVED</span></div>
+</div>
+</a>
+<a class="card" href="#vol-04" style="display: flex; flex-direction: column; gap: 20px; padding: 14px 14px 22px; border: 1px solid var(--ln); border-radius: 20px; background: var(--bg2);">
+<div style="border-radius: 12px; overflow: hidden;"><div class="cv" style="position: relative; aspect-ratio: 4 / 3; background: #130F1F;">
+<svg viewBox="0 0 320 240" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #A78BFA; stroke-width: 1.6;"><rect x="118" y="26" width="84" height="214" rx="16"></rect><circle cx="160" cy="96" r="30" style="stroke-opacity: .3;"></circle><path d="M160 66 A30 30 0 1 1 131 104" style="stroke-width: 4;"></path><path d="M134 150h52M134 166h40M134 182h46" style="stroke-opacity: .5;"></path></svg>
+<span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; border-radius: 6px; background: #A78BFA; color: #1A1033; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.04</span>
+</div></div>
+<div style="padding: 0 6px; display: flex; flex-direction: column; gap: 10px;">
+<div class="mono">Sugar.fit · Digital health · 0→1</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 28px; line-height: 1.05;">The GLP-1 app, 0→1</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">Owned the patient experience end to end with Clinical, Business and Ops.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 6px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; line-height: 1;">52%</span><span style="font-size: 14px; color: var(--tx2);">renewal · ₹3.6 Cr month one</span><span class="tag-a">ACHIEVED</span></div>
+</div>
+</a>
+</div>
+</section>
+
+<section id="strategy" class="wrap" aria-labelledby="strategy-t" style="padding-top: 104px; padding-bottom: 112px;">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: 40px;">
+<div><div class="mono" style="font-weight: 500; color: var(--act);">Selected work · Strategy &amp; prototypes</div><h2 id="strategy-t" style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: clamp(40px, 5vw, 64px); line-height: .95; text-transform: uppercase;">Decisions, <span style="color: var(--tx3);">not features.</span></h2></div>
+<p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.6; color: var(--tx3);">Product strategy studies: research, prioritisation and a working prototype you can try.</p>
+</div>
+
+<a class="card" href="CaseStudy.dc.html" style="display: flex; flex-wrap: wrap; gap: 32px 40px; align-items: center; padding: 16px; border: 1px solid var(--ln); border-radius: 22px; background: var(--bg2);">
+<div style="flex: 999 1 520px; min-width: 0; border-radius: 14px; overflow: hidden;">
+<div class="cv" style="position: relative; aspect-ratio: 16 / 10; background: #1C0C0F;">
+<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #FF5A67; stroke-width: .7; opacity: .3;"><line x1="420" y1="250" x2="-20" y2="0"></line><line x1="420" y1="250" x2="-20" y2="120"></line><line x1="420" y1="250" x2="-20" y2="250"></line><line x1="420" y1="250" x2="-20" y2="380"></line><line x1="420" y1="250" x2="-20" y2="510"></line><line x1="420" y1="250" x2="820" y2="0"></line><line x1="420" y1="250" x2="820" y2="250"></line><line x1="420" y1="250" x2="820" y2="510"></line></svg>
+<div style="position: absolute; left: 50%; top: 14%; width: 30%; height: 100%; transform: translateX(-50%); border-radius: 26px 26px 0 0; border: 2px solid rgba(255,255,255,.18); border-bottom: none; background: #F7F3EE; overflow: hidden;"><div style="height: 22%; background: #C7372F;"></div><div style="margin: 9% 8% 0; height: 7%; border-radius: 6px; background: #E9E3DC;"></div><div style="margin: 7% 8% 0; height: 13%; border-radius: 8px; background: #25B864;"></div><div style="margin: 7% 8% 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div style="height: 46px; border-radius: 6px; background: #EADFD2;"></div><div style="height: 46px; border-radius: 6px; background: #EADFD2;"></div></div></div>
+<span style="position: absolute; left: 18px; top: 18px; padding: 6px 10px; border-radius: 6px; background: #FF5A67; color: #0B0B0E; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.05</span>
+<span class="badge" style="right: 18px; top: 18px; font-size: 13px;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Prototype</span>
+<span aria-hidden="true" style="position: absolute; right: 18px; bottom: -22px; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 200px; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(255,90,103,.35);">05</span>
+</div>
+</div>
+<div style="flex: 1 1 340px; min-width: 0; padding: 8px 12px 8px 0; display: flex; flex-direction: column; gap: 18px;">
+<div class="mono">Sri Mandir · Consumer · Strategy + prototype</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: clamp(30px, 3vw, 42px); line-height: 1.02;">Puja engagement platform</h3>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--tx2);">WhatsApp-native booking, recommendations and a spiritual calendar to lift repeat puja orders.</p>
+<div style="display: grid; gap: 1px; background: var(--ln); border: 1px solid var(--ln); border-radius: 12px; overflow: hidden;">
+<div style="background: var(--bg2); padding: 14px 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px;"><span style="font-size: 15px;"><span style="font-weight: 600;">+30%</span> <span style="color: var(--tx2);">monthly orders per user</span></span><span class="tag-t">TARGET</span></div>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500;">Read the case study<svg class="ico go" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+</div>
+</a>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+<a class="card" href="#vol-06" style="display: flex; flex-direction: column; gap: 20px; padding: 14px 14px 22px; border: 1px solid var(--ln); border-radius: 20px; background: var(--bg2);">
+<div style="border-radius: 12px; overflow: hidden;"><div class="cv" style="position: relative; aspect-ratio: 4 / 3; background: #121826;">
+<div style="position: absolute; left: 10%; right: 10%; top: 18%; bottom: 0; border-radius: 10px 10px 0 0; border: 1px solid rgba(148,163,184,.45); border-bottom: none; background: #141C2B; padding: 12px; display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 16px 1fr 1fr; gap: 8px;"><div style="grid-column: 1 / 4; display: flex; gap: 6px;"><span style="width: 46px; border-radius: 4px; background: rgba(148,163,184,.55);"></span><span style="width: 46px; border-radius: 4px; background: rgba(148,163,184,.2);"></span><span style="width: 46px; border-radius: 4px; background: rgba(148,163,184,.2);"></span></div><div style="grid-row: 2 / 4; border-radius: 6px; border: 1px solid rgba(148,163,184,.35); background: rgba(148,163,184,.08);"><svg viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true" style="width: 100%; height: 100%; fill: none; stroke: #94A3B8; stroke-width: 1.5;"><path d="M0 80 L30 70 L55 74 L80 50 L110 56 L140 30 L170 38 L200 20"></path></svg></div><div style="border-radius: 6px; border: 1px solid rgba(148,163,184,.35); background: rgba(148,163,184,.08);"></div><div style="border-radius: 6px; border: 1px solid rgba(148,163,184,.35); background: rgba(148,163,184,.08);"></div><div style="grid-column: 2 / 4; border-radius: 6px; border: 1px solid rgba(148,163,184,.35); background: rgba(148,163,184,.08);"></div></div>
+<span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; border-radius: 6px; background: #94A3B8; color: #0B0B0E; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.06</span>
+<span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Prototype</span>
+</div></div>
+<div style="padding: 0 6px; display: flex; flex-direction: column; gap: 10px;">
+<div class="mono">Arcana · Fintech B2B · PRD + prototype</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 28px; line-height: 1.05;">Arcana Workspace</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">A Bloomberg-style modular launchpad for institutional investors, from PRD to a working prototype.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 6px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; line-height: 1;">7</span><span style="font-size: 14px; color: var(--tx2);">priority widgets in V1</span><span class="tag-o">OUTPUT</span></div>
+</div>
+</a>
+<a class="card" href="#vol-07" style="display: flex; flex-direction: column; gap: 20px; padding: 14px 14px 22px; border: 1px solid var(--ln); border-radius: 20px; background: var(--bg2);">
+<div style="border-radius: 12px; overflow: hidden;"><div class="cv" style="position: relative; aspect-ratio: 4 / 3; background: #0E1F14;">
+<svg viewBox="0 0 320 240" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #4ADE80; stroke-width: 1.6;"><path d="M48 196H286M48 196V44" style="stroke-opacity: .3;"></path><path d="M58 72H282" style="stroke-dasharray: 4 5; stroke-opacity: .4;"></path><path d="M58 72 L96 84 L134 100 L172 122 L210 136 L248 154 L282 162"></path><circle cx="58" cy="72" r="4" style="fill: #4ADE80;"></circle><circle cx="134" cy="100" r="4" style="fill: #0E1F14;"></circle><circle cx="210" cy="136" r="4" style="fill: #0E1F14;"></circle><circle cx="282" cy="162" r="5" style="fill: #4ADE80;"></circle><rect x="210" y="40" width="72" height="38" rx="8" style="stroke-opacity: .5;"></rect><path d="M222 54h48M222 66h30" style="stroke-opacity: .5;"></path></svg>
+<span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; border-radius: 6px; background: #4ADE80; color: #0B0B0E; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.07</span>
+
+</div></div>
+<div style="padding: 0 6px; display: flex; flex-direction: column; gap: 10px;">
+<div class="mono">GLP Health · Strategy</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 28px; line-height: 1.05;">GLP-1 digital scaffold</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">From activity tracker to an outcome-driven metabolic platform.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 6px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; line-height: 1;">64%</span><span style="font-size: 14px; color: var(--tx2);">of users lose &gt;1 kg today</span><span class="tag-b">BASELINE</span></div>
+</div>
+</a>
+<a class="card" href="#vol-08" style="display: flex; flex-direction: column; gap: 20px; padding: 14px 14px 22px; border: 1px solid var(--ln); border-radius: 20px; background: var(--bg2);">
+<div style="border-radius: 12px; overflow: hidden;"><div class="cv" style="position: relative; aspect-ratio: 4 / 3; background: #1F1A06;">
+<svg viewBox="0 0 320 240" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #FACC15; stroke-width: 1.6;"><rect x="82" y="34" width="34" height="34" rx="6"></rect><rect x="122" y="34" width="34" height="34" rx="6" style="fill: rgba(250,204,21,.22);"></rect><rect x="162" y="34" width="34" height="34" rx="6" style="fill: rgba(250,204,21,.22);"></rect><rect x="202" y="34" width="34" height="34" rx="6"></rect><circle cx="159" cy="150" r="58" style="stroke-opacity: .55;"></circle><circle cx="159" cy="98" r="13"></circle><circle cx="208" cy="134" r="13"></circle><circle cx="190" cy="192" r="13"></circle><circle cx="128" cy="192" r="13"></circle><circle cx="110" cy="134" r="13"></circle><path d="M159 98 L208 134 L190 192" style="stroke-width: 3; stroke-opacity: .7;"></path></svg>
+<span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; border-radius: 6px; background: #FACC15; color: #0B0B0E; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.08</span>
+<span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Prototype</span>
+</div></div>
+<div style="padding: 0 6px; display: flex; flex-direction: column; gap: 10px;">
+<div class="mono">Playsimple · Word Trip · Strategy + prototype</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 28px; line-height: 1.05;">Word games monetisation</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">Onboarding, IAP and retention mechanics for Word Trip.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 6px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; line-height: 1;">6.5M → 8.8M</span><span style="font-size: 14px; color: var(--tx2);">monthly active users</span><span class="tag-t">TARGET</span></div>
+</div>
+</a>
+<a class="card" href="#vol-09" style="display: flex; flex-direction: column; gap: 20px; padding: 14px 14px 22px; border: 1px solid var(--ln); border-radius: 20px; background: var(--bg2);">
+<div style="border-radius: 12px; overflow: hidden;"><div class="cv" style="position: relative; aspect-ratio: 4 / 3; background: #141F06;">
+<svg viewBox="0 0 320 240" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #A3E635; stroke-width: 1.6;"><path d="M48 200H286" style="stroke-opacity: .3;"></path><rect x="66" y="150" width="28" height="50"></rect><rect x="108" y="132" width="28" height="68"></rect><rect x="150" y="112" width="28" height="88"></rect><rect x="192" y="86" width="28" height="114" style="stroke-dasharray: 5 4;"></rect><rect x="234" y="62" width="28" height="138" style="stroke-dasharray: 5 4;"></rect><path d="M80 140 L122 122 L164 100 L206 74 L248 48" style="stroke-dasharray: 3 5; stroke-opacity: .7;"></path><circle cx="248" cy="48" r="5" style="fill: #A3E635;"></circle></svg>
+<span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; border-radius: 6px; background: #A3E635; color: #0B0B0E; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.09</span>
+<span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Prototype</span>
+</div></div>
+<div style="padding: 0 6px; display: flex; flex-direction: column; gap: 10px;">
+<div class="mono">Zynga · FarmVille 3 · Strategy + prototype</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 28px; line-height: 1.05;">FarmVille 3 revenue growth</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">Subscription, consumables and community events.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 6px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; line-height: 1;">+$50–65K</span><span style="font-size: 14px; color: var(--tx2);">net new revenue a month</span><span class="tag-p">PROJECTED</span></div>
+</div>
+</a>
+<a class="card see-all" href="WorkScale.dc.html" style="grid-column: span 2;">
+<div aria-hidden="true" style="display: flex; align-items: flex-end; gap: 6px; height: 120px; max-width: 360px;"><span style="flex: 1; height: 100%; background: #2DD4BF; opacity: .85;"></span><span style="flex: 1; height: 74%; background: #F5A524; opacity: .85;"></span><span style="flex: 1; height: 88%; background: #38BDF8; opacity: .85;"></span><span style="flex: 1; height: 80%; background: #A78BFA; opacity: .85;"></span><span style="flex: 1; height: 94%; background: #FF5A67; opacity: .85;"></span><span style="flex: 1; height: 70%; background: #94A3B8; opacity: .85;"></span><span style="flex: 1; height: 84%; background: #4ADE80; opacity: .85;"></span><span style="flex: 1; height: 76%; background: #FACC15; opacity: .85;"></span><span style="flex: 1; height: 90%; background: #A3E635; opacity: .85;"></span></div>
+<div><div style="font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 44px; line-height: .95; text-transform: uppercase;">All work · 9 volumes <span style="color: var(--ac);">→</span></div><div style="margin-top: 10px; font-size: 15px; color: var(--tx2);">Every project in one list, with filters by shelf, company, topic and label.</div></div>
+</a>
+</div>
+</section>
+
+<section id="about" style="background: var(--bg2); border-top: 1px solid var(--ln); border-bottom: 1px solid var(--ln);">
+<div class="wrap" style="padding-top: 104px; padding-bottom: 104px;">
+<div style="display: flex; flex-wrap: wrap; gap: 32px 64px; align-items: flex-end; justify-content: space-between; margin-bottom: 48px;">
+<div><div class="mono" style="font-weight: 500; color: var(--act);">How I work</div><h2 style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: clamp(40px, 5vw, 64px); line-height: .95; text-transform: uppercase;">Analyst first. <span style="color: var(--tx3);">Builder always.</span></h2></div>
+<p style="margin: 0; max-width: 480px; font-size: 17px; line-height: 1.6; color: var(--tx2);">Eight years across product and data: four as an analyst at Wipro, Vedantu and Razorpay, then product at Glance and Sugar.fit. M.Sc. in Mathematics &amp; Computing, BIT Mesra.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+<div style="padding: 28px; border-radius: 18px; background: var(--bg); border: 1px solid var(--ln);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 44px; line-height: 1; color: var(--act);">01</div><h3 style="margin: 18px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -.01em;">Start in the data</h3><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--tx2);">I lead Sugar.fit’s Central Analytics team and own the BigQuery/Dataform platform — one source of truth for org-wide KPIs, self-serve for every pod.</p></div>
+<div style="padding: 28px; border-radius: 18px; background: var(--bg); border: 1px solid var(--ln);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 44px; line-height: 1; color: var(--act);">02</div><h3 style="margin: 18px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -.01em;">Build when it’s the product</h3><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--tx2);">Benchmarked open-source models, retrained on our own data and replaced a vitals vendor with in-house rPPG and PPG — lower error, ₹84L–1.2Cr a year saved.</p></div>
+<div style="padding: 28px; border-radius: 18px; background: var(--bg); border: 1px solid var(--ln);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 44px; line-height: 1; color: var(--act);">03</div><h3 style="margin: 18px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -.01em;">Own the whole journey</h3><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--tx2);">Seven CGM stages, from sensor delivery to 14-day data, with discovery run on a year of support tickets. CSAT went from 42 to 72.</p></div>
+</div>
+</div>
+</section>
+
+<section id="experience" class="wrap" style="padding-top: 104px; padding-bottom: 88px;">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: 40px;">
+<div><div class="mono" style="font-weight: 500; color: var(--act);">Experience</div><h2 style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: clamp(40px, 5vw, 64px); line-height: .95; text-transform: uppercase;">Where I’ve built.</h2></div>
+<a class="cta2" href="#resume" style="height: 44px; padding: 0 18px; font-size: 14px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Full résumé</a>
+</div>
+<div style="border-top: 1px solid var(--ln2);">
+<article style="display: flex; flex-wrap: wrap; gap: 20px 48px; padding: 36px 0; border-bottom: 1px solid var(--ln);">
+<div style="flex: 1 1 220px; max-width: 280px;"><div class="mono" style="color: var(--act);">May 2025 — now</div><div style="margin-top: 10px; font-size: 22px; font-weight: 600;">Sugar.fit</div><div style="margin-top: 4px; font-size: 15px; color: var(--tx2);">Product Manager · Bengaluru</div></div>
+<div style="flex: 999 1 560px; min-width: 0;">
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--tx2);">Own product for GLP-1, Type 2 diabetes and Active Foods D2C, reporting to the co-founder/CPO. Lead the Central Analytics team: 3 direct reports, 10 analysts across growth, marketing, clinical, ops, product and D2C.</p>
+<div style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+<div style="padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid var(--ln);"><div class="mono" style="margin-bottom: 12px;">AI-native products</div><ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--tx2);"><li><span style="color: var(--tx); font-weight: 500;">3D body scan</span> — ±2–3 pp vs BIA (n=110)</li><li><span style="color: var(--tx); font-weight: 500;">In-house rPPG + PPG</span> — ₹84L–1.2Cr/yr saved</li><li><span style="color: var(--tx); font-weight: 500;">AI food logging</span> — 62% of logs, +34%</li><li><span style="color: var(--tx); font-weight: 500;">Support automation</span> — 73% auto-resolved, TAT 80 → 32 h</li></ul></div>
+<div style="padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid var(--ln);"><div class="mono" style="margin-bottom: 12px;">Data &amp; platforms</div><ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--tx2);"><li><span style="color: var(--tx); font-weight: 500;">BigQuery / Dataform</span> — one KPI truth, $48K/yr saved</li><li><span style="color: var(--tx); font-weight: 500;">Commerce off Shopify</span> — self-serve offers and pricing tests</li><li><span style="color: var(--tx); font-weight: 500;">WhatsApp CRM</span> — send rate 70% → 98%</li></ul></div>
+<div style="padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid var(--ln);"><div class="mono" style="margin-bottom: 12px;">Consumer product</div><ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--tx2);"><li><span style="color: var(--tx); font-weight: 500;">CGM journey</span> — CSAT 42 → 72, ₹3.2 Cr saved</li><li><span style="color: var(--tx); font-weight: 500;">T2D renewals</span> — +20%, +₹17–20L a month</li><li><span style="color: var(--tx); font-weight: 500;">GLP-1 app 0→1</span> — 52% renewal</li><li><span style="color: var(--tx); font-weight: 500;">Active Foods</span> — AOV +7%, COD returns −25%</li></ul></div>
+</div>
+</div>
+</article>
+<article style="display: flex; flex-wrap: wrap; gap: 20px 48px; padding: 36px 0; border-bottom: 1px solid var(--ln);">
+<div style="flex: 1 1 220px; max-width: 280px;"><div class="mono">May 2022 — May 2025</div><div style="margin-top: 10px; font-size: 22px; font-weight: 600;">Glance (InMobi Group)</div><div style="margin-top: 4px; font-size: 15px; color: var(--tx2);">Product Manager · Bengaluru</div></div>
+<div style="flex: 999 1 560px; min-width: 0;">
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--tx2);">Owned personalisation, content experience and the serving stack for 230M+ lockscreen users.</p>
+<ul style="margin: 18px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 32px; font-size: 15px; line-height: 1.5; color: var(--tx2);">
+<li style="padding-left: 16px; border-left: 2px solid var(--ln2);">Rebuilt serving-funnel rendering and tracking: <span style="color: var(--tx);">serving +22%, CTR 1.7×</span></li>
+<li style="padding-left: 16px; border-left: 2px solid var(--ln2);">ML-clustered Summaries &amp; Collections: <span style="color: var(--tx);">1.4M DAU, L0 engagement +21%</span></li>
+<li style="padding-left: 16px; border-left: 2px solid var(--ln2);"><span style="color: var(--tx);">$1.4M ARR</span> via Tracfone; <span style="color: var(--tx);">$600K ARR</span> from Japan and Brazil</li>
+<li style="padding-left: 16px; border-left: 2px solid var(--ln2);">NFL on Google NAB: <span style="color: var(--tx);">2.5M Airtel Xstream devices</span></li>
+<li style="padding-left: 16px; border-left: 2px solid var(--ln2);">Owned GDPR readiness that unblocked the EU launch</li>
+<li style="padding-left: 16px; border-left: 2px solid var(--ln2);">Lakmé campaign: <span style="color: var(--tx);">12M impressions, 64% higher ad recall</span></li>
+</ul>
+</div>
+</article>
+<article style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 0; border-bottom: 1px solid var(--ln);">
+<div style="flex: 1 1 220px; max-width: 280px;"><div class="mono">Jul — Sep 2021</div><div style="margin-top: 8px; font-size: 19px; font-weight: 600;">Razorpay</div><div style="margin-top: 2px; font-size: 14px; color: var(--tx2);">Senior Product Analyst</div></div>
+<p style="flex: 999 1 560px; margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);"><span style="color: var(--tx);">+30% sign-ups and +23% MTU</span> from a redesigned signup funnel and activation flow. “Ace in the Race” award for data instrumentation across GST, OCR and merchant verification.</p>
+</article>
+<article style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 0; border-bottom: 1px solid var(--ln);">
+<div style="flex: 1 1 220px; max-width: 280px;"><div class="mono">Jan — Jul 2021</div><div style="margin-top: 8px; font-size: 19px; font-weight: 600;">Vedantu</div><div style="margin-top: 2px; font-size: 14px; color: var(--tx2);">Senior Product Analyst</div></div>
+<p style="flex: 999 1 560px; margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);"><span style="color: var(--tx);">+800 daily inbound leads</span> from Book Online Demo experiments; micro-concept video retention +17% and ₹7L a month in revenue.</p>
+</article>
+<article style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 0; border-bottom: 1px solid var(--ln);">
+<div style="flex: 1 1 220px; max-width: 280px;"><div class="mono">Aug 2017 — Jan 2021</div><div style="margin-top: 8px; font-size: 19px; font-weight: 600;">Wipro Analytics</div><div style="margin-top: 2px; font-size: 14px; color: var(--tx2);">Senior Analyst</div></div>
+<p style="flex: 999 1 560px; margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">Data initiatives for Uber GSS operations across <span style="color: var(--tx);">64 languages</span>; cut Uber Eats localisation spend through cost-per-language analysis (amount under NDA). Also Lloyds Banking Group and Capital One.</p>
+</article>
+<article style="display: flex; flex-wrap: wrap; gap: 12px 48px; padding: 28px 0;">
+<div style="flex: 1 1 220px; max-width: 280px;"><div class="mono">2012 — 2017</div><div style="margin-top: 8px; font-size: 19px; font-weight: 600;">BIT Mesra, Ranchi</div></div>
+<p style="flex: 999 1 560px; margin: 0; font-size: 15px; line-height: 1.6; color: var(--tx2);">Integrated M.Sc. Mathematics &amp; Computing, with distinction.</p>
+</article>
+</div>
+</section>
+
+<section id="skills" aria-labelledby="sk-t" class="wrap" style="padding-top: 8px; padding-bottom: 112px;"><div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: 30px;"><div><div class="mono" style="font-weight: 500; color: var(--act);">Skills</div><h2 id="sk-t" style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: clamp(40px, 5vw, 64px); line-height: .95; text-transform: uppercase;">What I <span style="color: var(--tx3);">bring.</span></h2></div><p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.6; color: var(--tx3);">Four groups, one cloud. Hover or tap a group to light up its skills.</p></div><div class="cloud {{skLit}}">
+<sc-for list="{{skGroups}}" as="g" hint-placeholder-count="4">
+<div class="cg" role="group" aria-labelledby="skg-{{g.i}}">
+<h3 class="cw g {{g.on}}" style="order: {{g.order}};"><span class="cw-sub">{{g.sub}}</span><button id="skg-{{g.i}}" type="button" aria-pressed="{{g.pressed}}" onClick="{{g.toggle}}" onMouseEnter="{{g.enter}}" onMouseLeave="{{g.leave}}">{{g.t}}</button></h3>
+<ul role="list"><sc-for list="{{g.items}}" as="w" hint-placeholder-count="6"><li role="listitem" class="cw {{w.cls}}" style="order: {{w.order}};">{{w.t}}</li></sc-for></ul>
+</div>
+</sc-for>
+</div>
+<p class="sk-hint">Hover or click a group to light up its skills · 28 skills in 4 groups</p></section>
+
+<section id="testimonials" aria-labelledby="testi" style="background: var(--bg2); border-top: 1px solid var(--ln); border-bottom: 1px solid var(--ln);">
+<div class="wrap" style="padding-top: 96px; padding-bottom: 96px;">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 36px;">
+<div><div class="mono" style="font-weight: 500; color: var(--act);">Testimonials</div><h2 id="testi" style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: clamp(36px, 4.2vw, 54px); line-height: .95; text-transform: uppercase;">What teammates say.</h2></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="font-family: var(--fm); font-size: 13px; color: var(--tx3);">1–3 of 7</span><button aria-label="Previous testimonials" disabled style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--ln); background: transparent; color: var(--tx3); display: grid; place-items: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"></path></svg></button><button aria-label="Next testimonials" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--ln2); background: transparent; color: var(--tx); display: grid; place-items: center; cursor: pointer;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+<figure style="margin: 0; padding: 28px; border-radius: 18px; background: var(--bg); border: 1px solid var(--ln); display: flex; flex-direction: column; gap: 24px;"><blockquote style="margin: 0; font-size: 16px; line-height: 1.65; color: var(--tx2);">“Akarshan was my PM on multiple projects through the TV Integration with a leading OEM. He brought a lot of user first approaches to the table, which led to deep business as well as user impact. His ability to get everyone on the same page and turn the wheel is what really worked for the product.”</blockquote><figcaption style="margin-top: auto; display: flex; align-items: center; gap: 12px;"><span style="width: 40px; height: 40px; border-radius: 50%; background: #2A2033; color: #D9C2F7; display: grid; place-items: center; font-size: 14px; font-weight: 600;">AL</span><span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600;">Anmol Loonia</span><span style="font-size: 13px; color: var(--tx3);">Design Leader, Consumer AI · Glance</span></span><a href="#li-al" aria-label="Anmol Loonia on LinkedIn" style="color: var(--tx3);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg></a></figcaption></figure>
+<figure style="margin: 0; padding: 28px; border-radius: 18px; background: var(--bg); border: 1px solid var(--ln); display: flex; flex-direction: column; gap: 24px;"><blockquote style="margin: 0; font-size: 16px; line-height: 1.65; color: var(--tx2);">“Akarshan is one of the sharpest product minds I have had the pleasure of working with. His ability to break down complex problems, ask the right questions, and approach every decision with a data-driven mindset made a huge impact on our work.”</blockquote><figcaption style="margin-top: auto; display: flex; align-items: center; gap: 12px;"><span style="width: 40px; height: 40px; border-radius: 50%; background: #2C2A16; color: #F3DE8A; display: grid; place-items: center; font-size: 14px; font-weight: 600;">PS</span><span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600;">Pallav Srivastava</span><span style="font-size: 13px; color: var(--tx3);">SDE 4 (Android) · Glance</span></span><a href="#li-ps" aria-label="Pallav Srivastava on LinkedIn" style="color: var(--tx3);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg></a></figcaption></figure>
+<figure style="margin: 0; padding: 28px; border-radius: 18px; background: var(--bg); border: 1px solid var(--ln); display: flex; flex-direction: column; gap: 24px;"><blockquote style="margin: 0; font-size: 16px; line-height: 1.65; color: var(--tx2);">“The striking thing about working with him is his Conviction. The conviction that arises out of a detailed and thorough thought process. A great asset to work with.”</blockquote><figcaption style="margin-top: auto; display: flex; align-items: center; gap: 12px;"><span style="width: 40px; height: 40px; border-radius: 50%; background: #10283A; color: #9ADFFF; display: grid; place-items: center; font-size: 14px; font-weight: 600;">VG</span><span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600;">Vishal Gopal</span><span style="font-size: 13px; color: var(--tx3);">Product · Glance</span></span><a href="#li-vg" aria-label="Vishal Gopal on LinkedIn" style="color: var(--tx3);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg></a></figcaption></figure>
+</div>
+</div>
+</section>
+
+<section id="offduty" aria-labelledby="off-t" style="border-top: 1px solid var(--ln);"><div class="wrap" style="padding-top: 104px; padding-bottom: 112px;"><div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: 30px;"><div><div class="mono" style="font-weight: 500; color: var(--act);">Off duty</div><h2 id="off-t" style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: clamp(40px, 5vw, 64px); line-height: .95; text-transform: uppercase;">When I’m not <span style="color: var(--tx3);">shipping.</span></h2></div><p style="margin: 0; max-width: 420px; font-size: 15px; line-height: 1.6; color: var(--tx3);">The bonus pages at the back of the volume.</p></div><div style="margin-top: 26px;"></div><div class="opage" style="grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: 278px 278px 340px; gap: 12px;"><article class="op" aria-labelledby="op-01" style="grid-column: 1 / 8; grid-row: 1 / 3; --pa: #FF5A67; --pg: #1C0C0F;"><div class="op-tone" aria-hidden="true" style="-webkit-mask-image: radial-gradient(ellipse at 78% 21%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 78% 21%, #000 0%, transparent 58%);"></div><svg class="op-sl" viewBox="0 0 695 568" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M642.2 120.0L1652.0 113.3L1652.0 126.7ZM714.8 135.7L1649.1 200.8L1645.7 238.6ZM645.1 139.1L1635.4 311.2L1632.8 325.9ZM681.3 159.0L1615.6 402.2L1608.1 429.4ZM663.5 166.4L1585.1 499.8L1576.9 521.6ZM664.6 180.0L1547.3 591.0L1536.3 613.9ZM670.5 198.0L1502.2 677.4L1486.8 703.2ZM633.4 187.8L1444.8 766.4L1434.4 780.8ZM636.7 204.5L1384.7 843.3L1370.1 859.9ZM640.3 224.9L1318.4 914.1L1298.4 933.3ZM651.9 260.3L1248.6 977.0L1217.9 1001.5ZM632.3 259.8L1167.2 1038.2L1137.8 1057.6ZM595.2 222.6L1074.9 1094.9L1058.9 1103.5ZM611.3 286.8L995.3 1134.5L958.6 1150.2ZM591.6 279.0L900.3 1172.0L866.9 1182.9ZM570.6 253.9L799.7 1201.3L775.2 1206.8ZM563.6 294.4L708.1 1219.2L670.4 1224.3ZM546.1 256.6L602.3 1230.3L577.4 1231.4ZM533.1 273.3L505.4 1231.5L474.9 1230.1ZM522.8 246.7L401.6 1223.4L379.9 1220.4ZM503.8 278.6L309.0 1207.7L276.2 1200.3ZM494.7 259.3L209.8 1181.8L183.0 1173.1ZM479.2 262.3L117.2 1148.5L88.8 1136.3ZM475.8 239.4L23.9 1105.0L2.3 1093.3ZM477.7 214.3L-65.5 1052.7L-79.7 1043.3ZM459.9 220.5L-144.6 996.3L-162.0 982.4ZM442.1 222.4L-218.8 932.9L-238.0 914.5ZM463.0 187.3L-293.0 856.6L-301.8 846.6ZM446.9 187.7L-354.4 780.7L-364.8 766.5ZM423.5 189.6L-408.2 700.8L-420.8 679.8ZM377.3 198.3L-453.1 620.3L-470.3 584.5ZM390.4 176.1L-495.2 526.0L-506.7 495.4ZM419.5 153.2L-529.1 425.9L-534.7 405.7ZM406.7 144.2L-551.9 330.6L-556.3 306.5ZM422.3 130.6L-566.6 229.0L-568.3 210.4ZM392.0 120.0L-571.9 134.4L-571.9 105.6ZM360.4 103.8L-569.1 40.0L-565.6 0.6ZM367.4 88.7L-557.4 -59.9L-550.6 -97.2ZM405.4 82.9L-535.3 -163.3L-528.4 -188.3ZM387.1 62.6L-506.9 -254.8L-495.0 -286.5ZM405.1 55.1L-468.1 -349.3L-455.4 -375.6ZM388.5 29.5L-424.3 -433.8L-404.6 -466.7ZM428.1 38.7L-367.0 -523.3L-352.1 -543.9ZM450.1 41.5L-303.7 -604.4L-291.1 -618.8ZM431.2 6.2L-239.9 -672.6L-216.9 -694.7ZM436.8 -9.4L-166.8 -738.5L-139.7 -760.1ZM471.3 15.9L-81.3 -802.2L-63.8 -813.8ZM472.2 -6.0L1.2 -852.7L25.0 -865.6ZM495.4 15.6L95.1 -899.1L110.9 -905.9ZM505.6 14.1L188.6 -935.0L204.2 -940.1ZM511.9 -3.1L282.1 -961.7L303.0 -966.5ZM525.0 9.6L382.6 -980.8L398.9 -983.0ZM532.5 -46.6L472.6 -990.0L507.6 -991.5ZM546.6 -26.1L575.8 -991.4L603.9 -990.2ZM558.0 -13.2L677.3 -983.5L701.2 -980.3ZM578.2 -47.3L769.5 -968.0L805.3 -959.9ZM583.3 -13.1L871.2 -941.5L896.0 -933.5ZM587.2 9.5L968.1 -906.3L985.9 -898.7ZM600.1 8.3L1057.4 -864.3L1076.4 -854.1ZM604.0 23.1L1145.1 -813.0L1160.1 -803.1ZM612.2 29.5L1226.3 -754.9L1240.3 -743.8ZM615.2 41.4L1302.8 -689.1L1314.1 -678.4ZM665.6 10.3L1365.8 -624.7L1388.8 -598.4ZM623.8 59.1L1435.6 -539.2L1443.7 -528.0ZM633.8 64.0L1490.5 -457.1L1498.6 -443.6ZM637.7 73.0L1538.5 -369.4L1545.2 -355.5ZM680.2 67.4L1575.9 -284.4L1586.1 -257.0ZM657.1 87.7L1609.3 -185.4L1614.5 -166.3ZM671.0 96.2L1632.0 -90.2L1636.2 -66.9ZM667.8 108.5L1646.5 9.3L1648.5 31.3Z" fill="#FF5A67" fill-opacity=".14"></path></svg><div class="op-num" aria-hidden="true" style="right: 22px; top: 196px; font-size: 150px;">01</div><svg class="op-ico" viewBox="-80 -70 160 140" aria-hidden="true" style="right: 44px; top: 18px; width: 200px; height: 172px;"><g transform="rotate(-28)"><path d="M0 -58 L13 -16 L0 -6 L-13 -16 Z"></path><path d="M0 -6 V30"></path><path d="M-6 4 L6 0 M-6 12 L6 8 M-6 20 L6 16 M-6 28 L6 24"></path><circle cx="0" cy="40" r="9"></circle></g><path d="M-58 -52 L-44 -42 M-26 -66 L-24 -52 M-64 -24 L-50 -24 M38 -56 L30 -44 M50 -28 L38 -26" style="stroke-width: 2.4;"></path><circle cx="-36" cy="-36" r="18" style="stroke-dasharray: 3 5; stroke-opacity: .6;"></circle></svg><div class="op-cap" style="left: 22px; top: 22px; width: 400px;"><div class="op-k">Passion</div><h3 id="op-01" class="op-t" style="font-size: 48px;">Anime</h3><p class="op-d">Big fan of layered storytelling — the kind where every detail from episode 1 pays off in the finale. AoT, Vinland Saga, FMA, and JJK are my benchmarks for what great narrative looks like.</p><span class="op-tag">Currently watching</span></div><div class="op-shelf"><div class="op-sk">Currently watching / all-time favourites</div><ol class="spines" aria-label="All-time favourites" style=""><li class="sp" style="--sh: #FF5A67; padding-top: 6px; width: 46px;"><span class="sp-n">01</span><span class="sp-v"><span class="sp-t">Attack on Titan</span><span class="sp-g">Action · Strategy</span></span></li><li class="sp" style="--sh: #F5A524; padding-top: 18px; width: 46px;"><span class="sp-n">02</span><span class="sp-v"><span class="sp-t">Demon Slayer</span><span class="sp-g">Action · Visual Art</span></span></li><li class="sp" style="--sh: #38BDF8; padding-top: 0px; width: 46px;"><span class="sp-n">03</span><span class="sp-v"><span class="sp-t">Death Note</span><span class="sp-g">Psychological · Thriller</span></span></li><li class="sp" style="--sh: #A78BFA; padding-top: 22px; width: 46px;"><span class="sp-n">04</span><span class="sp-v"><span class="sp-t">Fullmetal Alchemist</span><span class="sp-g">Adventure · Deep</span></span></li><li class="sp" style="--sh: #2DD4BF; padding-top: 10px; width: 46px;"><span class="sp-n">05</span><span class="sp-v"><span class="sp-t">Jujutsu Kaisen</span><span class="sp-g">Action · Current</span></span></li><li class="sp" style="--sh: #FACC15; padding-top: 4px; width: 46px;"><span class="sp-n">06</span><span class="sp-v"><span class="sp-t">One Punch Man</span><span class="sp-g">Comedy · Power</span></span></li><li class="sp" style="--sh: #4ADE80; padding-top: 16px; width: 46px;"><span class="sp-n">07</span><span class="sp-v"><span class="sp-t">Vinland Saga</span><span class="sp-g">Historical · Epic</span></span></li><li class="sp" style="--sh: #94A3B8; padding-top: 8px; width: 46px;"><span class="sp-n">08</span><span class="sp-v"><span class="sp-t">Haikyuu!!</span><span class="sp-g">Sports · Motivation</span></span></li></ol></div></article><article class="op" aria-labelledby="op-02" style="grid-column: 8 / 13; grid-row: 1; --pa: #FACC15; --pg: #1F1A06;"><div class="op-tone" aria-hidden="true" style="-webkit-mask-image: radial-gradient(ellipse at 81% 40%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 81% 40%, #000 0%, transparent 58%);"></div><svg class="op-sl" viewBox="0 0 493 278" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M450.0 110.0L1188.8 105.3L1188.8 114.7ZM485.6 117.7L1186.7 167.3L1184.3 194.1ZM451.4 119.3L1177.0 245.7L1175.2 256.0ZM469.2 129.1L1163.0 310.2L1157.6 329.5ZM460.5 132.7L1141.4 379.4L1135.6 394.9ZM461.0 139.4L1114.6 444.1L1106.7 460.4ZM463.9 148.2L1082.5 505.4L1071.6 523.7ZM445.7 143.2L1041.8 568.5L1034.4 578.7ZM447.3 151.4L999.2 623.0L988.8 634.9ZM449.1 161.3L952.2 673.3L938.0 686.9ZM454.8 178.7L902.6 717.9L880.8 735.3ZM445.2 178.4L844.9 761.3L824.1 775.1ZM427.0 160.2L779.4 801.5L768.1 807.6ZM434.9 191.6L723.0 829.6L697.0 840.8ZM425.3 187.8L655.6 856.3L631.9 863.9ZM415.0 175.5L584.2 877.0L566.8 881.0ZM411.6 195.3L519.3 889.7L492.5 893.4ZM403.0 176.9L444.2 897.6L426.6 898.4ZM396.6 185.0L375.4 898.4L353.8 897.4ZM391.6 172.0L301.8 892.7L286.4 890.6ZM382.3 187.6L236.1 881.6L212.9 876.3ZM377.8 178.2L165.8 863.2L146.8 857.0ZM370.2 179.7L100.1 839.6L79.9 830.9ZM368.6 168.4L33.9 808.7L18.6 800.4ZM369.5 156.2L-29.5 771.6L-39.6 765.0ZM360.8 159.2L-85.6 731.6L-97.9 721.8ZM352.1 160.1L-138.3 686.6L-151.9 673.6ZM362.3 142.9L-190.9 632.5L-197.1 625.4ZM354.4 143.1L-234.4 578.7L-241.8 568.6ZM343.0 144.1L-272.6 522.0L-281.6 507.1ZM320.4 148.3L-304.5 464.9L-316.7 439.5ZM326.8 137.5L-334.4 398.0L-342.5 376.3ZM341.0 126.3L-358.4 327.0L-362.3 312.7ZM334.8 121.8L-374.5 259.4L-377.6 242.3ZM342.4 115.2L-385.0 187.3L-386.2 174.1ZM327.5 110.0L-388.7 120.2L-388.7 99.8ZM312.1 102.1L-386.8 53.3L-384.2 25.3ZM315.5 94.7L-378.4 -17.6L-373.6 -44.1ZM334.1 91.8L-362.8 -91.0L-357.9 -108.7ZM325.2 81.9L-342.6 -155.9L-334.2 -178.4ZM334.0 78.2L-315.1 -222.9L-306.1 -241.6ZM325.8 65.7L-284.0 -282.9L-270.1 -306.2ZM345.3 70.2L-243.4 -346.3L-232.8 -360.9ZM356.0 71.6L-198.5 -403.9L-189.5 -414.1ZM346.7 54.3L-153.2 -452.3L-136.9 -467.9ZM349.5 46.7L-101.3 -499.0L-82.2 -514.3ZM366.4 59.0L-40.7 -544.2L-28.3 -552.4ZM366.8 48.3L17.8 -580.0L34.7 -589.1ZM378.2 58.9L84.4 -612.9L95.6 -617.7ZM383.2 58.2L150.7 -638.4L161.8 -642.0ZM386.2 49.7L217.1 -657.3L231.9 -660.7ZM392.7 55.9L288.3 -670.9L299.9 -672.4ZM396.3 28.4L352.2 -677.4L377.0 -678.5ZM403.2 38.5L425.4 -678.4L445.4 -677.5ZM408.8 44.8L497.4 -672.8L514.4 -670.5ZM418.7 28.1L562.8 -661.8L588.2 -656.0ZM421.2 44.8L635.0 -643.0L652.5 -637.3ZM423.1 55.9L703.7 -618.0L716.3 -612.6ZM429.4 55.3L767.0 -588.2L780.5 -581.0ZM431.3 62.6L829.2 -551.8L839.9 -544.8ZM435.3 65.7L886.8 -510.6L896.7 -502.7ZM436.8 71.5L941.1 -463.9L949.1 -456.3ZM461.5 56.3L985.8 -418.3L1002.1 -399.6ZM441.0 80.2L1035.3 -357.6L1041.0 -349.7ZM445.9 82.6L1074.3 -299.3L1080.0 -289.8ZM447.8 87.0L1108.3 -237.2L1113.0 -227.3ZM468.6 84.2L1134.8 -176.9L1142.1 -157.4ZM457.3 94.2L1158.5 -106.6L1162.2 -93.1ZM464.1 98.4L1174.6 -39.1L1177.6 -22.6ZM462.6 104.4L1184.9 31.5L1186.3 47.1Z" fill="#FACC15" fill-opacity=".14"></path></svg><div class="op-num" aria-hidden="true" style="right: 12px; bottom: -16px; font-size: 150px;">02</div><svg class="op-ico" viewBox="-80 -70 160 140" aria-hidden="true" style="right: 26px; top: 40px; width: 150px; height: 132px;"><path d="M-46 34 L24 -36 L40 -20 L-30 50 Z"></path><path d="M-46 34 L-54 58 L-30 50"></path><path d="M24 -36 L32 -44 L48 -28 L40 -20"></path><path d="M-14 2 L4 20" style="stroke-opacity: .5;"></path><path d="M-76 62 C -64 44, -50 70, -38 56 S -14 64, -4 52" style="stroke-dasharray: 2 5;"></path></svg><div class="op-cap" style="left: 16px; top: 16px; width: 290px;"><div class="op-k">Creative</div><h3 id="op-02" class="op-t" style="font-size: 32px;">Sketching</h3><p class="op-d">I sketch to think — on notebooks, sticky notes, whatever’s nearby. It’s how I get ideas out of my head before they disappear. Mostly rough wireframes and random diagrams.</p><span class="op-tag">Product flows</span></div></article><article class="op" aria-labelledby="op-03" style="grid-column: 8 / 13; grid-row: 2; --pa: #38BDF8; --pg: #0A1620;"><div class="op-tone" aria-hidden="true" style="-webkit-mask-image: radial-gradient(ellipse at 81% 40%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 81% 40%, #000 0%, transparent 58%);"></div><svg class="op-sl" viewBox="0 0 493 278" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M450.0 110.0L1188.8 105.3L1188.8 114.7ZM485.6 117.7L1186.7 167.3L1184.3 194.1ZM451.4 119.3L1177.0 245.7L1175.2 256.0ZM469.2 129.1L1163.0 310.2L1157.6 329.5ZM460.5 132.7L1141.4 379.4L1135.6 394.9ZM461.0 139.4L1114.6 444.1L1106.7 460.4ZM463.9 148.2L1082.5 505.4L1071.6 523.7ZM445.7 143.2L1041.8 568.5L1034.4 578.7ZM447.3 151.4L999.2 623.0L988.8 634.9ZM449.1 161.3L952.2 673.3L938.0 686.9ZM454.8 178.7L902.6 717.9L880.8 735.3ZM445.2 178.4L844.9 761.3L824.1 775.1ZM427.0 160.2L779.4 801.5L768.1 807.6ZM434.9 191.6L723.0 829.6L697.0 840.8ZM425.3 187.8L655.6 856.3L631.9 863.9ZM415.0 175.5L584.2 877.0L566.8 881.0ZM411.6 195.3L519.3 889.7L492.5 893.4ZM403.0 176.9L444.2 897.6L426.6 898.4ZM396.6 185.0L375.4 898.4L353.8 897.4ZM391.6 172.0L301.8 892.7L286.4 890.6ZM382.3 187.6L236.1 881.6L212.9 876.3ZM377.8 178.2L165.8 863.2L146.8 857.0ZM370.2 179.7L100.1 839.6L79.9 830.9ZM368.6 168.4L33.9 808.7L18.6 800.4ZM369.5 156.2L-29.5 771.6L-39.6 765.0ZM360.8 159.2L-85.6 731.6L-97.9 721.8ZM352.1 160.1L-138.3 686.6L-151.9 673.6ZM362.3 142.9L-190.9 632.5L-197.1 625.4ZM354.4 143.1L-234.4 578.7L-241.8 568.6ZM343.0 144.1L-272.6 522.0L-281.6 507.1ZM320.4 148.3L-304.5 464.9L-316.7 439.5ZM326.8 137.5L-334.4 398.0L-342.5 376.3ZM341.0 126.3L-358.4 327.0L-362.3 312.7ZM334.8 121.8L-374.5 259.4L-377.6 242.3ZM342.4 115.2L-385.0 187.3L-386.2 174.1ZM327.5 110.0L-388.7 120.2L-388.7 99.8ZM312.1 102.1L-386.8 53.3L-384.2 25.3ZM315.5 94.7L-378.4 -17.6L-373.6 -44.1ZM334.1 91.8L-362.8 -91.0L-357.9 -108.7ZM325.2 81.9L-342.6 -155.9L-334.2 -178.4ZM334.0 78.2L-315.1 -222.9L-306.1 -241.6ZM325.8 65.7L-284.0 -282.9L-270.1 -306.2ZM345.3 70.2L-243.4 -346.3L-232.8 -360.9ZM356.0 71.6L-198.5 -403.9L-189.5 -414.1ZM346.7 54.3L-153.2 -452.3L-136.9 -467.9ZM349.5 46.7L-101.3 -499.0L-82.2 -514.3ZM366.4 59.0L-40.7 -544.2L-28.3 -552.4ZM366.8 48.3L17.8 -580.0L34.7 -589.1ZM378.2 58.9L84.4 -612.9L95.6 -617.7ZM383.2 58.2L150.7 -638.4L161.8 -642.0ZM386.2 49.7L217.1 -657.3L231.9 -660.7ZM392.7 55.9L288.3 -670.9L299.9 -672.4ZM396.3 28.4L352.2 -677.4L377.0 -678.5ZM403.2 38.5L425.4 -678.4L445.4 -677.5ZM408.8 44.8L497.4 -672.8L514.4 -670.5ZM418.7 28.1L562.8 -661.8L588.2 -656.0ZM421.2 44.8L635.0 -643.0L652.5 -637.3ZM423.1 55.9L703.7 -618.0L716.3 -612.6ZM429.4 55.3L767.0 -588.2L780.5 -581.0ZM431.3 62.6L829.2 -551.8L839.9 -544.8ZM435.3 65.7L886.8 -510.6L896.7 -502.7ZM436.8 71.5L941.1 -463.9L949.1 -456.3ZM461.5 56.3L985.8 -418.3L1002.1 -399.6ZM441.0 80.2L1035.3 -357.6L1041.0 -349.7ZM445.9 82.6L1074.3 -299.3L1080.0 -289.8ZM447.8 87.0L1108.3 -237.2L1113.0 -227.3ZM468.6 84.2L1134.8 -176.9L1142.1 -157.4ZM457.3 94.2L1158.5 -106.6L1162.2 -93.1ZM464.1 98.4L1174.6 -39.1L1177.6 -22.6ZM462.6 104.4L1184.9 31.5L1186.3 47.1Z" fill="#38BDF8" fill-opacity=".14"></path></svg><div class="op-num" aria-hidden="true" style="right: 12px; bottom: -16px; font-size: 150px;">03</div><svg class="op-ico" viewBox="-80 -70 160 140" aria-hidden="true" style="right: 26px; top: 40px; width: 150px; height: 132px;"><ellipse cx="-12" cy="-8" rx="30" ry="34" style="fill: currentColor; fill-opacity: .16;"></ellipse><path d="M-34 -18 Q -12 -30 10 -18" style="stroke-opacity: .5;"></path><path d="M6 20 L26 44" style="stroke-width: 10;"></path><path d="M-62 30 H60" style="stroke-dasharray: 2 4; stroke-opacity: .5;"></path><path d="M-70 -48 Q -6 -96 46 -46" style="stroke-dasharray: 4 6;"></path><circle cx="50" cy="-42" r="7" style="fill: currentColor;"></circle></svg><div class="op-cap" style="left: 16px; top: 16px; width: 290px;"><div class="op-k">Sport</div><h3 id="op-03" class="op-t" style="font-size: 32px;">Table Tennis</h3><p class="op-d">Been playing TT for years — it’s the one sport where I genuinely enjoy losing because it means I’m playing someone better. Best stress relief I’ve found so far.</p><span class="op-tag">Competitive player</span></div></article><article class="op" aria-labelledby="op-04" style="grid-column: 1 / 5; grid-row: 3; --pa: #F5A524; --pg: #1A140A;"><div class="op-tone" aria-hidden="true" style="-webkit-mask-image: radial-gradient(ellipse at 77% 21%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 77% 21%, #000 0%, transparent 58%);"></div><svg class="op-sl" viewBox="0 0 392 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M361.2 70.0L927.2 66.2L927.2 73.8ZM404.6 79.4L925.5 115.6L923.6 136.9ZM362.9 81.4L917.9 177.9L916.4 186.1ZM384.6 93.4L906.7 229.2L902.4 244.5ZM374.0 97.8L889.5 284.2L884.9 296.5ZM374.6 105.9L868.2 335.6L861.9 348.6ZM378.1 116.7L842.7 384.4L834.0 398.9ZM355.9 110.6L810.3 434.6L804.5 442.7ZM357.9 120.6L776.4 477.9L768.2 487.3ZM360.0 132.8L739.1 517.9L727.7 528.7ZM367.0 154.0L699.7 553.4L682.3 567.2ZM355.2 153.7L653.8 587.9L637.2 598.9ZM333.0 131.4L601.7 619.9L592.7 624.7ZM342.7 169.8L556.8 642.2L536.1 651.1ZM330.9 165.1L503.2 663.4L484.4 669.5ZM318.3 150.2L446.5 679.9L432.6 683.0ZM314.1 174.4L394.8 690.0L373.5 692.9ZM303.7 151.8L335.2 696.2L321.1 696.8ZM295.9 161.8L280.5 696.9L263.3 696.1ZM289.7 145.9L221.9 692.3L209.7 690.7ZM278.3 165.0L169.7 683.5L151.2 679.3ZM272.9 153.4L113.8 668.9L98.6 664.0ZM263.6 155.2L61.6 650.1L45.5 643.2ZM261.5 141.5L8.9 625.6L-3.3 619.0ZM262.7 126.5L-41.5 596.1L-49.5 590.8ZM252.0 130.1L-86.1 564.2L-95.9 556.4ZM241.4 131.3L-128.0 528.5L-138.8 518.1ZM253.9 110.3L-169.8 485.5L-174.8 479.8ZM244.3 110.5L-204.5 442.7L-210.3 434.6ZM230.3 111.6L-234.8 397.6L-241.9 385.7ZM202.6 116.9L-260.1 352.2L-269.8 332.0ZM210.5 103.6L-283.9 299.0L-290.4 281.7ZM227.9 89.9L-303.0 242.6L-306.1 231.2ZM220.2 84.5L-315.8 188.8L-318.3 175.2ZM229.5 76.3L-324.2 131.5L-325.1 121.0ZM211.4 70.0L-327.1 78.1L-327.1 61.9ZM192.5 60.3L-325.6 24.9L-323.6 2.7ZM196.7 51.2L-318.9 -31.5L-315.1 -52.5ZM219.4 47.8L-306.5 -89.8L-302.6 -103.9ZM208.5 35.6L-290.5 -141.4L-283.8 -159.3ZM219.3 31.1L-268.6 -194.7L-261.5 -209.5ZM209.3 15.8L-243.9 -242.4L-232.8 -260.9ZM233.0 21.4L-211.6 -292.8L-203.2 -304.4ZM246.2 23.0L-175.9 -338.6L-168.8 -346.7ZM234.9 1.9L-139.9 -377.1L-126.9 -389.5ZM238.2 -7.5L-98.6 -414.2L-83.4 -426.4ZM258.9 7.7L-50.4 -450.2L-40.6 -456.7ZM259.4 -5.4L-3.9 -478.7L9.5 -485.9ZM273.3 7.5L49.1 -504.8L57.9 -508.6ZM279.4 6.6L101.8 -525.1L110.6 -527.9ZM283.2 -3.7L154.6 -540.1L166.3 -542.8ZM291.0 3.9L211.2 -550.9L220.4 -552.1ZM295.5 -29.8L262.0 -556.0L281.7 -556.9ZM303.9 -17.5L320.2 -556.9L336.1 -556.2ZM310.8 -9.7L377.4 -552.4L390.9 -550.6ZM322.9 -30.2L429.5 -543.7L449.6 -539.1ZM325.9 -9.7L486.8 -528.7L500.8 -524.2ZM328.3 3.9L541.5 -508.9L551.5 -504.6ZM336.0 3.1L591.8 -485.2L602.6 -479.4ZM338.3 12.0L641.3 -456.2L649.8 -450.6ZM343.2 15.8L687.1 -423.5L695.0 -417.2ZM345.0 22.9L730.3 -386.4L736.6 -380.3ZM375.2 4.3L765.8 -350.0L778.8 -335.2ZM350.2 33.6L805.1 -301.8L809.7 -295.5ZM356.1 36.5L836.1 -255.5L840.7 -247.9ZM358.5 41.8L863.2 -206.0L867.0 -198.2ZM383.9 38.5L884.3 -158.1L890.1 -142.6ZM370.1 50.7L903.1 -102.2L906.1 -91.5ZM378.4 55.8L915.9 -48.6L918.3 -35.4ZM376.5 63.1L924.1 7.6L925.2 20.0Z" fill="#F5A524" fill-opacity=".14"></path></svg><div class="op-num" aria-hidden="true" style="left: 12px; top: -8px; font-size: 130px;">04</div><svg class="op-ico" viewBox="-80 -70 160 140" aria-hidden="true" style="right: 20px; top: 14px; width: 128px; height: 112px;"><path d="M-56 18 Q -56 46 -12 46 Q 32 46 32 18 Z"></path><path d="M-62 18 H38"></path><path d="M32 24 L76 32" style="stroke-width: 6;"></path><path d="M-30 -4 C -38 -18, -22 -26, -30 -42 M-12 -6 C -20 -20, -4 -28, -12 -46 M6 -4 C -2 -18, 14 -26, 6 -42"></path></svg><div class="op-cap" style="left: 14px; right: 14px; bottom: 14px;"><div class="op-k">At home</div><h3 id="op-04" class="op-t" style="font-size: 30px;">Cooking</h3><p class="op-d">I cook mostly Indian and continental. Weekends I’ll try something new — sometimes it’s great, sometimes it’s a disaster. The kitchen is the one place I’m happy either way.</p><span class="op-tag">Weekend chef</span></div></article><article class="op" aria-labelledby="op-05" style="grid-column: 5 / 9; grid-row: 3; --pa: #4ADE80; --pg: #0E1F14;"><div class="op-tone" aria-hidden="true" style="-webkit-mask-image: radial-gradient(ellipse at 77% 21%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 77% 21%, #000 0%, transparent 58%);"></div><svg class="op-sl" viewBox="0 0 392 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M361.2 70.0L927.2 66.2L927.2 73.8ZM404.6 79.4L925.5 115.6L923.6 136.9ZM362.9 81.4L917.9 177.9L916.4 186.1ZM384.6 93.4L906.7 229.2L902.4 244.5ZM374.0 97.8L889.5 284.2L884.9 296.5ZM374.6 105.9L868.2 335.6L861.9 348.6ZM378.1 116.7L842.7 384.4L834.0 398.9ZM355.9 110.6L810.3 434.6L804.5 442.7ZM357.9 120.6L776.4 477.9L768.2 487.3ZM360.0 132.8L739.1 517.9L727.7 528.7ZM367.0 154.0L699.7 553.4L682.3 567.2ZM355.2 153.7L653.8 587.9L637.2 598.9ZM333.0 131.4L601.7 619.9L592.7 624.7ZM342.7 169.8L556.8 642.2L536.1 651.1ZM330.9 165.1L503.2 663.4L484.4 669.5ZM318.3 150.2L446.5 679.9L432.6 683.0ZM314.1 174.4L394.8 690.0L373.5 692.9ZM303.7 151.8L335.2 696.2L321.1 696.8ZM295.9 161.8L280.5 696.9L263.3 696.1ZM289.7 145.9L221.9 692.3L209.7 690.7ZM278.3 165.0L169.7 683.5L151.2 679.3ZM272.9 153.4L113.8 668.9L98.6 664.0ZM263.6 155.2L61.6 650.1L45.5 643.2ZM261.5 141.5L8.9 625.6L-3.3 619.0ZM262.7 126.5L-41.5 596.1L-49.5 590.8ZM252.0 130.1L-86.1 564.2L-95.9 556.4ZM241.4 131.3L-128.0 528.5L-138.8 518.1ZM253.9 110.3L-169.8 485.5L-174.8 479.8ZM244.3 110.5L-204.5 442.7L-210.3 434.6ZM230.3 111.6L-234.8 397.6L-241.9 385.7ZM202.6 116.9L-260.1 352.2L-269.8 332.0ZM210.5 103.6L-283.9 299.0L-290.4 281.7ZM227.9 89.9L-303.0 242.6L-306.1 231.2ZM220.2 84.5L-315.8 188.8L-318.3 175.2ZM229.5 76.3L-324.2 131.5L-325.1 121.0ZM211.4 70.0L-327.1 78.1L-327.1 61.9ZM192.5 60.3L-325.6 24.9L-323.6 2.7ZM196.7 51.2L-318.9 -31.5L-315.1 -52.5ZM219.4 47.8L-306.5 -89.8L-302.6 -103.9ZM208.5 35.6L-290.5 -141.4L-283.8 -159.3ZM219.3 31.1L-268.6 -194.7L-261.5 -209.5ZM209.3 15.8L-243.9 -242.4L-232.8 -260.9ZM233.0 21.4L-211.6 -292.8L-203.2 -304.4ZM246.2 23.0L-175.9 -338.6L-168.8 -346.7ZM234.9 1.9L-139.9 -377.1L-126.9 -389.5ZM238.2 -7.5L-98.6 -414.2L-83.4 -426.4ZM258.9 7.7L-50.4 -450.2L-40.6 -456.7ZM259.4 -5.4L-3.9 -478.7L9.5 -485.9ZM273.3 7.5L49.1 -504.8L57.9 -508.6ZM279.4 6.6L101.8 -525.1L110.6 -527.9ZM283.2 -3.7L154.6 -540.1L166.3 -542.8ZM291.0 3.9L211.2 -550.9L220.4 -552.1ZM295.5 -29.8L262.0 -556.0L281.7 -556.9ZM303.9 -17.5L320.2 -556.9L336.1 -556.2ZM310.8 -9.7L377.4 -552.4L390.9 -550.6ZM322.9 -30.2L429.5 -543.7L449.6 -539.1ZM325.9 -9.7L486.8 -528.7L500.8 -524.2ZM328.3 3.9L541.5 -508.9L551.5 -504.6ZM336.0 3.1L591.8 -485.2L602.6 -479.4ZM338.3 12.0L641.3 -456.2L649.8 -450.6ZM343.2 15.8L687.1 -423.5L695.0 -417.2ZM345.0 22.9L730.3 -386.4L736.6 -380.3ZM375.2 4.3L765.8 -350.0L778.8 -335.2ZM350.2 33.6L805.1 -301.8L809.7 -295.5ZM356.1 36.5L836.1 -255.5L840.7 -247.9ZM358.5 41.8L863.2 -206.0L867.0 -198.2ZM383.9 38.5L884.3 -158.1L890.1 -142.6ZM370.1 50.7L903.1 -102.2L906.1 -91.5ZM378.4 55.8L915.9 -48.6L918.3 -35.4ZM376.5 63.1L924.1 7.6L925.2 20.0Z" fill="#4ADE80" fill-opacity=".14"></path></svg><div class="op-num" aria-hidden="true" style="left: 12px; top: -8px; font-size: 130px;">05</div><svg class="op-ico" viewBox="-80 -70 160 140" aria-hidden="true" style="right: 20px; top: 14px; width: 128px; height: 112px;"><path d="M-52 8 L54 -34 L12 42 L2 14 Z"></path><path d="M2 14 L54 -34"></path><path d="M-80 58 C -66 30, -44 64, -30 34" style="stroke-dasharray: 3 6;"></path><circle cx="-80" cy="58" r="4" style="fill: currentColor;"></circle></svg><div class="op-cap" style="left: 14px; right: 14px; bottom: 14px;"><div class="op-k">Explorer</div><h3 id="op-05" class="op-t" style="font-size: 30px;">Travel</h3><p class="op-d">Love the feeling of landing somewhere new and figuring it out. No rigid itineraries — just a list of things worth seeing and room for whatever happens in between.</p><span class="op-tag">Always planning next</span></div></article><article class="op" aria-labelledby="op-06" style="grid-column: 9 / 13; grid-row: 3; --pa: #A78BFA; --pg: #130F1F;"><div class="op-tone" aria-hidden="true" style="-webkit-mask-image: radial-gradient(ellipse at 77% 21%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 77% 21%, #000 0%, transparent 58%);"></div><svg class="op-sl" viewBox="0 0 392 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M361.2 70.0L927.2 66.2L927.2 73.8ZM404.6 79.4L925.5 115.6L923.6 136.9ZM362.9 81.4L917.9 177.9L916.4 186.1ZM384.6 93.4L906.7 229.2L902.4 244.5ZM374.0 97.8L889.5 284.2L884.9 296.5ZM374.6 105.9L868.2 335.6L861.9 348.6ZM378.1 116.7L842.7 384.4L834.0 398.9ZM355.9 110.6L810.3 434.6L804.5 442.7ZM357.9 120.6L776.4 477.9L768.2 487.3ZM360.0 132.8L739.1 517.9L727.7 528.7ZM367.0 154.0L699.7 553.4L682.3 567.2ZM355.2 153.7L653.8 587.9L637.2 598.9ZM333.0 131.4L601.7 619.9L592.7 624.7ZM342.7 169.8L556.8 642.2L536.1 651.1ZM330.9 165.1L503.2 663.4L484.4 669.5ZM318.3 150.2L446.5 679.9L432.6 683.0ZM314.1 174.4L394.8 690.0L373.5 692.9ZM303.7 151.8L335.2 696.2L321.1 696.8ZM295.9 161.8L280.5 696.9L263.3 696.1ZM289.7 145.9L221.9 692.3L209.7 690.7ZM278.3 165.0L169.7 683.5L151.2 679.3ZM272.9 153.4L113.8 668.9L98.6 664.0ZM263.6 155.2L61.6 650.1L45.5 643.2ZM261.5 141.5L8.9 625.6L-3.3 619.0ZM262.7 126.5L-41.5 596.1L-49.5 590.8ZM252.0 130.1L-86.1 564.2L-95.9 556.4ZM241.4 131.3L-128.0 528.5L-138.8 518.1ZM253.9 110.3L-169.8 485.5L-174.8 479.8ZM244.3 110.5L-204.5 442.7L-210.3 434.6ZM230.3 111.6L-234.8 397.6L-241.9 385.7ZM202.6 116.9L-260.1 352.2L-269.8 332.0ZM210.5 103.6L-283.9 299.0L-290.4 281.7ZM227.9 89.9L-303.0 242.6L-306.1 231.2ZM220.2 84.5L-315.8 188.8L-318.3 175.2ZM229.5 76.3L-324.2 131.5L-325.1 121.0ZM211.4 70.0L-327.1 78.1L-327.1 61.9ZM192.5 60.3L-325.6 24.9L-323.6 2.7ZM196.7 51.2L-318.9 -31.5L-315.1 -52.5ZM219.4 47.8L-306.5 -89.8L-302.6 -103.9ZM208.5 35.6L-290.5 -141.4L-283.8 -159.3ZM219.3 31.1L-268.6 -194.7L-261.5 -209.5ZM209.3 15.8L-243.9 -242.4L-232.8 -260.9ZM233.0 21.4L-211.6 -292.8L-203.2 -304.4ZM246.2 23.0L-175.9 -338.6L-168.8 -346.7ZM234.9 1.9L-139.9 -377.1L-126.9 -389.5ZM238.2 -7.5L-98.6 -414.2L-83.4 -426.4ZM258.9 7.7L-50.4 -450.2L-40.6 -456.7ZM259.4 -5.4L-3.9 -478.7L9.5 -485.9ZM273.3 7.5L49.1 -504.8L57.9 -508.6ZM279.4 6.6L101.8 -525.1L110.6 -527.9ZM283.2 -3.7L154.6 -540.1L166.3 -542.8ZM291.0 3.9L211.2 -550.9L220.4 -552.1ZM295.5 -29.8L262.0 -556.0L281.7 -556.9ZM303.9 -17.5L320.2 -556.9L336.1 -556.2ZM310.8 -9.7L377.4 -552.4L390.9 -550.6ZM322.9 -30.2L429.5 -543.7L449.6 -539.1ZM325.9 -9.7L486.8 -528.7L500.8 -524.2ZM328.3 3.9L541.5 -508.9L551.5 -504.6ZM336.0 3.1L591.8 -485.2L602.6 -479.4ZM338.3 12.0L641.3 -456.2L649.8 -450.6ZM343.2 15.8L687.1 -423.5L695.0 -417.2ZM345.0 22.9L730.3 -386.4L736.6 -380.3ZM375.2 4.3L765.8 -350.0L778.8 -335.2ZM350.2 33.6L805.1 -301.8L809.7 -295.5ZM356.1 36.5L836.1 -255.5L840.7 -247.9ZM358.5 41.8L863.2 -206.0L867.0 -198.2ZM383.9 38.5L884.3 -158.1L890.1 -142.6ZM370.1 50.7L903.1 -102.2L906.1 -91.5ZM378.4 55.8L915.9 -48.6L918.3 -35.4ZM376.5 63.1L924.1 7.6L925.2 20.0Z" fill="#A78BFA" fill-opacity=".14"></path></svg><div class="op-num" aria-hidden="true" style="left: 12px; top: -8px; font-size: 130px;">06</div><svg class="op-ico" viewBox="-80 -70 160 140" aria-hidden="true" style="right: 20px; top: 14px; width: 128px; height: 112px;"><rect x="-50" y="-26" width="100" height="66" rx="10"></rect><path d="M-22 -26 L-14 -40 H14 L22 -26"></path><circle cx="0" cy="8" r="22"></circle><circle cx="0" cy="8" r="11" style="stroke-opacity: .55;"></circle><path d="M30 -14 H40"></path><path d="M-8 -2 L8 18 M8 -2 L-8 18" style="stroke-opacity: .35;"></path></svg><div class="op-cap" style="left: 14px; right: 14px; bottom: 14px;"><div class="op-k">Visual</div><h3 id="op-06" class="op-t" style="font-size: 30px;">Photography</h3><p class="op-d">Street and travel photography on my phone mostly. Chasing light, interesting faces, and scenes that tell a story without a caption.</p><span class="op-tag">Street & travel</span></div></article></div></div></section>
+
+<section id="contact" style="position: relative; overflow: hidden; border-top: 1px solid var(--ln);">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: .16; fill: none; stroke: #D61F33; stroke-width: .7;"><line x1="720" y1="300" x2="-40" y2="0"></line><line x1="720" y1="300" x2="-40" y2="150"></line><line x1="720" y1="300" x2="-40" y2="300"></line><line x1="720" y1="300" x2="-40" y2="450"></line><line x1="720" y1="300" x2="-40" y2="600"></line><line x1="720" y1="300" x2="1480" y2="0"></line><line x1="720" y1="300" x2="1480" y2="150"></line><line x1="720" y1="300" x2="1480" y2="300"></line><line x1="720" y1="300" x2="1480" y2="450"></line><line x1="720" y1="300" x2="1480" y2="600"></line></svg>
+<div class="wrap" style="position: relative; padding-top: 120px; padding-bottom: 120px; text-align: center;">
+<div class="mono" style="font-weight: 500; color: var(--act);">Thanks for reading</div>
+<h2 style="margin: 18px auto 0; max-width: 900px; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: clamp(56px, 8vw, 112px); line-height: .88; text-transform: uppercase;">Let’s build something <span style="color: var(--ac);">impactful.</span></h2>
+<p style="margin: 24px auto 0; max-width: 560px; font-size: 18px; line-height: 1.6; color: var(--tx2);">Open to Senior / Lead PM roles in health-tech, consumer and fintech. Data fluency, clinical context, and the ability to ship — fast.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 36px;">
+<a class="cta" href="#email"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 7l9 6 9-6"></path></svg>Email me</a>
+<button class="cta2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h12v12H8zM4 16V4h12"></path></svg>Copy email</button>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; margin-top: 28px; font-size: 15px; font-weight: 500;">
+<a href="#linkedin" style="display: inline-flex; align-items: center; gap: 6px; color: var(--tx2);">LinkedIn<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M7 17L17 7M8 7h9v9"></path></svg></a>
+<a href="#github" style="display: inline-flex; align-items: center; gap: 6px; color: var(--tx2);">GitHub<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M7 17L17 7M8 7h9v9"></path></svg></a>
+<a href="#resume" style="display: inline-flex; align-items: center; gap: 6px; color: var(--tx2);">Résumé (PDF)<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></a>
+</div>
+</div>
+</section>
+
+<footer style="border-top: 1px solid var(--ln);">
+<div class="wrap" style="height: 80px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; font-size: 13px; color: var(--tx3);"><span>© 2026 Akarshan Kumar · Vibe-coded in Bengaluru</span><span style="font-family: var(--fm); font-size: 12px;">Last updated 13 Oct 2026</span></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"skills":{"editor":"enum","options":["V0: every skill regular","sizes set in Studio (example)"],"default":"sizes set in Studio (example)"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"motion":{"editor":"enum","options":["full","reduced"],"default":"full"},"$preview":{"width":1440,"height":10350}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.rest = { mx: 0.2, my: -0.1, fx: 820, fy: 230 };
+    this.state = Object.assign({ skPin: -1, skHover: -1 }, this.rest);
+    this.SK = [{"t": "Product", "sub": "Strategy & execution", "items": [["User & Market Research", "l"], ["Feature Prioritisation", "m"], ["Road-mapping", "m"], ["Stakeholder Management", "s"], ["A/B Testing", "xl"], ["Experimentation", "m"], ["Data-driven Development", "s"]]}, {"t": "Data", "sub": "My unfair advantage", "items": [["SQL", "xl"], ["Web (Clickstream) Analytics", "m"], ["Product & Data Analytics", "l"], ["Visualization & Story Telling", "s"], ["ETL", "m"]]}, {"t": "Design", "sub": "Pixel-perfect craft", "items": [["FigmaMake", "l"], ["Prototyping", "m"], ["Wireframing", "s"], ["Napkin.ai", "s"]]}, {"t": "Tools", "sub": "The full stack", "items": [["Excel", "s"], ["Lovable", "m"], ["Mixpanel", "l"], ["Metabase", "m"], ["Tableau", "s"], ["Optimizely", "s"], ["Redash", "s"], ["Superset", "m"], ["Figma", "m"], ["JIRA", "s"], ["Amplitude", "l"], ["Airflow", "m"]]}];
+    this.SKO = {"g:0:": 0, "w:3:0": 1, "w:0:0": 2, "w:1:0": 3, "w:2:0": 4, "w:3:1": 5, "w:3:2": 6, "w:0:1": 7, "g:1:": 8, "w:3:3": 9, "w:1:1": 10, "w:0:2": 11, "w:2:1": 12, "w:3:4": 13, "w:3:5": 14, "w:0:3": 15, "g:2:": 16, "w:1:2": 17, "w:3:6": 18, "w:2:2": 19, "w:3:7": 20, "w:0:4": 21, "w:1:3": 22, "w:3:8": 23, "g:3:": 24, "w:0:5": 25, "w:3:9": 26, "w:2:3": 27, "w:3:10": 28, "w:1:4": 29, "w:0:6": 30, "w:3:11": 31};
+    ['skToggle', 'skEnter', 'skLeave'].forEach((k) => { this[k] = this[k].bind(this); });
+
+    this.heroMove = this.heroMove.bind(this);
+    this.heroLeave = this.heroLeave.bind(this);
+    // Studio › Website › Hero › Floating previews: the projects that float, in rotation.
+    this.F = [{"n": "01", "t": "3D body scan for GLP-1 users", "k": "Shipped · AI", "m": "±2–3 pp", "tag": "a", "tl": "ACHIEVED", "hi": "#2DD4BF", "href": "#vol-01"}, {"n": "03", "t": "The CGM journey, end to end", "k": "Shipped · Hardware to app", "m": "42 → 72", "tag": "a", "tl": "ACHIEVED", "hi": "#38BDF8", "href": "#vol-03"}, {"n": "04", "t": "The GLP-1 app, 0→1", "k": "Shipped · 0→1", "m": "52%", "tag": "a", "tl": "ACHIEVED", "hi": "#A78BFA", "href": "#vol-04"}, {"n": "05", "t": "Puja engagement platform", "k": "Strategy + prototype", "m": "+30%", "tag": "t", "tl": "TARGET", "hi": "#FF5A67", "href": "CaseStudy.dc.html"}, {"n": "06", "t": "Arcana Workspace", "k": "0→1 · B2B prototype", "m": "7", "tag": "o", "tl": "OUTPUT", "hi": "#94A3B8", "href": "#vol-06"}, {"n": "09", "t": "Revenue growth strategy", "k": "Strategy + prototype", "m": "+$50–65K", "tag": "p", "tl": "PROJECTED", "hi": "#A3E635", "href": "#vol-09"}];
+    // Where each slot may appear, in % of the ink panel: always right of the text column.
+    this.ZONES = [{ x: [70, 80], y: [3, 15], z: 200 }, { x: [66, 76], y: [37, 47], z: 150 }, { x: [70, 80], y: [69, 77], z: 180 }];
+    this.REST = [[76, 9, 2], [71, 42, -2], [76, 73, 1.5]];
+    this.timers = [];
+    this.held = [];
+    this.fl = this.restSlots();
+    this.next = 0;
+  }
+  restSlots() {
+    return this.ZONES.map((z, i) => ({ item: i % this.F.length, x: this.REST[i][0], y: this.REST[i][1], z: z.z, r: this.REST[i][2], tx: 0, ty: 0, op: 1, tr: 'none', ph: 'rest' }));
+  }
+  still() { return this.reduced() || (this.props.motion ?? 'full') === 'reduced'; }
+  componentDidMount() { this.startFloat(); }
+  componentDidUpdate(prev) {
+    if (prev.motion !== this.props.motion) { this.stopFloat(); this.fl = this.restSlots(); this.forceUpdate(); this.startFloat(); }
+  }
+  componentWillUnmount() { if (this.raf) cancelAnimationFrame(this.raf); this.stopFloat(); }
+  startFloat() {
+    if (this.still() || !this.F.length) return;
+    // Start from the rest pose: each card drifts, then the rotation begins, one slot at a time.
+    this.fl.forEach((f) => { const a = this.rand(0, Math.PI * 2), d = this.rand(10, 18); Object.assign(f, { tx: Math.cos(a) * d, ty: Math.sin(a) * d, tr: 'opacity .7s ease, transform 6000ms linear', ph: 'in' }); });
+    this.next = this.ZONES.length % this.F.length;
+    this.forceUpdate();
+    this.ZONES.forEach((z, i) => { this.timers[i] = setTimeout(() => this.leave(i), 2600 + i * 1500); });
+  }
+  stopFloat() { this.timers.forEach((t) => clearTimeout(t)); this.timers = []; this.held = []; }
+  rand(a, b) { return a + Math.random() * (b - a); }
+  pick(i) {
+    const shown = this.fl.filter((f, j) => j !== i && f.ph !== 'gap').map((f) => f.item);
+    for (let k = 0; k < this.F.length; k++) {
+      const it = (this.next + k) % this.F.length;
+      if (shown.indexOf(it) < 0) { this.next = it + 1; return it; }
+    }
+    return (this.next++) % this.F.length;
+  }
+  spawn(i) {
+    const z = this.ZONES[i], f = this.fl[i], a = this.rand(0, Math.PI * 2), d = this.rand(10, 18), dwell = Math.round(this.rand(4800, 6800));
+    Object.assign(f, { item: this.pick(i), x: this.rand(z.x[0], z.x[1]), y: this.rand(z.y[0], z.y[1]), r: this.rand(-2.5, 2.5), tx: 0, ty: 0, op: 0, tr: 'none', ph: 'pre' });
+    this.forceUpdate();
+    this.timers[i] = setTimeout(() => {
+      Object.assign(f, { op: 1, tx: Math.cos(a) * d, ty: Math.sin(a) * d, tr: 'opacity .7s ease, transform ' + (dwell + 700) + 'ms linear', ph: 'in' });
+      this.forceUpdate();
+      this.timers[i] = setTimeout(() => this.leave(i), dwell);
+    }, 60);
+  }
+  leave(i) {
+    const f = this.fl[i];
+    if (this.held[i]) { f.ph = 'held'; return; }
+    Object.assign(f, { op: 0, ph: 'out' });
+    this.forceUpdate();
+    this.timers[i] = setTimeout(() => { f.ph = 'gap'; this.timers[i] = setTimeout(() => this.spawn(i), Math.round(this.rand(300, 1300))); }, 700);
+  }
+  hold(i) { this.held[i] = true; }
+  release(i) {
+    this.held[i] = false;
+    if (this.fl[i].ph === 'held') { clearTimeout(this.timers[i]); this.timers[i] = setTimeout(() => this.leave(i), 900); }
+  }
+  speed(fx, fy, count, rMin, rMax, R) {
+    let d = '';
+    for (let i = 0; i < count; i++) {
+      const t = (i / count) * Math.PI * 2;
+      const j = Math.sin(i * 12.9898) * 43758.5453;
+      const rnd = j - Math.floor(j);
+      const r0 = rMin + rnd * (rMax - rMin);
+      const w = 0.006 + rnd * 0.012;
+      const ax = fx + Math.cos(t) * r0, ay = fy + Math.sin(t) * r0;
+      const bx = fx + Math.cos(t - w) * R, by = fy + Math.sin(t - w) * R;
+      const cx = fx + Math.cos(t + w) * R, cy = fy + Math.sin(t + w) * R;
+      d += 'M' + ax.toFixed(1) + ' ' + ay.toFixed(1) + 'L' + bx.toFixed(1) + ' ' + by.toFixed(1) + 'L' + cx.toFixed(1) + ' ' + cy.toFixed(1) + 'Z';
+    }
+    return d;
+  }
+  reduced() { return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  heroMove(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => { this.raf = null; this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1, fx: rx * 1200, fy: ry * 680 }); });
+  }
+  heroLeave() { if (this.raf) cancelAnimationFrame(this.raf); this.setState(this.rest); }
+
+  skToggle(i) { this.setState({ skPin: this.state.skPin === i ? -1 : i }); }
+  skEnter(i) { this.setState({ skHover: i }); }
+  skLeave() { if (this.state.skHover !== -1) this.setState({ skHover: -1 }); }
+  skVals(regular) {
+    const s = this.state, act = s.skPin > -1 ? s.skPin : s.skHover;
+    let alt = 0;
+    const groups = this.SK.map((g, gi) => ({
+      i: gi, t: g.t, sub: g.sub, order: this.SKO['g:' + gi + ':'], on: act === gi ? 'on' : '', pressed: s.skPin === gi ? 'true' : 'false',
+      toggle: () => this.skToggle(gi), enter: () => this.skEnter(gi), leave: this.skLeave,
+      items: g.items.map((w, ii) => {
+        const size = regular ? 'm' : w[1];
+        const cls = size + (size === 'm' && (alt++ % 2) ? ' alt' : '') + (act === gi ? ' on' : '');
+        return { t: w[0], cls, order: this.SKO['w:' + gi + ':' + ii] };
+      })
+    }));
+    // the alternate face follows visual order, not group order
+    const flat = [];
+    groups.forEach((g) => g.items.forEach((w) => flat.push(w)));
+    flat.sort((a, b) => a.order - b.order);
+    let k = 0;
+    flat.forEach((w) => { if (/^m/.test(w.cls)) { const on = / on$/.test(w.cls); w.cls = 'm' + (k++ % 2 ? ' alt' : '') + (on ? ' on' : ''); } });
+    return { skGroups: groups, skLit: act > -1 ? 'lit' : '', skLeave: this.skLeave };
+  }
+  renderVals() {
+    const theme = this.props.theme ?? 'dark';
+    const still = this.still(), k = still ? 0 : 1, s = this.state, mx = s.mx * k, my = s.my * k;
+    const t = (a, b) => 'translate3d(' + (mx * a).toFixed(1) + 'px, ' + (my * b).toFixed(1) + 'px, 0)';
+    const floaters = this.fl.map((f, i) => Object.assign({}, this.F[f.item], {
+      x: f.x.toFixed(2), y: f.y.toFixed(2), z: f.z, r: f.r.toFixed(2), tx: f.tx.toFixed(1), ty: f.ty.toFixed(1),
+      op: f.op, tr: f.tr, pe: f.op > 0 ? 'auto' : 'none',
+      hold: () => this.hold(i), release: () => this.release(i)
+    }));
+    return Object.assign(this.skVals((this.props.skills ?? 'sizes set in Studio (example)') === 'V0: every skill regular'), {
+      themeClass: (theme === 'light' ? 'light' : '') + (still ? ' still' : ''),
+      heroMove: this.heroMove, heroLeave: this.heroLeave,
+      hx: (-my * 3).toFixed(2), hy: (mx * 4).toFixed(2),
+      L1: t(-12, -9), L2: t(-8, -6), L3: t(-4, -3), L4: t(6, 4),
+      speedHero: this.speed(k ? s.fx : this.rest.fx, k ? s.fy : this.rest.fy, 130, 220, 360, 1600),
+      floaters
+    });
+  }
+}
+</script>
+</body>
+</html>

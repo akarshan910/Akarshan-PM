@@ -20,7 +20,7 @@ Browser (public site)  ── reads ──▶  Supabase Postgres: published colu
         ▼                                     │
 Static host (CDN)  ◀── rebuild/revalidate ── Edge function: publish (site, project or post)
                                               ▲                      ▲
-Browser (Studio, /studio)  ── auth (Google) ──────┘      Cron: scheduled posts
+Browser (Studio, /studio)  ── auth (email code) ──┘      Cron: scheduled posts
         │
         └── uploads ──▶ Supabase Storage: media (images, PDFs)
 
@@ -58,27 +58,42 @@ On phones these five are the bottom tabs.
 
 ## Auth
 
-To be built during development. Studio signs in with Google, and only the owner's Google account, akarshan910@gmail.com, gets in. The database enforces this, not just the UI.
+Studio signs in with a **6-digit code sent by email**, and only the owner's address can get one. There are no passwords, and no Google Cloud project to set up. The database enforces the owner check, not just the UI.
+
+This was decided on 13 Oct 2026. It replaces the earlier Google sign-in design, and it follows the code-entry pattern already used in the owner's lumina-photography admin, sent by email instead of SMS.
 
 **How it works**
 
-- **Sign-in page.** `/studio` shows "Continue with Google". It uses Supabase Auth's Google provider with only the `openid`, `email` and `profile` scopes, which don't need Google's app review.
-- **Owner check.** After Google returns, the signed-in email is checked against the `owners` table. Every RLS policy checks the same table. Any other Google account sees "This Google account can't open Studio" and gets no data.
-- **Closed sign-ups.** New sign-ups are turned off after the owner's first sign-in, so no other account can even be created.
-- **Backup.** "Email me a sign-in link instead" sends a one-time link, in case Google sign-in is unavailable.
-  - It's rate-limited.
-  - Its "Check your inbox" message never reveals whether an address owns the site.
-- **Staying signed in.** Sessions refresh silently on each device, and "Sign out" is in the sidebar. On expiry, edits stay on the device and sync after signing in again (Studio › States).
-- **Where it lives.** Studio is at `[your-domain]/studio`. It isn't linked from the public site, is `noindex`, and is disallowed in `robots.txt`. Bookmark it on your laptop and phone.
+- **Sign-in page.** `/studio` asks for an email and shows "Email me a code". The call is `supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, captchaToken } })`.
+- **Never confirms who owns the site.** Studio shows "Check your email" for any address.
+  - An address with no account gets no email, because sign-ups are off and `shouldCreateUser` is false.
+  - Supabase's "user not found" error is shown as the same success screen.
+- **The code.** Six digits. It works once and expires after 10 minutes, and each new code replaces the last.
+  - It's entered in a numeric field with `autocomplete="one-time-code"`, so phones offer it from Mail.
+  - Six digits submit straight away: `verifyOtp({ email, token, type: 'email', options: { captchaToken } })`.
+- **Owner check.** After the code is accepted, the signed-in email is checked against the `owners` table.
+  - Every RLS policy checks the same table.
+  - Any other account is signed out at once and sees "This account can't open Studio".
+- **Limits against guessing.**
+  - One code per minute per address.
+  - The boxes lock after 5 wrong codes.
+  - Supabase's per-IP limits apply.
+  - **Cloudflare Turnstile** CAPTCHA (Supabase CAPTCHA protection) guards both sending and checking codes. It's invisible unless traffic looks automated.
+- **Staying signed in.**
+  - Sessions refresh silently on each device.
+  - The address is remembered on that device, so signing in again is one tap.
+  - "Sign out" and "Sign out on all devices" are in the account menu.
+  - On expiry, edits stay on the device and sync after the next sign-in (Studio › States).
+- **Where it lives.** Studio is at `[your-domain]/studio`. It isn't linked from the public site, is `noindex`, and is disallowed in `robots.txt`. Its pages are sent with `Cache-Control: no-store`, and a guard reloads them when restored from the back/forward cache.
 
 The designs are on the canvas:
 
 - **Studio — sign in.** The interactive page, with every state in Tweaks.
 - **Studio — sign-in flow.** Every path, on laptop and phone:
   - first sign-in;
-  - a wrong account;
-  - a cancelled sign-in;
-  - the email backup;
+  - any other address;
+  - a wrong or old code;
+  - the limits;
   - a deep link;
   - signed out mid-edit;
   - signing out.
@@ -86,29 +101,29 @@ The designs are on the canvas:
 
 Flow details to build:
 
-- **Deep links.** `redirectTo` keeps the path, so a deep link like `/studio/projects/<slug>` returns there after sign-in.
-- **Switching accounts.** "Use another Google account" passes `prompt=select_account`.
-- **Cancelled sign-in.** A cancelled Google sign-in returns `error=access_denied`, and the sign-in page shows a banner.
-- **Wrong account.** Its session is signed out at once.
-- **Signing out.** The account menu offers "Sign out" (this device) and "Sign out on all devices" (`signOut({ scope: 'global' })`).
+- **Deep links.** `/studio/projects/<slug>` while signed out keeps the path in `?next=`, and returns there after sign-in. Only same-site `/studio` paths are accepted.
+- **Wrong versus expired.** Supabase returns one error for both. Studio says "expired" once 10 minutes have passed since the code was sent, and "didn't work" before that.
+- **Signing out.** `signOut()` signs out this device; `signOut({ scope: 'global' })` signs out every device.
 
 **Setup checklist for development**
 
-1. **Google Cloud Console.**
-   - Create an OAuth client ID of type "Web application".
-   - Set up the consent screen: External, app name "Studio", scopes `openid`, `email` and `profile`.
-   - Add `https://<project-ref>.supabase.co/auth/v1/callback` as an authorised redirect URI.
-2. **Supabase › Authentication › Providers › Google.** Enable it and paste the client ID and secret. The secret stays in Supabase and never goes in the site's code.
-3. **Supabase › Authentication › URL configuration.**
+1. **Supabase › Authentication › Providers › Email.**
+   - Enabled.
+   - "Allow new users to sign up" off.
+   - Email OTP length 6, OTP expiry 600 seconds.
+2. **Supabase › Authentication › Emails.** Change the "Magic Link" template to show the code (`{{ .Token }}`) and no link. Subject: "Your Studio sign-in code".
+3. **Supabase › Authentication › SMTP.** Use a custom sender, for example Resend, on the site's domain, with SPF and DKIM. The built-in sender is rate-limited and meant for testing.
+4. **Supabase › Authentication › Attack protection.**
+   - Turn on CAPTCHA with Cloudflare Turnstile and paste the Turnstile secret there.
+   - The site key goes in `VITE_TURNSTILE_SITE_KEY`.
+5. **URL configuration.**
    - Site URL: `https://[your-domain]`.
-   - Redirect URLs: `https://[your-domain]/studio`, plus `http://localhost:5173/studio` for development.
-4. **Owner and policies.** Add akarshan910@gmail.com to `owners` with a migration, and apply the RLS policies below.
-5. **Close sign-ups.** Sign in once with Google, then turn off "Allow new users to sign up" in Supabase.
-6. **Test.**
-   - A different Google account must land on "This Google account can't open Studio" and read zero rows from every table.
+   - Redirect URLs: `https://[your-domain]/studio` and `http://localhost:5173/studio`.
+6. **Owner.** Run `npm run setup:owner` once, with `OWNER_EMAIL` and the service-role key in your local shell. It creates the owner's account (already confirmed) and the `owners` row. The address is never written into code or migrations.
+7. **Test.**
+   - Another address must see the same "Check your email" screen, receive nothing, and read zero rows from every table.
    - Signing out must end the session on that device.
-7. **Email sender.** Set a custom SMTP sender for the backup links, for example Resend or Postmark. Supabase's built-in sender is rate-limited and meant for testing.
-8. **Google account.** Turn on 2-Step Verification for akarshan910@gmail.com: it is now the key to the site.
+8. **Email account.** Turn on 2-Step Verification for the owner's mailbox: it's now the key to Studio.
 
 ## Data model
 
@@ -228,25 +243,40 @@ Lists carry stable ids so the layout can order and hide their entries.
 
 ```ts
 type ResultType = 'achieved' | 'target' | 'projected' | 'baseline' | 'output';
+type Accent = 'teal' | 'amber' | 'sky' | 'violet' | 'coral' | 'slate' | 'green' | 'yellow' | 'lime';
+type Inline = string;            // sanitised inline HTML: <strong>, <em>, <a href> only
+type Source = 'current-site' | 'resume' | 'owner';
 
 type Profile = {
   name: string;
   title: string;                 // job title
   availability?: string;         // the hero chip; hidden when empty
   location?: string;
-  positioning: string;           // the hero's main line
-  intro: string;
-  about: string;
-  photo?: { mediaId: string; alt: string };
-  proof: { id: string; value: string; label: string; type: ResultType }[];
-  experience: { id: string; company: string; role: string; dates: string; note?: string }[];
-  skills: { id: string; group: string; items: string[] }[];
-  testimonials: { id: string; quote: string; name: string; role: string }[];
-  offDuty: { id: string; label: string }[];
-  contact: { closing: string; email?: string; linkedin?: string; github?: string; resumeMediaId?: string };
-  unconfirmed: string[];         // keys of imported facts not yet confirmed in Profile & facts
+  positioning: Inline;           // the hero's main line; <strong> marks the brighter phrases
+  intro?: Inline;
+  about: { title: string; titleMuted?: string; body: Inline[]; photo?: { mediaId: string; alt: string } };
+  proof: { id: string; value: string; unit?: string; label: string; source?: string; type?: ResultType }[];  // no type for tenure and counts
+  experience: {
+    id: string; company: string; role: string; location?: string; dates: string;
+    summary?: Inline;
+    highlights: { group?: string; items: { text: Inline; hidden?: boolean }[] }[];  // grouped → cards, ungrouped → bullets
+  }[];
+  skills: { id: string; title: string; subtitle?: string; items: { id: string; text: string; size: 'xl' | 'l' | 'm' | 's' }[] }[];
+  testimonials: { id: string; quote: string; name: string; initials: string; role: string; tone: string; tag?: string; linkedin?: string }[];
+  offDuty: {
+    id: string; label: string; title: string; text: string; tag?: string;
+    accent: Accent; art: 'kunai' | 'pencil' | 'paddle' | 'pan' | 'plane' | 'camera';
+    picks?: { id: string; title: string; note?: string }[];   // the spine shelf, shown on the first panel
+  }[];
+  contact: { kicker?: string; closing: string; closingAccent?: string; intro?: string;
+             email?: string; linkedin?: string; github?: string; resume?: { mediaId?: string; url?: string } };
+  footer: { credit?: string };
+  facts: Record<string, { source: Source; alternative?: { value: string; source: Source } }>;  // where a value came from, and the résumé's version if it differs
+  unconfirmed: string[];         // keys of facts the owner hasn't confirmed; listed under "Worth a check"
 };
 ```
+
+The full field-by-field specification, including the section headers and how V0 fills each field, is in the [handover's backend chapter](../handover/06-backend.md#schema).
 
 ### SiteLayout JSON
 
@@ -376,6 +406,8 @@ Studio › Website controls the homepage and the navigation.
   | Shelf | Title, intro, rows on the homepage (1, 2 or 3) |
   | Writing | Posts on the homepage (the latest 2, 3 or 4) |
   | About | The About text |
+  | Skills | Title, second half in grey, intro. Each group: name, subtitle, its skills, and each skill's size (S, M, L or XL) |
+  | Off duty | Title, second half in grey, intro. Each item: title, label, text, tag, accent, art. The first item's shelf of favourites |
   | Contact | The closing line |
 
   Names, numbers and roles are edited and confirmed in Profile & facts. The hero fields write to the same profile draft, so each fact exists once.
@@ -566,40 +598,42 @@ Free-plan quotas change, so check current Supabase limits for storage, file size
 
 ## Migrating today's content
 
-1. Map each `CASES` entry to the project JSON:
+V0 launches the final design with the current site's content, published, so the new site is complete on day one. The owner then rewrites it section by section in Studio. This was decided on 13 Oct 2026, and it supersedes the earlier plan to import everything as drafts.
+
+1. **Projects.** Map each `CASES` entry to the project JSON and publish it:
 
    | Today | In Studio |
    | --- | --- |
    | `customSections` | Chapters |
+   | `body` | Text blocks |
    | `items` | List blocks |
    | `subsections` / `widgets` | Cards |
    | `metricGroups` | Table blocks; RICE tables get `formula: 'rice'` |
    | `journeys` | Journey blocks |
-   | `kpis` | Outcomes, labelled by hand |
+   | `kpis` | Outcomes, each labelled as listed in the handover |
 
-2. Import as drafts. Nothing goes live until reviewed: the Studio dashboard lists what needs input.
-3. Build the first site layout from today's page:
-   - the current section order and nav labels;
-   - a "Strategy & prototypes" shelf with the five case studies;
-   - a "Shipped" shelf with the four Sugar.fit drafts started from the résumé.
+2. **Profile.** Import the current site's hero, proof numbers, About, experience, skills, testimonials, Off duty and contact, published.
+   - Where the résumé disagrees, the résumé's value is stored as an alternative, and Studio lists it under "Worth a check". The live value doesn't change until the owner picks one.
+3. **Layout.**
+   - The final design's section order and nav labels.
+   - A "Strategy & prototypes" shelf with the five case studies, published.
+   - A "Shipped" shelf with the four Sugar.fit drafts started from the résumé. It stays hidden until one is published.
+4. **Prototypes.** Deploy the three local prototypes (Sri Mandir, Word Trip, FarmVille 3) to one Vercel project, a folder each, and link them from their projects. Arcana's prototype is already deployed.
+   - Once the new site is live, delete the copies in `public/` and at the repository root.
+5. **Writing** starts empty. The homepage section stays hidden until the first post is published.
 
-   The Shipped shelf stays hidden until one of its projects is published.
-4. Deploy the three prototypes (Sri Mandir, Word Trip, FarmVille 3) to one Vercel project, a folder each, and link them from their projects. Move the résumé PDF into storage. Once the new site is live, delete the prototype files from `public/` and the duplicates at the repository root.
-5. Import into the profile:
-   - the seven testimonials;
-   - the experience list;
-   - the proof numbers.
-
-   Imported facts start unconfirmed, and résumé discrepancies are flagged (see the [audit](01-audit.md#site-vs-résumé)).
-6. Writing starts empty. The homepage section stays hidden until the first post is published.
+The exact mapping, field by field, is in the [handover's V0 content chapter](../handover/07-v0-content.md).
 
 ## Security checklist
 
 - No secrets in client code. The anon key is public by design, and RLS is what protects data.
 - Every mutation goes through RLS (owner only) or an edge function that re-checks the allowlist.
-- Rate-limit sign-in links and show a clear "try again in 60 seconds".
+- Sign-in codes: one per minute per address, a 10-minute expiry, single use, and a Turnstile CAPTCHA on sending and checking. The "Check your email" screen never reveals whether an address owns the site.
+- The owner's address comes from `OWNER_EMAIL` at setup, and is never written in code or migrations. The repository is public and holds no secrets (see `SECURITY.md`).
 - Sanitise rich text in projects, posts and text sections. Escape code blocks. Build RSS only from sanitised HTML.
 - Validate URLs (`https:` only), including canonical links and embeds.
 - Set a strict CSP on the main site. Its `frame-src` allows only the video hosts (`www.youtube-nocookie.com`, `player.vimeo.com`, `www.loom.com`, `drive.google.com`), Figma's embed and your prototype host (for example `*.vercel.app` or a custom domain).
 - Load prototypes and videos only on click, in sandboxed frames, with `referrerpolicy="no-referrer"`.
+- Studio's pages also allow `https://challenges.cloudflare.com` in `script-src` and `frame-src`, for the Turnstile check. The public site doesn't load it.
+- Send Studio pages with `Cache-Control: no-store`, and reload them when restored from the back/forward cache, so a signed-out browser never shows a cached Studio page.
 - Write audit fields (`updated_at`, `published_at` and revisions) for every publish.

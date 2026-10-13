@@ -1,0 +1,624 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "CaseStudy.dc.html": {
+      "expand": "fill",
+      "h": 7000,
+      "is_interactive": true,
+      "page": "public",
+      "title": "Case study — laptop 1440 (Sri Mandir)",
+      "w": 1440,
+      "x": 4424,
+      "y": 0
+    },
+    "CaseStudyMobile.dc.html": {
+      "h": 7480,
+      "is_interactive": true,
+      "page": "public",
+      "title": "Case study — mobile 390 (tap Menu, the chapter bar or Try the prototype; Tweaks: menu open, chapter picker, prototype states)",
+      "w": 390,
+      "x": 6858,
+      "y": 0
+    },
+    "CaseStudyTablet.dc.html": {
+      "h": 7400,
+      "page": "public",
+      "title": "Case study — iPad 834",
+      "w": 834,
+      "x": 5944,
+      "y": 0
+    },
+    "DevicesA.dc.html": {
+      "h": 1340,
+      "page": "directions",
+      "title": "A · Volumes — iPad 834 + mobile 390",
+      "w": 1400,
+      "x": 0,
+      "y": 2100
+    },
+    "DevicesB.dc.html": {
+      "h": 1340,
+      "page": "archive",
+      "title": "B · Operator devices — archived",
+      "w": 1400,
+      "x": 0,
+      "y": 2100
+    },
+    "DevicesC.dc.html": {
+      "h": 1340,
+      "page": "archive",
+      "title": "C · Editorial devices — archived",
+      "w": 1400,
+      "x": 1520,
+      "y": 2100
+    },
+    "DirectionB.dc.html": {
+      "expand": "fill",
+      "h": 1760,
+      "page": "archive",
+      "title": "B · Operator — archived",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "DirectionC.dc.html": {
+      "expand": "fill",
+      "h": 1760,
+      "page": "archive",
+      "title": "C · Editorial (round 1) — archived",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "EditorCaseStudy.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Editor · Story — chapters + block builder (reorder chapters, add/move/duplicate/delete blocks, fix the RICE row)",
+      "w": 1440,
+      "x": 3040,
+      "y": 1700
+    },
+    "EditorOutcomes.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Editor · Outcomes — label every number (achieved/target/projected/baseline/output), credit, private evidence; honesty ch",
+      "w": 1440,
+      "x": 4560,
+      "y": 1700
+    },
+    "EditorOverview.dc.html": {
+      "expand": "fill",
+      "h": 1560,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Editor · Overview — type to see autosave + live card; Publish changes opens the checklist (Tweaks: offline, save failed,",
+      "w": 1440,
+      "x": 0,
+      "y": 1700
+    },
+    "EditorSettings.dc.html": {
+      "expand": "fill",
+      "h": 2100,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Editor · URL & SEO — address with redirect, search + link previews, public/unlisted, private preview link, unpublish/del",
+      "w": 1440,
+      "x": 6080,
+      "y": 1700
+    },
+    "EditorVisuals.dc.html": {
+      "expand": "fill",
+      "h": 1960,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Editor · Visuals — switch hero type, click the cover to move the focal point, Add images to see uploads + alt-text check",
+      "w": 1440,
+      "x": 1520,
+      "y": 1700
+    },
+    "Home.dc.html": {
+      "expand": "fill",
+      "h": 10350,
+      "is_interactive": true,
+      "page": "public",
+      "title": "Home — laptop 1440 · Volumes + Ink hero (move the cursor over the hero; hover a skill group; Tweaks: theme, motion, skill sizes)",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "HomeMobile.dc.html": {
+      "h": 7460,
+      "page": "public",
+      "title": "Home — mobile 390 · Volumes + Ink hero (tap Menu; tap a skill group; Tweaks: menu open, motion, skill sizes)",
+      "w": 390,
+      "x": 3954,
+      "y": 0,
+      "is_interactive": true
+    },
+    "HomeTablet.dc.html": {
+      "h": 9860,
+      "page": "public",
+      "title": "Home — iPad 834 · Volumes + Ink hero (one floating preview; tap a skill group; Tweaks: motion, skill sizes)",
+      "w": 834,
+      "x": 3040,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 1760,
+      "page": "directions",
+      "title": "A · Volumes — laptop 1440",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Motion.dc.html": {
+      "expand": "fill",
+      "h": 6200,
+      "is_interactive": true,
+      "page": "motion",
+      "title": "Motion system — every animation on the website: tokens, live demos, reduced motion (press Replay; toggle Reduced motion)",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "PublicStates.dc.html": {
+      "h": 4200,
+      "page": "public",
+      "title": "Public states — images, video, prototypes, 404, moved, previews, empty results, errors (laptop + phone)",
+      "w": 1536,
+      "x": 10560,
+      "y": 0
+    },
+    "R2Cover.dc.html": {
+      "h": 2380,
+      "is_interactive": true,
+      "page": "round2",
+      "title": "05 · Cover Story (editorial) — laptop, iPad, mobile",
+      "w": 1536,
+      "x": 1616,
+      "y": 2720
+    },
+    "R2Cyber.dc.html": {
+      "h": 2380,
+      "is_interactive": true,
+      "page": "round2",
+      "title": "02 · Cyberpunk HUD — laptop, iPad, mobile",
+      "w": 1536,
+      "x": 1616,
+      "y": 0
+    },
+    "R2Depth.dc.html": {
+      "h": 2380,
+      "is_interactive": true,
+      "page": "round2",
+      "title": "06 · Depth Field (mouse parallax) — laptop, iPad, mobile",
+      "w": 1536,
+      "x": 3232,
+      "y": 2720
+    },
+    "R2Glass.dc.html": {
+      "h": 2380,
+      "is_interactive": true,
+      "page": "round2",
+      "title": "01 · Liquid Glass — laptop, iPad, mobile",
+      "w": 1536,
+      "x": 0,
+      "y": 0
+    },
+    "R2Kinetic.dc.html": {
+      "h": 2380,
+      "is_interactive": true,
+      "page": "round2",
+      "title": "08 · Kinetic Type — laptop, iPad, mobile",
+      "w": 1536,
+      "x": 1616,
+      "y": 5440
+    },
+    "R2Manga.dc.html": {
+      "h": 2380,
+      "is_interactive": true,
+      "page": "round2",
+      "title": "04 · Shōnen Manga — laptop, iPad, mobile",
+      "w": 1536,
+      "x": 0,
+      "y": 2720
+    },
+    "R2Neon.dc.html": {
+      "h": 2380,
+      "is_interactive": true,
+      "page": "round2",
+      "title": "03 · Neon Tokyo Night — laptop, iPad, mobile",
+      "w": 1536,
+      "x": 3232,
+      "y": 0
+    },
+    "R2OS.dc.html": {
+      "h": 2380,
+      "is_interactive": true,
+      "page": "round2",
+      "title": "07 · AkarshanOS — laptop, iPad, mobile",
+      "w": 1536,
+      "x": 0,
+      "y": 5440
+    },
+    "R3Ink.dc.html": {
+      "h": 3240,
+      "is_interactive": true,
+      "page": "r3",
+      "title": "R3 · A — Ink & Depth (balanced mix): splash panel + 3D volume shelf",
+      "w": 1536,
+      "x": 0,
+      "y": 0
+    },
+    "R3Motion.dc.html": {
+      "h": 3200,
+      "is_interactive": true,
+      "page": "r3",
+      "title": "R3 · Motion & interaction spec — explode the depth layers; timing, states, touch, access, performance",
+      "w": 1536,
+      "x": 4848,
+      "y": 0
+    },
+    "R3Prime.dc.html": {
+      "h": 3240,
+      "is_interactive": true,
+      "page": "r3",
+      "title": "R3 · C — Volumes Prime (subtle, most shippable): Volumes layout, 3D ink-cover stack, tilt cards",
+      "w": 1536,
+      "x": 3232,
+      "y": 0
+    },
+    "R3Spread.dc.html": {
+      "h": 3240,
+      "is_interactive": true,
+      "page": "r3",
+      "title": "R3 · B — Chapter Spread (manga-forward): diagonal-panel page + contents with a cursor-following cover",
+      "w": 1536,
+      "x": 1616,
+      "y": 0
+    },
+    "StudioAuthFlow.dc.html": {
+      "h": 3720,
+      "page": "cms",
+      "title": "Studio — sign-in flow: a code by email, owner only (every path: first sign-in, other addresses, wrong or old codes, limits, deep link, signed out mid-edit, signing out, phone)",
+      "w": 2160,
+      "x": 0,
+      "y": 9400
+    },
+    "StudioDashboard.dc.html": {
+      "expand": "fill",
+      "h": 1240,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Studio — dashboard (Tweaks: populated, empty, loading)",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "StudioLogin.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Studio — sign in with an email code, owner only (try it: Email me a code, then type any 6 digits; 000000 shows the error. Tweaks show every state)",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "StudioMedia.dc.html": {
+      "expand": "fill",
+      "h": 1320,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Studio — media library (Upload shows progress + rejected files; filters; alt text; delete blocked while in use)",
+      "w": 1440,
+      "x": 0,
+      "y": 4100
+    },
+    "StudioMobile.dc.html": {
+      "h": 1040,
+      "page": "cms",
+      "title": "Studio on phones — projects, story editor, upload sheet",
+      "w": 1440,
+      "x": 2280,
+      "y": 7600
+    },
+    "StudioPreview.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Studio — draft preview (desktop / tablet / phone, highlight changes, compare with live, share link)",
+      "w": 1440,
+      "x": 3040,
+      "y": 4100
+    },
+    "StudioProfile.dc.html": {
+      "expand": "fill",
+      "h": 3150,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Studio — Website › Profile & facts (confirm résumé vs current-site facts; title, availability, numbers, roles, testimoni",
+      "w": 1440,
+      "x": 1520,
+      "y": 4100
+    },
+    "StudioProjects.dc.html": {
+      "expand": "fill",
+      "h": 1300,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Studio — projects (drag or ↑↓ to reorder, ★ lead card, ⋯ menu; Tweaks: every state)",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "StudioSite.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Studio — Website: turn on/off and reorder every section and widget, projects per shelf, floating previews, skill sizes, Off duty panels (Tweaks open each panel)",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "StudioStates.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "page": "cms",
+      "title": "Studio — every system state (saving, toasts, confirmations, session, conflicts, uploads, empty, loading, public)",
+      "w": 1440,
+      "x": 4560,
+      "y": 4100
+    },
+    "StudioTablet.dc.html": {
+      "h": 1400,
+      "page": "cms",
+      "title": "Studio on iPad — portrait editor + landscape dashboard",
+      "w": 2200,
+      "x": 0,
+      "y": 7600
+    },
+    "StudioWriting.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "page": "cms",
+      "title": "Studio — Writing (blog): editor, settings, publish or schedule, facts you can cite, ideas from your résumé",
+      "w": 1440,
+      "x": 6080,
+      "y": 0
+    },
+    "System.dc.html": {
+      "expand": "fill",
+      "h": 3800,
+      "page": "public",
+      "title": "Design system — tokens, components, breakpoints",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "WorkScale.dc.html": {
+      "h": 3480,
+      "is_interactive": true,
+      "page": "public",
+      "title": "Work at scale — drag the slider: the standard shelf (lead card, rows of three, “See all”), the /work list, phones",
+      "w": 1536,
+      "x": 7328,
+      "y": 0
+    },
+    "WritingPublic.dc.html": {
+      "h": 4520,
+      "page": "public",
+      "title": "Writing (blog) — homepage section, /writing, a post; laptop + mobile (placeholder text)",
+      "w": 1536,
+      "x": 8944,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-13T08:40:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "page": "public",
+    "view": "canvas"
+  },
+  "notes": {
+    "archTitle": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "archive",
+      "text": "Archived — not taken forward",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "cmsTitle1": {
+      "kind": "title1",
+      "maxW": 7520,
+      "page": "cms",
+      "text": "Studio — sign in, dashboard, projects, website, writing",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "cmsTitle2": {
+      "kind": "title1",
+      "maxW": 7520,
+      "page": "cms",
+      "text": "Project editor — one project (Sri Mandir), five tabs",
+      "w": 240,
+      "x": 0,
+      "y": 1400
+    },
+    "cmsTitle3": {
+      "kind": "title1",
+      "maxW": 5920,
+      "page": "cms",
+      "text": "Library, profile, preview and states",
+      "w": 240,
+      "x": 0,
+      "y": 3800
+    },
+    "cmsTitle4": {
+      "kind": "title1",
+      "maxW": 3650,
+      "page": "cms",
+      "text": "Studio on iPad and phone",
+      "w": 240,
+      "x": 0,
+      "y": 7300
+    },
+    "cmsTitle5": {
+      "kind": "title1",
+      "maxW": 2160,
+      "page": "cms",
+      "text": "Sign-in flow — a code by email, your account only",
+      "w": 240,
+      "x": 0,
+      "y": 9100
+    },
+    "dirTitle": {
+      "kind": "title1",
+      "maxW": 1440,
+      "page": "directions",
+      "text": "Volumes (A), updated with your comments",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "dirTitle2": {
+      "kind": "title1",
+      "maxW": 1400,
+      "page": "directions",
+      "text": "Volumes on iPad and mobile",
+      "w": 240,
+      "x": 0,
+      "y": 1820
+    },
+    "motionTitle": {
+      "kind": "title1",
+      "maxW": 1440,
+      "page": "motion",
+      "text": "Motion & animation — one easing curve, seven durations, one stagger",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "pubTitle": {
+      "kind": "title1",
+      "maxW": 8000,
+      "page": "public",
+      "text": "Final direction: R1 Volumes, with the Ink & Depth hero",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "r2Title": {
+      "kind": "title1",
+      "maxW": 4768,
+      "page": "round2",
+      "text": "Round 2 — bold directions. Each keeps the original pill nav and angled CTAs.",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "r3Title": {
+      "kind": "title1",
+      "maxW": 6384,
+      "page": "r3",
+      "text": "Round 3 — Volumes (A) first, with shōnen ink and depth-field parallax",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    }
+  },
+  "order": [
+    "R3Ink.dc.html",
+    "R3Spread.dc.html",
+    "R3Prime.dc.html",
+    "R3Motion.dc.html",
+    "R2Glass.dc.html",
+    "R2Cyber.dc.html",
+    "R2Neon.dc.html",
+    "R2Manga.dc.html",
+    "R2Cover.dc.html",
+    "R2Depth.dc.html",
+    "R2OS.dc.html",
+    "R2Kinetic.dc.html",
+    "Main.dc.html",
+    "DevicesA.dc.html",
+    "System.dc.html",
+    "Home.dc.html",
+    "HomeTablet.dc.html",
+    "HomeMobile.dc.html",
+    "CaseStudy.dc.html",
+    "CaseStudyTablet.dc.html",
+    "CaseStudyMobile.dc.html",
+    "WorkScale.dc.html",
+    "WritingPublic.dc.html",
+    "PublicStates.dc.html",
+    "StudioLogin.dc.html",
+    "StudioAuthFlow.dc.html",
+    "StudioDashboard.dc.html",
+    "StudioProjects.dc.html",
+    "StudioSite.dc.html",
+    "StudioWriting.dc.html",
+    "EditorOverview.dc.html",
+    "EditorVisuals.dc.html",
+    "EditorCaseStudy.dc.html",
+    "EditorOutcomes.dc.html",
+    "EditorSettings.dc.html",
+    "StudioMedia.dc.html",
+    "StudioProfile.dc.html",
+    "StudioPreview.dc.html",
+    "StudioStates.dc.html",
+    "StudioTablet.dc.html",
+    "StudioMobile.dc.html",
+    "DirectionB.dc.html",
+    "DirectionC.dc.html",
+    "DevicesB.dc.html",
+    "DevicesC.dc.html",
+    "Motion.dc.html"
+  ],
+  "pages": [
+    {
+      "id": "r3",
+      "name": "1 · Round 3 — Volumes × shōnen × depth"
+    },
+    {
+      "id": "round2",
+      "name": "2 · Round 2 — bold explorations"
+    },
+    {
+      "id": "directions",
+      "name": "3 · Round 1 — Volumes (A)"
+    },
+    {
+      "id": "public",
+      "name": "4 · Final site — Volumes + Ink hero"
+    },
+    {
+      "id": "cms",
+      "name": "5 · Studio (CMS)"
+    },
+    {
+      "id": "motion",
+      "name": "6 · Motion & animation"
+    },
+    {
+      "id": "archive",
+      "name": "Archive — B and C"
+    }
+  ],
+  "title": "Portfolio & CMS Design Iterations"
+}

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio on phones</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .nav{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;border-radius:8px;color:var(--tx2);font-size:14px;font-weight:500}
+.st .nav:hover{background:#EFEEEA;color:var(--tx)}
+.st .nav.on{background:#EAE9E4;color:var(--tx)}
+.st .card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.st .cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border:0;background:var(--ac);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.st .cta:hover{background:#E42A3F}
+.st .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:500 14px/1 var(--fu);cursor:pointer}
+.st .btn:hover{border-color:#B9B7B1}
+.st .chip{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500}
+.st .mono{font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .row{transition:background-color .15s}
+.st .row:hover{background:var(--sf2)}
+.st a:focus-visible,.st button:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+@keyframes stShim{0%{background-position:-300px 0}100%{background-position:300px 0}}
+.st .shim{background:linear-gradient(90deg,#ECEBE7 0,#F6F5F2 50%,#ECEBE7 100%);background-size:600px 100%;animation:stShim 1.3s linear infinite;border-radius:6px}
+@media (prefers-reduced-motion:reduce){.st .shim{animation:none}}
+
+.st .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.st .seg{display:inline-flex;padding:3px;border-radius:10px;background:#EAE9E4}
+.st .seg button{height:34px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--tx2);font:500 14px/1 var(--fu);cursor:pointer}
+.st .seg button[aria-pressed="true"]{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(20,20,22,.12)}
+.st .inp{display:block;width:100%;height:44px;margin-top:8px;padding:0 12px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:400 15px/1.4 var(--fu)}
+.st textarea.inp{height:auto;min-height:88px;padding:10px 12px;resize:vertical}
+.st .inp::placeholder{color:#8F8D87}
+.st .inp:focus{outline:none;border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .lbl{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.st .req{font-size:12px;font-weight:500;color:var(--tx3)}
+.st .hrow{display:flex;align-items:flex-start;gap:12px;margin-top:6px;font-size:13px;line-height:1.45}
+.st .hint{color:var(--tx3)}
+.st .err{display:flex;gap:6px;color:var(--err);font-weight:500}
+.st .cnt{margin-left:auto;font-family:var(--fm);font-size:12px;white-space:nowrap}
+.st .ib{width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--tx2);cursor:pointer}
+.st .ib:hover{background:#EFEEEA;color:var(--tx)}
+.st .sw{display:flex;align-items:center;gap:12px;min-height:40px;padding:0;border:0;background:none;text-align:left;font:400 14px/1.4 var(--fu);color:var(--tx);cursor:pointer}
+.st .trk{position:relative;flex:none;width:36px;height:20px;border-radius:10px;transition:background .15s}
+.st .knb{position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .15s}
+.st input:focus-visible,.st textarea:focus-visible{outline:none}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+.st .ph{position:relative;width:390px;height:844px;border-radius:46px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 10px #1D1D22,0 30px 60px rgba(20,20,22,.25);display:flex;flex-direction:column}
+.st .appbar{display:flex;align-items:center;gap:8px;padding:18px 16px 12px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tabbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:8px 6px 26px;background:#fff;border-top:1px solid var(--ln)}
+.st .tbi{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:48px;justify-content:center;font-size:11px;font-weight:500;color:var(--tx3)}
+.st .tbi.on{color:var(--tx)}
+.st .pc{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--ln);border-radius:12px;background:#fff}
+.st .cap2{font-family:var(--fm);font-size:13px;line-height:1.5;color:#6A6A72;max-width:390px}
+.st .cap2 b{color:var(--tx);font-weight:600}
+.st .tabs{display:flex;gap:2px;padding:0 10px;background:#fff;border-bottom:1px solid var(--ln);overflow:hidden;white-space:nowrap}
+.st .tab{position:relative;display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 10px;font-size:14px;font-weight:500;color:var(--tx2)}
+.st .tab.on{color:var(--tx)}
+.st .tab.on::after{content:"";position:absolute;left:6px;right:6px;bottom:-1px;height:2px;background:var(--tx)}
+.st .dot{width:7px;height:7px;border-radius:50%;background:#F5A524}
+.st .rc{padding:10px 12px;border:1px solid var(--ln);border-radius:10px;background:#fff;font-size:14px}
+.st .opt{display:flex;align-items:center;gap:14px;min-height:52px;padding:0 4px;border-bottom:1px solid var(--ln);font-size:15px}
+</style>
+</helmet>
+<div class="st" style="width: 1440px; height: 1040px; padding: 40px; background: #E9E8E4; color: var(--tx); font-family: var(--fu);">
+<div style="display: flex; gap: 72px; align-items: flex-start;">
+<div style="display: flex; flex-direction: column; gap: 16px;"><div class="cap2"><b>Projects.</b> The sidebar becomes a five-tab bar. Reorder is its own mode with ↑↓ handles.</div><div class="ph">
+<header class="appbar"><h1 style="flex: 1; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.02em;">Projects</h1><button class="ib" aria-label="Search"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4-4"></path></svg></button><a class="cta" href="EditorOverview.dc.html" aria-label="New project" style="width: 44px; height: 44px; padding: 0;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a></header>
+<div style="flex: 1; overflow: hidden; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;">
+<div class="seg" style="align-self: flex-start;"><button aria-pressed="true">All 9</button><button aria-pressed="false">Published 5</button><button aria-pressed="false">Drafts 4</button></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px;"><span style="font-size: 15px; font-weight: 600;">Shipped</span><button style="border: 0; background: none; padding: 0; font: 600 14px/1 var(--fu); color: var(--tx); text-decoration: underline; text-underline-offset: 3px;">Reorder</button></div>
+<div class="pc"><span style="flex: none; width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #2DD4BF, #0D6B60);"></span><span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600; line-height: 1.3;">3D body scan for GLP-1 users</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 5px;"><span class="chip" style="height: 20px; font-size: 11px; background: #EFEEEA; color: #4A4A51;">Draft</span><span style="font-size: 12px; color: var(--tx3);">40% ready</span></span></span><button class="ib" aria-label="Actions for 3D body scan for GLP-1 users"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button></div>
+<div class="pc"><span style="flex: none; width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #F5A524, #8A5A0B);"></span><span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600; line-height: 1.3;">Image-based food logging</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 5px;"><span class="chip" style="height: 20px; font-size: 11px; background: #EFEEEA; color: #4A4A51;">Draft</span><span style="font-size: 12px; color: var(--tx3);">35% ready</span></span></span><button class="ib" aria-label="Actions for Image-based food logging"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px;"><span style="font-size: 15px; font-weight: 600;">Strategy &amp; prototypes</span><span style="font-size: 12px; color: var(--tx3);">5</span></div>
+<div class="pc"><span style="flex: none; width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #FF5A67, #7F1D2A);"></span><span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600; line-height: 1.3;">Puja engagement platform</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 5px;"><span class="chip" style="height: 20px; font-size: 11px; background: #FFF4DB; color: #8A5A00;">Edits not live</span><span style="font-size: 12px; color: var(--tx3);">12 min ago</span></span></span><button class="ib" aria-label="Actions for Puja engagement platform"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button></div>
+<div class="pc"><span style="flex: none; width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #94A3B8, #1E293B);"></span><span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600; line-height: 1.3;">Arcana Workspace</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 5px;"><span class="chip" style="height: 20px; font-size: 11px; background: #E6F4EC; color: #0F7A4A;">Published</span><span style="font-size: 12px; color: var(--tx3);">2 days ago</span></span></span><button class="ib" aria-label="Actions for Arcana Workspace"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button></div>
+<div class="pc"><span style="flex: none; width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #4ADE80, #14532D);"></span><span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600; line-height: 1.3;">GLP-1 digital scaffold</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 5px;"><span class="chip" style="height: 20px; font-size: 11px; background: #E6F4EC; color: #0F7A4A;">Published</span><span style="font-size: 12px; color: var(--tx3);">5 days ago</span></span></span><button class="ib" aria-label="Actions for GLP-1 digital scaffold"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button></div>
+</div>
+<nav class="tabbar" aria-label="Studio"><a class="tbi" href="StudioDashboard.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg>Home</a><a class="tbi" href="StudioSite.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg>Website</a><a class="tbi on" href="StudioProjects.dc.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M4 5h16v14H4zM4 9h16"></path></svg>Projects</a><a class="tbi" href="StudioWriting.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Writing</a><a class="tbi" href="StudioMedia.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Media</a></nav>
+</div></div>
+<div style="display: flex; flex-direction: column; gap: 16px;"><div class="cap2"><b>Editor · Story.</b> Chapters behind one switcher; tables become cards; Publish stays in reach.</div><div class="ph">
+<header class="appbar" style="padding-bottom: 10px;"><a class="ib" href="StudioProjects.dc.html" aria-label="Back to projects"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a><span style="flex: 1; min-width: 0; font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Puja engagement platform</span><span role="status" aria-label="All changes saved" style="color: var(--tx2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4.5 4.5 0 01-.6-9A6 6 0 0118 9.5a4 4 0 01-1 8.5zM9.5 13.5l2 2 3.5-3.5"></path></svg></span></header>
+<nav class="tabs" aria-label="Project sections"><a class="tab" href="EditorOverview.dc.html">Overview</a><a class="tab" href="EditorVisuals.dc.html">Visuals</a><a class="tab on" href="EditorCaseStudy.dc.html" aria-current="page">Story<span class="dot" aria-hidden="true"></span></a><a class="tab" href="EditorOutcomes.dc.html">Outcomes</a><a class="tab" href="EditorSettings.dc.html">URL &amp; SEO</a></nav>
+<div style="flex: 1; overflow: hidden; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;">
+<button style="display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 14px; border: 1px solid var(--ln2); border-radius: 10px; background: #fff; font: 600 15px/1 var(--fu); color: var(--tx); text-align: left;"><span style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">04</span><span style="flex: 1;">Prioritisation</span><span style="font-size: 12px; font-weight: 400; color: var(--tx3);">8 chapters</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+<div class="card" style="padding: 12px 14px;"><div class="mono" style="font-size: 11px;">Text</div><div style="margin-top: 6px; font-size: 15px; line-height: 1.55;">Nine ideas, scored with RICE: reach × impact × confidence ÷ effort.</div></div>
+<div class="card" style="padding: 12px 14px; display: grid; gap: 8px;"><div style="display: flex; justify-content: space-between; align-items: center;"><span class="mono" style="font-size: 11px;">Table · RICE · rows as cards</span><span class="chip" style="height: 20px; font-size: 11px; background: var(--warnbg); color: var(--warn);">1 row</span></div>
+<div class="rc" style=""><div style="display: flex; justify-content: space-between; gap: 10px;"><span><span style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#1</span> <strong style="font-weight: 600;">WhatsApp integration</strong></span><span style="font-weight: 700; color: #141416;">9.6</span></div><div style="margin-top: 4px; font-size: 12px; color: #6A6A72;">R 9 · I 2.5 · C 85% · E 2 mo</div></div>
+<div class="rc" style=""><div style="display: flex; justify-content: space-between; gap: 10px;"><span><span style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#2</span> <strong style="font-weight: 600;">Product education</strong></span><span style="font-weight: 700; color: #141416;">9.1</span></div><div style="margin-top: 4px; font-size: 12px; color: #6A6A72;">R 7 · I 2 · C 65% · E 1 mo</div></div>
+<div class="rc" style="border-color: #E5CF98; background: #FFFBF0;"><div style="display: flex; justify-content: space-between; gap: 10px;"><span><span style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">#6</span> <strong style="font-weight: 600;">Subscription packages</strong></span><span style="font-weight: 700; color: #8A5A00;">5.7</span></div><div style="margin-top: 4px; font-size: 12px; color: #8A5A00;">Inputs give 11.3. Tap to fix.</div></div>
+<span style="font-size: 13px; color: var(--tx3);">+ 6 more rows</span></div>
+<button style="height: 48px; border: 1.5px dashed var(--ln2); border-radius: 12px; background: transparent; font: 500 14px/1 var(--fu); color: var(--tx2);">+ Add block</button>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; padding: 12px 16px 28px; background: #fff; border-top: 1px solid var(--ln);"><a class="btn" href="StudioPreview.dc.html" style="height: 48px;">Preview</a><a class="cta" href="EditorCaseStudy.dc.html" style="height: 48px;">Publish changes</a></div>
+</div></div>
+<div style="display: flex; flex-direction: column; gap: 16px;"><div class="cap2"><b>Upload sheet.</b> Camera, library or files; alt text asked for right after upload.</div><div class="ph">
+<header class="appbar"><h1 style="flex: 1; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.02em;">Media</h1></header>
+<div style="flex: 1; overflow: hidden; padding: 14px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start;">
+<span style="height: 150px; border-radius: 10px; background: #2A1316;"></span><span style="height: 150px; border-radius: 10px; background: #2A1316;"></span><span style="height: 150px; border-radius: 10px; background: #1C0C0F;"></span><span style="height: 150px; border-radius: 10px; background: #EAE9E4;"></span>
+</div>
+<nav class="tabbar" aria-label="Studio"><a class="tbi" href="StudioDashboard.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg>Home</a><a class="tbi" href="StudioSite.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg>Website</a><a class="tbi" href="StudioProjects.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M4 5h16v14H4zM4 9h16"></path></svg>Projects</a><a class="tbi" href="StudioWriting.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Writing</a><a class="tbi on" href="StudioMedia.dc.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Media</a></nav>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(20,20,22,.45);"></div>
+<div role="dialog" aria-modal="true" aria-labelledby="sh-t" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 18px 30px; border-radius: 22px 22px 0 0; background: #fff; box-shadow: 0 -20px 50px rgba(20,20,22,.25);">
+<div style="width: 40px; height: 5px; margin: 0 auto 14px; border-radius: 3px; background: #D2D0CA;"></div>
+<h2 id="sh-t" style="margin: 0; font-size: 19px; font-weight: 600;">Add to the Puja gallery</h2>
+<div style="margin-top: 8px;">
+<a class="opt" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Photo library</a>
+<a class="opt" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>Take a photo</a>
+<a class="opt" href="#"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v4h4"></path></svg>Files · images and PDFs</a>
+</div>
+<div style="margin-top: 14px; padding: 12px; border: 1px solid var(--ln); border-radius: 12px;"><div style="display: flex; justify-content: space-between; font-size: 13px;"><span style="font-family: var(--fm);">screen-09.png</span><span style="color: var(--tx3);">62%</span></div><div style="margin-top: 8px; height: 6px; border-radius: 3px; background: #EFEEEA;"><div style="width: 62%; height: 6px; border-radius: 3px; background: var(--tx);"></div></div></div>
+<div style="margin-top: 10px; padding: 12px; border: 1px solid #E5CF98; border-radius: 12px; background: #FFFBF0;"><label for="m-alt" style="font-size: 13px; font-weight: 600;">Alt text for screen-08.png <span style="font-weight: 500; color: var(--warn);">Required</span></label><textarea id="m-alt" class="inp" placeholder="What the screen shows and why it matters" style="min-height: 64px;"></textarea><div style="margin-top: 10px; display: flex; justify-content: flex-end;"><button class="cta" style="height: 42px;">Save</button></div></div>
+</div>
+</div></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

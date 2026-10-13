@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .nav{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;border-radius:8px;color:var(--tx2);font-size:14px;font-weight:500}
+.st .nav:hover{background:#EFEEEA;color:var(--tx)}
+.st .nav.on{background:#EAE9E4;color:var(--tx)}
+.st .card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.st .cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border:0;background:var(--ac);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.st .cta:hover{background:#E42A3F}
+.st .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:500 14px/1 var(--fu);cursor:pointer}
+.st .btn:hover{border-color:#B9B7B1}
+.st .chip{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500}
+.st .mono{font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .row{transition:background-color .15s}
+.st .row:hover{background:var(--sf2)}
+.st a:focus-visible,.st button:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+@keyframes stShim{0%{background-position:-300px 0}100%{background-position:300px 0}}
+.st .shim{background:linear-gradient(90deg,#ECEBE7 0,#F6F5F2 50%,#ECEBE7 100%);background-size:600px 100%;animation:stShim 1.3s linear infinite;border-radius:6px}
+@media (prefers-reduced-motion:reduce){.st .shim{animation:none}}
+</style>
+</helmet>
+<div class="st" style="min-height: 1240px; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--tx); font-family: var(--fu);">
+
+<aside style="flex: 1 1 232px; max-width: 256px; background: #FBFBFA; border-right: 1px solid var(--ln); padding: 20px 14px; display: flex; flex-direction: column; gap: 4px;">
+<div style="padding: 4px 12px 18px; display: flex; align-items: baseline; justify-content: space-between;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 26px; letter-spacing: .04em; text-transform: uppercase;">Studio<span style="color: var(--ac);">.</span></span><span class="mono" style="font-size: 11px;">CMS</span></div>
+<a class="nav on" href="StudioDashboard.dc.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg>Dashboard</a>
+<a class="nav" href="StudioSite.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg>Website</a>
+<a class="nav" href="StudioProjects.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16"></path></svg>Projects<span style="margin-left: auto; font-size: 12px; color: var(--tx3);">9</span></a>
+<a class="nav" href="StudioWriting.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Writing</a>
+<a class="nav" href="StudioMedia.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Media</a>
+<div style="height: 1px; background: var(--ln); margin: 10px 4px;"></div>
+<a class="nav" href="Home.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg>View live site</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 10px; border: 1px solid var(--ln); background: #fff; display: flex; align-items: center; gap: 10px;"><span style="width: 34px; height: 34px; border-radius: 50%; background: #EAE9E4; display: grid; place-items: center; color: var(--tx3);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span><span style="min-width: 0;"><span style="display: block; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">akarshan910@gmail.com</span><button style="border: 0; background: none; padding: 0; font: 400 12px/1.4 var(--fu); color: var(--tx3); cursor: pointer;">Owner · Sign out</button></span></div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 28px clamp(20px, 3vw, 40px) 48px;">
+<sc-if value="{{isPopulated}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+<div><div class="mono">Tuesday, 13 Oct</div><h1 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; letter-spacing: -.02em;">Good evening, Akarshan</h1><p style="margin: 6px 0 0; font-size: 15px; color: var(--tx2);">Four drafts need your input before they can go live.</p></div>
+<div style="display: flex; gap: 10px;"><a class="btn" href="StudioSite.dc.html">Edit website</a><a class="cta" href="EditorOverview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M12 5v14M5 12h14"></path></svg>New project</a></div>
+</div>
+
+<div style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px;">
+<div class="card" style="padding: 18px 20px;"><div class="mono">Projects</div><div style="margin-top: 10px; font-size: 34px; font-weight: 600; letter-spacing: -.03em;">9</div></div>
+<div class="card" style="padding: 18px 20px;"><div class="mono">Published</div><div style="margin-top: 10px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 34px; font-weight: 600; letter-spacing: -.03em;">5</span><span class="chip" style="background: var(--okbg); color: var(--ok);">Live</span></div></div>
+<div class="card" style="padding: 18px 20px;"><div class="mono">Drafts</div><div style="margin-top: 10px; display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 34px; font-weight: 600; letter-spacing: -.03em;">4</span><span class="chip" style="background: #EFEEEA; color: var(--tx2);">Private</span></div></div>
+<div class="card" style="padding: 18px 20px;"><div class="mono">Site last published</div><div style="margin-top: 14px; font-size: 18px; font-weight: 600;">Today, 14:02</div><a href="Home.dc.html" style="margin-top: 4px; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--tx2);">View live<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M7 17L17 7M8 7h9v9"></path></svg></a></div>
+</div>
+
+<div style="margin-top: 24px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section class="card" style="flex: 999 1 520px; min-width: 0; overflow: hidden;">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--ln);"><h2 style="margin: 0; font-size: 17px; font-weight: 600;">Needs your input</h2><span class="mono">5 items</span></div>
+<a class="row" href="EditorOverview.dc.html" style="display: grid; grid-template-columns: 52px minmax(0, 1fr) 140px 96px; gap: 16px; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--ln);"><span style="width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #2DD4BF, #0D6B60);"></span><span><span style="display: block; font-size: 15px; font-weight: 600;">3D body scan for GLP-1 users</span><span style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;"><span class="chip" style="background: var(--warnbg); color: var(--warn);">Problem</span><span class="chip" style="background: var(--warnbg); color: var(--warn);">My role</span><span class="chip" style="background: var(--warnbg); color: var(--warn);">Hero media</span></span></span><span><span style="display: block; height: 6px; border-radius: 3px; background: #EFEEEA;"><span style="display: block; width: 40%; height: 6px; border-radius: 3px; background: var(--tx);"></span></span><span style="display: block; margin-top: 6px; font-size: 12px; color: var(--tx3);">40% complete</span></span><span style="justify-self: end; font-size: 14px; font-weight: 500;">Continue →</span></a>
+<a class="row" href="EditorOverview.dc.html" style="display: grid; grid-template-columns: 52px minmax(0, 1fr) 140px 96px; gap: 16px; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--ln);"><span style="width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #F5A524, #8A5A0B);"></span><span><span style="display: block; font-size: 15px; font-weight: 600;">Image-based food logging</span><span style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;"><span class="chip" style="background: var(--warnbg); color: var(--warn);">Problem</span><span class="chip" style="background: var(--warnbg); color: var(--warn);">Key screens</span></span></span><span><span style="display: block; height: 6px; border-radius: 3px; background: #EFEEEA;"><span style="display: block; width: 35%; height: 6px; border-radius: 3px; background: var(--tx);"></span></span><span style="display: block; margin-top: 6px; font-size: 12px; color: var(--tx3);">35% complete</span></span><span style="justify-self: end; font-size: 14px; font-weight: 500;">Continue →</span></a>
+<a class="row" href="EditorOverview.dc.html" style="display: grid; grid-template-columns: 52px minmax(0, 1fr) 140px 96px; gap: 16px; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--ln);"><span style="width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #38BDF8, #0B5A80);"></span><span><span style="display: block; font-size: 15px; font-weight: 600;">The CGM journey, end to end</span><span style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;"><span class="chip" style="background: var(--warnbg); color: var(--warn);">My role</span><span class="chip" style="background: var(--warnbg); color: var(--warn);">Journey map</span></span></span><span><span style="display: block; height: 6px; border-radius: 3px; background: #EFEEEA;"><span style="display: block; width: 30%; height: 6px; border-radius: 3px; background: var(--tx);"></span></span><span style="display: block; margin-top: 6px; font-size: 12px; color: var(--tx3);">30% complete</span></span><span style="justify-self: end; font-size: 14px; font-weight: 500;">Continue →</span></a>
+<a class="row" href="EditorOverview.dc.html" style="display: grid; grid-template-columns: 52px minmax(0, 1fr) 140px 96px; gap: 16px; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--ln);"><span style="width: 52px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #A78BFA, #4C2F9E);"></span><span><span style="display: block; font-size: 15px; font-weight: 600;">The GLP-1 app, 0→1</span><span style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;"><span class="chip" style="background: var(--warnbg); color: var(--warn);">Cover image</span><span class="chip" style="background: var(--warnbg); color: var(--warn);">Results detail</span></span></span><span><span style="display: block; height: 6px; border-radius: 3px; background: #EFEEEA;"><span style="display: block; width: 30%; height: 6px; border-radius: 3px; background: var(--tx);"></span></span><span style="display: block; margin-top: 6px; font-size: 12px; color: var(--tx3);">30% complete</span></span><span style="justify-self: end; font-size: 14px; font-weight: 500;">Continue →</span></a>
+<a class="row" href="EditorCaseStudy.dc.html" style="display: grid; grid-template-columns: 52px minmax(0, 1fr) 236px; gap: 16px; align-items: center; padding: 16px 20px; background: #FFFBF5;"><span style="width: 52px; height: 40px; border-radius: 8px; background: var(--errbg); color: var(--err); display: grid; place-items: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg></span><span><span style="display: block; font-size: 15px; font-weight: 600;">Puja engagement platform · RICE table</span><span style="display: block; margin-top: 4px; font-size: 13px; line-height: 1.45; color: var(--tx2);">“Subscription packages” scores 11.3 from its inputs but shows 5.7. Effort may be 3 mo, not 1.5.</span></span><span style="justify-self: end; font-size: 14px; font-weight: 500;">Review in case study →</span></a>
+</section>
+
+<div style="flex: 1 1 300px; display: grid; gap: 24px;">
+<section class="card" style="overflow: hidden;">
+<div style="padding: 16px 20px; border-bottom: 1px solid var(--ln);"><h2 style="margin: 0; font-size: 17px; font-weight: 600;">Recently edited</h2></div>
+<div style="padding: 6px 0;">
+<a class="row" href="EditorCaseStudy.dc.html" style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 20px; font-size: 14px;"><span style="font-weight: 500;">Puja engagement platform</span><span style="color: var(--tx3); white-space: nowrap;">12 min ago</span></a>
+<a class="row" href="StudioSite.dc.html" style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 20px; font-size: 14px;"><span style="font-weight: 500;">Website · hero</span><span style="color: var(--tx3); white-space: nowrap;">1 h ago</span></a>
+<a class="row" href="EditorOverview.dc.html" style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 20px; font-size: 14px;"><span style="font-weight: 500;">3D body scan for GLP-1 users</span><span style="color: var(--tx3); white-space: nowrap;">Yesterday</span></a>
+<a class="row" href="EditorOverview.dc.html" style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 20px; font-size: 14px;"><span style="font-weight: 500;">Arcana Workspace</span><span style="color: var(--tx3); white-space: nowrap;">2 days ago</span></a>
+</div>
+</section>
+<section class="card" style="padding: 18px 20px;">
+<h2 style="margin: 0 0 12px; font-size: 17px; font-weight: 600;">Quick actions</h2>
+<div style="display: grid; gap: 8px;">
+<a class="btn" href="StudioMedia.dc.html" style="justify-content: flex-start;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V9M7 14l5-5 5 5M5 4h14"></path></svg>Upload media</a>
+<a class="btn" href="StudioSite.dc.html" style="justify-content: flex-start;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"></path></svg>Arrange the homepage</a>
+<a class="btn" href="StudioWriting.dc.html" style="justify-content: flex-start;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Write a post</a>
+</div>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+<h1 style="margin: 0; font-size: 30px; font-weight: 600; letter-spacing: -.02em;">Welcome to Studio</h1>
+<div class="card" style="margin-top: 24px; padding: 56px 32px; text-align: center;">
+<div aria-hidden="true" style="display: inline-flex; align-items: flex-end; gap: 6px; height: 120px;"><span style="width: 28px; height: 96px; border-radius: 4px; border: 2px dashed var(--ln2);"></span><span style="width: 28px; height: 120px; border-radius: 4px; background: var(--ac);"></span><span style="width: 28px; height: 84px; border-radius: 4px; border: 2px dashed var(--ln2);"></span></div>
+<h2 style="margin: 22px 0 0; font-size: 24px; font-weight: 600;">Your first volume starts here</h2>
+<p style="margin: 10px auto 0; max-width: 520px; font-size: 15px; line-height: 1.6; color: var(--tx2);">Add a project from scratch, or bring over the five case studies already in your site’s code. Imported projects arrive as drafts so you can check them before they go live.</p>
+<div style="margin-top: 24px; display: inline-flex; flex-wrap: wrap; gap: 10px; justify-content: center;"><a class="cta" href="EditorOverview.dc.html">New project</a><button class="btn">Import 5 existing projects</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{isLoading}}" hint-placeholder-val="{{ false }}">
+<div class="shim" style="width: 240px; height: 30px;"></div>
+<div class="shim" style="margin-top: 10px; width: 360px; height: 16px;"></div>
+<div style="margin-top: 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;"><div class="card" style="padding: 18px;"><div class="shim" style="width: 70px; height: 12px;"></div><div class="shim" style="margin-top: 14px; width: 50px; height: 30px;"></div></div><div class="card" style="padding: 18px;"><div class="shim" style="width: 70px; height: 12px;"></div><div class="shim" style="margin-top: 14px; width: 50px; height: 30px;"></div></div><div class="card" style="padding: 18px;"><div class="shim" style="width: 70px; height: 12px;"></div><div class="shim" style="margin-top: 14px; width: 50px; height: 30px;"></div></div><div class="card" style="padding: 18px;"><div class="shim" style="width: 70px; height: 12px;"></div><div class="shim" style="margin-top: 14px; width: 90px; height: 20px;"></div></div></div>
+<div class="card" style="margin-top: 24px; padding: 20px; display: grid; gap: 18px;"><div class="shim" style="height: 40px;"></div><div class="shim" style="height: 40px;"></div><div class="shim" style="height: 40px;"></div></div>
+</sc-if>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"view":{"editor":"enum","options":["populated","empty","loading"],"default":"populated"},"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const v = this.props.view ?? 'populated';
+    return { isPopulated: v === 'populated', isEmpty: v === 'empty', isLoading: v === 'loading' };
+  }
+}
+</script>
+</body>
+</html>

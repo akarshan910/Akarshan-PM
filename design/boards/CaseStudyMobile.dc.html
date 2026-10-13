@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case study — phone · Home — mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.va{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--ok:#3CCB8B;--okt:#9BE7C4;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.va *{box-sizing:border-box}
+.va a{color:var(--tx);text-decoration:none}
+.va .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.va .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.va .h2{margin:10px 0 0;font-family:var(--fd);font-stretch:68%;font-weight:800;font-size:38px;line-height:.95;text-transform:uppercase}
+.va .tag-a{flex:none;padding:2px 7px;border-radius:4px;background:rgba(60,203,139,.12);color:var(--okt);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-t{flex:none;padding:2px 7px;border-radius:4px;border:1px solid var(--ln2);color:var(--tx2);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-p{flex:none;padding:2px 7px;border-radius:4px;border:1px dashed var(--ln2);color:var(--tx2);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-b{flex:none;padding:2px 7px;border-radius:4px;background:var(--sf2);color:var(--tx2);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-o{flex:none;padding:2px 7px;border-radius:4px;background:rgba(255,90,103,.12);color:var(--act);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .row{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;padding:10px;border:1px solid var(--ln);border-radius:16px;background:var(--bg2)}
+.va .acc{width:100%;min-height:56px;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border:0;border-bottom:1px solid var(--ln);background:transparent;color:var(--tx);font:600 16px/1.3 var(--fu);text-align:left}
+@property --vash{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes vaShine{to{--vash:360deg}}
+.va .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.va .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,rgba(255,255,255,1) 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:vaShine 3.5s linear infinite;filter:blur(.4px)}
+.va .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:vaShine 3.5s linear infinite;filter:blur(3px)}
+.va .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75) !important;text-decoration:none;padding:10px 18px;border:0;border-radius:99px;background:transparent;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.va .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.va .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;background:#E8273A;color:#fff !important;padding:10px 18px;border-radius:94px;margin-left:1px;flex-shrink:0;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){.va .pill::before{animation:none}}
+.va .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 28px;border:0;border-radius:2px;background:#D61F33;color:#fff !important;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.va .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border:1px solid var(--ln2);border-radius:2px;background:transparent;color:var(--tx) !important;font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+
+.va{--tone:rgba(242,241,238,.14)}
+.va.light{--tone:rgba(20,20,22,.12)}
+.va .tone{background-image:radial-gradient(var(--tone) 1.2px,transparent 1.5px);background-size:8px 8px}
+.va .tone-r{background-image:radial-gradient(#D61F33 2px,transparent 2.4px);background-size:9px 9px}
+.va .ink{position:relative;transform-style:preserve-3d;transition:transform .6s var(--eo)}
+.va .ink-panel{position:relative;border:2px solid var(--tx);background:var(--bg2);overflow:hidden}
+.va .px{transition:transform .5s var(--eo)}
+.va .tz{position:absolute;z-index:4;width:262px;display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px;border:1px solid var(--ln2);border-radius:14px;background:var(--sf);box-shadow:0 24px 48px rgba(0,0,0,.45);transition:box-shadow .3s var(--eo)}
+.va .tz:hover{box-shadow:0 28px 56px rgba(0,0,0,.55),0 0 0 1px var(--tx3)}
+@keyframes vaInkDraw{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
+.va .brush{stroke-dasharray:900;animation:vaInkDraw 1.4s var(--eo) .4s both}
+@keyframes vaInkDrift{0%,100%{transform:rotateX(-1.5deg) rotateY(2deg)}50%{transform:rotateX(1.5deg) rotateY(-2deg)}}
+.va .drift{animation:vaInkDrift 9s ease-in-out infinite}
+@media (max-width:1100px){.va .tz{display:none}}
+@media (prefers-reduced-motion:reduce){.va .ink,.va .px{transition:none}.va .brush{animation:none;stroke-dasharray:none}.va .drift{animation:none}}
+
+.va .badge{position:absolute;right:12px;top:12px;display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:6px;background:rgba(0,0,0,.5);color:#F2F1EE;font-size:12px;font-weight:500}
+.va .all-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 16px;border:1px dashed var(--ln2);border-radius:16px}
+
+.va .cs-k{font-family:var(--fm);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.va .cs-h3{margin:10px 0 0;font-family:var(--fd);font-stretch:68%;font-weight:800;font-size:34px;line-height:.95;text-transform:uppercase}
+.va .cs-p{margin:12px 0 0;font-size:16px;line-height:1.65;color:var(--tx2)}
+.va .cs-sec{padding:44px 20px 0;scroll-margin-top:128px}
+.va .cs-num{font-family:var(--fd);font-stretch:62%;font-weight:800;font-size:15px;color:#FF5A67}
+.va .cs-card{padding:14px 16px;border:1px solid var(--ln);border-radius:14px;background:var(--bg2)}
+.va .cs-li{display:flex;gap:10px;padding:12px 0;border-top:1px solid var(--ln);font-size:15px;line-height:1.55;color:var(--tx2)}
+.va .cs-li b{color:var(--tx);font-weight:600}
+.va .chip2{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:4px;font-family:var(--fm);font-size:10px;font-weight:600;letter-spacing:.08em}
+.va .cbar{position:sticky;top:76px;z-index:20;display:flex;align-items:center;gap:10px;width:100%;height:52px;padding:0 16px;border:0;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);background:rgba(11,11,14,.94);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);color:var(--tx);font:500 14px/1 var(--fu);text-align:left;cursor:pointer}
+.va .sheet{position:absolute;left:0;right:0;z-index:30;border-bottom:1px solid var(--ln2);background:#111116;box-shadow:0 30px 60px rgba(0,0,0,.6);animation:csDown .26s cubic-bezier(.2,.8,.2,1) both}
+.va .sheet a{display:flex;align-items:center;gap:12px;min-height:48px;padding:0 20px;border-top:1px solid var(--ln);font-size:15px}
+.va .sheet a[aria-current="true"]{color:#FF5A67}
+.va .rice{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:14px 16px;border:1px solid var(--ln);border-radius:14px;background:var(--bg2)}
+.va .rice.top{border-color:rgba(255,90,103,.45);background:rgba(255,90,103,.06)}
+.va .step{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:center;padding:10px 0}
+.va .step i{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:1.5px solid #FF5A67;font:600 13px/1 var(--fm);font-style:normal;color:#FF5A67}
+.va .ph-box{padding:16px;border:1.5px dashed var(--ln2);border-radius:14px;font-size:15px;line-height:1.55;color:var(--tx3)}
+.va .proto-ov{position:absolute;left:0;top:0;width:390px;height:844px;z-index:60;display:flex;flex-direction:column;background:#0B0B0E;animation:csUp .3s cubic-bezier(.2,.8,.2,1) both}
+.va .btn3{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 16px;border:1px solid var(--ln2);border-radius:2px;background:transparent;color:var(--tx);font:500 13px/1 var(--fm);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+@keyframes csDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes csUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes csSpin{to{transform:rotate(360deg)}}
+@keyframes csFade{from{opacity:0}to{opacity:1}}
+.va .spin3{width:28px;height:28px;border-radius:50%;border:2px solid rgba(242,241,238,.15);border-top-color:#F2F1EE;animation:csSpin .8s linear infinite}
+.va .fade3{animation:csFade .32s cubic-bezier(.2,.8,.2,1) both}
+@media (prefers-reduced-motion:reduce){.va .sheet,.va .proto-ov,.va .fade3{animation:none}.va .spin3{animation-duration:2.4s}}
+.va.still .sheet,.va.still .proto-ov,.va.still .fade3{animation:none}
+.va.still .spin3{animation-duration:2.4s}
+
+
+.va .mmenu{position:absolute;left:0;top:0;width:390px;height:844px;z-index:4;display:flex;flex-direction:column;padding:88px 20px 24px;background:rgba(11,11,14,.97);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);animation:mmIn .24s cubic-bezier(.2,.8,.2,1) both}
+.va .mm-k{font-family:var(--fm);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.va .mm-l{display:flex;align-items:center;gap:14px;min-height:64px;padding:8px 0;border-bottom:1px solid var(--ln);font-family:var(--fd);font-stretch:62%;font-weight:800;font-size:44px;line-height:.95;text-transform:uppercase;color:var(--tx2);animation:mmRise .56s cubic-bezier(.2,.8,.2,1) both}
+.va .mm-l .mm-n{width:24px;flex:none;font-family:var(--fm);font-size:12px;font-weight:500;letter-spacing:.06em;color:var(--tx3)}
+.va .mm-l[aria-current="true"]{color:var(--tx)}
+.va .mm-l[aria-current="true"] .mm-n{color:#FF5A67}
+.va .mm-l[aria-current="true"]::after{content:'';margin-left:auto;width:8px;height:8px;border-radius:50%;background:#FF5A67}
+.va .mm-cta{margin-top:auto;display:flex;width:100%;height:54px;animation:mmRise .56s cubic-bezier(.2,.8,.2,1) .32s both}
+.va .mm-foot{margin-top:14px;display:flex;justify-content:center;gap:18px;font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx2)}
+.va .mm-x{margin-top:14px;align-self:center;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:0;background:none;color:var(--tx2);font:500 13px/1 var(--fm);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+@keyframes mmIn{from{opacity:0}to{opacity:1}}
+@keyframes mmRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.va .mmenu,.va .mm-l,.va .mm-cta{animation:none}}
+.va.still .mmenu,.va.still .mm-l,.va.still .mm-cta,.va.still .rise,.va.still .brush,.va.still .drift,.va.still .live,.va.still .pill::before,.va.still .pill::after{animation:none}
+.va.still .brush{stroke-dasharray:none}
+</style>
+</helmet>
+<div class="va {{motionCls}}" style="position: relative; width: 390px; height: 7480px; overflow: hidden; background: var(--bg); color: var(--tx); font-family: var(--fu);">
+<div style="position: relative; z-index: 5; height: 0;"><nav class="pill" aria-label="Primary" style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%);"><button class="pl" onClick="{{toggleMenu}}" aria-expanded="{{menuAria}}" aria-controls="site-menu" aria-label="{{menuAriaLabel}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; display: {{burgerD}};"><path d="M4 8h16M4 16h16"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; display: {{closeD}};"><path d="M6 6l12 12M18 6L6 18"></path></svg>{{menuLabel}}</button><span class="psep" aria-hidden="true"></span><a class="pcta" href="{{contactHref}}" onClick="{{closeMenu}}">Let’s Talk →</a></nav></div>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<div id="site-menu" class="mmenu" role="dialog" aria-modal="true" aria-label="Site menu" onKeyDown="{{menuKey}}">
+<div class="mm-k">Menu</div>
+<nav aria-label="Sections" style="margin-top: 10px; border-top: 1px solid var(--ln);"><a class="mm-l" href="HomeMobile.dc.html" onClick="{{closeMenu}}" aria-current="true" style="animation-delay: 0ms;"><span class="mm-n">01</span>Work</a><a class="mm-l" href="HomeMobile.dc.html" onClick="{{closeMenu}}" aria-current="false" style="animation-delay: 80ms;"><span class="mm-n">02</span>About</a><a class="mm-l" href="HomeMobile.dc.html" onClick="{{closeMenu}}" aria-current="false" style="animation-delay: 160ms;"><span class="mm-n">03</span>Exp</a><a class="mm-l" href="HomeMobile.dc.html" onClick="{{closeMenu}}" aria-current="false" style="animation-delay: 240ms;"><span class="mm-n">04</span>Skills</a><a class="mm-l" href="HomeMobile.dc.html" onClick="{{closeMenu}}" aria-current="false" style="animation-delay: 320ms;"><span class="mm-n">05</span>Testimonial</a></nav>
+<a class="cta mm-cta" href="{{contactHref}}" onClick="{{closeMenu}}">Let’s Talk →</a>
+<div class="mm-foot"><a href="mailto:akarshan910@gmail.com">Email</a><a href="#linkedin">LinkedIn</a><a href="#resume">Résumé (PDF)</a></div>
+<button class="mm-x" onClick="{{closeMenu}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M6 6l12 12M18 6L6 18"></path></svg>Close menu</button>
+</div>
+</sc-if>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 3px; z-index: 6; background: rgba(242,241,238,.08);"><div style="width: 6%; height: 3px; background: #D61F33;"></div></div>
+
+<header style="padding: 92px 20px 0;">
+<a href="Home.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--tx2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>All work</a>
+<div style="margin-top: 22px; display: flex; align-items: center; gap: 10px;"><span style="padding: 4px 8px; border-radius: 5px; background: #FF5A67; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">VOL.05</span><span class="cs-k">Strategy assignment + prototype</span></div>
+<h1 style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: .88; text-transform: uppercase;">Puja engagement platform</h1>
+<p class="cs-p" style="font-size: 17px;">How might Sri Mandir increase monthly puja orders per user? A WhatsApp-native booking flow, a recommendation engine and a spiritual calendar, prioritised with RICE and prototyped end to end.</p>
+<dl style="margin: 22px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px;">
+<div><dt class="cs-k">Company</dt><dd style="margin: 4px 0 0; font-size: 15px;">Sri Mandir</dd></div>
+<div><dt class="cs-k">Type</dt><dd style="margin: 4px 0 0; font-size: 15px;">Strategy + 7-screen prototype</dd></div>
+<div><dt class="cs-k">My role</dt><dd style="margin: 4px 0 0; font-size: 15px; color: var(--tx3);">[Add in Studio]</dd></div>
+<div><dt class="cs-k">Timeline</dt><dd style="margin: 4px 0 0; font-size: 15px; color: var(--tx3);">[Add in Studio]</dd></div>
+<div style="grid-column: span 2;"><dt class="cs-k">Focus</dt><dd style="margin: 4px 0 0; font-size: 15px;">CRM · Personalisation · Vernacular</dd></div>
+</dl>
+</header>
+
+<section aria-label="Prototype" style="padding: 28px 20px 0;">
+<div style="border: 1px solid var(--ln); border-radius: 20px; background: var(--bg2); overflow: hidden;">
+<div style="position: relative; height: 300px; background: #1C0C0F; overflow: hidden;">
+<div style="position: absolute; left: 50%; top: 26px; width: 170px; height: 320px; transform: translateX(-50%); border-radius: 22px 22px 0 0; border: 2px solid rgba(255,255,255,.18); border-bottom: none; background: #F7F3EE; overflow: hidden;"><div style="height: 22%; background: #C7372F;"></div><div style="margin: 9% 8% 0; height: 7%; border-radius: 5px; background: #E9E3DC;"></div><div style="margin: 7% 8% 0; height: 13%; border-radius: 6px; background: #25B864;"></div><div style="margin: 7% 8% 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div></div></div>
+<span class="badge" style="right: 12px; top: 12px;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 12px; height: 12px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Prototype · 7 screens</span>
+</div>
+<div style="padding: 16px;">
+<div style="font-size: 16px; font-weight: 600;">Seven screens from the PRD, built to be clicked.</div>
+<sc-if value="{{embedOk}}" hint-placeholder-val="{{ true }}"><button class="cta" onClick="{{openProto}}" style="width: 100%; margin-top: 14px; display: flex;">Try the prototype<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" style="fill: currentColor; stroke: none;"></path></svg></button><p style="margin: 10px 0 0; font-size: 13px; line-height: 1.5; color: var(--tx3);">Opens full screen. Nothing loads until you tap.</p></sc-if>
+<sc-if value="{{embedBlocked}}" hint-placeholder-val="{{ false }}"><a class="cta" href="#open-proto" style="width: 100%; margin-top: 14px; display: flex;">Open prototype ↗</a><p style="margin: 10px 0 0; font-size: 13px; line-height: 1.5; color: var(--tx3);">This prototype opens in a new tab: its host doesn’t allow embedding.</p></sc-if>
+</div>
+</div>
+</section>
+
+<section aria-label="Success measures" style="padding: 28px 20px 0;">
+<div class="cs-k">Success measures</div>
+<div style="margin-top: 12px; display: grid; gap: 10px;">
+<div class="cs-card" style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><span><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 30px;">+30%</span> <span style="font-size: 14px; color: var(--tx2);">monthly orders per user</span></span><span class="tag-t">TARGET</span></div>
+<div class="cs-card" style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><span><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 30px;">12%</span> <span style="font-size: 14px; color: var(--tx2);">WhatsApp conversion</span></span><span class="tag-t">TARGET</span></div>
+<div class="cs-card" style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><span><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 30px;">5</span> <span style="font-size: 14px; color: var(--tx2);">regional languages</span></span><span class="tag-t">TARGET</span></div>
+</div>
+</section>
+
+<div style="position: relative; margin-top: 32px;">
+<button class="cbar" onClick="{{toggleChapters}}" aria-expanded="{{chOpenAria}}" aria-controls="cs-chapters"><span class="cs-num">{{curN}}</span><span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{curT}}</span><span class="cs-k">{{curN}} / 08</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; transform: rotate({{chevRot}}deg); transition: transform .2s;"><path d="M6 9l6 6 6-6"></path></svg></button>
+<sc-if value="{{chOpen}}" hint-placeholder-val="{{ false }}"><nav id="cs-chapters" class="sheet" aria-label="Chapters" style="top: 52px;"><div class="cs-k" style="padding: 14px 20px 10px;">Chapters · 8</div><sc-for list="{{chapters}}" as="c" hint-placeholder-count="8"><a href="{{c.href}}" onClick="{{c.pick}}" aria-current="{{c.cur}}"><span class="cs-num" style="width: 22px;">{{c.n}}</span>{{c.t}}</a></sc-for></nav></sc-if>
+</div>
+
+<section id="ch-01" class="cs-sec"><span class="cs-num">01</span><h2 class="cs-h3">Objective</h2>
+<p class="cs-p" style="font-size: 19px; color: var(--tx);">Improve <span style="color: #FF5A67;">order frequency</span>: monthly puja orders per user, for Sri Mandir’s puja service.</p>
+<div class="cs-k" style="margin-top: 22px;">Assumptions</div>
+<div style="margin-top: 6px;"><div class="cs-li">Rituals are performed authentically; the challenge is proving it online.</div><div class="cs-li">The tech stack can support personalisation and localisation.</div><div class="cs-li">Booking history, inferred location and preferences are available.</div><div class="cs-li">Devotees want an ongoing spiritual connection, not only one-off help.</div></div>
+</section>
+
+<section id="ch-02" class="cs-sec"><span class="cs-num">02</span><h2 class="cs-h3">Who we’re solving for</h2>
+<p class="cs-p">Seven segments, three prioritised for their potential to raise monthly frequency.</p>
+<div style="margin-top: 16px; display: grid; gap: 10px;"><div class="cs-card"><span class="chip2" style="background: rgba(255,90,103,.14); color: #FF5A67;">Priority 1</span><div style="margin-top: 10px; font-size: 16px; font-weight: 600; line-height: 1.35;">Time-constrained professionals, millennials and Gen Z</div><div style="margin-top: 6px; font-size: 14px; line-height: 1.55; color: var(--tx2);">Receptive to convenient, recurring digital options like subscriptions.</div></div><div class="cs-card"><span class="chip2" style="background: rgba(255,90,103,.14); color: #FF5A67;">Priority 2</span><div style="margin-top: 10px; font-size: 16px; font-weight: 600; line-height: 1.35;">Tech-informed devotees seeking regular practice</div><div style="margin-top: 6px; font-size: 14px; line-height: 1.55; color: var(--tx2);">Already regular; benefit from streamlined flows and personalisation.</div></div><div class="cs-card"><span class="chip2" style="background: rgba(255,90,103,.14); color: #FF5A67;">Priority 3</span><div style="margin-top: 10px; font-size: 16px; font-weight: 600; line-height: 1.35;">Non-technological regular devotees</div><div style="margin-top: 6px; font-size: 14px; line-height: 1.55; color: var(--tx2);">Live on WhatsApp and Facebook; distrust online payments; strong repeat intent.</div></div></div>
+</section>
+
+<section id="ch-03" class="cs-sec"><span class="cs-num">03</span><h2 class="cs-h3">What’s broken today</h2>
+<p class="cs-p">From Google Play reviews and app usage.</p>
+<div style="margin-top: 10px;"><div class="cs-li"><span class="cs-num" style="width: 22px; flex: none;">01</span><span><b>Generic discovery.</b> No recommendations from history, preferences or what’s popular nearby.</span></div><div class="cs-li"><span class="cs-num" style="width: 22px; flex: none;">02</span><span><b>Low awareness.</b> The puja service and its offerings are hard to discover.</span></div><div class="cs-li"><span class="cs-num" style="width: 22px; flex: none;">03</span><span><b>Thin trust signals.</b> Payment worries, no social proof, prasad quality, incorrect gotra.</span></div><div class="cs-li"><span class="cs-num" style="width: 22px; flex: none;">04</span><span><b>Language barrier.</b> Hindi and English only, leaving regional-language devotees out.</span></div><div class="cs-li"><span class="cs-num" style="width: 22px; flex: none;">05</span><span><b>Learning curve.</b> Multi-step flows unlike the WhatsApp and Facebook patterns users know.</span></div><div class="cs-li"><span class="cs-num" style="width: 22px; flex: none;">06</span><span><b>No urgency cues.</b> No timers on time-critical pujas; no “most picked” guidance.</span></div></div>
+</section>
+
+<section id="ch-04" class="cs-sec"><span class="cs-num">04</span><h2 class="cs-h3">Prioritisation</h2>
+<p class="cs-p">Nine candidate features scored on Reach × Impact × Confidence ÷ Effort. The top three became the plan.</p>
+<div style="margin-top: 16px; display: grid; gap: 10px;">
+<sc-for list="{{rice}}" as="r" hint-placeholder-count="5"><div class="rice {{r.cls}}"><span class="cs-num" style="font-size: 18px;">{{r.rank}}</span><span style="font-size: 15px; font-weight: 600; line-height: 1.3;">{{r.name}}</span><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px; text-align: right;">{{r.score}}</span><span></span><span class="cs-k" style="grid-column: 2 / 4; letter-spacing: .04em;">R {{r.r}} · I {{r.i}} · C {{r.c}} · E {{r.e}}<span style="display: {{r.planD}}; margin-left: 8px; color: #FF5A67;">· In the plan</span></span></div></sc-for>
+</div>
+<button class="btn3" onClick="{{toggleRice}}" aria-expanded="{{riceAria}}" style="width: 100%; margin-top: 12px;">{{riceLabel}}</button>
+</section>
+
+<section id="ch-05" class="cs-sec"><span class="cs-num">05</span><h2 class="cs-h3">The bet: WhatsApp-native booking</h2>
+<p class="cs-p">WhatsApp as a dual-purpose channel: bite-sized product education, and booking without ever leaving the chat.</p>
+<div style="margin-top: 12px;"><div class="step"><i>1</i><span style="font-size: 15px;">Tap the menu</span></div><div class="step"><i>2</i><span style="font-size: 15px;">Browse top pujas</span></div><div class="step"><i>3</i><span style="font-size: 15px;">Pick a package</span></div><div class="step"><i>4</i><span style="font-size: 15px;">Pay via deep link</span></div><div class="step"><i>5</i><span style="font-size: 15px;">Confirmation and tracking</span></div></div>
+<div class="cs-card" style="margin-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px;"><span><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 30px;">60s</span> <span style="font-size: 14px; color: var(--tx2);">from tap to confirmed puja</span></span><span class="tag-t">TARGET</span></div>
+<div style="margin: 18px -20px 0; padding: 0 20px; display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;"><div style="flex: none; width: 150px; scroll-snap-align: start;"><div style="height: 250px; border-radius: 18px 18px 0 0; border: 2px solid #3A2A2C; border-bottom: none; background: #F7F3EE; overflow: hidden;"><div style="height: 22%; background: #C7372F;"></div><div style="margin: 9% 8% 0; height: 7%; border-radius: 5px; background: #E9E3DC;"></div><div style="margin: 7% 8% 0; height: 13%; border-radius: 6px; background: #25B864;"></div><div style="margin: 7% 8% 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div></div></div><div style="margin-top: 8px; font-size: 12px; color: var(--tx3);">In-chat education</div></div><div style="flex: none; width: 150px; scroll-snap-align: start;"><div style="height: 250px; border-radius: 18px 18px 0 0; border: 2px solid #3A2A2C; border-bottom: none; background: #F7F3EE; overflow: hidden;"><div style="height: 22%; background: #1F7A55;"></div><div style="margin: 9% 8% 0; height: 7%; border-radius: 5px; background: #E9E3DC;"></div><div style="margin: 7% 8% 0; height: 13%; border-radius: 6px; background: #DCF8C6;"></div><div style="margin: 7% 8% 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div></div></div><div style="margin-top: 8px; font-size: 12px; color: var(--tx3);">Pick a puja</div></div><div style="flex: none; width: 150px; scroll-snap-align: start;"><div style="height: 250px; border-radius: 18px 18px 0 0; border: 2px solid #3A2A2C; border-bottom: none; background: #F7F3EE; overflow: hidden;"><div style="height: 22%; background: #C7372F;"></div><div style="margin: 9% 8% 0; height: 7%; border-radius: 5px; background: #E9E3DC;"></div><div style="margin: 7% 8% 0; height: 13%; border-radius: 6px; background: #25B864;"></div><div style="margin: 7% 8% 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div></div></div><div style="margin-top: 8px; font-size: 12px; color: var(--tx3);">Choose a package</div></div><div style="flex: none; width: 150px; scroll-snap-align: start;"><div style="height: 250px; border-radius: 18px 18px 0 0; border: 2px solid #3A2A2C; border-bottom: none; background: #F7F3EE; overflow: hidden;"><div style="height: 22%; background: #1F7A55;"></div><div style="margin: 9% 8% 0; height: 7%; border-radius: 5px; background: #E9E3DC;"></div><div style="margin: 7% 8% 0; height: 13%; border-radius: 6px; background: #DCF8C6;"></div><div style="margin: 7% 8% 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div><div style="height: 44px; border-radius: 6px; background: #EADFD2;"></div></div></div><div style="margin-top: 8px; font-size: 12px; color: var(--tx3);">Pay in chat</div></div></div>
+<div class="cs-k" style="margin-top: 10px;">Swipe for more · tap to enlarge</div>
+</section>
+
+<section id="ch-06" class="cs-sec"><span class="cs-num">06</span><h2 class="cs-h3">Recommendations, from cold start</h2>
+<p class="cs-p">Collect details like gotra and important dates at the right moment, when a user taps a puja, and always explain the benefit.</p>
+<div class="cs-card" style="margin-top: 16px;"><div class="cs-k">No user data yet</div><div class="cs-li" style="border-top: 0;">Most-booked pujas in the user’s city</div><div class="cs-li">Upcoming and seasonal festivals</div><div class="cs-li">A “What’s trending” strip as social proof</div></div>
+<div class="cs-card" style="margin-top: 10px;"><div class="cs-k">When we know the user</div><div class="cs-li" style="border-top: 0;">Gotra, birthdays and anniversaries</div><div class="cs-li">Suggestions for important dates</div><div class="cs-li">A “For you” carousel from past bookings</div></div>
+</section>
+
+<section id="ch-07" class="cs-sec"><span class="cs-num">07</span><h2 class="cs-h3">My role and decisions</h2>
+<div style="margin-top: 16px; display: grid; gap: 10px;"><div class="ph-box"><b style="color: var(--tx2);">I owned:</b> [Your input needed, e.g. research synthesis, RICE model, PRD, prototype]</div><div class="ph-box"><b style="color: var(--tx2);">I partnered on:</b> [Your input needed]</div><div class="ph-box"><b style="color: var(--tx2);">Key decision and trade-off:</b> [Your input needed]</div></div>
+<p style="margin: 10px 0 0; font-size: 13px; color: var(--tx3);">Placeholders show in drafts only. Empty parts are hidden on the live site.</p>
+</section>
+
+<section id="ch-08" class="cs-sec"><span class="cs-num">08</span><h2 class="cs-h3">Learnings and next steps</h2>
+<div class="ph-box" style="margin-top: 16px;">[Your input needed: what you would validate first, and how you would measure it.]</div>
+<p style="margin: 10px 0 0; font-size: 13px; color: var(--tx3);">Hidden on the live site until it has content.</p>
+</section>
+
+<section aria-label="More volumes" style="padding: 48px 20px 0; display: grid; gap: 10px;">
+<a class="row" href="Home.dc.html"><div style="position: relative; height: 96px; border-radius: 10px; background: #130F1F; display: grid; place-items: center;"><span style="position: absolute; left: 6px; top: 6px; padding: 2px 6px; border-radius: 4px; background: #A78BFA; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600;">04</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #A78BFA; width: 28px; height: 28px;"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></div><div><div class="cs-k">Previous</div><div style="margin-top: 4px; font-size: 16px; font-weight: 600;">The GLP-1 app, 0→1</div></div></a>
+<a class="row" href="Home.dc.html"><div style="position: relative; height: 96px; border-radius: 10px; background: #121826; display: grid; place-items: center;"><span style="position: absolute; left: 6px; top: 6px; padding: 2px 6px; border-radius: 4px; background: #94A3B8; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600;">06</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #94A3B8; width: 28px; height: 28px;"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div><div><div class="cs-k">Next</div><div style="margin-top: 4px; font-size: 16px; font-weight: 600;">Arcana Workspace</div></div></a>
+<a class="all-row" href="WorkScale.dc.html"><span><span style="display: block; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 22px; line-height: 1; text-transform: uppercase;">All work · 9 volumes</span></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--ac);"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</section>
+
+<footer style="margin-top: 48px; padding: 24px 20px 40px; border-top: 1px solid var(--ln); font-family: var(--fm); font-size: 12px; color: var(--tx3);">© 2026 Akarshan Kumar</footer>
+
+<sc-if value="{{protoOpen}}" hint-placeholder-val="{{ false }}">
+<div class="proto-ov" role="dialog" aria-modal="true" aria-label="Sri Mandir prototype">
+<div style="display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 8px 0 16px; border-bottom: 1px solid var(--ln);"><span style="flex: 1; font-size: 14px; font-weight: 600;">Sri Mandir prototype</span><a class="btn3" href="#new-tab" style="height: 38px; border: 0;">New tab ↗</a><button class="btn3" onClick="{{closeProto}}" aria-label="Close the prototype" style="height: 38px; width: 44px; padding: 0;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div style="position: relative; flex: 1; display: grid; place-items: center; background: #14080B;">
+<sc-if value="{{pLoading}}" hint-placeholder-val="{{ false }}"><div role="status" style="display: grid; justify-items: center; gap: 14px;"><span class="spin3" aria-hidden="true"></span><span class="cs-k" style="color: var(--tx2);">Loading the prototype…</span></div></sc-if>
+<sc-if value="{{pReady}}" hint-placeholder-val="{{ false }}"><div class="fade3" style="position: absolute; inset: 0; background: #F7F3EE; overflow: hidden;"><div style="height: 120px; background: #C7372F;"></div><div style="margin: 24px 20px 0; height: 38px; border-radius: 8px; background: #E9E3DC;"></div><div style="margin: 18px 20px 0; height: 120px; border-radius: 12px; background: #25B864;"></div><div style="margin: 18px 20px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div style="height: 130px; border-radius: 10px; background: #EADFD2;"></div><div style="height: 130px; border-radius: 10px; background: #EADFD2;"></div></div><div style="margin: 18px 20px 0; height: 130px; border-radius: 10px; background: #EADFD2;"></div></div></sc-if>
+<sc-if value="{{pError}}" hint-placeholder-val="{{ false }}"><div class="fade3" role="alert" style="padding: 0 32px; text-align: center;"><div style="font-size: 17px; font-weight: 600;">The prototype didn’t load.</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--tx2);">Check your connection and try again, or open it in a new tab.</div><div style="margin-top: 18px; display: flex; gap: 10px; justify-content: center;"><button class="btn3" onClick="{{openProto}}">Try again</button><a class="btn3" href="#new-tab">New tab ↗</a></div></div></sc-if>
+</div>
+<div class="cs-k" style="padding: 12px 16px 18px; border-top: 1px solid var(--ln); font-size: 10px;">Prototype built from the PRD v1.0 · dummy data</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["reading","menu open","chapter picker","prototype loading","prototype open","prototype error","prototype can’t embed"],"default":"reading"},"motion":{"editor":"enum","options":["full","reduced"],"default":"full"},"$preview":{"width":390,"height":7480}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.CH = [["01", "Objective"], ["02", "Who we’re solving for"], ["03", "What’s broken today"], ["04", "Prioritisation"], ["05", "WhatsApp-native booking"], ["06", "Recommendations"], ["07", "My role and decisions"], ["08", "Learnings"]];
+    this.RICE = [[1, "WhatsApp integration", 9, 2.5, "85%", "2 mo", "9.6"], [2, "Product education", 7, 2, "65%", "1 mo", "9.1"], [3, "Puja recommendation engine", 9, 2.7, "90%", "3 mo", "7.3"], [4, "Video feed", 9, 2.5, "95%", "3 mo", "7.1"], [5, "Spiritual calendar and reminders", 9, 2, "95%", "2.5 mo", "6.8"], [6, "Subscription packages", 8, 2.5, "85%", "1.5 mo", "5.7"], [7, "Complementary puja suggestions", 6, 2, "65%", "2 mo", "3.9"], [8, "Tiered loyalty rewards", 6, 2, "65%", "3 mo", "2.6"], [9, "Puja and Aashirvaad box authenticity", 5, 1.5, "60%", "2 mo", "2.3"]];
+    this.state = this.fresh(props.state);
+    ['toggleChapters', 'toggleRice', 'openProto', 'closeProto', 'toggleMenu', 'closeMenu', 'menuKey'].forEach((k) => { this[k] = this[k].bind(this); });
+  }
+  fresh(n) {
+    const f = { cur: 3, chOpen: false, allRice: false, proto: 'closed', menu: n === 'menu open' };
+    switch (n) {
+      case 'chapter picker': return Object.assign(f, { chOpen: true });
+      case 'prototype loading': return Object.assign(f, { proto: 'loading' });
+      case 'prototype open': return Object.assign(f, { proto: 'ready' });
+      case 'prototype error': return Object.assign(f, { proto: 'error' });
+      case 'prototype can’t embed': return Object.assign(f, { proto: 'blocked' });
+      default: return f;
+    }
+  }
+  componentDidUpdate(prev) { if (prev.state !== this.props.state) { clearTimeout(this.t); this.setState(this.fresh(this.props.state)); } }
+  componentWillUnmount() { clearTimeout(this.t); }
+  toggleMenu() { this.setState({ menu: !this.state.menu, chOpen: false }); }
+  closeMenu() { this.setState({ menu: false }); }
+  menuKey(e) { if (e.key === 'Escape') this.closeMenu(); }
+  toggleChapters() { this.setState({ chOpen: !this.state.chOpen }); }
+  toggleRice() { this.setState({ allRice: !this.state.allRice }); }
+  openProto() { clearTimeout(this.t); this.setState({ proto: 'loading' }); this.t = setTimeout(() => this.setState({ proto: 'ready' }), 1300); }
+  closeProto() { clearTimeout(this.t); this.setState({ proto: 'closed' }); }
+  renderVals() {
+    const s = this.state, p = s.proto;
+    const rice = (s.allRice ? this.RICE : this.RICE.slice(0, 5)).map((r) => ({ rank: r[0], name: r[1], r: r[2], i: r[3], c: r[4], e: r[5], score: r[6], cls: r[0] <= 3 ? 'top' : '', planD: r[0] <= 3 ? 'inline' : 'none' }));
+    return {
+      motionCls: (this.props.motion ?? 'full') === 'reduced' ? 'still' : '',
+      menuOpen: s.menu, menuAria: s.menu ? 'true' : 'false', menuAriaLabel: s.menu ? 'Close menu' : 'Open menu', menuLabel: s.menu ? 'Close' : 'Menu',
+      burgerD: s.menu ? 'none' : 'inline', closeD: s.menu ? 'inline' : 'none', contactHref: 'HomeMobile.dc.html', toggleMenu: this.toggleMenu, closeMenu: this.closeMenu, menuKey: this.menuKey,
+      curN: this.CH[s.cur][0], curT: this.CH[s.cur][1], chOpen: s.chOpen, chOpenAria: s.chOpen ? 'true' : 'false', chevRot: s.chOpen ? 180 : 0, toggleChapters: this.toggleChapters,
+      chapters: this.CH.map((c, i) => ({ n: c[0], t: c[1], href: '#ch-' + c[0], cur: i === s.cur ? 'true' : 'false', pick: () => this.setState({ cur: i, chOpen: false }) })),
+      rice, toggleRice: this.toggleRice, riceAria: s.allRice ? 'true' : 'false', riceLabel: s.allRice ? 'Show the top five' : 'Show all nine',
+      embedOk: p !== 'blocked', embedBlocked: p === 'blocked', openProto: this.openProto, closeProto: this.closeProto,
+      protoOpen: p === 'loading' || p === 'ready' || p === 'error', pLoading: p === 'loading', pReady: p === 'ready', pError: p === 'error'
+    };
+  }
+}
+</script>
+</body>
+</html>

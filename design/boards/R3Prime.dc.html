@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 3 · Volumes Prime</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#101014}
+.r3{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--okt:#9BE7C4;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;--fj:'Dela Gothic One','Archivo',sans-serif;--eo:cubic-bezier(.2,.8,.2,1);-webkit-font-smoothing:antialiased}
+.r3 *{box-sizing:border-box}
+.r3 a{color:inherit;text-decoration:none}
+.r3 .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.r3 .lbl{font-family:var(--fm);font-size:13px;line-height:1.5;color:#8F8D87}
+.r3 .lbl b{color:#F2F1EE;font-weight:600}
+.r3 .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+@property --r3sh{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes r3Shine{to{--r3sh:360deg}}
+.r3 .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.r3 .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,#fff 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:r3Shine 3.5s linear infinite;filter:blur(.4px)}
+.r3 .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:r3Shine 3.5s linear infinite;filter:blur(3px)}
+.r3 .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border-radius:99px;white-space:nowrap;font-weight:500;position:relative;z-index:1;border:0;background:transparent;cursor:pointer}
+.r3 .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.r3 .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.r3 .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.r3 .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background-color .25s var(--eo),transform .25s var(--eo)}
+.r3 .cta:hover{background:#E42A3F;transform:translateY(-2px)}
+.r3 .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border:1px solid rgba(242,241,238,.25);background:rgba(11,11,14,.5);color:var(--tx);font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;transition:border-color .25s var(--eo)}
+.r3 .cta2:hover{border-color:#8F8D87}
+.r3 a:focus-visible,.r3 button:focus-visible{outline:2px solid #FF5A67;outline-offset:3px}
+.r3 .cta:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #D61F33}
+.r3 .tone{background-image:radial-gradient(rgba(242,241,238,.16) 1.2px,transparent 1.5px);background-size:8px 8px}
+.r3 .tone-r{background-image:radial-gradient(#D61F33 2px,transparent 2.4px);background-size:9px 9px}
+.r3 .ttl{font-family:var(--fd);font-stretch:62%;font-weight:900;text-transform:uppercase;color:#F2F1EE;-webkit-text-stroke:6px #0B0B0E;paint-order:stroke fill;text-shadow:8px 8px 0 #D61F33}
+.r3 .sfx{font-family:var(--fj);font-weight:400;color:#D61F33;-webkit-text-stroke:5px #F2F1EE;paint-order:stroke fill;line-height:1;white-space:nowrap;user-select:none}
+.r3 .cap{background:#F2F1EE;color:#0B0B0E;border:3px solid #0B0B0E;box-shadow:6px 6px 0 #D61F33}
+.r3 .tag{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.r3 .tag-a{background:rgba(60,203,139,.14);color:#9BE7C4}
+.r3 .tag-t{border:1px solid rgba(242,241,238,.3);color:#B9B7B1}
+.r3 .tag-p{border:1px dashed rgba(242,241,238,.4);color:#B9B7B1}
+.r3 .tag-b{background:#1D1D24;color:#B9B7B1}
+.r3 .tag-o{background:rgba(255,90,103,.14);color:#FF5A67}
+.r3 .px{transition:transform .5s var(--eo)}
+.r3 .scene{transform-style:preserve-3d;transition:transform .6s var(--eo)}
+@keyframes r3PopA{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3PopB{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3Drift{0%,100%{transform:rotateX(-2deg) rotateY(3deg)}50%{transform:rotateX(2deg) rotateY(-3deg)}}
+.r3 .drift{animation:r3Drift 9s ease-in-out infinite;transform-style:preserve-3d}
+@media (prefers-reduced-motion:reduce){.r3 .pill::before,.r3 .pill::after,.r3 .drift{animation:none}.r3 .px,.r3 .scene{transition:none}.r3 *{animation-duration:.01ms !important}}
+
+.r3 .eb{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border:1px solid rgba(242,241,238,.16);border-radius:2px;font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#B9B7B1}
+.r3 .h1v{font-family:var(--fd);font-stretch:62%;font-weight:800;text-transform:uppercase;line-height:.86;margin:0}
+.r3 .pf{position:relative;padding:18px 24px 0;border-left:1px solid rgba(242,241,238,.12)}
+.r3 .pf .v{position:relative;z-index:1;font-family:var(--fd);font-stretch:62%;font-weight:800;font-size:46px;line-height:1;transition:transform .28s var(--eo);transform-origin:left bottom}
+.r3 .pf .burst{position:absolute;left:-10px;top:-14px;width:200px;height:110px;opacity:0;transition:opacity .2s var(--eo)}
+.r3 .pf:hover .v{transform:scale(1.06)}
+.r3 .pf:hover .burst{opacity:1}
+.r3 .cvr{position:absolute;width:300px;height:380px;border:3px solid #F2F1EE;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.55);transition:transform .6s var(--eo),left .6s var(--eo),top .6s var(--eo),filter .6s var(--eo)}
+.r3 .vc{position:absolute;display:flex;border:1px solid rgba(242,241,238,.09);border-radius:22px;background:#111116;overflow:hidden;transition:transform .2s ease-out,border-color .3s var(--eo);transform-style:preserve-3d}
+.r3 .vc:hover{border-color:rgba(242,241,238,.22)}
+.r3 .vc .sfxh{opacity:0;transform:scale(.6) rotate(-8deg);transition:opacity .18s var(--eo),transform .28s cubic-bezier(.3,1.6,.5,1)}
+.r3 .vc:hover .sfxh,.r3 .vc:focus-visible .sfxh{opacity:1;transform:scale(1) rotate(-8deg)}
+.r3 .vc .glare{position:absolute;inset:0;opacity:0;transition:opacity .25s var(--eo);pointer-events:none}
+.r3 .vc:hover .glare{opacity:1}
+@keyframes r3Draw{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
+.r3 .draw{stroke-dasharray:900;animation:r3Draw 1.4s var(--eo) .3s both}
+</style>
+</helmet>
+<div class="r3" style="width: 1536px; height: 3240px; padding: 40px 48px; background: #101014; color: #F2F1EE; font-family: var(--fu);">
+
+<div class="lbl" style="margin-bottom: 14px;"><b>Laptop 1440 × 900 · Volumes hero, shōnen in the details.</b> Move the cursor: a faint speed-line burst follows you behind the name, and the stack of volume covers turns toward you at real depth. Hover the stack to fan it out. Hover a number in the strip.</div>
+<div onMouseMove="{{heroMove}}" onMouseLeave="{{heroLeave}}" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A, 0 40px 80px rgba(0,0,0,.5); perspective: 1400px; perspective-origin: 70% 40%;">
+<div class="tone px" aria-hidden="true" style="position: absolute; inset: -40px; transform: {{L1}}; opacity: .55; -webkit-mask-image: radial-gradient(ellipse at 72% 40%, #000, transparent 55%); mask-image: radial-gradient(ellipse at 72% 40%, #000, transparent 55%);"></div>
+<div class="px" aria-hidden="true" style="position: absolute; left: 40px; bottom: 96px; transform: {{L2}}; filter: blur(1.5px); font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 300px; line-height: .8; color: transparent; -webkit-text-stroke: 2px rgba(242,241,238,.07); white-space: nowrap;">VOL 01—09</div>
+<svg aria-hidden="true" viewBox="0 0 1440 900" style="position: absolute; inset: 0; width: 1440px; height: 900px;"><path d="{{speedHero}}" fill="rgba(214,31,51,.12)"></path></svg>
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 40;"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work" aria-current="true">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+<div style="position: absolute; left: 96px; top: 146px; width: 720px;">
+<div style="display: flex; gap: 8px;"><span class="eb"><span style="width: 7px; height: 7px; border-radius: 50%; background: #D61F33;"></span>Product Manager · Sugar.fit</span><span class="eb">Bengaluru · IST</span></div>
+<h1 class="h1v px" style="margin-top: 24px; font-size: 132px; transform: {{L4}};">Akarshan<br>Kumar<span style="color: #D61F33;">.</span></h1>
+<svg viewBox="0 0 520 40" aria-hidden="true" style="display: block; width: 520px; height: 40px; margin-top: 4px;"><path class="draw" d="M6 26 C 120 12, 300 8, 512 16" fill="none" stroke="#D61F33" stroke-width="9" stroke-linecap="round"></path></svg>
+<p style="margin: 18px 0 0; max-width: 640px; font-size: 27px; line-height: 1.3; letter-spacing: -.015em; color: #B9B7B1;">I build <span style="color: #F2F1EE;">AI-native health products</span> — and the <span style="color: #F2F1EE;">data platforms</span> that prove they work.</p>
+<p style="margin: 14px 0 0; max-width: 600px; font-size: 16px; line-height: 1.55; color: #8F8D87;">Product Manager at Sugar.fit for GLP-1, Type 2 diabetes and Active Foods, leading a 10-analyst analytics team. Before that, personalisation and serving for 230M+ devices at Glance.</p>
+<div style="display: flex; gap: 12px; margin-top: 30px;"><a class="cta" href="#work">See selected work<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></a><a class="cta2" href="#resume">Résumé (PDF)</a></div>
+</div>
+<div class="scene" onMouseEnter="{{fanOn}}" onMouseLeave="{{fanOff}}" role="img" aria-label="Four volume covers stacked in depth: 3D body scan, food logging, CGM journey, GLP-1 app" style="position: absolute; left: 820px; top: 150px; width: 580px; height: 600px; transform: rotateX({{sx}}deg) rotateY({{sy}}deg);">
+<div class="cvr" style="left: {{c3x}}px; top: {{c3y}}px; transform: translateZ({{c3z}}px); filter: blur({{c3b}}px); background: #3E2A7A;">
+<svg viewBox="0 0 294 374" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{sk3}}" fill="#A78BFA" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; right: 8%; top: 9%; height: 82%; fill: none; stroke: #A78BFA; stroke-width: 2;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .55;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M60 140 H180" style="stroke: #F2F1EE; stroke-dasharray: 4 6;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #A78BFA; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.04</span>
+<span class="ttl" style="position: absolute; left: 14px; right: 14px; bottom: 16px; font-size: 34px; line-height: .9; -webkit-text-stroke: 4px #3E2A7A; text-shadow: 4px 4px 0 #D61F33;">The GLP-1 app, 0→1</span>
+</div><div class="cvr" style="left: {{c2x}}px; top: {{c2y}}px; transform: translateZ({{c2z}}px); filter: blur({{c2b}}px); background: #0B4A6B;">
+<svg viewBox="0 0 294 374" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{sk2}}" fill="#38BDF8" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 240" aria-hidden="true" style="position: absolute; right: 10%; top: 12%; height: 76%; fill: none; stroke: #38BDF8; stroke-width: 2.4;"><circle cx="120" cy="120" r="78"></circle><circle cx="120" cy="120" r="52" style="stroke-opacity: .5;"></circle><path d="M30 60 V30 H60 M180 30 H210 V60 M210 180 V210 H180 M60 210 H30 V180" style="stroke: #F2F1EE; stroke-width: 3;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #38BDF8; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.03</span>
+<span class="ttl" style="position: absolute; left: 14px; right: 14px; bottom: 16px; font-size: 34px; line-height: .9; -webkit-text-stroke: 4px #0B4A6B; text-shadow: 4px 4px 0 #D61F33;">The CGM journey, end to end</span>
+</div><div class="cvr" style="left: {{c1x}}px; top: {{c1y}}px; transform: translateZ({{c1z}}px); filter: blur({{c1b}}px); background: #5A3A0A;">
+<svg viewBox="0 0 294 374" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{sk1}}" fill="#F5A524" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 240" aria-hidden="true" style="position: absolute; right: 10%; top: 12%; height: 76%; fill: none; stroke: #F5A524; stroke-width: 2.4;"><circle cx="120" cy="120" r="78"></circle><circle cx="120" cy="120" r="52" style="stroke-opacity: .5;"></circle><path d="M30 60 V30 H60 M180 30 H210 V60 M210 180 V210 H180 M60 210 H30 V180" style="stroke: #F2F1EE; stroke-width: 3;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #F5A524; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.02</span>
+<span class="ttl" style="position: absolute; left: 14px; right: 14px; bottom: 16px; font-size: 34px; line-height: .9; -webkit-text-stroke: 4px #5A3A0A; text-shadow: 4px 4px 0 #D61F33;">Image-based food logging</span>
+</div><div class="cvr" style="left: {{c0x}}px; top: {{c0y}}px; transform: translateZ({{c0z}}px); filter: blur({{c0b}}px); background: #0F3D38;">
+<svg viewBox="0 0 294 374" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{sk0}}" fill="#2DD4BF" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; right: 8%; top: 9%; height: 82%; fill: none; stroke: #5EEAD4; stroke-width: 2;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .55;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M60 140 H180" style="stroke: #F2F1EE; stroke-dasharray: 4 6;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #2DD4BF; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.01</span>
+<span class="ttl" style="position: absolute; left: 14px; right: 14px; bottom: 16px; font-size: 34px; line-height: .9; -webkit-text-stroke: 4px #0F3D38; text-shadow: 4px 4px 0 #D61F33;">3D body scan for GLP-1 users</span>
+</div>
+</div>
+<div style="position: absolute; left: 96px; right: 96px; bottom: 34px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid rgba(242,241,238,.12);"><div class="pf"><svg class="burst" viewBox="0 0 200 110" aria-hidden="true"><path d="{{pfBurst}}" fill="#D61F33" fill-opacity=".55"></path></svg><div class="v">230M+</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #B9B7B1;">devices personalised and served</div><div class="mono" style="margin-top: 6px; font-size: 11px; color: #8F8D87;">Glance · InMobi</div></div><div class="pf"><svg class="burst" viewBox="0 0 200 110" aria-hidden="true"><path d="{{pfBurst}}" fill="#D61F33" fill-opacity=".55"></path></svg><div class="v">$2M ARR</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #B9B7B1;">unlocked via Tracfone, Japan and Brazil</div><div class="mono" style="margin-top: 6px; font-size: 11px; color: #8F8D87;">Glance · InMobi</div></div><div class="pf"><svg class="burst" viewBox="0 0 200 110" aria-hidden="true"><path d="{{pfBurst}}" fill="#D61F33" fill-opacity=".55"></path></svg><div class="v">₹3.6 Cr</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #B9B7B1;">in month one from a GLP-1 app built 0→1</div><div class="mono" style="margin-top: 6px; font-size: 11px; color: #8F8D87;">Sugar.fit</div></div><div class="pf"><svg class="burst" viewBox="0 0 200 110" aria-hidden="true"><path d="{{pfBurst}}" fill="#D61F33" fill-opacity=".55"></path></svg><div class="v">~₹1.5 Cr/yr</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #B9B7B1;">saved by in-housing vendor services</div><div class="mono" style="margin-top: 6px; font-size: 11px; color: #8F8D87;">Sugar.fit</div></div></div>
+</div>
+
+<div class="lbl" style="margin: 56px 0 14px;"><b>Laptop · selected work, Volumes cards with ink covers.</b> Hover a card: it tilts toward the cursor with a soft glare. Keyboard focus gets a red outline without the tilt.</div>
+<div onMouseMove="{{workMove}}" onMouseLeave="{{workLeave}}" style="position: relative; width: 1440px; height: 820px; overflow: hidden; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A, 0 40px 80px rgba(0,0,0,.5); perspective: 1600px;">
+<div style="position: absolute; left: 64px; right: 64px; top: 46px; display: flex; align-items: flex-end; justify-content: space-between;"><div><div class="mono" style="color: #8F8D87;">Selected work · 9 volumes</div><h2 style="margin: 10px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 56px; line-height: .92; text-transform: uppercase;">Shipped, measured, <span style="color: #8F8D87;">explained.</span></h2></div><a href="#all" style="font-family: var(--fd); font-stretch: 75%; font-weight: 600; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; border-bottom: 2px solid #D61F33; padding-bottom: 4px;">All 9 volumes →</a></div>
+<a class="vc" href="#vol-01" data-i="0" onMouseEnter="{{cardEnter}}" onMouseLeave="{{cardLeave}}" onFocus="{{cardEnter}}" onBlur="{{cardLeave}}" style="left: 64px; top: 150px; width: 640px; height: 640px; flex-direction: column; transform: {{t0}};"><span class="glare" aria-hidden="true" style="background: radial-gradient(circle at {{g0x}}% {{g0y}}%, rgba(255,255,255,.14), transparent 45%);"></span><div style="position: relative; flex: none; height: 360px; margin: 14px 14px 0; border-radius: 14px; overflow: hidden; background: #0F3D38;"><svg viewBox="0 0 610 360" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{sc0}}" fill="#2DD4BF" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; right: 8%; top: 9%; height: 82%; fill: none; stroke: #5EEAD4; stroke-width: 2;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .55;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M60 140 H180" style="stroke: #F2F1EE; stroke-dasharray: 4 6;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #2DD4BF; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.01</span></div>
+<div style="padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 12px;"><div class="mono" style="color: #8F8D87;">Sugar.fit · AI-native health · 0→1</div><h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 38px; line-height: 1;">3D body scan for GLP-1 users</h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #B9B7B1;">Benchmarked open-source vision models, built the pipeline end to end, and retrained on an Indian dataset we collected.</p><div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 30px;">±2–3 pp</span><span style="font-size: 14px; color: #B9B7B1;">body fat vs 8-electrode BIA (n=110)</span><span class="tag tag-a">ACHIEVED</span></div><span style="font-family: var(--fd); font-stretch: 75%; font-weight: 600; font-size: 14px; letter-spacing: .12em; text-transform: uppercase;">Read the case study →</span></div></a><a class="vc" href="#vol-02" data-i="1" onMouseEnter="{{cardEnter}}" onMouseLeave="{{cardLeave}}" onFocus="{{cardEnter}}" onBlur="{{cardLeave}}" style="left: 736px; top: 150px; width: 640px; height: 304px; flex-direction: row; transform: {{t1}};"><span class="glare" aria-hidden="true" style="background: radial-gradient(circle at {{g1x}}% {{g1y}}%, rgba(255,255,255,.14), transparent 45%);"></span><div style="position: relative; flex: none; width: 250px; margin: 14px 0 14px 14px; border-radius: 14px; overflow: hidden; background: #5A3A0A;"><svg viewBox="0 0 250 270" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{sc1}}" fill="#F5A524" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 240" aria-hidden="true" style="position: absolute; right: 10%; top: 12%; height: 76%; fill: none; stroke: #F5A524; stroke-width: 2.4;"><circle cx="120" cy="120" r="78"></circle><circle cx="120" cy="120" r="52" style="stroke-opacity: .5;"></circle><path d="M30 60 V30 H60 M180 30 H210 V60 M210 180 V210 H180 M60 210 H30 V180" style="stroke: #F2F1EE; stroke-width: 3;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #F5A524; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.02</span></div>
+<div style="padding: 24px 26px; display: flex; flex-direction: column; justify-content: center; gap: 10px;"><div class="mono" style="color: #8F8D87;">Sugar.fit · Shipped · LLM</div><h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 32px; line-height: 1;">Image-based food logging</h3><div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px;">62%</span><span style="font-size: 14px; color: #B9B7B1;">of all meal logs</span><span class="tag tag-a">ACHIEVED</span></div><span style="font-family: var(--fd); font-stretch: 75%; font-weight: 600; font-size: 14px; letter-spacing: .12em; text-transform: uppercase;">Read volume 02 →</span></div></a><a class="vc" href="CaseStudy.dc.html" data-i="2" onMouseEnter="{{cardEnter}}" onMouseLeave="{{cardLeave}}" onFocus="{{cardEnter}}" onBlur="{{cardLeave}}" style="left: 736px; top: 486px; width: 640px; height: 304px; flex-direction: row; transform: {{t2}};"><span class="glare" aria-hidden="true" style="background: radial-gradient(circle at {{g2x}}% {{g2y}}%, rgba(255,255,255,.14), transparent 45%);"></span><div style="position: relative; flex: none; width: 250px; margin: 14px 0 14px 14px; border-radius: 14px; overflow: hidden; background: #3A0C12;"><svg viewBox="0 0 250 270" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{sc2}}" fill="#FF5A67" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<span aria-hidden="true" style="position: absolute; right: 12%; top: 12%; width: 34%; height: 88%; border-radius: 18px 18px 0 0; border: 2px solid rgba(255,255,255,.25); border-bottom: 0; background: #ECE5DD; overflow: hidden; display: flex; flex-direction: column; gap: 8px;"><span style="height: 16%; background: #1F7A55;"></span><span style="margin: 0 8%; height: 10%; width: 60%; border-radius: 6px; background: #fff;"></span><span style="margin: 0 8% 0 auto; height: 12%; width: 64%; border-radius: 6px; background: #DCF8C6;"></span><span style="margin: 0 8%; height: 16%; width: 74%; border-radius: 6px; background: #C7372F;"></span></span>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #FF5A67; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.05</span></div>
+<div style="padding: 24px 26px; display: flex; flex-direction: column; justify-content: center; gap: 10px;"><div class="mono" style="color: #8F8D87;">Sri Mandir · Strategy + prototype</div><h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 32px; line-height: 1;">Puja engagement platform</h3><div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 26px;">+30%</span><span style="font-size: 14px; color: #B9B7B1;">monthly orders per user</span><span class="tag tag-t">TARGET</span></div><span style="font-family: var(--fd); font-stretch: 75%; font-weight: 600; font-size: 14px; letter-spacing: .12em; text-transform: uppercase;">Read volume 05 →</span></div></a>
+</div>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+
+<div>
+<div class="lbl" style="margin-bottom: 14px; max-width: 834px;"><b>iPad 834 × 1194.</b> The Volumes layout as is. The cover stack drifts or follows tilt, the strip goes two by two, and the cards keep their ink covers. Tap a card once to pop it, twice to open.</div>
+<div style="position: relative; width: 834px; height: 1194px; overflow: hidden; border-radius: 28px; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A, 0 30px 60px rgba(0,0,0,.45); perspective: 1200px;">
+<svg aria-hidden="true" viewBox="0 0 834 1194" style="position: absolute; inset: 0; width: 834px; height: 1194px;"><path d="{{speedPad}}" fill="rgba(214,31,51,.11)"></path></svg>
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 40;"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work" aria-current="true">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+<div style="position: absolute; left: 36px; top: 132px; width: 470px;">
+<div style="display: flex; gap: 8px;"><span class="eb" style="font-size: 11px;">Product Manager · Sugar.fit</span></div>
+<h1 class="h1v" style="margin-top: 20px; font-size: 106px;">Akarshan<br>Kumar<span style="color: #D61F33;">.</span></h1>
+<p style="margin: 18px 0 0; font-size: 22px; line-height: 1.32; color: #B9B7B1;">I build <span style="color: #F2F1EE;">AI-native health products</span> — and the <span style="color: #F2F1EE;">data platforms</span> that prove they work.</p>
+</div>
+<div class="drift" style="position: absolute; left: 500px; top: 150px; width: 300px; height: 340px;"><div class="cvr" style="left: 100px; top: 8px; width: 200px; height: 254px; transform: translateZ(-140px); filter: blur(1.0px); background: #0B4A6B;"><svg viewBox="0 0 194 248" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{skp2}}" fill="#38BDF8" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 240" aria-hidden="true" style="position: absolute; right: 10%; top: 12%; height: 76%; fill: none; stroke: #38BDF8; stroke-width: 2.4;"><circle cx="120" cy="120" r="78"></circle><circle cx="120" cy="120" r="52" style="stroke-opacity: .5;"></circle><path d="M30 60 V30 H60 M180 30 H210 V60 M210 180 V210 H180 M60 210 H30 V180" style="stroke: #F2F1EE; stroke-width: 3;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #38BDF8; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.03</span><span class="ttl" style="position: absolute; left: 10px; right: 10px; bottom: 12px; font-size: 24px; line-height: .9; -webkit-text-stroke: 3px #0B4A6B; text-shadow: 3px 3px 0 #D61F33;">The CGM journey, end to end</span></div><div class="cvr" style="left: 60px; top: 34px; width: 200px; height: 254px; transform: translateZ(-70px); filter: blur(0.5px); background: #5A3A0A;"><svg viewBox="0 0 194 248" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{skp1}}" fill="#F5A524" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 240" aria-hidden="true" style="position: absolute; right: 10%; top: 12%; height: 76%; fill: none; stroke: #F5A524; stroke-width: 2.4;"><circle cx="120" cy="120" r="78"></circle><circle cx="120" cy="120" r="52" style="stroke-opacity: .5;"></circle><path d="M30 60 V30 H60 M180 30 H210 V60 M210 180 V210 H180 M60 210 H30 V180" style="stroke: #F2F1EE; stroke-width: 3;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #F5A524; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.02</span><span class="ttl" style="position: absolute; left: 10px; right: 10px; bottom: 12px; font-size: 24px; line-height: .9; -webkit-text-stroke: 3px #5A3A0A; text-shadow: 3px 3px 0 #D61F33;">Image-based food logging</span></div><div class="cvr" style="left: 20px; top: 60px; width: 200px; height: 254px; transform: translateZ(0px); filter: blur(0.0px); background: #0F3D38;"><svg viewBox="0 0 194 248" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{skp0}}" fill="#2DD4BF" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; right: 8%; top: 9%; height: 82%; fill: none; stroke: #5EEAD4; stroke-width: 2;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .55;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M60 140 H180" style="stroke: #F2F1EE; stroke-dasharray: 4 6;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #2DD4BF; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.01</span><span class="ttl" style="position: absolute; left: 10px; right: 10px; bottom: 12px; font-size: 24px; line-height: .9; -webkit-text-stroke: 3px #0F3D38; text-shadow: 3px 3px 0 #D61F33;">3D body scan for GLP-1 users</span></div></div>
+<div style="position: absolute; left: 36px; top: 548px; display: flex; gap: 12px;"><a class="cta" href="#work">See selected work</a><a class="cta2" href="#resume">Résumé (PDF)</a></div>
+<div style="position: absolute; left: 36px; right: 36px; top: 650px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; border-top: 1px solid rgba(242,241,238,.12);"><div class="pf"><svg class="burst" viewBox="0 0 200 110" aria-hidden="true"><path d="{{pfBurst}}" fill="#D61F33" fill-opacity=".55"></path></svg><div class="v">230M+</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #B9B7B1;">devices personalised and served</div><div class="mono" style="margin-top: 6px; font-size: 11px; color: #8F8D87;">Glance · InMobi</div></div><div class="pf"><svg class="burst" viewBox="0 0 200 110" aria-hidden="true"><path d="{{pfBurst}}" fill="#D61F33" fill-opacity=".55"></path></svg><div class="v">$2M ARR</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #B9B7B1;">unlocked via Tracfone, Japan and Brazil</div><div class="mono" style="margin-top: 6px; font-size: 11px; color: #8F8D87;">Glance · InMobi</div></div><div class="pf"><svg class="burst" viewBox="0 0 200 110" aria-hidden="true"><path d="{{pfBurst}}" fill="#D61F33" fill-opacity=".55"></path></svg><div class="v">₹3.6 Cr</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #B9B7B1;">in month one from a GLP-1 app built 0→1</div><div class="mono" style="margin-top: 6px; font-size: 11px; color: #8F8D87;">Sugar.fit</div></div><div class="pf"><svg class="burst" viewBox="0 0 200 110" aria-hidden="true"><path d="{{pfBurst}}" fill="#D61F33" fill-opacity=".55"></path></svg><div class="v">~₹1.5 Cr/yr</div><div style="margin-top: 8px; font-size: 14px; line-height: 1.45; color: #B9B7B1;">saved by in-housing vendor services</div><div class="mono" style="margin-top: 6px; font-size: 11px; color: #8F8D87;">Sugar.fit</div></div></div>
+<a class="vc" href="#vol-01" style="left: 36px; top: 950px; width: 762px; height: 220px; flex-direction: row;"><div style="position: relative; flex: none; width: 200px; margin: 12px 0 12px 12px; border-radius: 14px; overflow: hidden; background: #0F3D38;"><svg viewBox="0 0 200 196" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{scp}}" fill="#2DD4BF" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; right: 8%; top: 9%; height: 82%; fill: none; stroke: #5EEAD4; stroke-width: 2;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .55;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M60 140 H180" style="stroke: #F2F1EE; stroke-dasharray: 4 6;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #2DD4BF; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.01</span></div><div style="padding: 22px; display: flex; flex-direction: column; justify-content: center; gap: 10px;"><div class="mono" style="color: #8F8D87;">Sugar.fit · AI-native health · 0→1</div><div style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 30px; line-height: 1;">3D body scan for GLP-1 users</div><div style="display: flex; align-items: center; gap: 10px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 24px;">±2–3 pp</span><span style="font-size: 13px; color: #B9B7B1;">body fat vs BIA</span><span class="tag tag-a">ACHIEVED</span></div></div></a>
+</div>
+</div>
+
+<div>
+<div class="lbl" style="margin-bottom: 14px; max-width: 390px;"><b>Mobile 390 × 844.</b> The name leads, a fan of three covers sits under the buttons and drifts with tilt, and the strip continues below.</div>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; border-radius: 46px; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A, 0 30px 60px rgba(0,0,0,.45); perspective: 900px;">
+<svg aria-hidden="true" viewBox="0 0 390 844" style="position: absolute; inset: 0; width: 390px; height: 844px;"><path d="{{speedPhone}}" fill="rgba(214,31,51,.12)"></path></svg>
+<div style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 40;"><nav class="pill" aria-label="Primary"><button class="pl" aria-expanded="false" style="padding: 10px 18px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>Menu</button><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact" style="padding: 10px 18px;">Let’s Talk →</a></nav></div>
+<div style="position: absolute; left: 20px; right: 20px; top: 92px;">
+<span class="eb" style="height: 26px; font-size: 10px;">Product Manager · Sugar.fit</span>
+<h1 class="h1v" style="margin-top: 16px; font-size: 70px;">Akarshan<br>Kumar<span style="color: #D61F33;">.</span></h1>
+<p style="margin: 14px 0 0; font-size: 18px; line-height: 1.34; color: #B9B7B1;">I build <span style="color: #F2F1EE;">AI-native health products</span> — and the <span style="color: #F2F1EE;">data platforms</span> that prove they work.</p>
+<div style="display: grid; gap: 10px; margin-top: 20px;"><a class="cta" href="#work">See selected work</a><a class="cta2" href="#resume">Résumé (PDF)</a></div>
+</div>
+<div class="drift" style="position: absolute; left: 12px; top: 572px; width: 366px; height: 230px;"><div class="cvr" style="left: 14px; top: 28px; width: 150px; height: 190px; transform: translateZ(-40px) rotate(-7deg); background: #5A3A0A; z-index: 2;"><svg viewBox="0 0 144 184" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{skm0}}" fill="#F5A524" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 240" aria-hidden="true" style="position: absolute; right: 10%; top: 12%; height: 76%; fill: none; stroke: #F5A524; stroke-width: 2.4;"><circle cx="120" cy="120" r="78"></circle><circle cx="120" cy="120" r="52" style="stroke-opacity: .5;"></circle><path d="M30 60 V30 H60 M180 30 H210 V60 M210 180 V210 H180 M60 210 H30 V180" style="stroke: #F2F1EE; stroke-width: 3;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #F5A524; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.02</span><span class="ttl" style="position: absolute; left: 8px; right: 8px; bottom: 10px; font-size: 18px; line-height: .9; -webkit-text-stroke: 3px #5A3A0A; text-shadow: 2px 2px 0 #D61F33;">Image-based food logging</span></div><div class="cvr" style="left: 118px; top: 14px; width: 150px; height: 190px; transform: translateZ(0px) rotate(0deg); background: #0F3D38; z-index: 3;"><svg viewBox="0 0 144 184" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{skm1}}" fill="#2DD4BF" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; right: 8%; top: 9%; height: 82%; fill: none; stroke: #5EEAD4; stroke-width: 2;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .55;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M60 140 H180" style="stroke: #F2F1EE; stroke-dasharray: 4 6;"></path></svg>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #2DD4BF; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.01</span><span class="ttl" style="position: absolute; left: 8px; right: 8px; bottom: 10px; font-size: 18px; line-height: .9; -webkit-text-stroke: 3px #0F3D38; text-shadow: 2px 2px 0 #D61F33;">3D body scan for GLP-1 users</span></div><div class="cvr" style="left: 222px; top: 28px; width: 150px; height: 190px; transform: translateZ(-40px) rotate(7deg); background: #3A0C12; z-index: 2;"><svg viewBox="0 0 144 184" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{skm2}}" fill="#FF5A67" fill-opacity=".24"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(200deg, #000, transparent 55%); mask-image: linear-gradient(200deg, #000, transparent 55%);"></span>
+<span aria-hidden="true" style="position: absolute; right: 12%; top: 12%; width: 34%; height: 88%; border-radius: 18px 18px 0 0; border: 2px solid rgba(255,255,255,.25); border-bottom: 0; background: #ECE5DD; overflow: hidden; display: flex; flex-direction: column; gap: 8px;"><span style="height: 16%; background: #1F7A55;"></span><span style="margin: 0 8%; height: 10%; width: 60%; border-radius: 6px; background: #fff;"></span><span style="margin: 0 8% 0 auto; height: 12%; width: 64%; border-radius: 6px; background: #DCF8C6;"></span><span style="margin: 0 8%; height: 16%; width: 74%; border-radius: 6px; background: #C7372F;"></span></span>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; background: #FF5A67; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.05</span><span class="ttl" style="position: absolute; left: 8px; right: 8px; bottom: 10px; font-size: 18px; line-height: .9; -webkit-text-stroke: 3px #3A0C12; text-shadow: 2px 2px 0 #D61F33;">Puja engagement platform</span></div></div>
+<div class="mono" style="position: absolute; left: 20px; right: 20px; bottom: 26px; display: flex; justify-content: space-between; color: #8F8D87; font-size: 11px;"><span>230M+ devices · Glance</span><span>$2M ARR</span></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":3240}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.rest = { mx: -0.3, my: -0.15, fx: 420, fy: 330 };
+    this.state = Object.assign({ fan: false, px: 0, py: 0, hov: -1 }, this.rest);
+    ['heroMove', 'heroLeave', 'fanOn', 'fanOff', 'workMove', 'workLeave', 'cardEnter', 'cardLeave'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.CARDS = [[64, 150, 640, 640], [736, 150, 640, 304], [736, 486, 640, 304]];
+    const sk = (w, h) => this.speed(w * 0.62, h * 0.38, 80, 50, 120, Math.max(w, h) * 1.6);
+    this.st = {
+      sk0: sk(294, 374), sk1: sk(294, 374), sk2: sk(294, 374), sk3: sk(294, 374),
+      sc0: sk(610, 360), sc1: sk(250, 270), sc2: sk(250, 270), scp: sk(200, 196),
+      skp0: sk(194, 248), skp1: sk(194, 248), skp2: sk(194, 248), skm0: sk(144, 184), skm1: sk(144, 184), skm2: sk(144, 184),
+      pfBurst: this.speed(40, 60, 40, 30, 60, 260), speedPad: this.speed(260, 300, 120, 160, 280, 1400), speedPhone: this.speed(140, 200, 100, 110, 200, 900)
+    };
+  }
+
+  speed(fx, fy, count, rMin, rMax, R) {
+    let d = '';
+    for (let i = 0; i < count; i++) {
+      const t = (i / count) * Math.PI * 2;
+      const j = Math.sin(i * 12.9898) * 43758.5453;
+      const rnd = j - Math.floor(j);
+      const r0 = rMin + rnd * (rMax - rMin);
+      const w = 0.006 + rnd * 0.012;
+      const ax = fx + Math.cos(t) * r0, ay = fy + Math.sin(t) * r0;
+      const bx = fx + Math.cos(t - w) * R, by = fy + Math.sin(t - w) * R;
+      const cx = fx + Math.cos(t + w) * R, cy = fy + Math.sin(t + w) * R;
+      d += 'M' + ax.toFixed(1) + ' ' + ay.toFixed(1) + 'L' + bx.toFixed(1) + ' ' + by.toFixed(1) + 'L' + cx.toFixed(1) + ' ' + cy.toFixed(1) + 'Z';
+    }
+    return d;
+  }
+  reduced() { return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  track(e, cb) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => { this.raf = null; cb(rx, ry); });
+  }
+  componentWillUnmount() { if (this.raf) cancelAnimationFrame(this.raf); }
+
+  heroMove(e) { this.track(e, (rx, ry) => this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1, fx: Math.min(760, Math.max(80, rx * 1440)), fy: Math.min(640, Math.max(140, ry * 900)) })); }
+  heroLeave() { if (this.raf) cancelAnimationFrame(this.raf); this.setState(Object.assign({ fan: false }, this.rest)); }
+  fanOn() { this.setState({ fan: true }); }
+  fanOff() { this.setState({ fan: false }); }
+  workMove(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) * (1440 / r.width), py = (e.clientY - r.top) * (820 / r.height);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => { this.raf = null; this.setState({ px, py }); });
+  }
+  workLeave() { this.setState({ hov: -1 }); }
+  cardEnter(e) { this.setState({ hov: +e.currentTarget.getAttribute('data-i'), kb: e.type === 'focus' }); }
+  cardLeave() { this.setState({ hov: -1 }); }
+  renderVals() {
+    const s = this.state, k = this.reduced() ? 0 : 1;
+    const mx = s.mx * k, my = s.my * k;
+    const t = (a, b) => 'translate3d(' + (mx * a).toFixed(1) + 'px, ' + (my * b).toFixed(1) + 'px, 0)';
+    const out = {
+      heroMove: this.heroMove, heroLeave: this.heroLeave, fanOn: this.fanOn, fanOff: this.fanOff, workMove: this.workMove, workLeave: this.workLeave, cardEnter: this.cardEnter, cardLeave: this.cardLeave,
+      L1: t(-14, -10), L2: t(-8, -6), L4: t(5, 3),
+      speedHero: this.speed(k ? s.fx : this.rest.fx, k ? s.fy : this.rest.fy, 130, 200, 340, 1600),
+      sx: (-my * 8).toFixed(2), sy: (-14 + mx * 14).toFixed(2)
+    };
+    Object.assign(out, this.st);
+    for (let i = 0; i < 4; i++) {
+      const f = s.fan && k;
+      out['c' + i + 'x'] = f ? 40 + i * 92 : 70 + i * 52;
+      out['c' + i + 'y'] = f ? 110 - i * 40 : 110 - i * 30;
+      out['c' + i + 'z'] = f ? -i * 150 : -i * 80;
+      out['c' + i + 'b'] = f ? (i * 0.3).toFixed(1) : (i * 0.7).toFixed(1);
+    }
+    this.CARDS.forEach((c, i) => {
+      const on = s.hov === i;
+      const nx = on && !s.kb ? Math.max(-1, Math.min(1, (s.px - (c[0] + c[2] / 2)) / (c[2] / 2))) : 0;
+      const ny = on && !s.kb ? Math.max(-1, Math.min(1, (s.py - (c[1] + c[3] / 2)) / (c[3] / 2))) : 0;
+      out['t' + i] = on ? 'rotateY(' + (nx * 6 * k).toFixed(2) + 'deg) rotateX(' + (-ny * 5 * k).toFixed(2) + 'deg) translateZ(' + (k ? 12 : 0) + 'px)' : 'none';
+      out['g' + i + 'x'] = Math.round((nx + 1) * 50);
+      out['g' + i + 'y'] = Math.round((ny + 1) * 50);
+    });
+    return out;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — sign in with an email code</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;--eo:cubic-bezier(.2,.8,.2,1);-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .pbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:52px;padding:0 20px;border:0;border-radius:10px;background:#141416;color:#fff;font:500 16px/1 var(--fu);cursor:pointer;transition:background-color .2s var(--eo)}
+.st .pbtn:hover{background:#2A2A30}
+.st .pbtn[aria-disabled="true"]{background:#B9B7B1;cursor:not-allowed}
+.st .pbtn.busy{background:#141416;cursor:progress}
+.st .btn2{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 18px;border:1px solid var(--ln2);border-radius:10px;background:#fff;color:var(--tx);font:500 15px/1 var(--fu);cursor:pointer}
+.st .btn2:hover{border-color:var(--tx3)}
+.st .field{height:52px;width:100%;padding:0 14px;border-radius:10px;border:1px solid var(--ln2);background:#fff;color:var(--tx);font:400 16px/1 var(--fu)}
+.st .field:focus{outline:none;border-color:var(--tx);box-shadow:0 0 0 3px rgba(20,20,22,.12)}
+.st .field[disabled]{background:#F1F0EC;color:var(--tx3)}
+.st .link{color:var(--tx);text-decoration:underline;text-underline-offset:3px;background:none;border:0;padding:0;font:500 14px/1.4 var(--fu);cursor:pointer}
+.st .link[aria-disabled="true"]{color:var(--tx3);text-decoration:none;cursor:default}
+.st a:focus-visible,.st button:focus-visible{outline:2px solid var(--tx);outline-offset:3px}
+.st .otp{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:22px}
+.st .otp .box{height:64px;display:grid;place-items:center;border:1px solid var(--ln2);border-radius:12px;background:#fff;font:600 28px/1 var(--fm);color:var(--tx);transition:border-color .2s var(--eo),box-shadow .2s var(--eo)}
+.st .otp .box.cur{border-color:var(--tx);box-shadow:0 0 0 3px rgba(20,20,22,.12)}
+.st .otp .box.cur::after{content:'';width:2px;height:28px;background:var(--tx);animation:stBlink 1s steps(1) infinite}
+.st .otp .box.bad{border-color:var(--err);box-shadow:0 0 0 3px rgba(180,35,24,.12)}
+.st .otp .box.off{background:#F1F0EC;color:var(--tx3)}
+.st .otp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;font-size:16px;cursor:text}
+.st .otp .sep{display:none}
+.st .note{margin:0;font-size:13px;line-height:1.5;color:var(--tx3)}
+.st .alert{display:flex;gap:12px;padding:14px 16px;border-radius:10px;font-size:14px;line-height:1.5}
+.st .alert b{font-weight:600}
+.st .alert.err{background:var(--errbg);color:var(--err)}
+.st .alert.warn{background:var(--warnbg);color:var(--warn)}
+.st .alert.info{background:#EFEEEA;color:var(--tx2)}
+.st .ts{display:flex;align-items:center;gap:10px;height:62px;padding:0 14px;border:1px solid var(--ln2);border-radius:10px;background:#FAFAFA;font-size:14px;color:var(--tx)}
+.st .ts .cb{width:24px;height:24px;border:2px solid #8F8D87;border-radius:4px;background:#fff}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stBlink{50%{opacity:0}}
+.st .spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:stSpin .8s linear infinite}
+.st .spin.dk{border-color:rgba(20,20,22,.15);border-top-color:#141416}
+.st .spin.lg{width:34px;height:34px;border-width:3px}
+.st .enter{animation:stUp .22s var(--eo) both}
+@media (prefers-reduced-motion:reduce){.st .spin{animation-duration:2.4s}.st .enter{animation:none}.st .pbtn,.st .otp .box{transition:none}.st .otp .box.cur::after{animation:none}}
+</style>
+</helmet>
+<div class="st" style="min-height: 960px; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--tx); font-family: var(--fu);">
+
+<aside style="flex: 1 1 420px; min-height: 960px; position: relative; overflow: hidden; background: #0B0B0E; color: #F2F1EE; padding: 48px clamp(24px, 4vw, 56px); display: flex; flex-direction: column;">
+<svg viewBox="0 0 700 960" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: .22; fill: none; stroke: #D61F33; stroke-width: .8;"><line x1="560" y1="520" x2="-20" y2="-20"></line><line x1="560" y1="520" x2="-20" y2="160"></line><line x1="560" y1="520" x2="-20" y2="340"></line><line x1="560" y1="520" x2="-20" y2="520"></line><line x1="560" y1="520" x2="-20" y2="700"></line><line x1="560" y1="520" x2="-20" y2="880"></line><line x1="560" y1="520" x2="200" y2="-20"></line><line x1="560" y1="520" x2="420" y2="-20"></line><line x1="560" y1="520" x2="720" y2="200"></line><line x1="560" y1="520" x2="720" y2="820"></line><line x1="560" y1="520" x2="300" y2="980"></line></svg>
+<div style="position: relative; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 30px; letter-spacing: .04em; text-transform: uppercase;">Studio<span style="color: #D61F33;">.</span></div>
+<div style="position: relative; margin-top: auto;">
+<h1 style="margin: 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 76px; line-height: .9; text-transform: uppercase;">Edit the portfolio.<br><span style="color: #8F8D87;">Not the code.</span></h1>
+<ul style="margin: 28px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; font-size: 16px; color: #B9B7B1;">
+<li style="display: flex; gap: 10px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #3CCB8B;"><path d="M5 12l5 5 9-10"></path></svg>Every section, project and post on your site</li>
+<li style="display: flex; gap: 10px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #3CCB8B;"><path d="M5 12l5 5 9-10"></path></svg>Images, videos and live prototypes</li>
+<li style="display: flex; gap: 10px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #3CCB8B;"><path d="M5 12l5 5 9-10"></path></svg>Drafts stay private until you publish</li>
+</ul>
+</div>
+</aside>
+
+<main style="flex: 999 1 560px; min-height: 960px; display: flex; align-items: center; justify-content: center; padding: 48px 24px;">
+<div style="width: 100%; max-width: 440px;">
+
+<sc-if value="{{isSignedOut}}" hint-placeholder-val="{{ false }}"><div role="status" class="alert warn enter" style="margin-bottom: 24px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4l3 2M12 3a9 9 0 100 18 9 9 0 000-18z"></path></svg><span><b>You’ve been signed out.</b> Sign in again to keep editing. Your unsaved changes are kept on this device.</span></div></sc-if>
+<sc-if value="{{isOffline}}" hint-placeholder-val="{{ false }}"><div role="alert" class="alert err enter" style="margin-bottom: 24px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.8a15 15 0 0120 0M5 12.2a10 10 0 0114 0M8.5 15.6a5 5 0 017 0M12 19h.01"></path></svg><span><b>You’re offline.</b> Connect to the internet to get a sign-in code. <button class="link" onClick="{{retry}}" style="color: inherit; font-size: 14px;">Try again</button></span></div></sc-if>
+<sc-if value="{{isDeep}}" hint-placeholder-val="{{ false }}"><div class="alert info enter" style="margin-bottom: 24px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg><span>After you sign in, you’ll go straight back to <b style="color: var(--tx);">Puja engagement platform</b>.</span></div></sc-if>
+
+<sc-if value="{{stepEmail}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{send}}" novalidate>
+<h2 style="margin: 0; font-size: 30px; font-weight: 600; letter-spacing: -.02em;">Sign in to Studio</h2>
+<p style="margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--tx2);">Studio is private. Enter the email address that owns this portfolio, and we’ll send you a 6-digit code.</p>
+<label for="em" style="display: block; margin-top: 28px; font-size: 14px; font-weight: 600;">Email</label>
+<input id="em" class="field" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@example.com" value="{{email}}" onChange="{{onEmail}}" aria-invalid="{{emInvalid}}" aria-describedby="em-h" disabled="{{emDisabled}}" style="margin-top: 8px; border-color: {{emBorder}};">
+<sc-if value="{{isInvalid}}" hint-placeholder-val="{{ false }}"><p id="em-h" role="alert" style="margin: 8px 0 0; font-size: 13px; color: var(--err);">Enter an email address, like name@example.com.</p></sc-if>
+<sc-if value="{{isCaptcha}}" hint-placeholder-val="{{ false }}"><div class="enter" style="margin-top: 14px;"><div class="ts"><span class="cb"></span>Verify you are human<span style="margin-left: auto; font: 600 10px/1.2 var(--fm); color: #6A6A72; text-align: right;">CLOUDFLARE<br>Turnstile</span></div><p class="note" style="margin-top: 8px;">Shown only when the sign-in looks unusual.</p></div></sc-if>
+<button type="submit" class="pbtn {{sendBusyCls}}" aria-disabled="{{sendBusy}}" style="margin-top: 16px;"><sc-if value="{{isSending}}" hint-placeholder-val="{{ false }}"><span class="spin" aria-hidden="true"></span>Sending code…</sc-if><sc-if value="{{notSending}}" hint-placeholder-val="{{ true }}">Email me a code</sc-if></button>
+<p class="note" style="margin-top: 12px;">No password to remember. Each code works once and expires after 10 minutes.</p>
+<p class="note" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--ln);">Only the site owner’s address gets a code. Anyone else sees this page and nothing more.</p>
+</form>
+</sc-if>
+
+<sc-if value="{{stepCode}}" hint-placeholder-val="{{ false }}">
+<div class="enter">
+<button class="link" onClick="{{changeEmail}}" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--tx2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M19 12H5M11 18l-6-6 6-6"></path></svg>Use a different email</button>
+<h2 style="margin: 18px 0 0; font-size: 30px; font-weight: 600; letter-spacing: -.02em;">Check your email</h2>
+<p style="margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--tx2);">If <b style="color: var(--tx); font-weight: 600;">{{masked}}</b> owns this site, a 6-digit code is on its way. It expires in 10 minutes.</p>
+<sc-if value="{{isWrong}}" hint-placeholder-val="{{ false }}"><div role="alert" class="alert err enter" style="margin-top: 20px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg><span><b>That code didn’t work.</b> Check the latest email from Studio: each new code replaces the one before.</span></div></sc-if>
+<sc-if value="{{isExpired}}" hint-placeholder-val="{{ false }}"><div role="alert" class="alert warn enter" style="margin-top: 20px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4l3 2M12 3a9 9 0 100 18 9 9 0 000-18z"></path></svg><span><b>That code has expired.</b> Codes last 10 minutes. Send a new one and use it straight away.</span></div></sc-if>
+<sc-if value="{{isLocked}}" hint-placeholder-val="{{ false }}"><div role="alert" class="alert err enter" style="margin-top: 20px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10h12v10H6zM8 10V7a4 4 0 018 0v3"></path></svg><span><b>Too many tries.</b> To keep Studio safe, ask for a new code in {{lockLeft}}.</span></div></sc-if>
+<sc-if value="{{isWait}}" hint-placeholder-val="{{ false }}"><div role="status" class="alert warn enter" style="margin-top: 20px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4l3 2M12 3a9 9 0 100 18 9 9 0 000-18z"></path></svg><span><b>A code was sent moments ago.</b> You can ask for another in {{resendLeft}}.</span></div></sc-if>
+<label for="otp-in" style="display: block; margin-top: 24px; font-size: 14px; font-weight: 600;">6-digit code</label>
+<div class="otp" role="group" aria-label="6-digit code" style="margin-top: 8px;">
+<sc-for list="{{boxes}}" as="b" hint-placeholder-count="6"><span class="box {{b.cls}}" aria-hidden="true">{{b.d}}</span></sc-for>
+<input id="otp-in" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" value="{{code}}" onChange="{{onCode}}" aria-invalid="{{codeInvalid}}" disabled="{{codeDisabled}}" aria-describedby="otp-h">
+</div>
+<p id="otp-h" class="note" style="margin-top: 10px;">Paste the code, or type it. It signs you in as soon as all six digits are in.</p>
+<button class="pbtn {{verBusyCls}}" onClick="{{verify}}" aria-disabled="{{verDisabled}}" style="margin-top: 18px;"><sc-if value="{{isVerifying}}" hint-placeholder-val="{{ false }}"><span class="spin" aria-hidden="true"></span>Checking code…</sc-if><sc-if value="{{notVerifying}}" hint-placeholder-val="{{ true }}">Sign in</sc-if></button>
+<div style="margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; font-size: 14px; color: var(--tx3);"><span>Didn’t get it?</span><button class="link" onClick="{{resend}}" aria-disabled="{{resendDisabled}}">{{resendLabel}}</button><span>Check spam, or use a different email.</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div role="status" class="enter">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: var(--okbg); color: var(--ok); display: grid; place-items: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+<h2 style="margin: 22px 0 0; font-size: 30px; font-weight: 600; letter-spacing: -.02em;">Welcome back</h2>
+<p style="margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--tx2);">You’re signed in on this device until you sign out.</p>
+<a href="StudioDashboard.dc.html" class="btn2" style="margin-top: 24px; background: #141416; border-color: #141416; color: #fff;">Open the dashboard<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</sc-if>
+
+<sc-if value="{{isDenied}}" hint-placeholder-val="{{ false }}">
+<div class="enter">
+<div style="width: 56px; height: 56px; border-radius: 14px; background: var(--errbg); color: var(--err); display: grid; place-items: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px;"><path d="M6 10h12v10H6zM8 10V7a4 4 0 018 0v3"></path></svg></div>
+<h2 style="margin: 22px 0 0; font-size: 30px; font-weight: 600; letter-spacing: -.02em;">This account can’t open Studio</h2>
+<p style="margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--tx2);">Studio is private to the site owner. You’ve been signed out, and nothing was created or shared.</p>
+<div style="margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center;"><button class="btn2" onClick="{{changeEmail}}">Use a different email</button><a href="Home.dc.html" class="link">Go to the portfolio</a></div>
+</div>
+</sc-if>
+
+<div class="sr" aria-live="polite" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;">{{announce}}</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["email","sending code","bot check","enter code","code typed","checking code","wrong code","code expired","too many tries","wait to resend","signed in","signed out","offline","deep link","not the owner"],"default":"email"},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh(props.state);
+    ['send', 'verify', 'resend', 'changeEmail', 'retry', 'onEmail', 'onCode'].forEach((k) => { this[k] = this[k].bind(this); });
+  }
+  fresh(n) {
+    const code = { 'code typed': '482913', 'checking code': '482913', 'wrong code': '482931', 'code expired': '482913', 'too many tries': '' }[n] || '';
+    return { phase: n || 'email', email: n && n !== 'email' && n !== 'signed out' && n !== 'offline' && n !== 'deep link' ? 'akarshan910@gmail.com' : '', code, wait: n === 'wait to resend' ? 42 : (['enter code', 'code typed', 'wrong code'].indexOf(n) > -1 ? 52 : 0) };
+  }
+  componentDidMount() { this.tick = setInterval(() => { if (this.state.wait > 0) this.setState({ wait: this.state.wait - 1 }); }, 1000); }
+  componentDidUpdate(prev) { if (prev.state !== this.props.state) { clearTimeout(this.t); this.setState(this.fresh(this.props.state)); } }
+  componentWillUnmount() { clearTimeout(this.t); clearInterval(this.tick); }
+  onEmail(e) { this.setState({ email: e.target.value, phase: this.state.phase === 'invalid' ? 'email' : this.state.phase }); }
+  onCode(e) {
+    const code = (e.target.value || '').replace(/\D/g, '').slice(0, 6);
+    this.setState({ code, phase: ['wrong code', 'code expired'].indexOf(this.state.phase) > -1 ? 'enter code' : this.state.phase });
+    if (code.length === 6) { clearTimeout(this.t); this.t = setTimeout(() => this.verify(), 150); }
+  }
+  send(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (this.state.phase === 'sending code') return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.state.email || '')) { this.setState({ phase: 'invalid' }); return; }
+    clearTimeout(this.t);
+    this.setState({ phase: 'sending code' });
+    this.t = setTimeout(() => this.setState({ phase: 'enter code', code: '', wait: 60 }), 900);
+  }
+  verify() {
+    if (this.state.code.length < 6 || this.state.phase === 'checking code') return;
+    clearTimeout(this.t);
+    this.setState({ phase: 'checking code' });
+    this.t = setTimeout(() => this.setState({ phase: this.state.code === '000000' ? 'wrong code' : 'signed in' }), 900);
+  }
+  resend() { if (this.state.wait > 0) { this.setState({ phase: 'wait to resend' }); return; } this.setState({ phase: 'enter code', code: '', wait: 60, announce: 'A new code is on its way.' }); }
+  changeEmail() { clearTimeout(this.t); this.setState({ phase: 'email', code: '' }); }
+  retry() { this.setState({ phase: 'email' }); }
+  mask(e) {
+    const m = /^(.)(.*)(.)@(.+)$/.exec(e || '');
+    return m ? m[1] + '•'.repeat(Math.min(8, m[2].length)) + m[3] + '@' + m[4] : 'that address';
+  }
+  renderVals() {
+    const s = this.state, p = s.phase;
+    const emailSteps = ['email', 'sending code', 'bot check', 'invalid', 'signed out', 'offline', 'deep link'];
+    const codeSteps = ['enter code', 'code typed', 'checking code', 'wrong code', 'code expired', 'too many tries', 'wait to resend'];
+    const locked = p === 'too many tries', busy = p === 'checking code';
+    const cur = Math.min(s.code.length, 5);
+    const boxes = [0, 1, 2, 3, 4, 5].map((i) => ({ d: s.code[i] || '', cls: (p === 'wrong code' ? 'bad' : '') + (locked || busy ? ' off' : '') + (!locked && !busy && i === cur && s.code.length < 6 ? ' cur' : '') }));
+    const fmt = (n) => '0:' + String(n).padStart(2, '0');
+    const announce = { 'sending code': 'Sending a code.', 'enter code': 'Code sent. Check your email.', 'checking code': 'Checking the code.', 'wrong code': 'That code didn’t work.', 'code expired': 'That code has expired.', 'signed in': 'Signed in.', 'too many tries': 'Too many tries.' }[p] || s.announce || '';
+    return {
+      send: this.send, verify: this.verify, resend: this.resend, changeEmail: this.changeEmail, retry: this.retry, onEmail: this.onEmail, onCode: this.onCode,
+      email: s.email, code: s.code, masked: this.mask(s.email), boxes,
+      stepEmail: emailSteps.indexOf(p) > -1, stepCode: codeSteps.indexOf(p) > -1,
+      isSignedOut: p === 'signed out', isOffline: p === 'offline', isDeep: p === 'deep link', isCaptcha: p === 'bot check',
+      isInvalid: p === 'invalid', emInvalid: p === 'invalid' ? 'true' : 'false', emBorder: p === 'invalid' ? '#B42318' : '#D2D0CA', emDisabled: p === 'sending code',
+      isSending: p === 'sending code', notSending: p !== 'sending code', sendBusy: p === 'sending code' ? 'true' : 'false', sendBusyCls: p === 'sending code' ? 'busy' : '',
+      isWrong: p === 'wrong code', isExpired: p === 'code expired', isLocked: locked, isWait: p === 'wait to resend', lockLeft: '14:32', resendLeft: fmt(s.wait),
+      codeInvalid: p === 'wrong code' ? 'true' : 'false', codeDisabled: locked || busy,
+      isVerifying: busy, notVerifying: !busy, verBusyCls: busy ? 'busy' : '', verDisabled: s.code.length < 6 || locked ? 'true' : 'false',
+      resendDisabled: s.wait > 0 && !locked && p !== 'code expired' ? 'true' : 'false', resendLabel: locked || p === 'code expired' ? 'Send a new code' : (s.wait > 0 ? 'Resend code in ' + fmt(s.wait) : 'Resend code'),
+      isDone: p === 'signed in', isDenied: p === 'not the owner', announce
+    };
+  }
+}
+</script>
+</body>
+</html>

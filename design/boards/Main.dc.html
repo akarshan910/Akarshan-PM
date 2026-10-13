@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Direction A · Volumes — laptop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#0B0B0E}
+.va{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--ok:#3CCB8B;--okt:#9BE7C4;--nav:rgba(11,11,14,.94);--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;--eo:cubic-bezier(.2,.8,.2,1);-webkit-font-smoothing:antialiased}
+.va.light{--bg:#F5F5F3;--bg2:#EEEEEA;--sf:#FFFFFF;--sf2:#F0F0EC;--ln:rgba(20,20,22,.10);--ln2:rgba(20,20,22,.22);--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--act:#C2182C;--okt:#0F7A4A;--nav:rgba(245,245,243,.94)}
+.va *{box-sizing:border-box}
+.va a{color:var(--tx);text-decoration:none}
+.va a:hover{color:var(--tx)}
+.va .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.va .nl{color:var(--tx2) !important;transition:color .2s var(--eo)}
+.va .nl:hover{color:var(--tx) !important}
+.va .btn{transition:background-color .2s var(--eo),border-color .2s var(--eo)}
+.va .btn-p:hover{background:#E42A3F !important;color:#fff !important}
+.va .btn-s:hover{border-color:var(--tx3) !important}
+.va a:focus-visible,.va button:focus-visible{outline:2px solid var(--act);outline-offset:3px}
+.va .card{transition:transform .32s var(--eo),border-color .32s var(--eo)}
+.va .card:hover{transform:translateY(-4px);border-color:var(--ln2) !important}
+.va .card .cv{transition:transform .6s var(--eo)}
+.va .card:hover .cv{transform:scale(1.03)}
+.va .card .go{transition:transform .24s var(--eo)}
+.va .card:hover .go{transform:translateX(4px)}
+@keyframes vaRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes vaDraw{from{stroke-dashoffset:1400}to{stroke-dashoffset:0}}
+@keyframes vaPulse{0%,100%{box-shadow:0 0 0 0 rgba(60,203,139,.55)}50%{box-shadow:0 0 0 6px rgba(60,203,139,0)}}
+@keyframes vaScan{0%{transform:translateY(0)}50%{transform:translateY(150px)}100%{transform:translateY(0)}}
+.va .rise{animation:vaRise .56s var(--eo) both}
+.va .sl line{stroke-dasharray:1400;animation:vaDraw 1.6s var(--eo) both}
+.va .live{animation:vaPulse 2.4s ease-in-out infinite}
+.va .scan{animation:vaScan 4s var(--eo) infinite}
+@media (max-width:820px){.va .hide-sm{display:none !important}}
+@media (prefers-reduced-motion:reduce){.va .rise,.va .sl line,.va .live,.va .scan{animation:none}.va .card,.va .card .cv{transition:none}}
+@property --vash{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes vaShine{to{--vash:360deg}}
+.va .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06);transition:box-shadow .4s ease}
+.va .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,rgba(255,255,255,1) 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:vaShine 3.5s linear infinite;filter:blur(.4px)}
+.va .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:vaShine 3.5s linear infinite;filter:blur(3px)}
+.va.light .pill{background:rgba(18,16,12,.72);-webkit-backdrop-filter:blur(36px) saturate(180%);backdrop-filter:blur(36px) saturate(180%);border-color:rgba(255,255,255,.08)}
+.va.light .pill::before{background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 50deg,rgba(232,39,58,.04) 75deg,rgba(232,39,58,.35) 100deg,rgba(232,39,58,.85) 118deg,rgba(232,39,58,1) 125deg,rgba(232,39,58,.85) 132deg,rgba(232,39,58,.35) 150deg,rgba(232,39,58,.04) 175deg,transparent 200deg,transparent 360deg)}
+.va.light .pill::after{background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 60deg,rgba(232,39,58,0) 90deg,rgba(232,39,58,.12) 115deg,rgba(232,39,58,.28) 125deg,rgba(232,39,58,.12) 135deg,rgba(232,39,58,0) 160deg,transparent 200deg,transparent 360deg)}
+.va .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75) !important;text-decoration:none;padding:8px 18px;border:0;border-radius:99px;background:transparent;transition:all .22s;white-space:nowrap;font-weight:500;position:relative;z-index:1;cursor:pointer}
+.va .pl:hover{color:#F0EEF8 !important;background:rgba(240,238,248,.1)}
+.va .pl.on{color:#F0EEF8 !important;font-weight:600;background:rgba(240,238,248,.14)}
+.va .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.va .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;background:#E8273A;color:#fff !important;padding:8px 18px;border-radius:94px;margin-left:1px;flex-shrink:0;transition:background .22s,transform .22s,box-shadow .3s;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.va .pcta:hover{background:#FF4D5E;transform:scale(1.04)}
+.va .show-sm{display:none}
+@media (max-width:820px){.va .show-sm{display:inline-flex !important}}
+@media (prefers-reduced-motion:reduce){.va .pill::before{animation:none}}
+.va .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 28px;border:0;border-radius:2px;background:#D61F33;color:#fff !important;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background-color .25s var(--eo),transform .25s var(--eo)}
+.va .cta:hover{background:#E42A3F;transform:translateY(-2px)}
+.va .cta:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #D61F33}
+.va .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border:1px solid var(--ln2);border-radius:2px;background:transparent;color:var(--tx) !important;font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;cursor:pointer;transition:border-color .25s var(--eo)}
+.va .cta2:hover{border-color:var(--tx3)}
+</style>
+</helmet>
+<div class="va {{themeClass}}" style="background: var(--bg); color: var(--tx); font-family: var(--fu); min-height: 1760px;">
+
+<div style="position: sticky; top: 28px; z-index: 30; height: 0; display: flex; justify-content: center; align-items: flex-start;">
+<nav class="pill" aria-label="Primary">
+<button class="pl show-sm" aria-expanded="false" aria-label="Open menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M4 8h16M4 16h16"></path></svg>Menu</button>
+<a class="pl on hide-sm" href="#work" aria-current="true">Work</a>
+<a class="pl hide-sm" href="#about">About</a>
+<a class="pl hide-sm" href="#experience">Exp</a>
+<a class="pl hide-sm" href="#skills">Skills</a>
+<a class="pl hide-sm" href="#testimonials">Testimonial</a>
+<span class="psep" aria-hidden="true"></span>
+<a class="pcta" href="#contact">Let’s Talk →</a>
+</nav>
+</div>
+
+<section id="top" style="position: relative; overflow: hidden; border-bottom: 1px solid var(--ln);">
+<svg class="sl" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: .2; fill: none; stroke: #D61F33; stroke-width: .7;">
+<line x1="1010" y1="380" x2="-40" y2="-30"></line><line x1="1010" y1="380" x2="-40" y2="40"></line><line x1="1010" y1="380" x2="-40" y2="110"></line><line x1="1010" y1="380" x2="-40" y2="180"></line><line x1="1010" y1="380" x2="-40" y2="250"></line><line x1="1010" y1="380" x2="-40" y2="320"></line><line x1="1010" y1="380" x2="-40" y2="390"></line><line x1="1010" y1="380" x2="-40" y2="460"></line><line x1="1010" y1="380" x2="-40" y2="530"></line><line x1="1010" y1="380" x2="-40" y2="600"></line><line x1="1010" y1="380" x2="-40" y2="670"></line><line x1="1010" y1="380" x2="-40" y2="740"></line><line x1="1010" y1="380" x2="160" y2="-30"></line><line x1="1010" y1="380" x2="380" y2="-30"></line><line x1="1010" y1="380" x2="620" y2="-30"></line><line x1="1010" y1="380" x2="160" y2="760"></line><line x1="1010" y1="380" x2="420" y2="760"></line><line x1="1010" y1="380" x2="700" y2="760"></line><line x1="1010" y1="380" x2="1480" y2="60"></line><line x1="1010" y1="380" x2="1480" y2="700"></line>
+</svg>
+<div style="position: relative; max-width: 1312px; margin: 0 auto; padding: 148px clamp(20px, 4vw, 56px) 88px; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 48px 64px;">
+<div style="flex: 999 1 560px; min-width: 0;">
+<div class="rise" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-bottom: 36px;">
+<span style="display: inline-flex; align-items: center; gap: 10px; height: 32px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid rgba(60,203,139,.35); background: rgba(60,203,139,.08); color: var(--okt); font-size: 13px; font-weight: 500;"><span class="live" style="width: 8px; height: 8px; border-radius: 50%; background: var(--ok);"></span>Open to Senior / Lead PM roles</span>
+<span style="font-family: var(--fm); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--tx3);">Bengaluru · IST</span>
+</div>
+<h1 class="rise" style="margin: 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: clamp(64px, 9.4vw, 136px); line-height: .86; letter-spacing: -.005em; text-transform: uppercase; animation-delay: 80ms;">Akarshan Kumar<span style="color: var(--ac);">.</span></h1>
+<p class="rise" style="margin: 30px 0 0; max-width: 760px; font-size: clamp(22px, 2.3vw, 32px); line-height: 1.28; letter-spacing: -.015em; color: var(--tx2); animation-delay: 160ms;">I build <span style="color: var(--tx);">AI-native health products</span> — and the <span style="color: var(--tx);">data platforms</span> that prove they work.</p>
+<p class="rise" style="margin: 18px 0 0; max-width: 620px; font-size: 17px; line-height: 1.6; color: var(--tx3); animation-delay: 240ms;">Product manager at Sugar.fit for GLP-1, Type 2 diabetes and Active Foods, leading a 10-analyst Central Analytics team. Before that: personalisation and serving for 230M+ devices at Glance (InMobi).</p>
+<div class="rise" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; animation-delay: 320ms;">
+<a class="cta" href="#work">See selected work<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></a>
+<a class="cta2" href="#resume"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Résumé (PDF)</a>
+</div>
+</div>
+</div>
+</section>
+
+<section aria-label="Highlights" style="border-bottom: 1px solid var(--ln);">
+<div style="max-width: 1312px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px);">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--ln);">
+<div class="rise" style="background: var(--bg); padding: 32px 28px 30px 0; animation-delay: 480ms;">
+<div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">230M+</div>
+<div style="margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--tx2);">devices personalised and served</div>
+<div style="margin-top: 10px; font-family: var(--fm); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--tx3);">Glance · InMobi</div>
+</div>
+<div class="rise" style="background: var(--bg); padding: 32px 28px 30px; animation-delay: 540ms;">
+<div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">$2M <span style="font-size: 30px; color: var(--tx3);">ARR</span></div>
+<div style="margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--tx2);">unlocked via Tracfone, Japan and Brazil</div>
+<div style="margin-top: 10px; font-family: var(--fm); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--tx3);">Glance · InMobi</div>
+</div>
+<div class="rise" style="background: var(--bg); padding: 32px 28px 30px; animation-delay: 600ms;">
+<div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">₹3.6 Cr</div>
+<div style="margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--tx2);">in month one from a GLP-1 app I built 0→1</div>
+<div style="margin-top: 10px; font-family: var(--fm); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--tx3);">Sugar.fit</div>
+</div>
+<div class="rise" style="background: var(--bg); padding: 32px 0 30px 28px; animation-delay: 660ms;">
+<div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 52px; line-height: 1;">~₹1.5 Cr<span style="font-size: 30px; color: var(--tx3);">/yr</span></div>
+<div style="margin-top: 10px; font-size: 15px; line-height: 1.45; color: var(--tx2);">saved by in-housing vendor services</div>
+<div style="margin-top: 10px; font-family: var(--fm); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--tx3);">Sugar.fit</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="work" style="max-width: 1312px; margin: 0 auto; padding: 96px clamp(20px, 4vw, 56px) 112px;">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: 40px;">
+<div>
+<div style="font-family: var(--fm); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--act);">Selected work · 9 volumes</div>
+<h2 style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: clamp(40px, 5vw, 64px); line-height: .95; text-transform: uppercase;">Shipped, measured, <span style="color: var(--tx3);">explained.</span></h2>
+</div>
+<a href="#all" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; color: var(--tx2);">All work<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+
+<a class="card" href="#vol-01" style="display: flex; flex-wrap: wrap; gap: 32px 40px; align-items: center; padding: 16px; border: 1px solid var(--ln); border-radius: 22px; background: var(--bg2);">
+<div style="flex: 999 1 520px; min-width: 0; border-radius: 14px; overflow: hidden;">
+<div class="cv" style="position: relative; aspect-ratio: 16 / 10; background: #0D1918; border-radius: 14px;">
+<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #2DD4BF; stroke-width: .7; opacity: .28;"><line x1="560" y1="250" x2="-20" y2="0"></line><line x1="560" y1="250" x2="-20" y2="90"></line><line x1="560" y1="250" x2="-20" y2="180"></line><line x1="560" y1="250" x2="-20" y2="270"></line><line x1="560" y1="250" x2="-20" y2="360"></line><line x1="560" y1="250" x2="-20" y2="450"></line><line x1="560" y1="250" x2="-20" y2="520"></line><line x1="560" y1="250" x2="200" y2="-20"></line><line x1="560" y1="250" x2="200" y2="520"></line></svg>
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 46%; height: 78%; transform: translate(-30%, -50%); fill: none; stroke: #2DD4BF; stroke-width: 1.4;">
+<rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .5;"></rect>
+<circle cx="120" cy="66" r="18"></circle>
+<path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path>
+<path d="M84 120h72M82 140h76M84 160h72M96 190h48M98 215h44M100 238h40" style="stroke-dasharray: 3 4; stroke-opacity: .55;"></path>
+<g class="scan"><rect x="56" y="54" width="128" height="2" style="fill: #2DD4BF; stroke: none;"></rect><rect x="56" y="40" width="128" height="16" style="fill: #2DD4BF; stroke: none; opacity: .12;"></rect></g>
+</svg>
+<span style="position: absolute; left: 18px; top: 18px; padding: 6px 10px; border-radius: 6px; background: #2DD4BF; color: #04211D; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.01</span>
+<span style="position: absolute; right: 18px; top: 18px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 6px; background: rgba(0,0,0,.45); color: #E6FFFA; font-size: 13px; font-weight: 500;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #2DD4BF;"></span>Shipped · AI</span>
+<span aria-hidden="true" style="position: absolute; right: 18px; bottom: -22px; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 200px; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(45,212,191,.35);">01</span>
+</div>
+</div>
+<div style="flex: 1 1 340px; min-width: 0; padding: 8px 12px 8px 0; display: flex; flex-direction: column; gap: 18px;">
+<div style="font-family: var(--fm); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--tx3);">Sugar.fit · AI-native health · 0→1</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: clamp(30px, 3vw, 42px); line-height: 1.02;">3D body scan for GLP-1 users</h3>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--tx2);">Benchmarked open-source vision models, built the pipeline end to end, and retrained on an Indian dataset we collected.</p>
+<div style="display: grid; gap: 1px; background: var(--ln); border: 1px solid var(--ln); border-radius: 12px; overflow: hidden;">
+<div style="background: var(--bg2); padding: 14px 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px;"><span style="font-size: 15px;"><span style="font-weight: 600;">±2–3 pp</span> <span style="color: var(--tx2);">body fat vs 8-electrode BIA (n=110)</span></span><span style="flex: none; padding: 3px 8px; border-radius: 4px; background: rgba(60,203,139,.12); color: var(--okt); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">ACHIEVED</span></div>
+<div style="background: var(--bg2); padding: 14px 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px;"><span style="font-size: 15px;"><span style="font-weight: 600;">₹84L–1.2Cr/yr</span> <span style="color: var(--tx2);">vendor spend cut, with rPPG and PPG</span></span><span style="flex: none; padding: 3px 8px; border-radius: 4px; background: rgba(60,203,139,.12); color: var(--okt); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">ACHIEVED</span></div>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500;">Read the case study<svg class="ico go" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+</div>
+</a>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; margin-top: 24px;">
+<a class="card" href="#vol-02" style="display: flex; flex-direction: column; gap: 22px; padding: 16px 16px 24px; border: 1px solid var(--ln); border-radius: 22px; background: var(--bg2);">
+<div style="border-radius: 14px; overflow: hidden;">
+<div class="cv" style="position: relative; aspect-ratio: 16 / 10; background: #1A140A;">
+<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #F5A524; stroke-width: .7; opacity: .26;"><line x1="400" y1="250" x2="-20" y2="20"></line><line x1="400" y1="250" x2="-20" y2="140"></line><line x1="400" y1="250" x2="-20" y2="260"></line><line x1="400" y1="250" x2="-20" y2="380"></line><line x1="400" y1="250" x2="-20" y2="500"></line><line x1="400" y1="250" x2="820" y2="20"></line><line x1="400" y1="250" x2="820" y2="160"></line><line x1="400" y1="250" x2="820" y2="340"></line><line x1="400" y1="250" x2="820" y2="480"></line></svg>
+<svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 42%; transform: translate(-50%, -50%); fill: none; stroke: #F5A524; stroke-width: 2;">
+<path d="M20 50V20h30M150 20h30v30M180 150v30h-30M50 180H20v-30"></path>
+<circle cx="100" cy="100" r="52" style="stroke-opacity: .6;"></circle>
+<circle cx="100" cy="100" r="36" style="stroke-opacity: .35;"></circle>
+<rect x="66" y="70" width="70" height="58" rx="6" style="stroke-dasharray: 5 4;"></rect>
+</svg>
+<span style="position: absolute; left: 16px; top: 16px; padding: 6px 10px; border-radius: 6px; background: #F5A524; color: #2A1A00; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.02</span>
+<span style="position: absolute; right: 16px; top: 16px; padding: 6px 10px; border-radius: 6px; background: rgba(0,0,0,.45); color: #FFF4E0; font-size: 13px; font-weight: 500;">Shipped · AI</span>
+</div>
+</div>
+<div style="padding: 0 8px; display: flex; flex-direction: column; gap: 12px;">
+<div style="font-family: var(--fm); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--tx3);">Sugar.fit · LLM · Consumer</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 30px; line-height: 1.05;">Image-based food logging</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: var(--tx2);">Gemini Flash names the dish, matched first against a verified nutrition catalogue, with a model fallback for unlisted items.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 4px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 28px; line-height: 1;">62%</span><span style="font-size: 15px; color: var(--tx2);">of all meal logs · logging +34%</span><span style="padding: 3px 8px; border-radius: 4px; background: rgba(60,203,139,.12); color: var(--okt); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">ACHIEVED</span></div>
+</div>
+</a>
+
+<a class="card" href="#vol-05" style="display: flex; flex-direction: column; gap: 22px; padding: 16px 16px 24px; border: 1px solid var(--ln); border-radius: 22px; background: var(--bg2);">
+<div style="border-radius: 14px; overflow: hidden;">
+<div class="cv" style="position: relative; aspect-ratio: 16 / 10; background: #1C0C0F;">
+<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #E8273A; stroke-width: .7; opacity: .3;"><line x1="420" y1="250" x2="-20" y2="0"></line><line x1="420" y1="250" x2="-20" y2="120"></line><line x1="420" y1="250" x2="-20" y2="250"></line><line x1="420" y1="250" x2="-20" y2="380"></line><line x1="420" y1="250" x2="-20" y2="510"></line><line x1="420" y1="250" x2="820" y2="0"></line><line x1="420" y1="250" x2="820" y2="250"></line><line x1="420" y1="250" x2="820" y2="510"></line></svg>
+<div style="position: absolute; left: 50%; top: 14%; width: 30%; height: 100%; transform: translateX(-50%); border-radius: 26px 26px 0 0; border: 2px solid rgba(255,255,255,.18); border-bottom: none; background: #F7F3EE; overflow: hidden;">
+<div style="height: 22%; background: #C7372F;"></div>
+<div style="margin: 9% 8% 0; height: 7%; border-radius: 6px; background: #E9E3DC;"></div>
+<div style="margin: 7% 8% 0; height: 13%; border-radius: 8px; background: #25B864;"></div>
+<div style="margin: 7% 8% 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div style="height: 46px; border-radius: 6px; background: #EADFD2;"></div><div style="height: 46px; border-radius: 6px; background: #EADFD2;"></div></div>
+</div>
+<span style="position: absolute; left: 16px; top: 16px; padding: 6px 10px; border-radius: 6px; background: #E8273A; color: #fff; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.05</span>
+<span style="position: absolute; right: 16px; top: 16px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 6px; background: rgba(0,0,0,.5); color: #FFECEE; font-size: 13px; font-weight: 500;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Interactive prototype</span>
+</div>
+</div>
+<div style="padding: 0 8px; display: flex; flex-direction: column; gap: 12px;">
+<div style="font-family: var(--fm); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--tx3);">Sri Mandir · Strategy + prototype</div>
+<h3 style="margin: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 30px; line-height: 1.05;">Puja engagement platform</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: var(--tx2);">WhatsApp-native booking, recommendations and a spiritual calendar to lift repeat puja orders.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 4px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 28px; line-height: 1;">+30%</span><span style="font-size: 15px; color: var(--tx2);">monthly orders per user</span><span style="padding: 3px 8px; border-radius: 4px; border: 1px solid var(--ln2); color: var(--tx2); font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">TARGET</span></div>
+</div>
+</a>
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1760}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const theme = this.props.theme ?? 'dark';
+    return { themeClass: theme === 'light' ? 'light' : '' };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Work at scale</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#101014}
+.r3{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--okt:#9BE7C4;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;--fj:'Dela Gothic One','Archivo',sans-serif;--eo:cubic-bezier(.2,.8,.2,1);-webkit-font-smoothing:antialiased}
+.r3 *{box-sizing:border-box}
+.r3 a{color:inherit;text-decoration:none}
+.r3 .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.r3 .lbl{font-family:var(--fm);font-size:13px;line-height:1.5;color:#8F8D87}
+.r3 .lbl b{color:#F2F1EE;font-weight:600}
+.r3 .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+@property --r3sh{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes r3Shine{to{--r3sh:360deg}}
+.r3 .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.r3 .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,#fff 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:r3Shine 3.5s linear infinite;filter:blur(.4px)}
+.r3 .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:r3Shine 3.5s linear infinite;filter:blur(3px)}
+.r3 .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border-radius:99px;white-space:nowrap;font-weight:500;position:relative;z-index:1;border:0;background:transparent;cursor:pointer}
+.r3 .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.r3 .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.r3 .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.r3 .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background-color .25s var(--eo),transform .25s var(--eo)}
+.r3 .cta:hover{background:#E42A3F;transform:translateY(-2px)}
+.r3 .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border:1px solid rgba(242,241,238,.25);background:rgba(11,11,14,.5);color:var(--tx);font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;transition:border-color .25s var(--eo)}
+.r3 .cta2:hover{border-color:#8F8D87}
+.r3 a:focus-visible,.r3 button:focus-visible{outline:2px solid #FF5A67;outline-offset:3px}
+.r3 .cta:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #D61F33}
+.r3 .tone{background-image:radial-gradient(rgba(242,241,238,.16) 1.2px,transparent 1.5px);background-size:8px 8px}
+.r3 .tone-r{background-image:radial-gradient(#D61F33 2px,transparent 2.4px);background-size:9px 9px}
+.r3 .ttl{font-family:var(--fd);font-stretch:62%;font-weight:900;text-transform:uppercase;color:#F2F1EE;-webkit-text-stroke:6px #0B0B0E;paint-order:stroke fill;text-shadow:8px 8px 0 #D61F33}
+.r3 .sfx{font-family:var(--fj);font-weight:400;color:#D61F33;-webkit-text-stroke:5px #F2F1EE;paint-order:stroke fill;line-height:1;white-space:nowrap;user-select:none}
+.r3 .cap{background:#F2F1EE;color:#0B0B0E;border:3px solid #0B0B0E;box-shadow:6px 6px 0 #D61F33}
+.r3 .tag{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.r3 .tag-a{background:rgba(60,203,139,.14);color:#9BE7C4}
+.r3 .tag-t{border:1px solid rgba(242,241,238,.3);color:#B9B7B1}
+.r3 .tag-p{border:1px dashed rgba(242,241,238,.4);color:#B9B7B1}
+.r3 .tag-b{background:#1D1D24;color:#B9B7B1}
+.r3 .tag-o{background:rgba(255,90,103,.14);color:#FF5A67}
+.r3 .px{transition:transform .5s var(--eo)}
+.r3 .scene{transform-style:preserve-3d;transition:transform .6s var(--eo)}
+@keyframes r3PopA{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3PopB{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3Drift{0%,100%{transform:rotateX(-2deg) rotateY(3deg)}50%{transform:rotateX(2deg) rotateY(-3deg)}}
+.r3 .drift{animation:r3Drift 9s ease-in-out infinite;transform-style:preserve-3d}
+@media (prefers-reduced-motion:reduce){.r3 .pill::before,.r3 .pill::after,.r3 .drift{animation:none}.r3 .px,.r3 .scene{transition:none}.r3 *{animation-duration:.01ms !important}}
+
+.r3 .wc{position:relative;display:flex;flex-direction:column;border:1px solid rgba(242,241,238,.09);border-radius:18px;background:#111116;overflow:hidden}
+.r3 .wc.ph{border:1.5px dashed rgba(242,241,238,.22);background:transparent}
+.r3 .cv{position:relative;aspect-ratio:16/10;overflow:hidden}
+.r3 .fc{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border:1px solid rgba(242,241,238,.18);border-radius:2px;background:transparent;color:#B9B7B1;font:500 13px/1 var(--fm);letter-spacing:.04em;cursor:pointer;white-space:nowrap}
+.r3 .fc[aria-pressed="true"]{background:#F2F1EE;color:#0B0B0E;border-color:#F2F1EE}
+.r3 .lr{display:grid;grid-template-columns:84px minmax(0,1fr) 170px 190px 210px;gap:16px;align-items:center;height:58px;padding:0 16px;border-bottom:1px solid rgba(242,241,238,.08);font-size:15px}
+.r3 .lr.h{height:40px;font-family:var(--fm);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8F8D87}
+.r3 .ctl{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1px solid rgba(242,241,238,.12);border-radius:4px;background:#16161C}
+.r3 input[type=range]{width:260px;accent-color:#D61F33}
+.r3 .seg2{display:inline-flex;border:1px solid rgba(242,241,238,.18)}
+.r3 .seg2 button{height:34px;padding:0 12px;border:0;background:transparent;color:#B9B7B1;font:500 13px/1 var(--fm);cursor:pointer}
+.r3 .seg2 button[aria-pressed="true"]{background:#F2F1EE;color:#0B0B0E}
+.r3 .rule{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;font-size:15px;line-height:1.55;color:#B9B7B1}
+.r3 .rule b{color:#F2F1EE;font-weight:600}
+.r3 .rule span:first-child{font-family:var(--fm);font-size:12px;color:#FF5A67;padding-top:3px}
+</style>
+</helmet>
+<div class="r3" style="width: 1536px; height: 3480px; padding: 44px 48px; background: #101014; color: #F2F1EE; font-family: var(--fu);">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+<div><div class="mono" style="color: #FF5A67;">Work at scale</div><h1 style="margin: 10px 0 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 76px; line-height: .9; text-transform: uppercase;">Nine volumes or ninety</h1><p style="margin: 14px 0 0; max-width: 760px; font-size: 18px; line-height: 1.5; color: #B9B7B1;">The homepage stays a curated shelf. Everything else lives on the work page, which is built to grow. Drag the slider to add projects.</p></div>
+<div style="display: grid; gap: 10px;">
+<div class="ctl"><label for="n-proj" class="mono" style="color: #B9B7B1;">Strategy shelf</label><input id="n-proj" type="range" min="2" max="40" step="1" value="{{n}}" onChange="{{onN}}"><span style="min-width: 108px; font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 24px;">{{n}} projects</span></div>
+<div class="ctl"><span class="mono" style="color: #B9B7B1;">Homepage rows</span><div class="seg2" role="group" aria-label="Rows of cards on the homepage"><button data-v="1" onClick="{{setRows}}" aria-pressed="{{r1}}">1 row</button><button data-v="2" onClick="{{setRows}}" aria-pressed="{{r2}}">2 rows</button><button data-v="3" onClick="{{setRows}}" aria-pressed="{{r3}}">3 rows</button></div><span style="font-size: 13px; color: #8F8D87;">Set per shelf in Studio › Website</span></div>
+</div>
+</div>
+
+<div class="lbl" style="margin: 40px 0 14px;"><b>Laptop · the homepage shelf.</b> The lead card across the full width, then the rows of three you choose. Past the cap, the last cell becomes “See all”, linked to the work page filtered to this shelf. If the last row has room, an “All work” tile fills it.</div>
+<section aria-label="Homepage shelf preview" style="width: 1440px; padding: 64px 120px 72px; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A;">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;"><div><div class="mono" style="color: #8F8D87;">Selected work · {{n}} strategy volumes</div><h2 style="margin: 10px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 56px; line-height: .92; text-transform: uppercase;">Strategy &amp; prototypes</h2><p style="margin: 10px 0 0; font-size: 16px; color: #B9B7B1;">Product strategy studies: research, prioritisation and a working prototype you can try.</p></div><a href="#work" style="font-family: var(--fd); font-stretch: 75%; font-weight: 600; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; border-bottom: 2px solid #D61F33; padding-bottom: 4px; white-space: nowrap;">All work →</a></div>
+<div style="margin-top: 32px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+<sc-for list="{{home}}" as="c" hint-placeholder-count="6">
+<a class="wc {{c.cls}}" href="{{c.href}}" style="grid-column: span {{c.span}};">
+<div class="cv" style="display: {{c.coverD}}; aspect-ratio: {{c.ar}}; background: {{c.lo}};"><span class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .6; -webkit-mask-image: linear-gradient(200deg, #000, transparent 60%); mask-image: linear-gradient(200deg, #000, transparent 60%);"></span><span aria-hidden="true" style="position: absolute; right: -6px; bottom: -18px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: {{c.numSize}}px; line-height: .8; color: transparent; -webkit-text-stroke: 2px {{c.hi}}; opacity: .5;">{{c.n}}</span><span style="position: absolute; left: 12px; top: 12px; padding: 4px 7px; background: {{c.hi}}; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.{{c.n}}</span><span class="mono" style="display: {{c.leadD}}; position: absolute; right: 12px; top: 14px; color: #F2F1EE; font-size: 11px;">Lead card</span></div>
+<div style="display: {{c.bodyD}}; flex-direction: column; gap: 8px; padding: 16px 18px 20px;"><div class="mono" style="color: #8F8D87; font-size: 11px;">{{c.co}}</div><div style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: {{c.tSize}}px; line-height: 1.02;">{{c.t}}</div><div style="display: {{c.metD}}; align-items: center; gap: 8px; margin-top: 2px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 20px;">{{c.m}}</span><span class="tag {{c.tc}}">{{c.tl}}</span></div></div>
+<div style="display: {{c.allD}}; flex: 1; flex-direction: column; justify-content: space-between; gap: 18px; padding: 22px; background: #16161C;"><div aria-hidden="true" style="display: flex; align-items: flex-end; gap: 5px; height: 120px;"><span style="width: 22px; height: 100%; background: #FF5A67;"></span><span style="width: 22px; height: 86%; background: #94A3B8;"></span><span style="width: 22px; height: 94%; background: #4ADE80;"></span><span style="width: 22px; height: 80%; background: #FACC15;"></span><span style="width: 22px; height: 90%; background: #A3E635;"></span><span style="width: 22px; height: 76%; border: 1.5px dashed rgba(242,241,238,.35);"></span><span style="width: 22px; height: 88%; border: 1.5px dashed rgba(242,241,238,.35);"></span></div><div><div style="font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 34px; line-height: .95; text-transform: uppercase;">{{c.allT}}<span style="color: #D61F33;"> →</span></div><div style="margin-top: 8px; font-size: 14px; color: #B9B7B1;">{{c.allS}}</div></div></div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<div class="lbl" style="margin: 56px 0 14px;"><b>Laptop · the work page (/work).</b> A dense list scales better than cards: filter by shelf, company, topic or label, search, sort, and load 24 at a time. The list keeps your order unless you sort.</div>
+<section aria-label="Work page preview" style="width: 1440px; padding: 110px 120px 56px; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A; position: relative;">
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%);"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work" aria-current="true">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+<div class="mono" style="color: #8F8D87;">All work</div>
+<h2 style="margin: 10px 0 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 72px; line-height: .9; text-transform: uppercase;">{{total}} volumes</h2>
+<div style="margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+<button class="fc" data-f="all" onClick="{{setF}}" aria-pressed="{{fAll}}">All {{total}}</button><button class="fc" data-f="ship" onClick="{{setF}}" aria-pressed="{{fShip}}">Shipped 4</button><button class="fc" data-f="strat" onClick="{{setF}}" aria-pressed="{{fStrat}}">Strategy &amp; prototypes {{n}}</button>
+<span style="width: 1px; height: 24px; background: rgba(242,241,238,.15); margin: 0 6px;"></span>
+<button class="fc">Company ▾</button><button class="fc">Topic ▾</button><button class="fc">Label ▾</button>
+<label style="margin-left: auto;"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Search work</span><input type="search" placeholder="Search {{total}} volumes" style="width: 260px; height: 36px; padding: 0 12px; border: 1px solid rgba(242,241,238,.18); background: #111116; color: #F2F1EE; font: 400 14px/1 var(--fu);"></label>
+<button class="fc">Your order ▾</button>
+</div>
+<div style="margin-top: 20px; border-top: 1px solid rgba(242,241,238,.12);">
+<div class="lr h"><span>Vol</span><span>Project</span><span>Company</span><span>Shelf</span><span style="text-align: right;">Headline</span></div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="10"><a class="lr" href="{{r.href}}" style="opacity: {{r.op}};"><span style="font-family: var(--fm); font-size: 13px; color: #FF5A67;">VOL.{{r.n}}</span><span style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.t}}</span><span style="font-size: 14px; color: #B9B7B1;">{{r.co}}</span><span style="font-size: 13px; color: #8F8D87;">{{r.shelf}}</span><span style="display: flex; align-items: center; justify-content: flex-end; gap: 8px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 18px; white-space: nowrap;">{{r.m}}</span><span class="tag {{r.tc}}" style="display: {{r.tagD}};">{{r.tl}}</span></span></a></sc-for>
+</div>
+<div style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between;"><span style="font-size: 14px; color: #8F8D87;">Showing {{shown}} of {{filtered}}</span><button class="cta2" onClick="{{more}}" style="display: {{moreD}}; height: 44px;">Load {{nextCount}} more</button></div>
+</section>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+<div>
+<div class="lbl" style="margin-bottom: 14px; max-width: 390px;"><b>Mobile · the homepage shelf.</b> The lead card, then the same projects the laptop shelf shows, as compact rows. Past the cap, the last row becomes “See all”.</div>
+<div style="position: relative; width: 390px; height: 820px; overflow: hidden; border-radius: 46px; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A;">
+<div style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 5;"><nav class="pill" aria-label="Primary"><button class="pl" aria-expanded="false" style="padding: 10px 18px;">Menu</button><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact" style="padding: 10px 18px;">Let’s Talk →</a></nav></div>
+<div style="position: absolute; left: 20px; right: 20px; top: 96px;">
+<div class="mono" style="color: #8F8D87; font-size: 11px;">{{n}} strategy volumes</div>
+<h2 style="margin: 8px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 34px; line-height: .95; text-transform: uppercase;">Strategy &amp; prototypes</h2>
+<a class="wc" href="{{mlead.href}}" style="margin-top: 16px;"><div class="cv" style="aspect-ratio: 16 / 8; background: {{mlead.lo}};"><span class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .6; -webkit-mask-image: linear-gradient(200deg, #000, transparent 60%); mask-image: linear-gradient(200deg, #000, transparent 60%);"></span><span style="position: absolute; left: 10px; top: 10px; padding: 3px 6px; background: {{mlead.hi}}; color: #0B0B0E; font-family: var(--fm); font-size: 10px; font-weight: 600; letter-spacing: .06em;">VOL.{{mlead.n}}</span><span class="mono" style="position: absolute; right: 10px; top: 12px; color: #F2F1EE; font-size: 10px;">Lead card</span></div><div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 14px 16px;"><div class="mono" style="color: #8F8D87; font-size: 10px;">{{mlead.co}}</div><div style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 24px; line-height: 1.02;">{{mlead.t}}</div><div style="display: flex; align-items: center; gap: 8px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 18px;">{{mlead.m}}</span><span class="tag {{mlead.tc}}">{{mlead.tl}}</span></div></div></a>
+<div style="margin-top: 6px;"><sc-for list="{{mlist}}" as="r" hint-placeholder-count="5"><a href="{{r.href}}" style="display: flex; align-items: center; gap: 12px; height: 48px; border-bottom: 1px solid rgba(242,241,238,.08); opacity: {{r.op}};"><span style="width: 22px; font-family: var(--fm); font-size: 12px; color: #FF5A67;">{{r.n}}</span><span style="flex: 1; min-width: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.t}}</span><span class="tag {{r.tc}}" style="display: {{r.tagD}};">{{r.tl}}</span></a></sc-for></div>
+<a href="{{mallH}}" style="display: {{mallD}}; align-items: center; justify-content: space-between; height: 52px; border-bottom: 1px solid rgba(242,241,238,.08); font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 20px; text-transform: uppercase;">{{mallT}}<span style="color: #D61F33;">→</span></a>
+</div>
+</div>
+</div>
+<div>
+<div class="lbl" style="margin-bottom: 14px; max-width: 390px;"><b>Mobile · the work page.</b> The same list as the laptop, 24 at a time, with filters in a bottom sheet.</div>
+<div style="position: relative; width: 390px; height: 820px; overflow: hidden; border-radius: 46px; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A;">
+<div style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 5;"><nav class="pill" aria-label="Primary"><button class="pl" aria-expanded="false" style="padding: 10px 18px;">Menu</button><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact" style="padding: 10px 18px;">Let’s Talk →</a></nav></div>
+<div style="position: absolute; left: 20px; right: 20px; top: 96px;">
+<div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 26px; text-transform: uppercase;">All work · {{total}}</span><button class="fc" style="height: 34px;">Filters (1)</button></div>
+<div style="margin-top: 10px; border-top: 1px solid rgba(242,241,238,.12);"><sc-for list="{{mrows}}" as="r" hint-placeholder-count="11"><div style="display: flex; align-items: center; gap: 12px; height: 54px; border-bottom: 1px solid rgba(242,241,238,.08); opacity: {{r.op}};"><span style="font-family: var(--fm); font-size: 12px; color: #FF5A67;">{{r.n}}</span><span style="flex: 1; min-width: 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.t}}</span><span class="tag {{r.tc}}" style="display: {{r.tagD}};">{{r.tl}}</span></div></sc-for></div>
+</div>
+</div>
+</div>
+
+<div style="flex: 1; display: grid; gap: 18px; align-content: start;">
+<div class="lbl"><b>The rules</b></div>
+<div class="rule"><span>01</span><span><b>Your order, everywhere.</b> Drag projects in Studio (or use ↑ ↓). Volume numbers follow the order; links use each project’s address, so reordering never breaks a shared link.</span></div>
+<div class="rule"><span>02</span><span><b>The homepage is a cap, not a list.</b> Each shelf shows its lead card plus one, two or three rows of three. Past the cap, the last cell turns into “See all N”; a gap in the last row gets an “All work” tile. Phones show the same projects.</span></div>
+<div class="rule"><span>03</span><span><b>The work page carries the rest.</b> It holds every published project in a compact list, with filters, search, sort and 24 at a time. Past a hundred rows it virtualises, so it stays fast.</span></div>
+<div class="rule"><span>04</span><span><b>Shelves are yours too.</b> Add a shelf (for example “Side projects”), rename one, reorder shelves, or turn one off. A shelf with nothing published hides itself.</span></div>
+<div class="rule"><span>05</span><span><b>Lead card per shelf.</b> The first published project opens each shelf as a large card. Drag another to the top, or star it in Studio.</span></div>
+<div class="rule"><span>06</span><span><b>Light by default.</b> The homepage loads only the covers it shows. Covers further down the work page load as you scroll.</span></div>
+<div class="rule"><span>07</span><span><b>Phones get a list, not a rail.</b> Each shelf shows its lead card, then compact rows, capped like the laptop shelf. Nothing hides off to the side. The work page stays a list, with filters in a bottom sheet.</span></div>
+<div style="margin-top: 8px; padding: 16px 18px; border: 1px dashed rgba(242,241,238,.25); font-size: 14px; line-height: 1.55; color: #B9B7B1;">Cards after your nine real projects are placeholders, shown dashed, to demonstrate the layout.</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":3480}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.V = [{"n": "01", "t": "3D body scan for GLP-1 users", "co": "Sugar.fit", "k": "Shipped · AI", "m": "±2–3 pp", "ml": "body fat vs 8-electrode BIA (n=110)", "tag": "a", "tl": "ACHIEVED", "hi": "#2DD4BF", "lo": "#0F3D38", "href": "#vol-01"}, {"n": "02", "t": "Image-based food logging", "co": "Sugar.fit", "k": "Shipped · LLM", "m": "62%", "ml": "of all meal logs", "tag": "a", "tl": "ACHIEVED", "hi": "#F5A524", "lo": "#5A3A0A", "href": "#vol-02"}, {"n": "03", "t": "The CGM journey, end to end", "co": "Sugar.fit", "k": "Shipped · Hardware to app", "m": "42 → 72", "ml": "CSAT · ₹3.2 Cr saved YoY", "tag": "a", "tl": "ACHIEVED", "hi": "#38BDF8", "lo": "#0B4A6B", "href": "#vol-03"}, {"n": "04", "t": "The GLP-1 app, 0→1", "co": "Sugar.fit", "k": "Shipped · 0→1", "m": "52%", "ml": "renewal · ₹3.6 Cr in month one", "tag": "a", "tl": "ACHIEVED", "hi": "#A78BFA", "lo": "#3E2A7A", "href": "#vol-04"}, {"n": "05", "t": "Puja engagement platform", "co": "Sri Mandir", "k": "Strategy + prototype", "m": "+30%", "ml": "monthly orders per user", "tag": "t", "tl": "TARGET", "hi": "#FF5A67", "lo": "#3A0C12", "href": "CaseStudy.dc.html"}, {"n": "06", "t": "Arcana Workspace", "co": "Arcana", "k": "0→1 · B2B prototype", "m": "7", "ml": "priority widgets designed", "tag": "o", "tl": "OUTPUT", "hi": "#94A3B8", "lo": "#1E293B", "href": "#vol-06"}, {"n": "07", "t": "GLP-1 digital scaffold", "co": "GLP Health", "k": "Strategy", "m": "64%", "ml": "users losing >1 kg today", "tag": "b", "tl": "BASELINE", "hi": "#4ADE80", "lo": "#14532D", "href": "#vol-07"}, {"n": "08", "t": "Word games monetisation", "co": "Playsimple", "k": "Strategy + prototype", "m": "6.5M → 8.8M", "ml": "monthly active users", "tag": "t", "tl": "TARGET", "hi": "#FACC15", "lo": "#713F12", "href": "#vol-08"}, {"n": "09", "t": "Revenue growth strategy", "co": "Zynga", "k": "Strategy + prototype", "m": "+$50–65K", "ml": "net new revenue a month", "tag": "p", "tl": "PROJECTED", "hi": "#A3E635", "lo": "#365314", "href": "#vol-09"}];
+    this.state = { n: 12, rows: 2, f: 'all', page: 1 };
+    ['onN', 'setRows', 'setF', 'more'].forEach((k) => { this[k] = this[k].bind(this); });
+  }
+  onN(e) { this.setState({ n: +e.target.value, page: 1 }); }
+  setRows(e) { this.setState({ rows: +e.currentTarget.getAttribute('data-v') }); }
+  setF(e) { this.setState({ f: e.currentTarget.getAttribute('data-f'), page: 1 }); }
+  more() { this.setState({ page: this.state.page + 1 }); }
+  strat(n) {
+    const real = this.V.slice(4);
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const v = real[i];
+      out.push(v ? Object.assign({ ph: false }, v) : { ph: true, n: String(i + 5).padStart(2, '0'), t: '[Your next project]', co: 'Placeholder', m: '', tag: '', tl: '', hi: '#4A4A51', lo: '#16161C', href: '#' });
+    }
+    return out;
+  }
+  renderVals() {
+    // The standard shelf: a full-width lead card, then rows of three. Cap = 1 + 3 × rows.
+    const s = this.state, strat = this.strat(s.n), cap = 1 + s.rows * 3;
+    const overflow = s.n > cap;
+    const showN = overflow ? cap - 1 : s.n;
+    const gap = overflow ? 0 : (3 - ((showN - 1) % 3)) % 3;
+    const card = (v, i) => ({
+      cls: v.ph ? 'ph' : '', href: v.href, span: i === 0 ? 3 : 1, n: v.n, t: v.t, co: v.co, m: v.m, tc: 'tag-' + v.tag, tl: v.tl, hi: v.hi, lo: v.lo,
+      coverD: 'block', bodyD: 'flex', allD: 'none', leadD: i === 0 && !v.ph ? 'inline' : 'none', metD: v.ph ? 'none' : 'flex',
+      ar: i === 0 ? '16 / 5' : '16 / 10', numSize: i === 0 ? 220 : 130, tSize: i === 0 ? 34 : 24, allT: '', allS: ''
+    });
+    const home = strat.slice(0, showN).map(card);
+    const tile = (span, href, allT, allS) => ({ cls: '', href, span, n: '', t: '', co: '', m: '', tc: '', tl: '', hi: '', lo: '', coverD: 'none', bodyD: 'none', allD: 'flex', leadD: 'none', metD: 'none', ar: '16 / 10', numSize: 0, tSize: 0, allT, allS });
+    const ship = this.V.slice(0, 4).map((v) => Object.assign({ ph: false }, v));
+    const total = ship.length + s.n;
+    if (overflow) home.push(tile(1, '#work?shelf=strategy', 'See all ' + s.n, (s.n - showN) + ' more on the work page, with filters, search and sort.'));
+    else if (gap) home.push(tile(gap, '#work', 'All work · ' + total, 'Every project in one list, with filters.'));
+    const all = ship.map((v) => Object.assign({ shelf: 'Shipped' }, v)).concat(strat.map((v) => Object.assign({ shelf: 'Strategy & prototypes' }, v)));
+    const filtered = s.f === 'all' ? all : (s.f === 'ship' ? all.filter((v) => v.shelf === 'Shipped') : all.filter((v) => v.shelf !== 'Shipped'));
+    const per = 24, shown = Math.min(filtered.length, per * s.page);
+    const rows = filtered.slice(0, shown).map((v) => ({ n: v.n, t: v.t, co: v.co, shelf: v.shelf, m: v.ph ? '—' : v.m, tc: 'tag-' + v.tag, tl: v.tl, tagD: v.ph ? 'none' : 'inline-flex', op: v.ph ? 0.55 : 1, href: v.href }));
+    const mlist = strat.slice(1, showN).map((v) => ({ href: v.href, n: v.n, t: v.t, tc: 'tag-' + v.tag, tl: v.tl, tagD: v.ph ? 'none' : 'inline-flex', op: v.ph ? 0.55 : 1 }));
+    const mrows = all.slice(0, 11).map((v) => ({ n: v.n, t: v.t, tc: 'tag-' + v.tag, tl: v.tl, tagD: v.ph ? 'none' : 'inline-flex', op: v.ph ? 0.55 : 1 }));
+    return {
+      n: s.n, onN: this.onN, setRows: this.setRows, r1: s.rows === 1 ? 'true' : 'false', r2: s.rows === 2 ? 'true' : 'false', r3: s.rows === 3 ? 'true' : 'false',
+      home, rows, total: all.length, filtered: filtered.length, shown, more: this.more, moreD: shown < filtered.length ? 'inline-flex' : 'none', nextCount: Math.min(per, filtered.length - shown),
+      setF: this.setF, fAll: s.f === 'all' ? 'true' : 'false', fShip: s.f === 'ship' ? 'true' : 'false', fStrat: s.f === 'strat' ? 'true' : 'false',
+      mlead: home[0], mlist, mallD: overflow || gap ? 'flex' : 'none', mallT: overflow ? 'See all ' + s.n : 'All work · ' + total, mallH: overflow ? '#work?shelf=strategy' : '#work', mrows
+    };
+  }
+}
+</script>
+</body>
+</html>

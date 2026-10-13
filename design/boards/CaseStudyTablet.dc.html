@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case study — iPad</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.va{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--pa:#E8273A;--okt:#9BE7C4;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.va *{box-sizing:border-box}
+.va a{color:var(--tx);text-decoration:none}
+.va .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.va .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.va .chn{font-family:var(--fd);font-stretch:62%;font-weight:800;font-size:26px;line-height:1;color:var(--pa)}
+.va .cht{margin:8px 0 0;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:36px;line-height:1.02}
+.va .rd{font-size:18px;line-height:1.65;color:var(--tx2)}
+.va .ch{padding-top:60px}
+.va .tag-t{flex:none;padding:3px 8px;border-radius:4px;border:1px solid var(--ln2);color:var(--tx2);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .tag-s{flex:none;padding:3px 8px;border-radius:4px;background:var(--sf2);color:var(--tx2);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.va .slot{border:1px dashed rgba(242,181,58,.5);background:rgba(242,181,58,.06);color:#F2C66B;border-radius:10px}
+.va .rice td,.va .rice th{padding:12px 12px;border-bottom:1px solid var(--ln);text-align:left}
+.va .rice th{font-family:var(--fm);font-size:12px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--tx3)}
+.va .rice td.n{font-family:var(--fm);font-size:14px;color:var(--tx2)}
+@property --vash{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes vaShine{to{--vash:360deg}}
+.va .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.va .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,rgba(255,255,255,1) 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:vaShine 3.5s linear infinite;filter:blur(.4px)}
+.va .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--vash,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:vaShine 3.5s linear infinite;filter:blur(3px)}
+.va .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75) !important;padding:8px 18px;border:0;border-radius:99px;background:transparent;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.va .pl.on{color:#F0EEF8 !important;font-weight:600;background:rgba(240,238,248,.14)}
+.va .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.va .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff !important;padding:8px 18px;border-radius:94px;margin-left:1px;flex-shrink:0;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.va .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 28px;border:0;border-radius:2px;background:#D61F33;color:#fff !important;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.va .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border:1px solid rgba(242,241,238,.25);border-radius:2px;background:transparent;color:#F2F1EE !important;font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.va .pill::before,.va .pill::after{animation:none}}
+</style>
+</helmet>
+<div class="va" style="width: 834px; height: 7400px; overflow: hidden; background: var(--bg); color: var(--tx); font-family: var(--fu);">
+
+<div style="position: relative; z-index: 5; height: 0;"><nav class="pill" aria-label="Primary" style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%);"><a class="pl on" href="#work" aria-current="true">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+
+<section style="padding: 104px 32px 0;">
+<a href="#work" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; color: var(--tx2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M19 12H5M11 18l-6-6 6-6"></path></svg>All work</a>
+<div style="margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;"><span style="padding: 6px 10px; border-radius: 6px; background: var(--pa); color: #fff; font-family: var(--fm); font-size: 12px; font-weight: 600;">VOL.05</span><span style="height: 28px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--ln2); display: inline-flex; align-items: center; font-size: 13px; color: var(--tx2);">Strategy assignment + prototype</span></div>
+<h1 style="margin: 20px 0 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 66px; line-height: .96;">Puja engagement platform</h1>
+<p style="margin: 18px 0 0; font-size: 21px; line-height: 1.42; color: var(--tx2);">How might Sri Mandir increase monthly puja orders per user? A WhatsApp-native booking flow, a recommendation engine and a spiritual calendar — prioritised with RICE and prototyped end to end.</p>
+<dl style="margin: 28px 0 0; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--ln); border: 1px solid var(--ln); border-radius: 14px; overflow: hidden;">
+<div style="background: var(--bg); padding: 14px 16px;"><dt class="mono">Company</dt><dd style="margin: 6px 0 0; font-size: 15px;">Sri Mandir</dd></div>
+<div style="background: var(--bg); padding: 14px 16px;"><dt class="mono">My role</dt><dd class="slot" style="margin: 6px 0 0; padding: 3px 8px; font-size: 14px;">Add in Studio</dd></div>
+<div style="background: var(--bg); padding: 14px 16px;"><dt class="mono">Timeline</dt><dd class="slot" style="margin: 6px 0 0; padding: 3px 8px; font-size: 14px;">Add in Studio</dd></div>
+</dl>
+</section>
+
+<section aria-label="Interactive prototype" style="padding: 28px 32px 0;">
+<div style="border-radius: 22px; border: 1px solid var(--ln); background: #120A0C; padding: 36px 32px 32px;">
+<div style="display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: center;">
+<div style="width: 300px; height: 520px; border-radius: 42px; background: #050506; box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 30px 60px rgba(0,0,0,.5); padding: 12px;">
+<div style="position: relative; height: 100%; border-radius: 32px; overflow: hidden; background: #F7F3EE; color: #2A1C17;">
+<div style="background: #C7372F; color: #fff; padding: 28px 16px 14px;"><div style="font-size: 18px; font-weight: 700;">Sri Mandir</div><div style="margin-top: 3px; font-size: 12px; opacity: .9;">Bengaluru, Karnataka</div></div>
+<div style="margin: 12px 12px 0; height: 36px; border-radius: 10px; background: #fff; border: 1px solid #E6DED5;"></div>
+<div style="margin: 12px 12px 0; padding: 12px; border-radius: 14px; background: #25B864; color: #fff; font-size: 13px; font-weight: 700;">Book pujas on WhatsApp</div>
+<div style="margin: 12px 12px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div style="height: 120px; border-radius: 12px; background: #EADFD2;"></div><div style="height: 120px; border-radius: 12px; background: #EADFD2;"></div></div>
+<div style="position: absolute; inset: 0; background: rgba(10,6,7,.35); display: grid; place-items: center;"><span style="width: 72px; height: 72px; border-radius: 50%; background: #F2F1EE; color: #0B0B0E; display: grid; place-items: center; box-shadow: 0 0 0 10px rgba(242,241,238,.16);"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px; fill: currentColor; margin-left: 4px;"><path d="M8 5v14l11-7z"></path></svg></span></div>
+</div>
+</div>
+<div>
+<div class="mono" style="color: #FF8A93;">Interactive prototype · 7 screens</div>
+<h2 style="margin: 12px 0 0; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 32px; line-height: 1.04; color: #F2F1EE;">Seven screens from the PRD, built to be clicked.</h2>
+<p style="margin: 12px 0 0; font-size: 15px; line-height: 1.55; color: #B9B7B1;">Home, recommendations, video feed, booking, WhatsApp, spiritual calendar, education and trust.</p>
+<div style="display: grid; gap: 10px; margin-top: 22px;">
+<button class="cta" style="display: flex; width: 100%;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Explore the prototype</button>
+<a class="cta2" href="#open-proto" style="display: flex;">Open in a new tab<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M7 17L17 7M8 7h9v9"></path></svg></a>
+</div>
+<p style="margin: 14px 0 0; font-size: 13px; color: #8F8D87;">Plays inline in landscape; expands to full screen in portrait.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section aria-label="Summary" style="padding: 28px 32px 0;">
+<div style="border: 1px solid var(--ln); border-radius: 18px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding: 18px 20px; border-bottom: 1px solid var(--ln); background: var(--bg2);"><span class="mono" style="padding-top: 3px;">The problem</span><span style="font-size: 15px; line-height: 1.55; color: var(--tx2);">Generic discovery, low awareness, thin trust signals and Hindi/English-only flows.</span></div>
+<div style="display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding: 18px 20px; border-bottom: 1px solid var(--ln); background: var(--bg2);"><span class="mono" style="padding-top: 3px;">What I proposed</span><span style="font-size: 15px; line-height: 1.55; color: var(--tx2);">WhatsApp-native booking and education, recommendations, a video feed and a spiritual calendar — ranked with RICE.</span></div>
+<div style="display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding: 18px 20px; background: var(--bg2);"><span class="mono" style="padding-top: 3px;">Success measures</span><span style="display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 15px;"><span style="display: flex; align-items: center; gap: 8px;"><span style="font-weight: 600;">+30%</span><span style="color: var(--tx2);">orders/user</span><span class="tag-t">TARGET</span></span><span style="display: flex; align-items: center; gap: 8px;"><span style="font-weight: 600;">12%</span><span style="color: var(--tx2);">WhatsApp conversion</span><span class="tag-t">TARGET</span></span><span style="display: flex; align-items: center; gap: 8px;"><span style="font-weight: 600;">5</span><span style="color: var(--tx2);">languages</span><span class="tag-t">TARGET</span></span></span></div>
+</div>
+</section>
+
+<div style="margin-top: 36px; padding: 0 32px; border-top: 1px solid var(--ln); border-bottom: 1px solid var(--ln); background: rgba(11,11,14,.96);">
+<button aria-haspopup="listbox" aria-label="Jump to chapter" style="width: 100%; height: 60px; display: flex; align-items: center; gap: 14px; border: 0; background: transparent; color: var(--tx); font: 500 15px/1 var(--fu); text-align: left;"><span style="font-family: var(--fm); font-size: 12px; color: var(--pa);">01 / 08</span><span>Objective</span><span style="margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--tx3);">Chapters<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M6 9l6 6 6-6"></path></svg></span></button>
+<div style="height: 2px; margin: 0 -32px; background: var(--ln);"><div style="width: 8%; height: 2px; background: var(--pa);"></div></div>
+</div>
+<p style="margin: 8px 32px 0; font-family: var(--fm); font-size: 12px; color: var(--tx3);">Sticky chapter bar replaces the laptop side rail.</p>
+
+<article style="padding: 0 32px 72px;">
+<section class="ch">
+<div class="chn">01</div><h2 class="cht">Objective</h2>
+<p class="rd" style="margin: 14px 0 0;">Improve <span style="color: var(--tx);">order frequency — monthly puja orders per user</span> — for Sri Mandir’s puja service.</p>
+<div style="margin-top: 18px; padding: 18px 20px; border-radius: 14px; border: 1px solid var(--ln); background: var(--bg2);"><div class="mono" style="margin-bottom: 10px;">Assumptions</div><ul style="margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 15px; line-height: 1.55; color: var(--tx2);"><li>Rituals are authentic; the challenge is proving it online.</li><li>The stack can support personalisation and localisation.</li><li>Booking history, location and preferences are available.</li><li>Devotees want ongoing connection, not only one-off help.</li></ul></div>
+</section>
+
+<section class="ch">
+<div class="chn">02</div><h2 class="cht">Who we’re solving for</h2>
+<p class="rd" style="margin: 14px 0 0;">Seven segments, three prioritised.</p>
+<div style="margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+<div style="padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid rgba(232,39,58,.35);"><div class="mono" style="color: #FF8A93;">Priority 1</div><div style="margin-top: 8px; font-size: 16px; font-weight: 600; line-height: 1.3;">Time-constrained professionals and Gen Z</div></div>
+<div style="padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid rgba(232,39,58,.35);"><div class="mono" style="color: #FF8A93;">Priority 2</div><div style="margin-top: 8px; font-size: 16px; font-weight: 600; line-height: 1.3;">Devotees seeking regular practice</div></div>
+<div style="padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid rgba(232,39,58,.35);"><div class="mono" style="color: #FF8A93;">Priority 3</div><div style="margin-top: 8px; font-size: 16px; font-weight: 600; line-height: 1.3;">Non-technological regular devotees</div></div>
+</div>
+</section>
+
+<section class="ch">
+<div class="chn">03</div><h2 class="cht">What’s broken today</h2>
+<div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--ln); border: 1px solid var(--ln); border-radius: 14px; overflow: hidden;">
+<div style="background: var(--bg); padding: 16px 18px;"><div style="font-size: 16px; font-weight: 600;">Generic discovery</div><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--tx2);">No recommendations from history or location.</p></div>
+<div style="background: var(--bg); padding: 16px 18px;"><div style="font-size: 16px; font-weight: 600;">Low awareness</div><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--tx2);">The puja service is hard to discover.</p></div>
+<div style="background: var(--bg); padding: 16px 18px;"><div style="font-size: 16px; font-weight: 600;">Thin trust signals</div><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--tx2);">Payments, prasad quality, incorrect gotra.</p></div>
+<div style="background: var(--bg); padding: 16px 18px;"><div style="font-size: 16px; font-weight: 600;">Language barrier</div><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--tx2);">Hindi and English only.</p></div>
+<div style="background: var(--bg); padding: 16px 18px;"><div style="font-size: 16px; font-weight: 600;">Learning curve</div><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--tx2);">Unfamiliar multi-step flows.</p></div>
+<div style="background: var(--bg); padding: 16px 18px;"><div style="font-size: 16px; font-weight: 600;">No urgency cues</div><p style="margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--tx2);">No timers or “most picked” guidance.</p></div>
+</div>
+</section>
+
+<section class="ch">
+<div class="chn">04</div><h2 class="cht">Prioritisation</h2>
+<p class="rd" style="margin: 14px 0 0;">Reach × Impact × Confidence ÷ Effort. The top three became the plan.</p>
+<div style="margin-top: 16px; border: 1px solid var(--ln); border-radius: 14px; overflow: hidden;">
+<table class="rice" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+<thead style="background: var(--bg2);"><tr><th>Feature</th><th>R</th><th>I</th><th>C</th><th>E</th><th>RICE</th></tr></thead>
+<tbody>
+<tr style="background: rgba(232,39,58,.08);"><td style="font-weight: 600;">1 · WhatsApp integration</td><td class="n">9</td><td class="n">2.5</td><td class="n">85%</td><td class="n">2 mo</td><td class="n" style="color: var(--tx); font-weight: 600;">9.6</td></tr>
+<tr style="background: rgba(232,39,58,.08);"><td style="font-weight: 600;">2 · Product education</td><td class="n">7</td><td class="n">2</td><td class="n">65%</td><td class="n">1 mo</td><td class="n" style="color: var(--tx); font-weight: 600;">9.1</td></tr>
+<tr style="background: rgba(232,39,58,.08);"><td style="font-weight: 600;">3 · Recommendation engine</td><td class="n">9</td><td class="n">2.7</td><td class="n">90%</td><td class="n">3 mo</td><td class="n" style="color: var(--tx); font-weight: 600;">7.3</td></tr>
+<tr><td>4 · Video feed</td><td class="n">9</td><td class="n">2.5</td><td class="n">95%</td><td class="n">3 mo</td><td class="n">7.1</td></tr>
+<tr><td>5 · Spiritual calendar</td><td class="n">9</td><td class="n">2</td><td class="n">95%</td><td class="n">2.5 mo</td><td class="n">6.8</td></tr>
+<tr><td style="color: var(--tx3);">+ 4 more</td><td colspan="5" style="font-size: 14px; color: var(--tx3);"><a href="#more" style="color: var(--act);">Show all nine</a></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="ch">
+<div class="chn">05</div><h2 class="cht">The bet: WhatsApp-native booking</h2>
+<p class="rd" style="margin: 14px 0 0;">Conversational education and booking, without leaving the chat.</p>
+<ol style="margin: 18px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+<li style="padding: 14px 12px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--ln); font-size: 14px; line-height: 1.35;"><div style="font-family: var(--fm); font-size: 12px; color: #FF8A93;">1</div>Tap the menu</li>
+<li style="padding: 14px 12px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--ln); font-size: 14px; line-height: 1.35;"><div style="font-family: var(--fm); font-size: 12px; color: #FF8A93;">2</div>Browse pujas</li>
+<li style="padding: 14px 12px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--ln); font-size: 14px; line-height: 1.35;"><div style="font-family: var(--fm); font-size: 12px; color: #FF8A93;">3</div>Pick a package</li>
+<li style="padding: 14px 12px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--ln); font-size: 14px; line-height: 1.35;"><div style="font-family: var(--fm); font-size: 12px; color: #FF8A93;">4</div>Pay via link</li>
+<li style="padding: 14px 12px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--ln); font-size: 14px; line-height: 1.35;"><div style="font-family: var(--fm); font-size: 12px; color: #FF8A93;">5</div>Confirmation</li>
+</ol>
+<div style="margin-top: 12px; display: flex; align-items: center; gap: 20px; padding: 18px 20px; border-radius: 14px; border: 1px solid var(--ln); background: var(--bg2);"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 54px; line-height: 1;">60s</span><span style="flex: 1; font-size: 15px; line-height: 1.5; color: var(--tx2);">From tap to confirmed puja, in WhatsApp.</span><span class="tag-t">TARGET</span></div>
+</section>
+
+<section class="ch">
+<div class="chn">06</div><h2 class="cht">Recommendations, from cold start</h2>
+<div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+<div style="padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid var(--ln);"><div class="mono">No user data yet</div><ul style="margin: 12px 0 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.5; color: var(--tx2);"><li>Most-booked in the user’s city</li><li>Upcoming festivals</li><li>What’s trending</li></ul></div>
+<div style="padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid var(--ln);"><div class="mono">When we know the user</div><ul style="margin: 12px 0 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.5; color: var(--tx2);"><li>Gotra and important dates</li><li>Date-based suggestions</li><li>A “For you” carousel</li></ul></div>
+</div>
+</section>
+
+<section class="ch">
+<div class="chn">07</div><h2 class="cht">My role and decisions</h2>
+<div style="margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+<div style="padding: 16px; border-radius: 14px; border: 1px solid var(--ln);"><div class="mono" style="color: var(--tx);">I owned</div><div class="slot" style="margin-top: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.5;">Your input needed</div></div>
+<div style="padding: 16px; border-radius: 14px; border: 1px solid var(--ln);"><div class="mono" style="color: var(--tx);">I partnered on</div><div class="slot" style="margin-top: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.5;">Your input needed</div></div>
+<div style="padding: 16px; border-radius: 14px; border: 1px solid var(--ln);"><div class="mono" style="color: var(--tx);">Team or business</div><div class="slot" style="margin-top: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.5;">Your input needed</div></div>
+</div>
+</section>
+
+<section class="ch">
+<div class="chn">08</div><h2 class="cht">Learnings and next steps</h2>
+<div class="slot" style="margin-top: 14px; padding: 14px 16px; font-size: 14px; line-height: 1.55;">Your input needed. Empty chapters are hidden on the live site.</div>
+</section>
+</article>
+
+<section style="padding: 40px 32px; border-top: 1px solid var(--ln); display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<a href="#vol-04" style="padding: 20px; border-radius: 16px; border: 1px solid var(--ln); background: var(--bg2);"><div class="mono">← VOL.04</div><div style="margin-top: 10px; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 24px; line-height: 1.05;">The GLP-1 app, 0→1</div></a>
+<a href="#vol-06" style="padding: 20px; border-radius: 16px; border: 1px solid var(--ln); background: var(--bg2); text-align: right;"><div class="mono">VOL.06 →</div><div style="margin-top: 10px; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 24px; line-height: 1.05;">Arcana Workspace</div></a>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":834,"height":7400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

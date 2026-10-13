@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 2 · Shōnen Manga</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Zen+Kaku+Gothic+New:wght@400;500;700;900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.mg{--paper:#F2EEE4;--ink:#121212;--red:#E8273A;--tx2:#3A3733;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Zen Kaku Gothic New',system-ui,sans-serif;--fm:'JetBrains Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.mg *{box-sizing:border-box}
+.mg a{color:inherit;text-decoration:none}
+.mg .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.mg .lbl{font-family:var(--fm);font-size:13px;color:#6E6A63}
+.mg .panel{position:absolute;background:#FBF9F4;border:4px solid var(--ink);overflow:hidden}
+.mg .tone{background-image:radial-gradient(var(--ink) 1.15px,transparent 1.35px);background-size:7px 7px}
+.mg .tone-r{background-image:radial-gradient(var(--red) 1.3px,transparent 1.5px);background-size:8px 8px}
+.mg .title{font-family:var(--fd);font-stretch:62%;font-weight:900;text-transform:uppercase;color:var(--ink);-webkit-text-stroke:4px #FBF9F4;paint-order:stroke fill;text-shadow:7px 7px 0 var(--red)}
+.mg .cap{background:#fff;border:3px solid var(--ink);padding:10px 14px;font-family:var(--fu);font-weight:700}
+.mg .tab{display:inline-flex;align-items:center;height:38px;padding:0 16px;font-family:var(--fd);font-stretch:75%;font-weight:800;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#F2EEE4;transform:skewX(-12deg)}
+.mg .tab > span{display:inline-block;transform:skewX(12deg)}
+.mg .tab.on{background:var(--red)}
+.mg .cta{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 30px;background:var(--red);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:800;font-size:17px;letter-spacing:.12em;text-transform:uppercase;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.mg .cta2{display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 26px;background:#fff;color:var(--ink);font-family:var(--fd);font-stretch:75%;font-weight:800;font-size:17px;letter-spacing:.12em;text-transform:uppercase;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink)}
+.mg .px{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.mg .spine{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.mg .spine:hover{transform:translateY(-18px)}
+@keyframes mgPop{0%,100%{transform:scale(1) rotate(-6deg)}50%{transform:scale(1.06) rotate(-4deg)}}
+.mg .pop{animation:mgPop 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.mg .pop{animation:none}.mg .px,.mg .spine{transition:none}}
+</style>
+</helmet>
+<div class="mg" style="width: 1536px; height: 2380px; padding: 40px 48px; background: #E4DFD3; color: var(--ink); font-family: var(--fu);">
+
+<div class="lbl" style="margin-bottom: 14px;">Laptop 1440 × 900 · press Play and move the cursor: the ink speed lines converge on it and the panels shift like turning pages</div>
+<div onMouseMove="{{onMove}}" onMouseLeave="{{onLeave}}" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: var(--paper); box-shadow: 0 0 0 10px #2A2724, 0 40px 80px rgba(0,0,0,.35);">
+
+<nav aria-label="Primary" style="position: absolute; left: 0; right: 0; top: 0; height: 56px; z-index: 6; background: var(--ink); display: flex; align-items: center; gap: 4px; padding: 0 28px;">
+<span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 22px; letter-spacing: .04em; color: #F2EEE4; margin-right: 24px;">VOLUMES<span style="color: var(--red);">.</span></span>
+<a class="tab on" href="#work"><span>Work</span></a><a class="tab" href="#about"><span>About</span></a><a class="tab" href="#experience"><span>Exp</span></a><a class="tab" href="#skills"><span>Skills</span></a><a class="tab" href="#testimonials"><span>Testimonial</span></a>
+<a href="#contact" style="margin-left: auto; height: 38px; padding: 0 18px; background: #F2EEE4; color: var(--ink); display: inline-flex; align-items: center; font-family: var(--fd); font-stretch: 75%; font-weight: 900; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));">Let’s Talk →</a>
+</nav>
+
+<div class="panel px" style="left: 22px; top: 78px; width: 878px; height: 680px; clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%); transform: {{pA}};">
+<svg viewBox="0 0 878 680" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{speedD}}" style="fill: #121212;"></path></svg>
+<div class="tone" aria-hidden="true" style="position: absolute; right: 0; bottom: 0; width: 60%; height: 55%; opacity: .5; -webkit-mask-image: linear-gradient(135deg, transparent 30%, #000); mask-image: linear-gradient(135deg, transparent 30%, #000);"></div>
+<div class="cap" style="position: absolute; left: 34px; top: 30px; font-size: 15px;">Bengaluru · open to Senior / Lead PM roles</div>
+<h1 class="title" style="position: absolute; left: 34px; top: 150px; margin: 0; font-size: 196px; line-height: .8; transform: skewX(-6deg);">Akarshan<br>Kumar</h1>
+<svg viewBox="0 0 600 60" aria-hidden="true" style="position: absolute; left: 40px; top: 486px; width: 560px; height: 54px;"><path d="M4 40 C120 18, 260 30, 360 22 S 540 12, 596 26 L 592 40 C 520 34, 420 44, 330 44 S 120 52, 6 54 Z" style="fill: #E8273A;"></path></svg>
+<div style="position: absolute; left: 40px; bottom: 34px; display: flex; gap: 12px; align-items: center;"><span class="cap" style="font-size: 14px; background: var(--ink); color: #F2EEE4;">Product Manager · AI-native health</span><span class="cap" style="font-size: 14px;">Sugar.fit · ex-Glance (InMobi)</span></div>
+</div>
+
+<div class="panel px" style="left: 896px; top: 78px; width: 522px; height: 380px; clip-path: polygon(7% 0, 100% 0, 100% 100%, 0 100%); transform: {{pB}};">
+<div class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .22;"></div>
+<div style="position: absolute; left: 70px; top: 44px; width: 420px; padding: 34px 34px 38px; background: #fff; border: 4px solid var(--ink); border-radius: 50%/42%; text-align: center;">
+<p style="margin: 0; font-family: var(--fu); font-weight: 900; font-size: 25px; line-height: 1.32;">I build AI-native health products — and the data platforms that prove they work.</p>
+</div>
+<svg viewBox="0 0 120 90" aria-hidden="true" style="position: absolute; left: 40px; top: 250px; width: 120px; height: 90px;"><path d="M100 4 L 6 86 L 64 10 Z" style="fill: #fff; stroke: #121212; stroke-width: 4; stroke-linejoin: round;"></path></svg>
+</div>
+
+<div class="panel px" style="left: 870px; top: 470px; width: 548px; height: 288px; clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%); transform: {{pC}};">
+<div class="tone-r" aria-hidden="true" style="position: absolute; inset: 0; opacity: .35;"></div>
+<svg viewBox="0 0 200 200" aria-hidden="true" class="pop" style="position: absolute; left: 40px; top: 18px; width: 230px; height: 230px;"><path d="M100 4 L118 62 L178 40 L140 92 L196 120 L134 128 L150 190 L100 148 L52 194 L62 132 L4 118 L60 92 L24 36 L84 62 Z" style="fill: #FFDE3A; stroke: #121212; stroke-width: 5; stroke-linejoin: round;"></path></svg>
+<div style="position: absolute; left: 76px; top: 88px; text-align: center; width: 160px; transform: rotate(-6deg);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 52px; line-height: .9;">230M+</div><div style="font-family: var(--fu); font-weight: 900; font-size: 14px;">DEVICES</div></div>
+<div style="position: absolute; left: 290px; top: 34px; display: grid; gap: 14px;">
+<div class="cap" style="font-size: 15px;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 32px;">$2M</span> ARR at Glance</div>
+<div class="cap" style="font-size: 15px;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 32px;">₹3.6 Cr</span> GLP-1 app, month one</div>
+<div class="cap" style="font-size: 15px;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 32px;">73%</span> tickets auto-resolved</div>
+</div>
+</div>
+
+<div class="panel" style="left: 22px; top: 776px; width: 1396px; height: 106px; display: flex; align-items: center; gap: 18px; padding: 0 28px;">
+<a class="cta" href="#work">Read the volumes →</a>
+<a class="cta2" href="#resume">Résumé</a>
+<span style="margin-left: auto; font-family: var(--fu); font-weight: 700; font-size: 17px;">Every project is a volume: context, decisions, and the payoff.</span>
+<span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 34px; color: var(--red);">VOL. 01–09</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+<div>
+<div class="lbl" style="margin-bottom: 14px;">iPad 834 × 1194 · the shelf — pick a volume (hover lifts a spine), then a chapter preview</div>
+<div style="position: relative; width: 834px; height: 1194px; overflow: hidden; border-radius: 26px; background: var(--paper); box-shadow: 0 0 0 10px #2A2724, 0 30px 60px rgba(0,0,0,.3);">
+<nav aria-label="Primary" style="height: 56px; background: var(--ink); display: flex; align-items: center; gap: 2px; padding: 0 18px;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 20px; color: #F2EEE4; margin-right: 10px;">VOLUMES<span style="color: var(--red);">.</span></span><a class="tab on" href="#work" style="padding: 0 11px; font-size: 13px;"><span>Work</span></a><a class="tab" href="#about" style="padding: 0 11px; font-size: 13px;"><span>About</span></a><a class="tab" href="#experience" style="padding: 0 11px; font-size: 13px;"><span>Exp</span></a><a class="tab" href="#skills" style="padding: 0 11px; font-size: 13px;"><span>Skills</span></a><a class="tab" href="#testimonials" style="padding: 0 11px; font-size: 13px;"><span>Testimonial</span></a><a href="#contact" style="margin-left: auto; height: 36px; padding: 0 12px; background: #F2EEE4; color: var(--ink); display: inline-flex; align-items: center; font-family: var(--fd); font-stretch: 75%; font-weight: 900; font-size: 13px; text-transform: uppercase;">Talk →</a></nav>
+<div style="padding: 34px 32px 0;">
+<div class="title" style="font-size: 92px; line-height: .82; -webkit-text-stroke: 3px #FBF9F4; text-shadow: 5px 5px 0 var(--red);">The shelf</div>
+<div style="margin-top: 26px; position: relative; height: 470px; border-bottom: 14px solid var(--ink); display: flex; align-items: flex-end; gap: 8px; padding: 0 6px;">
+<div class="spine" style="width: 64px; height: 400px; background: #2DD4BF; border: 3px solid var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 10px 0;"><span style="font-family: var(--fm); font-size: 11px; font-weight: 600;">01</span><span style="writing-mode: vertical-rl; font-family: var(--fd); font-stretch: 75%; font-weight: 900; font-size: 19px; text-transform: uppercase;">3D body scan</span><span style="width: 30px; height: 6px; background: var(--ink);"></span></div>
+<div class="spine" style="width: 64px; height: 380px; background: #F5A524; border: 3px solid var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 10px 0;"><span style="font-family: var(--fm); font-size: 11px; font-weight: 600;">02</span><span style="writing-mode: vertical-rl; font-family: var(--fd); font-stretch: 75%; font-weight: 900; font-size: 19px; text-transform: uppercase;">AI food logging</span><span style="width: 30px; height: 6px; background: var(--ink);"></span></div>
+<div class="spine" style="width: 64px; height: 410px; background: #38BDF8; border: 3px solid var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 10px 0;"><span style="font-family: var(--fm); font-size: 11px; font-weight: 600;">03</span><span style="writing-mode: vertical-rl; font-family: var(--fd); font-stretch: 75%; font-weight: 900; font-size: 19px; text-transform: uppercase;">CGM journey</span><span style="width: 30px; height: 6px; background: var(--ink);"></span></div>
+<div class="spine" style="width: 64px; height: 390px; background: #A78BFA; border: 3px solid var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 10px 0;"><span style="font-family: var(--fm); font-size: 11px; font-weight: 600;">04</span><span style="writing-mode: vertical-rl; font-family: var(--fd); font-stretch: 75%; font-weight: 900; font-size: 19px; text-transform: uppercase;">GLP-1 app</span><span style="width: 30px; height: 6px; background: var(--ink);"></span></div>
+<div style="width: 250px; height: 440px; margin: 0 6px; background: #FBF9F4; border: 4px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); transform: rotate(-4deg) translateY(-26px); position: relative; overflow: hidden;"><div class="tone-r" style="position: absolute; inset: 0; opacity: .45;"></div><div style="position: absolute; left: 0; right: 0; top: 0; height: 74px; background: var(--red); border-bottom: 4px solid var(--ink); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; color: #fff;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 34px;">VOL.05</span><span style="font-family: var(--fm); font-size: 11px;">PROTOTYPE</span></div><div class="title" style="position: absolute; left: 14px; right: 14px; top: 96px; font-size: 46px; line-height: .86; -webkit-text-stroke: 3px #FBF9F4; text-shadow: 4px 4px 0 var(--red);">Puja engagement</div><div class="cap" style="position: absolute; left: 14px; right: 14px; bottom: 14px; font-size: 13px;">Sri Mandir · +30% orders per user (target)</div></div>
+<div class="spine" style="width: 64px; height: 370px; background: #3B82F6; border: 3px solid var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 10px 0; color: #fff;"><span style="font-family: var(--fm); font-size: 11px; font-weight: 600;">06</span><span style="writing-mode: vertical-rl; font-family: var(--fd); font-stretch: 75%; font-weight: 900; font-size: 19px; text-transform: uppercase;">Arcana</span><span style="width: 30px; height: 6px; background: #fff;"></span></div>
+</div>
+<div style="margin-top: 26px; display: grid; grid-template-columns: 1.3fr 1fr; grid-template-rows: 150px 150px; gap: 10px;">
+<div style="grid-row: 1 / 3; position: relative; border: 4px solid var(--ink); background: #FBF9F4; overflow: hidden;"><div class="tone" style="position: absolute; inset: 0; opacity: .25;"></div><div class="cap" style="position: absolute; left: 14px; top: 14px; right: 14px; font-size: 16px; line-height: 1.4;">Chapter 1 — the objective: more pujas per devotee, every month.</div><div style="position: absolute; left: 50%; bottom: -10px; width: 120px; height: 200px; transform: translateX(-50%); border: 4px solid var(--ink); border-radius: 18px 18px 0 0; background: #fff;"><div style="height: 36px; background: var(--red); border-bottom: 3px solid var(--ink);"></div><div style="margin: 12px 10px 0; height: 24px; background: #121212;"></div></div></div>
+<div style="position: relative; border: 4px solid var(--ink); background: #FBF9F4; padding: 14px;"><div style="font-family: var(--fu); font-weight: 900; font-size: 17px; line-height: 1.35;">Nine bets, ranked with RICE.</div><div style="margin-top: 10px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 34px; color: var(--red);">#1 WHATSAPP</div></div>
+<div style="position: relative; border: 4px solid var(--ink); background: #fff; display: grid; place-items: center; padding: 10px;"><div style="padding: 14px 18px; border: 3px solid var(--ink); border-radius: 50%/45%; font-family: var(--fu); font-weight: 900; font-size: 16px; text-align: center; line-height: 1.3;">Book in 60 seconds, in chat.</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div>
+<div class="lbl" style="margin-bottom: 14px;">Mobile 390 × 844 · hero as a manga page</div>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; border-radius: 44px; background: var(--paper); box-shadow: 0 0 0 10px #2A2724, 0 30px 60px rgba(0,0,0,.3);">
+<nav aria-label="Primary" style="height: 64px; padding-top: 8px; background: var(--ink); display: flex; align-items: center; gap: 8px; padding-left: 16px; padding-right: 12px;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 20px; color: #F2EEE4;">VOLUMES<span style="color: var(--red);">.</span></span><button aria-label="Open menu" class="tab on" style="margin-left: auto; border: 0; height: 40px;"><span>Menu</span></button><a href="#contact" style="height: 40px; padding: 0 12px; background: #F2EEE4; color: var(--ink); display: inline-flex; align-items: center; font-family: var(--fd); font-stretch: 75%; font-weight: 900; font-size: 13px; text-transform: uppercase;">Talk →</a></nav>
+<div style="position: relative; margin: 12px; height: 420px; border: 4px solid var(--ink); background: #FBF9F4; overflow: hidden;">
+<svg viewBox="0 0 358 412" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{speedM}}" style="fill: #121212;"></path></svg>
+<div class="cap" style="position: absolute; left: 12px; top: 12px; font-size: 12px;">Open to Senior / Lead PM roles</div>
+<h1 class="title" style="position: absolute; left: 16px; top: 120px; margin: 0; font-size: 104px; line-height: .8; -webkit-text-stroke: 3px #FBF9F4; text-shadow: 5px 5px 0 var(--red); transform: skewX(-6deg);">Akarshan<br>Kumar</h1>
+</div>
+<div style="position: relative; margin: 0 12px; display: grid; grid-template-columns: 1fr; gap: 10px;">
+<div style="position: relative; border: 4px solid var(--ink); background: #fff; padding: 16px;"><div style="padding: 14px 16px; border: 3px solid var(--ink); border-radius: 50%/38%; text-align: center; font-family: var(--fu); font-weight: 900; font-size: 16px; line-height: 1.35;">I build AI-native health products — and the data platforms that prove they work.</div></div>
+<a class="cta" href="#work" style="justify-content: center;">Read the volumes →</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":2380}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mx: 0.2, my: 0.1, fx: 700, fy: 240 };
+    this.onMove = this.onMove.bind(this);
+    this.onLeave = this.onLeave.bind(this);
+  }
+  onMove(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => {
+      this.raf = null;
+      const fx = Math.min(860, Math.max(40, rx * 1440 - 22));
+      const fy = Math.min(660, Math.max(20, ry * 900 - 78));
+      this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1, fx, fy });
+    });
+  }
+  onLeave() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.setState({ mx: 0.2, my: 0.1, fx: 700, fy: 240 });
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  speed(fx, fy, count, rMin, rMax, R) {
+    let d = '';
+    for (let i = 0; i < count; i++) {
+      const t = (i / count) * Math.PI * 2;
+      const j = Math.sin(i * 12.9898) * 43758.5453;
+      const rnd = j - Math.floor(j);
+      const r0 = rMin + rnd * (rMax - rMin);
+      const w = 0.006 + rnd * 0.012;
+      const ax = fx + Math.cos(t) * r0, ay = fy + Math.sin(t) * r0;
+      const bx = fx + Math.cos(t - w) * R, by = fy + Math.sin(t - w) * R;
+      const cx = fx + Math.cos(t + w) * R, cy = fy + Math.sin(t + w) * R;
+      d += 'M' + ax.toFixed(1) + ' ' + ay.toFixed(1) + 'L' + bx.toFixed(1) + ' ' + by.toFixed(1) + 'L' + cx.toFixed(1) + ' ' + cy.toFixed(1) + 'Z';
+    }
+    return d;
+  }
+  renderVals() {
+    const { mx, my, fx, fy } = this.state;
+    const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const k = reduce ? 0 : 1;
+    const t = (a, b) => 'translate3d(' + (mx * a * k).toFixed(1) + 'px, ' + (my * b * k).toFixed(1) + 'px, 0)';
+    return {
+      onMove: this.onMove,
+      onLeave: this.onLeave,
+      pA: t(-4, -3),
+      pB: t(6, 4),
+      pC: t(9, 6),
+      speedD: this.speed(fx, fy, 120, 170, 300, 1400),
+      speedM: this.speed(250, 120, 80, 90, 170, 700)
+    };
+  }
+}
+</script>
+</body>
+</html>

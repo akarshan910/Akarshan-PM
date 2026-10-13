@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 2 · Liquid Glass</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.lg{--tx:#F7F6F3;--tx2:rgba(247,246,243,.82);--tx3:rgba(247,246,243,.66);--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.lg *{box-sizing:border-box}
+.lg a{color:inherit;text-decoration:none}
+.lg .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+@property --lgsh{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes lgShine{to{--lgsh:360deg}}
+.lg .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.lg .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--lgsh,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,#fff 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:lgShine 3.5s linear infinite;filter:blur(.4px)}
+.lg .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--lgsh,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:lgShine 3.5s linear infinite;filter:blur(3px)}
+.lg .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border:0;border-radius:99px;background:transparent;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.lg .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.lg .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.lg .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.lg .glass{background:linear-gradient(135deg,rgba(255,255,255,.17),rgba(255,255,255,.05));-webkit-backdrop-filter:blur(28px) saturate(190%);backdrop-filter:blur(28px) saturate(190%);border:1px solid rgba(255,255,255,.24);box-shadow:inset 0 1px 1px rgba(255,255,255,.6),inset 0 -1px 1px rgba(255,255,255,.1),inset 0 0 32px rgba(255,255,255,.05),0 30px 80px rgba(0,0,0,.42)}
+.lg .glass-dk{background:linear-gradient(135deg,rgba(18,16,24,.62),rgba(18,16,24,.38));-webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 1px rgba(255,255,255,.35),0 20px 50px rgba(0,0,0,.35)}
+.lg .orb{position:absolute;border-radius:50%;filter:blur(58px)}
+@keyframes lgD1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.08)}}
+@keyframes lgD2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-56px,34px) scale(.94)}}
+@keyframes lgD3{0%,100%{transform:translate(0,0)}50%{transform:translate(34px,-42px)}}
+.lg .d1{animation:lgD1 16s ease-in-out infinite}
+.lg .d2{animation:lgD2 19s ease-in-out infinite}
+.lg .d3{animation:lgD3 13s ease-in-out infinite}
+.lg .px{transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.lg .lens{transition:left .28s cubic-bezier(.2,.8,.2,1),top .28s cubic-bezier(.2,.8,.2,1)}
+.lg .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;border:0;border-radius:2px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.lg .gbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 24px;border-radius:999px;color:var(--tx);font-family:var(--fu);font-weight:500;font-size:15px;white-space:nowrap}
+.lg .lbl{font-family:var(--fm);font-size:13px;color:#A9A7A1}
+.lg .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){.lg .d1,.lg .d2,.lg .d3,.lg .pill::before,.lg .pill::after{animation:none}.lg .px,.lg .lens{transition:none}}
+</style>
+</helmet>
+<div class="lg" style="width: 1536px; height: 2380px; padding: 40px 48px; background: #121216; color: var(--tx); font-family: var(--fu);">
+
+<div class="lbl" style="margin-bottom: 14px;">Laptop 1440 × 900 · press Play and move the cursor: panels tilt, highlights follow, the liquid lens tracks the pointer</div>
+<div onMouseMove="{{onMove}}" onMouseLeave="{{onLeave}}" style="position: relative; width: 1440px; height: 900px; border-radius: 18px; overflow: hidden; background: #06060B; box-shadow: 0 0 0 10px #24242B, 0 40px 80px rgba(0,0,0,.45);">
+<div class="px" aria-hidden="true" style="position: absolute; inset: -60px; transform: {{farT}};">
+<div class="orb d1" style="left: 4%; top: 12%; width: 560px; height: 560px; background: radial-gradient(circle at 35% 35%, #FF6A76, #E8273A 45%, rgba(232,39,58,0) 72%); opacity: .82;"></div>
+<div class="orb d2" style="right: 2%; top: -8%; width: 640px; height: 640px; background: radial-gradient(circle, #7C6BFF, #3B2BD9 45%, rgba(59,43,217,0) 72%); opacity: .78;"></div>
+<div class="orb d3" style="left: 46%; top: 50%; width: 480px; height: 480px; background: radial-gradient(circle, #E255F5, rgba(217,70,239,0) 70%); opacity: .55;"></div>
+<div class="orb d1" style="right: 16%; bottom: -10%; width: 400px; height: 400px; background: radial-gradient(circle, #FBBF24, rgba(245,158,11,0) 70%); opacity: .38;"></div>
+<svg viewBox="0 0 1560 1020" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: rgba(255,255,255,.07); stroke-width: 1;"><line x1="1150" y1="470" x2="-20" y2="0"></line><line x1="1150" y1="470" x2="-20" y2="160"></line><line x1="1150" y1="470" x2="-20" y2="320"></line><line x1="1150" y1="470" x2="-20" y2="480"></line><line x1="1150" y1="470" x2="-20" y2="640"></line><line x1="1150" y1="470" x2="-20" y2="800"></line><line x1="1150" y1="470" x2="-20" y2="980"></line><line x1="1150" y1="470" x2="400" y2="-20"></line><line x1="1150" y1="470" x2="760" y2="-20"></line><line x1="1150" y1="470" x2="1580" y2="120"></line><line x1="1150" y1="470" x2="1580" y2="860"></line><line x1="1150" y1="470" x2="600" y2="1040"></line></svg>
+</div>
+
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 6;"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+
+<div style="position: absolute; left: 88px; top: 150px; width: 840px; perspective: 1400px; z-index: 3;">
+<div class="glass px" style="position: relative; border-radius: 44px; padding: 46px 52px 50px; overflow: hidden; transform: {{slabT}};">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(560px circle at {{specX}}% {{specY}}%, rgba(255,255,255,.26), rgba(255,255,255,0) 46%); pointer-events: none;"></div>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 50%; background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,0)); pointer-events: none;"></div>
+<div style="position: relative;">
+<span class="glass-dk" style="display: inline-flex; align-items: center; gap: 10px; height: 34px; padding: 0 14px 0 12px; border-radius: 999px; font-size: 13px; font-weight: 500; color: #CFF7E4;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #3CCB8B; box-shadow: 0 0 10px #3CCB8B;"></span>Open to Senior / Lead PM roles</span>
+<h1 style="margin: 26px 0 0; font-family: var(--fu); font-weight: 600; font-size: 112px; line-height: .9; letter-spacing: -.055em; text-shadow: 0 2px 30px rgba(0,0,0,.25);">Akarshan<br>Kumar</h1>
+<p style="margin: 26px 0 0; max-width: 640px; font-size: 26px; line-height: 1.32; letter-spacing: -.015em; color: var(--tx2);">I build <span style="color: #fff;">AI-native health products</span> — and the <span style="color: #fff;">data platforms</span> that prove they work.</p>
+<p style="margin: 14px 0 0; max-width: 600px; font-size: 16px; line-height: 1.6; color: var(--tx3);">Product manager at Sugar.fit · before that, personalisation for 230M+ devices at Glance (InMobi).</p>
+<div style="display: flex; gap: 12px; margin-top: 32px;"><a class="cta" href="#work">See selected work<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></a><a class="gbtn glass" href="#resume"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Résumé (PDF)</a></div>
+</div>
+</div>
+</div>
+
+<div class="px" style="position: absolute; inset: 0; transform: {{midT}}; z-index: 2; pointer-events: none;">
+<div class="glass" style="position: absolute; left: 1000px; top: 168px; width: 320px; border-radius: 26px; padding: 20px 22px;"><div style="font-family: var(--fu); font-weight: 600; font-size: 44px; letter-spacing: -.04em; line-height: 1;">230M+</div><div style="margin-top: 8px; font-size: 14px; color: var(--tx2);">devices personalised and served · Glance</div></div>
+<div class="glass" style="position: absolute; left: 1060px; top: 330px; width: 300px; border-radius: 26px; padding: 20px 22px;"><div style="font-family: var(--fu); font-weight: 600; font-size: 44px; letter-spacing: -.04em; line-height: 1;">$2M <span style="font-size: 24px; color: var(--tx3);">ARR</span></div><div style="margin-top: 8px; font-size: 14px; color: var(--tx2);">unlocked via Tracfone, Japan, Brazil</div></div>
+<div class="glass" style="position: absolute; left: 990px; top: 492px; width: 330px; border-radius: 26px; padding: 20px 22px;"><div style="font-family: var(--fu); font-weight: 600; font-size: 44px; letter-spacing: -.04em; line-height: 1;">₹3.6 Cr</div><div style="margin-top: 8px; font-size: 14px; color: var(--tx2);">month one of a GLP-1 app I built 0→1</div></div>
+</div>
+
+<div class="lens" aria-hidden="true" style="position: absolute; left: {{lensX}}px; top: {{lensY}}px; width: 168px; height: 168px; border-radius: 50%; z-index: 5; -webkit-backdrop-filter: saturate(230%) brightness(1.28) contrast(1.05); backdrop-filter: saturate(230%) brightness(1.28) contrast(1.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.4), inset 10px 12px 22px rgba(255,255,255,.28), inset -12px -16px 26px rgba(0,0,0,.28), 0 24px 50px rgba(0,0,0,.35); pointer-events: none;"></div>
+
+<div class="glass" style="position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%); z-index: 4; border-radius: 30px; padding: 10px 10px 10px 22px; display: flex; align-items: center; gap: 10px;">
+<span class="mono" style="color: var(--tx2); margin-right: 8px;">Selected work</span>
+<span style="width: 96px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #2DD4BF, #0D6B60); display: flex; align-items: flex-end; padding: 8px 10px; font-family: var(--fm); font-size: 11px; font-weight: 600; color: #04211D;">VOL.01</span>
+<span style="width: 96px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #F5A524, #8A5A0B); display: flex; align-items: flex-end; padding: 8px 10px; font-family: var(--fm); font-size: 11px; font-weight: 600; color: #2A1A00;">VOL.02</span>
+<span style="width: 96px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #38BDF8, #0B5A80); display: flex; align-items: flex-end; padding: 8px 10px; font-family: var(--fm); font-size: 11px; font-weight: 600; color: #04202E;">VOL.03</span>
+<span style="width: 96px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #A78BFA, #4C2F9E); display: flex; align-items: flex-end; padding: 8px 10px; font-family: var(--fm); font-size: 11px; font-weight: 600; color: #F3EEFF;">VOL.04</span>
+<span style="width: 96px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #FF6A76, #9E1626); display: flex; align-items: flex-end; padding: 8px 10px; font-family: var(--fm); font-size: 11px; font-weight: 600; color: #fff;">VOL.05</span>
+<span class="glass-dk" style="height: 64px; padding: 0 18px; border-radius: 18px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500;">+4 more<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+</div>
+</div>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+<div>
+<div class="lbl" style="margin-bottom: 14px;">iPad 834 × 1194 · selected work as glass panes over cover art</div>
+<div style="position: relative; width: 834px; height: 1194px; border-radius: 28px; overflow: hidden; background: #06060B; box-shadow: 0 0 0 10px #24242B, 0 30px 60px rgba(0,0,0,.4);">
+<div aria-hidden="true" style="position: absolute; inset: 0;"><div class="orb" style="left: -120px; top: 80px; width: 520px; height: 520px; background: radial-gradient(circle, #FF6A76, rgba(232,39,58,0) 70%); opacity: .7;"></div><div class="orb" style="right: -160px; top: 380px; width: 560px; height: 560px; background: radial-gradient(circle, #7C6BFF, rgba(59,43,217,0) 70%); opacity: .7;"></div><div class="orb" style="left: 140px; bottom: -120px; width: 460px; height: 460px; background: radial-gradient(circle, #2DD4BF, rgba(45,212,191,0) 70%); opacity: .45;"></div></div>
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 4;"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+<div style="position: relative; padding: 120px 32px 0;">
+<div class="mono" style="color: var(--tx3);">Selected work · 9 volumes</div>
+<h2 style="margin: 12px 0 0; font-family: var(--fu); font-weight: 600; font-size: 54px; line-height: .98; letter-spacing: -.045em;">Shipped, measured, explained.</h2>
+<div style="position: relative; margin-top: 28px; height: 400px; border-radius: 34px; overflow: hidden; background: linear-gradient(135deg, #0F3D38, #0D1918);">
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; left: 50%; top: 10px; height: 300px; transform: translateX(-50%); fill: none; stroke: #5EEAD4; stroke-width: 1.4;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .5;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M84 120h72M82 140h76M84 160h72" style="stroke-dasharray: 3 4;"></path></svg>
+<div class="glass" style="position: absolute; left: 16px; right: 16px; bottom: 16px; border-radius: 24px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;"><div><div class="mono" style="color: var(--tx2);">VOL.01 · Sugar.fit · AI</div><div style="margin-top: 6px; font-size: 26px; font-weight: 600; letter-spacing: -.02em;">3D body scan for GLP-1 users</div><div style="margin-top: 4px; font-size: 14px; color: var(--tx2);">±2–3 pp body fat vs 8-electrode BIA (n=110)</div></div><span style="flex: none; padding: 4px 9px; border-radius: 999px; background: rgba(60,203,139,.22); color: #CFF7E4; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">ACHIEVED</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+<div style="position: relative; height: 300px; border-radius: 30px; overflow: hidden; background: linear-gradient(135deg, #5A3A0A, #1A140A);"><svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; left: 50%; top: 22px; width: 150px; transform: translateX(-50%); fill: none; stroke: #FCD34D; stroke-width: 2.5;"><path d="M20 50V20h30M150 20h30v30M180 150v30h-30M50 180H20v-30"></path><circle cx="100" cy="100" r="50"></circle></svg><div class="glass" style="position: absolute; left: 12px; right: 12px; bottom: 12px; border-radius: 20px; padding: 14px 16px;"><div class="mono" style="color: var(--tx2);">VOL.02</div><div style="margin-top: 4px; font-size: 19px; font-weight: 600;">AI food logging</div><div style="margin-top: 2px; font-size: 13px; color: var(--tx2);">62% of all meal logs</div></div></div>
+<div style="position: relative; height: 300px; border-radius: 30px; overflow: hidden; background: linear-gradient(135deg, #5C0E19, #1C0C0F);"><div style="position: absolute; left: 50%; top: 22px; width: 110px; height: 200px; transform: translateX(-50%); border-radius: 22px; background: #F7F3EE; overflow: hidden;"><div style="height: 44px; background: #C7372F;"></div><div style="margin: 12px 10px 0; height: 26px; border-radius: 8px; background: #25B864;"></div></div><div class="glass" style="position: absolute; left: 12px; right: 12px; bottom: 12px; border-radius: 20px; padding: 14px 16px;"><div class="mono" style="color: var(--tx2);">VOL.05 · Prototype</div><div style="margin-top: 4px; font-size: 19px; font-weight: 600;">Puja engagement platform</div><div style="margin-top: 2px; font-size: 13px; color: var(--tx2);">+30% orders per user · target</div></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div>
+<div class="lbl" style="margin-bottom: 14px;">Mobile 390 × 844 · hero</div>
+<div style="position: relative; width: 390px; height: 844px; border-radius: 46px; overflow: hidden; background: #06060B; box-shadow: 0 0 0 10px #24242B, 0 30px 60px rgba(0,0,0,.4);">
+<div aria-hidden="true" style="position: absolute; inset: 0;"><div class="orb d1" style="left: -140px; top: 60px; width: 420px; height: 420px; background: radial-gradient(circle, #FF6A76, rgba(232,39,58,0) 70%); opacity: .8;"></div><div class="orb d2" style="right: -170px; top: 300px; width: 440px; height: 440px; background: radial-gradient(circle, #7C6BFF, rgba(59,43,217,0) 70%); opacity: .75;"></div><div class="orb d3" style="left: 60px; bottom: -120px; width: 360px; height: 360px; background: radial-gradient(circle, #E255F5, rgba(217,70,239,0) 70%); opacity: .5;"></div></div>
+<div style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 4;"><nav class="pill" aria-label="Primary"><span class="pl" style="padding: 10px 18px;">Menu</span><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact" style="padding: 10px 18px;">Let’s Talk →</a></nav></div>
+<div style="position: relative; padding: 96px 16px 0;">
+<div class="glass" style="border-radius: 34px; padding: 26px 22px 24px;">
+<span class="glass-dk" style="display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px 0 10px; border-radius: 999px; font-size: 12px; font-weight: 500; color: #CFF7E4;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3CCB8B; box-shadow: 0 0 8px #3CCB8B;"></span>Open to Senior / Lead PM roles</span>
+<h1 style="margin: 18px 0 0; font-family: var(--fu); font-weight: 600; font-size: 60px; line-height: .9; letter-spacing: -.055em;">Akarshan<br>Kumar</h1>
+<p style="margin: 16px 0 0; font-size: 20px; line-height: 1.32; letter-spacing: -.01em; color: var(--tx2);">I build <span style="color: #fff;">AI-native health products</span> — and the data platforms that prove they work.</p>
+<div style="display: grid; gap: 10px; margin-top: 22px;"><a class="cta" href="#work" style="display: flex;">See selected work</a><a class="gbtn glass" href="#resume" style="display: flex; height: 50px;">Résumé (PDF)</a></div>
+</div>
+<div style="display: flex; gap: 10px; margin-top: 14px; overflow: hidden;">
+<div class="glass" style="flex: none; width: 168px; border-radius: 22px; padding: 14px 16px;"><div style="font-weight: 600; font-size: 30px; letter-spacing: -.04em;">230M+</div><div style="margin-top: 4px; font-size: 12px; color: var(--tx2);">devices served</div></div>
+<div class="glass" style="flex: none; width: 168px; border-radius: 22px; padding: 14px 16px;"><div style="font-weight: 600; font-size: 30px; letter-spacing: -.04em;">₹3.6 Cr</div><div style="margin-top: 4px; font-size: 12px; color: var(--tx2);">GLP-1 app, month one</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":2380}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mx: 0.3, my: -0.15, px: 1060, py: 600 };
+    this.onMove = this.onMove.bind(this);
+    this.onLeave = this.onLeave.bind(this);
+  }
+  onMove(e) {
+    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => {
+      this.raf = null;
+      this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1, px: rx * 1440, py: ry * 900 });
+    });
+  }
+  onLeave() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.setState({ mx: 0.3, my: -0.15, px: 1060, py: 600 });
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const { mx, my, px, py } = this.state;
+    const f = (n) => n.toFixed(1);
+    return {
+      onMove: this.onMove,
+      onLeave: this.onLeave,
+      farT: 'translate3d(' + f(-mx * 30) + 'px, ' + f(-my * 22) + 'px, 0)',
+      midT: 'translate3d(' + f(-mx * 14) + 'px, ' + f(-my * 10) + 'px, 0)',
+      slabT: 'translate3d(' + f(mx * 8) + 'px, ' + f(my * 6) + 'px, 0) rotateX(' + (-my * 3).toFixed(2) + 'deg) rotateY(' + (mx * 4).toFixed(2) + 'deg)',
+      specX: f(50 + mx * 45),
+      specY: f(28 + my * 45),
+      lensX: f(px - 84),
+      lensY: f(py - 84)
+    };
+  }
+}
+</script>
+</body>
+</html>

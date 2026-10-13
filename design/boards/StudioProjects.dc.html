@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — projects</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .nav{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;border-radius:8px;color:var(--tx2);font-size:14px;font-weight:500}
+.st .nav:hover{background:#EFEEEA;color:var(--tx)}
+.st .nav.on{background:#EAE9E4;color:var(--tx)}
+.st .card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.st .cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border:0;background:var(--ac);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.st .cta:hover{background:#E42A3F}
+.st .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:500 14px/1 var(--fu);cursor:pointer}
+.st .btn:hover{border-color:#B9B7B1}
+.st .chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap}
+.st .mono{font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .seg{display:inline-flex;padding:3px;border-radius:10px;background:#EAE9E4}
+.st .seg button{height:34px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--tx2);font:500 14px/1 var(--fu);cursor:pointer}
+.st .seg button[aria-pressed="true"]{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(20,20,22,.12)}
+.st .prow{position:relative;display:grid;grid-template-columns:32px 34px 56px minmax(0,1fr) 210px 72px 104px 40px;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--ln);transition:box-shadow .18s,transform .18s,background-color .18s}
+.st .prow:hover{background:var(--sf2)}
+.st .hd{display:grid;grid-template-columns:32px 34px 56px minmax(0,1fr) 210px 72px 104px 40px;gap:12px;align-items:center;padding:10px 16px}
+.st .hd span{font-family:var(--fm);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.st .ib{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--tx3);cursor:pointer}
+.st .ib:hover{background:#EFEEEA;color:var(--tx)}
+.st .menu{position:absolute;right:16px;top:52px;z-index:70;width:244px;padding:6px;border-radius:12px;background:#fff;border:1px solid var(--ln);box-shadow:0 18px 48px rgba(20,20,22,.18),0 2px 6px rgba(20,20,22,.08)}
+.st .mi{display:flex;align-items:center;gap:10px;width:100%;min-height:38px;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--tx);font:400 14px/1.3 var(--fu);text-align:left;cursor:pointer}
+.st .mi:hover{background:#F2F1EE}
+.st .mi[aria-disabled="true"]{color:#8F8D87;cursor:not-allowed}
+.st .mi[aria-disabled="true"]:hover{background:none}
+.st .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.st a:focus-visible,.st button:focus-visible,.st input:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+@keyframes stShim{0%{background-position:-300px 0}100%{background-position:300px 0}}
+.st .shim{background:linear-gradient(90deg,#ECEBE7 0,#F6F5F2 50%,#ECEBE7 100%);background-size:600px 100%;animation:stShim 1.3s linear infinite;border-radius:6px}
+@keyframes stFlashA{0%{background-color:#FFF1C9}100%{background-color:transparent}}
+@keyframes stFlashB{0%{background-color:#FFF1C9}100%{background-color:transparent}}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.st .shim{animation:none}.st .prow{transition:none}.st *{animation-duration:.01ms !important}}
+</style>
+</helmet>
+<div class="st" style="position: relative; min-height: 1300px; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--tx); font-family: var(--fu); user-select: {{userSelect}}; cursor: {{rootCursor}};" onMouseUp="{{endDrag}}" onMouseLeave="{{endDrag}}" onKeyDown="{{onRootKey}}">
+
+<aside style="flex: 1 1 232px; max-width: 256px; background: #FBFBFA; border-right: 1px solid var(--ln); padding: 20px 14px; display: flex; flex-direction: column; gap: 4px;">
+<div style="padding: 4px 12px 18px; display: flex; align-items: baseline; justify-content: space-between;"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 26px; letter-spacing: .04em; text-transform: uppercase;">Studio<span style="color: var(--ac);">.</span></span><span class="mono" style="font-size: 11px;">CMS</span></div>
+<a class="nav" href="StudioDashboard.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg>Dashboard</a>
+<a class="nav" href="StudioSite.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg>Website</a>
+<a class="nav on" href="StudioProjects.dc.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16"></path></svg>Projects<span style="margin-left: auto; font-size: 12px; color: var(--tx3);">9</span></a>
+<a class="nav" href="StudioWriting.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Writing</a>
+<a class="nav" href="StudioMedia.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Media</a>
+<div style="height: 1px; background: var(--ln); margin: 10px 4px;"></div>
+<a class="nav" href="Home.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg>View live site</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 10px; border: 1px solid var(--ln); background: #fff; display: flex; align-items: center; gap: 10px;"><span style="width: 34px; height: 34px; border-radius: 50%; background: #EAE9E4; display: grid; place-items: center; color: var(--tx3);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span><span style="min-width: 0;"><span style="display: block; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">akarshan910@gmail.com</span><button style="border: 0; background: none; padding: 0; font: 400 12px/1.4 var(--fu); color: var(--tx3); cursor: pointer;">Owner · Sign out</button></span></div>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 28px clamp(20px, 3vw, 40px) 48px;">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+<div><div class="mono"><a href="StudioDashboard.dc.html">Studio</a> / Projects</div><h1 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; letter-spacing: -.02em;">Projects</h1><p style="margin: 6px 0 0; font-size: 15px; color: var(--tx2);">This order is your homepage order. Drag a row, or focus its handle and use the arrow keys. <a href="StudioSite.dc.html" style="color: var(--tx); text-decoration: underline; text-underline-offset: 3px;">Arrange the whole homepage in Website →</a></p></div>
+<a class="cta" href="EditorOverview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M12 5v14M5 12h14"></path></svg>New project</a>
+</div>
+
+<div style="margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+<div class="seg" role="group" aria-label="Filter projects">
+<button aria-pressed="{{fAll}}" data-f="all" onClick="{{setFilter}}">All {{countAll}}</button>
+<button aria-pressed="{{fPub}}" data-f="published" onClick="{{setFilter}}">Published {{countPub}}</button>
+<button aria-pressed="{{fDraft}}" data-f="drafts" onClick="{{setFilter}}">Drafts {{countDraft}}</button>
+</div>
+<label style="position: relative; flex: 0 1 320px;"><span class="sr">Search projects</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; left: 12px; top: 12px; color: var(--tx3);"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4-4"></path></svg><input type="search" value="{{q}}" onChange="{{onQ}}" placeholder="Search by title or company" style="width: 100%; height: 42px; padding: 0 12px 0 38px; border: 1px solid var(--ln2); border-radius: 8px; background: #fff; font: 400 14px/1 var(--fu); color: var(--tx);"></label>
+<div style="display: {{pausedD}}; align-items: center; gap: 10px; height: 42px; padding: 0 6px 0 12px; border-radius: 8px; background: var(--warnbg); color: var(--warn); font-size: 13px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><circle cx="12" cy="12" r="9"></circle><path d="M10 9v6M14 9v6"></path></svg>Reordering is paused while a filter or search is on.<button onClick="{{clearAll}}" style="height: 32px; padding: 0 10px; border: 0; border-radius: 6px; background: #fff; color: var(--tx); font: 500 13px/1 var(--fu); cursor: pointer;">Show all</button></div>
+</div>
+
+<div style="display: {{dirtyD}}; margin-top: 18px; align-items: center; gap: 16px; padding: 14px 14px 14px 20px; border-radius: 14px; background: #141416; color: #F2F1EE; animation: stUp .24s ease-out;">
+<span style="width: 10px; height: 10px; border-radius: 50%; background: #F5A524; flex: none;"></span>
+<span style="flex: 1; min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600;">Homepage layout changed, not live yet</span><span style="display: block; margin-top: 2px; font-size: 13px; color: #B9B7B1;">Publishing updates the homepage only. Drafts stay drafts.</span></span>
+<button onClick="{{discard}}" style="height: 40px; padding: 0 14px; border: 1px solid #3A3A42; border-radius: 8px; background: transparent; color: #F2F1EE; font: 500 14px/1 var(--fu); cursor: pointer;">Discard</button>
+<button class="cta" onClick="{{publishLayout}}" aria-busy="{{publishing}}"><span style="display: {{spinD}}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: stSpin .8s linear infinite;"></span>{{publishLabel}}</button>
+</div>
+
+<sc-if value="{{showList}}" hint-placeholder-val="{{ true }}">
+<div style="display: {{groupAD}};">
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 24px 4px 10px;"><div style="display: flex; align-items: baseline; gap: 10px;"><h2 style="margin: 0; font-size: 18px; font-weight: 600;">Shipped</h2><span class="mono">{{countA}} on this shelf</span></div><a href="StudioSite.dc.html" style="font-size: 13px; color: var(--tx2); text-decoration: underline; text-underline-offset: 3px;">Edit shelf in Website</a></div>
+<div class="card" data-list role="list" aria-label="Shipped projects, in homepage order" style="overflow: visible;">
+<div class="hd" aria-hidden="true"><span></span><span>#</span><span></span><span>Project</span><span>Status</span><span>Lead</span><span>Updated</span><span></span></div>
+<sc-for list="{{rowsA}}" as="p" hint-placeholder-count="4">
+<div class="prow" role="listitem" data-id="{{p.id}}" onMouseEnter="{{p.over}}" style="background: {{p.bg}}; box-shadow: {{p.shadow}}; transform: {{p.lift}}; z-index: {{p.z}}; animation: {{p.anim}};">
+<button class="ib" data-id="{{p.id}}" data-handle="{{p.id}}" onMouseDown="{{p.down}}" onKeyDown="{{p.key}}" aria-label="Move {{p.t}}" aria-describedby="reorder-help" aria-disabled="{{p.lockAria}}" style="cursor: {{p.handleCursor}}; color: {{p.handleColor}};"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="9" cy="6" r="1.6"></circle><circle cx="15" cy="6" r="1.6"></circle><circle cx="9" cy="12" r="1.6"></circle><circle cx="15" cy="12" r="1.6"></circle><circle cx="9" cy="18" r="1.6"></circle><circle cx="15" cy="18" r="1.6"></circle></svg></button>
+<span style="font-family: var(--fm); font-size: 13px; color: var(--tx3);">{{p.pos}}</span>
+<span aria-hidden="true" style="width: 56px; height: 42px; border-radius: 8px; background: linear-gradient(135deg, {{p.g1}}, {{p.g2}});"></span>
+<a href="EditorOverview.dc.html" style="min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{p.t}}</span><span style="display: block; margin-top: 3px; font-size: 13px; color: var(--tx3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{p.sub}}</span></a>
+<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span class="chip" style="display: {{p.liveD}}; background: var(--okbg); color: var(--ok);"><span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>Published</span><span class="chip" style="display: {{p.chgD}}; background: var(--warnbg); color: var(--warn);">Edits not live</span><span class="chip" style="display: {{p.draftD}}; background: #EFEEEA; color: var(--tx2);">Draft</span><span style="display: {{p.draftD}}; font-size: 12px; color: var(--tx3);">{{p.pct}}% ready</span></span>
+<span><button class="ib" data-id="{{p.id}}" onClick="{{p.feat}}" aria-pressed="{{p.featAria}}" aria-label="Lead card: {{p.t}}" title="{{p.featTitle}}" style="color: {{p.starStroke}};"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill: {{p.starFill}}; stroke: currentColor; stroke-width: 1.75; stroke-linejoin: round;"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"></path></svg></button></span>
+<span style="font-size: 13px; color: var(--tx3); white-space: nowrap;">{{p.up}}</span>
+<button class="ib" data-id="{{p.id}}" onClick="{{p.menuBtn}}" aria-haspopup="menu" aria-expanded="{{p.menuAria}}" aria-label="Actions for {{p.t}}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button>
+<div class="menu" role="menu" aria-label="Actions for {{p.t}}" style="display: {{p.menuD}};">
+<a class="mi" role="menuitem" href="EditorOverview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Edit</a>
+<a class="mi" role="menuitem" href="StudioPreview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Preview draft</a>
+<button class="mi" role="menuitem" data-id="{{p.id}}" onClick="{{p.dup}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h12v12H8zM4 16V4h12"></path></svg>Duplicate as draft</button>
+<button class="mi" role="menuitem" data-id="{{p.id}}" onClick="{{p.unpub}}" style="display: {{p.unpubD}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10 10 0 0112 5c6.4 0 10 7 10 7a17 17 0 01-2.8 3.6M6.6 6.6A17 17 0 002 12s3.6 7 10 7a9.6 9.6 0 004.4-1"></path></svg>Unpublish</button>
+<a class="mi" role="menuitem" href="EditorOverview.dc.html" style="display: {{p.pubOkD}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>Review and publish</a>
+<button class="mi" role="menuitem" aria-disabled="true" style="display: {{p.pubNoD}}; align-items: flex-start;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg><span>Publish<span style="display: block; margin-top: 2px; font-size: 12px; color: var(--warn);">{{p.missText}}</span></span></button>
+<div style="height: 1px; background: var(--ln); margin: 6px 4px;"></div>
+<button class="mi" role="menuitem" data-id="{{p.id}}" onClick="{{p.del}}" style="color: var(--err);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>Delete…</button>
+</div>
+</div>
+</sc-for>
+<div style="display: {{emptyAD}}; padding: 18px 20px; border-top: 1px solid var(--ln); font-size: 14px; color: var(--tx3);">Nothing on this shelf matches.</div>
+</div>
+</div>
+
+<div style="display: {{groupBD}};">
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 28px 4px 10px;"><div style="display: flex; align-items: baseline; gap: 10px;"><h2 style="margin: 0; font-size: 18px; font-weight: 600;">Strategy &amp; prototypes</h2><span class="mono">{{countB}} on this shelf</span></div><a href="StudioSite.dc.html" style="font-size: 13px; color: var(--tx2); text-decoration: underline; text-underline-offset: 3px;">Edit shelf in Website</a></div>
+<div class="card" data-list role="list" aria-label="Strategy and prototype projects, in homepage order" style="overflow: visible;">
+<div class="hd" aria-hidden="true"><span></span><span>#</span><span></span><span>Project</span><span>Status</span><span>Lead</span><span>Updated</span><span></span></div>
+<sc-for list="{{rowsB}}" as="p" hint-placeholder-count="5">
+<div class="prow" role="listitem" data-id="{{p.id}}" onMouseEnter="{{p.over}}" style="background: {{p.bg}}; box-shadow: {{p.shadow}}; transform: {{p.lift}}; z-index: {{p.z}}; animation: {{p.anim}};">
+<button class="ib" data-id="{{p.id}}" data-handle="{{p.id}}" onMouseDown="{{p.down}}" onKeyDown="{{p.key}}" aria-label="Move {{p.t}}" aria-describedby="reorder-help" aria-disabled="{{p.lockAria}}" style="cursor: {{p.handleCursor}}; color: {{p.handleColor}};"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="9" cy="6" r="1.6"></circle><circle cx="15" cy="6" r="1.6"></circle><circle cx="9" cy="12" r="1.6"></circle><circle cx="15" cy="12" r="1.6"></circle><circle cx="9" cy="18" r="1.6"></circle><circle cx="15" cy="18" r="1.6"></circle></svg></button>
+<span style="font-family: var(--fm); font-size: 13px; color: var(--tx3);">{{p.pos}}</span>
+<span aria-hidden="true" style="width: 56px; height: 42px; border-radius: 8px; background: linear-gradient(135deg, {{p.g1}}, {{p.g2}});"></span>
+<a href="EditorOverview.dc.html" style="min-width: 0;"><span style="display: block; font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{p.t}}</span><span style="display: block; margin-top: 3px; font-size: 13px; color: var(--tx3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{p.sub}}</span></a>
+<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span class="chip" style="display: {{p.liveD}}; background: var(--okbg); color: var(--ok);"><span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>Published</span><span class="chip" style="display: {{p.chgD}}; background: var(--warnbg); color: var(--warn);">Edits not live</span><span class="chip" style="display: {{p.draftD}}; background: #EFEEEA; color: var(--tx2);">Draft</span><span style="display: {{p.draftD}}; font-size: 12px; color: var(--tx3);">{{p.pct}}% ready</span></span>
+<span><button class="ib" data-id="{{p.id}}" onClick="{{p.feat}}" aria-pressed="{{p.featAria}}" aria-label="Lead card: {{p.t}}" title="{{p.featTitle}}" style="color: {{p.starStroke}};"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill: {{p.starFill}}; stroke: currentColor; stroke-width: 1.75; stroke-linejoin: round;"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"></path></svg></button></span>
+<span style="font-size: 13px; color: var(--tx3); white-space: nowrap;">{{p.up}}</span>
+<button class="ib" data-id="{{p.id}}" onClick="{{p.menuBtn}}" aria-haspopup="menu" aria-expanded="{{p.menuAria}}" aria-label="Actions for {{p.t}}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button>
+<div class="menu" role="menu" aria-label="Actions for {{p.t}}" style="display: {{p.menuD}};">
+<a class="mi" role="menuitem" href="EditorOverview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Edit</a>
+<a class="mi" role="menuitem" href="StudioPreview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Preview draft</a>
+<button class="mi" role="menuitem" data-id="{{p.id}}" onClick="{{p.dup}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h12v12H8zM4 16V4h12"></path></svg>Duplicate as draft</button>
+<button class="mi" role="menuitem" data-id="{{p.id}}" onClick="{{p.unpub}}" style="display: {{p.unpubD}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10 10 0 0112 5c6.4 0 10 7 10 7a17 17 0 01-2.8 3.6M6.6 6.6A17 17 0 002 12s3.6 7 10 7a9.6 9.6 0 004.4-1"></path></svg>Unpublish</button>
+<a class="mi" role="menuitem" href="EditorOverview.dc.html" style="display: {{p.pubOkD}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>Review and publish</a>
+<button class="mi" role="menuitem" aria-disabled="true" style="display: {{p.pubNoD}}; align-items: flex-start;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg><span>Publish<span style="display: block; margin-top: 2px; font-size: 12px; color: var(--warn);">{{p.missText}}</span></span></button>
+<div style="height: 1px; background: var(--ln); margin: 6px 4px;"></div>
+<button class="mi" role="menuitem" data-id="{{p.id}}" onClick="{{p.del}}" style="color: var(--err);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>Delete…</button>
+</div>
+</div>
+</sc-for>
+<div style="display: {{emptyBD}}; padding: 18px 20px; border-top: 1px solid var(--ln); font-size: 14px; color: var(--tx3);">Nothing on this shelf matches.</div>
+</div>
+</div>
+
+<div style="display: {{noneD}}; margin-top: 24px;" class="card">
+<div style="padding: 48px 32px; text-align: center;"><h2 style="margin: 0; font-size: 20px; font-weight: 600;">No projects match “{{q}}”</h2><p style="margin: 8px 0 0; font-size: 14px; color: var(--tx2);">Try a company name, like Sugar.fit or Zynga.</p><button class="btn" onClick="{{clearAll}}" style="margin-top: 18px;">Clear search</button></div>
+</div>
+
+<p id="reorder-help" style="margin: 22px 4px 0; display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 13px; line-height: 1.5; color: var(--tx3);"><span><span style="color: var(--ac);">★</span> The first project on a shelf is its large lead card. Star another to move it to the top.</span><span>Drafts keep their place but stay hidden until published.</span><span>Focus a handle and press ↑ or ↓ to move a project.</span></p>
+</sc-if>
+
+<sc-if value="{{isLoading}}" hint-placeholder-val="{{ false }}">
+<div class="card" style="margin-top: 24px; padding: 8px 0;" aria-busy="true" aria-label="Loading projects">
+<div style="display: grid; grid-template-columns: 32px 56px minmax(0, 1fr) 160px 90px; gap: 14px; align-items: center; padding: 14px 18px;"><div class="shim" style="height: 18px;"></div><div class="shim" style="height: 42px;"></div><div><div class="shim" style="width: 60%; height: 14px;"></div><div class="shim" style="margin-top: 8px; width: 36%; height: 12px;"></div></div><div class="shim" style="height: 22px;"></div><div class="shim" style="height: 14px;"></div></div>
+<div style="display: grid; grid-template-columns: 32px 56px minmax(0, 1fr) 160px 90px; gap: 14px; align-items: center; padding: 14px 18px; border-top: 1px solid var(--ln);"><div class="shim" style="height: 18px;"></div><div class="shim" style="height: 42px;"></div><div><div class="shim" style="width: 52%; height: 14px;"></div><div class="shim" style="margin-top: 8px; width: 30%; height: 12px;"></div></div><div class="shim" style="height: 22px;"></div><div class="shim" style="height: 14px;"></div></div>
+<div style="display: grid; grid-template-columns: 32px 56px minmax(0, 1fr) 160px 90px; gap: 14px; align-items: center; padding: 14px 18px; border-top: 1px solid var(--ln);"><div class="shim" style="height: 18px;"></div><div class="shim" style="height: 42px;"></div><div><div class="shim" style="width: 64%; height: 14px;"></div><div class="shim" style="margin-top: 8px; width: 40%; height: 12px;"></div></div><div class="shim" style="height: 22px;"></div><div class="shim" style="height: 14px;"></div></div>
+<div style="display: grid; grid-template-columns: 32px 56px minmax(0, 1fr) 160px 90px; gap: 14px; align-items: center; padding: 14px 18px; border-top: 1px solid var(--ln);"><div class="shim" style="height: 18px;"></div><div class="shim" style="height: 42px;"></div><div><div class="shim" style="width: 48%; height: 14px;"></div><div class="shim" style="margin-top: 8px; width: 28%; height: 12px;"></div></div><div class="shim" style="height: 22px;"></div><div class="shim" style="height: 14px;"></div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{isError}}" hint-placeholder-val="{{ false }}">
+<div class="card" role="alert" style="margin-top: 24px; padding: 40px 32px; display: flex; gap: 18px; align-items: flex-start;">
+<span style="width: 44px; height: 44px; border-radius: 10px; background: var(--errbg); color: var(--err); display: grid; place-items: center; flex: none;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg></span>
+<div><h2 style="margin: 0; font-size: 20px; font-weight: 600;">Couldn’t load your projects</h2><p style="margin: 8px 0 0; max-width: 560px; font-size: 14px; line-height: 1.6; color: var(--tx2);">Studio couldn’t reach the database. Check your connection and try again. Nothing on your live site has changed.</p><button class="btn" onClick="{{retry}}" style="margin-top: 16px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M20 11a8 8 0 10-2.3 5.7M20 5v6h-6"></path></svg>Try again</button></div>
+</div>
+</sc-if>
+</main>
+
+<div style="display: {{backdropD}}; position: absolute; inset: 0; z-index: 50;" onClick="{{closeMenu}}"></div>
+
+<sc-if value="{{confirmOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 80; background: rgba(20,20,22,.48); display: flex; align-items: flex-start; justify-content: center; padding-top: 220px;" onClick="{{cancelConfirm}}">
+<div role="dialog" aria-modal="true" aria-labelledby="del-title" aria-describedby="del-body" onClick="{{stop}}" style="width: 480px; max-width: calc(100% - 40px); padding: 26px; border-radius: 16px; background: #fff; box-shadow: 0 30px 80px rgba(20,20,22,.3); animation: stUp .2s ease-out;">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: var(--errbg); color: var(--err); display: grid; place-items: center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg></span>
+<h2 id="del-title" style="margin: 16px 0 0; font-size: 20px; font-weight: 600; letter-spacing: -.01em;">Delete “{{confirmTitle}}”?</h2>
+<p id="del-body" style="margin: 10px 0 0; font-size: 14px; line-height: 1.6; color: var(--tx2);">{{confirmBody}}</p>
+<div style="margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+<button data-id="{{confirmId}}" onClick="{{unpubFromConfirm}}" style="display: {{unpubInsteadD}}; margin-right: auto; padding: 0; border: 0; background: none; font: 500 14px/1.4 var(--fu); color: var(--tx); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Unpublish instead</button>
+<button class="btn" data-confirm-cancel onClick="{{cancelConfirm}}" style="margin-left: auto;">Cancel</button>
+<button onClick="{{doDelete}}" style="height: 42px; padding: 0 18px; border: 0; border-radius: 8px; background: var(--err); color: #fff; font: 600 14px/1 var(--fu); cursor: pointer;">Delete project</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<div style="display: {{toastD}}; position: absolute; left: 50%; bottom: 28px; z-index: 90; transform: translateX(-50%); align-items: center; gap: 14px; min-width: 360px; padding: 12px 12px 12px 18px; border-radius: 12px; background: #141416; color: #F2F1EE; font-size: 14px; box-shadow: 0 16px 40px rgba(20,20,22,.28); animation: stUp .22s ease-out;">
+<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #6FD3A0;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+<span style="flex: 1;">{{toastMsg}}</span>
+<button onClick="{{undo}}" style="display: {{undoD}}; height: 34px; padding: 0 12px; border: 0; border-radius: 8px; background: #2A2A31; color: #fff; font: 600 13px/1 var(--fu); cursor: pointer;">Undo</button>
+<button onClick="{{closeToast}}" aria-label="Dismiss" style="width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: #B9B7B1; cursor: pointer;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+
+<div class="sr" aria-live="polite">{{announce}}</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","dragging","layout changed","menu open","delete confirm","filtered","no results","loading","error"],"default":"default"},"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.P = {
+      scan: { t: '3D body scan for GLP-1 users', co: 'Sugar.fit', st: 'draft', pct: 40, miss: 3, up: 'Yesterday', g1: '#2DD4BF', g2: '#0D6B60' },
+      food: { t: 'Image-based food logging', co: 'Sugar.fit', st: 'draft', pct: 35, miss: 2, up: '3 days ago', g1: '#F5A524', g2: '#8A5A0B' },
+      cgm: { t: 'The CGM journey, end to end', co: 'Sugar.fit', st: 'draft', pct: 30, miss: 2, up: '3 days ago', g1: '#38BDF8', g2: '#0B5A80' },
+      glp: { t: 'The GLP-1 app, 0→1', co: 'Sugar.fit', st: 'draft', pct: 30, miss: 2, up: '4 days ago', g1: '#A78BFA', g2: '#4C2F9E' },
+      puja: { t: 'Puja engagement platform', co: 'Sri Mandir', slug: 'puja-engagement-platform', st: 'changes', up: '12 min ago', g1: '#FF5A67', g2: '#7F1D2A' },
+      arcana: { t: 'Arcana Workspace', co: 'Arcana', slug: 'arcana-workspace', st: 'live', up: '2 days ago', g1: '#94A3B8', g2: '#1E293B' },
+      scaffold: { t: 'GLP-1 digital scaffold', co: 'GLP Health', slug: 'glp-1-digital-scaffold', st: 'live', up: '5 days ago', g1: '#4ADE80', g2: '#14532D' },
+      word: { t: 'Word games monetisation', co: 'Word Trip · Playsimple', slug: 'word-games-monetisation', st: 'live', up: '1 week ago', g1: '#FACC15', g2: '#713F12' },
+      farm: { t: 'Revenue growth strategy', co: 'FarmVille 3 · Zynga', slug: 'revenue-growth-strategy', st: 'live', up: '1 week ago', g1: '#A3E635', g2: '#365314' }
+    };
+    this.base = { a: ['scan', 'food', 'cgm', 'glp'], b: ['puja', 'arcana', 'scaffold', 'word', 'farm'] };
+    this.n = 0;
+    ['startDrag', 'over', 'endDrag', 'keyMove', 'toggleFeat', 'toggleMenu', 'closeMenu', 'dup', 'unpub', 'askDelete', 'doDelete', 'cancelConfirm', 'unpubFromConfirm', 'undo', 'closeToast', 'discard', 'publishLayout', 'setFilter', 'onQ', 'clearAll', 'onRootKey', 'retry', 'stop'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.state = Object.assign(this.fresh(), this.preset(props.state));
+  }
+  fresh() {
+    return { a: this.base.a.slice(), b: this.base.b.slice(), filter: 'all', q: '', drag: null, menu: null, confirm: null, extra: {}, stOver: {}, toast: null, publishing: false, moved: null, flip: 0, announce: '', loading: false, error: false };
+  }
+  preset(name) {
+    const moved = ['puja', 'scaffold', 'arcana', 'word', 'farm'];
+    switch (name) {
+      case 'dragging': return { b: moved, drag: 'scaffold' };
+      case 'layout changed': return { b: moved, moved: 'scaffold', flip: 1 };
+      case 'menu open': return { menu: 'arcana' };
+      case 'delete confirm': return { confirm: 'arcana' };
+      case 'filtered': return { filter: 'drafts' };
+      case 'no results': return { q: 'roadmap' };
+      case 'loading': return { loading: true };
+      case 'error': return { error: true };
+      default: return {};
+    }
+  }
+  componentDidUpdate(prev) {
+    if (prev.state !== this.props.state) this.setState(Object.assign(this.fresh(), this.preset(this.props.state)));
+  }
+  componentWillUnmount() { clearTimeout(this.tt); clearTimeout(this.pt); clearTimeout(this.rt); }
+  getP(id) { return this.P[id] || this.state.extra[id]; }
+  grp(id) { return this.state.a.indexOf(id) > -1 ? 'a' : 'b'; }
+  status(id) { return this.state.stOver[id] || this.getP(id).st; }
+  filtering() { return this.state.filter !== 'all' || this.state.q.trim() !== ''; }
+  shelf(g) { return g === 'a' ? 'Shipped' : 'Strategy & prototypes'; }
+  idOf(e) { return e.currentTarget.getAttribute('data-id'); }
+  armToast() { clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: null }), 7000); }
+  focusHandle(box, id) { requestAnimationFrame(() => { const h = box && box.querySelector('[data-handle="' + id + '"]'); if (h) h.focus(); }); }
+
+  startDrag(e) {
+    if (this.filtering() || (e.button !== undefined && e.button !== 0)) return;
+    e.preventDefault();
+    this.setState({ drag: this.idOf(e), menu: null });
+  }
+  over(e) {
+    const s = this.state;
+    if (!s.drag) return;
+    const id = this.idOf(e);
+    if (id === s.drag) return;
+    const g = this.grp(s.drag);
+    if (this.grp(id) !== g) return;
+    const arr = s[g].slice();
+    arr.splice(arr.indexOf(s.drag), 1);
+    arr.splice(arr.indexOf(id) + (s[g].indexOf(id) > s[g].indexOf(s.drag) ? 1 : 0), 0, s.drag);
+    this.setState({ [g]: arr });
+  }
+  endDrag() {
+    const s = this.state;
+    if (!s.drag) return;
+    const id = s.drag, g = this.grp(id);
+    this.setState({ drag: null, moved: id, flip: s.flip + 1, announce: this.getP(id).t + ' moved to position ' + (s[g].indexOf(id) + 1) + ' on ' + this.shelf(g) + '.' });
+  }
+  keyMove(e) {
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+    e.preventDefault();
+    if (this.filtering()) { this.setState({ announce: 'Reordering is paused while a filter or search is on.' }); return; }
+    const s = this.state, id = this.idOf(e), g = this.grp(id);
+    const arr = s[g].slice(), i = arr.indexOf(id), j = e.key === 'ArrowUp' ? i - 1 : i + 1;
+    if (j < 0 || j >= arr.length) return;
+    arr.splice(i, 1); arr.splice(j, 0, id);
+    const box = e.currentTarget.closest('[data-list]');
+    this.setState({ [g]: arr, moved: id, flip: s.flip + 1, announce: this.getP(id).t + ', position ' + (j + 1) + ' of ' + arr.length + ' on ' + this.shelf(g) + '.' });
+    this.focusHandle(box, id);
+  }
+  toggleFeat(e) {
+    const s = this.state, id = this.idOf(e), g = this.grp(id);
+    if (s[g][0] === id) { this.setState({ announce: this.getP(id).t + ' is already the lead card. Star another project to replace it.' }); return; }
+    this.setState({ [g]: [id].concat(s[g].filter((x) => x !== id)), moved: id, flip: s.flip + 1, menu: null, announce: this.getP(id).t + ' moved to the top. It is now the lead card on ' + this.shelf(g) + '.' });
+  }
+  toggleMenu(e) { const id = this.idOf(e); this.setState({ menu: this.state.menu === id ? null : id }); }
+  closeMenu() { this.setState({ menu: null }); }
+  dup(e) {
+    const s = this.state, id = this.idOf(e), g = this.grp(id), p = this.getP(id);
+    const nid = 'copy' + (++this.n);
+    const extra = Object.assign({}, s.extra, { [nid]: { t: 'Copy of ' + p.t, co: p.co, st: 'draft', pct: p.pct || 100, miss: p.miss || 0, up: 'Just now', g1: p.g1, g2: p.g2, copy: true } });
+    const arr = s[g].slice(); arr.splice(arr.indexOf(id) + 1, 0, nid);
+    this.setState({ extra, [g]: arr, menu: null, moved: nid, flip: s.flip + 1, toast: { msg: 'Duplicated as a draft: Copy of ' + p.t + '.', undo: { type: 'dup', id: nid } }, announce: 'Duplicated as a draft.' });
+    this.armToast();
+  }
+  unpubId(id) {
+    const s = this.state, t = this.getP(id).t;
+    const stOver = Object.assign({}, s.stOver, { [id]: 'draft' });
+    this.setState({ stOver, menu: null, confirm: null, toast: { msg: '“' + t + '” is off the live site and back to draft.', undo: { type: 'unpub', id, prev: s.stOver[id] } }, announce: t + ' unpublished.' });
+    this.armToast();
+  }
+  unpub(e) { this.unpubId(this.idOf(e)); }
+  unpubFromConfirm() { this.unpubId(this.state.confirm); }
+  askDelete(e) {
+    const root = e.currentTarget.closest('.st');
+    this.setState({ menu: null, confirm: this.idOf(e) });
+    requestAnimationFrame(() => { const b = root && root.querySelector('[data-confirm-cancel]'); if (b) b.focus(); });
+  }
+  cancelConfirm() { this.setState({ confirm: null }); }
+  stop(e) { e.stopPropagation(); }
+  doDelete() {
+    const s = this.state, id = s.confirm;
+    if (!id) return;
+    const g = this.grp(id);
+    const u = { type: 'del', id, g, idx: s[g].indexOf(id), bidx: this.base[g].indexOf(id) };
+    if (u.bidx > -1) this.base[g] = this.base[g].filter((x) => x !== id);
+    this.setState({ [g]: s[g].filter((x) => x !== id), confirm: null, moved: null, toast: { msg: 'Deleted “' + this.getP(id).t + '”.', undo: u }, announce: 'Project deleted.' });
+    this.armToast();
+  }
+  undo() {
+    const s = this.state, u = s.toast && s.toast.undo;
+    if (!u) return;
+    if (u.type === 'del') {
+      const arr = s[u.g].slice(); arr.splice(u.idx, 0, u.id);
+      if (u.bidx > -1) this.base[u.g].splice(u.bidx, 0, u.id);
+      this.setState({ [u.g]: arr, moved: u.id, flip: s.flip + 1, toast: { msg: 'Restored “' + this.getP(u.id).t + '”.' }, announce: 'Project restored.' });
+    } else if (u.type === 'unpub') {
+      const stOver = Object.assign({}, s.stOver);
+      if (u.prev) stOver[u.id] = u.prev; else delete stOver[u.id];
+      this.setState({ stOver, toast: { msg: '“' + this.getP(u.id).t + '” is live again.' }, announce: 'Published again.' });
+    } else if (u.type === 'dup') {
+      const g = this.grp(u.id);
+      this.setState({ [g]: s[g].filter((x) => x !== u.id), toast: { msg: 'Copy removed.' }, announce: 'Copy removed.' });
+    }
+    this.armToast();
+  }
+  closeToast() { clearTimeout(this.tt); this.setState({ toast: null }); }
+  isDirty() {
+    const s = this.state, real = (arr) => arr.filter((x) => this.P[x]).join();
+    return real(s.a) !== real(this.base.a) || real(s.b) !== real(this.base.b);
+  }
+  discard() {
+    const s = this.state, keep = (g) => this.base[g].concat(s[g].filter((x) => this.base[g].indexOf(x) < 0));
+    this.setState({ a: keep('a'), b: keep('b'), moved: null, announce: 'Layout changes discarded.' });
+  }
+  publishLayout() {
+    if (this.state.publishing) return;
+    this.setState({ publishing: true });
+    this.pt = setTimeout(() => {
+      const s = this.state;
+      this.base = { a: s.a.slice(), b: s.b.slice() };
+      this.setState({ publishing: false, moved: null, toast: { msg: 'Homepage layout is live.' }, announce: 'Homepage layout is live.' });
+      this.armToast();
+    }, 1100);
+  }
+  setFilter(e) { this.setState({ filter: e.currentTarget.getAttribute('data-f'), menu: null }); }
+  onQ(e) { this.setState({ q: e.target.value, menu: null }); }
+  clearAll() { this.setState({ filter: 'all', q: '' }); }
+  onRootKey(e) {
+    if (e.key !== 'Escape') return;
+    if (this.state.confirm) this.setState({ confirm: null });
+    else if (this.state.menu) this.setState({ menu: null });
+  }
+  retry() {
+    this.setState({ error: false, loading: true });
+    this.rt = setTimeout(() => this.setState({ loading: false }), 900);
+  }
+  rows(g) {
+    const s = this.state, lock = this.filtering(), q = s.q.trim().toLowerCase();
+    const offset = g === 'a' ? 0 : s.a.length;
+    const out = [];
+    s[g].forEach((id, i) => {
+      const p = this.getP(id), st = this.status(id);
+      if (s.filter === 'published' && st === 'draft') return;
+      if (s.filter === 'drafts' && st !== 'draft') return;
+      if (q && (p.t + ' ' + p.co).toLowerCase().indexOf(q) < 0) return;
+      const drag = s.drag === id, feat = s[g][0] === id, menu = s.menu === id, pub = st !== 'draft';
+      out.push({
+        id, t: p.t, up: p.up, g1: p.g1, g2: p.g2, pct: p.pct,
+        pos: String(offset + i + 1).padStart(2, '0'),
+        sub: pub ? p.co + ' · /work/' + p.slug : p.co + ' · not on the live site',
+        liveD: pub ? 'inline-flex' : 'none', chgD: st === 'changes' ? 'inline-flex' : 'none', draftD: pub ? 'none' : 'inline-flex',
+        bg: drag ? '#FFFFFF' : (menu ? '#F9F9F7' : ''), shadow: drag ? '0 14px 34px rgba(20,20,22,.16), 0 0 0 1.5px #141416' : 'none',
+        lift: drag ? 'scale(1.012)' : 'none', z: menu ? 60 : (drag ? 20 : 'auto'),
+        anim: s.moved === id && !drag ? (s.flip % 2 ? 'stFlashA 1s ease-out' : 'stFlashB 1s ease-out') : 'none',
+        handleCursor: lock ? 'not-allowed' : (s.drag ? 'grabbing' : 'grab'), handleColor: lock ? '#B9B7B1' : '#6A6A72', lockAria: lock ? 'true' : 'false',
+        featAria: feat ? 'true' : 'false', featTitle: feat ? 'Lead card: first on its shelf' : 'Move to the top as the lead card', starFill: feat ? '#D61F33' : 'none', starStroke: feat ? '#D61F33' : '#6A6A72',
+        menuD: menu ? 'block' : 'none', menuAria: menu ? 'true' : 'false',
+        unpubD: pub ? 'flex' : 'none', pubOkD: !pub && !p.miss ? 'flex' : 'none', pubNoD: !pub && p.miss ? 'flex' : 'none',
+        missText: p.miss ? p.miss + ' required ' + (p.miss === 1 ? 'field' : 'fields') + ' missing' : '',
+        over: this.over, down: this.startDrag, key: this.keyMove, feat: this.toggleFeat, menuBtn: this.toggleMenu, dup: this.dup, unpub: this.unpub, del: this.askDelete
+      });
+    });
+    return out;
+  }
+  renderVals() {
+    const s = this.state;
+    const all = s.a.concat(s.b), pubN = all.filter((id) => this.status(id) !== 'draft').length;
+    const rowsA = this.rows('a'), rowsB = this.rows('b'), lock = this.filtering();
+    const dirty = this.isDirty(), none = !rowsA.length && !rowsB.length;
+    const cp = s.confirm ? this.getP(s.confirm) : null, cpub = s.confirm ? this.status(s.confirm) !== 'draft' : false;
+    return {
+      rowsA, rowsB,
+      countAll: all.length, countPub: pubN, countDraft: all.length - pubN, countA: s.a.length, countB: s.b.length,
+      fAll: s.filter === 'all' ? 'true' : 'false', fPub: s.filter === 'published' ? 'true' : 'false', fDraft: s.filter === 'drafts' ? 'true' : 'false',
+      q: s.q, onQ: this.onQ, setFilter: this.setFilter, clearAll: this.clearAll,
+      pausedD: lock ? 'flex' : 'none',
+      dirtyD: dirty && !s.loading && !s.error ? 'flex' : 'none', discard: this.discard, publishLayout: this.publishLayout,
+      publishing: s.publishing ? 'true' : 'false', spinD: s.publishing ? 'inline-block' : 'none', publishLabel: s.publishing ? 'Publishing…' : 'Publish layout',
+      showList: !s.loading && !s.error, isLoading: s.loading, isError: s.error, retry: this.retry,
+      groupAD: none ? 'none' : 'block', groupBD: none ? 'none' : 'block', noneD: none && s.q.trim() ? 'block' : 'none',
+      emptyAD: !rowsA.length ? 'block' : 'none', emptyBD: !rowsB.length ? 'block' : 'none',
+      userSelect: s.drag ? 'none' : 'auto', rootCursor: s.drag ? 'grabbing' : 'auto',
+      endDrag: this.endDrag, onRootKey: this.onRootKey,
+      backdropD: s.menu ? 'block' : 'none', closeMenu: this.closeMenu,
+      confirmOpen: !!s.confirm, confirmId: s.confirm || '', confirmTitle: cp ? cp.t : '',
+      confirmBody: cpub ? 'It comes off the live site straight away and its link, /work/' + cp.slug + ', stops working. Its images and videos stay in your media library.' : 'It has never been published, so the live site doesn’t change. Its images and videos stay in your media library.',
+      unpubInsteadD: cpub ? 'inline' : 'none', unpubFromConfirm: this.unpubFromConfirm, cancelConfirm: this.cancelConfirm, doDelete: this.doDelete, stop: this.stop,
+      toastD: s.toast ? 'flex' : 'none', toastMsg: s.toast ? s.toast.msg : '', undoD: s.toast && s.toast.undo ? 'inline-flex' : 'none', undo: this.undo, closeToast: this.closeToast,
+      announce: s.announce
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -11,7 +11,7 @@
 
 Fixed everywhere:
 
-- the live site's pill nav, copied exactly (glass, rotating ring, red "Let's Talk"), on laptop, iPad and mobile. On mobile it holds Menu and Let's Talk;
+- the live site's pill nav, copied exactly (glass, rotating ring, red "Let's Talk"), on laptop, iPad and mobile. On mobile it holds Menu and Let's Talk, and Menu opens a full-screen menu of the section links with a way to close it;
 - the angled-cut CTA;
 - no logo or monogram;
 - no Japanese or SFX lettering;
@@ -117,6 +117,42 @@ Every shelf, current or future, uses one component:
 - It's used for covers, volume tags and chapter numbers, never for body text.
 - Text on an accent is always `#0B0B0E`.
 
+## Skills cloud
+
+Skills show as one typographic word cloud, not a table.
+
+- **Group words.** Each group (for example Product, Data, Design, Tools) is a big outlined word in Archivo, with its subtitle in mono above it.
+- **Skills.** They are spread evenly through the cloud rather than listed under their group, so the cloud reads as one shape.
+- **Sizes.** Each skill has a size, set in Studio: XL, L, M or S.
+
+  | Size | Style |
+  | --- | --- |
+  | XL | Condensed caps, in white |
+  | L | Condensed caps |
+  | M | Alternates between Geist and condensed caps, so the texture varies without implying importance |
+  | S | Mono caps, in grey |
+
+  Size is emphasis: the owner keeps two or three big and most at M. V0 starts every skill at M.
+- **Highlight.** Hovering, focusing or tapping a group name lights up that group's skills. The rest dim to 16%, and the group name fills red. Tapping again clears it.
+- **Behind the cloud.** A faint screentone halo, from the hero's vocabulary.
+- **Accessibility.** The markup stays grouped: a heading and a list per group. CSS `order` interleaves the words visually, so screen readers still hear each group's skills together.
+
+## Off duty
+
+Off duty is a manga page: the bonus pages at the back of the volume.
+
+- **Panels.** Each hobby is a panel with a 2px ink border, its own accent, line art over speed lines and screentone, and a big outlined number.
+- **Caption box.** The label, title, text and a tag sit in a light caption box with an offset shadow in the accent, like a manga narration box.
+- **Favourites shelf.** The first hobby gets the big panel. It can carry a shelf of favourites, drawn as volume spines; V0 uses the eight anime picks from the current site.
+
+| Device | Layout |
+| --- | --- |
+| Laptop | One big panel (7 of 12 columns, two rows), two side panels, then a row of three |
+| iPad | The big panel, then two, then three |
+| Phone | A swipeable row of panels with dots, and the spine shelf below |
+
+**Art.** It comes from six presets (kunai, pencil, paddle, pan, plane, camera), stroked in the panel's accent. The owner picks a preset and an accent per hobby in Studio.
+
 ## Result labels
 
 Every number shows one of these labels. Each label differs by fill or outline, not by colour alone.
@@ -174,6 +210,9 @@ Canvas page 6, "Motion & animation", is the reference. It shows every animation 
 | Reading progress | Bar follows the scroll directly |
 | Chapter marker | Slides in 240ms |
 | Prototypes | Poster, spinner, then a 320ms fade |
+| Phone menu | Fades in over 240ms. The links rise in 80ms apart, then Let's Talk. Closing is instant |
+| Skills cloud | The words rise in over five steps, 80ms apart. The group highlight changes over 200ms |
+| Off duty panels | On hover, the panel lifts 4px and its caption shadow deepens (320ms). The art nudges and the speed lines widen (500ms). Spines lift 4px |
 
 **Reduced motion.** The same content with nothing moving:
 

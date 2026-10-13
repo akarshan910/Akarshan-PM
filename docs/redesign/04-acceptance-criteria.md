@@ -10,7 +10,7 @@ Implementation is done when every line below holds on the deployed site. Check i
 ## Content and honesty
 
 - [ ] Every number on the public site carries a label: Achieved, Target, Projected, Baseline or Output.
-- [ ] No figure from the [audit's discrepancy table](01-audit.md#site-vs-résumé) is shown until you have confirmed it in Profile & facts.
+- [ ] V0 shows the current site's values. Every figure in the [audit's discrepancy table](01-audit.md#site-vs-résumé) appears in Studio under "Worth a check", with the résumé's value as the alternative. The live value changes only when the owner picks one.
 - [ ] Missing facts appear as clearly marked placeholders in drafts and never reach the live site. Empty fields hide their line; empty chapters and sections hide entirely.
 - [ ] Private evidence notes never appear in published JSON, page HTML or network responses for visitors.
 
@@ -20,6 +20,12 @@ Implementation is done when every line below holds on the deployed site. Check i
 
 - [ ] The whole site follows Round 1 Volumes. The hero is the standardised Ink & Depth panel. There is no Japanese or SFX lettering anywhere.
 - [ ] The pill nav matches the current site exactly on every breakpoint: glass, rotating ring, red "Let's Talk", and Menu plus Let's Talk on mobile.
+- [ ] On phones, Menu opens a full-screen menu:
+  - the section links, with the current one marked;
+  - Let's Talk;
+  - Email, LinkedIn and Résumé.
+
+  The pill's ✕, "Close menu", Esc or a link closes it, and focus returns to Menu.
 - [ ] CTAs use the angled cut. No logo or monogram anywhere.
 
 **Hero**
@@ -40,6 +46,18 @@ Implementation is done when every line below holds on the deployed site. Check i
 - [ ] The cap is lead card plus 1 to 3 rows. Past it, a "See all N" cell appears; a gap in the last row gets an "All work" tile.
 - [ ] Phones show the same projects, as a lead card and compact rows.
 - [ ] The lead card is the first published project on its shelf.
+
+**Skills and Off duty**
+
+- [ ] Skills is one word cloud matching the Home boards:
+  - outlined group words;
+  - skills spread through the cloud at their sizes (S, M, L, XL) from Studio;
+  - hovering, focusing or tapping a group lights up its skills and dims the rest;
+  - screen readers hear each group's skills together.
+- [ ] Off duty is the manga page from the Home boards:
+  - one ink panel per item, with its accent, art, caption box and tag;
+  - the first item's panel is big and carries the spine shelf of favourites;
+  - phones show a swipeable row of panels.
 
 **/work**
 
@@ -97,12 +115,19 @@ Implementation is done when every line below holds on the deployed site. Check i
 
 **Access and saving**
 
-- [ ] Studio signs in with Google, and only akarshan910@gmail.com gets in. Any other Google account sees "This Google account can't open Studio" and gets no data. Database policies enforce this, not just the UI.
-- [ ] New sign-ups are closed after the owner's first sign-in.
-- [ ] The email-link backup is rate-limited and never reveals which address owns the site.
+- [ ] Studio signs in with a 6-digit code sent by email, and only the owner's address gets one. Database policies enforce this, not just the UI.
+  - Any other address sees the same "Check your email" screen and receives nothing.
+  - Any other account that somehow has a session is signed out and reads no data.
+- [ ] Sign-ups are off from day one. The owner's account is created once with `npm run setup:owner`, and the owner's address isn't in the code.
+- [ ] Codes:
+  - expire after 10 minutes and work once;
+  - each new code replaces the old one;
+  - one code can be requested per minute per address;
+  - the boxes lock after 5 wrong codes;
+  - Turnstile guards sending and checking codes.
 - [ ] Every path on the sign-in flow board works:
   - a deep link returns to its page after sign-in;
-  - a cancelled sign-in shows the banner;
+  - wrong, expired and too-early states show their messages;
   - signing out mid-edit keeps unsaved changes and syncs them after signing in;
   - "Sign out on all devices" ends every session.
 - [ ] No service-role key or other secret ships to the browser.
@@ -117,6 +142,7 @@ Implementation is done when every line below holds on the deployed site. Check i
 - [ ] Nav links follow page order, each with its own label.
 - [ ] "Publish website" lists every change and publishes the layout and profile together. Project pages, posts and drafts aren't touched.
 - [ ] A draft project keeps its spot but can't be switched on. It takes that spot when it's published.
+- [ ] Skills: each group's name, subtitle and skills can be edited, with a size per skill. Off duty: each item's title, label, text, tag, accent and art can be edited, plus the first item's favourites.
 
 **Publishing**
 

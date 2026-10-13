@@ -1,3 +1,28 @@
+# dependencies and build output
 node_modules/
 dist/
-package-lock.json
+build/
+.react-router/
+
+# secrets: never commit these. Real values live in Vercel and Supabase settings.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+supabase/.env
+supabase/.temp/
+supabase/.branches/
+.vercel/
+
+# local tooling
+.DS_Store
+*.log
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.idea/
+.vscode/*
+!.vscode/extensions.json

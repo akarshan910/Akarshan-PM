@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — editor, visuals</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .rail{width:72px;flex:none;background:#FBFBFA;border-right:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 0}
+.st .rl{width:48px;height:48px;display:grid;place-items:center;border-radius:10px;color:var(--tx3)}
+.st .rl:hover{background:#EFEEEA;color:var(--tx)}
+.st .rl.on{background:#EAE9E4;color:var(--tx)}
+.st .tb{height:68px;display:flex;align-items:center;gap:14px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tabs{display:flex;gap:4px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tab{position:relative;display:flex;align-items:center;gap:8px;height:48px;padding:0 14px;font-size:14px;font-weight:500;color:var(--tx2)}
+.st .tab:hover{color:var(--tx)}
+.st .tab[aria-current="page"]{color:var(--tx)}
+.st .tab[aria-current="page"]::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;background:var(--tx)}
+.st .dot{width:7px;height:7px;border-radius:50%;background:#F5A524}
+.st .card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.st .cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border:0;background:var(--ac);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.st .cta:hover{background:#E42A3F}
+.st .cta[aria-disabled="true"]{background:#D2D0CA;color:#4A4A51;cursor:not-allowed}
+.st .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:500 14px/1 var(--fu);cursor:pointer}
+.st .btn:hover{border-color:#B9B7B1}
+.st .ib{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--tx2);cursor:pointer}
+.st .ib:hover{background:#EFEEEA;color:var(--tx)}
+.st .chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap}
+.st .mono{font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .sec{padding:24px}
+.st .sec h2{margin:0;font-size:17px;font-weight:600}
+.st .sec .sub{margin:4px 0 0;font-size:14px;color:var(--tx3)}
+.st .fld{margin-top:20px}
+.st .lbl{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.st .req{font-size:12px;font-weight:500;color:var(--tx3)}
+.st .inp{display:block;width:100%;height:44px;margin-top:8px;padding:0 12px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:400 15px/1.4 var(--fu)}
+.st textarea.inp{height:auto;min-height:88px;padding:10px 12px;resize:vertical}
+.st .inp::placeholder{color:#8F8D87}
+.st .inp:focus{outline:none;border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .hrow{display:flex;align-items:flex-start;gap:12px;margin-top:6px;font-size:13px;line-height:1.45}
+.st .hint{color:var(--tx3)}
+.st .err{display:flex;gap:6px;color:var(--err);font-weight:500}
+.st .cnt{margin-left:auto;font-family:var(--fm);font-size:12px;white-space:nowrap}
+.st .seg{display:inline-flex;margin-top:8px;padding:3px;border-radius:10px;background:#EAE9E4}
+.st .seg button{height:36px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--tx2);font:500 14px/1 var(--fu);cursor:pointer}
+.st .seg button[aria-pressed="true"]{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(20,20,22,.12)}
+.st .tg{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 6px 0 10px;border-radius:8px;background:#EFEEEA;font-size:13px;font-weight:500}
+.st .tg button{width:22px;height:22px;display:grid;place-items:center;border:0;border-radius:5px;background:transparent;color:var(--tx3);cursor:pointer}
+.st .tg button:hover{background:#E2E1DC;color:var(--tx)}
+.st .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.st a:focus-visible,.st button:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+.st .pv{--pbg:#0B0B0E;--pbg2:#111116;--pln:#26262E;--ptx:#F2F1EE;--ptx2:#B9B7B1;--ptx3:#8F8D87}
+.st .tag-t{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;border:1px solid rgba(242,241,238,.3);color:#B9B7B1;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+@keyframes stPulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.st *{animation-duration:.01ms !important}}
+
+.st .gt{position:relative;display:flex;flex-direction:column;gap:8px;padding:8px;border:1px solid var(--ln);border-radius:12px;background:#fff;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.st .gt:hover{border-color:#B9B7B1}
+.st .gt[aria-pressed="true"]{border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .ph{position:relative;aspect-ratio:3/4;border-radius:8px;overflow:hidden;background:#2A1316;display:grid;place-items:center}
+.st .scr{width:62%;height:88%;margin-top:14%;border-radius:10px 10px 0 0;background:#F7F3EE;overflow:hidden;align-self:end}
+.st .fp{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px rgba(20,20,22,.6),0 2px 10px rgba(0,0,0,.4);pointer-events:none;transition:left .18s,top .18s}
+.st .fp::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#fff}
+.st .crop{position:relative;overflow:hidden;border-radius:8px;background:#1C0C0F}
+.st .crop svg{position:absolute;transition:left .18s,top .18s}
+.st .bar{height:6px;border-radius:3px;background:#EFEEEA;overflow:hidden}
+.st .bar span{display:block;height:100%;background:var(--tx);transition:width .12s linear}
+.st .chk{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
+.st .chk input{width:18px;height:18px;margin:0;accent-color:#141416}
+@media (prefers-reduced-motion:reduce){.st .fp,.st .crop svg,.st .bar span{transition:none}}
+</style>
+</helmet>
+<div class="st" style="position: relative; min-height: 1960px; display: flex; background: var(--bg); color: var(--tx); font-family: var(--fu);" onKeyDown="{{onRootKey}}">
+
+<nav class="rail" aria-label="Studio"><a href="StudioDashboard.dc.html" aria-label="Studio dashboard" style="margin-bottom: 14px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 26px; line-height: 1;">S<span style="color: var(--ac);">.</span></a><a class="rl" href="StudioDashboard.dc.html" aria-label="Dashboard" title="Dashboard"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg></a><a class="rl" href="StudioSite.dc.html" aria-label="Website" title="Website"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg></a><a class="rl on" href="StudioProjects.dc.html" aria-label="Projects" title="Projects" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16"></path></svg></a><a class="rl" href="StudioWriting.dc.html" aria-label="Writing" title="Writing"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg></a><a class="rl" href="StudioMedia.dc.html" aria-label="Media" title="Media"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg></a><a class="rl" href="Home.dc.html" aria-label="View live site" title="View live site" style="margin-top: auto;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg></a></nav>
+
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+<header class="tb">
+<a class="ib" href="StudioProjects.dc.html" aria-label="Back to projects"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<div style="min-width: 0;"><div class="mono" style="font-size: 11px;">Projects · Strategy &amp; prototypes · 05</div><div style="margin-top: 3px; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 420px;">{{titleShow}}</div></div>
+<span class="chip" style="background: var(--okbg); color: var(--ok);"><span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>Published</span>
+<span class="chip" style="display: {{chgD}}; background: var(--warnbg); color: var(--warn);">Edits not live</span>
+<span role="status" style="display: inline-flex; align-items: center; gap: 7px; margin-left: 6px; font-size: 13px; color: {{saveColor}};"><span style="display: {{saveSpinD}}; width: 13px; height: 13px; border-radius: 50%; border: 2px solid #D2D0CA; border-top-color: var(--tx2); animation: stSpin .8s linear infinite;"></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveOkD}}; width: 16px; height: 16px;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveOffD}}; width: 16px; height: 16px;"><path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveErrD}}; width: 16px; height: 16px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>{{saveText}}<button onClick="{{retrySave}}" style="display: {{saveErrD}}; border: 0; background: none; padding: 0; font: 600 13px/1 var(--fu); color: var(--err); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Retry</button></span>
+<span style="flex: 1;"></span>
+<a class="btn" href="StudioPreview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Preview</a>
+<button class="cta" onClick="{{openPublish}}" aria-disabled="{{pubAria}}" title="{{pubTitle}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; display: {{pubDoneIcoD}};"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>{{pubLabel}}</button>
+<button class="ib" aria-label="More actions"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button>
+</header>
+<nav class="tabs" aria-label="Project sections">
+<a class="tab" href="EditorOverview.dc.html">Overview</a>
+<a class="tab" href="EditorVisuals.dc.html" aria-current="page">Visuals<span class="dot" style="display: {{tabDotD}};"></span><span class="sr" style="display: {{tabDotD}};">, has unpublished edits</span></a>
+<a class="tab" href="EditorCaseStudy.dc.html">Story<span class="dot"></span><span class="sr">, has unpublished edits</span></a>
+<a class="tab" href="EditorOutcomes.dc.html">Outcomes</a>
+<a class="tab" href="EditorSettings.dc.html">URL &amp; SEO</a>
+</nav>
+<div style="display: {{offBannerD}}; align-items: center; gap: 12px; padding: 12px 24px; background: var(--warnbg); color: var(--warn); font-size: 14px; border-bottom: 1px solid #F1DFB0;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6"></path></svg><span><strong>You’re offline.</strong> Keep editing. Changes are kept on this device and sync when you reconnect. Publishing is paused.</span></div>
+<div style="display: {{errBannerD}}; align-items: center; gap: 12px; padding: 12px 24px; background: var(--errbg); color: var(--err); font-size: 14px; border-bottom: 1px solid #F5C9C4;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg><span style="flex: 1;"><strong>Your last change didn’t save.</strong> Studio will keep retrying. Keep this tab open until it says Saved.</span><button class="btn" onClick="{{retrySave}}" style="height: 34px; border-color: #F0B4AD;">Retry now</button></div>
+
+<svg width="0" height="0" style="position: absolute;" aria-hidden="true"><defs><symbol id="cover" viewBox="0 0 800 600">
+<rect width="800" height="600" fill="#1C0C0F"></rect>
+<g stroke="#E8273A" stroke-width="1.2" opacity=".3"><line x1="400" y1="300" x2="-40" y2="0"></line><line x1="400" y1="300" x2="-40" y2="200"></line><line x1="400" y1="300" x2="-40" y2="420"></line><line x1="400" y1="300" x2="-40" y2="640"></line><line x1="400" y1="300" x2="840" y2="0"></line><line x1="400" y1="300" x2="840" y2="220"></line><line x1="400" y1="300" x2="840" y2="440"></line><line x1="400" y1="300" x2="840" y2="640"></line></g>
+<g transform="translate(96 168)"><rect width="176" height="360" rx="22" fill="#F7F3EE" stroke="#5A3A3E" stroke-width="3"></rect><path d="M0 22a22 22 0 0122-22h132a22 22 0 0122 22v42H0z" fill="#C7372F"></path><rect x="16" y="84" width="144" height="16" rx="5" fill="#E9E3DC"></rect><rect x="16" y="112" width="144" height="74" rx="9" fill="#F5A524"></rect><rect x="16" y="198" width="68" height="62" rx="7" fill="#EADFD2"></rect><rect x="92" y="198" width="68" height="62" rx="7" fill="#EADFD2"></rect><rect x="16" y="272" width="144" height="14" rx="5" fill="#E9E3DC"></rect></g>
+<g transform="translate(300 96)"><rect width="200" height="440" rx="26" fill="#ECE5DD" stroke="#5A3A3E" stroke-width="3"></rect><path d="M0 26a26 26 0 0126-26h148a26 26 0 0126 26v40H0z" fill="#1F7A55"></path><rect x="18" y="88" width="120" height="44" rx="10" fill="#fff"></rect><rect x="62" y="146" width="120" height="58" rx="10" fill="#DCF8C6"></rect><rect x="18" y="218" width="140" height="84" rx="10" fill="#fff"></rect><rect x="30" y="232" width="116" height="40" rx="6" fill="#C7372F"></rect><rect x="62" y="316" width="120" height="40" rx="10" fill="#DCF8C6"></rect><rect x="18" y="394" width="164" height="28" rx="14" fill="#fff"></rect></g>
+<g transform="translate(528 168)"><rect width="176" height="360" rx="22" fill="#F7F3EE" stroke="#5A3A3E" stroke-width="3"></rect><path d="M0 22a22 22 0 0122-22h132a22 22 0 0122 22v42H0z" fill="#C7372F"></path><g fill="#E9E3DC"><rect x="16" y="84" width="30" height="26" rx="5"></rect><rect x="54" y="84" width="30" height="26" rx="5"></rect><rect x="92" y="84" width="30" height="26" rx="5"></rect><rect x="130" y="84" width="30" height="26" rx="5"></rect><rect x="16" y="118" width="30" height="26" rx="5"></rect><rect x="92" y="118" width="30" height="26" rx="5"></rect><rect x="130" y="118" width="30" height="26" rx="5"></rect><rect x="16" y="152" width="30" height="26" rx="5"></rect><rect x="54" y="152" width="30" height="26" rx="5"></rect><rect x="130" y="152" width="30" height="26" rx="5"></rect></g><rect x="54" y="118" width="30" height="26" rx="5" fill="#F5A524"></rect><rect x="92" y="152" width="30" height="26" rx="5" fill="#C7372F"></rect><rect x="16" y="196" width="144" height="56" rx="9" fill="#EADFD2"></rect><rect x="16" y="262" width="144" height="56" rx="9" fill="#EADFD2"></rect></g>
+</symbol></defs></svg>
+<main style="flex: 1; padding: 28px 32px 64px;">
+<div style="max-width: 1220px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;">
+<div style="flex: 999 1 600px; min-width: 0; display: grid; gap: 20px;">
+
+<section class="card sec" aria-labelledby="s-hero">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 16px;"><div><h2 id="s-hero">Top of the page</h2><p class="sub">What a visitor meets first, under the title.</p></div>
+<div class="seg" role="group" aria-label="Hero type" style="margin: 0;"><button aria-pressed="{{hImg}}" data-v="image" onClick="{{setHero}}">Image</button><button aria-pressed="{{hVid}}" data-v="video" onClick="{{setHero}}">Video</button><button aria-pressed="{{hProto}}" data-v="proto" onClick="{{setHero}}">Prototype</button></div></div>
+
+<div style="display: {{protoD}}; margin-top: 20px; gap: 24px; flex-wrap: wrap;">
+<div style="flex: 999 1 340px; min-width: 0;">
+<label class="lbl" for="f-proto">Prototype link</label>
+<input id="f-proto" class="inp" value="{{purl}}" onChange="{{onProto}}" placeholder="https://[your-prototypes].vercel.app/sri-mandir" aria-invalid="{{protoInvalid}}" aria-describedby="f-proto-h" style="border-color: {{protoBorder}}; font-family: var(--fm); font-size: 13px;">
+<div class="hrow" id="f-proto-h"><span class="hint" style="display: {{protoHintD}};">Deploy it, for example on Vercel, and paste its public address. Figma prototype links work too.</span><span class="err" style="display: {{protoErrD}};">{{protoErr}}</span></div>
+<div style="display: {{protoChecksD}}; margin-top: 12px; flex-direction: column; gap: 6px;"><sc-for list="{{protoChecks}}" as="c" hint-placeholder-count="2"><div style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.45; color: {{c.fg}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; margin-top: 1px;"><path d="{{c.icon}}"></path></svg><span>{{c.t}}</span></div></sc-for></div>
+<div class="fld"><span class="lbl">Poster image</span><div style="display: flex; align-items: center; gap: 12px; margin-top: 8px; padding: 10px; border: 1px solid var(--ln); border-radius: 10px;"><span style="flex: none; width: 64px; height: 40px; border-radius: 6px; background: linear-gradient(135deg, #2A0E14, #1C0C0F);"></span><span style="flex: 1; font-size: 13px; line-height: 1.45; color: var(--tx2);">Shown until a visitor loads the prototype.</span><button class="btn" style="height: 34px; padding: 0 12px;">Replace</button></div></div>
+<div class="fld"><span class="lbl" id="l-frame">Frame</span><div class="seg" role="group" aria-labelledby="l-frame"><button aria-pressed="{{fPhone}}" data-v="phone" onClick="{{setFrame}}">Phone</button><button aria-pressed="{{fTab}}" data-v="tablet" onClick="{{setFrame}}">Tablet</button><button aria-pressed="{{fDesk}}" data-v="desktop" onClick="{{setFrame}}">Desktop</button><button aria-pressed="{{fNone}}" data-v="none" onClick="{{setFrame}}">None</button></div></div>
+<div class="fld"><span class="lbl" id="l-start">Starts</span><div class="seg" role="group" aria-labelledby="l-start"><button aria-pressed="{{sClick}}" data-v="click" onClick="{{setStart}}">On click</button><button aria-pressed="{{sVis}}" data-v="visible" onClick="{{setStart}}">When scrolled into view</button></div><div class="hrow"><span class="hint">{{startHint}}</span></div></div>
+<div style="margin-top: 18px; display: flex; gap: 10px; padding: 12px 14px; border-radius: 10px; background: #F2F1EE; font-size: 13px; line-height: 1.5; color: var(--tx2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--ok);"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg><span>Prototypes load from their own address inside a sandboxed frame, so they can’t read your site, your visitors’ cookies or Studio. Use the production address: on Vercel, preview links ask visitors to log in.</span></div>
+</div>
+<div style="flex: 1 1 200px; display: grid; place-items: center; min-height: 260px; border-radius: 12px; background: #1C0C0F;" aria-label="Frame preview" role="img">
+<div style="width: {{frameW}}px; height: {{frameH}}px; border-radius: {{frameR}}px; border: {{frameBorder}}; background: #F7F3EE; overflow: hidden; transition: width .2s, height .2s, border-radius .2s;"><div style="height: 22%; background: #C7372F;"></div><div style="margin: 8% 9% 0; height: 8%; border-radius: 4px; background: #E9E3DC;"></div><div style="margin: 7% 9% 0; height: 24%; border-radius: 6px; background: #F5A524;"></div></div>
+</div>
+</div>
+
+<div style="display: {{videoD}}; margin-top: 20px; flex-direction: column;">
+<label class="lbl" for="f-vid">Video link</label>
+<input id="f-vid" class="inp" value="{{vurl}}" onChange="{{onVideo}}" placeholder="https://youtu.be/…" aria-invalid="{{vidInvalid}}" aria-describedby="f-vid-h" style="border-color: {{vidBorder}};">
+<div class="hrow" id="f-vid-h"><span class="hint" style="display: {{vidHintD}};">YouTube, Vimeo, Loom or Google Drive. Video files aren’t uploaded: links keep the page fast and stay inside free storage.</span><span class="err" style="display: {{vidErrD}};">That link isn’t from YouTube, Vimeo, Loom or Google Drive. Paste the share link from one of them.</span></div>
+<div style="display: {{vidOkD}}; margin-top: 14px; align-items: center; gap: 14px; padding: 12px; border: 1px solid var(--ln); border-radius: 10px;"><span style="width: 120px; aspect-ratio: 16 / 9; border-radius: 6px; background: #141416; display: grid; place-items: center; color: #fff;"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></span><span style="font-size: 14px; line-height: 1.5;"><strong>{{vidHost}} video</strong><span style="display: block; color: var(--tx3);">{{vidNote}}</span></span></div>
+</div>
+
+<div style="display: {{imgD}}; margin-top: 20px; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; background: #F2F1EE; font-size: 14px; color: var(--tx2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Uses the cover image below, cropped to 16:10.</div>
+</section>
+
+<section class="card sec" aria-labelledby="s-cover">
+<h2 id="s-cover">Cover image and crops</h2><p class="sub">Click the image, or focus it and use the arrow keys, to choose what stays in frame. Every crop updates.</p>
+<div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-start;">
+<button onClick="{{setFocal}}" onKeyDown="{{focalKey}}" aria-label="Focal point at {{fxPct}}% across, {{fyPct}}% down. Use arrow keys to move it." style="position: relative; flex: none; width: 360px; height: 270px; padding: 0; border: 0; border-radius: 10px; overflow: hidden; cursor: crosshair; background: none;"><svg viewBox="0 0 800 600" width="360" height="270" aria-hidden="true" style="display: block;"><use href="#cover"></use></svg><span class="fp" style="left: {{fxPct}}%; top: {{fyPct}}%;"></span></button>
+<div style="flex: 1 1 260px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;">
+<div><div class="crop" style="width: 208px; height: 130px;"><svg viewBox="0 0 800 600" aria-hidden="true" style="width: {{c1w}}px; height: {{c1h}}px; left: {{c1x}}px; top: {{c1y}}px;"><use href="#cover"></use></svg></div><div style="margin-top: 6px; font-size: 12px; color: var(--tx3);">Homepage card · 16:10</div></div>
+<div><div class="crop" style="width: 112px; height: 140px;"><svg viewBox="0 0 800 600" aria-hidden="true" style="width: {{c2w}}px; height: {{c2h}}px; left: {{c2x}}px; top: {{c2y}}px;"><use href="#cover"></use></svg></div><div style="margin-top: 6px; font-size: 12px; color: var(--tx3);">Mobile · 4:5</div></div>
+<div><div class="crop" style="width: 248px; height: 130px;"><svg viewBox="0 0 800 600" aria-hidden="true" style="width: {{c3w}}px; height: {{c3h}}px; left: {{c3x}}px; top: {{c3y}}px;"><use href="#cover"></use></svg></div><div style="margin-top: 6px; font-size: 12px; color: var(--tx3);">Link preview · 1.91:1</div></div>
+</div>
+</div>
+<div class="fld"><label class="lbl" for="f-calt">Cover alt text <span class="req">Required</span></label><textarea id="f-calt" class="inp" value="{{calt}}" onChange="{{onCoverAlt}}" aria-invalid="{{caltInvalid}}" style="min-height: 64px; border-color: {{caltBorder}};"></textarea><div class="hrow"><span class="hint" style="display: {{caltHintD}};">Describe what the image shows. Skip “image of”.</span><span class="err" style="display: {{caltErrD}};">Add alt text so screen reader users get the same information.</span><span class="cnt">{{caltLen}}/250</span></div></div>
+</section>
+
+<section class="card sec" aria-labelledby="s-gal">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 16px;"><div><h2 id="s-gal">Gallery</h2><p class="sub">Shown as a swipeable strip under the prototype. Select an image to edit its alt text, caption and position.</p></div><span class="chip" style="display: {{needAltChipD}}; background: var(--warnbg); color: var(--warn);">{{needAltText}}</span></div>
+<div style="margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px;">
+<sc-for list="{{gal}}" as="g" hint-placeholder-count="7">
+<button class="gt" data-id="{{g.id}}" onClick="{{g.pick}}" aria-pressed="{{g.sel}}" aria-label="{{g.label}}"><span class="ph" aria-hidden="true"><span class="scr" style="display: flex; flex-direction: column;"><span style="height: 18%; background: {{g.hd}};"></span><span style="margin: 10% 9% 0; height: 7%; border-radius: 3px; background: #E9E3DC;"></span><span style="margin: 8% 9% 0; height: 26%; border-radius: 5px; background: {{g.blk}};"></span><span style="margin: 8% 9% 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; height: 18%;"><span style="border-radius: 4px; background: #EADFD2;"></span><span style="border-radius: 4px; background: #EADFD2;"></span></span></span>
+<span style="display: {{g.upD}}; position: absolute; inset: 0; background: rgba(20,20,22,.55); color: #fff; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 10px; font-size: 12px; font-weight: 600;">Uploading {{g.pct}}%<span class="bar" style="background: rgba(255,255,255,.25);"><span style="width: {{g.pct}}%; background: #fff;"></span></span></span>
+<span style="display: {{g.failD}}; position: absolute; inset: 0; background: rgba(180,35,24,.88); color: #fff; flex-direction: column; justify-content: center; align-items: center; gap: 4px; padding: 10px; text-align: center; font-size: 12px; line-height: 1.35;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg><strong>Too large</strong>{{g.size}} · max 10 MB</span></span>
+<span style="font-size: 13px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{g.cap}}</span>
+<span class="chip" style="align-self: flex-start; height: 22px; background: {{g.chipBg}}; color: {{g.chipFg}};">{{g.chip}}</span>
+</button>
+</sc-for>
+<button onClick="{{addFiles}}" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 200px; padding: 12px; border: 1.5px dashed var(--ln2); border-radius: 12px; background: var(--sf2); color: var(--tx2); font: 500 13px/1.4 var(--fu); text-align: center; cursor: pointer;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M12 19V7M7 12l5-5 5 5M5 4h14"></path></svg>Add images<span style="font-size: 12px; font-weight: 400; color: var(--tx3);">PNG, JPG, WebP or GIF · up to 10 MB</span></button>
+</div>
+</section>
+</div>
+
+<aside style="flex: 1 1 320px; max-width: 380px; position: sticky; top: 24px;" aria-label="Image details">
+<div class="card" style="padding: 20px;">
+<div style="display: {{noSelD}}; flex-direction: column; align-items: center; gap: 10px; padding: 40px 10px; text-align: center; color: var(--tx3); font-size: 14px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px;"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg>Select a gallery image to edit its alt text and caption.</div>
+<div style="display: {{selD}}; flex-direction: column;">
+<div class="mono">Image {{selPos}} of {{galCount}}</div>
+<div style="margin-top: 12px; height: 220px; border-radius: 10px; background: #2A1316; display: grid; place-items: end center; overflow: hidden;"><span style="width: 46%; height: 88%; border-radius: 14px 14px 0 0; background: #F7F3EE; overflow: hidden; display: flex; flex-direction: column;"><span style="height: 18%; background: {{selHd}};"></span><span style="margin: 10% 9% 0; height: 7%; border-radius: 3px; background: #E9E3DC;"></span><span style="margin: 8% 9% 0; height: 26%; border-radius: 5px; background: {{selBlk}};"></span></span></div>
+<div style="display: {{selFailD}}; margin-top: 14px; flex-direction: column; gap: 10px; padding: 12px 14px; border-radius: 10px; background: var(--errbg); color: var(--err); font-size: 13px; line-height: 1.5;"><span><strong>{{selName}}</strong> is {{selSize}}. Images can be up to 10 MB.</span><span style="display: flex; gap: 8px;"><button class="btn" data-id="{{selId}}" onClick="{{resize}}" style="height: 34px;">Resize and upload</button><button class="btn" data-id="{{selId}}" onClick="{{remove}}" style="height: 34px;">Remove</button></span></div>
+<div style="display: {{selEditD}}; flex-direction: column;">
+<div class="fld" style="margin-top: 16px;"><label class="lbl" for="f-alt">Alt text <span class="req">{{altReq}}</span></label><div style="display: {{altBoxD}};"><textarea id="f-alt" class="inp" value="{{selAlt}}" onChange="{{onAlt}}" aria-invalid="{{altInvalid}}" aria-describedby="f-alt-h" style="min-height: 96px; border-color: {{altBorder}};"></textarea>
+<div class="hrow" id="f-alt-h"><span class="hint" style="display: {{altHintD}};">What the screen shows and why it matters.</span><span class="err" style="display: {{altErrD}};">Add alt text, or mark it decorative.</span><span class="cnt">{{altLen}}/250</span></div></div>
+<div style="display: {{decoNoteD}}; margin-top: 8px; padding: 10px 12px; border-radius: 8px; background: #F2F1EE; font-size: 13px; line-height: 1.5; color: var(--tx2);">Marked decorative, so no alt text is needed. Use this only for images a reader wouldn’t miss.</div></div>
+<button class="chk" role="switch" aria-checked="{{decoAria}}" onClick="{{toggleDeco}}" style="margin-top: 12px; align-self: flex-start; border: 0; background: none; padding: 0; font: 400 14px/1.4 var(--fu); color: var(--tx);"><span aria-hidden="true" style="position: relative; width: 36px; height: 20px; border-radius: 10px; background: {{decoTrack}}; transition: background .15s;"><span style="position: absolute; top: 2px; left: {{decoKnob}}px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.3); transition: left .15s;"></span></span>Decorative: screen readers skip it</button>
+<div class="fld"><label class="lbl" for="f-cap">Caption</label><input id="f-cap" class="inp" value="{{selCap}}" onChange="{{onCap}}"></div>
+<div style="margin-top: 18px; display: flex; align-items: center; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">Position</span><span style="flex: 1;"></span><button class="ib" onClick="{{moveLeft}}" aria-label="Move earlier" style="border: 1px solid var(--ln2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button><span style="min-width: 54px; text-align: center; font-family: var(--fm); font-size: 13px;">{{selPos}} / {{galCount}}</span><button class="ib" onClick="{{moveRight}}" aria-label="Move later" style="border: 1px solid var(--ln2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
+<button data-id="{{selId}}" onClick="{{remove}}" style="margin-top: 18px; align-self: flex-start; padding: 0; border: 0; background: none; font: 500 14px/1.4 var(--fu); color: var(--err); cursor: pointer;">Remove from gallery</button>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+
+<sc-if value="{{dialogOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 80; background: rgba(20,20,22,.48); display: flex; justify-content: center; align-items: flex-start; padding-top: 120px;" onClick="{{closePublish}}">
+<div role="dialog" aria-modal="true" aria-labelledby="pub-title" onClick="{{stop}}" style="width: 560px; max-width: calc(100% - 40px); border-radius: 16px; background: #fff; box-shadow: 0 30px 80px rgba(20,20,22,.3); animation: stUp .2s ease-out; overflow: hidden;">
+<div style="padding: 24px 26px 0;">
+<div class="mono">Publish changes</div>
+<h2 id="pub-title" style="margin: 8px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -.01em;">Update the live page for “Puja engagement platform”?</h2>
+<p style="margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--tx2);">The live version is replaced. The page updates within a minute; its link stays the same.</p>
+</div>
+<div style="margin: 20px 26px 0; border: 1px solid var(--ln); border-radius: 12px; overflow: hidden;">
+<div style="padding: 12px 16px; background: var(--sf2); font-size: 13px; font-weight: 600;">What’s changing</div>
+<div style="padding: 10px 16px 12px; font-size: 14px; line-height: 1.7; color: var(--tx2);"><sc-for list="{{changes}}" as="c" hint-placeholder-count="2"><div>{{c.text}}</div></sc-for></div>
+</div>
+<div style="margin: 14px 26px 0; display: grid; gap: 8px; font-size: 14px; line-height: 1.5;">
+<div style="display: {{blockD}}; gap: 10px; padding: 12px 14px; border-radius: 10px; background: var(--errbg); color: var(--err);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6M9 9l6 6"></path></svg><span><strong>{{blockText}}</strong> Fix this to publish.</span></div>
+<sc-for list="{{checks}}" as="k" hint-placeholder-count="2"><div style="display: flex; gap: 10px; color: {{k.color}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{k.okD}};"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{k.warnD}};"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg><span style="color: var(--tx2);">{{k.text}}</span></div></sc-for>
+</div>
+<div style="margin-top: 22px; padding: 16px 26px; border-top: 1px solid var(--ln); display: flex; align-items: center; justify-content: flex-end; gap: 10px; background: var(--sf2);">
+<a href="StudioPreview.dc.html" style="margin-right: auto; font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px;">Preview first</a>
+<button class="btn" data-pub-cancel onClick="{{closePublish}}">Cancel</button>
+<button class="cta" onClick="{{confirmPublish}}" aria-disabled="{{confirmAria}}" aria-busy="{{publishingAria}}"><span style="display: {{pubSpinD}}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: stSpin .8s linear infinite;"></span>{{confirmLabel}}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<div style="display: {{toastD}}; position: absolute; left: 50%; bottom: 28px; z-index: 90; transform: translateX(-50%); align-items: center; gap: 14px; padding: 12px 12px 12px 18px; border-radius: 12px; background: #141416; color: #F2F1EE; font-size: 14px; box-shadow: 0 16px 40px rgba(20,20,22,.28); animation: stUp .22s ease-out;">
+<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #6FD3A0;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span>{{toastMsg}}</span><button onClick="{{toastUndo}}" style="display: {{toastUndoD}}; height: 34px; padding: 0 12px; border: 0; border-radius: 8px; background: #2A2A31; color: #fff; font: 600 13px/1 var(--fu); cursor: pointer;">Undo</button><a href="CaseStudy.dc.html" style="display: {{toastLinkD}}; height: 34px; align-items: center; padding: 0 12px; border-radius: 8px; background: #2A2A31; color: #fff; font-weight: 600; font-size: 13px;">View live page ↗</a>
+<button onClick="{{closeToast}}" aria-label="Dismiss" style="width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: #B9B7B1; cursor: pointer;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div class="sr" aria-live="polite">{{announce}}</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","uploading","missing alt text","publish blocked","video hero","video link error","video from Google Drive","prototype preview link","prototype can’t embed","saving","offline","save failed","publish dialog","published"],"default":"default"},"$preview":{"width":1440,"height":1960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+
+    this.G0 = [
+      { id: 'g1', cap: 'Home', hd: '#C7372F', blk: '#F5A524', alt: 'Home screen with a personalised “For You” puja, trending pujas in Bengaluru and upcoming occasions.' },
+      { id: 'g2', cap: 'Recommendations', hd: '#C7372F', blk: '#E9A23B', alt: '“Puja for You” screen with suggestions based on the last Ganesh Puja booked.' },
+      { id: 'g3', cap: 'Booking', hd: '#B8322B', blk: '#F2C14E', alt: 'Lakshmi Puja booking screen.' },
+      { id: 'g4', cap: 'Calendar', hd: '#C7372F', blk: '#EADFD2', alt: 'Spiritual calendar with upcoming events.' },
+      { id: 'g5', cap: 'Trust & transparency', hd: '#7A2E2A', blk: '#E9E3DC', alt: 'Trust and transparency screen explaining how a puja is performed, with post-puja video proof.' },
+      { id: 'g6', cap: 'Video feed', hd: '#C7372F', blk: '#3A2A2C', alt: '“Watch and book” video feed of pujas.' },
+      { id: 'g7', cap: 'WhatsApp booking', hd: '#1F7A55', blk: '#DCF8C6', alt: 'Booking a puja inside a WhatsApp chat.' }
+    ];
+    this.k = 0;
+    this.staticChanges = ['Story · Prioritisation table, edited 12 min ago'];
+    ['retrySave', 'openPublish', 'closePublish', 'confirmPublish', 'closeToast', 'toastUndo', 'onRootKey', 'stop', 'setHero', 'setFrame', 'setStart', 'onVideo', 'onProto', 'setFocal', 'focalKey', 'onCoverAlt', 'pick', 'onAlt', 'onCap', 'toggleDeco', 'moveLeft', 'moveRight', 'remove', 'addFiles', 'resize'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.state = Object.assign(this.fresh(), this.preset(props.state));
+  }
+
+  fresh() {
+    return Object.assign({ save: 'saved', savedAt: 'All changes saved', live: true, dialog: null, toast: null, showErrors: false, announce: '' }, this.boardFresh());
+  }
+  preset(n) {
+    switch (n) {
+      case 'saving': return { save: 'saving' };
+      case 'offline': return { save: 'offline' };
+      case 'save failed': return { save: 'failed' };
+      case 'publish dialog': return { dialog: 'open' };
+      case 'publishing': return { dialog: 'publishing' };
+      case 'published': return { live: false, toast: { msg: 'Published. The live page updates within a minute.', link: true } };
+      default: return this.boardPreset(n);
+    }
+  }
+  componentDidUpdate(prev) {
+    if (prev.state === this.props.state) return;
+    this.clearTimers();
+    this.setState(Object.assign(this.fresh(), this.preset(this.props.state)));
+    if (this.boardAfterPreset) setTimeout(() => this.boardAfterPreset(), 0);
+  }
+  componentWillUnmount() { clearTimeout(this.st); clearTimeout(this.pt); clearTimeout(this.tt); this.clearTimers(); }
+  clearTimers() { if (this.boardTimers) this.boardTimers(); }
+  autosave() {
+    if (this.state.save === 'offline') return;
+    clearTimeout(this.st);
+    this.setState({ save: 'saving', live: true, touched: true });
+    this.st = setTimeout(() => this.setState({ save: 'saved', savedAt: 'Saved just now' }), 800);
+  }
+  retrySave() {
+    clearTimeout(this.st);
+    this.setState({ save: 'saving' });
+    this.st = setTimeout(() => this.setState({ save: 'saved', savedAt: 'Saved just now', announce: 'Saved.' }), 900);
+  }
+  openPublish(e) {
+    const s = this.state;
+    if (s.save === 'offline') { this.setState({ toast: { msg: 'You’re offline. Publish once you’re back online.' } }); this.armToast(); return; }
+    if (!s.live) return;
+    const root = e.currentTarget.closest('.st');
+    this.setState({ dialog: 'open', showErrors: true });
+    requestAnimationFrame(() => { const b = root && root.querySelector('[data-pub-cancel]'); if (b) b.focus(); });
+  }
+  closePublish() { if (this.state.dialog !== 'publishing') this.setState({ dialog: null }); }
+  stop(e) { e.stopPropagation(); }
+  confirmPublish() {
+    if (this.boardIssues().length || this.state.dialog === 'publishing') return;
+    this.setState({ dialog: 'publishing' });
+    this.pt = setTimeout(() => {
+      this.setState({ dialog: null, live: false, toast: { msg: 'Published. The live page updates within a minute.', link: true }, announce: 'Published.' });
+      this.armToast();
+    }, 1200);
+  }
+  armToast() { clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: null }), 8000); }
+  toastNow(msg) { this.setState({ toast: { msg }, announce: msg }); this.armToast(); }
+  closeToast() { clearTimeout(this.tt); this.setState({ toast: null }); }
+  toastUndo() { const u = this.state.toast && this.state.toast.undo; if (u && this.boardUndo) this.boardUndo(u); }
+  onRootKey(e) {
+    if (e.key !== 'Escape') return;
+    if (this.state.dialog === 'open') this.setState({ dialog: null });
+    else if (this.boardEscape) this.boardEscape();
+  }
+  shellVals() {
+    const s = this.state, iss = this.boardIssues(), publishing = s.dialog === 'publishing';
+    const saveMap = { saved: [s.savedAt, '#4A4A51'], saving: ['Saving…', '#4A4A51'], offline: ['Offline · saved on this device', '#8A5A00'], failed: ['Couldn’t save', '#B42318'] };
+    const own = this.boardChanges();
+    const changes = own.concat(this.staticChanges || []).map((t) => ({ text: t }));
+    const checks = this.boardChecks().map((c) => ({ text: c.text, color: c.ok ? '#0F7A4A' : '#8A5A00', okD: c.ok ? 'inline' : 'none', warnD: c.ok ? 'none' : 'inline' }));
+    return {
+      titleShow: 'Puja engagement platform',
+      chgD: s.live ? 'inline-flex' : 'none', tabDotD: s.live && own.length ? 'inline-block' : 'none',
+      saveText: saveMap[s.save][0], saveColor: saveMap[s.save][1],
+      saveSpinD: s.save === 'saving' ? 'inline-block' : 'none', saveOkD: s.save === 'saved' ? 'inline' : 'none', saveOffD: s.save === 'offline' ? 'inline' : 'none', saveErrD: s.save === 'failed' ? 'inline' : 'none',
+      retrySave: this.retrySave, offBannerD: s.save === 'offline' ? 'flex' : 'none', errBannerD: s.save === 'failed' ? 'flex' : 'none',
+      pubLabel: s.live ? 'Publish changes' : 'Published', pubDoneIcoD: s.live ? 'none' : 'inline',
+      pubAria: !s.live || s.save === 'offline' ? 'true' : 'false',
+      pubTitle: s.save === 'offline' ? 'Reconnect to publish' : (s.live ? 'Review and publish your edits' : 'Everything is live'),
+      openPublish: this.openPublish, closePublish: this.closePublish, confirmPublish: this.confirmPublish, stop: this.stop, onRootKey: this.onRootKey,
+      dialogOpen: !!s.dialog, changes, checks,
+      blockD: iss.length ? 'flex' : 'none', blockText: iss.join(' '),
+      confirmAria: iss.length ? 'true' : 'false', publishingAria: publishing ? 'true' : 'false',
+      pubSpinD: publishing ? 'inline-block' : 'none', confirmLabel: publishing ? 'Publishing…' : (iss.length ? 'Fix ' + iss.length + ' to publish' : 'Publish now'),
+      toastD: s.toast ? 'flex' : 'none', toastMsg: s.toast ? s.toast.msg : '', toastLinkD: s.toast && s.toast.link ? 'inline-flex' : 'none', closeToast: this.closeToast,
+      toastUndoD: s.toast && s.toast.undo ? 'inline-flex' : 'none', toastUndo: this.toastUndo,
+      announce: s.announce
+    };
+  }
+
+  boardFresh() {
+    return { hero: 'proto', frame: 'phone', start: 'click', purl: 'https://[your-prototypes].vercel.app/sri-mandir', pblock: false, vurl: '', fx: 0.5, fy: 0.42, calt: 'Three screens from the Sri Mandir prototype: home, a WhatsApp booking chat and the spiritual calendar.', gal: this.G0.map((g) => Object.assign({ st: 'done', pct: 100, deco: false }, g)), sel: 'g5', touched: false };
+  }
+  boardPreset(n) {
+    const g = this.G0.map((x) => Object.assign({ st: 'done', pct: 100, deco: false }, x));
+    const up = { id: 'u1', cap: 'Screen 08', hd: '#C7372F', blk: '#F5A524', alt: '', st: 'up', pct: 45, deco: false, name: 'screen-08.png' };
+    const big = { id: 'u2', cap: 'Flow diagram', hd: '#4A4A51', blk: '#D2D0CA', alt: '', st: 'fail', pct: 0, deco: false, name: 'flow-diagram.png', size: '14.2 MB' };
+    const noalt = Object.assign({}, up, { st: 'done', pct: 100 });
+    switch (n) {
+      case 'uploading': return { gal: g.concat([up, big]), sel: 'u2', touched: true };
+      case 'missing alt text': return { gal: g.concat([noalt]), sel: 'u1', touched: true, showErrors: true };
+      case 'publish blocked': return { gal: g.concat([noalt]), sel: 'u1', touched: true, showErrors: true, dialog: 'open' };
+      case 'video hero': return { hero: 'video', vurl: 'https://youtu.be/sri-mandir-walkthrough', touched: true };
+      case 'video link error': return { hero: 'video', vurl: 'https://cdn.example.com/walkthrough.mp4', touched: true, showErrors: true };
+      case 'video from Google Drive': return { hero: 'video', vurl: 'https://drive.google.com/file/d/[file-id]/view', touched: true };
+      case 'prototype preview link': return { purl: 'https://sri-mandir-git-main-[team].vercel.app', touched: true, showErrors: true };
+      case 'prototype can’t embed': return { purl: 'https://[another-host]/sri-mandir', pblock: true, touched: true };
+      default: return {};
+    }
+  }
+  boardTimers() { clearInterval(this.ut); }
+  componentDidMount() { this.boardAfterPreset(); }
+  boardAfterPreset() { if (this.state.gal.some((g) => g.st === 'up')) this.tick(); }
+  host(u) {
+    if (/^https:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+/.test(u)) return 'YouTube';
+    if (/^https:\/\/(www\.)?vimeo\.com\/[\w\/-]+/.test(u)) return 'Vimeo';
+    if (/^https:\/\/(www\.)?loom\.com\/share\/[\w-]+/.test(u)) return 'Loom';
+    if (/^https:\/\/drive\.google\.com\/file\/d\/[\w\[\]-]+/.test(u)) return 'Google Drive';
+    return '';
+  }
+  upd(id, patch) { return this.state.gal.map((g) => (g.id === id ? Object.assign({}, g, patch) : g)); }
+  setHero(e) { this.setState({ hero: e.currentTarget.getAttribute('data-v') }); this.autosave(); }
+  setFrame(e) { this.setState({ frame: e.currentTarget.getAttribute('data-v') }); this.autosave(); }
+  setStart(e) { this.setState({ start: e.currentTarget.getAttribute('data-v') }); this.autosave(); }
+  onVideo(e) { this.setState({ vurl: e.target.value }); this.autosave(); }
+  onProto(e) { this.setState({ purl: e.target.value, pblock: false }); this.autosave(); }
+  protoErr(u, strict) {
+    const v = (u || '').trim();
+    if (!v) return strict ? 'Paste the prototype’s address.' : '';
+    if (!/^https:\/\//.test(v)) return 'Use an https:// address.';
+    if (/\.vercel\.app/.test(v) && /-git-|-[a-z0-9]{9}-/.test(v)) return 'This is a Vercel preview link, which asks visitors to log in. Paste the production address instead.';
+    return '';
+  }
+  setFocal(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    if (!e.clientX && !e.clientY) return;
+    const fx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), fy = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    this.setState({ fx, fy, announce: 'Focal point moved.' });
+    this.autosave();
+  }
+  focalKey(e) {
+    const d = { ArrowLeft: [-0.05, 0], ArrowRight: [0.05, 0], ArrowUp: [0, -0.05], ArrowDown: [0, 0.05] }[e.key];
+    if (!d) return;
+    e.preventDefault();
+    const c = (v) => Math.min(1, Math.max(0, v));
+    this.setState({ fx: c(this.state.fx + d[0]), fy: c(this.state.fy + d[1]) });
+    this.autosave();
+  }
+  onCoverAlt(e) { this.setState({ calt: e.target.value }); this.autosave(); }
+  pick(e) { this.setState({ sel: e.currentTarget.getAttribute('data-id') }); }
+  onAlt(e) { this.setState({ gal: this.upd(this.state.sel, { alt: e.target.value }) }); this.autosave(); }
+  onCap(e) { this.setState({ gal: this.upd(this.state.sel, { cap: e.target.value }) }); this.autosave(); }
+  toggleDeco() { const g = this.state.gal.find((x) => x.id === this.state.sel); this.setState({ gal: this.upd(this.state.sel, { deco: !g.deco }) }); this.autosave(); }
+  move(dir) {
+    const s = this.state, arr = s.gal.slice(), i = arr.findIndex((g) => g.id === s.sel), j = i + dir;
+    if (i < 0 || j < 0 || j >= arr.length) return;
+    const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    this.setState({ gal: arr, announce: 'Moved to position ' + (j + 1) + ' of ' + arr.length + '.' });
+    this.autosave();
+  }
+  moveLeft() { this.move(-1); }
+  moveRight() { this.move(1); }
+  remove(e) {
+    const id = e.currentTarget.getAttribute('data-id'), s = this.state, i = s.gal.findIndex((g) => g.id === id);
+    const gal = s.gal.filter((g) => g.id !== id), next = gal[Math.min(i, gal.length - 1)];
+    this.setState({ gal, sel: next ? next.id : null });
+    this.toastNow('Removed from the gallery. The file stays in your media library.');
+    this.autosave();
+  }
+  tick() {
+    clearInterval(this.ut);
+    this.ut = setInterval(() => {
+      const ups = this.state.gal.filter((g) => g.st === 'up');
+      if (!ups.length) { clearInterval(this.ut); return; }
+      const gal = this.state.gal.map((g) => (g.st !== 'up' ? g : (g.pct >= 100 ? Object.assign({}, g, { st: 'done', pct: 100 }) : Object.assign({}, g, { pct: Math.min(100, g.pct + 9) }))));
+      const done = gal.filter((g, i) => g.st === 'done' && this.state.gal[i].st === 'up');
+      this.setState(done.length ? { gal, announce: done.map((g) => g.cap).join(', ') + ' uploaded. Add alt text.' } : { gal });
+    }, 140);
+  }
+  addFiles() {
+    this.k += 1;
+    const a = { id: 'n' + this.k + 'a', cap: 'Screen 0' + (7 + this.k), name: 'screen-0' + (7 + this.k) + '.png', hd: '#C7372F', blk: '#F5A524', alt: '', st: 'up', pct: 0, deco: false };
+    const b = { id: 'n' + this.k + 'b', cap: 'Flow diagram', name: 'flow-diagram.png', size: '14.2 MB', hd: '#4A4A51', blk: '#D2D0CA', alt: '', st: 'fail', pct: 0, deco: false };
+    this.setState({ gal: this.state.gal.concat([a, b]), sel: a.id, announce: 'Uploading 1 image. 1 image is too large.' });
+    this.tick();
+    this.autosave();
+  }
+  resize(e) {
+    const id = e.currentTarget.getAttribute('data-id');
+    this.setState({ gal: this.upd(id, { st: 'up', pct: 0, cap: 'Flow diagram (resized)' }), announce: 'Resizing to 2400 pixels wide and uploading.' });
+    this.tick();
+  }
+  missingAlt() { return this.state.gal.filter((g) => g.st === 'done' && !g.deco && !g.alt.trim()); }
+  boardIssues() {
+    const s = this.state, out = [], m = this.missingAlt().length;
+    if (m) out.push(m + (m === 1 ? ' image needs' : ' images need') + ' alt text.');
+    if (!s.calt.trim()) out.push('The cover needs alt text.');
+    if (s.gal.some((g) => g.st === 'up')) out.push('Wait for uploads to finish.');
+    if (s.hero === 'video' && !this.host(s.vurl)) out.push('The video link isn’t from YouTube, Vimeo, Loom or Google Drive.');
+    if (s.hero === 'proto' && this.protoErr(s.purl, true)) out.push('Prototype: ' + this.protoErr(s.purl, true));
+    return out;
+  }
+  boardChanges() { return this.state.touched ? ['Visuals · hero, cover and gallery'] : []; }
+  boardChecks() {
+    const s = this.state, out = [];
+    const fails = s.gal.filter((g) => g.st === 'fail').length;
+    if (!this.missingAlt().length && s.calt.trim()) out.push({ ok: true, text: 'Every published image has alt text.' });
+    if (fails) out.push({ ok: false, text: fails + ' upload failed. It won’t be published until it’s fixed or removed.' });
+    if (s.hero === 'proto' && !this.protoErr(s.purl, true)) out.push(s.pblock ? { ok: true, text: 'Prototype link works. Its site blocks embedding, so visitors get an Open button.' } : { ok: true, text: 'Prototype link checked: public, and it loads in a frame.' });
+    return out;
+  }
+  crop(bw, bh, ar) {
+    const s = this.state;
+    let w, h, x = 0, y = 0;
+    if (bw / bh > ar) { w = bw; h = bw / ar; y = Math.min(0, Math.max(bh - h, bh / 2 - s.fy * h)); }
+    else { h = bh; w = bh * ar; x = Math.min(0, Math.max(bw - w, bw / 2 - s.fx * w)); }
+    return [Math.round(w), Math.round(h), Math.round(x), Math.round(y)];
+  }
+  boardVals() {
+    const s = this.state, sz = { phone: [128, 230, 18, '3px solid #3A2A2C'], tablet: [176, 232, 14, '3px solid #3A2A2C'], desktop: [250, 160, 6, '3px solid #3A2A2C'], none: [220, 200, 4, '0'] }[s.frame];
+    const c1 = this.crop(208, 130, 4 / 3), c2 = this.crop(112, 140, 4 / 3), c3 = this.crop(248, 130, 4 / 3);
+    const host = this.host(s.vurl), vBad = s.hero === 'video' && s.vurl.trim() !== '' && !host, vErr = vBad || (s.showErrors && s.hero === 'video' && !host);
+    const missing = this.missingAlt();
+    const pErr = s.hero === 'proto' ? this.protoErr(s.purl, s.showErrors) : '';
+    const OK = 'M5 12.5l4.5 4.5L19 7.5', WARN = 'M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z';
+    const pChecks = [{ t: 'Opens without a login.', icon: OK, fg: '#0F7A4A' }].concat(s.pblock ? [{ t: 'This site doesn’t allow embedding, so visitors get an “Open prototype ↗” button instead of the frame.', icon: WARN, fg: '#8A5A00' }] : [{ t: 'Loads inside a frame on your page.', icon: OK, fg: '#0F7A4A' }]).concat(/figma\.com\/proto/.test(s.purl) ? [{ t: 'Figma prototype: it plays in Figma’s embed.', icon: OK, fg: '#0F7A4A' }] : []);
+    const sel = s.gal.find((g) => g.id === s.sel), selIdx = s.gal.findIndex((g) => g.id === s.sel);
+    const altErr = !!sel && sel.st === 'done' && !sel.deco && !sel.alt.trim();
+    const caltErr = !s.calt.trim();
+    const gal = s.gal.map((g) => {
+      const miss = g.st === 'done' && !g.deco && !g.alt.trim();
+      const chip = g.st === 'up' ? ['Uploading', '#EFEEEA', '#4A4A51'] : g.st === 'fail' ? ['Failed', '#FDECEA', '#B42318'] : miss ? ['Needs alt text', '#FFF4DB', '#8A5A00'] : g.deco ? ['Decorative', '#EFEEEA', '#4A4A51'] : ['Alt text ✓', '#E6F4EC', '#0F7A4A'];
+      return { id: g.id, cap: g.cap, hd: g.hd, blk: g.blk, pct: g.pct, size: g.size || '', sel: g.id === s.sel ? 'true' : 'false', pick: this.pick,
+        upD: g.st === 'up' ? 'flex' : 'none', failD: g.st === 'fail' ? 'flex' : 'none', chip: chip[0], chipBg: chip[1], chipFg: chip[2],
+        label: g.cap + ', ' + chip[0] };
+    });
+    return {
+      hImg: s.hero === 'image' ? 'true' : 'false', hVid: s.hero === 'video' ? 'true' : 'false', hProto: s.hero === 'proto' ? 'true' : 'false', setHero: this.setHero,
+      protoD: s.hero === 'proto' ? 'flex' : 'none', videoD: s.hero === 'video' ? 'flex' : 'none', imgD: s.hero === 'image' ? 'flex' : 'none',
+      fPhone: s.frame === 'phone' ? 'true' : 'false', fTab: s.frame === 'tablet' ? 'true' : 'false', fDesk: s.frame === 'desktop' ? 'true' : 'false', fNone: s.frame === 'none' ? 'true' : 'false', setFrame: this.setFrame,
+      frameW: sz[0], frameH: sz[1], frameR: sz[2], frameBorder: sz[3],
+      sClick: s.start === 'click' ? 'true' : 'false', sVis: s.start === 'visible' ? 'true' : 'false', setStart: this.setStart,
+      startHint: s.start === 'click' ? 'Keeps the page fast: the prototype loads only when someone asks for it.' : 'Loads as it scrolls into view. Heavier, but it feels instant.',
+      purl: s.purl, onProto: this.onProto, protoInvalid: pErr ? 'true' : 'false', protoBorder: pErr ? '#B42318' : '#D2D0CA', protoErrD: pErr ? 'flex' : 'none', protoHintD: pErr ? 'none' : 'inline', protoErr: pErr,
+      protoChecksD: !pErr && s.purl.trim() ? 'flex' : 'none', protoChecks: pChecks,
+      vidNote: host === 'Google Drive' ? 'Set sharing to “Anyone with the link”; Studio checks it before publishing. Drive’s player can’t autoplay or loop.' : 'Embeds in privacy mode. Captions come from ' + host + ', so add them there.',
+      vurl: s.vurl, onVideo: this.onVideo, vidInvalid: vErr ? 'true' : 'false', vidBorder: vErr ? '#B42318' : '#D2D0CA', vidErrD: vErr ? 'flex' : 'none', vidHintD: vErr ? 'none' : 'inline', vidOkD: host ? 'flex' : 'none', vidHost: host,
+      setFocal: this.setFocal, focalKey: this.focalKey, fxPct: Math.round(s.fx * 100), fyPct: Math.round(s.fy * 100),
+      c1w: c1[0], c1h: c1[1], c1x: c1[2], c1y: c1[3], c2w: c2[0], c2h: c2[1], c2x: c2[2], c2y: c2[3], c3w: c3[0], c3h: c3[1], c3x: c3[2], c3y: c3[3],
+      calt: s.calt, onCoverAlt: this.onCoverAlt, caltLen: s.calt.length, caltInvalid: caltErr ? 'true' : 'false', caltBorder: caltErr ? '#B42318' : '#D2D0CA', caltErrD: caltErr ? 'flex' : 'none', caltHintD: caltErr ? 'none' : 'inline',
+      gal, galCount: s.gal.length, addFiles: this.addFiles,
+      needAltChipD: missing.length ? 'inline-flex' : 'none', needAltText: missing.length + (missing.length === 1 ? ' needs alt text' : ' need alt text'),
+      noSelD: sel ? 'none' : 'flex', selD: sel ? 'flex' : 'none', selId: sel ? sel.id : '', selPos: selIdx + 1, selHd: sel ? sel.hd : '#C7372F', selBlk: sel ? sel.blk : '#F5A524',
+      selFailD: sel && sel.st === 'fail' ? 'flex' : 'none', selEditD: sel && sel.st !== 'fail' ? 'flex' : 'none', selName: sel ? (sel.name || sel.cap) : '', selSize: sel ? (sel.size || '') : '',
+      selAlt: sel ? sel.alt : '', onAlt: this.onAlt, toggleDeco: this.toggleDeco, decoAria: sel && sel.deco ? 'true' : 'false', decoTrack: sel && sel.deco ? '#141416' : '#D2D0CA', decoKnob: sel && sel.deco ? 18 : 2, altBoxD: sel && sel.deco ? 'none' : 'block', decoNoteD: sel && sel.deco ? 'block' : 'none', altReq: sel && sel.deco ? 'Not needed' : 'Required',
+      altLen: sel ? sel.alt.length : 0, altInvalid: altErr ? 'true' : 'false', altBorder: altErr ? '#B42318' : '#D2D0CA', altErrD: altErr ? 'flex' : 'none', altHintD: altErr ? 'none' : 'inline',
+      selCap: sel ? sel.cap : '', onCap: this.onCap, moveLeft: this.moveLeft, moveRight: this.moveRight, remove: this.remove, resize: this.resize
+    };
+  }
+  renderVals() { return Object.assign(this.shellVals(), this.boardVals()); }
+}
+</script>
+</body>
+</html>

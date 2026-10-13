@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 3 · Ink and Depth</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#101014}
+.r3{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--okt:#9BE7C4;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;--fj:'Dela Gothic One','Archivo',sans-serif;--eo:cubic-bezier(.2,.8,.2,1);-webkit-font-smoothing:antialiased}
+.r3 *{box-sizing:border-box}
+.r3 a{color:inherit;text-decoration:none}
+.r3 .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.r3 .lbl{font-family:var(--fm);font-size:13px;line-height:1.5;color:#8F8D87}
+.r3 .lbl b{color:#F2F1EE;font-weight:600}
+.r3 .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+@property --r3sh{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes r3Shine{to{--r3sh:360deg}}
+.r3 .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.r3 .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,#fff 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:r3Shine 3.5s linear infinite;filter:blur(.4px)}
+.r3 .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:r3Shine 3.5s linear infinite;filter:blur(3px)}
+.r3 .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border-radius:99px;white-space:nowrap;font-weight:500;position:relative;z-index:1;border:0;background:transparent;cursor:pointer}
+.r3 .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.r3 .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.r3 .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.r3 .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background-color .25s var(--eo),transform .25s var(--eo)}
+.r3 .cta:hover{background:#E42A3F;transform:translateY(-2px)}
+.r3 .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border:1px solid rgba(242,241,238,.25);background:rgba(11,11,14,.5);color:var(--tx);font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;transition:border-color .25s var(--eo)}
+.r3 .cta2:hover{border-color:#8F8D87}
+.r3 a:focus-visible,.r3 button:focus-visible{outline:2px solid #FF5A67;outline-offset:3px}
+.r3 .cta:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #D61F33}
+.r3 .tone{background-image:radial-gradient(rgba(242,241,238,.16) 1.2px,transparent 1.5px);background-size:8px 8px}
+.r3 .tone-r{background-image:radial-gradient(#D61F33 2px,transparent 2.4px);background-size:9px 9px}
+.r3 .ttl{font-family:var(--fd);font-stretch:62%;font-weight:900;text-transform:uppercase;color:#F2F1EE;-webkit-text-stroke:6px #0B0B0E;paint-order:stroke fill;text-shadow:8px 8px 0 #D61F33}
+.r3 .sfx{font-family:var(--fj);font-weight:400;color:#D61F33;-webkit-text-stroke:5px #F2F1EE;paint-order:stroke fill;line-height:1;white-space:nowrap;user-select:none}
+.r3 .cap{background:#F2F1EE;color:#0B0B0E;border:3px solid #0B0B0E;box-shadow:6px 6px 0 #D61F33}
+.r3 .tag{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.r3 .tag-a{background:rgba(60,203,139,.14);color:#9BE7C4}
+.r3 .tag-t{border:1px solid rgba(242,241,238,.3);color:#B9B7B1}
+.r3 .tag-p{border:1px dashed rgba(242,241,238,.4);color:#B9B7B1}
+.r3 .tag-b{background:#1D1D24;color:#B9B7B1}
+.r3 .tag-o{background:rgba(255,90,103,.14);color:#FF5A67}
+.r3 .px{transition:transform .5s var(--eo)}
+.r3 .scene{transform-style:preserve-3d;transition:transform .6s var(--eo)}
+@keyframes r3PopA{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3PopB{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3Drift{0%,100%{transform:rotateX(-2deg) rotateY(3deg)}50%{transform:rotateX(2deg) rotateY(-3deg)}}
+.r3 .drift{animation:r3Drift 9s ease-in-out infinite;transform-style:preserve-3d}
+@media (prefers-reduced-motion:reduce){.r3 .pill::before,.r3 .pill::after,.r3 .drift{animation:none}.r3 .px,.r3 .scene{transition:none}.r3 *{animation-duration:.01ms !important}}
+
+.r3 .chip{position:absolute;padding:14px 18px 16px;background:#0B0B0E;border:3px solid #F2F1EE;box-shadow:0 26px 50px rgba(0,0,0,.55)}
+.r3 .chip .v{font-family:var(--fd);font-stretch:62%;font-weight:900;font-size:46px;line-height:1}
+.r3 .chip .l{margin-top:6px;font-size:13px;color:#B9B7B1;white-space:nowrap}
+.r3 .spine{position:relative;flex:none;width:90px;display:flex;flex-direction:column;align-items:center;border:2px solid #0B0B0E;outline:1px solid rgba(242,241,238,.22);outline-offset:-5px;box-shadow:inset -10px 0 18px rgba(0,0,0,.35),0 18px 30px rgba(0,0,0,.45);transition:transform .32s var(--eo),opacity .32s var(--eo);transform-style:preserve-3d}
+.r3 .spine:focus-visible{outline:3px solid #FF5A67;outline-offset:2px}
+.r3 .sv{writing-mode:vertical-rl;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:21px;letter-spacing:.04em;text-transform:uppercase;color:#F2F1EE;white-space:nowrap;overflow:hidden}
+.r3 .fb{height:36px;padding:0 14px;border:1px solid rgba(242,241,238,.18);border-radius:2px;background:transparent;color:#B9B7B1;font:500 13px/1 var(--fm);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.r3 .fb[aria-pressed="true"]{background:#F2F1EE;border-color:#F2F1EE;color:#0B0B0E}
+.r3 .mcov{position:relative;flex:none;border:3px solid #F2F1EE;overflow:hidden}
+</style>
+</helmet>
+<div class="r3" style="width: 1536px; height: 3240px; padding: 40px 48px; background: #101014; color: #F2F1EE; font-family: var(--fu);">
+
+<div class="lbl" style="margin-bottom: 14px;"><b>Laptop 1440 × 900 · hero.</b> Press Play and move the cursor: the splash panel tilts, speed lines aim at the cursor, and layers outside the panel float at real depth (chips nearest).</div>
+<div onMouseMove="{{heroMove}}" onMouseLeave="{{heroLeave}}" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A, 0 40px 80px rgba(0,0,0,.5); perspective: 1600px; perspective-origin: 50% 45%;">
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 40;"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work" aria-current="true">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+<div class="scene" style="position: absolute; left: 56px; top: 104px; width: 1328px; height: 740px; transform: rotateX({{hx}}deg) rotateY({{hy}}deg);">
+<div style="position: absolute; inset: 0; border: 3px solid #F2F1EE; background: #0E0E12; overflow: hidden;">
+<div class="tone px" aria-hidden="true" style="position: absolute; inset: -40px; transform: {{L1}}; -webkit-mask-image: radial-gradient(ellipse at 76% 32%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 76% 32%, #000 0%, transparent 58%);"></div>
+<div class="px" aria-hidden="true" style="position: absolute; left: 24px; bottom: -58px; transform: {{L2}}; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 330px; line-height: .8; color: transparent; -webkit-text-stroke: 2px rgba(242,241,238,.09); white-space: nowrap;">VOLUMES 01—09</div>
+<svg class="px" viewBox="0 0 1322 734" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; transform: {{L3}};"><path d="{{speedHero}}" fill="rgba(242,241,238,.16)"></path></svg>
+<div class="tone-r px" aria-hidden="true" style="position: absolute; left: 760px; top: 30px; width: 460px; height: 460px; border-radius: 50%; transform: {{L4}}; -webkit-mask-image: radial-gradient(circle, #000 0%, #000 26%, transparent 70%); mask-image: radial-gradient(circle, #000 0%, #000 26%, transparent 70%);"></div>
+<svg class="px" viewBox="0 0 760 80" aria-hidden="true" style="position: absolute; left: 44px; top: 392px; width: 760px; height: 80px; transform: {{L5}};"><path d="M4 52 C 120 30, 300 14, 520 10 C 610 8, 690 12, 752 22 L 748 36 C 640 30, 520 34, 380 44 C 250 53, 120 64, 10 74 Z" fill="#D61F33"></path></svg>
+<div class="mono" style="position: absolute; left: 20px; top: 18px; color: #FF5A67;">VOL.00 · Prologue</div>
+</div>
+<h1 class="ttl" style="position: absolute; left: 64px; top: 64px; margin: 0; font-size: 200px; line-height: .84; transform: translateZ(60px) scale(.9625); transform-origin: left top;">Akarshan<br>Kumar<span style="color: #D61F33;">.</span></h1>
+<div class="cap" style="position: absolute; left: 64px; top: 462px; width: 600px; padding: 16px 20px 18px; transform: translateZ(90px) scale(.9438); transform-origin: left top;"><p style="margin: 0; font-size: 24px; line-height: 1.32; font-weight: 600; letter-spacing: -.01em;">I build AI-native health products — and the data platforms that prove they work.</p><p style="margin: 10px 0 0; font-size: 15px; line-height: 1.5; color: #3A3A40;">Product Manager at Sugar.fit for GLP-1, Type 2 diabetes and Active Foods. 8 years across product and data.</p></div>
+<div style="position: absolute; left: 64px; top: 664px; display: flex; gap: 12px; transform: translateZ(70px) scale(.9563); transform-origin: left top;"><a class="cta" href="#work">Open the volumes<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></a><a class="cta2" href="#resume">Résumé (PDF)</a></div>
+<div class="chip" style="left: 820px; top: 470px; transform: translateZ(180px) scale(0.8875) rotate(-3deg);"><span class="tone-r" aria-hidden="true" style="position: absolute; right: 0; top: 0; width: 46px; height: 46px; -webkit-mask-image: linear-gradient(225deg, #000 0%, transparent 70%); mask-image: linear-gradient(225deg, #000 0%, transparent 70%);"></span><div class="v">230M+</div><div class="l">devices served · Glance</div></div>
+<div class="chip" style="left: 1052px; top: 330px; transform: translateZ(220px) scale(0.8625) rotate(2.5deg);"><span class="tone-r" aria-hidden="true" style="position: absolute; right: 0; top: 0; width: 46px; height: 46px; -webkit-mask-image: linear-gradient(225deg, #000 0%, transparent 70%); mask-image: linear-gradient(225deg, #000 0%, transparent 70%);"></span><div class="v">$2M ARR</div><div class="l">Tracfone, Japan, Brazil · Glance</div></div>
+<div class="chip" style="left: 1000px; top: 596px; transform: translateZ(150px) scale(0.9062) rotate(-1.5deg);"><span class="tone-r" aria-hidden="true" style="position: absolute; right: 0; top: 0; width: 46px; height: 46px; -webkit-mask-image: linear-gradient(225deg, #000 0%, transparent 70%); mask-image: linear-gradient(225deg, #000 0%, transparent 70%);"></span><div class="v">₹3.6 Cr</div><div class="l">GLP-1 app, month one · Sugar.fit</div></div>
+</div>
+<div class="mono" style="position: absolute; left: 60px; bottom: 20px; color: #8F8D87;">Move the cursor · the panel looks back</div>
+<div class="mono" style="position: absolute; right: 60px; bottom: 20px; color: #8F8D87;">Scroll · 9 volumes ↓</div>
+</div>
+
+<div class="lbl" style="margin: 56px 0 14px;"><b>Laptop · selected work as a 3D shelf.</b> Hover or tab through the spines: the volume slides out toward you and its cover lands with an impact pop. The shelf turns with the cursor. Filters dim what doesn’t match.</div>
+<div onMouseMove="{{workMove}}" onMouseLeave="{{workLeave}}" style="position: relative; width: 1440px; height: 820px; overflow: hidden; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A, 0 40px 80px rgba(0,0,0,.5); perspective: 1400px; perspective-origin: 40% 50%;">
+<div class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .5; -webkit-mask-image: radial-gradient(ellipse at 30% 70%, #000, transparent 60%); mask-image: radial-gradient(ellipse at 30% 70%, #000, transparent 60%);"></div>
+<div style="position: absolute; left: 64px; top: 52px; right: 64px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+<div><div class="mono" style="color: #8F8D87;">Selected work · 9 volumes</div><h2 style="margin: 12px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 64px; line-height: .92; text-transform: uppercase;">Shipped, measured, <span style="color: #8F8D87;">explained.</span></h2></div>
+<div role="group" aria-label="Filter volumes" style="display: flex; gap: 6px;"><button class="fb" data-f="all" onClick="{{setFilter}}" aria-pressed="{{fAll}}">All 9</button><button class="fb" data-f="ship" onClick="{{setFilter}}" aria-pressed="{{fShip}}">Shipped 4</button><button class="fb" data-f="strat" onClick="{{setFilter}}" aria-pressed="{{fStrat}}">Strategy 5</button></div>
+</div>
+<div class="scene" style="position: absolute; left: 64px; top: 236px; width: 900px; height: 540px; transform: rotateX({{sx}}deg) rotateY({{sy}}deg);">
+<div style="position: absolute; left: 0; right: 0; bottom: 34px; display: flex; align-items: flex-end; gap: 9px; transform-style: preserve-3d;">
+<sc-for list="{{spines}}" as="v" hint-placeholder-count="9"><a class="spine" href="{{v.href}}" data-i="{{v.i}}" onMouseEnter="{{v.enter}}" onFocus="{{v.enter}}" aria-label="VOL.{{v.n}}: {{v.t}}, {{v.co}}" style="height: {{v.h}}px; background: {{v.lo}}; transform: {{v.tf}}; opacity: {{v.op}}; z-index: {{v.z}};">
+<span style="align-self: stretch; height: 74px; background: {{v.hi}}; color: #0B0B0E; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-family: var(--fm); font-size: 10px; font-weight: 600; letter-spacing: .1em;">VOL</span><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 36px; line-height: .9;">{{v.n}}</span></span>
+<span class="sv" style="flex: 1; margin-top: 16px; max-height: {{v.th}}px;">{{v.t}}</span>
+<span class="tone-r" aria-hidden="true" style="align-self: stretch; height: 34px; margin: 10px 8px 0; opacity: .8;"></span>
+<span style="margin: 10px 0 14px; font-family: var(--fm); font-size: 10px; letter-spacing: .06em; color: #B9B7B1; text-transform: uppercase; writing-mode: vertical-rl;">{{v.co}}</span>
+</a></sc-for>
+</div>
+<div aria-hidden="true" style="position: absolute; left: -24px; right: -24px; bottom: 10px; height: 24px; background: linear-gradient(#34343C, #16161C); border-top: 2px solid #F2F1EE; box-shadow: 0 30px 40px rgba(0,0,0,.6); transform: translateZ(20px);"></div>
+</div>
+<div class="mono" style="position: absolute; left: 64px; bottom: 22px; color: #8F8D87;">Hover or tab through the spines · Enter opens the volume</div>
+
+<div style="position: absolute; left: 1000px; top: 200px; width: 376px; height: 560px; transform: rotateX({{cx}}deg) rotateY({{cy}}deg); transition: transform .6s var(--eo);">
+<div style="position: absolute; inset: 0; border: 3px solid #F2F1EE; background: {{cvLo}}; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,.6); animation: {{cvAnim}};">
+<svg viewBox="0 0 370 554" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{speedCover}}" fill="{{cvHi}}" fill-opacity=".22"></path></svg>
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: linear-gradient(180deg, transparent 40%, #000); mask-image: linear-gradient(180deg, transparent 40%, #000);"></span>
+<span aria-hidden="true" style="position: absolute; right: -16px; top: 40px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 300px; line-height: .8; color: transparent; -webkit-text-stroke: 2px {{cvHi}}; opacity: .6;">{{cvN}}</span>
+<span style="position: absolute; left: 18px; top: 18px; padding: 5px 9px; background: {{cvHi}}; color: #0B0B0E; font-family: var(--fm); font-size: 12px; font-weight: 600; letter-spacing: .08em;">VOL.{{cvN}}</span>
+<span class="mono" style="position: absolute; right: 18px; top: 22px; color: #F2F1EE; font-size: 11px;">{{cvK}}</span>
+<div style="position: absolute; left: 20px; right: 20px; bottom: 22px;">
+<div class="mono" style="color: #B9B7B1; font-size: 11px;">{{cvCo}}</div>
+<div class="ttl" style="margin-top: 8px; font-size: 50px; line-height: .9; -webkit-text-stroke: 5px {{cvLo}}; text-shadow: 5px 5px 0 #D61F33;">{{cvT}}</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 34px; line-height: 1;">{{cvM}}</span><span style="font-size: 14px; color: #F2F1EE;">{{cvMl}}</span><span class="tag {{cvTag}}">{{cvTl}}</span></div>
+<a href="{{cvHref}}" style="margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: #F2F1EE; border-bottom: 2px solid #D61F33; padding-bottom: 4px;">Read volume {{cvN}} →</a>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+
+<div>
+<div class="lbl" style="margin-bottom: 14px; max-width: 834px;"><b>iPad 834 × 1194.</b> Same splash, laid out for portrait. Layers follow device tilt (after one tap to allow motion), or drift slowly. Volumes become a swipeable row of covers.</div>
+<div style="position: relative; width: 834px; height: 1194px; overflow: hidden; border-radius: 28px; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A, 0 30px 60px rgba(0,0,0,.45); perspective: 1200px;">
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 40;"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work" aria-current="true">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+<div class="drift" style="position: absolute; left: 28px; top: 100px; width: 778px; height: 620px;">
+<div style="position: absolute; inset: 0; border: 3px solid #F2F1EE; background: #0E0E12; overflow: hidden;">
+<div class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: radial-gradient(ellipse at 80% 24%, #000, transparent 60%); mask-image: radial-gradient(ellipse at 80% 24%, #000, transparent 60%);"></div>
+<svg viewBox="0 0 772 614" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{speedPad}}" fill="rgba(242,241,238,.15)"></path></svg>
+<div class="tone-r" aria-hidden="true" style="position: absolute; left: 430px; top: 20px; width: 340px; height: 340px; border-radius: 50%; -webkit-mask-image: radial-gradient(circle, #000 0%, #000 26%, transparent 70%); mask-image: radial-gradient(circle, #000 0%, #000 26%, transparent 70%);"></div>
+<div class="mono" style="position: absolute; left: 18px; top: 16px; color: #FF5A67;">VOL.00 · Prologue</div>
+</div>
+<h1 class="ttl" style="position: absolute; left: 34px; top: 56px; margin: 0; font-size: 132px; line-height: .84; -webkit-text-stroke: 5px #0B0B0E; text-shadow: 6px 6px 0 #D61F33; transform: translateZ(40px);">Akarshan<br>Kumar<span style="color: #D61F33;">.</span></h1>
+<div class="cap" style="position: absolute; left: 34px; top: 330px; width: 470px; padding: 14px 18px 16px; transform: translateZ(60px);"><p style="margin: 0; font-size: 20px; line-height: 1.32; font-weight: 600;">I build AI-native health products — and the data platforms that prove they work.</p><p style="margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: #3A3A40;">Product Manager at Sugar.fit. 8 years across product and data.</p></div>
+<div class="chip" style="left: 560px; top: 430px; transform: translateZ(0px) scale(1.0000) rotate(3deg); transform: translateZ(120px) rotate(3deg);"><span class="tone-r" aria-hidden="true" style="position: absolute; right: 0; top: 0; width: 46px; height: 46px; -webkit-mask-image: linear-gradient(225deg, #000 0%, transparent 70%); mask-image: linear-gradient(225deg, #000 0%, transparent 70%);"></span><div class="v">230M+</div><div class="l">devices served · Glance</div></div>
+<div class="chip" style="left: 470px; top: 540px; transform: translateZ(0px) scale(1.0000) rotate(-2deg); transform: translateZ(90px) rotate(-2deg);"><span class="tone-r" aria-hidden="true" style="position: absolute; right: 0; top: 0; width: 46px; height: 46px; -webkit-mask-image: linear-gradient(225deg, #000 0%, transparent 70%); mask-image: linear-gradient(225deg, #000 0%, transparent 70%);"></span><div class="v">₹3.6 Cr</div><div class="l">GLP-1 app, month one</div></div>
+</div>
+<div style="position: absolute; left: 28px; top: 752px; display: flex; gap: 12px;"><a class="cta" href="#work">Open the volumes</a><a class="cta2" href="#resume">Résumé (PDF)</a></div>
+<div class="mono" style="position: absolute; right: 28px; top: 772px; color: #8F8D87; font-size: 11px;">Tilt to look around</div>
+<div style="position: absolute; left: 28px; top: 860px;"><div class="mono" style="color: #8F8D87;">Selected work · 9 volumes</div><h2 style="margin: 10px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 46px; line-height: .95; text-transform: uppercase;">Shipped, measured, <span style="color: #8F8D87;">explained.</span></h2></div>
+<div style="position: absolute; left: 28px; top: 990px; display: flex; gap: 16px;">
+<a class="mcov" href="#vol-01" style="width: 250px; height: 320px; background: #0F3D38; transform: rotate(-1.5deg);" aria-label="VOL.01: 3D body scan for GLP-1 users">
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .7; -webkit-mask-image: linear-gradient(160deg, #000, transparent 60%); mask-image: linear-gradient(160deg, #000, transparent 60%);"></span>
+<span aria-hidden="true" style="position: absolute; right: -10px; bottom: -24px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 198px; line-height: .8; color: transparent; -webkit-text-stroke: 2px #2DD4BF; opacity: .55;">01</span>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 7px; background: #2DD4BF; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.01</span>
+<span style="position: absolute; left: 12px; right: 12px; bottom: 14px;"><span class="ttl" style="display: block; font-size: 30px; line-height: .92; -webkit-text-stroke: 4px #0F3D38; text-shadow: 4px 4px 0 #D61F33;">3D body scan for GLP-1 users</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #F2F1EE;"><strong style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 20px;">±2–3 pp</strong><span class="tag tag-a">ACHIEVED</span></span></span>
+</a>
+<a class="mcov" href="#vol-02" style="width: 250px; height: 320px; background: #5A3A0A;" aria-label="VOL.02: Image-based food logging">
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .7; -webkit-mask-image: linear-gradient(160deg, #000, transparent 60%); mask-image: linear-gradient(160deg, #000, transparent 60%);"></span>
+<span aria-hidden="true" style="position: absolute; right: -10px; bottom: -24px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 198px; line-height: .8; color: transparent; -webkit-text-stroke: 2px #F5A524; opacity: .55;">02</span>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 7px; background: #F5A524; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.02</span>
+<span style="position: absolute; left: 12px; right: 12px; bottom: 14px;"><span class="ttl" style="display: block; font-size: 30px; line-height: .92; -webkit-text-stroke: 4px #5A3A0A; text-shadow: 4px 4px 0 #D61F33;">Image-based food logging</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #F2F1EE;"><strong style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 20px;">62%</strong><span class="tag tag-a">ACHIEVED</span></span></span>
+</a>
+<a class="mcov" href="#vol-03" style="width: 250px; height: 320px; background: #0B4A6B;" aria-label="VOL.03: The CGM journey, end to end">
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .7; -webkit-mask-image: linear-gradient(160deg, #000, transparent 60%); mask-image: linear-gradient(160deg, #000, transparent 60%);"></span>
+<span aria-hidden="true" style="position: absolute; right: -10px; bottom: -24px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 198px; line-height: .8; color: transparent; -webkit-text-stroke: 2px #38BDF8; opacity: .55;">03</span>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 7px; background: #38BDF8; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.03</span>
+<span style="position: absolute; left: 12px; right: 12px; bottom: 14px;"><span class="ttl" style="display: block; font-size: 30px; line-height: .92; -webkit-text-stroke: 4px #0B4A6B; text-shadow: 4px 4px 0 #D61F33;">The CGM journey, end to end</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #F2F1EE;"><strong style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 20px;">42 → 72</strong><span class="tag tag-a">ACHIEVED</span></span></span>
+</a>
+</div>
+</div>
+</div>
+
+<div>
+<div class="lbl" style="margin-bottom: 14px; max-width: 390px;"><b>Mobile 390 × 844.</b> Tilt drives the parallax, or the panel drifts on its own. Nothing depends on hover: a tap on a cover previews it, a second tap opens it.</div>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; border-radius: 46px; background: #0B0B0E; box-shadow: 0 0 0 10px #22222A, 0 30px 60px rgba(0,0,0,.45); perspective: 900px;">
+<div style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 40;"><nav class="pill" aria-label="Primary"><button class="pl" aria-expanded="false" style="padding: 10px 18px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>Menu</button><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact" style="padding: 10px 18px;">Let’s Talk →</a></nav></div>
+<div class="drift" style="position: absolute; left: 14px; top: 80px; width: 362px; height: 470px;">
+<div style="position: absolute; inset: 0; border: 3px solid #F2F1EE; background: #0E0E12; overflow: hidden;">
+<div class="tone" aria-hidden="true" style="position: absolute; inset: 0; -webkit-mask-image: radial-gradient(ellipse at 80% 20%, #000, transparent 62%); mask-image: radial-gradient(ellipse at 80% 20%, #000, transparent 62%);"></div>
+<svg viewBox="0 0 356 464" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="{{speedPhone}}" fill="rgba(242,241,238,.15)"></path></svg>
+<div class="tone-r" aria-hidden="true" style="position: absolute; left: 170px; top: -10px; width: 220px; height: 220px; border-radius: 50%; -webkit-mask-image: radial-gradient(circle, #000 0%, #000 26%, transparent 70%); mask-image: radial-gradient(circle, #000 0%, #000 26%, transparent 70%);"></div>
+</div>
+<h1 class="ttl" style="position: absolute; left: 16px; top: 34px; margin: 0; font-size: 70px; line-height: .86; -webkit-text-stroke: 4px #0B0B0E; text-shadow: 4px 4px 0 #D61F33; transform: translateZ(30px);">Akarshan<br>Kumar<span style="color: #D61F33;">.</span></h1>
+<div class="cap" style="position: absolute; left: 16px; top: 206px; width: 300px; padding: 12px 14px 13px; box-shadow: 4px 4px 0 #D61F33; transform: translateZ(45px);"><p style="margin: 0; font-size: 17px; line-height: 1.32; font-weight: 600;">I build AI-native health products — and the data platforms that prove they work.</p></div>
+<div class="chip" style="left: 196px; top: 360px; padding: 10px 14px 12px; transform: translateZ(70px) rotate(3deg);"><div class="v" style="font-size: 34px;">230M+</div><div class="l" style="font-size: 12px;">devices served · Glance</div></div>
+</div>
+<div style="position: absolute; left: 14px; right: 14px; top: 568px; display: grid; gap: 10px;"><a class="cta" href="#work">Open the volumes</a><a class="cta2" href="#resume">Résumé (PDF)</a></div>
+<div class="mono" style="position: absolute; left: 14px; top: 702px; color: #8F8D87; font-size: 11px;">Selected work · 9 volumes</div>
+<div style="position: absolute; left: 14px; top: 728px; display: flex; gap: 12px;">
+<a class="mcov" href="#vol-01" style="width: 168px; height: 210px; background: #0F3D38;" aria-label="VOL.01: 3D body scan for GLP-1 users">
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .7; -webkit-mask-image: linear-gradient(160deg, #000, transparent 60%); mask-image: linear-gradient(160deg, #000, transparent 60%);"></span>
+<span aria-hidden="true" style="position: absolute; right: -10px; bottom: -24px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 130px; line-height: .8; color: transparent; -webkit-text-stroke: 2px #2DD4BF; opacity: .55;">01</span>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 7px; background: #2DD4BF; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.01</span>
+<span style="position: absolute; left: 12px; right: 12px; bottom: 14px;"><span class="ttl" style="display: block; font-size: 22px; line-height: .92; -webkit-text-stroke: 4px #0F3D38; text-shadow: 4px 4px 0 #D61F33;">3D body scan for GLP-1 users</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #F2F1EE;"><strong style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 20px;">±2–3 pp</strong><span class="tag tag-a">ACHIEVED</span></span></span>
+</a>
+<a class="mcov" href="#vol-02" style="width: 168px; height: 210px; background: #5A3A0A;" aria-label="VOL.02: Image-based food logging">
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .7; -webkit-mask-image: linear-gradient(160deg, #000, transparent 60%); mask-image: linear-gradient(160deg, #000, transparent 60%);"></span>
+<span aria-hidden="true" style="position: absolute; right: -10px; bottom: -24px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 130px; line-height: .8; color: transparent; -webkit-text-stroke: 2px #F5A524; opacity: .55;">02</span>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 7px; background: #F5A524; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.02</span>
+<span style="position: absolute; left: 12px; right: 12px; bottom: 14px;"><span class="ttl" style="display: block; font-size: 22px; line-height: .92; -webkit-text-stroke: 4px #5A3A0A; text-shadow: 4px 4px 0 #D61F33;">Image-based food logging</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #F2F1EE;"><strong style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 20px;">62%</strong><span class="tag tag-a">ACHIEVED</span></span></span>
+</a>
+<a class="mcov" href="#vol-03" style="width: 168px; height: 210px; background: #0B4A6B;" aria-label="VOL.03: The CGM journey, end to end">
+<span class="tone" aria-hidden="true" style="position: absolute; inset: 0; opacity: .7; -webkit-mask-image: linear-gradient(160deg, #000, transparent 60%); mask-image: linear-gradient(160deg, #000, transparent 60%);"></span>
+<span aria-hidden="true" style="position: absolute; right: -10px; bottom: -24px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 130px; line-height: .8; color: transparent; -webkit-text-stroke: 2px #38BDF8; opacity: .55;">03</span>
+<span style="position: absolute; left: 12px; top: 12px; padding: 4px 7px; background: #38BDF8; color: #0B0B0E; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .06em;">VOL.03</span>
+<span style="position: absolute; left: 12px; right: 12px; bottom: 14px;"><span class="ttl" style="display: block; font-size: 22px; line-height: .92; -webkit-text-stroke: 4px #0B4A6B; text-shadow: 4px 4px 0 #D61F33;">The CGM journey, end to end</span><span style="display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #F2F1EE;"><strong style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 20px;">42 → 72</strong><span class="tag tag-a">ACHIEVED</span></span></span>
+</a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":3240}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.V = [{"n": "01", "t": "3D body scan for GLP-1 users", "co": "Sugar.fit", "k": "Shipped · AI", "m": "±2–3 pp", "ml": "body fat vs 8-electrode BIA (n=110)", "tag": "a", "tl": "ACHIEVED", "hi": "#2DD4BF", "lo": "#0F3D38", "href": "#vol-01"}, {"n": "02", "t": "Image-based food logging", "co": "Sugar.fit", "k": "Shipped · LLM", "m": "62%", "ml": "of all meal logs", "tag": "a", "tl": "ACHIEVED", "hi": "#F5A524", "lo": "#5A3A0A", "href": "#vol-02"}, {"n": "03", "t": "The CGM journey, end to end", "co": "Sugar.fit", "k": "Shipped · Hardware to app", "m": "42 → 72", "ml": "CSAT · ₹3.2 Cr saved YoY", "tag": "a", "tl": "ACHIEVED", "hi": "#38BDF8", "lo": "#0B4A6B", "href": "#vol-03"}, {"n": "04", "t": "The GLP-1 app, 0→1", "co": "Sugar.fit", "k": "Shipped · 0→1", "m": "52%", "ml": "renewal · ₹3.6 Cr in month one", "tag": "a", "tl": "ACHIEVED", "hi": "#A78BFA", "lo": "#3E2A7A", "href": "#vol-04"}, {"n": "05", "t": "Puja engagement platform", "co": "Sri Mandir", "k": "Strategy + prototype", "m": "+30%", "ml": "monthly orders per user", "tag": "t", "tl": "TARGET", "hi": "#FF5A67", "lo": "#3A0C12", "href": "CaseStudy.dc.html"}, {"n": "06", "t": "Arcana Workspace", "co": "Arcana", "k": "0→1 · B2B prototype", "m": "7", "ml": "priority widgets designed", "tag": "o", "tl": "OUTPUT", "hi": "#94A3B8", "lo": "#1E293B", "href": "#vol-06"}, {"n": "07", "t": "GLP-1 digital scaffold", "co": "GLP Health", "k": "Strategy", "m": "64%", "ml": "users losing >1 kg today", "tag": "b", "tl": "BASELINE", "hi": "#4ADE80", "lo": "#14532D", "href": "#vol-07"}, {"n": "08", "t": "Word games monetisation", "co": "Playsimple", "k": "Strategy + prototype", "m": "6.5M → 8.8M", "ml": "monthly active users", "tag": "t", "tl": "TARGET", "hi": "#FACC15", "lo": "#713F12", "href": "#vol-08"}, {"n": "09", "t": "Revenue growth strategy", "co": "Zynga", "k": "Strategy + prototype", "m": "+$50–65K", "ml": "net new revenue a month", "tag": "p", "tl": "PROJECTED", "hi": "#A3E635", "lo": "#365314", "href": "#vol-09"}];
+    this.rest = { mx: 0.2, my: -0.1, fx: 930, fy: 300 };
+    this.state = Object.assign({ wx: 0, wy: 0, hov: 4, flip: 0, filter: 'all' }, this.rest);
+    ['heroMove', 'heroLeave', 'workMove', 'workLeave', 'enter', 'setFilter'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.sPad = this.speed(600, 150, 110, 150, 260, 1100);
+    this.sPhone = this.speed(290, 90, 80, 90, 160, 700);
+    this.sCover = this.speed(250, 200, 90, 70, 150, 800);
+  }
+
+  speed(fx, fy, count, rMin, rMax, R) {
+    let d = '';
+    for (let i = 0; i < count; i++) {
+      const t = (i / count) * Math.PI * 2;
+      const j = Math.sin(i * 12.9898) * 43758.5453;
+      const rnd = j - Math.floor(j);
+      const r0 = rMin + rnd * (rMax - rMin);
+      const w = 0.006 + rnd * 0.012;
+      const ax = fx + Math.cos(t) * r0, ay = fy + Math.sin(t) * r0;
+      const bx = fx + Math.cos(t - w) * R, by = fy + Math.sin(t - w) * R;
+      const cx = fx + Math.cos(t + w) * R, cy = fy + Math.sin(t + w) * R;
+      d += 'M' + ax.toFixed(1) + ' ' + ay.toFixed(1) + 'L' + bx.toFixed(1) + ' ' + by.toFixed(1) + 'L' + cx.toFixed(1) + ' ' + cy.toFixed(1) + 'Z';
+    }
+    return d;
+  }
+  reduced() { return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  track(e, cb) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => { this.raf = null; cb(rx, ry); });
+  }
+  componentWillUnmount() { if (this.raf) cancelAnimationFrame(this.raf); }
+
+  heroMove(e) {
+    this.track(e, (rx, ry) => this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1, fx: Math.min(1262, Math.max(60, rx * 1440 - 59)), fy: Math.min(694, Math.max(40, ry * 900 - 107)) }));
+  }
+  heroLeave() { if (this.raf) cancelAnimationFrame(this.raf); this.setState(this.rest); }
+  workMove(e) { this.track(e, (rx, ry) => this.setState({ wx: rx * 2 - 1, wy: ry * 2 - 1 })); }
+  workLeave() { if (this.raf) cancelAnimationFrame(this.raf); this.setState({ wx: 0, wy: 0 }); }
+  enter(e) {
+    const i = +e.currentTarget.getAttribute('data-i');
+    if (i !== this.state.hov) this.setState({ hov: i, flip: this.state.flip + 1 });
+  }
+  setFilter(e) { this.setState({ filter: e.currentTarget.getAttribute('data-f') }); }
+  renderVals() {
+    const s = this.state, k = this.reduced() ? 0 : 1;
+    const mx = s.mx * k, my = s.my * k, fx = k ? s.fx : this.rest.fx, fy = k ? s.fy : this.rest.fy;
+    const t = (a, b) => 'translate3d(' + (mx * a).toFixed(1) + 'px, ' + (my * b).toFixed(1) + 'px, 0)';
+    const H = [452, 430, 446, 438, 460, 424, 440, 432, 450];
+    const inF = (i) => s.filter === 'all' || (s.filter === 'ship' ? i < 4 : i >= 4);
+    const spines = this.V.map((v, i) => {
+      const on = i === s.hov;
+      return { i, n: v.n, t: v.t, co: v.co, hi: v.hi, lo: v.lo, href: v.href, h: H[i], th: H[i] - 190,
+        tf: on ? 'translateZ(70px) translateY(-26px) rotateY(-12deg)' : 'none',
+        op: !inF(i) ? 0.28 : (on ? 1 : 0.72), z: on ? 5 : 1, enter: this.enter };
+    });
+    const c = this.V[s.hov];
+    return {
+      heroMove: this.heroMove, heroLeave: this.heroLeave, workMove: this.workMove, workLeave: this.workLeave, setFilter: this.setFilter,
+      hx: (-my * 4).toFixed(2), hy: (mx * 6).toFixed(2),
+      L1: t(-16, -12), L2: t(-10, -7), L3: t(-5, -4), L4: t(7, 5), L5: t(11, 8),
+      speedHero: this.speed(fx, fy, 140, 230, 380, 1700), speedPad: this.sPad, speedPhone: this.sPhone, speedCover: this.sCover,
+      sx: (-s.wy * 3 * k).toFixed(2), sy: (s.wx * 10 * k).toFixed(2), cx: (s.wy * 4 * k).toFixed(2), cy: (-s.wx * 6 * k).toFixed(2),
+      spines, fAll: s.filter === 'all' ? 'true' : 'false', fShip: s.filter === 'ship' ? 'true' : 'false', fStrat: s.filter === 'strat' ? 'true' : 'false',
+      cvN: c.n, cvT: c.t, cvCo: c.co, cvK: c.k, cvM: c.m, cvMl: c.ml, cvTag: 'tag-' + c.tag, cvTl: c.tl, cvHi: c.hi, cvLo: c.lo, cvHref: c.href,
+      cvAnim: s.flip ? (s.flip % 2 ? 'r3PopA .42s cubic-bezier(.2,.8,.2,1)' : 'r3PopB .42s cubic-bezier(.2,.8,.2,1)') : 'none'
+    };
+  }
+}
+</script>
+</body>
+</html>

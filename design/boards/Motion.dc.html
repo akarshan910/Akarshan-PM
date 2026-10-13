@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Motion system</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#101014}
+.r3{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--okt:#9BE7C4;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;--fj:'Dela Gothic One','Archivo',sans-serif;--eo:cubic-bezier(.2,.8,.2,1);-webkit-font-smoothing:antialiased}
+.r3 *{box-sizing:border-box}
+.r3 a{color:inherit;text-decoration:none}
+.r3 .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.r3 .lbl{font-family:var(--fm);font-size:13px;line-height:1.5;color:#8F8D87}
+.r3 .lbl b{color:#F2F1EE;font-weight:600}
+.r3 .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+@property --r3sh{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes r3Shine{to{--r3sh:360deg}}
+.r3 .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.r3 .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,#fff 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:r3Shine 3.5s linear infinite;filter:blur(.4px)}
+.r3 .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:r3Shine 3.5s linear infinite;filter:blur(3px)}
+.r3 .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border-radius:99px;white-space:nowrap;font-weight:500;position:relative;z-index:1;border:0;background:transparent;cursor:pointer}
+.r3 .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.r3 .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.r3 .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.r3 .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background-color .25s var(--eo),transform .25s var(--eo)}
+.r3 .cta:hover{background:#E42A3F;transform:translateY(-2px)}
+.r3 .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border:1px solid rgba(242,241,238,.25);background:rgba(11,11,14,.5);color:var(--tx);font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;transition:border-color .25s var(--eo)}
+.r3 .cta2:hover{border-color:#8F8D87}
+.r3 a:focus-visible,.r3 button:focus-visible{outline:2px solid #FF5A67;outline-offset:3px}
+.r3 .cta:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #D61F33}
+.r3 .tone{background-image:radial-gradient(rgba(242,241,238,.16) 1.2px,transparent 1.5px);background-size:8px 8px}
+.r3 .tone-r{background-image:radial-gradient(#D61F33 2px,transparent 2.4px);background-size:9px 9px}
+.r3 .ttl{font-family:var(--fd);font-stretch:62%;font-weight:900;text-transform:uppercase;color:#F2F1EE;-webkit-text-stroke:6px #0B0B0E;paint-order:stroke fill;text-shadow:8px 8px 0 #D61F33}
+.r3 .sfx{font-family:var(--fj);font-weight:400;color:#D61F33;-webkit-text-stroke:5px #F2F1EE;paint-order:stroke fill;line-height:1;white-space:nowrap;user-select:none}
+.r3 .cap{background:#F2F1EE;color:#0B0B0E;border:3px solid #0B0B0E;box-shadow:6px 6px 0 #D61F33}
+.r3 .tag{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.r3 .tag-a{background:rgba(60,203,139,.14);color:#9BE7C4}
+.r3 .tag-t{border:1px solid rgba(242,241,238,.3);color:#B9B7B1}
+.r3 .tag-p{border:1px dashed rgba(242,241,238,.4);color:#B9B7B1}
+.r3 .tag-b{background:#1D1D24;color:#B9B7B1}
+.r3 .tag-o{background:rgba(255,90,103,.14);color:#FF5A67}
+.r3 .px{transition:transform .5s var(--eo)}
+.r3 .scene{transform-style:preserve-3d;transition:transform .6s var(--eo)}
+@keyframes r3PopA{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3PopB{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3Drift{0%,100%{transform:rotateX(-2deg) rotateY(3deg)}50%{transform:rotateX(2deg) rotateY(-3deg)}}
+.r3 .drift{animation:r3Drift 9s ease-in-out infinite;transform-style:preserve-3d}
+@media (prefers-reduced-motion:reduce){.r3 .pill::before,.r3 .pill::after,.r3 .drift{animation:none}.r3 .px,.r3 .scene{transition:none}.r3 *{animation-duration:.01ms !important}}
+
+.mo{--eo:cubic-bezier(.2,.8,.2,1)}
+.mo h2{margin:0;font-family:var(--fd);font-stretch:68%;font-weight:800;font-size:44px;line-height:.95;text-transform:uppercase}
+.mo .sub{margin:10px 0 0;max-width:820px;font-size:16px;line-height:1.6;color:#B9B7B1}
+.mo .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:28px}
+.mo .grp{grid-column:1 / -1;display:flex;align-items:baseline;gap:14px;margin-top:20px;padding-top:22px;border-top:1px solid rgba(242,241,238,.1)}
+.mo .grp b{font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:26px;letter-spacing:.01em}
+.mo .card2{display:flex;flex-direction:column;border:1px solid rgba(242,241,238,.1);border-radius:18px;background:#111116;overflow:hidden}
+.mo .stage{position:relative;height:250px;overflow:hidden;background:#0B0B0E;border-bottom:1px solid rgba(242,241,238,.08)}
+.mo .meta{padding:16px 18px 18px}
+.mo .meta h3{margin:0;font-size:17px;font-weight:600}
+.mo .spec{display:grid;grid-template-columns:86px minmax(0,1fr);gap:6px 12px;margin:12px 0 0;font-size:13px;line-height:1.5}
+.mo .spec dt{font-family:var(--fm);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#8F8D87;padding-top:2px}
+.mo .spec dd{margin:0;color:#B9B7B1}
+.mo .spec code,.mo .tok code{font-family:var(--fm);font-size:12px;color:#F2F1EE}
+.mo .btn2{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border:1px solid rgba(242,241,238,.25);border-radius:2px;background:transparent;color:#F2F1EE;font:500 13px/1 var(--fm);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.mo .btn2:hover{border-color:#8F8D87}
+.mo .sw2{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 4px;border:0;background:none;color:#F2F1EE;font:500 13px/1 var(--fm);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.mo .trk{position:relative;width:38px;height:22px;border-radius:11px;background:#3A3A42;transition:background .2s var(--eo)}
+.mo .knb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s var(--eo)}
+.mo .sw2[aria-checked="true"] .trk{background:#D61F33}
+.mo .sw2[aria-checked="true"] .knb{transform:translateX(16px)}
+.mo .tok{padding:20px;border:1px solid rgba(242,241,238,.1);border-radius:18px;background:#111116}
+.mo .tok table{width:100%;border-collapse:collapse;font-size:14px}
+.mo .tok td{padding:7px 0;border-top:1px solid rgba(242,241,238,.07);color:#B9B7B1;vertical-align:top}
+.mo .tok td:first-child{width:96px;color:#F2F1EE;font-family:var(--fm);font-size:12px;padding-top:9px}
+.mo .mini{position:absolute;inset:18px;border:2px solid #F2F1EE;background:#111116;overflow:hidden}
+.mo .vtag{display:inline-block;padding:2px 6px;color:#0B0B0E;font:600 10px/1.4 var(--fm);letter-spacing:.06em}
+.mo .fc{position:absolute;width:190px;display:flex;flex-direction:column;gap:6px;padding:10px 12px 12px;border:1px solid rgba(242,241,238,.18);border-radius:12px;background:#16161C;box-shadow:0 18px 36px rgba(0,0,0,.5)}
+/* replayable animations: they run when the stage has .go */
+@keyframes moRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes moInk{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
+@keyframes moDrift{0%,100%{transform:rotateX(-1.5deg) rotateY(2deg)}50%{transform:rotateX(1.5deg) rotateY(-2deg)}}
+@keyframes moPulse{0%,100%{box-shadow:0 0 0 0 rgba(60,203,139,.55)}50%{box-shadow:0 0 0 6px rgba(60,203,139,0)}}
+@keyframes moScan{0%{transform:translateY(0)}50%{transform:translateY(120px)}100%{transform:translateY(0)}}
+@keyframes moEase{0%,12%{transform:translateX(0)}88%,100%{transform:translateX(220px)}}
+@keyframes moSpin{to{transform:rotate(360deg)}}
+@keyframes moFade{from{opacity:0}to{opacity:1}}
+@keyframes moBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.mo .go .rise{animation:moRise .56s var(--eo) both}
+.mo .go .brush{stroke-dasharray:900;animation:moInk 1.4s var(--eo) .4s both}
+.mo .go .bar{transform-origin:left;animation:moBar .56s var(--eo) both}
+.mo .drift{animation:moDrift 9s ease-in-out infinite;transform-style:preserve-3d}
+.mo .live{animation:moPulse 2.4s ease-in-out infinite}
+.mo .scan{animation:moScan 4s var(--eo) infinite}
+.mo .ease-dot{animation:moEase 1.6s var(--eo) infinite alternate}
+.mo .spin{animation:moSpin .8s linear infinite}
+.mo .fadein{animation:moFade .32s var(--eo) both}
+.mo .tilt{transform-style:preserve-3d;transition:transform .6s var(--eo)}
+.mo .lay{transition:transform .5s var(--eo)}
+.mo .pl{transition:color .22s,background-color .22s}
+.mo .pl:hover{color:#F0EEF8;background:rgba(240,238,248,.1)}
+.mo .pcta{transition:background-color .22s,transform .22s}
+.mo .pcta:hover{background:#FF4D5E;transform:scale(1.04)}
+.mo .cta,.mo .cta2{transition:background-color .2s var(--eo),border-color .2s var(--eo),transform .2s var(--eo)}
+.mo .cta:active{transform:scale(.98);transition-duration:.12s}
+.mo .cardx{display:flex;flex-direction:column;gap:12px;width:250px;padding:10px 10px 16px;border:1px solid rgba(242,241,238,.09);border-radius:16px;background:#111116;transition:transform .32s var(--eo),border-color .32s var(--eo)}
+.mo .cardx .cv{transition:transform .6s var(--eo)}
+.mo .cardx .go2{transition:transform .24s var(--eo)}
+.mo .cardx:hover{transform:translateY(-4px);border-color:rgba(242,241,238,.18)}
+.mo .cardx:hover .cv{transform:scale(1.03)}
+.mo .cardx:hover .go2{transform:translateX(4px)}
+.mo .rowx{display:grid;grid-template-columns:62px minmax(0,1fr) 22px;gap:12px;align-items:center;padding:14px 10px;border-bottom:1px solid rgba(242,241,238,.09);transition:background-color .2s var(--eo)}
+.mo .rowx .go2{transition:transform .24s var(--eo)}
+.mo .rowx:hover{background:#111116}
+.mo .rowx:hover .go2{transform:translateX(4px)}
+.mo .allx{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:14px 16px;border:1px dashed rgba(242,241,238,.18);border-radius:14px;transition:border-color .32s var(--eo),background-color .32s var(--eo)}
+.mo .allx:hover{border-color:#8F8D87;background:#111116}
+.mo .rv{opacity:0;transform:translateY(16px);transition:opacity .56s var(--eo),transform .56s var(--eo)}
+.mo .rv.in{opacity:1;transform:none}
+.mo .chap{position:relative;display:block;width:100%;height:40px;padding:0 0 0 16px;border:0;background:none;text-align:left;color:#8F8D87;font:500 14px/40px var(--fu);cursor:pointer;transition:color .2s var(--eo)}
+.mo .chap[aria-current="true"]{color:#F2F1EE}
+.mo .ind{position:absolute;left:0;top:0;width:3px;height:40px;background:#D61F33;transition:transform .24s var(--eo)}
+.mo.still .rise,.mo.still .brush,.mo.still .bar,.mo.still .drift,.mo.still .live,.mo.still .scan,.mo.still .ease-dot,.mo.still .pill::before,.mo.still .pill::after{animation:none}
+.mo.still .brush{stroke-dasharray:none}
+.mo.still .tilt,.mo.still .lay,.mo.still .cardx,.mo.still .cardx .cv,.mo.still .ind{transition:none}
+.mo.still .cardx:hover,.mo.still .cardx:hover .cv{transform:none}
+.mo.still .rv{opacity:1;transform:none;transition:none}
+.mo.still .spin{animation-duration:2.4s}
+
+
+.mo .mphone{position:relative;width:186px;height:226px;border:2px solid #26262E;border-radius:22px;background:#0B0B0E;overflow:hidden}
+.mo .mpill{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;padding:3px;border-radius:99px;background:rgba(8,6,4,.62);border:1px solid rgba(255,255,255,.12);font:500 8px/1 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.mo .mpill button{display:inline-flex;align-items:center;gap:4px;padding:6px 9px;border:0;border-radius:99px;background:transparent;color:rgba(240,238,248,.8);font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer}
+.mo .mpill .lt{padding:6px 9px;border-radius:99px;background:#E8273A;color:#fff}
+.mo .msheet{position:absolute;inset:0;z-index:2;padding:44px 12px 10px;background:rgba(11,11,14,.97);display:flex;flex-direction:column;animation:moFade .24s var(--eo) both}
+.mo .msheet a{display:flex;align-items:center;gap:8px;min-height:26px;border-bottom:1px solid rgba(242,241,238,.09);font-family:var(--fd);font-stretch:62%;font-weight:800;font-size:19px;text-transform:uppercase;color:#B9B7B1;animation:moRise .56s var(--eo) both}
+.mo .msheet a i{font:500 8px/1 var(--fm);font-style:normal;color:#8F8D87}
+.mo .msheet a.on{color:#F2F1EE}
+.mo .msheet a.on i{color:#FF5A67}
+.mo .msheet .mcta{margin-top:auto;justify-content:center;min-height:26px;border:0;background:#D61F33;color:#fff;font:600 10px/1 var(--fd);font-stretch:75%;letter-spacing:.14em}
+.mo .mcl{position:relative;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 12px;max-width:340px}
+.mo .mcl span{transition:opacity .2s var(--eo),color .2s var(--eo)}
+.mo .go .mcl span{animation:moRise .56s var(--eo) both}
+.mo .mcl .g{font-family:var(--fd);font-stretch:62%;font-weight:900;font-size:44px;line-height:.86;text-transform:uppercase;color:transparent;-webkit-text-stroke:1.2px #8F8D87;cursor:pointer;transition:color .2s var(--eo),-webkit-text-stroke-color .2s var(--eo)}
+.mo .mcl .g.on{color:#D61F33;-webkit-text-stroke-color:#D61F33}
+.mo .mcl .xl{font-family:var(--fd);font-stretch:62%;font-weight:900;font-size:30px;line-height:.9;text-transform:uppercase;color:#F2F1EE}
+.mo .mcl .l{font-family:var(--fd);font-stretch:68%;font-weight:800;font-size:20px;text-transform:uppercase;color:#F2F1EE}
+.mo .mcl .m{font-size:14px;font-weight:500;color:#B9B7B1}
+.mo .mcl .s{font-family:var(--fm);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#8F8D87}
+.mo .mcl.lit span:not(.g){opacity:.16}
+.mo .mcl.lit span.on{opacity:1;color:#F2F1EE}
+.mo .mcl.lit .xl.on{color:#FF5A67}
+.mo .mop{position:relative;width:250px;height:190px;overflow:hidden;border:2px solid #F2F1EE;background:#1F1A06;transition:transform .32s var(--eo)}
+.mo .mop .sl{position:absolute;inset:0;width:100%;height:100%;transition:transform .5s var(--eo)}
+.mo .mop .ico{position:absolute;right:14px;top:12px;width:84px;height:74px;fill:none;stroke:#FACC15;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s var(--eo)}
+.mo .mop .num{position:absolute;right:8px;bottom:-8px;font-family:var(--fd);font-stretch:62%;font-weight:900;font-size:80px;line-height:.8;color:transparent;-webkit-text-stroke:1.2px rgba(250,204,21,.5)}
+.mo .mop .cap{position:absolute;left:10px;bottom:10px;width:150px;padding:8px 10px 10px;background:#F2F1EE;color:#0B0B0E;border:2px solid #0B0B0E;box-shadow:5px 5px 0 #FACC15;transition:box-shadow .32s var(--eo)}
+.mo .mop .cap b{display:block;font-family:var(--fd);font-stretch:68%;font-weight:800;font-size:20px;line-height:.95;text-transform:uppercase}
+.mo .mop .cap span{display:block;font:600 8px/1.3 var(--fm);letter-spacing:.08em;text-transform:uppercase;color:#4A4A51}
+.mo .mop:hover{transform:translateY(-4px)}
+.mo .mop:hover .cap{box-shadow:8px 8px 0 #FACC15}
+.mo .mop:hover .ico{transform:translate(-6px,-4px) rotate(-3deg)}
+.mo .mop:hover .sl{transform:scale(1.04)}
+.mo .msp{display:flex;align-items:flex-end;gap:4px;border-bottom:2px solid #F2F1EE}
+.mo .msp i{display:block;width:22px;background:#16161C;border:1px solid rgba(242,241,238,.18);border-bottom:0;transition:transform .32s var(--eo)}
+.mo .msp i:hover{transform:translateY(-4px)}
+.mo.still .msheet,.mo.still .msheet a,.mo.still .go .mcl span{animation:none}
+.mo.still .mop,.mo.still .mop .sl,.mo.still .mop .ico,.mo.still .mop .cap,.mo.still .msp i{transition:none}
+.mo.still .mop:hover,.mo.still .mop:hover .ico,.mo.still .mop:hover .sl,.mo.still .msp i:hover{transform:none}
+.mo.still .mop:hover .cap{box-shadow:5px 5px 0 #FACC15}
+</style>
+</helmet>
+<div class="r3 mo {{rootCls}}" style="min-height: 6200px; padding: 56px 64px 96px; background: #0B0B0E; color: #F2F1EE; font-family: var(--fu);">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px;">
+<div><div class="mono" style="color: #FF5A67;">Motion &amp; animation · website</div><h1 style="margin: 12px 0 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 88px; line-height: .88; text-transform: uppercase;">Motion system</h1><p class="sub">Every animation on the portfolio, built from one easing curve, seven durations and one stagger. The demos are live: hover, move the pointer, scroll inside them, or press Replay. Turn on Reduced motion to see what visitors with that setting get.</p></div>
+<div style="display: flex; align-items: center; gap: 16px;"><button class="btn2" onClick="{{replay}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4"></path></svg>Replay</button><button class="sw2" role="switch" aria-checked="{{stillAria}}" onClick="{{toggleStill}}"><span class="trk" aria-hidden="true"><span class="knb"></span></span>Reduced motion</button></div>
+</div>
+
+<section style="margin-top: 56px;"><h2>Tokens</h2><p class="sub">Use these values and nothing else. If an animation needs a new one, it’s probably doing too much.</p><div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 28px;">
+<div class="tok"><div class="mono" style="font-size: 11px; color: #FF5A67;">Easing</div><div style="margin-top: 8px; font-size: 15px; font-weight: 600;">One curve for movement</div><div style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #B9B7B1;"><code>--eo: cubic-bezier(.2,.8,.2,1)</code>: fast start, soft landing. <code>linear</code> only for drift, rotation and progress; <code>ease-in-out</code> only for breathing loops.</div><div style="position: relative; height: 150px; margin-top: 8px;">
+<svg viewBox="0 0 200 120" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 200px; height: 120px; overflow: visible;"><path d="M0 120 L200 0" stroke="rgba(242,241,238,.15)" stroke-dasharray="3 4" fill="none"></path><path d="M0 120 C 40 24, 40 0, 200 0" stroke="#D61F33" stroke-width="2.5" fill="none"></path><circle cx="40" cy="24" r="3.5" fill="#8F8D87"></circle><circle cx="40" cy="0" r="3.5" fill="#8F8D87"></circle></svg>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 18px; border-top: 1px solid rgba(242,241,238,.1);"><span class="ease-dot" style="position: absolute; left: 0; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: #D61F33;"></span></div>
+</div></div>
+<div class="tok {{goCls}}"><div class="mono" style="font-size: 11px; color: #FF5A67;">Duration</div><div style="margin-top: 8px; font-size: 15px; font-weight: 600;">Seven steps, nothing in between</div><div style="display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 9px;"><code style="font-family: var(--fm); font-size: 12px;">120ms</code><div><div style="font-size: 13px; color: #B9B7B1;">Press</div><div class="bar" style="margin-top: 5px; width: 6%; height: 4px; background: #D61F33; animation-delay: 0ms;"></div></div></div><div style="display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 9px;"><code style="font-family: var(--fm); font-size: 12px;">200ms</code><div><div style="font-size: 13px; color: #B9B7B1;">Colour, hover, focus</div><div class="bar" style="margin-top: 5px; width: 10%; height: 4px; background: #D61F33; animation-delay: 80ms;"></div></div></div><div style="display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 9px;"><code style="font-family: var(--fm); font-size: 12px;">320ms</code><div><div style="font-size: 13px; color: #B9B7B1;">Card and row lift</div><div class="bar" style="margin-top: 5px; width: 16%; height: 4px; background: #D61F33; animation-delay: 160ms;"></div></div></div><div style="display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 9px;"><code style="font-family: var(--fm); font-size: 12px;">560ms</code><div><div style="font-size: 13px; color: #B9B7B1;">Entrances, reveals</div><div class="bar" style="margin-top: 5px; width: 28%; height: 4px; background: #D61F33; animation-delay: 240ms;"></div></div></div><div style="display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 9px;"><code style="font-family: var(--fm); font-size: 12px;">700ms</code><div><div style="font-size: 13px; color: #B9B7B1;">Tilt, fades</div><div class="bar" style="margin-top: 5px; width: 35%; height: 4px; background: #D61F33; animation-delay: 320ms;"></div></div></div><div style="display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 9px;"><code style="font-family: var(--fm); font-size: 12px;">1.4s</code><div><div style="font-size: 13px; color: #B9B7B1;">Brush draw</div><div class="bar" style="margin-top: 5px; width: 70%; height: 4px; background: #D61F33; animation-delay: 400ms;"></div></div></div><div style="display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 9px;"><code style="font-family: var(--fm); font-size: 12px;">2.4–9s</code><div><div style="font-size: 13px; color: #B9B7B1;">Ambient loops</div><div class="bar" style="margin-top: 5px; width: 100%; height: 4px; background: #D61F33; animation-delay: 480ms;"></div></div></div></div>
+<div class="tok {{goCls}}"><div class="mono" style="font-size: 11px; color: #FF5A67;">Stagger</div><div style="margin-top: 8px; font-size: 15px; font-weight: 600;">80ms between siblings</div><div style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #B9B7B1;">At most five steps, so a group finishes within 400ms of starting.</div><div style="margin-top: 18px; display: flex; gap: 8px;"><span class="rise" style="animation-delay: 0ms; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; background: #1D1D24; font-family: var(--fm); font-size: 11px; color: #B9B7B1;">0</span><span class="rise" style="animation-delay: 80ms; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; background: #1D1D24; font-family: var(--fm); font-size: 11px; color: #B9B7B1;">80</span><span class="rise" style="animation-delay: 160ms; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; background: #1D1D24; font-family: var(--fm); font-size: 11px; color: #B9B7B1;">160</span><span class="rise" style="animation-delay: 240ms; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; background: #1D1D24; font-family: var(--fm); font-size: 11px; color: #B9B7B1;">240</span><span class="rise" style="animation-delay: 320ms; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; background: #1D1D24; font-family: var(--fm); font-size: 11px; color: #B9B7B1;">320</span></div></div>
+<div class="tok"><div class="mono" style="font-size: 11px; color: #FF5A67;">Distance</div><div style="margin-top: 8px; font-size: 15px; font-weight: 600;">Small, and the same every time</div><table style="margin-top: 8px;"><tr><td>16px</td><td>Rise on entrance and reveal</td></tr><tr><td>4px</td><td>Card lift, arrow nudge</td></tr><tr><td>2px</td><td>Button lift</td></tr><tr><td>10–18px</td><td>Floating preview drift</td></tr><tr><td>±4° · ±3°</td><td>Hero tilt, left–right · up–down</td></tr><tr><td>±2°</td><td>Touch drift</td></tr></table></div>
+</div></section>
+
+<section style="margin-top: 72px;"><h2>Every animation</h2><p class="sub">Grouped by where it happens. Each card names the trigger, the movement, the timing and what changes with reduced motion.</p>
+<div class="grid">
+<div class="grp"><b>On load</b><span style="font-size: 14px; color: #8F8D87;">Once per visit, on the hero only</span></div>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div class="{{goCls}}" style="position: absolute; inset: 0; padding: 30px 28px;">
+<div class="rise" style="display: inline-flex; align-items: center; gap: 8px; height: 26px; padding: 0 10px; border-radius: 999px; border: 1px solid rgba(60,203,139,.35); background: rgba(60,203,139,.08); color: #9BE7C4; font-size: 12px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3CCB8B;"></span>[Availability]</div>
+<div class="rise" style="animation-delay: 80ms; margin-top: 16px; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 56px; line-height: .86; text-transform: uppercase; text-shadow: 3px 3px 0 #D61F33;">Akarshan<br>Kumar<span style="color: #D61F33; text-shadow: none;">.</span></div>
+<div class="rise" style="animation-delay: 160ms; margin-top: 12px; width: 82%; height: 10px; border-radius: 3px; background: #2A2A31;"></div>
+<div class="rise" style="animation-delay: 240ms; margin-top: 8px; width: 64%; height: 10px; border-radius: 3px; background: #22222A;"></div>
+<div class="rise" style="animation-delay: 320ms; margin-top: 16px; width: 140px; height: 32px; background: #D61F33; clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));"></div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">On load</div><h3 style="margin-top: 6px;">Hero entrance</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Page load</dd><dt>Motion</dt><dd>Each line fades in and rises 16px: chips, name, positioning, intro, buttons.</dd><dt>Timing</dt><dd>560ms, <code>--eo</code>, 80ms apart</dd><dt>Reduced</dt><dd>Shown in place, no movement</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div class="{{goCls}}" style="position: absolute; inset: 0; display: grid; place-content: center; justify-items: start; padding: 0 30px;">
+<div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 64px; line-height: .86; text-transform: uppercase; text-shadow: 3px 3px 0 #D61F33;">Akarshan<br>Kumar<span style="color: #D61F33; text-shadow: none;">.</span></div>
+<svg viewBox="0 0 560 34" aria-hidden="true" style="display: block; width: 300px; height: 22px; margin-top: 6px;"><path class="brush" d="M6 24 C 130 10, 330 6, 552 14" fill="none" stroke="#D61F33" stroke-width="8" stroke-linecap="round"></path></svg>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">On load</div><h3 style="margin-top: 6px;">Brush underline</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Page load, after the name</dd><dt>Motion</dt><dd>The red stroke draws left to right under the name.</dd><dt>Timing</dt><dd>1.4s, <code>--eo</code>, 400ms delay</dd><dt>Reduced</dt><dd>Drawn from the start</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div onScroll="{{onRevealScroll}}" style="position: absolute; inset: 0; overflow-y: auto; padding: 18px 22px;">
+<sc-for list="{{revealSecs}}" as="r" hint-placeholder-count="4"><div class="rv {{r.cls}}" style="height: 150px; margin-bottom: 18px; padding: 16px; border: 1px solid rgba(242,241,238,.1); border-radius: 12px; background: #111116;"><div class="mono" style="font-size: 10px; color: #FF5A67;">Section {{r.n}}</div><div style="margin-top: 10px; width: 70%; height: 12px; border-radius: 3px; background: #2A2A31;"></div><div style="margin-top: 8px; width: 52%; height: 10px; border-radius: 3px; background: #22222A;"></div></div></sc-for>
+<div class="mono" style="font-size: 10px; color: #8F8D87; text-align: center;">End</div>
+</div>
+<div class="mono" style="position: absolute; right: 12px; top: 8px; padding: 3px 6px; background: rgba(11,11,14,.8); font-size: 10px; color: #8F8D87;">Scroll inside</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Scroll</div><h3 style="margin-top: 6px;">Section reveal</h3>
+<dl class="spec"><dt>Trigger</dt><dd>A section’s top passes 85% of the viewport</dd><dt>Motion</dt><dd>Fades in and rises 16px, once. Children follow the 80ms stagger.</dd><dt>Timing</dt><dd>560ms, <code>--eo</code></dd><dt>Reduced</dt><dd>Everything visible from the start</dd></dl></div>
+</article>
+<div class="grp"><b>Hero</b><span style="font-size: 14px; color: #8F8D87;">Laptop pointer, iPad and phone drift</span></div>
+<article class="card2" style="grid-column: span 2;">
+<div class="stage" style="height: 300px;"><div onMouseMove="{{tiltMove}}" onMouseLeave="{{tiltLeave}}" style="position: absolute; inset: 0; perspective: 1200px; perspective-origin: 50% 40%; cursor: crosshair;">
+<div class="tilt" style="position: absolute; inset: 22px; transform: rotateX({{hx}}deg) rotateY({{hy}}deg);">
+<div style="position: absolute; inset: 0; border: 2px solid #F2F1EE; background: #111116; overflow: hidden;">
+<div class="tone lay" aria-hidden="true" style="position: absolute; inset: -30px; transform: {{L1}}; -webkit-mask-image: radial-gradient(ellipse at 80% 26%, #000 0%, transparent 58%); mask-image: radial-gradient(ellipse at 80% 26%, #000 0%, transparent 58%);"></div>
+<div class="lay" aria-hidden="true" style="position: absolute; right: -6px; bottom: -26px; transform: {{L2}}; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 130px; line-height: .8; color: transparent; -webkit-text-stroke: 1.5px rgba(242,241,238,.18); white-space: nowrap;">01—09</div>
+<svg class="lay" viewBox="0 0 860 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; transform: {{L3}};"><path d="{{speedDemo}}" fill="#D61F33" fill-opacity=".16"></path></svg>
+<div class="tone-r lay" aria-hidden="true" style="position: absolute; right: 8%; top: 6%; width: 150px; height: 150px; border-radius: 50%; transform: {{L4}}; -webkit-mask-image: radial-gradient(circle, #000 0%, #000 24%, transparent 70%); mask-image: radial-gradient(circle, #000 0%, #000 24%, transparent 70%);"></div>
+<div style="position: relative; padding: 34px 30px;"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 60px; line-height: .86; text-transform: uppercase; text-shadow: 3px 3px 0 #D61F33;">Akarshan<br>Kumar<span style="color: #D61F33; text-shadow: none;">.</span></div><div style="margin-top: 14px; width: 300px; height: 10px; border-radius: 3px; background: #2A2A31;"></div><div style="margin-top: 8px; width: 220px; height: 10px; border-radius: 3px; background: #22222A;"></div></div>
+</div>
+</div>
+<div class="mono" style="position: absolute; left: 30px; bottom: 6px; font-size: 10px; color: #8F8D87;">Move the pointer over the panel</div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Hero · laptop</div><h3 style="margin-top: 6px;">Depth tilt and speed lines</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Pointer over the hero</dd><dt>Motion</dt><dd>The ink panel tilts toward the pointer. Inside it, four layers shift by different amounts (screentone −12/−9px, numerals −8/−6px, speed lines −4/−3px, halftone +6/+4px). Speed lines aim at the pointer. Leaving the hero returns it to rest.</dd><dt>Timing</dt><dd>Tilt 600ms, layers 500ms, <code>--eo</code>. Pointer read once per frame</dd><dt>Reduced</dt><dd>Panel stays flat; layers and lines hold their rest pose</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; place-items: center; perspective: 900px;">
+<div class="drift" style="width: 250px; height: 170px; border: 2px solid #F2F1EE; background: #111116; padding: 20px 18px;"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 40px; line-height: .86; text-transform: uppercase; text-shadow: 2px 2px 0 #D61F33;">Akarshan<br>Kumar.</div><div style="margin-top: 12px; width: 150px; height: 8px; border-radius: 3px; background: #2A2A31;"></div><div style="margin-top: 6px; width: 110px; height: 8px; border-radius: 3px; background: #22222A;"></div></div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Hero · iPad and phones</div><h3 style="margin-top: 6px;">Touch drift</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Always, on touch screens</dd><dt>Motion</dt><dd>The panel sways ±1.5° up and down and ±2° left and right. No device-tilt permission is asked for.</dd><dt>Timing</dt><dd>9s, <code>ease-in-out</code>, looping</dd><dt>Reduced</dt><dd>Still</dd></dl></div>
+</article>
+<article class="card2" style="grid-column: span 2;">
+<div class="stage" style="height: 300px;"><div style="position: absolute; inset: 0; perspective: 1200px;">
+<div class="mini"><div style="padding: 30px 28px;"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 54px; line-height: .86; text-transform: uppercase; text-shadow: 3px 3px 0 #D61F33;">Akarshan<br>Kumar<span style="color: #D61F33; text-shadow: none;">.</span></div><div style="margin-top: 14px; width: 300px; height: 10px; border-radius: 3px; background: #2A2A31;"></div><div style="margin-top: 8px; width: 240px; height: 10px; border-radius: 3px; background: #22222A;"></div><div style="margin-top: 16px; width: 130px; height: 30px; background: #D61F33; clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));"></div></div>
+<div aria-hidden="true" style="position: absolute; left: 56%; top: 6%; bottom: 6%; right: 2%; border: 1px dashed rgba(255,90,103,.35);"><span class="mono" style="position: absolute; left: 8px; bottom: 6px; font-size: 9px; color: #FF5A67;">Float zone</span></div>
+</div>
+<sc-for list="{{demoFloat}}" as="f" hint-placeholder-count="2"><div class="fc" aria-hidden="true" style="left: {{f.x}}%; top: {{f.y}}%; opacity: {{f.op}}; transform: translate({{f.tx}}px, {{f.ty}}px) rotate({{f.r}}deg); transition: {{f.tr}};"><span style="display: flex; justify-content: space-between; align-items: center; gap: 6px;"><span class="vtag" style="background: {{f.hi}};">VOL.{{f.n}}</span><span class="mono" style="font-size: 9px; color: #8F8D87;">{{f.k}}</span></span><span style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 16px; line-height: 1.05;">{{f.t}}</span><span style="display: flex; align-items: center; gap: 6px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 16px;">{{f.m}}</span><span class="tag tag-{{f.tag}}" style="height: 18px; font-size: 9px;">{{f.tl}}</span></span></div></sc-for>
+<div class="mono" style="position: absolute; right: 26px; bottom: 6px; font-size: 10px; color: #8F8D87;">{{floatStatus}}</div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Hero · config-driven</div><h3 style="margin-top: 6px;">Floating previews</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Always, from the list in Studio › Website › Hero</dd><dt>Motion</dt><dd>Each card fades in at a random spot in the float zone (right of the text), drifts 10–18px in a random direction, fades out, and the next project takes the slot. Hovering a card holds it.</dd><dt>Timing</dt><dd>Fade 700ms. Visible 4.8–6.8s with linear drift. Gap 0.3–1.3s. Slots start 1.5s apart. Laptop 1–3 at once (set in Studio), iPad 1, phones none</dd><dt>Reduced</dt><dd>The first cards stand still in their rest spots</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; place-items: center;">
+<span style="display: inline-flex; align-items: center; gap: 10px; height: 34px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid rgba(60,203,139,.35); background: rgba(60,203,139,.08); color: #9BE7C4; font-size: 14px;"><span class="live" style="width: 8px; height: 8px; border-radius: 50%; background: #3CCB8B;"></span>[Availability, when it’s true]</span>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Hero</div><h3 style="margin-top: 6px;">Availability pulse</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Always, while the chip is on</dd><dt>Motion</dt><dd>A soft ring breathes out from the green dot.</dd><dt>Timing</dt><dd>2.4s, <code>ease-in-out</code>, looping</dd><dt>Reduced</dt><dd>Dot only</dd></dl></div>
+</article>
+<div class="grp"><b>Navigation and controls</b><span style="font-size: 14px; color: #8F8D87;">Same everywhere, on every device</span></div>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; place-items: center;">
+<nav class="pill" aria-label="Navigation demo"><a class="pl on" href="#m-work" aria-current="true">Work</a><a class="pl" href="#m-about">About</a><a class="pl" href="#m-exp">Exp</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#m-contact">Let’s Talk →</a></nav>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Navigation</div><h3 style="margin-top: 6px;">Pill nav ring</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Always</dd><dt>Motion</dt><dd>A light ring circles the glass pill. Links fade their colour and background on hover; Let’s Talk grows to 104%.</dd><dt>Timing</dt><dd>Ring 3.5s, <code>linear</code>, looping. Hover 220ms</dd><dt>Reduced</dt><dd>Ring still. Hover colour change stays</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; place-content: center; gap: 14px; justify-items: center;">
+<a class="cta" href="#m-cta">See selected work<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></a>
+<a class="cta2" href="#m-cv">Résumé (PDF)</a>
+<span class="mono" style="font-size: 10px; color: #8F8D87;">Hover, press, or Tab to focus</span>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Controls</div><h3 style="margin-top: 6px;">Angled CTA</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Hover, press, keyboard focus</dd><dt>Motion</dt><dd>Hover lifts 2px and brightens the red. Press settles to 98%. Focus shows an inner ring, with no movement.</dd><dt>Timing</dt><dd>Hover 200ms, press 120ms, <code>--eo</code></dd><dt>Reduced</dt><dd>Colour change only</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; place-items: center;">
+<a class="cardx" href="#m-card"><div style="border-radius: 10px; overflow: hidden;"><div class="cv" style="position: relative; aspect-ratio: 16 / 9; background: #0E1F14;"><svg viewBox="0 0 320 180" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #4ADE80; stroke-width: 1.6;"><path d="M40 150H290" style="stroke-opacity: .3;"></path><path d="M50 50 L120 70 L190 98 L280 122"></path><circle cx="280" cy="122" r="5" style="fill: #4ADE80;"></circle></svg><span class="vtag" style="position: absolute; left: 10px; top: 10px; background: #4ADE80;">VOL.07</span></div></div><div style="padding: 0 6px;"><div style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 20px; line-height: 1.05;">GLP-1 digital scaffold</div><div style="margin-top: 8px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #B9B7B1;">Read the case study<svg class="ico go2" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div></div></a>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Cards</div><h3 style="margin-top: 6px;">Card hover</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Hover or keyboard focus on a project card</dd><dt>Motion</dt><dd>Card lifts 4px and its border brightens; the cover zooms to 103% inside its frame; the arrow nudges 4px.</dd><dt>Timing</dt><dd>Lift 320ms, zoom 600ms, arrow 240ms, <code>--eo</code></dd><dt>Reduced</dt><dd>Border change only</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; padding: 26px 22px;">
+<a class="rowx" href="#m-row1" style="border-top: 1px solid rgba(242,241,238,.09);"><span class="vtag" style="background: #FACC15; width: fit-content;">VOL.08</span><span style="font-size: 15px; font-weight: 600;">Word games monetisation</span><svg class="ico go2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a class="rowx" href="#m-row2"><span class="vtag" style="background: #A3E635; width: fit-content;">VOL.09</span><span style="font-size: 15px; font-weight: 600;">FarmVille 3 revenue growth</span><svg class="ico go2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a class="allx" href="#m-all"><span style="font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 20px; text-transform: uppercase;">All work · 9 volumes</span><span style="color: #D61F33;">→</span></a>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Lists</div><h3 style="margin-top: 6px;">Rows and the “All work” tile</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Hover or keyboard focus</dd><dt>Motion</dt><dd>Rows fill with the surface colour and nudge their arrow. The dashed tile fills and its border brightens.</dd><dt>Timing</dt><dd>Rows 200ms, arrows 240ms, tile 320ms</dd><dt>Reduced</dt><dd>Colour change only</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; place-items: center;"><div style="position: relative; width: 280px; height: 200px; border-radius: 12px; background: #0D1918; overflow: hidden;"><svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; height: 84%; transform: translate(-50%, -50%); fill: none; stroke: #2DD4BF; stroke-width: 1.4;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .5;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><g class="scan"><rect x="56" y="54" width="128" height="2" style="fill: #2DD4BF; stroke: none;"></rect><rect x="56" y="40" width="128" height="16" style="fill: #2DD4BF; stroke: none; opacity: .12;"></rect></g></svg><span class="vtag" style="position: absolute; left: 10px; top: 10px; background: #2DD4BF;">VOL.01</span></div></div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Covers</div><h3 style="margin-top: 6px;">Body-scan sweep</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Always, on the VOL.01 cover</dd><dt>Motion</dt><dd>A scan line sweeps down the figure and back.</dd><dt>Timing</dt><dd>4s, <code>--eo</code>, looping</dd><dt>Reduced</dt><dd>Line rests at the top</dd></dl></div>
+</article>
+<div class="grp" id="m-personal"><b>Menu, skills and off duty</b><span style="font-size: 14px; color: #8F8D87;">The phone menu, the skills cloud and the bonus pages</span></div>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; place-items: center;">
+<div class="mphone"><div class="mpill"><button onClick="{{mmToggle}}" aria-expanded="{{mmAria}}">{{mmLabel}}</button><span class="lt">Let’s Talk →</span></div>
+<sc-if value="{{mmOpen}}" hint-placeholder-val="{{ false }}"><div class="msheet"><sc-for list="{{mmLinks}}" as="l" hint-placeholder-count="5"><a class="{{l.cls}}" style="animation-delay: {{l.d}}ms;"><i>{{l.n}}</i>{{l.t}}</a></sc-for><a class="mcta" style="animation-delay: 320ms;">Let’s Talk →</a></div></sc-if>
+<div style="position: absolute; left: 14px; right: 14px; top: 60px; display: grid; gap: 8px;"><div style="height: 46px; border: 1.5px solid #F2F1EE;"></div><div style="height: 8px; width: 70%; background: #26262E;"></div><div style="height: 8px; width: 52%; background: #26262E;"></div><div style="height: 8px; width: 60%; background: #26262E;"></div></div>
+</div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Navigation</div><h3 style="margin-top: 6px;">Phone menu</h3><dl class="spec"><dt>Trigger</dt><dd>Tap Menu in the pill (phones)</dd><dt>Motion</dt><dd>The menu fades in over the page; the section links rise 16px, 80ms apart, then Let’s Talk. Closing (✕, a link, Esc) is instant and focus returns to Menu.</dd><dt>Timing</dt><dd>Fade 240ms; rise 560ms, <code>--eo</code>, delays 0–320ms</dd><dt>Reduced</dt><dd>Opens and closes without motion</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div class="{{goCls}}" style="position: absolute; inset: 0; display: grid; place-items: center;">
+<div class="mcl {{mskLit}}" onMouseLeave="{{mskOut}}"><sc-for list="{{mskWords}}" as="w" hint-placeholder-count="12"><span class="{{w.cls}}" style="animation-delay: {{w.d}}ms;" onMouseEnter="{{w.enter}}" onClick="{{w.enter}}">{{w.t}}</span></sc-for></div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Skills</div><h3 style="margin-top: 6px;">Skills cloud</h3><dl class="spec"><dt>Trigger</dt><dd>The section scrolls into view; hover, tap or focus a group name</dd><dt>Motion</dt><dd>Words rise 16px and fade in, in five steps 80ms apart. The chosen group’s skills brighten, the rest dim to 16%, and its name fills red.</dd><dt>Timing</dt><dd>Reveal 560ms; highlight 200ms; <code>--eo</code></dd><dt>Reduced</dt><dd>Words are shown in place; the highlight still changes colour</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 22px;">
+<div class="mop"><svg class="sl" viewBox="0 0 250 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M230.0 50.0L600.0 47.6L600.0 52.4ZM257.3 56.0L598.5 85.0L597.0 98.6ZM231.0 56.6L591.8 130.5L590.7 135.8ZM244.5 64.4L582.0 168.8L578.8 178.4ZM237.6 66.8L567.1 208.9L563.7 216.5ZM237.8 71.8L548.7 246.0L544.1 254.0ZM239.5 78.7L526.8 280.7L520.4 289.5ZM226.0 73.4L499.4 315.3L495.1 320.0ZM226.7 79.6L470.6 344.6L464.7 349.9ZM227.1 87.4L439.1 370.6L431.1 376.5ZM229.6 101.2L406.1 392.8L393.9 399.9ZM222.2 99.9L368.5 412.8L356.9 418.0ZM210.9 83.6L326.7 429.4L320.5 431.4ZM212.4 108.5L290.2 439.7L276.1 442.7ZM205.7 104.2L248.1 447.1L235.5 448.4ZM200.0 93.3L204.5 450.0L195.5 450.0ZM194.0 107.5L165.0 448.5L151.4 447.0ZM191.1 92.1L121.2 442.2L112.5 440.3ZM184.8 96.9L81.6 432.1L71.2 428.7ZM183.9 86.2L40.9 417.0L33.7 413.8ZM173.6 95.7L5.3 399.4L-5.2 393.3ZM172.6 87.8L-31.0 376.6L-39.2 370.6ZM166.7 87.0L-63.5 351.0L-71.8 343.5ZM168.4 78.5L-94.3 320.9L-100.2 314.4ZM172.4 70.0L-121.8 287.6L-125.4 282.6ZM165.4 70.0L-144.4 253.4L-148.4 246.5ZM159.0 68.2L-163.4 217.0L-167.3 208.3ZM171.5 59.3L-179.7 175.9L-181.2 171.3ZM165.9 57.2L-190.6 136.3L-191.9 130.1ZM157.6 54.5L-197.3 96.2L-198.2 87.4ZM140.4 50.0L-199.9 57.1L-199.9 42.9ZM148.6 44.6L-198.4 14.0L-197.2 2.4ZM162.3 42.0L-192.0 -29.5L-190.5 -36.8ZM159.5 36.9L-181.8 -69.4L-179.0 -77.8ZM167.1 35.4L-166.8 -109.6L-164.0 -115.8ZM159.1 26.4L-149.0 -145.5L-143.8 -154.5ZM151.9 15.1L-127.7 -179.3L-119.4 -190.8ZM157.2 11.4L-101.8 -212.5L-92.7 -222.7ZM170.5 17.2L-71.1 -244.1L-64.2 -250.4ZM168.8 7.1L-40.0 -270.0L-30.2 -277.1ZM176.1 8.5L-4.5 -293.7L4.6 -299.0ZM176.4 -3.0L31.0 -312.6L43.6 -318.2ZM186.5 8.5L72.1 -329.0L80.8 -331.8ZM192.4 14.3L113.5 -340.5L120.2 -342.0ZM194.7 -0.6L152.5 -347.2L163.9 -348.4ZM200.0 -3.9L193.8 -350.0L206.2 -350.0ZM204.0 11.7L238.1 -348.2L245.5 -347.4ZM209.4 5.6L278.4 -342.2L287.9 -340.2ZM210.6 17.4L320.7 -331.4L326.5 -329.5ZM213.6 19.5L360.0 -316.6L365.4 -314.2ZM219.5 16.2L396.7 -298.3L403.3 -294.5ZM219.7 22.9L432.7 -275.3L437.5 -271.9ZM236.4 9.6L462.9 -251.4L472.3 -243.0ZM234.6 18.8L493.8 -221.4L500.6 -213.9ZM234.1 25.2L521.0 -188.6L526.1 -181.6ZM248.7 21.9L543.1 -155.7L549.7 -144.3ZM240.4 32.0L563.5 -117.0L567.3 -108.4ZM235.0 38.6L579.3 -76.9L581.5 -70.3ZM238.4 41.8L590.4 -37.0L592.0 -29.4ZM235.1 46.3L597.5 5.0L598.1 11.4Z" fill="#FACC15" fill-opacity=".16"></path></svg><div class="num">02</div><svg class="ico" viewBox="-80 -70 160 140" aria-hidden="true"><path d="M-46 34 L24 -36 L40 -20 L-30 50 Z"></path><path d="M-46 34 L-54 58 L-30 50"></path><path d="M24 -36 L32 -44 L48 -28 L40 -20"></path><path d="M-76 62 C -64 44, -50 70, -38 56 S -14 64, -4 52" style="stroke-dasharray: 2 5;"></path></svg><div class="cap"><span>Creative</span><b>Sketching</b></div></div>
+<div class="msp" aria-hidden="true"><i style="height: 92px; border-top: 4px solid #FF5A67;"></i><i style="height: 104px; border-top: 4px solid #F5A524;"></i><i style="height: 86px; border-top: 4px solid #38BDF8;"></i></div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Off duty</div><h3 style="margin-top: 6px;">Off duty panels</h3><dl class="spec"><dt>Trigger</dt><dd>Hover a panel or a spine (laptop)</dd><dt>Motion</dt><dd>The panel lifts 4px and its caption shadow deepens from 5 to 8px; the art nudges up-left and tilts 3°, and the speed lines widen to 104%. A spine lifts 4px.</dd><dt>Timing</dt><dd>Lift and shadow 320ms; art and lines 500ms; <code>--eo</code></dd><dt>Reduced</dt><dd>Nothing moves</dd></dl></div>
+</article>
+<div class="grp"><b>Reading and media</b><span style="font-size: 14px; color: #8F8D87;">Case studies and posts</span></div>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; left: 0; right: 0; top: 0; height: 3px; background: rgba(242,241,238,.08); z-index: 2;"><div style="height: 3px; background: #D61F33; transform-origin: left; transform: scaleX({{prog}});"></div></div>
+<div onScroll="{{onProgScroll}}" style="position: absolute; inset: 3px 0 0; overflow-y: auto; padding: 18px 26px;">
+<div style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 26px; line-height: 1.05;">[Your post title]</div>
+<div class="mono" style="margin-top: 8px; font-size: 10px; color: #8F8D87;">[Date] · [7 min read]</div>
+<sc-for list="{{progLines}}" as="l" hint-placeholder-count="12"><div style="margin-top: 12px; width: {{l.w}}%; height: 9px; border-radius: 3px; background: #24242B;"></div></sc-for>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Posts and case studies</div><h3 style="margin-top: 6px;">Reading progress</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Scroll</dd><dt>Motion</dt><dd>A 3px red bar under the nav fills with the page.</dd><dt>Timing</dt><dd>Follows scroll directly, no easing</dd><dt>Reduced</dt><dd>Same: it carries information</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 22px; padding: 26px 24px;">
+<nav aria-label="Chapters demo" style="position: relative; border-left: 1px solid rgba(242,241,238,.12);"><span class="ind" aria-hidden="true" style="transform: translateY({{chapY}}px);"></span><sc-for list="{{chaps}}" as="c" hint-placeholder-count="4"><button class="chap" onClick="{{c.pick}}" aria-current="{{c.cur}}">{{c.n}} · {{c.t}}</button></sc-for></nav>
+<div><div class="mono" style="font-size: 10px; color: #FF5A67;">{{chapKicker}}</div><div style="margin-top: 10px; width: 92%; height: 12px; border-radius: 3px; background: #2A2A31;"></div><div style="margin-top: 8px; width: 80%; height: 10px; border-radius: 3px; background: #22222A;"></div><div style="margin-top: 8px; width: 86%; height: 10px; border-radius: 3px; background: #22222A;"></div></div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Case studies</div><h3 style="margin-top: 6px;">Chapter rail</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Scroll or click a chapter</dd><dt>Motion</dt><dd>The red marker slides to the current chapter.</dd><dt>Timing</dt><dd>240ms, <code>--eo</code></dd><dt>Reduced</dt><dd>Marker jumps</dd></dl></div>
+</article>
+<article class="card2">
+<div class="stage" style="height: 250px;"><div style="position: absolute; inset: 0; display: grid; place-items: center;">
+<div style="position: relative; width: 420px; height: 210px; border: 1px solid rgba(242,241,238,.12); border-radius: 12px; overflow: hidden; background: #1C0C0F;">
+<sc-if value="{{protoPoster}}" hint-placeholder-val="{{ true }}"><div style="position: absolute; inset: 0; display: grid; place-items: center; background: linear-gradient(135deg, #2A0E14, #1C0C0F);"><div style="text-align: center;"><div class="mono" style="font-size: 10px; color: #FFB3BA;">[Poster image]</div><button class="btn2" onClick="{{protoLoad}}" style="margin-top: 12px; background: rgba(11,11,14,.6);"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Load prototype</button></div></div></sc-if>
+<sc-if value="{{protoLoading}}" hint-placeholder-val="{{ false }}"><div style="position: absolute; inset: 0; display: grid; place-items: center; background: #14080B;"><div style="display: grid; justify-items: center; gap: 12px;"><span class="spin" style="width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgba(242,241,238,.15); border-top-color: #F2F1EE;"></span><span class="mono" style="font-size: 10px; color: #B9B7B1;">Loading the prototype…</span></div></div></sc-if>
+<sc-if value="{{protoReady}}" hint-placeholder-val="{{ false }}"><div class="fadein" style="position: absolute; inset: 0; display: grid; place-items: center; background: #F7F3EE;"><div style="width: 120px; height: 190px; margin-top: 30px; border-radius: 16px 16px 0 0; border: 2px solid #D9D2C8; border-bottom: none; background: #fff; overflow: hidden;"><div style="height: 34px; background: #C7372F;"></div><div style="margin: 12px 10px 0; height: 12px; border-radius: 4px; background: #E9E3DC;"></div><div style="margin: 10px 10px 0; height: 24px; border-radius: 6px; background: #25B864;"></div></div></div></sc-if>
+<sc-if value="{{protoError}}" hint-placeholder-val="{{ false }}"><div class="fadein" style="position: absolute; inset: 0; display: grid; place-items: center; background: #14080B; text-align: center;"><div><div style="font-size: 15px; font-weight: 600;">The prototype didn’t load.</div><div style="margin-top: 6px; font-size: 13px; color: #B9B7B1;">Try again, or open it in a new tab.</div><div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;"><button class="btn2" onClick="{{protoLoad}}">Try again</button><a class="btn2" href="#m-proto">Open in a new tab ↗</a></div></div></div></sc-if>
+</div>
+<div style="position: absolute; right: 18px; bottom: 12px; display: flex; gap: 8px;"><button class="btn2" onClick="{{protoReset}}" style="height: 30px; font-size: 11px;">Reset</button><button class="btn2" onClick="{{protoFail}}" style="height: 30px; font-size: 11px;">Show error</button></div>
+</div></div>
+<div class="meta"><div class="mono" style="font-size: 11px; color: #FF5A67;">Media</div><h3 style="margin-top: 6px;">Prototype load</h3>
+<dl class="spec"><dt>Trigger</dt><dd>Click the poster</dd><dt>Motion</dt><dd>Poster → spinner → the prototype fades in. If it fails: a message, Try again, and Open in a new tab.</dd><dt>Timing</dt><dd>Spinner 800ms per turn, <code>linear</code>. Fade in 320ms</dd><dt>Reduced</dt><dd>Spinner slows; no fade</dd></dl></div>
+</article>
+</div></section>
+
+<section style="margin-top: 72px;"><h2>Rules</h2><div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 28px;">
+<div class="tok"><div class="mono" style="font-size: 11px; color: #FF5A67;">Reduced motion</div><div style="margin-top: 8px; font-size: 15px; font-weight: 600;">Same content, nothing moving</div><ul style="margin: 12px 0 0; padding-left: 18px; font-size: 14px; line-height: 1.7; color: #B9B7B1;"><li>Follows the visitor’s <code>prefers-reduced-motion</code> setting.</li><li>No tilt, drift, layer shifts, speed-line aiming, rises, reveals, draws, sweeps, pulses or ring.</li><li>Floating previews stand still in their rest spots.</li><li>Colour and border changes on hover and focus stay, because they carry meaning.</li><li>The reading progress bar stays.</li><li>Nothing flashes, with or without the setting.</li></ul></div>
+<div class="tok"><div class="mono" style="font-size: 11px; color: #FF5A67;">Performance</div><div style="margin-top: 8px; font-size: 15px; font-weight: 600;">Cheap to run on a mid-range phone</div><ul style="margin: 12px 0 0; padding-left: 18px; font-size: 14px; line-height: 1.7; color: #B9B7B1;"><li>Animate <code>transform</code> and <code>opacity</code> only.</li><li>Read the pointer once per frame and write it to CSS variables, not React state.</li><li>At most seven moving layers in the hero.</li><li>Pause loops and floating previews when the hero is off screen or the tab is hidden.</li><li>Freeze the speed lines if the frame rate drops below 45fps.</li><li>Covers load only when they are about to be seen.</li></ul></div>
+</div><div class="tok" style="margin-top: 24px;"><div class="mono" style="font-size: 11px; color: #FF5A67;">Studio</div><div style="margin-top: 8px; font-size: 15px; font-weight: 600;">The CMS uses the same tokens, more quietly</div><table style="margin-top: 10px;"><tr><td>220ms</td><td>Toasts and dialogs rise 8px and fade in</td></tr><tr><td>1s</td><td>A moved row or section flashes yellow once, so you can see where it landed</td></tr><tr><td>150ms</td><td>Switches slide; a dragged row lifts to 101% with a shadow</td></tr><tr><td>800ms</td><td>Saving and upload spinners, per turn</td></tr></table></div></section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.F = [{"n": "01", "t": "3D body scan for GLP-1 users", "k": "Shipped · AI", "m": "±2–3 pp", "tag": "a", "tl": "ACHIEVED", "hi": "#2DD4BF"}, {"n": "04", "t": "The GLP-1 app, 0→1", "k": "Shipped · 0→1", "m": "52%", "tag": "a", "tl": "ACHIEVED", "hi": "#A78BFA"}, {"n": "05", "t": "Puja engagement platform", "k": "Strategy + prototype", "m": "+30%", "tag": "t", "tl": "TARGET", "hi": "#FF5A67"}, {"n": "09", "t": "Revenue growth strategy", "k": "Strategy + prototype", "m": "+$50–65K", "tag": "p", "tl": "PROJECTED", "hi": "#A3E635"}];
+    this.ZONES = [{ x: [58, 66], y: [8, 20] }, { x: [64, 72], y: [50, 60] }];
+    this.REST = [[60, 12, 2], [67, 54, -2]];
+    this.fl = this.restSlots();
+    this.timers = [];
+    this.next = 2;
+    this.rest = { mx: 0.2, my: -0.1, fx: 640, fy: 120 };
+    this.stillFlag = false;
+    this.CH = [['01', 'The problem'], ['02', 'Research'], ['03', 'Prioritisation'], ['04', 'The prototype']];
+    this.MSK = [["DATA", "g", 0], ["SQL", "xl", 0], ["Excel", "s", 1], ["Product & Data Analytics", "l", 0], ["Mixpanel", "l", 1], ["ETL", "m", 0], ["TOOLS", "g", 1], ["Superset", "m", 1], ["Clickstream", "m", 0], ["JIRA", "s", 1], ["Visualization", "s", 0], ["Amplitude", "l", 1]];
+    this.MM = [['01', 'Work'], ['02', 'About'], ['03', 'Exp'], ['04', 'Skills'], ['05', 'Testimonial']];
+    this.state = Object.assign({ msk: -1, mm: false, go: false, still: false, seen: [true, false, false, false], prog: 0, chap: 0, proto: 'poster' }, this.rest);
+    ['replay', 'toggleStill', 'tiltMove', 'tiltLeave', 'onRevealScroll', 'onProgScroll', 'protoLoad', 'protoReset', 'protoFail', 'mskOut', 'mmToggle'].forEach((k) => { this[k] = this[k].bind(this); });
+  }
+  reduced() { return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  calm() { return this.stillFlag || this.reduced(); }
+  componentDidMount() { this.play(); this.startFloat(); }
+  componentWillUnmount() { this.stopFloat(); clearTimeout(this.pt); if (this.raf) cancelAnimationFrame(this.raf); if (this.r1) cancelAnimationFrame(this.r1); }
+  play() {
+    this.setState({ go: false });
+    this.r1 = requestAnimationFrame(() => { this.r1 = requestAnimationFrame(() => this.setState({ go: true })); });
+  }
+  replay() { this.play(); this.stopFloat(); this.fl = this.restSlots(); this.next = 2; this.forceUpdate(); this.startFloat(); this.setState({ seen: [true, false, false, false], proto: 'poster', mm: false, msk: -1 }); }
+  toggleStill() {
+    this.stillFlag = !this.stillFlag;
+    this.stopFloat();
+    this.fl = this.restSlots();
+    this.setState({ still: this.stillFlag });
+    this.startFloat();
+  }
+  restSlots() { return this.ZONES.map((z, i) => ({ item: i % this.F.length, x: this.REST[i][0], y: this.REST[i][1], r: this.REST[i][2], tx: 0, ty: 0, op: 1, tr: 'none', ph: 'rest' })); }
+  rand(a, b) { return a + Math.random() * (b - a); }
+  startFloat() {
+    if (this.calm()) return;
+    this.fl.forEach((f) => { const a = this.rand(0, Math.PI * 2), d = this.rand(10, 18); Object.assign(f, { tx: Math.cos(a) * d, ty: Math.sin(a) * d, tr: 'opacity .7s ease, transform 6000ms linear', ph: 'in' }); });
+    this.forceUpdate();
+    this.ZONES.forEach((z, i) => { this.timers[i] = setTimeout(() => this.leave(i), 2200 + i * 1500); });
+  }
+  stopFloat() { this.timers.forEach((t) => clearTimeout(t)); this.timers = []; }
+  pick(i) {
+    const shown = this.fl.filter((f, j) => j !== i && f.ph !== 'gap').map((f) => f.item);
+    for (let k = 0; k < this.F.length; k++) { const it = (this.next + k) % this.F.length; if (shown.indexOf(it) < 0) { this.next = it + 1; return it; } }
+    return (this.next++) % this.F.length;
+  }
+  spawn(i) {
+    const z = this.ZONES[i], f = this.fl[i], a = this.rand(0, Math.PI * 2), d = this.rand(10, 18), dwell = Math.round(this.rand(4800, 6800));
+    Object.assign(f, { item: this.pick(i), x: this.rand(z.x[0], z.x[1]), y: this.rand(z.y[0], z.y[1]), r: this.rand(-2.5, 2.5), tx: 0, ty: 0, op: 0, tr: 'none', ph: 'pre' });
+    this.forceUpdate();
+    this.timers[i] = setTimeout(() => {
+      Object.assign(f, { op: 1, tx: Math.cos(a) * d, ty: Math.sin(a) * d, tr: 'opacity .7s ease, transform ' + (dwell + 700) + 'ms linear', ph: 'in' });
+      this.forceUpdate();
+      this.timers[i] = setTimeout(() => this.leave(i), dwell);
+    }, 60);
+  }
+  leave(i) {
+    const f = this.fl[i];
+    Object.assign(f, { op: 0, ph: 'out' });
+    this.forceUpdate();
+    this.timers[i] = setTimeout(() => { f.ph = 'gap'; this.timers[i] = setTimeout(() => this.spawn(i), Math.round(this.rand(300, 1300))); }, 700);
+  }
+  speed(fx, fy, count, rMin, rMax, R) {
+    let d = '';
+    for (let i = 0; i < count; i++) {
+      const t = (i / count) * Math.PI * 2;
+      const j = Math.sin(i * 12.9898) * 43758.5453;
+      const rnd = j - Math.floor(j);
+      const r0 = rMin + rnd * (rMax - rMin);
+      const w = 0.006 + rnd * 0.012;
+      const ax = fx + Math.cos(t) * r0, ay = fy + Math.sin(t) * r0;
+      const bx = fx + Math.cos(t - w) * R, by = fy + Math.sin(t - w) * R;
+      const cx = fx + Math.cos(t + w) * R, cy = fy + Math.sin(t + w) * R;
+      d += 'M' + ax.toFixed(1) + ' ' + ay.toFixed(1) + 'L' + bx.toFixed(1) + ' ' + by.toFixed(1) + 'L' + cx.toFixed(1) + ' ' + cy.toFixed(1) + 'Z';
+    }
+    return d;
+  }
+  tiltMove(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => { this.raf = null; this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1, fx: rx * 860, fy: ry * 300 }); });
+  }
+  tiltLeave() { if (this.raf) cancelAnimationFrame(this.raf); this.setState(this.rest); }
+  onRevealScroll(e) {
+    const el = e.currentTarget, bottom = el.scrollTop + el.clientHeight * 0.85;
+    const seen = this.state.seen.map((v, i) => v || 18 + i * 168 < bottom);
+    if (seen.join() !== this.state.seen.join()) this.setState({ seen });
+  }
+  onProgScroll(e) { const el = e.currentTarget, max = el.scrollHeight - el.clientHeight; this.setState({ prog: max > 0 ? Math.min(1, el.scrollTop / max) : 0 }); }
+  protoLoad() { clearTimeout(this.pt); this.setState({ proto: 'loading' }); this.pt = setTimeout(() => this.setState({ proto: 'ready' }), 1400); }
+  protoReset() { clearTimeout(this.pt); this.setState({ proto: 'poster' }); }
+  protoFail() { clearTimeout(this.pt); this.setState({ proto: 'error' }); }
+  mskOut() { this.setState({ msk: -1 }); }
+  mmToggle() { this.setState({ mm: !this.state.mm }); }
+  renderVals() {
+    const s = this.state, calm = this.calm(), k = calm ? 0 : 1, mx = s.mx * k, my = s.my * k;
+    const t = (a, b) => 'translate3d(' + (mx * a).toFixed(1) + 'px, ' + (my * b).toFixed(1) + 'px, 0)';
+    const floatN = this.fl.filter((f) => f.op > 0).length;
+    return {
+      rootCls: calm ? 'still' : '', goCls: s.go ? 'go' : '', replay: this.replay, toggleStill: this.toggleStill, stillAria: s.still ? 'true' : 'false',
+      tiltMove: this.tiltMove, tiltLeave: this.tiltLeave, hx: (-my * 3).toFixed(2), hy: (mx * 4).toFixed(2),
+      L1: t(-12, -9), L2: t(-8, -6), L3: t(-4, -3), L4: t(6, 4),
+      speedDemo: this.speed(k ? s.fx : this.rest.fx, k ? s.fy : this.rest.fy, 90, 130, 220, 1100),
+      demoFloat: this.fl.map((f) => Object.assign({}, this.F[f.item], { x: f.x.toFixed(2), y: f.y.toFixed(2), r: f.r.toFixed(2), tx: f.tx.toFixed(1), ty: f.ty.toFixed(1), op: f.op, tr: f.tr })),
+      floatStatus: calm ? 'Reduced motion: standing still' : floatN + ' on screen',
+      revealSecs: s.seen.map((v, i) => ({ n: i + 1, cls: v ? 'in' : '' })), onRevealScroll: this.onRevealScroll,
+      prog: s.prog.toFixed(3), onProgScroll: this.onProgScroll, progLines: [92, 86, 95, 70, 0, 88, 93, 81, 64, 0, 90, 84, 96, 77, 58, 0, 89, 92, 74].map((w) => ({ w: w || 0 })),
+      chaps: this.CH.map((c, i) => ({ n: c[0], t: c[1], cur: i === s.chap ? 'true' : 'false', pick: () => this.setState({ chap: i }) })), chapY: s.chap * 40, chapKicker: 'Chapter ' + this.CH[s.chap][0] + ' · ' + this.CH[s.chap][1],
+      protoPoster: s.proto === 'poster', protoLoading: s.proto === 'loading', protoReady: s.proto === 'ready', protoError: s.proto === 'error',
+      protoLoad: this.protoLoad, protoReset: this.protoReset, protoFail: this.protoFail,
+      mskLit: s.msk > -1 ? 'lit' : '', mskOut: this.mskOut,
+      mskWords: this.MSK.map((w, i) => ({ t: w[0], d: (i % 5) * 80, enter: w[1] === 'g' ? () => this.setState({ msk: w[2] }) : () => {}, cls: w[1] + (s.msk === w[2] ? ' on' : '') })),
+      mmOpen: s.mm, mmAria: s.mm ? 'true' : 'false', mmLabel: s.mm ? '✕ Close' : '☰ Menu', mmToggle: this.mmToggle,
+      mmLinks: this.MM.map((l, i) => ({ n: l[0], t: l[1], d: i * 80, cls: i === 0 ? 'on' : '' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

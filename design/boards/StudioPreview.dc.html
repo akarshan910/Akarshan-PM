@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — preview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Dela+Gothic+One&amp;display=swap">
+<style>
+body{margin:0;background:#26262C}
+.r3{--bg:#0B0B0E;--bg2:#111116;--sf:#16161C;--sf2:#1D1D24;--ln:rgba(242,241,238,.09);--ln2:rgba(242,241,238,.18);--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--ac:#D61F33;--act:#FF5A67;--okt:#9BE7C4;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;--fj:'Dela Gothic One','Archivo',sans-serif;--eo:cubic-bezier(.2,.8,.2,1);-webkit-font-smoothing:antialiased}
+.r3 *{box-sizing:border-box}
+.r3 a{color:inherit;text-decoration:none}
+.r3 .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.r3 .lbl{font-family:var(--fm);font-size:13px;line-height:1.5;color:#8F8D87}
+.r3 .lbl b{color:#F2F1EE;font-weight:600}
+.r3 .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+@property --r3sh{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes r3Shine{to{--r3sh:360deg}}
+.r3 .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.r3 .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,#fff 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:r3Shine 3.5s linear infinite;filter:blur(.4px)}
+.r3 .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--r3sh,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:r3Shine 3.5s linear infinite;filter:blur(3px)}
+.r3 .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border-radius:99px;white-space:nowrap;font-weight:500;position:relative;z-index:1;border:0;background:transparent;cursor:pointer}
+.r3 .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.r3 .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.r3 .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.r3 .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background-color .25s var(--eo),transform .25s var(--eo)}
+.r3 .cta:hover{background:#E42A3F;transform:translateY(-2px)}
+.r3 .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border:1px solid rgba(242,241,238,.25);background:rgba(11,11,14,.5);color:var(--tx);font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;transition:border-color .25s var(--eo)}
+.r3 .cta2:hover{border-color:#8F8D87}
+.r3 a:focus-visible,.r3 button:focus-visible{outline:2px solid #FF5A67;outline-offset:3px}
+.r3 .cta:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px #D61F33}
+.r3 .tone{background-image:radial-gradient(rgba(242,241,238,.16) 1.2px,transparent 1.5px);background-size:8px 8px}
+.r3 .tone-r{background-image:radial-gradient(#D61F33 2px,transparent 2.4px);background-size:9px 9px}
+.r3 .ttl{font-family:var(--fd);font-stretch:62%;font-weight:900;text-transform:uppercase;color:#F2F1EE;-webkit-text-stroke:6px #0B0B0E;paint-order:stroke fill;text-shadow:8px 8px 0 #D61F33}
+.r3 .sfx{font-family:var(--fj);font-weight:400;color:#D61F33;-webkit-text-stroke:5px #F2F1EE;paint-order:stroke fill;line-height:1;white-space:nowrap;user-select:none}
+.r3 .cap{background:#F2F1EE;color:#0B0B0E;border:3px solid #0B0B0E;box-shadow:6px 6px 0 #D61F33}
+.r3 .tag{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+.r3 .tag-a{background:rgba(60,203,139,.14);color:#9BE7C4}
+.r3 .tag-t{border:1px solid rgba(242,241,238,.3);color:#B9B7B1}
+.r3 .tag-p{border:1px dashed rgba(242,241,238,.4);color:#B9B7B1}
+.r3 .tag-b{background:#1D1D24;color:#B9B7B1}
+.r3 .tag-o{background:rgba(255,90,103,.14);color:#FF5A67}
+.r3 .px{transition:transform .5s var(--eo)}
+.r3 .scene{transform-style:preserve-3d;transition:transform .6s var(--eo)}
+@keyframes r3PopA{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3PopB{0%{transform:scale(.94);filter:brightness(1.8) contrast(1.2)}35%{transform:scale(1.02);filter:none}100%{transform:none}}
+@keyframes r3Drift{0%,100%{transform:rotateX(-2deg) rotateY(3deg)}50%{transform:rotateX(2deg) rotateY(-3deg)}}
+.r3 .drift{animation:r3Drift 9s ease-in-out infinite;transform-style:preserve-3d}
+@media (prefers-reduced-motion:reduce){.r3 .pill::before,.r3 .pill::after,.r3 .drift{animation:none}.r3 .px,.r3 .scene{transition:none}.r3 *{animation-duration:.01ms !important}}
+
+.st{--ln:#E4E3DF;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .seg{display:inline-flex;padding:3px;border-radius:10px;background:#2A2A31}
+.st .seg button{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:0;border-radius:8px;background:transparent;color:#B9B7B1;font:500 13px/1 var(--fu);cursor:pointer}
+.st .seg button[aria-pressed="true"]{background:#F2F1EE;color:#141416}
+.st .sw{display:flex;align-items:center;gap:10px;height:40px;padding:0;border:0;background:none;font:500 13px/1 var(--fu);color:#F2F1EE;cursor:pointer;white-space:nowrap}
+.st .trk{position:relative;flex:none;width:34px;height:20px;border-radius:10px;transition:background .15s}
+.st .knb{position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.st .pbtn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1px solid #3A3A42;border-radius:8px;background:transparent;color:#F2F1EE;font:500 13px/1 var(--fu);cursor:pointer;white-space:nowrap}
+.st .pubc{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:0;background:#D61F33;color:#fff;font-family:'Archivo',sans-serif;font-stretch:75%;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));cursor:pointer;white-space:nowrap}
+.st button:focus-visible,.st a:focus-visible{outline:2px solid #FF5A67;outline-offset:2px}
+.st .vp{overflow-y:auto;overflow-x:hidden;background:#0B0B0E;transform-origin:top left}
+.st .chg{position:relative;outline:2px solid #F5A524;outline-offset:6px;border-radius:2px}
+.st .chg::before{content:"Changed";position:absolute;right:0;top:-30px;padding:3px 8px;border-radius:4px;background:#F5A524;color:#141416;font:600 11px/1.4 'Geist Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+<div class="st" style="position: relative; min-height: 1100px; background: #26262C; color: #F2F1EE; font-family: var(--fu); display: flex; flex-direction: column;" onKeyDown="{{onRootKey}}">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 12px 20px; background: #141416; border-bottom: 1px solid #2A2A31;">
+<a href="EditorOverview.dc.html" class="pbtn" style="border-color: transparent;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Back to editor</a>
+<span style="display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px; border-radius: 6px; background: rgba(245,165,36,.14); color: #F5C66B; font-size: 12px; font-weight: 600;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 018 0v3"></path></svg>Draft preview · not public · noindex</span>
+<span style="flex: 1;"></span>
+<div class="seg" role="group" aria-label="Device"><button aria-pressed="{{dDesk}}" data-v="desk" onClick="{{setDevice}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M3 5h18v11H3zM8 20h8M12 16v4"></path></svg>Desktop</button><button aria-pressed="{{dTab}}" data-v="tab" onClick="{{setDevice}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M5 3h14v18H5zM11 18h2"></path></svg>Tablet</button><button aria-pressed="{{dPhone}}" data-v="phone" onClick="{{setDevice}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M7 3h10v18H7zM11 18h2"></path></svg>Phone</button></div>
+<button class="sw" role="switch" aria-checked="{{hlAria}}" onClick="{{hlToggle}}"><span class="trk" aria-hidden="true" style="background: {{hlTrk}};"><span class="knb" style="left: {{hlKnb}}px;"></span></span>Highlight changes</button><button class="sw" role="switch" aria-checked="{{cmpAria}}" onClick="{{cmpToggle}}"><span class="trk" aria-hidden="true" style="background: {{cmpTrk}};"><span class="knb" style="left: {{cmpKnb}}px;"></span></span>Compare with live</button>
+<span style="flex: 1;"></span>
+<div style="position: relative;"><button class="pbtn" onClick="{{toggleShare}}" aria-expanded="{{shareAria}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"></path></svg>Share preview</button>
+<div role="dialog" aria-label="Share preview link" style="display: {{shareD}}; position: absolute; right: 0; top: 48px; z-index: 30; width: 340px; padding: 16px; border-radius: 12px; background: #fff; color: #141416; box-shadow: 0 20px 50px rgba(0,0,0,.35); animation: stUp .18s ease-out;"><div style="font-size: 15px; font-weight: 600;">Anyone with this link can view the draft</div><div style="margin-top: 4px; font-size: 13px; line-height: 1.5; color: #6A6A72;">Expires in 7 days. Never indexed. Revoke it from URL &amp; SEO.</div><div style="margin-top: 12px; display: flex; gap: 8px; align-items: center; padding: 6px 6px 6px 10px; border: 1px solid #D2D0CA; border-radius: 8px;"><span style="flex: 1; font-family: var(--fm); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">[your-domain]/preview/k7Qe…9xT2</span><button onClick="{{copy}}" style="height: 32px; padding: 0 12px; border: 1px solid #D2D0CA; border-radius: 6px; background: #fff; font: 500 13px/1 var(--fu); cursor: pointer;">{{copyLabel}}</button></div></div></div>
+<a class="pubc" href="EditorOverview.dc.html">Publish changes</a>
+</header>
+<main style="flex: 1; display: flex; justify-content: center; align-items: flex-start; gap: 28px; padding: 32px 40px;">
+<sc-for list="{{views}}" as="v" hint-placeholder-count="1">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+<div style="display: {{v.capD}}; align-items: center; gap: 8px; font-family: var(--fm); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: {{v.capColor}};"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{v.capColor}};"></span>{{v.cap}}</div>
+<div style="width: {{v.ow}}px; height: {{v.oh}}px; border-radius: {{v.rad}}px; overflow: hidden; box-shadow: 0 0 0 {{v.bez}}px #121216, 0 30px 70px rgba(0,0,0,.5);">
+<div class="vp r3" style="width: {{v.w}}px; height: {{v.h}}px; transform: scale({{v.s}}); color: #F2F1EE; font-family: var(--fu);">
+<div style="position: sticky; top: 0; z-index: 5; display: flex; justify-content: center; padding-top: 18px; height: 0;"><nav class="pill" aria-label="Site preview navigation" style="transform: scale({{v.navS}});"><span class="pl on" style="display: {{v.navLinksD}};">Work</span><span class="pl" style="display: {{v.navLinksD}};">About</span><span class="pl" style="display: {{v.navLinksD}};">Exp</span><span class="pl" style="display: {{v.navLinksD}};">Skills</span><span class="pl" style="display: {{v.navLinksD}};">Testimonial</span><span class="pl" style="display: {{v.navMenuD}};">Menu</span><span class="psep" aria-hidden="true"></span><span class="pcta">Let’s Talk →</span></nav></div>
+<div style="padding: {{v.top}}px {{v.pad}}px 64px;">
+<div class="mono" style="color: #FF5A67;">VOL.05 · Sri Mandir · Strategy + prototype</div>
+<h1 style="margin: 14px 0 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: {{v.h1}}px; line-height: .9; text-transform: uppercase;">Puja engagement platform</h1>
+<p style="margin: 16px 0 0; max-width: 720px; font-size: {{v.body}}px; line-height: 1.55; color: #B9B7B1;">WhatsApp-native booking, recommendations and a spiritual calendar to lift repeat puja orders.</p>
+<div style="margin-top: 20px; display: grid; grid-template-columns: repeat({{v.cols}}, minmax(0, 1fr)); gap: 12px;">
+<div style="padding: 14px 16px; border: 1px solid rgba(242,241,238,.1); background: #111116;"><div style="display: flex; align-items: center; gap: 10px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 30px;">+30%</span><span class="tag tag-t">TARGET</span></div><div style="margin-top: 4px; font-size: 14px; color: #B9B7B1;">monthly orders per user</div></div>
+<div style="padding: 14px 16px; border: 1px solid rgba(242,241,238,.1); background: #111116;"><div style="display: flex; align-items: center; gap: 10px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 30px;">12%</span><span class="tag tag-t">TARGET</span></div><div style="margin-top: 4px; font-size: 14px; color: #B9B7B1;">WhatsApp conversion rate</div></div>
+<div style="padding: 14px 16px; border: 1px solid rgba(242,241,238,.1); background: #111116;"><div style="display: flex; align-items: center; gap: 10px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 30px;">5</span><span class="tag tag-t">TARGET</span></div><div style="margin-top: 4px; font-size: 14px; color: #B9B7B1;">regional languages in phase 1</div></div>
+</div>
+<div style="margin-top: 28px; height: {{v.protoH}}px; display: grid; place-items: center; background: #1C0C0F; border: 1px solid rgba(242,241,238,.1); position: relative;"><span style="width: {{v.phoneW}}px; height: 86%; border-radius: 22px; border: 2px solid rgba(255,255,255,.2); background: #F7F3EE; overflow: hidden; display: flex; flex-direction: column; gap: 10px;"><span style="height: 18%; background: #C7372F;"></span><span style="margin: 0 9%; height: 7%; border-radius: 4px; background: #E9E3DC;"></span><span style="margin: 0 9%; height: 20%; border-radius: 6px; background: #F5A524;"></span></span><span style="position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(0,0,0,.65); color: #fff; font-size: 13px; font-weight: 500; white-space: nowrap;"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Open the prototype · 7 screens</span></div>
+<div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px;"><span class="mono" style="padding: 7px 10px; border: 1px solid rgba(242,241,238,.16); color: #B9B7B1;">01 Objective</span><span class="mono" style="padding: 7px 10px; border: 1px solid rgba(242,241,238,.16); color: #B9B7B1;">02 Who we’re solving for</span><span class="mono" style="padding: 7px 10px; border: 1px solid rgba(242,241,238,.16); color: #B9B7B1;">03 What’s broken</span><span class="mono" style="padding: 7px 10px; background: #F2F1EE; color: #0B0B0E;">04 Prioritisation</span><span class="mono" style="padding: 7px 10px; border: 1px solid rgba(242,241,238,.16); color: #B9B7B1;">05 The bet</span><span class="mono" style="padding: 7px 10px; border: 1px solid rgba(242,241,238,.16); color: #B9B7B1;">06 Recommendations</span></div>
+<div style="margin-top: 36px;" class="{{v.chgClass}}">
+<div class="mono" style="color: #8F8D87;">Chapter 04</div>
+<h2 style="margin: 10px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: {{v.h2}}px; line-height: .95; text-transform: uppercase;">Prioritisation</h2>
+<p style="margin: 12px 0 0; max-width: 680px; font-size: {{v.body}}px; line-height: 1.55; color: #B9B7B1;">{{v.intro}}</p>
+<div style="margin-top: 16px; border-top: 1px solid rgba(242,241,238,.12);">
+<sc-for list="{{rice}}" as="r" hint-placeholder-count="5"><div style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(242,241,238,.08); font-size: 14px;"><span><span style="font-family: var(--fm); color: #8F8D87;">{{r.n}}</span>  {{r.f}}</span><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 18px;">{{r.s}}</span></div></sc-for>
+<div style="padding: 10px 0; font-size: 13px; color: #8F8D87;">+ 4 more ideas</div>
+</div>
+</div>
+<div style="display: {{v.hidD}}; margin-top: 30px; padding: 16px 18px; border: 1.5px dashed rgba(245,165,36,.6); color: #F5C66B; font-size: 14px; line-height: 1.5;">Studio only: “My role and decisions” and “Learnings and next steps” are empty, so the live page skips them.</div>
+</div>
+</div>
+</div>
+</div>
+</sc-for>
+</main>
+<div class="sr" aria-live="polite" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{announce}}</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["desktop","tablet","phone","compare desktop","compare phone","share open"],"default":"desktop"},"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    ['setDevice', 'hlToggle', 'cmpToggle', 'toggleShare', 'copy', 'onRootKey'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.state = Object.assign(this.fresh(), this.preset(props.state));
+  }
+  fresh() { return { dev: 'desk', hl: true, cmp: false, share: false, copied: false, announce: '' }; }
+  preset(n) {
+    switch (n) {
+      case 'tablet': return { dev: 'tab' };
+      case 'phone': return { dev: 'phone' };
+      case 'compare desktop': return { cmp: true };
+      case 'compare phone': return { dev: 'phone', cmp: true };
+      case 'share open': return { share: true };
+      default: return {};
+    }
+  }
+  componentDidUpdate(prev) { if (prev.state !== this.props.state) this.setState(Object.assign(this.fresh(), this.preset(this.props.state))); }
+  componentWillUnmount() { clearTimeout(this.ct); }
+  setDevice(e) { const d = e.currentTarget.getAttribute('data-v'); this.setState({ dev: d, announce: { desk: 'Desktop', tab: 'Tablet', phone: 'Phone' }[d] + ' preview.' }); }
+  hlToggle() { this.setState({ hl: !this.state.hl }); }
+  cmpToggle() { this.setState({ cmp: !this.state.cmp, announce: this.state.cmp ? 'Draft only.' : 'Comparing live and draft side by side.' }); }
+  toggleShare() { this.setState({ share: !this.state.share }); }
+  copy() { clearTimeout(this.ct); this.setState({ copied: true, announce: 'Link copied.' }); this.ct = setTimeout(() => this.setState({ copied: false }), 1600); }
+  onRootKey(e) { if (e.key === 'Escape' && this.state.share) this.setState({ share: false }); }
+  sw(on) { return [on ? 'true' : 'false', on ? '#D61F33' : '#4A4A51', on ? 16 : 2]; }
+  renderVals() {
+    const s = this.state;
+    const D = { desk: { w: 1280, h: 860, h1: 88, h2: 54, body: 18, cols: 3, pad: 64, top: 110, protoH: 420, phoneW: 190, rad: 6, bez: 0, navS: 1, links: true },
+      tab: { w: 834, h: 980, h1: 64, h2: 44, body: 17, cols: 3, pad: 36, top: 104, protoH: 460, phoneW: 200, rad: 26, bez: 10, navS: 1, links: true },
+      phone: { w: 390, h: 800, h1: 42, h2: 34, body: 16, cols: 1, pad: 20, top: 90, protoH: 420, phoneW: 190, rad: 40, bez: 10, navS: 1, links: false } }[s.dev];
+    const scale = s.cmp ? (s.dev === 'desk' ? 0.52 : (s.dev === 'tab' ? 0.78 : 1)) : 1;
+    const mk = (draft) => ({
+      w: D.w, h: D.h, s: scale, ow: Math.round(D.w * scale), oh: Math.round(D.h * scale), rad: D.rad, bez: D.bez,
+      h1: D.h1, h2: D.h2, body: D.body, cols: D.cols, pad: D.pad, top: D.top, protoH: D.protoH, phoneW: D.phoneW, navS: D.navS,
+      navLinksD: D.links ? 'inline-flex' : 'none', navMenuD: D.links ? 'none' : 'inline-flex',
+      capD: s.cmp ? 'flex' : 'none', cap: draft ? 'Draft · what you’ll publish' : 'Live · what visitors see now', capColor: draft ? '#F5C66B' : '#9BE7C4',
+      intro: draft ? 'Nine ideas, scored with RICE: reach × impact × confidence ÷ effort.' : 'Nine ideas, ranked by reach, impact, confidence and effort.',
+      chgClass: draft && s.hl ? 'chg' : '', hidD: draft && s.hl ? 'block' : 'none'
+    });
+    const views = s.cmp ? [mk(false), mk(true)] : [mk(true)];
+    const hl = this.sw(s.hl), cmp = this.sw(s.cmp);
+    return {
+      views,
+      rice: [{ n: '01', f: 'WhatsApp integration', s: '9.6' }, { n: '02', f: 'Product education', s: '9.1' }, { n: '03', f: 'Puja recommendation engine', s: '7.3' }, { n: '04', f: 'Video feed', s: '7.1' }, { n: '05', f: 'Spiritual calendar and reminders', s: '6.8' }],
+      dDesk: s.dev === 'desk' ? 'true' : 'false', dTab: s.dev === 'tab' ? 'true' : 'false', dPhone: s.dev === 'phone' ? 'true' : 'false', setDevice: this.setDevice,
+      hlAria: hl[0], hlTrk: hl[1], hlKnb: hl[2], hlToggle: this.hlToggle, cmpAria: cmp[0], cmpTrk: cmp[1], cmpKnb: cmp[2], cmpToggle: this.cmpToggle,
+      shareD: s.share ? 'block' : 'none', shareAria: s.share ? 'true' : 'false', toggleShare: this.toggleShare, copy: this.copy, copyLabel: s.copied ? 'Copied' : 'Copy',
+      onRootKey: this.onRootKey, announce: s.announce
+    };
+  }
+}
+</script>
+</body>
+</html>

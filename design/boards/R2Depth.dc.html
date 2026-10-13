@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 2 · Depth Field</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.df{--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.df *{box-sizing:border-box}
+.df a{color:inherit;text-decoration:none}
+.df .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.df .lbl{font-family:var(--fm);font-size:13px;color:#8F8D87}
+.df .mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+@property --dfsh{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes dfShine{to{--dfsh:360deg}}
+.df .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.df .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--dfsh,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,#fff 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:dfShine 3.5s linear infinite;filter:blur(.4px)}
+.df .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--dfsh,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:dfShine 3.5s linear infinite;filter:blur(3px)}
+.df .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border-radius:99px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.df .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.df .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.df .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.df .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.df .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 26px;border:1px solid rgba(242,241,238,.25);color:var(--tx);font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.df .scene{transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.df .tile{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.df .stars{background-image:radial-gradient(rgba(255,255,255,.55) 1px,transparent 1.5px),radial-gradient(rgba(255,255,255,.3) 1px,transparent 1.5px);background-size:120px 120px,70px 70px;background-position:0 0,35px 50px}
+@keyframes dfDrift{0%,100%{transform:rotateX(-2deg) rotateY(4deg)}50%{transform:rotateX(2deg) rotateY(-4deg)}}
+.df .drift{animation:dfDrift 9s ease-in-out infinite;transform-style:preserve-3d}
+@media (prefers-reduced-motion:reduce){.df .pill::before,.df .pill::after,.df .drift{animation:none}.df .scene{transition:none}}
+</style>
+</helmet>
+<div class="df" style="width: 1536px; height: 2380px; padding: 40px 48px; background: #101014; color: var(--tx); font-family: var(--fu);">
+
+<div class="lbl" style="margin-bottom: 14px;">Laptop 1440 × 900 · press Play and move the cursor: five depth layers turn as one scene — far layers drift slowly and blur, near ones move fast and stay sharp</div>
+<div onMouseMove="{{onMove}}" onMouseLeave="{{onLeave}}" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: radial-gradient(ellipse at 50% 40%, #121424 0%, #05060A 70%); box-shadow: 0 0 0 10px #22222A, 0 40px 80px rgba(0,0,0,.5); perspective: 1400px; perspective-origin: 50% 45%;">
+<div aria-hidden="true" style="position: absolute; left: 50%; top: 46%; width: 900px; height: 900px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(232,39,58,.28), rgba(232,39,58,0) 62%); filter: blur(30px);"></div>
+
+<div class="scene" style="position: absolute; inset: 0; transform: rotateX({{rx}}deg) rotateY({{ry}}deg);">
+<div class="stars" aria-hidden="true" style="position: absolute; inset: -40%; transform: translateZ(-1000px) scale(1.7); opacity: .8;"></div>
+
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 330px; text-align: center; transform: translateZ(-620px) scale(1.44); filter: blur(2.5px);"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 300px; line-height: .8; text-transform: uppercase; color: transparent; -webkit-text-stroke: 2px rgba(242,241,238,.22); letter-spacing: .02em; white-space: nowrap;">Akarshan Kumar</span></div>
+
+<div class="tile" aria-hidden="true" style="left: 90px; top: 120px; width: 260px; height: 170px; background: linear-gradient(135deg, #0F3D38, #0D1918); transform: translateZ(-300px) scale(1.21) rotateY(18deg); filter: blur(1.4px);"><span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; border-radius: 5px; background: #2DD4BF; color: #04211D; font-family: var(--fm); font-size: 11px; font-weight: 600;">VOL.01</span></div>
+<div class="tile" aria-hidden="true" style="left: 1080px; top: 96px; width: 280px; height: 180px; background: linear-gradient(135deg, #5A3A0A, #1A140A); transform: translateZ(-360px) scale(1.26) rotateY(-16deg); filter: blur(1.6px);"><span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; border-radius: 5px; background: #F5A524; color: #2A1A00; font-family: var(--fm); font-size: 11px; font-weight: 600;">VOL.02</span></div>
+<div class="tile" aria-hidden="true" style="left: 1130px; top: 560px; width: 250px; height: 170px; background: linear-gradient(135deg, #0B4A6B, #0A1620); transform: translateZ(-260px) scale(1.19) rotateY(-20deg); filter: blur(1.2px);"><span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; border-radius: 5px; background: #38BDF8; color: #04202E; font-family: var(--fm); font-size: 11px; font-weight: 600;">VOL.03</span></div>
+<div class="tile" aria-hidden="true" style="left: 70px; top: 610px; width: 270px; height: 170px; background: linear-gradient(135deg, #3E2A7A, #130F1F); transform: translateZ(-220px) scale(1.16) rotateY(16deg); filter: blur(1px);"><span style="position: absolute; left: 12px; top: 12px; padding: 4px 8px; border-radius: 5px; background: #A78BFA; color: #1A1033; font-family: var(--fm); font-size: 11px; font-weight: 600;">VOL.04</span></div>
+
+<div style="position: absolute; left: 50%; top: 190px; width: 760px; margin-left: -380px; text-align: center; transform: translateZ(0);">
+<span style="display: inline-flex; align-items: center; gap: 10px; height: 32px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid rgba(60,203,139,.35); background: rgba(60,203,139,.08); color: #9BE7C4; font-size: 13px; font-weight: 500;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #3CCB8B;"></span>Open to Senior / Lead PM roles</span>
+<h1 style="margin: 26px 0 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 120px; line-height: .86; text-transform: uppercase;">Akarshan Kumar<span style="color: #D61F33;">.</span></h1>
+<p style="margin: 24px auto 0; max-width: 640px; font-size: 25px; line-height: 1.32; letter-spacing: -.015em; color: var(--tx2);">I build <span style="color: var(--tx);">AI-native health products</span> — and the <span style="color: var(--tx);">data platforms</span> that prove they work.</p>
+<div style="display: flex; justify-content: center; gap: 12px; margin-top: 32px;"><a class="cta" href="#work">Fly through the work<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></a><a class="cta2" href="#resume">Résumé (PDF)</a></div>
+</div>
+
+<div style="position: absolute; left: 300px; top: 640px; transform: translateZ(170px) scale(.88); padding: 16px 20px; border-radius: 18px; background: rgba(22,22,28,.86); border: 1px solid rgba(242,241,238,.16); box-shadow: 0 30px 60px rgba(0,0,0,.55);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 46px; line-height: 1;">230M+</div><div style="margin-top: 6px; font-size: 13px; color: var(--tx2);">devices served · Glance</div></div>
+<div style="position: absolute; left: 900px; top: 650px; transform: translateZ(210px) scale(.87); padding: 16px 20px; border-radius: 18px; background: rgba(22,22,28,.86); border: 1px solid rgba(242,241,238,.16); box-shadow: 0 30px 60px rgba(0,0,0,.55);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 46px; line-height: 1;">₹3.6 Cr</div><div style="margin-top: 6px; font-size: 13px; color: var(--tx2);">GLP-1 app, month one</div></div>
+<div style="position: absolute; left: 640px; top: 760px; transform: translateZ(120px) scale(.92); padding: 12px 16px; border-radius: 14px; background: rgba(22,22,28,.86); border: 1px solid rgba(242,241,238,.16);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 32px; line-height: 1;">$2M ARR</div></div>
+</div>
+
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 10;"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+<div class="mono" style="position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 10; color: var(--tx3);">Scroll to fly forward · each volume is a layer</div>
+</div>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+<div>
+<div class="lbl" style="margin-bottom: 14px;">iPad 834 × 1194 · selected work as a receding stack — swipe pulls the next volume forward</div>
+<div style="position: relative; width: 834px; height: 1194px; overflow: hidden; border-radius: 28px; background: radial-gradient(ellipse at 50% 40%, #121424 0%, #05060A 72%); box-shadow: 0 0 0 10px #22222A, 0 30px 60px rgba(0,0,0,.45); perspective: 1200px;">
+<div style="position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 10;"><nav class="pill" aria-label="Primary"><a class="pl on" href="#work">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+<div style="position: absolute; left: 32px; top: 118px;"><div class="mono" style="color: var(--tx3);">Selected work · 9 volumes</div><h2 style="margin: 10px 0 0; font-family: var(--fd); font-stretch: 68%; font-weight: 800; font-size: 54px; line-height: .95; text-transform: uppercase;">Shipped, measured, <span style="color: var(--tx3);">explained.</span></h2></div>
+<div class="drift" style="position: absolute; left: 0; right: 0; top: 300px; height: 760px;">
+<div class="tile" aria-hidden="true" style="left: 170px; top: 40px; width: 494px; height: 300px; background: linear-gradient(135deg, #3E2A7A, #130F1F); transform: translateZ(-420px) translateY(-40px); filter: blur(2px); opacity: .7;"></div>
+<div class="tile" aria-hidden="true" style="left: 140px; top: 80px; width: 554px; height: 330px; background: linear-gradient(135deg, #0B4A6B, #0A1620); transform: translateZ(-260px) translateY(-24px); filter: blur(1.2px); opacity: .85;"></div>
+<div class="tile" aria-hidden="true" style="left: 110px; top: 120px; width: 614px; height: 360px; background: linear-gradient(135deg, #5A3A0A, #1A140A); transform: translateZ(-120px) translateY(-10px); filter: blur(.6px);"></div>
+<div class="tile" style="left: 80px; top: 170px; width: 674px; height: 440px; background: linear-gradient(135deg, #0F3D38, #0D1918); transform: translateZ(0);">
+<svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; right: 40px; top: 30px; height: 230px; fill: none; stroke: #5EEAD4; stroke-width: 1.4;"><rect x="40" y="6" width="160" height="288" rx="26" style="stroke-opacity: .5;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path></svg>
+<div style="position: absolute; left: 28px; bottom: 28px; right: 28px;"><span style="padding: 4px 8px; border-radius: 5px; background: #2DD4BF; color: #04211D; font-family: var(--fm); font-size: 12px; font-weight: 600;">VOL.01</span><div style="margin-top: 14px; font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 40px; line-height: 1;">3D body scan for GLP-1 users</div><div style="margin-top: 10px; display: flex; align-items: center; gap: 10px; font-size: 16px; color: var(--tx2);">±2–3 pp vs 8-electrode BIA<span style="padding: 3px 8px; border-radius: 4px; background: rgba(60,203,139,.14); color: #9BE7C4; font-family: var(--fm); font-size: 11px; font-weight: 600;">ACHIEVED</span></div></div>
+</div>
+</div>
+<div class="mono" style="position: absolute; left: 0; right: 0; bottom: 40px; text-align: center; color: var(--tx3);">1 / 9 · swipe for the next volume</div>
+</div>
+</div>
+
+<div>
+<div class="lbl" style="margin-bottom: 14px;">Mobile 390 × 844 · hero — layers follow device tilt, or drift gently</div>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; border-radius: 46px; background: radial-gradient(ellipse at 50% 40%, #121424 0%, #05060A 72%); box-shadow: 0 0 0 10px #22222A, 0 30px 60px rgba(0,0,0,.45); perspective: 900px;">
+<div style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 10;"><nav class="pill" aria-label="Primary"><span class="pl" style="padding: 10px 18px;">Menu</span><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact" style="padding: 10px 18px;">Let’s Talk →</a></nav></div>
+<div class="drift" style="position: absolute; inset: 0;">
+<div class="stars" aria-hidden="true" style="position: absolute; inset: -30%; transform: translateZ(-600px) scale(1.7); opacity: .7;"></div>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 150px; text-align: center; transform: translateZ(-300px) scale(1.33); filter: blur(2px);"><span style="font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 150px; line-height: .8; text-transform: uppercase; color: transparent; -webkit-text-stroke: 1.5px rgba(242,241,238,.2);">VOL<br>09</span></div>
+<div class="tile" aria-hidden="true" style="left: 24px; top: 520px; width: 150px; height: 100px; background: linear-gradient(135deg, #0F3D38, #0D1918); transform: translateZ(-120px) rotateY(16deg); filter: blur(1px);"></div>
+<div class="tile" aria-hidden="true" style="left: 220px; top: 560px; width: 150px; height: 100px; background: linear-gradient(135deg, #5A3A0A, #1A140A); transform: translateZ(-160px) rotateY(-16deg); filter: blur(1.2px);"></div>
+<div style="position: absolute; left: 20px; right: 20px; top: 150px; text-align: center;">
+<span style="display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px 0 10px; border-radius: 999px; border: 1px solid rgba(60,203,139,.35); background: rgba(60,203,139,.08); color: #9BE7C4; font-size: 12px; font-weight: 500;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3CCB8B;"></span>Open to Senior / Lead PM roles</span>
+<h1 style="margin: 20px 0 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 74px; line-height: .86; text-transform: uppercase;">Akarshan<br>Kumar<span style="color: #D61F33;">.</span></h1>
+<p style="margin: 18px 0 0; font-size: 19px; line-height: 1.35; color: var(--tx2);">I build AI-native health products — and the data platforms that prove they work.</p>
+</div>
+<div style="position: absolute; left: 20px; right: 20px; bottom: 40px; display: grid; gap: 10px; transform: translateZ(80px) scale(.91);"><a class="cta" href="#work" style="display: flex;">Fly through the work</a><a class="cta2" href="#resume" style="display: flex;">Résumé (PDF)</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":2380}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mx: 0.35, my: -0.2 };
+    this.onMove = this.onMove.bind(this);
+    this.onLeave = this.onLeave.bind(this);
+  }
+  onMove(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => { this.raf = null; this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1 }); });
+  }
+  onLeave() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.setState({ mx: 0.35, my: -0.2 });
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const { mx, my } = this.state;
+    const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const k = reduce ? 0 : 1;
+    return {
+      onMove: this.onMove,
+      onLeave: this.onLeave,
+      rx: (-my * 7 * k).toFixed(2),
+      ry: (mx * 10 * k).toFixed(2)
+    };
+  }
+}
+</script>
+</body>
+</html>

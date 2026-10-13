@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — editor, URL and SEO</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .rail{width:72px;flex:none;background:#FBFBFA;border-right:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 0}
+.st .rl{width:48px;height:48px;display:grid;place-items:center;border-radius:10px;color:var(--tx3)}
+.st .rl:hover{background:#EFEEEA;color:var(--tx)}
+.st .rl.on{background:#EAE9E4;color:var(--tx)}
+.st .tb{height:68px;display:flex;align-items:center;gap:14px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tabs{display:flex;gap:4px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tab{position:relative;display:flex;align-items:center;gap:8px;height:48px;padding:0 14px;font-size:14px;font-weight:500;color:var(--tx2)}
+.st .tab:hover{color:var(--tx)}
+.st .tab[aria-current="page"]{color:var(--tx)}
+.st .tab[aria-current="page"]::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;background:var(--tx)}
+.st .dot{width:7px;height:7px;border-radius:50%;background:#F5A524}
+.st .card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.st .cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border:0;background:var(--ac);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.st .cta:hover{background:#E42A3F}
+.st .cta[aria-disabled="true"]{background:#D2D0CA;color:#4A4A51;cursor:not-allowed}
+.st .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:500 14px/1 var(--fu);cursor:pointer}
+.st .btn:hover{border-color:#B9B7B1}
+.st .ib{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--tx2);cursor:pointer}
+.st .ib:hover{background:#EFEEEA;color:var(--tx)}
+.st .chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap}
+.st .mono{font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .sec{padding:24px}
+.st .sec h2{margin:0;font-size:17px;font-weight:600}
+.st .sec .sub{margin:4px 0 0;font-size:14px;color:var(--tx3)}
+.st .fld{margin-top:20px}
+.st .lbl{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.st .req{font-size:12px;font-weight:500;color:var(--tx3)}
+.st .inp{display:block;width:100%;height:44px;margin-top:8px;padding:0 12px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:400 15px/1.4 var(--fu)}
+.st textarea.inp{height:auto;min-height:88px;padding:10px 12px;resize:vertical}
+.st .inp::placeholder{color:#8F8D87}
+.st .inp:focus{outline:none;border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .hrow{display:flex;align-items:flex-start;gap:12px;margin-top:6px;font-size:13px;line-height:1.45}
+.st .hint{color:var(--tx3)}
+.st .err{display:flex;gap:6px;color:var(--err);font-weight:500}
+.st .cnt{margin-left:auto;font-family:var(--fm);font-size:12px;white-space:nowrap}
+.st .seg{display:inline-flex;margin-top:8px;padding:3px;border-radius:10px;background:#EAE9E4}
+.st .seg button{height:36px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--tx2);font:500 14px/1 var(--fu);cursor:pointer}
+.st .seg button[aria-pressed="true"]{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(20,20,22,.12)}
+.st .tg{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 6px 0 10px;border-radius:8px;background:#EFEEEA;font-size:13px;font-weight:500}
+.st .tg button{width:22px;height:22px;display:grid;place-items:center;border:0;border-radius:5px;background:transparent;color:var(--tx3);cursor:pointer}
+.st .tg button:hover{background:#E2E1DC;color:var(--tx)}
+.st .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.st a:focus-visible,.st button:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+.st .pv{--pbg:#0B0B0E;--pbg2:#111116;--pln:#26262E;--ptx:#F2F1EE;--ptx2:#B9B7B1;--ptx3:#8F8D87}
+.st .tag-t{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;border:1px solid rgba(242,241,238,.3);color:#B9B7B1;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+@keyframes stPulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.st *{animation-duration:.01ms !important}}
+
+.st .sw{display:flex;align-items:center;gap:12px;min-height:44px;padding:0;border:0;background:none;text-align:left;font:400 14px/1.4 var(--fu);color:var(--tx);cursor:pointer}
+.st .sw[aria-disabled="true"]{cursor:not-allowed;color:#8F8D87}
+.st .trk{position:relative;flex:none;width:36px;height:20px;border-radius:10px;transition:background .15s}
+.st .knb{position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .15s}
+.st .rc{display:grid;grid-template-columns:22px minmax(0,1fr);gap:4px 12px;padding:14px 16px;border:1px solid var(--ln);border-radius:12px;background:#fff;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.st .rc[aria-checked="true"]{border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .rdo{width:20px;height:20px;margin-top:1px;border-radius:50%;border:2px solid #8F8D87;display:grid;place-items:center}
+.st .rc[aria-checked="true"] .rdo{border-color:var(--tx)}
+.st .rc[aria-checked="true"] .rdo::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--tx)}
+.st .pre{display:flex;align-items:stretch;border:1px solid var(--ln2);border-radius:8px;overflow:hidden;margin-top:8px;background:#fff}
+.st .pre span{display:flex;align-items:center;padding:0 10px;background:#F2F1EE;font-family:var(--fm);font-size:13px;color:var(--tx3);white-space:nowrap}
+.st .pre input{flex:1;min-width:0;height:44px;padding:0 12px;border:0;font:400 14px/1 var(--fm);color:var(--tx);background:transparent}
+.st .pre input:focus{outline:none}
+.st .pre:focus-within{border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .dz{border:1px solid #F0C7C2;border-radius:14px;background:#fff}
+.st .dbtn{height:40px;padding:0 14px;border:1px solid #E8A39B;border-radius:8px;background:#fff;font:600 14px/1 var(--fu);color:var(--err);cursor:pointer}
+.st .dbtn:hover{background:var(--errbg)}
+.st .dbtn[aria-disabled="true"]{border-color:var(--ln);color:#8F8D87;cursor:not-allowed;background:#fff}
+@keyframes stSpin2{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+<div class="st" style="position: relative; min-height: 2100px; display: flex; background: var(--bg); color: var(--tx); font-family: var(--fu);" onKeyDown="{{onRootKey}}">
+
+<nav class="rail" aria-label="Studio"><a href="StudioDashboard.dc.html" aria-label="Studio dashboard" style="margin-bottom: 14px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 26px; line-height: 1;">S<span style="color: var(--ac);">.</span></a><a class="rl" href="StudioDashboard.dc.html" aria-label="Dashboard" title="Dashboard"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg></a><a class="rl" href="StudioSite.dc.html" aria-label="Website" title="Website"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg></a><a class="rl on" href="StudioProjects.dc.html" aria-label="Projects" title="Projects" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16"></path></svg></a><a class="rl" href="StudioWriting.dc.html" aria-label="Writing" title="Writing"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg></a><a class="rl" href="StudioMedia.dc.html" aria-label="Media" title="Media"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg></a><a class="rl" href="Home.dc.html" aria-label="View live site" title="View live site" style="margin-top: auto;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg></a></nav>
+
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+<header class="tb">
+<a class="ib" href="StudioProjects.dc.html" aria-label="Back to projects"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<div style="min-width: 0;"><div class="mono" style="font-size: 11px;">Projects · Strategy &amp; prototypes · 05</div><div style="margin-top: 3px; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 420px;">{{titleShow}}</div></div>
+<span class="chip" style="background: var(--okbg); color: var(--ok);"><span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>Published</span>
+<span class="chip" style="display: {{chgD}}; background: var(--warnbg); color: var(--warn);">Edits not live</span>
+<span role="status" style="display: inline-flex; align-items: center; gap: 7px; margin-left: 6px; font-size: 13px; color: {{saveColor}};"><span style="display: {{saveSpinD}}; width: 13px; height: 13px; border-radius: 50%; border: 2px solid #D2D0CA; border-top-color: var(--tx2); animation: stSpin .8s linear infinite;"></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveOkD}}; width: 16px; height: 16px;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveOffD}}; width: 16px; height: 16px;"><path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveErrD}}; width: 16px; height: 16px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>{{saveText}}<button onClick="{{retrySave}}" style="display: {{saveErrD}}; border: 0; background: none; padding: 0; font: 600 13px/1 var(--fu); color: var(--err); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Retry</button></span>
+<span style="flex: 1;"></span>
+<a class="btn" href="StudioPreview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Preview</a>
+<button class="cta" onClick="{{openPublish}}" aria-disabled="{{pubAria}}" title="{{pubTitle}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; display: {{pubDoneIcoD}};"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>{{pubLabel}}</button>
+<button class="ib" aria-label="More actions"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button>
+</header>
+<nav class="tabs" aria-label="Project sections">
+<a class="tab" href="EditorOverview.dc.html">Overview</a>
+<a class="tab" href="EditorVisuals.dc.html">Visuals</a>
+<a class="tab" href="EditorCaseStudy.dc.html">Story<span class="dot"></span><span class="sr">, has unpublished edits</span></a>
+<a class="tab" href="EditorOutcomes.dc.html">Outcomes</a>
+<a class="tab" href="EditorSettings.dc.html" aria-current="page">URL &amp; SEO<span class="dot" style="display: {{tabDotD}};"></span><span class="sr" style="display: {{tabDotD}};">, has unpublished edits</span></a>
+</nav>
+<div style="display: {{offBannerD}}; align-items: center; gap: 12px; padding: 12px 24px; background: var(--warnbg); color: var(--warn); font-size: 14px; border-bottom: 1px solid #F1DFB0;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6"></path></svg><span><strong>You’re offline.</strong> Keep editing. Changes are kept on this device and sync when you reconnect. Publishing is paused.</span></div>
+<div style="display: {{errBannerD}}; align-items: center; gap: 12px; padding: 12px 24px; background: var(--errbg); color: var(--err); font-size: 14px; border-bottom: 1px solid #F5C9C4;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg><span style="flex: 1;"><strong>Your last change didn’t save.</strong> Studio will keep retrying. Keep this tab open until it says Saved.</span><button class="btn" onClick="{{retrySave}}" style="height: 34px; border-color: #F0B4AD;">Retry now</button></div>
+
+<svg width="0" height="0" style="position: absolute;" aria-hidden="true"><defs><symbol id="cover" viewBox="0 0 800 600">
+<rect width="800" height="600" fill="#1C0C0F"></rect>
+<g stroke="#E8273A" stroke-width="1.2" opacity=".3"><line x1="400" y1="300" x2="-40" y2="0"></line><line x1="400" y1="300" x2="-40" y2="200"></line><line x1="400" y1="300" x2="-40" y2="420"></line><line x1="400" y1="300" x2="-40" y2="640"></line><line x1="400" y1="300" x2="840" y2="0"></line><line x1="400" y1="300" x2="840" y2="220"></line><line x1="400" y1="300" x2="840" y2="440"></line><line x1="400" y1="300" x2="840" y2="640"></line></g>
+<g transform="translate(96 168)"><rect width="176" height="360" rx="22" fill="#F7F3EE" stroke="#5A3A3E" stroke-width="3"></rect><path d="M0 22a22 22 0 0122-22h132a22 22 0 0122 22v42H0z" fill="#C7372F"></path><rect x="16" y="84" width="144" height="16" rx="5" fill="#E9E3DC"></rect><rect x="16" y="112" width="144" height="74" rx="9" fill="#F5A524"></rect><rect x="16" y="198" width="68" height="62" rx="7" fill="#EADFD2"></rect><rect x="92" y="198" width="68" height="62" rx="7" fill="#EADFD2"></rect><rect x="16" y="272" width="144" height="14" rx="5" fill="#E9E3DC"></rect></g>
+<g transform="translate(300 96)"><rect width="200" height="440" rx="26" fill="#ECE5DD" stroke="#5A3A3E" stroke-width="3"></rect><path d="M0 26a26 26 0 0126-26h148a26 26 0 0126 26v40H0z" fill="#1F7A55"></path><rect x="18" y="88" width="120" height="44" rx="10" fill="#fff"></rect><rect x="62" y="146" width="120" height="58" rx="10" fill="#DCF8C6"></rect><rect x="18" y="218" width="140" height="84" rx="10" fill="#fff"></rect><rect x="30" y="232" width="116" height="40" rx="6" fill="#C7372F"></rect><rect x="62" y="316" width="120" height="40" rx="10" fill="#DCF8C6"></rect><rect x="18" y="394" width="164" height="28" rx="14" fill="#fff"></rect></g>
+<g transform="translate(528 168)"><rect width="176" height="360" rx="22" fill="#F7F3EE" stroke="#5A3A3E" stroke-width="3"></rect><path d="M0 22a22 22 0 0122-22h132a22 22 0 0122 22v42H0z" fill="#C7372F"></path><g fill="#E9E3DC"><rect x="16" y="84" width="30" height="26" rx="5"></rect><rect x="54" y="84" width="30" height="26" rx="5"></rect><rect x="92" y="84" width="30" height="26" rx="5"></rect><rect x="130" y="84" width="30" height="26" rx="5"></rect><rect x="16" y="118" width="30" height="26" rx="5"></rect><rect x="92" y="118" width="30" height="26" rx="5"></rect><rect x="130" y="118" width="30" height="26" rx="5"></rect><rect x="16" y="152" width="30" height="26" rx="5"></rect><rect x="54" y="152" width="30" height="26" rx="5"></rect><rect x="130" y="152" width="30" height="26" rx="5"></rect></g><rect x="54" y="118" width="30" height="26" rx="5" fill="#F5A524"></rect><rect x="92" y="152" width="30" height="26" rx="5" fill="#C7372F"></rect><rect x="16" y="196" width="144" height="56" rx="9" fill="#EADFD2"></rect><rect x="16" y="262" width="144" height="56" rx="9" fill="#EADFD2"></rect></g>
+</symbol></defs></svg>
+<main style="flex: 1; padding: 28px 32px 64px;">
+<div style="max-width: 1220px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;">
+<div style="flex: 999 1 600px; min-width: 0; display: grid; gap: 20px;">
+
+<section class="card sec" aria-labelledby="s-url">
+<h2 id="s-url">Page address</h2><p class="sub">Lowercase letters, numbers and hyphens. Short and readable is best.</p>
+<div class="fld"><label class="lbl" for="f-slug">Address</label>
+<div class="pre" style="border-color: {{slugBorder}};"><span>[your-domain]/work/</span><input id="f-slug" value="{{slug}}" onChange="{{onSlug}}" aria-invalid="{{slugInvalid}}" aria-describedby="f-slug-h" spellcheck="false"></div>
+<div class="hrow" id="f-slug-h" role="status">
+<span style="display: {{slugCheckingD}}; align-items: center; gap: 8px; color: var(--tx3);"><span style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid #D2D0CA; border-top-color: var(--tx2); animation: stSpin2 .8s linear infinite;"></span>Checking…</span>
+<span style="display: {{slugOkD}}; align-items: center; gap: 6px; color: var(--ok); font-weight: 500;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>{{slugOkText}}</span>
+<span class="err" style="display: {{slugErrD}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>{{slugErr}}</span>
+<button onClick="{{useSuggestion}}" style="display: {{suggestD}}; border: 0; background: none; padding: 0; font: 500 13px/1.45 var(--fu); color: var(--tx); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Use {{suggestion}}</button>
+</div></div>
+<div style="display: {{redirD}}; margin-top: 14px; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 10px; background: #F2F1EE;">
+<button class="sw" role="switch" aria-checked="{{redirAria}}" onClick="{{toggleRedir}}"><span class="trk" aria-hidden="true" style="background: {{redirTrk}};"><span class="knb" style="left: {{redirKnb}}px;"></span></span>Redirect the old address here</button>
+<span style="font-size: 13px; line-height: 1.5; color: {{redirNoteColor}};">{{redirNote}}</span>
+</div>
+</section>
+
+<section class="card sec" aria-labelledby="s-seo">
+<h2 id="s-seo">Search and link previews</h2><p class="sub">Leave a field empty to use the title and summary from Overview.</p>
+<div class="fld"><label class="lbl" for="f-st">Search title</label><input id="f-st" class="inp" value="{{seoTitle}}" onChange="{{onSeoTitle}}" placeholder="{{seoTitleDefault}}" aria-describedby="f-st-h"><div class="hrow" id="f-st-h"><span class="hint">{{seoTitleHint}}</span><span class="cnt" style="color: {{stCntColor}};">{{stLen}}/60</span></div></div>
+<div class="fld"><label class="lbl" for="f-sd">Search description</label><textarea id="f-sd" class="inp" value="{{seoDesc}}" onChange="{{onSeoDesc}}" placeholder="{{seoDescDefault}}" aria-describedby="f-sd-h" style="min-height: 76px;"></textarea><div class="hrow" id="f-sd-h"><span class="hint">{{seoDescHint}}</span><span class="cnt" style="color: {{sdCntColor}};">{{sdLen}}/155</span></div></div>
+<div class="fld"><span class="lbl" id="l-og">Link preview image</span>
+<div role="radiogroup" aria-labelledby="l-og" style="margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+<button class="rc" role="radio" aria-checked="{{ogAuto}}" data-v="auto" onClick="{{setOg}}"><span class="rdo"></span><span style="font-size: 14px; font-weight: 600;">Made from the cover</span><span></span><span style="font-size: 13px; color: var(--tx3);">Uses the cover crop you set in Visuals.</span></button>
+<button class="rc" role="radio" aria-checked="{{ogCustom}}" data-v="custom" onClick="{{setOg}}"><span class="rdo"></span><span style="font-size: 14px; font-weight: 600;">Upload a custom image</span><span></span><span style="font-size: 13px; color: var(--tx3);">1200 × 630 px works everywhere.</span></button>
+</div>
+<div style="display: {{ogUploadD}}; margin-top: 10px; align-items: center; justify-content: space-between; gap: 12px; padding: 14px; border: 1.5px dashed var(--ln2); border-radius: 10px; background: var(--sf2); font-size: 14px; color: var(--tx2);">No custom image yet. Until you add one, the cover is used.<button class="btn" style="height: 36px;">Choose image</button></div>
+</div>
+</section>
+
+<section class="card sec" aria-labelledby="s-vis">
+<h2 id="s-vis">Who can find it</h2><p class="sub">Separate from publishing: this decides where a published page shows up.</p>
+<div role="radiogroup" aria-labelledby="s-vis" style="margin-top: 16px; display: grid; gap: 10px;">
+<button class="rc" role="radio" aria-checked="{{visPublic}}" data-v="public" onClick="{{setVis}}"><span class="rdo"></span><span style="font-size: 15px; font-weight: 600;">Public</span><span></span><span style="font-size: 13px; line-height: 1.5; color: var(--tx3);">On your homepage, in search engines and in the sitemap.</span></button>
+<button class="rc" role="radio" aria-checked="{{visUnlisted}}" data-v="unlisted" onClick="{{setVis}}"><span class="rdo"></span><span style="font-size: 15px; font-weight: 600;">Unlisted</span><span></span><span style="font-size: 13px; line-height: 1.5; color: var(--tx3);">Only people with the link can open it. Not on your homepage, not indexed, not in the sitemap. Useful for work under NDA that you share in applications.</span></button>
+</div>
+<button class="sw" role="switch" aria-checked="{{idxAria}}" aria-disabled="{{idxLock}}" onClick="{{toggleIdx}}" style="margin-top: 12px;"><span class="trk" aria-hidden="true" style="background: {{idxTrk}};"><span class="knb" style="left: {{idxKnb}}px;"></span></span>Let search engines index this page</button>
+<div style="font-size: 13px; line-height: 1.5; color: var(--tx3);">{{idxNote}}</div>
+<div style="margin-top: 14px; display: flex; gap: 10px; padding: 12px 14px; border-radius: 10px; background: #F2F1EE; font-size: 13px; line-height: 1.5; color: var(--tx2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--ok);"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 018 0v3"></path></svg><span>Drafts and previews are never public: they’re served only to you or a preview link, always with <code style="font-family: var(--fm); font-size: 12px;">noindex</code>, and never in the sitemap.</span></div>
+</section>
+
+<section class="card sec" aria-labelledby="s-share">
+<h2 id="s-share">Share a private preview</h2><p class="sub">Send your draft to a mentor or reviewer before it goes live. They don’t need an account.</p>
+<div style="display: {{noLinkD}}; margin-top: 14px; align-items: center; gap: 12px;"><button class="btn" onClick="{{makeLink}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"></path></svg>Create preview link</button><span style="font-size: 13px; color: var(--tx3);">Expires after 7 days. You can revoke it any time.</span></div>
+<div style="display: {{linkD}}; margin-top: 14px; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; border: 1px solid var(--ln2); border-radius: 8px;"><span style="flex: 1; min-width: 0; font-family: var(--fm); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">[your-domain]/preview/k7Qe…9xT2</span><button class="btn" onClick="{{copyLink}}" style="height: 34px;">{{copyLabel}}</button></div>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--tx3);"><span>Shows the latest draft · expires in 7 days · not indexed</span><button onClick="{{revokeLink}}" style="margin-left: auto; border: 0; background: none; padding: 0; font: 600 13px/1.4 var(--fu); color: var(--err); cursor: pointer;">Revoke link</button></div>
+</div>
+</section>
+
+<section class="dz sec" aria-labelledby="s-danger">
+<h2 id="s-danger" style="color: var(--err);">Unpublish or delete</h2>
+<div style="margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid #F6DAD6;"><div style="flex: 1 1 320px;"><div style="font-size: 15px; font-weight: 600;">Unpublish</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--tx2);">Takes it off the live site and back to draft. Its address shows your work index instead. You can publish again later.</div></div><button class="dbtn" onClick="{{askUnpub}}">Unpublish…</button></div>
+<div style="display: {{unpubAskD}}; margin-top: 14px; flex-direction: column; gap: 12px; padding: 14px 16px; border-radius: 10px; background: var(--errbg);"><span style="font-size: 14px; line-height: 1.5; color: #7A1A10;"><strong>Unpublish “Puja engagement platform”?</strong> It disappears from your homepage now. Anyone opening its link lands on your work index.</span><span style="display: flex; gap: 8px;"><button class="btn" onClick="{{cancelUnpub}}" style="height: 38px;">Cancel</button><button onClick="{{doUnpub}}" style="height: 38px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--err); color: #fff; font: 600 14px/1 var(--fu); cursor: pointer;">Unpublish</button></span></div>
+<div style="margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px;"><div style="flex: 1 1 320px;"><div style="font-size: 15px; font-weight: 600;">Delete project</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--tx2);">Removes the page and all its drafts. Images and videos stay in your media library.</div></div><button class="dbtn" onClick="{{askDelete}}">Delete…</button></div>
+<div style="display: {{delAskD}}; margin-top: 14px; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 10px; background: var(--errbg);"><label for="f-del" style="font-size: 14px; line-height: 1.5; color: #7A1A10;">This can’t be undone. Type <strong style="font-family: var(--fm);">{{slug}}</strong> to confirm.</label><input id="f-del" class="inp" value="{{delTyped}}" onChange="{{onDelTyped}}" spellcheck="false" autocomplete="off" style="margin: 0; font-family: var(--fm); border-color: #E8A39B;"><span style="display: flex; gap: 8px;"><button class="btn" onClick="{{cancelDelete}}" style="height: 38px;">Cancel</button><button onClick="{{doDelete}}" aria-disabled="{{delLock}}" style="height: 38px; padding: 0 14px; border: 0; border-radius: 8px; background: {{delBg}}; color: {{delFg}}; font: 600 14px/1 var(--fu); cursor: {{delCursor}};">Delete forever</button></span></div>
+</section>
+</div>
+
+<aside style="flex: 1 1 340px; max-width: 400px; display: grid; gap: 16px;" aria-label="Previews">
+<div>
+<div class="mono" style="margin-bottom: 10px;">Search result · preview</div>
+<div class="card" style="padding: 18px;">
+<div style="display: flex; align-items: center; gap: 10px;"><span style="width: 28px; height: 28px; border-radius: 50%; background: #141416; color: #fff; display: grid; place-items: center; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 13px;">A</span><span style="min-width: 0;"><span style="display: block; font-size: 13px;">Akarshan Kumar</span><span style="display: block; font-size: 12px; color: var(--tx3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">[your-domain] › work › {{slugShow}}</span></span></div>
+<div style="margin-top: 10px; font-size: 19px; line-height: 1.3; color: #1A0DAB;">{{snipTitle}}</div>
+<div style="margin-top: 6px; font-size: 14px; line-height: 1.55; color: #4A4A51;">{{snipDesc}}</div>
+<div style="display: {{snipHiddenD}}; margin-top: 12px; padding: 8px 10px; border-radius: 8px; background: var(--warnbg); color: var(--warn); font-size: 13px;">{{snipHiddenText}}</div>
+</div>
+</div>
+<div>
+<div class="mono" style="margin-bottom: 10px;">Link preview · LinkedIn, Slack, messages</div>
+<div class="card" style="overflow: hidden;">
+<div style="position: relative; aspect-ratio: 1.91 / 1; overflow: hidden; background: #1C0C0F;"><svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%;"><use href="#cover"></use></svg><span style="display: {{ogBadgeD}}; position: absolute; left: 12px; top: 12px; padding: 5px 8px; border-radius: 6px; background: rgba(0,0,0,.6); color: #fff; font-size: 12px;">Using the cover until you upload one</span></div>
+<div style="padding: 12px 14px; border-top: 1px solid var(--ln);"><div style="font-size: 12px; color: var(--tx3);">[your-domain]</div><div style="margin-top: 2px; font-size: 15px; font-weight: 600; line-height: 1.35;">{{snipTitle}}</div></div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+
+<sc-if value="{{dialogOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 80; background: rgba(20,20,22,.48); display: flex; justify-content: center; align-items: flex-start; padding-top: 120px;" onClick="{{closePublish}}">
+<div role="dialog" aria-modal="true" aria-labelledby="pub-title" onClick="{{stop}}" style="width: 560px; max-width: calc(100% - 40px); border-radius: 16px; background: #fff; box-shadow: 0 30px 80px rgba(20,20,22,.3); animation: stUp .2s ease-out; overflow: hidden;">
+<div style="padding: 24px 26px 0;">
+<div class="mono">Publish changes</div>
+<h2 id="pub-title" style="margin: 8px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -.01em;">Update the live page for “Puja engagement platform”?</h2>
+<p style="margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--tx2);">The live version is replaced. The page updates within a minute; its link stays the same.</p>
+</div>
+<div style="margin: 20px 26px 0; border: 1px solid var(--ln); border-radius: 12px; overflow: hidden;">
+<div style="padding: 12px 16px; background: var(--sf2); font-size: 13px; font-weight: 600;">What’s changing</div>
+<div style="padding: 10px 16px 12px; font-size: 14px; line-height: 1.7; color: var(--tx2);"><sc-for list="{{changes}}" as="c" hint-placeholder-count="2"><div>{{c.text}}</div></sc-for></div>
+</div>
+<div style="margin: 14px 26px 0; display: grid; gap: 8px; font-size: 14px; line-height: 1.5;">
+<div style="display: {{blockD}}; gap: 10px; padding: 12px 14px; border-radius: 10px; background: var(--errbg); color: var(--err);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6M9 9l6 6"></path></svg><span><strong>{{blockText}}</strong> Fix this to publish.</span></div>
+<sc-for list="{{checks}}" as="k" hint-placeholder-count="2"><div style="display: flex; gap: 10px; color: {{k.color}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{k.okD}};"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{k.warnD}};"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg><span style="color: var(--tx2);">{{k.text}}</span></div></sc-for>
+</div>
+<div style="margin-top: 22px; padding: 16px 26px; border-top: 1px solid var(--ln); display: flex; align-items: center; justify-content: flex-end; gap: 10px; background: var(--sf2);">
+<a href="StudioPreview.dc.html" style="margin-right: auto; font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px;">Preview first</a>
+<button class="btn" data-pub-cancel onClick="{{closePublish}}">Cancel</button>
+<button class="cta" onClick="{{confirmPublish}}" aria-disabled="{{confirmAria}}" aria-busy="{{publishingAria}}"><span style="display: {{pubSpinD}}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: stSpin .8s linear infinite;"></span>{{confirmLabel}}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<div style="display: {{toastD}}; position: absolute; left: 50%; bottom: 28px; z-index: 90; transform: translateX(-50%); align-items: center; gap: 14px; padding: 12px 12px 12px 18px; border-radius: 12px; background: #141416; color: #F2F1EE; font-size: 14px; box-shadow: 0 16px 40px rgba(20,20,22,.28); animation: stUp .22s ease-out;">
+<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #6FD3A0;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span>{{toastMsg}}</span><button onClick="{{toastUndo}}" style="display: {{toastUndoD}}; height: 34px; padding: 0 12px; border: 0; border-radius: 8px; background: #2A2A31; color: #fff; font: 600 13px/1 var(--fu); cursor: pointer;">Undo</button><a href="CaseStudy.dc.html" style="display: {{toastLinkD}}; height: 34px; align-items: center; padding: 0 12px; border-radius: 8px; background: #2A2A31; color: #fff; font-weight: 600; font-size: 13px;">View live page ↗</a>
+<button onClick="{{closeToast}}" aria-label="Dismiss" style="width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: #B9B7B1; cursor: pointer;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div class="sr" aria-live="polite">{{announce}}</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","address changed","address taken","invalid address","unlisted","preview link","delete confirm","saving","offline","publish dialog","published"],"default":"default"},"$preview":{"width":1440,"height":2100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+
+    this.taken = { 'arcana-workspace': 'Arcana Workspace', 'glp-1-digital-scaffold': 'GLP-1 digital scaffold', 'word-games-monetisation': 'Word games monetisation', 'revenue-growth-strategy': 'Revenue growth strategy' };
+    this.orig = 'puja-engagement-platform';
+    this.title = 'Puja engagement platform';
+    this.summary = 'WhatsApp-native booking, recommendations and a spiritual calendar to lift repeat puja orders.';
+    this.staticChanges = ['Story · Prioritisation table, edited 12 min ago'];
+    ['retrySave', 'openPublish', 'closePublish', 'confirmPublish', 'closeToast', 'toastUndo', 'onRootKey', 'stop', 'onSlug', 'useSuggestion', 'toggleRedir', 'onSeoTitle', 'onSeoDesc', 'setOg', 'setVis', 'toggleIdx', 'makeLink', 'copyLink', 'revokeLink', 'askUnpub', 'cancelUnpub', 'doUnpub', 'askDelete', 'cancelDelete', 'onDelTyped', 'doDelete'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.state = Object.assign(this.fresh(), this.preset(props.state));
+  }
+
+  fresh() {
+    return Object.assign({ save: 'saved', savedAt: 'All changes saved', live: true, dialog: null, toast: null, showErrors: false, announce: '' }, this.boardFresh());
+  }
+  preset(n) {
+    switch (n) {
+      case 'saving': return { save: 'saving' };
+      case 'offline': return { save: 'offline' };
+      case 'save failed': return { save: 'failed' };
+      case 'publish dialog': return { dialog: 'open' };
+      case 'publishing': return { dialog: 'publishing' };
+      case 'published': return { live: false, toast: { msg: 'Published. The live page updates within a minute.', link: true } };
+      default: return this.boardPreset(n);
+    }
+  }
+  componentDidUpdate(prev) {
+    if (prev.state === this.props.state) return;
+    this.clearTimers();
+    this.setState(Object.assign(this.fresh(), this.preset(this.props.state)));
+    if (this.boardAfterPreset) setTimeout(() => this.boardAfterPreset(), 0);
+  }
+  componentWillUnmount() { clearTimeout(this.st); clearTimeout(this.pt); clearTimeout(this.tt); this.clearTimers(); }
+  clearTimers() { if (this.boardTimers) this.boardTimers(); }
+  autosave() {
+    if (this.state.save === 'offline') return;
+    clearTimeout(this.st);
+    this.setState({ save: 'saving', live: true, touched: true });
+    this.st = setTimeout(() => this.setState({ save: 'saved', savedAt: 'Saved just now' }), 800);
+  }
+  retrySave() {
+    clearTimeout(this.st);
+    this.setState({ save: 'saving' });
+    this.st = setTimeout(() => this.setState({ save: 'saved', savedAt: 'Saved just now', announce: 'Saved.' }), 900);
+  }
+  openPublish(e) {
+    const s = this.state;
+    if (s.save === 'offline') { this.setState({ toast: { msg: 'You’re offline. Publish once you’re back online.' } }); this.armToast(); return; }
+    if (!s.live) return;
+    const root = e.currentTarget.closest('.st');
+    this.setState({ dialog: 'open', showErrors: true });
+    requestAnimationFrame(() => { const b = root && root.querySelector('[data-pub-cancel]'); if (b) b.focus(); });
+  }
+  closePublish() { if (this.state.dialog !== 'publishing') this.setState({ dialog: null }); }
+  stop(e) { e.stopPropagation(); }
+  confirmPublish() {
+    if (this.boardIssues().length || this.state.dialog === 'publishing') return;
+    this.setState({ dialog: 'publishing' });
+    this.pt = setTimeout(() => {
+      this.setState({ dialog: null, live: false, toast: { msg: 'Published. The live page updates within a minute.', link: true }, announce: 'Published.' });
+      this.armToast();
+    }, 1200);
+  }
+  armToast() { clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: null }), 8000); }
+  toastNow(msg) { this.setState({ toast: { msg }, announce: msg }); this.armToast(); }
+  closeToast() { clearTimeout(this.tt); this.setState({ toast: null }); }
+  toastUndo() { const u = this.state.toast && this.state.toast.undo; if (u && this.boardUndo) this.boardUndo(u); }
+  onRootKey(e) {
+    if (e.key !== 'Escape') return;
+    if (this.state.dialog === 'open') this.setState({ dialog: null });
+    else if (this.boardEscape) this.boardEscape();
+  }
+  shellVals() {
+    const s = this.state, iss = this.boardIssues(), publishing = s.dialog === 'publishing';
+    const saveMap = { saved: [s.savedAt, '#4A4A51'], saving: ['Saving…', '#4A4A51'], offline: ['Offline · saved on this device', '#8A5A00'], failed: ['Couldn’t save', '#B42318'] };
+    const own = this.boardChanges();
+    const changes = own.concat(this.staticChanges || []).map((t) => ({ text: t }));
+    const checks = this.boardChecks().map((c) => ({ text: c.text, color: c.ok ? '#0F7A4A' : '#8A5A00', okD: c.ok ? 'inline' : 'none', warnD: c.ok ? 'none' : 'inline' }));
+    return {
+      titleShow: 'Puja engagement platform',
+      chgD: s.live ? 'inline-flex' : 'none', tabDotD: s.live && own.length ? 'inline-block' : 'none',
+      saveText: saveMap[s.save][0], saveColor: saveMap[s.save][1],
+      saveSpinD: s.save === 'saving' ? 'inline-block' : 'none', saveOkD: s.save === 'saved' ? 'inline' : 'none', saveOffD: s.save === 'offline' ? 'inline' : 'none', saveErrD: s.save === 'failed' ? 'inline' : 'none',
+      retrySave: this.retrySave, offBannerD: s.save === 'offline' ? 'flex' : 'none', errBannerD: s.save === 'failed' ? 'flex' : 'none',
+      pubLabel: s.live ? 'Publish changes' : 'Published', pubDoneIcoD: s.live ? 'none' : 'inline',
+      pubAria: !s.live || s.save === 'offline' ? 'true' : 'false',
+      pubTitle: s.save === 'offline' ? 'Reconnect to publish' : (s.live ? 'Review and publish your edits' : 'Everything is live'),
+      openPublish: this.openPublish, closePublish: this.closePublish, confirmPublish: this.confirmPublish, stop: this.stop, onRootKey: this.onRootKey,
+      dialogOpen: !!s.dialog, changes, checks,
+      blockD: iss.length ? 'flex' : 'none', blockText: iss.join(' '),
+      confirmAria: iss.length ? 'true' : 'false', publishingAria: publishing ? 'true' : 'false',
+      pubSpinD: publishing ? 'inline-block' : 'none', confirmLabel: publishing ? 'Publishing…' : (iss.length ? 'Fix ' + iss.length + ' to publish' : 'Publish now'),
+      toastD: s.toast ? 'flex' : 'none', toastMsg: s.toast ? s.toast.msg : '', toastLinkD: s.toast && s.toast.link ? 'inline-flex' : 'none', closeToast: this.closeToast,
+      toastUndoD: s.toast && s.toast.undo ? 'inline-flex' : 'none', toastUndo: this.toastUndo,
+      announce: s.announce
+    };
+  }
+
+  boardFresh() {
+    return { slug: this.orig, checking: false, redirect: true, seoTitle: '', seoDesc: '', og: 'auto', vis: 'public', index: true, link: false, copied: false, unpubAsk: false, delAsk: false, delTyped: '', touched: false };
+  }
+  boardPreset(n) {
+    switch (n) {
+      case 'address taken': return { slug: 'arcana-workspace', touched: true };
+      case 'address changed': return { slug: 'sri-mandir-puja-engagement', touched: true };
+      case 'invalid address': return { slug: 'Puja Engagement!', touched: true };
+      case 'unlisted': return { vis: 'unlisted', touched: true };
+      case 'preview link': return { link: true };
+      case 'delete confirm': return { delAsk: true };
+      default: return {};
+    }
+  }
+  boardTimers() { clearTimeout(this.ct); clearTimeout(this.cp); }
+  boardEscape() { if (this.state.delAsk || this.state.unpubAsk) this.setState({ delAsk: false, unpubAsk: false, delTyped: '' }); }
+  clean(v) { return v.toLowerCase().trim().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  slugProblem(v) {
+    if (!v) return 'Add an address.';
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(v)) return 'Use only lowercase letters, numbers and single hyphens.';
+    if (this.taken[v]) return 'Already used by “' + this.taken[v] + '”.';
+    return '';
+  }
+  onSlug(e) {
+    clearTimeout(this.ct);
+    this.setState({ slug: e.target.value, checking: true });
+    this.ct = setTimeout(() => this.setState({ checking: false }), 600);
+    this.autosave();
+  }
+  useSuggestion() { this.setState({ slug: this.suggest(), checking: false }); this.autosave(); }
+  suggest() {
+    const c = this.clean(this.state.slug) || this.orig;
+    if (!this.taken[c]) return c;
+    let i = 2; while (this.taken[c + '-' + i]) i += 1;
+    return c + '-' + i;
+  }
+  toggleRedir() { this.setState({ redirect: !this.state.redirect }); this.autosave(); }
+  onSeoTitle(e) { this.setState({ seoTitle: e.target.value }); this.autosave(); }
+  onSeoDesc(e) { this.setState({ seoDesc: e.target.value }); this.autosave(); }
+  setOg(e) { this.setState({ og: e.currentTarget.getAttribute('data-v') }); this.autosave(); }
+  setVis(e) { const v = e.currentTarget.getAttribute('data-v'); this.setState({ vis: v, announce: v === 'unlisted' ? 'Unlisted. Hidden from the homepage and search engines.' : 'Public.' }); this.autosave(); }
+  toggleIdx() { if (this.state.vis === 'unlisted') return; this.setState({ index: !this.state.index }); this.autosave(); }
+  makeLink() { this.setState({ link: true, announce: 'Preview link created. It expires in 7 days.' }); }
+  copyLink() { clearTimeout(this.cp); this.setState({ copied: true, announce: 'Link copied.' }); this.cp = setTimeout(() => this.setState({ copied: false }), 1800); }
+  revokeLink() { this.setState({ link: false }); this.toastNow('Preview link revoked. It stops working now.'); }
+  askUnpub() { this.setState({ unpubAsk: true, delAsk: false }); }
+  cancelUnpub() { this.setState({ unpubAsk: false }); }
+  doUnpub() { this.setState({ unpubAsk: false }); this.toastNow('Unpublished. It’s a draft again, and its address shows your work index.'); }
+  askDelete() { this.setState({ delAsk: true, unpubAsk: false, delTyped: '' }); }
+  cancelDelete() { this.setState({ delAsk: false, delTyped: '' }); }
+  onDelTyped(e) { this.setState({ delTyped: e.target.value }); }
+  doDelete() { if (this.state.delTyped.trim() !== this.state.slug) return; this.setState({ delAsk: false, delTyped: '' }); this.toastNow('In Studio this deletes the project and returns you to Projects.'); }
+  boardIssues() { const p = this.slugProblem(this.state.slug); return p && !this.state.checking ? ['Page address: ' + p] : []; }
+  boardChanges() { return this.state.touched ? ['URL & SEO · address, search text and visibility'] : []; }
+  boardChecks() {
+    const s = this.state, out = [{ ok: true, text: 'Drafts and previews stay out of search engines.' }];
+    if (s.slug !== this.orig && !this.slugProblem(s.slug)) out.push(s.redirect ? { ok: true, text: 'The old address redirects to the new one.' } : { ok: false, text: 'Links already shared to /work/' + this.orig + ' will break.' });
+    if (s.vis === 'unlisted') out.push({ ok: false, text: 'Unlisted: it leaves your homepage and search results when you publish.' });
+    return out;
+  }
+  boardVals() {
+    const s = this.state, prob = s.checking ? '' : this.slugProblem(s.slug), changed = s.slug !== this.orig;
+    const title = s.seoTitle.trim() || this.title + ' · Akarshan Kumar', desc = s.seoDesc.trim() || this.summary;
+    const unl = s.vis === 'unlisted', idx = !unl && s.index;
+    const sw = (on) => [on ? '#141416' : '#D2D0CA', on ? 18 : 2];
+    const r = sw(s.redirect), ix = sw(idx);
+    const sugg = prob && prob.indexOf('Already') === 0 ? this.suggest() : (prob && this.clean(s.slug) && this.clean(s.slug) !== s.slug ? this.clean(s.slug) : '');
+    const delOk = s.delTyped.trim() === s.slug;
+    return {
+      slug: s.slug, onSlug: this.onSlug, slugShow: s.slug || '…',
+      slugBorder: prob ? '#B42318' : '', slugInvalid: prob ? 'true' : 'false',
+      slugCheckingD: s.checking ? 'inline-flex' : 'none', slugOkD: !s.checking && !prob ? 'inline-flex' : 'none',
+      slugOkText: changed ? 'Available' : 'This is the current address', slugErrD: prob ? 'flex' : 'none', slugErr: prob,
+      suggestD: sugg ? 'inline' : 'none', suggestion: sugg, useSuggestion: this.useSuggestion,
+      redirD: changed && !prob && !s.checking ? 'flex' : 'none', redirAria: s.redirect ? 'true' : 'false', redirTrk: r[0], redirKnb: r[1], toggleRedir: this.toggleRedir,
+      redirNote: s.redirect ? '/work/' + this.orig + ' will send visitors and search engines here, so shared links keep working.' : 'Links already shared to /work/' + this.orig + ' will show “not found”.',
+      redirNoteColor: s.redirect ? '#4A4A51' : '#8A5A00',
+      seoTitle: s.seoTitle, onSeoTitle: this.onSeoTitle, seoTitleDefault: this.title + ' · Akarshan Kumar', stLen: (s.seoTitle || this.title + ' · Akarshan Kumar').length,
+      stCntColor: title.length > 60 ? '#8A5A00' : '#6A6A72', seoTitleHint: title.length > 60 ? 'Search engines may cut this off after about 60 characters.' : (s.seoTitle ? 'Custom title.' : 'Using the project title and your name.'),
+      seoDesc: s.seoDesc, onSeoDesc: this.onSeoDesc, seoDescDefault: this.summary, sdLen: desc.length,
+      sdCntColor: desc.length > 155 ? '#8A5A00' : '#6A6A72', seoDescHint: desc.length > 155 ? 'Likely to be cut off in results.' : (s.seoDesc ? 'Custom description.' : 'Using the one-line summary.'),
+      ogAuto: s.og === 'auto' ? 'true' : 'false', ogCustom: s.og === 'custom' ? 'true' : 'false', setOg: this.setOg, ogUploadD: s.og === 'custom' ? 'flex' : 'none', ogBadgeD: s.og === 'custom' ? 'inline' : 'none',
+      visPublic: unl ? 'false' : 'true', visUnlisted: unl ? 'true' : 'false', setVis: this.setVis,
+      idxAria: idx ? 'true' : 'false', idxLock: unl ? 'true' : 'false', idxTrk: unl ? '#E4E3DF' : ix[0], idxKnb: ix[1], toggleIdx: this.toggleIdx,
+      idxNote: unl ? 'Off: unlisted pages are always noindex.' : (idx ? 'Search engines can show this page.' : 'Hidden from search results, but still on your homepage.'),
+      snipTitle: title, snipDesc: desc.length > 158 ? desc.slice(0, 155) + '…' : desc,
+      snipHiddenD: idx ? 'none' : 'block', snipHiddenText: unl ? 'Unlisted: this result won’t appear in search engines.' : 'Indexing is off: this result won’t appear in search engines.',
+      noLinkD: s.link ? 'none' : 'flex', linkD: s.link ? 'flex' : 'none', makeLink: this.makeLink, copyLink: this.copyLink, copyLabel: s.copied ? 'Copied' : 'Copy link', revokeLink: this.revokeLink,
+      unpubAskD: s.unpubAsk ? 'flex' : 'none', askUnpub: this.askUnpub, cancelUnpub: this.cancelUnpub, doUnpub: this.doUnpub,
+      delAskD: s.delAsk ? 'flex' : 'none', askDelete: this.askDelete, cancelDelete: this.cancelDelete, delTyped: s.delTyped, onDelTyped: this.onDelTyped, doDelete: this.doDelete,
+      delLock: delOk ? 'false' : 'true', delBg: delOk ? '#B42318' : '#E4E3DF', delFg: delOk ? '#fff' : '#6A6A72', delCursor: delOk ? 'pointer' : 'not-allowed'
+    };
+  }
+  renderVals() { return Object.assign(this.shellVals(), this.boardVals()); }
+}
+</script>
+</body>
+</html>

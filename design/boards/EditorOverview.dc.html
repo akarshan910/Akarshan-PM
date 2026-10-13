@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — editor, overview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .rail{width:72px;flex:none;background:#FBFBFA;border-right:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 0}
+.st .rl{width:48px;height:48px;display:grid;place-items:center;border-radius:10px;color:var(--tx3)}
+.st .rl:hover{background:#EFEEEA;color:var(--tx)}
+.st .rl.on{background:#EAE9E4;color:var(--tx)}
+.st .tb{height:68px;display:flex;align-items:center;gap:14px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tabs{display:flex;gap:4px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tab{position:relative;display:flex;align-items:center;gap:8px;height:48px;padding:0 14px;font-size:14px;font-weight:500;color:var(--tx2)}
+.st .tab:hover{color:var(--tx)}
+.st .tab[aria-current="page"]{color:var(--tx)}
+.st .tab[aria-current="page"]::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;background:var(--tx)}
+.st .dot{width:7px;height:7px;border-radius:50%;background:#F5A524}
+.st .card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.st .cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border:0;background:var(--ac);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.st .cta:hover{background:#E42A3F}
+.st .cta[aria-disabled="true"]{background:#D2D0CA;color:#4A4A51;cursor:not-allowed}
+.st .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:500 14px/1 var(--fu);cursor:pointer}
+.st .btn:hover{border-color:#B9B7B1}
+.st .ib{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--tx2);cursor:pointer}
+.st .ib:hover{background:#EFEEEA;color:var(--tx)}
+.st .chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap}
+.st .mono{font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .sec{padding:24px}
+.st .sec h2{margin:0;font-size:17px;font-weight:600}
+.st .sec .sub{margin:4px 0 0;font-size:14px;color:var(--tx3)}
+.st .fld{margin-top:20px}
+.st .lbl{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.st .req{font-size:12px;font-weight:500;color:var(--tx3)}
+.st .inp{display:block;width:100%;height:44px;margin-top:8px;padding:0 12px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:400 15px/1.4 var(--fu)}
+.st textarea.inp{height:auto;min-height:88px;padding:10px 12px;resize:vertical}
+.st .inp::placeholder{color:#8F8D87}
+.st .inp:focus{outline:none;border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .hrow{display:flex;align-items:flex-start;gap:12px;margin-top:6px;font-size:13px;line-height:1.45}
+.st .hint{color:var(--tx3)}
+.st .err{display:flex;gap:6px;color:var(--err);font-weight:500}
+.st .cnt{margin-left:auto;font-family:var(--fm);font-size:12px;white-space:nowrap}
+.st .seg{display:inline-flex;margin-top:8px;padding:3px;border-radius:10px;background:#EAE9E4}
+.st .seg button{height:36px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--tx2);font:500 14px/1 var(--fu);cursor:pointer}
+.st .seg button[aria-pressed="true"]{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(20,20,22,.12)}
+.st .tg{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 6px 0 10px;border-radius:8px;background:#EFEEEA;font-size:13px;font-weight:500}
+.st .tg button{width:22px;height:22px;display:grid;place-items:center;border:0;border-radius:5px;background:transparent;color:var(--tx3);cursor:pointer}
+.st .tg button:hover{background:#E2E1DC;color:var(--tx)}
+.st .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.st a:focus-visible,.st button:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+.st .pv{--pbg:#0B0B0E;--pbg2:#111116;--pln:#26262E;--ptx:#F2F1EE;--ptx2:#B9B7B1;--ptx3:#8F8D87}
+.st .tag-t{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;border:1px solid rgba(242,241,238,.3);color:#B9B7B1;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+@keyframes stPulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.st *{animation-duration:.01ms !important}}
+</style>
+</helmet>
+<div class="st" style="position: relative; min-height: 1560px; display: flex; background: var(--bg); color: var(--tx); font-family: var(--fu);" onKeyDown="{{onRootKey}}">
+
+<nav class="rail" aria-label="Studio"><a href="StudioDashboard.dc.html" aria-label="Studio dashboard" style="margin-bottom: 14px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 26px; line-height: 1;">S<span style="color: var(--ac);">.</span></a><a class="rl" href="StudioDashboard.dc.html" aria-label="Dashboard" title="Dashboard"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg></a><a class="rl" href="StudioSite.dc.html" aria-label="Website" title="Website"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg></a><a class="rl on" href="StudioProjects.dc.html" aria-label="Projects" title="Projects" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16"></path></svg></a><a class="rl" href="StudioWriting.dc.html" aria-label="Writing" title="Writing"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg></a><a class="rl" href="StudioMedia.dc.html" aria-label="Media" title="Media"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg></a><a class="rl" href="Home.dc.html" aria-label="View live site" title="View live site" style="margin-top: auto;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg></a></nav>
+
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+<header class="tb">
+<a class="ib" href="StudioProjects.dc.html" aria-label="Back to projects"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<div style="min-width: 0;"><div class="mono" style="font-size: 11px;">Projects · Strategy &amp; prototypes · 05</div><div style="margin-top: 3px; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 420px;">{{titleShow}}</div></div>
+<span class="chip" style="background: var(--okbg); color: var(--ok);"><span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>Published</span>
+<span class="chip" style="display: {{chgD}}; background: var(--warnbg); color: var(--warn);">Edits not live</span>
+<span role="status" style="display: inline-flex; align-items: center; gap: 7px; margin-left: 6px; font-size: 13px; color: {{saveColor}};"><span style="display: {{saveSpinD}}; width: 13px; height: 13px; border-radius: 50%; border: 2px solid #D2D0CA; border-top-color: var(--tx2); animation: stSpin .8s linear infinite;"></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveOkD}}; width: 16px; height: 16px;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveOffD}}; width: 16px; height: 16px;"><path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveErrD}}; width: 16px; height: 16px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>{{saveText}}<button onClick="{{retrySave}}" style="display: {{saveErrD}}; border: 0; background: none; padding: 0; font: 600 13px/1 var(--fu); color: var(--err); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Retry</button></span>
+<span style="flex: 1;"></span>
+<a class="btn" href="StudioPreview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Preview</a>
+<button class="cta" onClick="{{openPublish}}" aria-disabled="{{pubAria}}" title="{{pubTitle}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; display: {{pubDoneIcoD}};"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>{{pubLabel}}</button>
+<button class="ib" aria-label="More actions"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button>
+</header>
+<nav class="tabs" aria-label="Project sections">
+<a class="tab" href="EditorOverview.dc.html" aria-current="page">Overview<span class="dot" style="display: {{tabDotD}};"></span><span class="sr" style="display: {{tabDotD}};">, has unpublished edits</span></a>
+<a class="tab" href="EditorVisuals.dc.html">Visuals</a>
+<a class="tab" href="EditorCaseStudy.dc.html">Story<span class="dot"></span><span class="sr">, has unpublished edits</span></a>
+<a class="tab" href="EditorOutcomes.dc.html">Outcomes</a>
+<a class="tab" href="EditorSettings.dc.html">URL &amp; SEO</a>
+</nav>
+
+<div style="display: {{offBannerD}}; align-items: center; gap: 12px; padding: 12px 24px; background: var(--warnbg); color: var(--warn); font-size: 14px; border-bottom: 1px solid #F1DFB0;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6"></path></svg><span><strong>You’re offline.</strong> Keep editing. Changes are kept on this device and sync when you reconnect. Publishing is paused.</span></div>
+<div style="display: {{errBannerD}}; align-items: center; gap: 12px; padding: 12px 24px; background: var(--errbg); color: var(--err); font-size: 14px; border-bottom: 1px solid #F5C9C4;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg><span style="flex: 1;"><strong>Your last change didn’t save.</strong> Studio will keep retrying. Keep this tab open until it says Saved.</span><button class="btn" onClick="{{retrySave}}" style="height: 34px; border-color: #F0B4AD;">Retry now</button></div>
+
+<main style="flex: 1; padding: 28px 32px 64px;">
+<div style="max-width: 1220px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;">
+<div style="flex: 999 1 560px; min-width: 0; display: grid; gap: 20px;">
+
+<section class="card sec" aria-labelledby="s-basics">
+<h2 id="s-basics">Basics</h2><p class="sub">What visitors see first: on the homepage card, at the top of the page and in search results.</p>
+<div class="fld">
+<label class="lbl" for="f-title">Title <span class="req">Required</span></label>
+<input id="f-title" class="inp" data-k="title" value="{{title}}" onChange="{{onField}}" aria-invalid="{{titleInvalid}}" aria-describedby="f-title-h" style="border-color: {{titleBorder}};">
+<div class="hrow" id="f-title-h"><span class="hint" style="display: {{titleHintD}};">Sentence case reads best. Keep it under 60 characters.</span><span class="err" style="display: {{titleErrD}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>Add a title. It’s used on the card, the page and in search.</span><span class="cnt" style="color: {{titleCntColor}};">{{titleLen}}/60</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="fld"><label class="lbl" for="f-co">Company or client <span class="req">Required</span></label><input id="f-co" class="inp" data-k="co" value="{{co}}" onChange="{{onField}}"></div>
+<div class="fld"><label class="lbl" for="f-eye">Card label</label><input id="f-eye" class="inp" data-k="eye" value="{{eye}}" onChange="{{onField}}" aria-describedby="f-eye-h"><div class="hrow" id="f-eye-h"><span class="hint">Shown after the company, in small caps.</span></div></div>
+</div>
+<div class="fld">
+<label class="lbl" for="f-sum">One-line summary <span class="req">Required</span></label>
+<textarea id="f-sum" class="inp" data-k="sum" onChange="{{onField}}" aria-invalid="{{sumInvalid}}" aria-describedby="f-sum-h" style="border-color: {{sumBorder}};" value="{{sum}}"></textarea>
+<div class="hrow" id="f-sum-h"><span class="hint" style="display: {{sumHintD}};">The card’s summary and the default search description. Say what you built and why.</span><span class="err" style="display: {{sumErrD}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>{{sumErr}}</span><span class="cnt" style="color: {{sumCntColor}};">{{sumLen}}/140</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="fld"><span class="lbl" id="l-shelf">Homepage shelf</span><div class="seg" role="group" aria-labelledby="l-shelf"><button aria-pressed="{{shelfA}}" data-v="a" onClick="{{setShelf}}">Shipped</button><button aria-pressed="{{shelfB}}" data-v="b" onClick="{{setShelf}}">Strategy &amp; prototypes</button></div></div>
+<div class="fld"><span class="lbl" id="l-type">Kind of work</span><div class="seg" role="group" aria-labelledby="l-type"><button aria-pressed="{{kindShip}}" data-v="ship" onClick="{{setKind}}">Shipped</button><button aria-pressed="{{kindStudy}}" data-v="study" onClick="{{setKind}}">Strategy study</button><button aria-pressed="{{kindProto}}" data-v="proto" onClick="{{setKind}}">Prototype</button></div></div>
+</div>
+<div class="fld">
+<span class="lbl" id="l-topics">Topics</span>
+<div role="group" aria-labelledby="l-topics" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+<sc-for list="{{topics}}" as="t" hint-placeholder-count="5"><span class="tg">{{t.name}}<button data-name="{{t.name}}" onClick="{{t.remove}}" aria-label="Remove {{t.name}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span></sc-for>
+<input class="inp" aria-label="Add a topic" placeholder="Add a topic and press Enter" value="{{topicDraft}}" onChange="{{onTopic}}" onKeyDown="{{topicKey}}" style="width: 220px; height: 32px; margin: 0; font-size: 13px;">
+</div>
+</div>
+</section>
+
+<section class="card sec" aria-labelledby="s-ctx">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;"><div><h2 id="s-ctx">Your part in it</h2><p class="sub">Recruiters look for this first. Each empty field hides its line on the live page; nothing shows as blank.</p></div><span class="chip" style="display: {{ctxChipD}}; background: var(--warnbg); color: var(--warn);">{{ctxMissing}}</span></div>
+<div class="fld">
+<label class="lbl" for="f-role">My role <span class="req">Recommended</span></label>
+<textarea id="f-role" class="inp" data-k="role" onChange="{{onField}}" placeholder="What you owned, in one or two sentences" value="{{role}}" aria-describedby="f-role-h" style="min-height: 72px;"></textarea>
+<div class="hrow" id="f-role-h"><span class="hint" style="display: {{roleHintOkD}};">Shown under the title and in “My role and decisions”.</span><span style="display: {{roleWarnD}}; gap: 6px; color: var(--warn); font-weight: 500;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg>Empty, so the “My role and decisions” chapter is hidden.</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="fld"><label class="lbl" for="f-time">Timeline</label><input id="f-time" class="inp" data-k="time" value="{{time}}" onChange="{{onField}}" placeholder="e.g. 3 weeks"></div>
+<div class="fld"><label class="lbl" for="f-team">Team</label><input id="f-team" class="inp" data-k="team" value="{{team}}" onChange="{{onField}}" placeholder="e.g. Solo, or PM with 2 engineers"></div>
+</div>
+</section>
+
+<section class="card sec" aria-labelledby="s-links">
+<h2 id="s-links">Links</h2><p class="sub">Optional. Each one becomes a button on the page. Use view-only links.</p>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="fld"><label class="lbl" for="f-prd">PRD or document</label><input id="f-prd" class="inp" data-k="prd" value="{{prd}}" onChange="{{onField}}" placeholder="https://docs.google.com/…" aria-describedby="f-prd-h" style="border-color: {{prdBorder}};"><div class="hrow" id="f-prd-h"><span class="hint" style="display: {{prdHintD}};">Shown as “Read the PRD”.</span><span class="err" style="display: {{prdErrD}};">Use a full link that starts with https://</span></div></div>
+<div class="fld"><span class="lbl">Interactive prototype</span><a href="EditorVisuals.dc.html" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border: 1px solid var(--ln); border-radius: 8px; background: var(--sf2);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--ok);"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span style="flex: 1; min-width: 0; font-family: var(--fm); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">[your-prototypes].vercel.app/sri-mandir</span><span style="font-size: 13px; color: var(--tx2);">Manage in Visuals →</span></a></div>
+</div>
+</section>
+</div>
+
+<aside style="flex: 1 1 340px; max-width: 400px; position: sticky; top: 24px; display: grid; gap: 14px;" aria-label="Live card preview">
+<div style="display: flex; align-items: center; justify-content: space-between;"><span class="mono">Homepage card · live preview</span><span style="font-size: 12px; color: var(--tx3);">Updates as you type</span></div>
+<div class="pv" style="padding: 14px; border-radius: 20px; background: var(--pbg);">
+<div style="display: flex; flex-direction: column; gap: 18px; padding: 12px 12px 20px; border: 1px solid var(--pln); border-radius: 18px; background: var(--pbg2); color: var(--ptx);">
+<div style="position: relative; aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden; background: #1C0C0F;">
+<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: #E8273A; stroke-width: .7; opacity: .3;"><line x1="420" y1="250" x2="-20" y2="0"></line><line x1="420" y1="250" x2="-20" y2="120"></line><line x1="420" y1="250" x2="-20" y2="250"></line><line x1="420" y1="250" x2="-20" y2="380"></line><line x1="420" y1="250" x2="-20" y2="510"></line><line x1="420" y1="250" x2="820" y2="0"></line><line x1="420" y1="250" x2="820" y2="250"></line><line x1="420" y1="250" x2="820" y2="510"></line></svg>
+<div style="position: absolute; left: 50%; top: 14%; width: 30%; height: 100%; transform: translateX(-50%); border-radius: 18px 18px 0 0; border: 2px solid rgba(255,255,255,.18); border-bottom: none; background: #F7F3EE; overflow: hidden;"><div style="height: 22%; background: #C7372F;"></div><div style="margin: 9% 8% 0; height: 7%; border-radius: 4px; background: #E9E3DC;"></div><div style="margin: 7% 8% 0; height: 13%; border-radius: 6px; background: #25B864;"></div></div>
+<span style="position: absolute; left: 12px; top: 12px; padding: 5px 8px; border-radius: 5px; background: #E8273A; color: #fff; font-family: var(--fm); font-size: 11px; font-weight: 600; letter-spacing: .08em;">VOL.05</span>
+<span style="position: absolute; right: 12px; top: 12px; display: inline-flex; align-items: center; gap: 5px; padding: 5px 8px; border-radius: 5px; background: rgba(0,0,0,.5); color: #FFECEE; font-size: 12px; font-weight: 500;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 12px; height: 12px; fill: currentColor;"><path d="M8 5v14l11-7z"></path></svg>Interactive prototype</span>
+</div>
+<div style="padding: 0 6px; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-family: var(--fm); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ptx3);">{{eyeShow}}</div>
+<div style="font-family: var(--fd); font-stretch: 75%; font-weight: 700; font-size: 26px; line-height: 1.05; color: {{pvTitleColor}};">{{titleShow}}</div>
+<p style="margin: 0; font-size: 14px; line-height: 1.55; color: {{pvSumColor}};">{{sumShow}}</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 2px;"><span style="font-family: var(--fd); font-stretch: 70%; font-weight: 800; font-size: 24px; line-height: 1;">+30%</span><span style="font-size: 13px; color: var(--ptx2);">monthly orders per user</span><span class="tag-t">TARGET</span></div>
+</div>
+</div>
+</div>
+<div class="card" style="padding: 14px 16px; font-size: 13px; line-height: 1.5; color: var(--tx2);">
+<div style="font-weight: 600; color: var(--tx);">Where this appears</div>
+<div style="margin-top: 6px;">Homepage, Strategy &amp; prototypes shelf, position 05 · the page header · search and link previews (until you set them in URL &amp; SEO).</div>
+<a href="EditorOutcomes.dc.html" style="margin-top: 8px; display: inline-block; text-decoration: underline; text-underline-offset: 3px; color: var(--tx);">The +30% headline comes from Outcomes</a>
+</div>
+</aside>
+</div>
+</main>
+</div>
+
+<sc-if value="{{dialogOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 80; background: rgba(20,20,22,.48); display: flex; justify-content: center; align-items: flex-start; padding-top: 120px;" onClick="{{closePublish}}">
+<div role="dialog" aria-modal="true" aria-labelledby="pub-title" onClick="{{stop}}" style="width: 560px; max-width: calc(100% - 40px); border-radius: 16px; background: #fff; box-shadow: 0 30px 80px rgba(20,20,22,.3); animation: stUp .2s ease-out; overflow: hidden;">
+<div style="padding: 24px 26px 0;">
+<div class="mono">Publish changes</div>
+<h2 id="pub-title" style="margin: 8px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -.01em;">Update the live page for “{{titleShow}}”?</h2>
+<p style="margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--tx2);">The live version is replaced. The page updates within a minute; its link stays the same.</p>
+</div>
+<div style="margin: 20px 26px 0; border: 1px solid var(--ln); border-radius: 12px; overflow: hidden;">
+<div style="padding: 12px 16px; background: var(--sf2); font-size: 13px; font-weight: 600;">What’s changing</div>
+<div style="padding: 10px 16px 12px; font-size: 14px; line-height: 1.7; color: var(--tx2);">
+<div style="display: {{chgOverviewD}};">Overview · {{changedList}}</div>
+<div>Story · Prioritisation table, edited 12 min ago</div>
+</div>
+</div>
+<div style="margin: 14px 26px 0; display: grid; gap: 8px; font-size: 14px; line-height: 1.5;">
+<div style="display: {{blockD}}; gap: 10px; padding: 12px 14px; border-radius: 10px; background: var(--errbg); color: var(--err);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6M9 9l6 6"></path></svg><span><strong>{{blockText}}</strong> Fix this to publish.</span></div>
+<div style="display: flex; gap: 10px; color: var(--ok);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span style="color: var(--tx2);">Cover, prototype and every image’s alt text are set.</span></div>
+<div style="display: {{roleWarnD}}; gap: 10px; color: var(--warn);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg><span style="color: var(--tx2);">My role is empty, so that chapter stays hidden. You can publish anyway.</span></div>
+<div style="display: flex; gap: 10px; color: var(--warn);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg><span style="color: var(--tx2);">RICE table: one row’s score doesn’t match its inputs. <a href="EditorCaseStudy.dc.html" style="color: var(--tx); text-decoration: underline; text-underline-offset: 3px;">Review</a></span></div>
+</div>
+<div style="margin-top: 22px; padding: 16px 26px; border-top: 1px solid var(--ln); display: flex; align-items: center; justify-content: flex-end; gap: 10px; background: var(--sf2);">
+<a href="StudioPreview.dc.html" style="margin-right: auto; font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px;">Preview first</a>
+<button class="btn" data-pub-cancel onClick="{{closePublish}}">Cancel</button>
+<button class="cta" onClick="{{confirmPublish}}" aria-disabled="{{confirmAria}}" aria-busy="{{publishingAria}}"><span style="display: {{pubSpinD}}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: stSpin .8s linear infinite;"></span>{{confirmLabel}}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<div style="display: {{toastD}}; position: absolute; left: 50%; bottom: 28px; z-index: 90; transform: translateX(-50%); align-items: center; gap: 14px; padding: 12px 12px 12px 18px; border-radius: 12px; background: #141416; color: #F2F1EE; font-size: 14px; box-shadow: 0 16px 40px rgba(20,20,22,.28); animation: stUp .22s ease-out;">
+<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #6FD3A0;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span>{{toastMsg}}</span><a href="CaseStudy.dc.html" style="display: {{toastLinkD}}; height: 34px; align-items: center; padding: 0 12px; border-radius: 8px; background: #2A2A31; color: #fff; font-weight: 600; font-size: 13px;">View live page ↗</a>
+<button onClick="{{closeToast}}" aria-label="Dismiss" style="width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: #B9B7B1; cursor: pointer;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div class="sr" aria-live="polite">{{announce}}</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","saving","offline","save failed","validation error","publish dialog","publish blocked","publishing","published"],"default":"default"},"$preview":{"width":1440,"height":1560}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.init = {
+      title: 'Puja engagement platform', co: 'Sri Mandir', eye: 'Consumer · Strategy + prototype',
+      sum: 'WhatsApp-native booking, recommendations and a spiritual calendar to lift repeat puja orders.',
+      role: '', time: '', team: '', prd: '', shelf: 'b', kind: 'study',
+      topics: ['CRM', 'Personalisation', 'Monetisation', 'Engagement', 'Prototype']
+    };
+    ['onField', 'setShelf', 'setKind', 'onTopic', 'topicKey', 'removeTopic', 'retrySave', 'openPublish', 'closePublish', 'confirmPublish', 'closeToast', 'onRootKey', 'stop'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.state = Object.assign(this.fresh(), this.preset(props.state));
+  }
+  fresh() {
+    return Object.assign({}, this.init, { topics: this.init.topics.slice(), topicDraft: '', save: 'saved', savedAt: 'All changes saved', live: true, dialog: null, toast: null, showErrors: false, announce: '' });
+  }
+  preset(n) {
+    switch (n) {
+      case 'saving': return { save: 'saving' };
+      case 'offline': return { save: 'offline' };
+      case 'save failed': return { save: 'failed' };
+      case 'validation error': return { title: '', showErrors: true };
+      case 'publish dialog': return { dialog: 'open' };
+      case 'publish blocked': return { title: '', showErrors: true, dialog: 'open' };
+      case 'publishing': return { dialog: 'publishing' };
+      case 'published': return { live: false, toast: { msg: 'Published. The live page updates within a minute.', link: true } };
+      default: return {};
+    }
+  }
+  componentDidUpdate(prev) { if (prev.state !== this.props.state) this.setState(Object.assign(this.fresh(), this.preset(this.props.state))); }
+  componentWillUnmount() { clearTimeout(this.st); clearTimeout(this.pt); clearTimeout(this.tt); }
+  autosave() {
+    if (this.state.save === 'offline') return;
+    clearTimeout(this.st);
+    this.setState({ save: 'saving', live: true });
+    this.st = setTimeout(() => this.setState({ save: 'saved', savedAt: 'Saved just now' }), 800);
+  }
+  onField(e) {
+    const k = e.currentTarget.getAttribute('data-k');
+    this.setState({ [k]: e.target.value, live: true });
+    this.autosave();
+  }
+  setShelf(e) { this.setState({ shelf: e.currentTarget.getAttribute('data-v') }); this.autosave(); }
+  setKind(e) { this.setState({ kind: e.currentTarget.getAttribute('data-v') }); this.autosave(); }
+  onTopic(e) { this.setState({ topicDraft: e.target.value }); }
+  topicKey(e) {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const v = (this.state.topicDraft || '').trim();
+    if (!v || this.state.topics.indexOf(v) > -1) { this.setState({ topicDraft: '' }); return; }
+    this.setState({ topics: this.state.topics.concat(v), topicDraft: '', announce: 'Added topic ' + v + '.' });
+    this.autosave();
+  }
+  removeTopic(e) {
+    const n = e.currentTarget.getAttribute('data-name');
+    this.setState({ topics: this.state.topics.filter((t) => t !== n), announce: 'Removed topic ' + n + '.' });
+    this.autosave();
+  }
+  retrySave() {
+    clearTimeout(this.st);
+    this.setState({ save: 'saving' });
+    this.st = setTimeout(() => this.setState({ save: 'saved', savedAt: 'Saved just now', announce: 'Saved.' }), 900);
+  }
+  issues() {
+    const s = this.state, out = [];
+    if (!s.title.trim()) out.push('Title is required.');
+    if (!s.sum.trim()) out.push('Summary is required.');
+    else if (s.sum.length > 140) out.push('Summary is over 140 characters.');
+    if (s.prd && !/^https:\/\//.test(s.prd)) out.push('PRD link must start with https://');
+    return out;
+  }
+  openPublish(e) {
+    const s = this.state;
+    if (s.save === 'offline') { this.setState({ toast: { msg: 'You’re offline. Publish once you’re back online.' } }); this.armToast(); return; }
+    if (!s.live) return;
+    const root = e.currentTarget.closest('.st');
+    this.setState({ dialog: 'open', showErrors: true });
+    requestAnimationFrame(() => { const b = root && root.querySelector('[data-pub-cancel]'); if (b) b.focus(); });
+  }
+  closePublish() { if (this.state.dialog !== 'publishing') this.setState({ dialog: null }); }
+  stop(e) { e.stopPropagation(); }
+  confirmPublish() {
+    if (this.issues().length || this.state.dialog === 'publishing') return;
+    this.setState({ dialog: 'publishing' });
+    this.pt = setTimeout(() => {
+      this.setState({ dialog: null, live: false, toast: { msg: 'Published. The live page updates within a minute.', link: true }, announce: 'Published.' });
+      this.armToast();
+    }, 1200);
+  }
+  armToast() { clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: null }), 8000); }
+  closeToast() { clearTimeout(this.tt); this.setState({ toast: null }); }
+  onRootKey(e) { if (e.key === 'Escape' && this.state.dialog === 'open') this.setState({ dialog: null }); }
+  renderVals() {
+    const s = this.state, i = this.init, iss = this.issues();
+    const tErr = s.showErrors && !s.title.trim();
+    const sOver = s.sum.length > 140, sEmpty = !s.sum.trim(), sErr = sOver || (s.showErrors && sEmpty);
+    const prdBad = !!s.prd && !/^https:\/\//.test(s.prd);
+    const names = { title: 'title', co: 'company', eye: 'card label', sum: 'summary', role: 'my role', time: 'timeline', team: 'team', prd: 'PRD link' };
+    const changed = Object.keys(names).filter((k) => s[k] !== i[k]).map((k) => names[k]);
+    if (s.shelf !== i.shelf) changed.push('shelf');
+    if (s.kind !== i.kind) changed.push('kind of work');
+    if (s.topics.join() !== i.topics.join()) changed.push('topics');
+    const ctx = ['role', 'time', 'team'].filter((k) => !s[k].trim()).length;
+    const saveMap = { saved: [s.savedAt, '#4A4A51'], saving: ['Saving…', '#4A4A51'], offline: ['Offline · saved on this device', '#8A5A00'], failed: ['Couldn’t save', '#B42318'] };
+    const publishing = s.dialog === 'publishing';
+    return {
+      title: s.title, co: s.co, eye: s.eye, sum: s.sum, role: s.role, time: s.time, team: s.team, prd: s.prd,
+      onField: this.onField,
+      titleShow: s.title.trim() || 'Untitled project', sumShow: s.sum.trim() || 'Add a one-line summary.',
+      eyeShow: [s.co.trim(), s.eye.trim()].filter(Boolean).join(' · ') || 'Company · label',
+      pvTitleColor: s.title.trim() ? '#F2F1EE' : '#8F8D87', pvSumColor: s.sum.trim() ? '#B9B7B1' : '#8F8D87',
+      titleLen: s.title.length, titleCntColor: s.title.length > 60 ? '#B42318' : '#6A6A72',
+      titleInvalid: tErr ? 'true' : 'false', titleBorder: tErr ? '#B42318' : '#D2D0CA', titleErrD: tErr ? 'flex' : 'none', titleHintD: tErr ? 'none' : 'inline',
+      sumLen: s.sum.length, sumCntColor: sOver ? '#B42318' : (s.sum.length > 120 ? '#8A5A00' : '#6A6A72'),
+      sumInvalid: sErr ? 'true' : 'false', sumBorder: sErr ? '#B42318' : '#D2D0CA', sumErrD: sErr ? 'flex' : 'none', sumHintD: sErr ? 'none' : 'inline',
+      sumErr: sOver ? 'Trim to 140 characters so it fits on the card.' : 'Add a summary. The card and search results need it.',
+      prdBorder: prdBad ? '#B42318' : '#D2D0CA', prdErrD: prdBad ? 'flex' : 'none', prdHintD: prdBad ? 'none' : 'inline',
+      shelfA: s.shelf === 'a' ? 'true' : 'false', shelfB: s.shelf === 'b' ? 'true' : 'false', setShelf: this.setShelf,
+      kindShip: s.kind === 'ship' ? 'true' : 'false', kindStudy: s.kind === 'study' ? 'true' : 'false', kindProto: s.kind === 'proto' ? 'true' : 'false', setKind: this.setKind,
+      topics: s.topics.map((t) => ({ name: t, remove: this.removeTopic })), topicDraft: s.topicDraft, onTopic: this.onTopic, topicKey: this.topicKey,
+      roleWarnD: s.role.trim() ? 'none' : 'flex', roleHintOkD: s.role.trim() ? 'inline' : 'none',
+      ctxChipD: ctx ? 'inline-flex' : 'none', ctxMissing: ctx + ' of 3 empty',
+      chgD: s.live ? 'inline-flex' : 'none', tabDotD: s.live && changed.length ? 'inline-block' : 'none',
+      saveText: saveMap[s.save][0], saveColor: saveMap[s.save][1],
+      saveSpinD: s.save === 'saving' ? 'inline-block' : 'none', saveOkD: s.save === 'saved' ? 'inline' : 'none', saveOffD: s.save === 'offline' ? 'inline' : 'none', saveErrD: s.save === 'failed' ? 'inline' : 'none',
+      retrySave: this.retrySave,
+      offBannerD: s.save === 'offline' ? 'flex' : 'none', errBannerD: s.save === 'failed' ? 'flex' : 'none',
+      pubLabel: s.live ? 'Publish changes' : 'Published', pubDoneIcoD: s.live ? 'none' : 'inline',
+      pubAria: !s.live || s.save === 'offline' ? 'true' : 'false',
+      pubTitle: s.save === 'offline' ? 'Reconnect to publish' : (s.live ? 'Review and publish your edits' : 'Everything is live'),
+      openPublish: this.openPublish, closePublish: this.closePublish, confirmPublish: this.confirmPublish, stop: this.stop, onRootKey: this.onRootKey,
+      dialogOpen: !!s.dialog, chgOverviewD: changed.length ? 'block' : 'none', changedList: changed.join(', '),
+      blockD: iss.length ? 'flex' : 'none', blockText: iss.join(' '),
+      confirmAria: iss.length ? 'true' : 'false', publishingAria: publishing ? 'true' : 'false',
+      pubSpinD: publishing ? 'inline-block' : 'none', confirmLabel: publishing ? 'Publishing…' : (iss.length ? 'Fix ' + iss.length + ' to publish' : 'Publish now'),
+      toastD: s.toast ? 'flex' : 'none', toastMsg: s.toast ? s.toast.msg : '', toastLinkD: s.toast && s.toast.link ? 'inline-flex' : 'none', closeToast: this.closeToast,
+      announce: s.announce
+    };
+  }
+}
+</script>
+</body>
+</html>

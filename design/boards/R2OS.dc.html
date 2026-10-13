@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 2 · AkarshanOS</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.os{--tx:#F2F1EE;--tx2:#B9B7B1;--tx3:#8F8D87;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.os *{box-sizing:border-box}
+.os a{color:inherit;text-decoration:none}
+.os .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.os .lbl{font-family:var(--fm);font-size:13px;color:#8F8D87}
+@property --ossh{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes osShine{to{--ossh:360deg}}
+.os .pill{position:relative;display:flex;align-items:center;gap:0;padding:5px;border-radius:99px;background:rgba(8,6,4,.62);-webkit-backdrop-filter:blur(48px) saturate(160%);backdrop-filter:blur(48px) saturate(160%);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 32px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset,0 -1px 0 rgba(0,0,0,.2) inset,inset 0 0 0 .5px rgba(255,255,255,.06)}
+.os .pill::before{content:'';position:absolute;inset:-3px;border-radius:99px;background:conic-gradient(from var(--ossh,0deg),transparent 0deg,transparent 50deg,rgba(240,238,248,.04) 75deg,rgba(240,238,248,.35) 100deg,rgba(240,238,248,.85) 118deg,#fff 125deg,rgba(240,238,248,.85) 132deg,rgba(240,238,248,.35) 150deg,rgba(240,238,248,.04) 175deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;pointer-events:none;z-index:1;animation:osShine 3.5s linear infinite;filter:blur(.4px)}
+.os .pill::after{content:'';position:absolute;inset:-8px;border-radius:99px;background:conic-gradient(from var(--ossh,0deg),transparent 0deg,transparent 60deg,rgba(240,238,248,0) 90deg,rgba(240,238,248,.12) 115deg,rgba(240,238,248,.28) 125deg,rgba(240,238,248,.12) 135deg,rgba(240,238,248,0) 160deg,transparent 200deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:8px;pointer-events:none;z-index:0;animation:osShine 3.5s linear infinite;filter:blur(3px)}
+.os .pl{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,238,248,.75);padding:8px 18px;border-radius:99px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.os .pl.on{color:#F0EEF8;font-weight:600;background:rgba(240,238,248,.14)}
+.os .psep{width:1px;height:16px;background:rgba(240,238,248,.1);margin:0 6px;flex-shrink:0}
+.os .pcta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;background:#E8273A;color:#fff;padding:8px 18px;border-radius:94px;margin-left:1px;white-space:nowrap;font-weight:500;position:relative;z-index:1}
+.os .win{position:absolute;border-radius:16px;background:rgba(22,22,28,.92);border:1px solid rgba(242,241,238,.14);box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);overflow:hidden}
+.os .bar{height:40px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid rgba(242,241,238,.08);background:rgba(255,255,255,.03);cursor:grab;user-select:none}
+.os .bar:active{cursor:grabbing}
+.os .dot{width:12px;height:12px;border-radius:50%}
+.os .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:50px;padding:0 24px;background:#D61F33;color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.os .cta2{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:50px;padding:0 22px;border:1px solid rgba(242,241,238,.25);color:var(--tx);font-family:var(--fd);font-stretch:75%;font-weight:500;font-size:14px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.os .dicon{display:flex;flex-direction:column;align-items:center;gap:6px;width:96px;font-size:12px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);text-align:center}
+.os .app{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:13px;color:#fff}
+.os .appi{width:72px;height:72px;border-radius:18px;display:grid;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+@keyframes osBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.os .blink{animation:osBlink 1s steps(1) infinite}
+@media (prefers-reduced-motion:reduce){.os .pill::before,.os .pill::after,.os .blink{animation:none}}
+</style>
+</helmet>
+<div class="os" style="width: 1536px; height: 2380px; padding: 40px 48px; background: #121216; color: var(--tx); font-family: var(--fu);">
+
+<div class="lbl" style="margin-bottom: 14px;">Laptop 1440 × 900 · press Play: drag windows by their title bars, click one to bring it forward — your pill nav is the dock</div>
+<div data-desk="1" onMouseMove="{{onMove}}" onMouseUp="{{onUp}}" onMouseLeave="{{onUp}}" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: radial-gradient(ellipse at 62% 46%, #2A0E14 0%, #0B0B0E 62%); box-shadow: 0 0 0 10px #24242B, 0 40px 80px rgba(0,0,0,.5);">
+<svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: .28; fill: none; stroke: #E8273A; stroke-width: .8;"><line x1="900" y1="420" x2="-40" y2="-40"></line><line x1="900" y1="420" x2="-40" y2="80"></line><line x1="900" y1="420" x2="-40" y2="200"></line><line x1="900" y1="420" x2="-40" y2="320"></line><line x1="900" y1="420" x2="-40" y2="440"></line><line x1="900" y1="420" x2="-40" y2="560"></line><line x1="900" y1="420" x2="-40" y2="680"></line><line x1="900" y1="420" x2="-40" y2="800"></line><line x1="900" y1="420" x2="-40" y2="940"></line><line x1="900" y1="420" x2="300" y2="-40"></line><line x1="900" y1="420" x2="600" y2="-40"></line><line x1="900" y1="420" x2="1480" y2="40"></line><line x1="900" y1="420" x2="1480" y2="300"></line><line x1="900" y1="420" x2="1480" y2="600"></line><line x1="900" y1="420" x2="1480" y2="880"></line><line x1="900" y1="420" x2="500" y2="940"></line><line x1="900" y1="420" x2="1100" y2="940"></line></svg>
+
+<div style="position: absolute; left: 0; right: 0; top: 0; height: 34px; z-index: 50; display: flex; align-items: center; gap: 22px; padding: 0 18px; background: rgba(10,10,14,.55); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); font-size: 13px;">
+<span style="font-weight: 700;">AkarshanOS <span style="color: #E8273A;">9</span></span><span style="color: var(--tx2);">File</span><span style="color: var(--tx2);">View</span><span style="color: var(--tx2);">Go</span><span style="color: var(--tx2);">Help</span>
+<span style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px; color: #9BE7C4;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3CCB8B;"></span>Open to Senior / Lead PM roles</span>
+<span style="font-family: var(--fm); font-size: 12px; color: var(--tx2);">Bengaluru · IST</span>
+</div>
+
+<div style="position: absolute; left: 22px; top: 62px; z-index: 2; display: grid; gap: 18px;">
+<div class="dicon"><svg viewBox="0 0 48 56" aria-hidden="true" style="width: 46px; height: 54px;"><path d="M4 2h28l12 12v40H4z" style="fill: #F2F1EE;"></path><path d="M32 2v12h12" style="fill: #CFCCC4;"></path><rect x="10" y="30" width="28" height="14" rx="2" style="fill: #D61F33;"></rect></svg>Résumé.pdf</div>
+<div class="dicon"><svg viewBox="0 0 56 46" aria-hidden="true" style="width: 54px; height: 44px;"><path d="M2 8h20l6 6h26v30H2z" style="fill: #3B82F6;"></path><path d="M2 16h52v28H2z" style="fill: #60A5FA;"></path></svg>Case studies</div>
+<div class="dicon"><svg viewBox="0 0 56 46" aria-hidden="true" style="width: 54px; height: 44px;"><path d="M2 8h20l6 6h26v30H2z" style="fill: #B4232F;"></path><path d="M2 16h52v28H2z" style="fill: #E8273A;"></path></svg>Prototypes</div>
+<div class="dicon"><svg viewBox="0 0 48 56" aria-hidden="true" style="width: 46px; height: 54px;"><path d="M4 2h28l12 12v40H4z" style="fill: #F2F1EE;"></path><path d="M10 22h28M10 30h28M10 38h18" style="stroke: #8F8D87; stroke-width: 3;"></path></svg>Testimonials.txt</div>
+</div>
+
+<div class="win" onMouseDown="{{focusTerm}}" style="left: {{tX}}px; top: {{tY}}px; width: 560px; z-index: {{tZ}};">
+<div class="bar" onMouseDown="{{dragTerm}}"><span class="dot" style="background: #FF5F57;"></span><span class="dot" style="background: #FEBC2E;"></span><span class="dot" style="background: #28C840;"></span><span style="margin-left: 10px; font-family: var(--fm); font-size: 12px; color: var(--tx2);">terminal — impact.log</span></div>
+<div style="padding: 18px 20px 22px; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.75; background: #0A0A0D;">
+<div><span style="color: #3CCB8B;">akarshan@bengaluru</span> <span style="color: var(--tx3);">~</span> $ whoami</div>
+<div style="color: var(--tx2);">Product Manager · Sugar.fit · AI-native health</div>
+<div style="margin-top: 8px;"><span style="color: #3CCB8B;">akarshan@bengaluru</span> <span style="color: var(--tx3);">~</span> $ cat impact.log</div>
+<div style="color: var(--tx2);"><span style="color: #FF8A93;">230M+</span>   devices personalised and served   <span style="color: var(--tx3);">glance</span></div>
+<div style="color: var(--tx2);"><span style="color: #FF8A93;">$2M</span>     ARR unlocked                      <span style="color: var(--tx3);">glance</span></div>
+<div style="color: var(--tx2);"><span style="color: #FF8A93;">₹3.6Cr</span>  GLP-1 app, month one              <span style="color: var(--tx3);">sugar.fit</span></div>
+<div style="color: var(--tx2);"><span style="color: #FF8A93;">73%</span>     support tickets auto-resolved     <span style="color: var(--tx3);">sugar.fit</span></div>
+<div style="margin-top: 8px;"><span style="color: #3CCB8B;">akarshan@bengaluru</span> <span style="color: var(--tx3);">~</span> $ open work/<span class="blink" style="color: #F2F1EE;">▌</span></div>
+</div>
+</div>
+
+<div class="win" onMouseDown="{{focusWork}}" style="left: {{wX}}px; top: {{wY}}px; width: 520px; z-index: {{wZ}};">
+<div class="bar" onMouseDown="{{dragWork}}"><span class="dot" style="background: #FF5F57;"></span><span class="dot" style="background: #FEBC2E;"></span><span class="dot" style="background: #28C840;"></span><span style="margin-left: 10px; font-size: 13px; color: var(--tx2);">Work — 9 volumes</span></div>
+<div style="padding: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+<div style="text-align: center; font-size: 12px; color: var(--tx2);"><div style="height: 86px; border-radius: 12px; background: linear-gradient(135deg, #2DD4BF, #0D6B60); display: grid; place-items: center; font-family: var(--fm); font-weight: 600; color: #04211D;">VOL.01</div><div style="margin-top: 8px; color: var(--tx);">3D body scan</div></div>
+<div style="text-align: center; font-size: 12px; color: var(--tx2);"><div style="height: 86px; border-radius: 12px; background: linear-gradient(135deg, #F5A524, #8A5A0B); display: grid; place-items: center; font-family: var(--fm); font-weight: 600; color: #2A1A00;">VOL.02</div><div style="margin-top: 8px; color: var(--tx);">AI food logging</div></div>
+<div style="text-align: center; font-size: 12px; color: var(--tx2);"><div style="height: 86px; border-radius: 12px; background: linear-gradient(135deg, #38BDF8, #0B5A80); display: grid; place-items: center; font-family: var(--fm); font-weight: 600; color: #04202E;">VOL.03</div><div style="margin-top: 8px; color: var(--tx);">CGM journey</div></div>
+<div style="text-align: center; font-size: 12px; color: var(--tx2);"><div style="height: 86px; border-radius: 12px; background: linear-gradient(135deg, #A78BFA, #4C2F9E); display: grid; place-items: center; font-family: var(--fm); font-weight: 600; color: #F3EEFF;">VOL.04</div><div style="margin-top: 8px; color: var(--tx);">GLP-1 app</div></div>
+<div style="text-align: center; font-size: 12px; color: var(--tx2);"><div style="height: 86px; border-radius: 12px; background: linear-gradient(135deg, #FF6A76, #9E1626); display: grid; place-items: center; font-family: var(--fm); font-weight: 600; color: #fff;">VOL.05</div><div style="margin-top: 8px; color: var(--tx);">Sri Mandir</div></div>
+<div style="text-align: center; font-size: 12px; color: var(--tx2);"><div style="height: 86px; border-radius: 12px; background: linear-gradient(135deg, #60A5FA, #1E3A8A); display: grid; place-items: center; font-family: var(--fm); font-weight: 600; color: #fff;">VOL.06</div><div style="margin-top: 8px; color: var(--tx);">Arcana</div></div>
+</div>
+</div>
+
+<div class="win" onMouseDown="{{focusAbout}}" style="left: {{aX}}px; top: {{aY}}px; width: 640px; z-index: {{aZ}};">
+<div class="bar" onMouseDown="{{dragAbout}}"><span class="dot" style="background: #FF5F57;"></span><span class="dot" style="background: #FEBC2E;"></span><span class="dot" style="background: #28C840;"></span><span style="margin-left: 10px; font-size: 13px; color: var(--tx2);">About.app</span></div>
+<div style="padding: 28px 30px 30px;">
+<h1 style="margin: 0; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 92px; line-height: .86; text-transform: uppercase;">Akarshan Kumar<span style="color: #D61F33;">.</span></h1>
+<p style="margin: 18px 0 0; font-size: 21px; line-height: 1.35; color: var(--tx2);">I build <span style="color: var(--tx);">AI-native health products</span> — and the <span style="color: var(--tx);">data platforms</span> that prove they work.</p>
+<p style="margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: var(--tx3);">Product manager at Sugar.fit · before that, personalisation for 230M+ devices at Glance (InMobi).</p>
+<div style="display: flex; gap: 10px; margin-top: 22px;"><a class="cta" href="#work">Open work/</a><a class="cta2" href="#resume">Résumé.pdf</a></div>
+</div>
+</div>
+
+<div style="position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 60;"><nav class="pill" aria-label="Primary dock"><a class="pl on" href="#work">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+</div>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+<div>
+<div class="lbl" style="margin-bottom: 14px;">iPad 834 × 1194 · home screen: widgets for impact and featured work, apps for each section, pill as the dock</div>
+<div style="position: relative; width: 834px; height: 1194px; overflow: hidden; border-radius: 30px; background: radial-gradient(ellipse at 60% 40%, #2A0E14 0%, #0B0B0E 65%); box-shadow: 0 0 0 10px #24242B, 0 30px 60px rgba(0,0,0,.45);">
+<svg viewBox="0 0 834 1194" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: .22; fill: none; stroke: #E8273A; stroke-width: .8;"><line x1="520" y1="560" x2="-20" y2="-20"></line><line x1="520" y1="560" x2="-20" y2="240"></line><line x1="520" y1="560" x2="-20" y2="520"></line><line x1="520" y1="560" x2="-20" y2="800"></line><line x1="520" y1="560" x2="-20" y2="1100"></line><line x1="520" y1="560" x2="300" y2="-20"></line><line x1="520" y1="560" x2="860" y2="200"></line><line x1="520" y1="560" x2="860" y2="900"></line><line x1="520" y1="560" x2="400" y2="1214"></line></svg>
+<div style="position: relative; padding: 70px 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
+<div style="grid-column: 1 / 3; padding: 26px; border-radius: 28px; background: rgba(22,22,28,.86); border: 1px solid rgba(242,241,238,.12);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 72px; line-height: .86; text-transform: uppercase;">Akarshan Kumar<span style="color: #D61F33;">.</span></div><p style="margin: 14px 0 0; font-size: 19px; line-height: 1.4; color: var(--tx2);">I build AI-native health products — and the data platforms that prove they work.</p></div>
+<div style="padding: 22px; border-radius: 28px; background: rgba(22,22,28,.86); border: 1px solid rgba(242,241,238,.12);"><div style="font-family: var(--fm); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--tx3);">Impact</div><div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px;"><div><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 38px; line-height: 1;">230M+</div><div style="font-size: 12px; color: var(--tx2);">devices</div></div><div><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 38px; line-height: 1;">$2M</div><div style="font-size: 12px; color: var(--tx2);">ARR</div></div><div><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 38px; line-height: 1;">₹3.6Cr</div><div style="font-size: 12px; color: var(--tx2);">month one</div></div><div><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 38px; line-height: 1;">73%</div><div style="font-size: 12px; color: var(--tx2);">auto-resolved</div></div></div></div>
+<div style="position: relative; border-radius: 28px; overflow: hidden; background: linear-gradient(135deg, #0F3D38, #0D1918); min-height: 240px;"><span style="position: absolute; left: 18px; top: 18px; padding: 4px 8px; border-radius: 6px; background: #2DD4BF; color: #04211D; font-family: var(--fm); font-size: 11px; font-weight: 600;">VOL.01 · FEATURED</span><div style="position: absolute; left: 18px; right: 18px; bottom: 18px; font-size: 22px; font-weight: 600; line-height: 1.15;">3D body scan for GLP-1 users</div></div>
+</div>
+<div style="position: relative; margin-top: 34px; padding: 0 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px 10px;">
+<div class="app"><span class="appi" style="background: linear-gradient(135deg, #E8273A, #8A0F1C);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; color: #fff;"><path d="M4 5h16v14H4zM4 9h16"></path></svg></span>Work</div>
+<div class="app"><span class="appi" style="background: linear-gradient(135deg, #3B3B46, #1A1A20);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; color: #fff;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>About</div>
+<div class="app"><span class="appi" style="background: linear-gradient(135deg, #2DD4BF, #0D6B60);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; color: #fff;"><path d="M4 8h16v11H4zM9 8V5h6v3"></path></svg></span>Exp</div>
+<div class="app"><span class="appi" style="background: linear-gradient(135deg, #F5A524, #8A5A0B);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; color: #fff;"><path d="M4 18l5-6 4 3 7-9"></path></svg></span>Skills</div>
+<div class="app"><span class="appi" style="background: linear-gradient(135deg, #A78BFA, #4C2F9E);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; color: #fff;"><path d="M5 6h14v9H9l-4 4z"></path></svg></span>Testimonial</div>
+<div class="app"><span class="appi" style="background: #F2F1EE;"><svg viewBox="0 0 48 56" aria-hidden="true" style="width: 30px; height: 36px;"><path d="M4 2h28l12 12v40H4z" style="fill: #fff; stroke: #CFCCC4; stroke-width: 2;"></path><rect x="10" y="30" width="28" height="14" rx="2" style="fill: #D61F33;"></rect></svg></span>Résumé</div>
+<div class="app"><span class="appi" style="background: linear-gradient(135deg, #60A5FA, #1E3A8A);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; color: #fff;"><path d="M5 3l14 8-6 2-2 6z"></path></svg></span>Prototypes</div>
+<div class="app"><span class="appi" style="background: linear-gradient(135deg, #3CCB8B, #0F7A4A);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; color: #fff;"><path d="M3 6h18v12H3zM3 7l9 6 9-6"></path></svg></span>Contact</div>
+</div>
+<div style="position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%);"><nav class="pill" aria-label="Primary dock"><a class="pl on" href="#work">Work</a><a class="pl" href="#about">About</a><a class="pl" href="#experience">Exp</a><a class="pl" href="#skills">Skills</a><a class="pl" href="#testimonials">Testimonial</a><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact">Let’s Talk →</a></nav></div>
+</div>
+</div>
+
+<div>
+<div class="lbl" style="margin-bottom: 14px;">Mobile 390 × 844 · home screen</div>
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; border-radius: 48px; background: radial-gradient(ellipse at 60% 40%, #2A0E14 0%, #0B0B0E 65%); box-shadow: 0 0 0 10px #24242B, 0 30px 60px rgba(0,0,0,.45);">
+<div style="position: relative; padding: 56px 18px 0; display: grid; gap: 14px;">
+<div style="padding: 20px; border-radius: 26px; background: rgba(22,22,28,.88); border: 1px solid rgba(242,241,238,.12);"><div style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: #9BE7C4;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3CCB8B;"></span>Open to Senior / Lead PM roles</div><div style="margin-top: 12px; font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 54px; line-height: .86; text-transform: uppercase;">Akarshan<br>Kumar<span style="color: #D61F33;">.</span></div><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.4; color: var(--tx2);">I build AI-native health products — and the data platforms that prove they work.</p></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;"><div style="padding: 16px; border-radius: 24px; background: rgba(22,22,28,.88); border: 1px solid rgba(242,241,238,.12);"><div style="font-family: var(--fd); font-stretch: 62%; font-weight: 800; font-size: 34px; line-height: 1;">230M+</div><div style="font-size: 12px; color: var(--tx2);">devices served</div></div><div style="padding: 16px; border-radius: 24px; background: linear-gradient(135deg, #0F3D38, #0D1918);"><div style="font-family: var(--fm); font-size: 11px; color: #9EF5E8;">VOL.01</div><div style="margin-top: 22px; font-size: 15px; font-weight: 600; line-height: 1.2;">3D body scan</div></div></div>
+<div style="margin-top: 4px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 6px;">
+<div class="app" style="font-size: 12px;"><span class="appi" style="width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, #E8273A, #8A0F1C);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px; color: #fff;"><path d="M4 5h16v14H4zM4 9h16"></path></svg></span>Work</div>
+<div class="app" style="font-size: 12px;"><span class="appi" style="width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, #3B3B46, #1A1A20);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px; color: #fff;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>About</div>
+<div class="app" style="font-size: 12px;"><span class="appi" style="width: 60px; height: 60px; border-radius: 16px; background: #F2F1EE;"><svg viewBox="0 0 48 56" aria-hidden="true" style="width: 24px; height: 30px;"><path d="M4 2h28l12 12v40H4z" style="fill: #fff; stroke: #CFCCC4; stroke-width: 2;"></path><rect x="10" y="30" width="28" height="14" rx="2" style="fill: #D61F33;"></rect></svg></span>Résumé</div>
+<div class="app" style="font-size: 12px;"><span class="appi" style="width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, #3CCB8B, #0F7A4A);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px; color: #fff;"><path d="M3 6h18v12H3zM3 7l9 6 9-6"></path></svg></span>Contact</div>
+</div>
+</div>
+<div style="position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%);"><nav class="pill" aria-label="Primary dock"><span class="pl" style="padding: 10px 18px;">Menu</span><span class="psep" aria-hidden="true"></span><a class="pcta" href="#contact" style="padding: 10px 18px;">Let’s Talk →</a></nav></div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":2380}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      wins: { about: { x: 150, y: 110, z: 3 }, term: { x: 760, y: 92, z: 2 }, work: { x: 830, y: 440, z: 1 } },
+      top: 3,
+      drag: null
+    };
+    this.onMove = this.onMove.bind(this);
+    this.onUp = this.onUp.bind(this);
+    this.startDrag = this.startDrag.bind(this);
+    this.focus = this.focus.bind(this);
+    this.dragAbout = (e) => this.startDrag('about', e);
+    this.dragTerm = (e) => this.startDrag('term', e);
+    this.dragWork = (e) => this.startDrag('work', e);
+    this.focusAbout = () => this.focus('about');
+    this.focusTerm = () => this.focus('term');
+    this.focusWork = () => this.focus('work');
+  }
+  desk(e) {
+    const el = e.currentTarget && e.currentTarget.closest ? e.currentTarget.closest('[data-desk]') : null;
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    return { r, s: r.width / 1440 };
+  }
+  focus(id) {
+    const top = this.state.top + 1;
+    const wins = Object.assign({}, this.state.wins);
+    wins[id] = Object.assign({}, wins[id], { z: top });
+    this.setState({ wins, top });
+  }
+  startDrag(id, e) {
+    const d = this.desk(e);
+    if (!d) return;
+    const w = this.state.wins[id];
+    const px = (e.clientX - d.r.left) / d.s;
+    const py = (e.clientY - d.r.top) / d.s;
+    this.setState({ drag: { id, ox: px - w.x, oy: py - w.y } });
+    if (e.preventDefault) e.preventDefault();
+  }
+  onMove(e) {
+    const drag = this.state.drag;
+    if (!drag) return;
+    const d = this.desk(e);
+    if (!d) return;
+    const px = (e.clientX - d.r.left) / d.s;
+    const py = (e.clientY - d.r.top) / d.s;
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => {
+      this.raf = null;
+      const wins = Object.assign({}, this.state.wins);
+      const x = Math.min(1440 - 120, Math.max(-200, px - drag.ox));
+      const y = Math.min(900 - 60, Math.max(34, py - drag.oy));
+      wins[drag.id] = Object.assign({}, wins[drag.id], { x, y });
+      this.setState({ wins });
+    });
+  }
+  onUp() {
+    if (this.state.drag) this.setState({ drag: null });
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const w = this.state.wins;
+    return {
+      onMove: this.onMove, onUp: this.onUp,
+      dragAbout: this.dragAbout, dragTerm: this.dragTerm, dragWork: this.dragWork,
+      focusAbout: this.focusAbout, focusTerm: this.focusTerm, focusWork: this.focusWork,
+      aX: Math.round(w.about.x), aY: Math.round(w.about.y), aZ: 10 + w.about.z,
+      tX: Math.round(w.term.x), tY: Math.round(w.term.y), tZ: 10 + w.term.z,
+      wX: Math.round(w.work.x), wY: Math.round(w.work.y), wZ: 10 + w.work.z
+    };
+  }
+}
+</script>
+</body>
+</html>

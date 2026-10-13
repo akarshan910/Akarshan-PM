@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Round 2 · Cyberpunk HUD</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.cy{--bg:#06070C;--y:#FCEE0A;--c:#00F0FF;--r:#FF2A3D;--m:#FF2BD6;--tx:#E6F6FF;--tx2:#A9C4D2;--tx3:#7D97A6;--fd:'Chakra Petch',system-ui,sans-serif;--fm:'JetBrains Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.cy *{box-sizing:border-box}
+.cy a{color:inherit;text-decoration:none}
+.cy .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:square;flex:none}
+.cy .m{font-family:var(--fm)}
+.cy .lbl{font-family:var(--fm);font-size:13px;color:#7D97A6}
+.cy .tick{position:relative}
+.cy .tick::before,.cy .tick::after{content:'';position:absolute;width:14px;height:14px;border-color:var(--c);border-style:solid;pointer-events:none}
+.cy .tick::before{left:-1px;top:-1px;border-width:2px 0 0 2px}
+.cy .tick::after{right:-1px;bottom:-1px;border-width:0 2px 2px 0}
+.cy .scan{background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
+.cy .ycta{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;background:var(--y);color:#0A0A0A;font-family:var(--fd);font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.cy .ccta{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 24px;border:1px solid var(--c);color:var(--c);font-family:var(--fd);font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,240,255,.06)}
+.cy .tab{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;font-family:var(--fm);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx2);border:1px solid transparent}
+.cy .tab.on{color:var(--y);border-color:rgba(252,238,10,.45);background:rgba(252,238,10,.07);box-shadow:0 0 18px rgba(252,238,10,.18) inset}
+@keyframes cyGrid{from{background-position:0 0}to{background-position:0 60px}}
+@keyframes cyBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes cyGlitch{0%,92%,100%{clip-path:inset(0 0 0 0);transform:none}93%{clip-path:inset(12% 0 64% 0);transform:translateX(-8px)}95%{clip-path:inset(58% 0 18% 0);transform:translateX(7px)}97%{clip-path:inset(30% 0 40% 0);transform:translateX(-4px)}}
+@keyframes cyTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes cyFlicker{0%,100%{opacity:1}42%{opacity:.85}44%{opacity:.4}46%{opacity:.9}}
+.cy .grid{background-image:linear-gradient(rgba(0,240,255,.32) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,.32) 1px,transparent 1px);background-size:60px 60px;animation:cyGrid 1.6s linear infinite}
+.cy .blink{animation:cyBlink 1s steps(1) infinite}
+.cy .glitch{animation:cyGlitch 4.5s steps(1) infinite}
+.cy .ticker{animation:cyTicker 28s linear infinite}
+.cy .flick{animation:cyFlicker 5s ease-in-out infinite}
+.cy .px{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion:reduce){.cy .grid,.cy .blink,.cy .glitch,.cy .ticker,.cy .flick{animation:none}.cy .px{transition:none}}
+</style>
+</helmet>
+<div class="cy" style="width: 1536px; height: 2380px; padding: 40px 48px; background: #0D0F15; color: var(--tx); font-family: var(--fd);">
+
+<div class="lbl" style="margin-bottom: 14px;">Laptop 1440 × 900 · press Play and move the cursor: crosshair with live coordinates, skyline and HUD panels shift in depth</div>
+<div onMouseMove="{{onMove}}" onMouseLeave="{{onLeave}}" style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 10px #1B1F29, 0 40px 80px rgba(0,0,0,.5); cursor: crosshair;">
+<div aria-hidden="true" style="position: absolute; left: -10%; right: -10%; top: 58%; height: 70%; transform: perspective(520px) rotateX(64deg); transform-origin: top center; opacity: .55;"><div class="grid" style="position: absolute; inset: 0; mask-image: linear-gradient(180deg, transparent, #000 40%); -webkit-mask-image: linear-gradient(180deg, transparent, #000 40%);"></div></div>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 60%; background: radial-gradient(ellipse at 70% 100%, rgba(255,43,214,.22), rgba(255,43,214,0) 60%), radial-gradient(ellipse at 20% 100%, rgba(0,240,255,.18), rgba(0,240,255,0) 55%);"></div>
+<div class="px" aria-hidden="true" style="position: absolute; left: -40px; right: -40px; bottom: 300px; height: 330px; transform: {{skyT}};">
+<svg viewBox="0 0 1520 330" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%;"><path d="M0 330V210h60V150h40v-40h50v90h70V120h30V60h46v80h54v-60h60v150h40V90h70v-40h30v70h56v120h50V140h66V30h40v110h60v80h30v-60h70v40h60V100h50v-50h46v130h54v-70h70v150h50V160h60v-60h40v40h60v70h48V120h52v210z" style="fill: #0B0E16; stroke: rgba(0,240,255,.35); stroke-width: 1;"></path></svg>
+<div class="flick" style="position: absolute; left: 22%; top: 46%; width: 6px; height: 6px; background: var(--y); box-shadow: 0 0 10px var(--y);"></div>
+<div style="position: absolute; left: 36%; top: 30%; width: 6px; height: 6px; background: var(--c); box-shadow: 0 0 10px var(--c);"></div>
+<div class="flick" style="position: absolute; left: 61%; top: 40%; width: 6px; height: 6px; background: var(--m); box-shadow: 0 0 10px var(--m);"></div>
+<div style="position: absolute; left: 78%; top: 52%; width: 6px; height: 6px; background: var(--y); box-shadow: 0 0 10px var(--y);"></div>
+</div>
+<div class="scan" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; z-index: 8;"></div>
+<div aria-hidden="true" style="position: absolute; inset: 0; box-shadow: inset 0 0 180px rgba(0,0,0,.85); pointer-events: none; z-index: 8;"></div>
+
+<header style="position: absolute; left: 28px; right: 28px; top: 22px; z-index: 6; display: flex; align-items: center; gap: 18px; height: 56px; padding: 0 10px 0 18px; border: 1px solid rgba(0,240,255,.35); background: rgba(6,7,12,.72); clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));">
+<span class="m" style="font-size: 13px; color: var(--c); letter-spacing: .08em;">AK//PORTFOLIO<span style="color: var(--tx3);">_v9</span><span class="blink" style="color: var(--y);">▌</span></span>
+<nav aria-label="Primary" style="margin-left: 36px; display: flex; gap: 4px;"><a class="tab on" href="#work"><span style="color: var(--tx3);">01</span>Work</a><a class="tab" href="#about"><span style="color: var(--tx3);">02</span>About</a><a class="tab" href="#experience"><span style="color: var(--tx3);">03</span>Exp</a><a class="tab" href="#skills"><span style="color: var(--tx3);">04</span>Skills</a><a class="tab" href="#testimonials"><span style="color: var(--tx3);">05</span>Testimonial</a></nav>
+<span class="m" style="margin-left: auto; font-size: 12px; color: var(--tx3); letter-spacing: .06em;">BLR 12.97°N 77.59°E · IST</span>
+<span aria-hidden="true" style="display: flex; align-items: flex-end; gap: 2px; height: 14px;"><span style="width: 3px; height: 5px; background: var(--c);"></span><span style="width: 3px; height: 8px; background: var(--c);"></span><span style="width: 3px; height: 11px; background: var(--c);"></span><span style="width: 3px; height: 14px; background: rgba(0,240,255,.3);"></span></span>
+<a class="ycta" href="#contact" style="height: 40px; padding: 0 18px; font-size: 13px;">Let’s talk ▸</a>
+</header>
+
+<div class="px" style="position: absolute; left: 72px; top: 150px; width: 780px; z-index: 5; transform: {{leftT}};">
+<div class="m" style="font-size: 13px; color: var(--c); letter-spacing: .1em;">&gt; IDENT // OPERATOR_PROFILE <span style="color: var(--tx3);">[VERIFIED]</span></div>
+<div style="position: relative; margin-top: 18px;">
+<h1 style="margin: 0; font-family: var(--fd); font-weight: 700; font-size: 124px; line-height: .86; letter-spacing: -.01em; text-transform: uppercase; color: #F2FBFF; text-shadow: -3px 0 rgba(255,42,61,.85), 3px 0 rgba(0,240,255,.85);">Akarshan<br>Kumar</h1>
+<div class="glitch" aria-hidden="true" style="position: absolute; inset: 0; font-family: var(--fd); font-weight: 700; font-size: 124px; line-height: .86; letter-spacing: -.01em; text-transform: uppercase; color: var(--y); mix-blend-mode: screen; opacity: .9;">Akarshan<br>Kumar</div>
+</div>
+<div style="margin-top: 22px; display: inline-flex; align-items: center; gap: 12px; padding: 8px 14px; background: var(--y); color: #0A0A0A; font-weight: 700; font-size: 16px; letter-spacing: .14em; text-transform: uppercase; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);">Product Manager // AI-native health</div>
+<p style="margin: 24px 0 0; max-width: 640px; font-size: 22px; line-height: 1.45; color: var(--tx2);">I build <span style="color: var(--tx);">AI-native health products</span> — and the <span style="color: var(--tx);">data platforms</span> that prove they work.</p>
+<div style="display: flex; gap: 14px; margin-top: 32px;"><a class="ycta" href="#work">Access missions ▸</a><a class="ccta" href="#resume">Download dossier</a></div>
+</div>
+
+<aside class="px tick" aria-label="Operator profile" style="position: absolute; right: 72px; top: 150px; width: 430px; z-index: 5; padding: 22px 24px; border: 1px solid rgba(0,240,255,.3); background: rgba(6,10,18,.78); transform: {{rightT}};">
+<div class="m" style="display: flex; justify-content: space-between; font-size: 12px; letter-spacing: .1em; color: var(--c);"><span>OPERATOR_PROFILE</span><span style="color: var(--tx3);">ID 2017-BLR</span></div>
+<dl class="m" style="margin: 16px 0 0; display: grid; grid-template-columns: 104px 1fr; gap: 10px 14px; font-size: 13px;">
+<dt style="color: var(--tx3);">CLASS</dt><dd style="margin: 0;">Product Manager</dd>
+<dt style="color: var(--tx3);">FACTION</dt><dd style="margin: 0;">Sugar.fit · GLP-1, T2D, D2C</dd>
+<dt style="color: var(--tx3);">SQUAD</dt><dd style="margin: 0;">Central Analytics · 10 analysts</dd>
+<dt style="color: var(--tx3);">PRIOR</dt><dd style="margin: 0;">Glance · Razorpay · Vedantu · Wipro</dd>
+<dt style="color: var(--tx3);">STATUS</dt><dd style="margin: 0; color: var(--y);"><span class="blink">●</span> OPEN_TO_SENIOR_LEAD_PM</dd>
+</dl>
+<div style="margin-top: 20px; padding-top: 18px; border-top: 1px dashed rgba(0,240,255,.3); display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div style="display: flex; align-items: center; gap: 12px;"><span style="position: relative; width: 64px; height: 64px; border-radius: 50%; background: conic-gradient(var(--c) 0 73%, rgba(0,240,255,.12) 73% 100%); display: grid; place-items: center;"><span class="m" style="width: 52px; height: 52px; border-radius: 50%; background: #070B12; display: grid; place-items: center; font-size: 14px; color: var(--c);">73%</span></span><span class="m" style="font-size: 11px; line-height: 1.4; color: var(--tx2);">TICKETS<br>AUTO-RESOLVED</span></div>
+<div style="display: flex; align-items: center; gap: 12px;"><span style="position: relative; width: 64px; height: 64px; border-radius: 50%; background: conic-gradient(var(--y) 0 52%, rgba(252,238,10,.12) 52% 100%); display: grid; place-items: center;"><span class="m" style="width: 52px; height: 52px; border-radius: 50%; background: #070B12; display: grid; place-items: center; font-size: 14px; color: var(--y);">52%</span></span><span class="m" style="font-size: 11px; line-height: 1.4; color: var(--tx2);">GLP-1 APP<br>RENEWAL</span></div>
+<div><div style="font-weight: 700; font-size: 34px; line-height: 1; color: #fff;">230M+</div><div class="m" style="margin-top: 6px; font-size: 11px; color: var(--tx2);">DEVICES SERVED · GLANCE</div></div>
+<div><div style="font-weight: 700; font-size: 34px; line-height: 1; color: #fff;">$2M</div><div class="m" style="margin-top: 6px; font-size: 11px; color: var(--tx2);">ARR UNLOCKED · GLANCE</div></div>
+</div>
+</aside>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 52px; z-index: 6; border-top: 1px solid rgba(252,238,10,.4); background: rgba(6,7,12,.9); overflow: hidden; display: flex; align-items: center;">
+<span class="m" style="flex: none; height: 100%; display: flex; align-items: center; padding: 0 18px; background: var(--y); color: #0A0A0A; font-size: 12px; font-weight: 600; letter-spacing: .1em;">MISSION_LOG</span>
+<div style="overflow: hidden; flex: 1;"><div class="ticker m" style="display: flex; gap: 40px; width: max-content; padding-left: 24px; font-size: 13px; letter-spacing: .06em; color: var(--tx2); white-space: nowrap;">
+<span>VOL.01 3D BODY SCAN <span style="color: #5CFFB1;">[ACHIEVED]</span></span><span>VOL.02 AI FOOD LOGGING <span style="color: #5CFFB1;">[ACHIEVED]</span></span><span>VOL.03 CGM JOURNEY <span style="color: #5CFFB1;">[ACHIEVED]</span></span><span>VOL.04 GLP-1 APP 0→1 <span style="color: #5CFFB1;">[ACHIEVED]</span></span><span>VOL.05 PUJA PLATFORM <span style="color: var(--y);">[TARGET]</span></span><span>VOL.06 ARCANA WORKSPACE <span style="color: var(--m);">[OUTPUT]</span></span>
+<span>VOL.01 3D BODY SCAN <span style="color: #5CFFB1;">[ACHIEVED]</span></span><span>VOL.02 AI FOOD LOGGING <span style="color: #5CFFB1;">[ACHIEVED]</span></span><span>VOL.03 CGM JOURNEY <span style="color: #5CFFB1;">[ACHIEVED]</span></span><span>VOL.04 GLP-1 APP 0→1 <span style="color: #5CFFB1;">[ACHIEVED]</span></span><span>VOL.05 PUJA PLATFORM <span style="color: var(--y);">[TARGET]</span></span><span>VOL.06 ARCANA WORKSPACE <span style="color: var(--m);">[OUTPUT]</span></span>
+</div></div>
+</div>
+
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: {{py}}px; height: 1px; background: rgba(0,240,255,.25); z-index: 7; pointer-events: none;"></div>
+<div aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: {{px}}px; width: 1px; background: rgba(0,240,255,.25); z-index: 7; pointer-events: none;"></div>
+<div aria-hidden="true" style="position: absolute; left: {{rx}}px; top: {{ry}}px; width: 44px; height: 44px; border: 1px solid var(--c); z-index: 7; pointer-events: none; box-shadow: 0 0 14px rgba(0,240,255,.4);"><span class="m" style="position: absolute; left: 52px; top: -4px; font-size: 11px; color: var(--c); white-space: nowrap;">X {{cx}} · Y {{cy}}</span></div>
+</div>
+
+<div style="display: flex; gap: 64px; margin-top: 56px; align-items: flex-start;">
+<div>
+<div class="lbl" style="margin-bottom: 14px;">iPad 834 × 1194 · mission log (selected work)</div>
+<div style="position: relative; width: 834px; height: 1194px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 10px #1B1F29, 0 30px 60px rgba(0,0,0,.45);">
+<div class="scan" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; z-index: 3;"></div>
+<header style="margin: 22px 24px 0; display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 8px 0 14px; border: 1px solid rgba(0,240,255,.35); clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));"><span class="m" style="font-size: 12px; color: var(--c);">AK//v9</span><nav aria-label="Primary" style="margin-left: 12px; display: flex; gap: 2px;"><a class="tab on" href="#work" style="padding: 0 10px;">Work</a><a class="tab" href="#about" style="padding: 0 10px;">About</a><a class="tab" href="#experience" style="padding: 0 10px;">Exp</a><a class="tab" href="#skills" style="padding: 0 10px;">Skills</a><a class="tab" href="#testimonials" style="padding: 0 10px;">Testimonial</a></nav><a class="ycta" href="#contact" style="margin-left: auto; height: 38px; padding: 0 14px; font-size: 12px;">Talk ▸</a></header>
+<div style="padding: 44px 24px 0;">
+<div class="m" style="font-size: 13px; color: var(--c); letter-spacing: .1em;">&gt; MISSION_LOG // 09 ENTRIES</div>
+<h2 style="margin: 12px 0 0; font-weight: 700; font-size: 56px; line-height: .9; text-transform: uppercase; text-shadow: -2px 0 rgba(255,42,61,.8), 2px 0 rgba(0,240,255,.8);">Shipped. Measured.</h2>
+<div style="margin-top: 20px; display: flex; gap: 6px;"><span class="tab on">All · 09</span><span class="tab" style="border-color: rgba(0,240,255,.2);">Shipped · 04</span><span class="tab" style="border-color: rgba(0,240,255,.2);">Strategy · 05</span></div>
+<div class="tick" style="margin-top: 22px; border: 1px solid rgba(0,240,255,.3); background: rgba(6,10,18,.8);">
+<div style="position: relative; height: 300px; background: linear-gradient(135deg, #072A2A, #06070C); overflow: hidden;"><div class="scan" style="position: absolute; inset: 0;"></div><svg viewBox="0 0 240 300" aria-hidden="true" style="position: absolute; left: 50%; top: 14px; height: 272px; transform: translateX(-50%); fill: none; stroke: var(--c); stroke-width: 1.4;"><rect x="40" y="6" width="160" height="288" rx="20" style="stroke-opacity: .5;"></rect><circle cx="120" cy="66" r="18"></circle><path d="M88 98 Q120 86 152 98 L162 170 L148 172 L144 252 L126 252 L120 196 L114 252 L96 252 L92 172 L78 170 Z"></path><path d="M70 140h100" style="stroke: var(--y); stroke-width: 2;"></path></svg><span class="m" style="position: absolute; left: 14px; top: 14px; font-size: 12px; padding: 4px 8px; background: var(--c); color: #001418; font-weight: 600;">VOL.01</span></div>
+<div style="padding: 18px 20px 20px;"><div class="m" style="font-size: 12px; color: var(--tx3); letter-spacing: .08em;">SUGAR.FIT // AI // 0→1</div><div style="margin-top: 6px; font-size: 28px; font-weight: 700; text-transform: uppercase;">3D body scan for GLP-1 users</div><div class="m" style="margin-top: 10px; display: flex; justify-content: space-between; gap: 12px; font-size: 13px;"><span style="color: var(--tx2);">OUTCOME: ±2–3 PP VS 8-ELECTRODE BIA (N=110)</span><span style="color: #5CFFB1;">[ACHIEVED]</span></div></div>
+</div>
+<div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+<div class="tick" style="border: 1px solid rgba(0,240,255,.3); background: rgba(6,10,18,.8); padding: 18px;"><span class="m" style="font-size: 12px; padding: 3px 7px; background: #F5A524; color: #1A1000; font-weight: 600;">VOL.02</span><div style="margin-top: 14px; font-size: 21px; font-weight: 700; text-transform: uppercase;">AI food logging</div><div class="m" style="margin-top: 8px; font-size: 12px; color: var(--tx2);">62% OF MEAL LOGS <span style="color: #5CFFB1;">[ACHIEVED]</span></div></div>
+<div class="tick" style="border: 1px solid rgba(0,240,255,.3); background: rgba(6,10,18,.8); padding: 18px;"><span class="m" style="font-size: 12px; padding: 3px 7px; background: var(--r); color: #fff; font-weight: 600;">VOL.05</span><div style="margin-top: 14px; font-size: 21px; font-weight: 700; text-transform: uppercase;">Puja engagement platform</div><div class="m" style="margin-top: 8px; font-size: 12px; color: var(--tx2);">+30% ORDERS/USER <span style="color: var(--y);">[TARGET]</span></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div>
+<div class="lbl" style="margin-bottom: 14px;">Mobile 390 × 844 · hero</div>
+<div style="position: relative; width: 390px; height: 844px; border-radius: 44px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 10px #1B1F29, 0 30px 60px rgba(0,0,0,.45);">
+<div aria-hidden="true" style="position: absolute; left: -40%; right: -40%; top: 64%; height: 60%; transform: perspective(400px) rotateX(64deg); transform-origin: top; opacity: .5;"><div class="grid" style="position: absolute; inset: 0;"></div></div>
+<div class="scan" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; z-index: 3;"></div>
+<header style="position: relative; z-index: 2; margin: 18px 14px 0; display: flex; align-items: center; gap: 8px; height: 50px; padding: 0 6px 0 12px; border: 1px solid rgba(0,240,255,.35); background: rgba(6,7,12,.8);"><span class="m" style="font-size: 12px; color: var(--c);">AK//v9<span class="blink" style="color: var(--y);">▌</span></span><button aria-label="Open menu" class="m" style="margin-left: auto; height: 38px; padding: 0 12px; border: 1px solid rgba(0,240,255,.35); background: transparent; color: var(--c); font-size: 12px;">[ MENU ]</button><a class="ycta" href="#contact" style="height: 38px; padding: 0 12px; font-size: 12px;">Talk ▸</a></header>
+<div style="position: relative; z-index: 2; padding: 34px 18px 0;">
+<div class="m" style="font-size: 12px; color: var(--c); letter-spacing: .08em;">&gt; IDENT // OPERATOR</div>
+<h1 style="margin: 14px 0 0; font-weight: 700; font-size: 66px; line-height: .86; text-transform: uppercase; text-shadow: -2px 0 rgba(255,42,61,.85), 2px 0 rgba(0,240,255,.85);">Akarshan<br>Kumar</h1>
+<div style="margin-top: 16px; display: inline-block; padding: 6px 10px; background: var(--y); color: #0A0A0A; font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase;">PM // AI-native health</div>
+<p style="margin: 16px 0 0; font-size: 18px; line-height: 1.45; color: var(--tx2);">I build AI-native health products — and the data platforms that prove they work.</p>
+<div style="display: grid; gap: 10px; margin-top: 22px;"><a class="ycta" href="#work" style="justify-content: center;">Access missions ▸</a><a class="ccta" href="#resume" style="justify-content: center;">Download dossier</a></div>
+<div class="tick m" style="margin-top: 18px; padding: 14px 16px; border: 1px solid rgba(0,240,255,.3); background: rgba(6,10,18,.85); font-size: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><span style="color: var(--tx3);">STATUS</span><span style="color: var(--y);">OPEN_TO_ROLES</span><span style="color: var(--tx3);">DEVICES</span><span>230M+</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1536,"height":2380}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mx: 0.4, my: 0.1, px: 1010, py: 495 };
+    this.onMove = this.onMove.bind(this);
+    this.onLeave = this.onLeave.bind(this);
+  }
+  onMove(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const rx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const ry = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => {
+      this.raf = null;
+      this.setState({ mx: rx * 2 - 1, my: ry * 2 - 1, px: rx * 1440, py: ry * 900 });
+    });
+  }
+  onLeave() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.setState({ mx: 0.4, my: 0.1, px: 1010, py: 495 });
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const { mx, my, px, py } = this.state;
+    const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const k = reduce ? 0 : 1;
+    const f = (n) => n.toFixed(1);
+    const pad = (n) => String(Math.round(n)).padStart(4, '0');
+    return {
+      onMove: this.onMove,
+      onLeave: this.onLeave,
+      skyT: 'translate3d(' + f(-mx * 26 * k) + 'px, ' + f(-my * 8 * k) + 'px, 0)',
+      leftT: 'translate3d(' + f(mx * 6 * k) + 'px, ' + f(my * 4 * k) + 'px, 0)',
+      rightT: 'perspective(900px) rotateY(' + (-mx * 6 * k).toFixed(2) + 'deg) rotateX(' + (my * 4 * k).toFixed(2) + 'deg)',
+      px: f(px),
+      py: f(py),
+      rx: f(px - 22),
+      ry: f(py - 22),
+      cx: pad(px),
+      cy: pad(py)
+    };
+  }
+}
+</script>
+</body>
+</html>

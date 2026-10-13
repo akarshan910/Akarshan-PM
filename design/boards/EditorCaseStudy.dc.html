@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio — editor, story</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap">
+<style>
+body{margin:0;background:#F4F4F2}
+.st{--bg:#F4F4F2;--sf:#FFFFFF;--sf2:#F9F9F7;--ln:#E4E3DF;--ln2:#D2D0CA;--tx:#141416;--tx2:#4A4A51;--tx3:#6A6A72;--ac:#D61F33;--ok:#0F7A4A;--okbg:#E6F4EC;--warn:#8A5A00;--warnbg:#FFF4DB;--err:#B42318;--errbg:#FDECEA;--fd:'Archivo','Arial Narrow',sans-serif;--fu:'Geist',system-ui,sans-serif;--fm:'Geist Mono',ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+.st *{box-sizing:border-box}
+.st a{color:inherit;text-decoration:none}
+.st .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.st .rail{width:72px;flex:none;background:#FBFBFA;border-right:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 0}
+.st .rl{width:48px;height:48px;display:grid;place-items:center;border-radius:10px;color:var(--tx3)}
+.st .rl:hover{background:#EFEEEA;color:var(--tx)}
+.st .rl.on{background:#EAE9E4;color:var(--tx)}
+.st .tb{height:68px;display:flex;align-items:center;gap:14px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tabs{display:flex;gap:4px;padding:0 24px;background:#fff;border-bottom:1px solid var(--ln)}
+.st .tab{position:relative;display:flex;align-items:center;gap:8px;height:48px;padding:0 14px;font-size:14px;font-weight:500;color:var(--tx2)}
+.st .tab:hover{color:var(--tx)}
+.st .tab[aria-current="page"]{color:var(--tx)}
+.st .tab[aria-current="page"]::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;background:var(--tx)}
+.st .dot{width:7px;height:7px;border-radius:50%;background:#F5A524}
+.st .card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.st .cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border:0;background:var(--ac);color:#fff;font-family:var(--fd);font-stretch:75%;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.st .cta:hover{background:#E42A3F}
+.st .cta[aria-disabled="true"]{background:#D2D0CA;color:#4A4A51;cursor:not-allowed}
+.st .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:500 14px/1 var(--fu);cursor:pointer}
+.st .btn:hover{border-color:#B9B7B1}
+.st .ib{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--tx2);cursor:pointer}
+.st .ib:hover{background:#EFEEEA;color:var(--tx)}
+.st .chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap}
+.st .mono{font-family:var(--fm);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .sec{padding:24px}
+.st .sec h2{margin:0;font-size:17px;font-weight:600}
+.st .sec .sub{margin:4px 0 0;font-size:14px;color:var(--tx3)}
+.st .fld{margin-top:20px}
+.st .lbl{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.st .req{font-size:12px;font-weight:500;color:var(--tx3)}
+.st .inp{display:block;width:100%;height:44px;margin-top:8px;padding:0 12px;border:1px solid var(--ln2);border-radius:8px;background:#fff;color:var(--tx);font:400 15px/1.4 var(--fu)}
+.st textarea.inp{height:auto;min-height:88px;padding:10px 12px;resize:vertical}
+.st .inp::placeholder{color:#8F8D87}
+.st .inp:focus{outline:none;border-color:var(--tx);box-shadow:0 0 0 1px var(--tx)}
+.st .hrow{display:flex;align-items:flex-start;gap:12px;margin-top:6px;font-size:13px;line-height:1.45}
+.st .hint{color:var(--tx3)}
+.st .err{display:flex;gap:6px;color:var(--err);font-weight:500}
+.st .cnt{margin-left:auto;font-family:var(--fm);font-size:12px;white-space:nowrap}
+.st .seg{display:inline-flex;margin-top:8px;padding:3px;border-radius:10px;background:#EAE9E4}
+.st .seg button{height:36px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--tx2);font:500 14px/1 var(--fu);cursor:pointer}
+.st .seg button[aria-pressed="true"]{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(20,20,22,.12)}
+.st .tg{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 6px 0 10px;border-radius:8px;background:#EFEEEA;font-size:13px;font-weight:500}
+.st .tg button{width:22px;height:22px;display:grid;place-items:center;border:0;border-radius:5px;background:transparent;color:var(--tx3);cursor:pointer}
+.st .tg button:hover{background:#E2E1DC;color:var(--tx)}
+.st .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.st a:focus-visible,.st button:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+.st .pv{--pbg:#0B0B0E;--pbg2:#111116;--pln:#26262E;--ptx:#F2F1EE;--ptx2:#B9B7B1;--ptx3:#8F8D87}
+.st .tag-t{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;border:1px solid rgba(242,241,238,.3);color:#B9B7B1;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.08em}
+@keyframes stUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stSpin{to{transform:rotate(360deg)}}
+@keyframes stPulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.st *{animation-duration:.01ms !important}}
+
+.st .chr{position:relative;display:grid;grid-template-columns:28px minmax(0,1fr) 34px;gap:4px;align-items:center;padding:4px;border-radius:10px;transition:background-color .15s,box-shadow .18s}
+.st .chr:hover{background:var(--sf2)}
+.st .hdl{width:28px;height:36px;display:grid;place-items:center;border:0;border-radius:6px;background:transparent;color:#8F8D87;cursor:grab}
+.st .hdl:hover{background:#EFEEEA;color:var(--tx)}
+.st .chb{display:grid;grid-template-columns:28px minmax(0,1fr);gap:2px 8px;align-items:baseline;min-height:48px;padding:8px 6px;border:0;border-radius:8px;background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.st .chb[aria-current="true"]{background:#EAE9E4}
+.st .ttl{display:block;width:100%;margin-top:6px;padding:6px 8px;border:1px solid transparent;border-radius:8px;background:transparent;font:600 30px/1.2 var(--fu);letter-spacing:-.02em;color:var(--tx)}
+.st .ttl:hover{border-color:var(--ln)}
+.st .ttl:focus{outline:none;border-color:var(--tx);background:#fff}
+.st .blk{position:relative;padding:12px 16px 18px;border:1px solid var(--ln);border-radius:14px;background:#fff;transition:box-shadow .18s,border-color .18s}
+.st .bh{display:flex;align-items:center;gap:4px;margin:0 -6px 8px 0}
+.st .bt{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 10px 0 8px;border:0;border-radius:7px;background:#F2F1EE;font:500 12px/1 var(--fm);letter-spacing:.06em;text-transform:uppercase;color:var(--tx2);cursor:pointer}
+.st .bt[aria-pressed="true"]{background:var(--tx);color:#fff}
+.st .ib.sm{width:32px;height:32px}
+.st .ib[aria-disabled="true"]{opacity:.35;cursor:default}
+.st .rt{display:block;width:100%;min-height:72px;padding:8px 10px;border:1px solid transparent;border-radius:8px;background:transparent;font:400 16px/1.6 var(--fu);color:var(--tx);resize:vertical}
+.st .rt:hover{border-color:var(--ln)}
+.st .rt:focus{outline:none;border-color:var(--tx);background:#fff}
+.st .rt::placeholder{color:#8F8D87}
+.st .tr{display:grid;grid-template-columns:34px minmax(0,1fr) 56px 58px 82px 60px 58px;gap:8px;align-items:center;padding:9px 12px;border-top:1px solid var(--ln);font-size:13px}
+.st .tr.h{border-top:0;background:var(--sf2);font-family:var(--fm);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3)}
+.st .num{text-align:right;font-variant-numeric:tabular-nums}
+.st .addb{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;margin-top:14px;border:1.5px dashed var(--ln2);border-radius:12px;background:transparent;font:500 14px/1 var(--fu);color:var(--tx2);cursor:pointer}
+.st .addb:hover{border-color:var(--tx);color:var(--tx)}
+.st .pt{display:grid;grid-template-columns:34px minmax(0,1fr);gap:2px 10px;align-items:center;padding:10px;border:1px solid var(--ln);border-radius:10px;background:#fff;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.st .pt:hover{border-color:var(--tx)}
+.st .pti{grid-row:1/3;width:34px;height:34px;border-radius:8px;background:#F2F1EE;display:grid;place-items:center;color:var(--tx2)}
+.st .sw{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:0;border:0;background:none;text-align:left;font:400 14px/1.4 var(--fu);color:var(--tx);cursor:pointer}
+.st .trk{position:relative;flex:none;width:36px;height:20px;border-radius:10px;transition:background .15s}
+.st .knb{position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .15s}
+.st .fixb{height:34px;padding:0 12px;border:1px solid #E5CF98;border-radius:8px;background:#fff;font:500 13px/1 var(--fu);color:var(--tx);cursor:pointer}
+.st .fixb:hover{border-color:var(--tx)}
+@keyframes stFlashA{0%{background-color:#FFF1C9}100%{background-color:transparent}}
+@keyframes stFlashB{0%{background-color:#FFF1C9}100%{background-color:transparent}}
+@keyframes stRingA{0%{box-shadow:0 0 0 3px #F5A524}100%{box-shadow:0 0 0 0 rgba(245,165,36,0)}}
+@keyframes stRingB{0%{box-shadow:0 0 0 3px #F5A524}100%{box-shadow:0 0 0 0 rgba(245,165,36,0)}}
+@media (prefers-reduced-motion:reduce){.st .chr,.st .blk,.st .knb,.st .trk{transition:none}}
+</style>
+</helmet>
+<div class="st" style="position: relative; min-height: 1500px; display: flex; background: var(--bg); color: var(--tx); font-family: var(--fu);" onKeyDown="{{onRootKey}}">
+
+<nav class="rail" aria-label="Studio"><a href="StudioDashboard.dc.html" aria-label="Studio dashboard" style="margin-bottom: 14px; font-family: var(--fd); font-stretch: 62%; font-weight: 900; font-size: 26px; line-height: 1;">S<span style="color: var(--ac);">.</span></a><a class="rl" href="StudioDashboard.dc.html" aria-label="Dashboard" title="Dashboard"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"></path></svg></a><a class="rl" href="StudioSite.dc.html" aria-label="Website" title="Website"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 9v11"></path></svg></a><a class="rl on" href="StudioProjects.dc.html" aria-label="Projects" title="Projects" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 9h16"></path></svg></a><a class="rl" href="StudioWriting.dc.html" aria-label="Writing" title="Writing"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg></a><a class="rl" href="StudioMedia.dc.html" aria-label="Media" title="Media"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4"></path></svg></a><a class="rl" href="Home.dc.html" aria-label="View live site" title="View live site" style="margin-top: auto;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"></path></svg></a></nav>
+
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+<header class="tb">
+<a class="ib" href="StudioProjects.dc.html" aria-label="Back to projects"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<div style="min-width: 0;"><div class="mono" style="font-size: 11px;">Projects · Strategy &amp; prototypes · 05</div><div style="margin-top: 3px; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 420px;">{{titleShow}}</div></div>
+<span class="chip" style="background: var(--okbg); color: var(--ok);"><span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>Published</span>
+<span class="chip" style="display: {{chgD}}; background: var(--warnbg); color: var(--warn);">Edits not live</span>
+<span role="status" style="display: inline-flex; align-items: center; gap: 7px; margin-left: 6px; font-size: 13px; color: {{saveColor}};"><span style="display: {{saveSpinD}}; width: 13px; height: 13px; border-radius: 50%; border: 2px solid #D2D0CA; border-top-color: var(--tx2); animation: stSpin .8s linear infinite;"></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveOkD}}; width: 16px; height: 16px;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveOffD}}; width: 16px; height: 16px;"><path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{saveErrD}}; width: 16px; height: 16px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>{{saveText}}<button onClick="{{retrySave}}" style="display: {{saveErrD}}; border: 0; background: none; padding: 0; font: 600 13px/1 var(--fu); color: var(--err); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Retry</button></span>
+<span style="flex: 1;"></span>
+<a class="btn" href="StudioPreview.dc.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Preview</a>
+<button class="cta" onClick="{{openPublish}}" aria-disabled="{{pubAria}}" title="{{pubTitle}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; display: {{pubDoneIcoD}};"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>{{pubLabel}}</button>
+<button class="ib" aria-label="More actions"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle></svg></button>
+</header>
+<nav class="tabs" aria-label="Project sections">
+<a class="tab" href="EditorOverview.dc.html">Overview</a>
+<a class="tab" href="EditorVisuals.dc.html">Visuals</a>
+<a class="tab" href="EditorCaseStudy.dc.html" aria-current="page">Story<span class="dot" style="display: {{tabDotD}};"></span><span class="sr" style="display: {{tabDotD}};">, has unpublished edits</span></a>
+<a class="tab" href="EditorOutcomes.dc.html">Outcomes</a>
+<a class="tab" href="EditorSettings.dc.html">URL &amp; SEO</a>
+</nav>
+<div style="display: {{offBannerD}}; align-items: center; gap: 12px; padding: 12px 24px; background: var(--warnbg); color: var(--warn); font-size: 14px; border-bottom: 1px solid #F1DFB0;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6"></path></svg><span><strong>You’re offline.</strong> Keep editing. Changes are kept on this device and sync when you reconnect. Publishing is paused.</span></div>
+<div style="display: {{errBannerD}}; align-items: center; gap: 12px; padding: 12px 24px; background: var(--errbg); color: var(--err); font-size: 14px; border-bottom: 1px solid #F5C9C4;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg><span style="flex: 1;"><strong>Your last change didn’t save.</strong> Studio will keep retrying. Keep this tab open until it says Saved.</span><button class="btn" onClick="{{retrySave}}" style="height: 34px; border-color: #F0B4AD;">Retry now</button></div>
+
+
+<main style="flex: 1; padding: 24px 24px 64px;">
+<div style="max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+
+<nav aria-label="Chapters" style="flex: 1 1 250px; max-width: 280px;" onMouseUp="{{endDrag}}" onMouseLeave="{{endDrag}}">
+<div class="card" style="padding: 8px; user-select: {{chSelect}};" data-list>
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 8px 8px 10px;"><span class="mono">Chapters</span><span style="font-size: 12px; color: var(--tx3);">{{visCount}} of {{chCount}} on the live page</span></div>
+<sc-for list="{{chs}}" as="c" hint-placeholder-count="8">
+<div class="chr" data-id="{{c.id}}" onMouseEnter="{{c.over}}" style="background: {{c.bg}}; box-shadow: {{c.shadow}}; animation: {{c.anim}};">
+<button class="hdl" data-id="{{c.id}}" data-handle="{{c.id}}" onMouseDown="{{c.down}}" onKeyDown="{{c.key}}" aria-label="Move {{c.t}}" aria-describedby="ch-help" style="cursor: {{c.cursor}};"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="currentColor"><circle cx="9" cy="6" r="1.6"></circle><circle cx="15" cy="6" r="1.6"></circle><circle cx="9" cy="12" r="1.6"></circle><circle cx="15" cy="12" r="1.6"></circle><circle cx="9" cy="18" r="1.6"></circle><circle cx="15" cy="18" r="1.6"></circle></svg></button>
+<button class="chb" data-id="{{c.id}}" onClick="{{c.pick}}" aria-current="{{c.cur}}"><span style="font-family: var(--fm); font-size: 12px; color: var(--tx3);">{{c.n}}</span><span style="font-size: 14px; font-weight: 600; line-height: 1.3; color: {{c.tColor}};">{{c.t}}</span><span></span><span style="font-size: 12px; color: {{c.subColor}};">{{c.sub}}</span></button>
+<button class="ib" data-id="{{c.id}}" onClick="{{c.eye}}" aria-pressed="{{c.hidAria}}" aria-label="Hide {{c.t}} on the live page" title="{{c.eyeTitle}}" style="width: 34px; height: 34px; color: {{c.eyeColor}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{c.eyeOnD}};"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{c.eyeOffD}};"><path d="M3 3l18 18M10.6 5.1A10 10 0 0112 5c6.4 0 10 7 10 7a17 17 0 01-2.8 3.6M6.6 6.6A17 17 0 002 12s3.6 7 10 7a9.6 9.6 0 004.4-1"></path></svg></button>
+</div>
+</sc-for>
+<button class="btn" onClick="{{addChapter}}" style="width: 100%; margin-top: 8px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M12 5v14M5 12h14"></path></svg>Add chapter</button>
+</div>
+<p id="ch-help" style="margin: 12px 6px 0; font-size: 13px; line-height: 1.5; color: var(--tx3);">Drag a handle, or focus it and press ↑ or ↓. Empty chapters are hidden on the live page, so a draft never shows a blank section.</p>
+</nav>
+
+<section aria-labelledby="ch-title" style="flex: 999 1 560px; min-width: 0;">
+<div style="display: flex; align-items: center; gap: 10px;"><span class="mono">Chapter {{selN}}</span><span class="chip" style="display: {{selHidD}}; background: #EFEEEA; color: var(--tx2);">{{selHidText}}</span><span style="flex: 1;"></span><a href="StudioPreview.dc.html" style="font-size: 13px; color: var(--tx2); text-decoration: underline; text-underline-offset: 3px;">Preview this chapter</a></div>
+<label class="sr" for="ch-title">Chapter title</label>
+<input id="ch-title" class="ttl" value="{{selTitle}}" onChange="{{onChTitle}}" aria-invalid="{{selTitleInvalid}}" style="border-color: {{selTitleBorder}};">
+<div style="display: {{selTitleErrD}}; margin: 6px 8px 0; font-size: 13px; font-weight: 500; color: var(--err);">Give this chapter a title. It’s shown on the page and in the contents.</div>
+
+<div style="display: {{emptyChD}}; margin-top: 16px; flex-direction: column; align-items: flex-start; gap: 14px; padding: 28px; border: 1.5px dashed var(--ln2); border-radius: 14px; background: var(--sf2);">
+<div style="display: flex; gap: 12px; align-items: flex-start;"><span style="width: 40px; height: 40px; border-radius: 10px; background: #EAE9E4; display: grid; place-items: center; color: var(--tx2); flex: none;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10 10 0 0112 5c6.4 0 10 7 10 7a17 17 0 01-2.8 3.6M6.6 6.6A17 17 0 002 12s3.6 7 10 7a9.6 9.6 0 004.4-1"></path></svg></span><div><div style="font-size: 17px; font-weight: 600;">Nothing here yet, so this chapter is hidden on the live page.</div><div style="margin-top: 4px; font-size: 14px; color: var(--tx2);">It appears as soon as it has a block with content.</div></div></div>
+<div style="width: 100%; padding: 14px 16px; border-radius: 10px; background: #fff; border: 1px solid var(--ln);"><div class="mono" style="font-size: 11px;">Questions to answer</div><div style="margin-top: 8px; font-size: 15px; line-height: 1.6;">{{prompt1}}</div><div style="margin-top: 4px; font-size: 15px; line-height: 1.6; display: {{prompt2D}};">{{prompt2}}</div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;"><span style="align-self: center; font-size: 14px; color: var(--tx2);">Start with</span><button class="btn" data-t="ownership" onClick="{{addType}}" style="height: 38px;">Ownership</button><button class="btn" data-t="text" onClick="{{addType}}" style="height: 38px;">Text</button><button class="btn" data-t="list" onClick="{{addType}}" style="height: 38px;">List</button></div>
+</div>
+
+<div style="margin-top: 16px; display: grid; gap: 14px;">
+<sc-for list="{{blocks}}" as="b" hint-placeholder-count="3">
+<article class="blk" aria-label="{{b.label}}" style="border-color: {{b.border}}; box-shadow: {{b.ring}}; animation: {{b.anim}};">
+<div class="bh">
+<button class="bt" data-id="{{b.id}}" onClick="{{b.pick}}" aria-pressed="{{b.selAria}}" title="Select to see this block’s settings"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><path d="{{b.icon}}"></path></svg>{{b.typeLabel}}</button>
+<span class="chip" style="display: {{b.warnD}}; margin-left: 6px; background: var(--warnbg); color: var(--warn);">{{b.warn}}</span>
+<span class="chip" style="display: {{b.emptyD}}; margin-left: 6px; background: #EFEEEA; color: var(--tx2);">Empty · skipped on the live page</span>
+<span style="flex: 1;"></span>
+<button class="ib sm" data-id="{{b.id}}" onClick="{{b.up}}" aria-label="Move block up" aria-disabled="{{b.firstAria}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+<button class="ib sm" data-id="{{b.id}}" onClick="{{b.dn}}" aria-label="Move block down" aria-disabled="{{b.lastAria}}"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></button>
+<button class="ib sm" data-id="{{b.id}}" onClick="{{b.dup}}" aria-label="Duplicate block"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h12v12H8zM4 16V4h12"></path></svg></button>
+<button class="ib sm" data-id="{{b.id}}" onClick="{{b.del}}" aria-label="Delete block"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg></button>
+</div>
+
+<div style="display: {{b.textD}};"><textarea class="rt" data-id="{{b.id}}" value="{{b.body}}" onChange="{{b.onBody}}" onFocus="{{b.pick}}" placeholder="{{b.ph}}" aria-label="{{b.typeLabel}} content" style="font-size: {{b.fs}}px; font-weight: {{b.fw}}; font-style: {{b.fst}};"></textarea></div>
+
+<div style="display: {{b.calloutD}}; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 10px; background: {{b.calloutBg}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 10px; color: {{b.calloutIco}};"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"></path></svg><textarea class="rt" data-id="{{b.id}}" value="{{b.body}}" onChange="{{b.onBody}}" onFocus="{{b.pick}}" aria-label="Callout text" style="min-height: 56px; font-weight: 500;"></textarea></div>
+
+<div style="display: {{b.metricsD}}; flex-wrap: wrap; gap: 12px;">
+<div style="flex: 1 1 150px; padding: 14px; border-radius: 10px; background: var(--sf2); border: 1px solid var(--ln);"><div style="font-size: 26px; font-weight: 700; letter-spacing: -.02em;">30%</div><div style="margin-top: 4px; font-size: 13px; color: var(--tx2);">Monthly orders per user, uplift</div><span class="chip" style="margin-top: 8px; height: 22px; border: 1px solid rgba(20,20,22,.3); color: #4A4A51; font-family: var(--fm); letter-spacing: .06em;">TARGET</span></div>
+<div style="flex: 1 1 150px; padding: 14px; border-radius: 10px; background: var(--sf2); border: 1px solid var(--ln);"><div style="font-size: 26px; font-weight: 700; letter-spacing: -.02em;">12%</div><div style="margin-top: 4px; font-size: 13px; color: var(--tx2);">WhatsApp conversion rate</div><span class="chip" style="margin-top: 8px; height: 22px; border: 1px solid rgba(20,20,22,.3); color: #4A4A51; font-family: var(--fm); letter-spacing: .06em;">TARGET</span></div>
+<div style="flex: 1 1 150px; padding: 14px; border-radius: 10px; background: var(--sf2); border: 1px solid var(--ln);"><div style="font-size: 26px; font-weight: 700; letter-spacing: -.02em;">5</div><div style="margin-top: 4px; font-size: 13px; color: var(--tx2);">Regional languages in phase 1</div><span class="chip" style="margin-top: 8px; height: 22px; border: 1px solid rgba(20,20,22,.3); color: #4A4A51; font-family: var(--fm); letter-spacing: .06em;">TARGET</span></div>
+</div>
+
+<div style="display: {{b.tableD}}; flex-direction: column; gap: 12px;">
+<div style="display: {{riceOpenD}}; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 10px; background: var(--warnbg); border: 1px solid #F1DFB0; font-size: 14px; line-height: 1.5; color: #5C3D00;">
+<span><strong>Subscription packages:</strong> its inputs give 11.3 (8 × 2.5 × 85% ÷ 1.5), but its score says 5.7. A 3-month effort would give 5.7.</span>
+<span style="display: flex; flex-wrap: wrap; gap: 8px;"><button class="fixb" onClick="{{riceUse}}">Use 11.3 and re-rank</button><button class="fixb" onClick="{{riceEffort}}">Set effort to 3 mo</button><button class="fixb" onClick="{{riceKeep}}">Keep as is</button></span>
+</div>
+<div style="display: {{riceUseD}}; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 10px; background: var(--warnbg); border: 1px solid #F1DFB0; font-size: 14px; line-height: 1.5; color: #5C3D00;"><span style="flex: 1;"><strong>Subscription packages now ranks first.</strong> The callout below and “The bet” still say WhatsApp comes first. Update them, or undo.</span><button class="fixb" onClick="{{riceReset}}">Undo</button></div>
+<div style="display: {{riceOkD}}; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 10px; background: var(--okbg); font-size: 14px; color: var(--ok);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span style="flex: 1;">{{riceOkText}}</span><button class="fixb" onClick="{{riceReset}}" style="border-color: #B7DCC6;">Undo</button></div>
+<div style="overflow-x: auto; border: 1px solid var(--ln); border-radius: 10px;">
+<div role="table" aria-label="RICE prioritisation" style="min-width: 560px;">
+<div class="tr h" role="row"><span role="columnheader">#</span><span role="columnheader">Idea</span><span class="num" role="columnheader">Reach</span><span class="num" role="columnheader">Impact</span><span class="num" role="columnheader">Confidence</span><span class="num" role="columnheader">Effort</span><span class="num" role="columnheader">Score</span></div>
+<sc-for list="{{rice}}" as="r" hint-placeholder-count="9">
+<div class="tr" role="row" style="background: {{r.bg}}; animation: {{r.anim}};"><span role="cell" style="font-family: var(--fm); color: var(--tx3);">{{r.rank}}</span><span role="cell" style="display: flex; align-items: center; gap: 6px; font-weight: 500;"><svg class="ico" viewBox="0 0 24 24" role="img" aria-label="Score doesn’t match inputs" style="display: {{r.warnD}}; width: 15px; height: 15px; color: var(--warn);"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg>{{r.f}}</span><span class="num" role="cell">{{r.r}}</span><span class="num" role="cell">{{r.i}}</span><span class="num" role="cell">{{r.c}}%</span><span class="num" role="cell">{{r.e}} mo</span><span class="num" role="cell" style="font-weight: 600; color: {{r.sColor}};">{{r.s}}</span></div>
+</sc-for>
+</div>
+</div>
+<div style="font-size: 12px; color: var(--tx3);">Score = reach × impact × confidence ÷ effort in months. {{riceSortNote}}</div>
+</div>
+
+<div style="display: {{b.cardsD}}; grid-template-columns: repeat({{b.cols}}, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{b.items}}" as="it" hint-placeholder-count="3"><div style="min-height: 74px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--ln); background: var(--sf2); font-size: 14px; font-weight: 600; line-height: 1.4;">{{it.t}}<span style="display: block; margin-top: 6px; font-size: 12px; font-weight: 400; color: var(--tx3);">{{it.n}}</span></div></sc-for>
+</div>
+
+<div style="display: {{b.protoD}}; align-items: center; gap: 18px; padding: 12px; border-radius: 10px; background: #1C0C0F;">
+<span aria-hidden="true" style="width: 92px; height: 150px; border-radius: 14px; border: 2px solid #5A3A3E; background: #ECE5DD; overflow: hidden; display: flex; flex-direction: column; gap: 8px;"><span style="height: 24px; background: #1F7A55;"></span><span style="margin: 0 8px; height: 18px; width: 54px; border-radius: 6px; background: #fff;"></span><span style="margin: 0 8px 0 auto; height: 22px; width: 58px; border-radius: 6px; background: #DCF8C6;"></span><span style="margin: 0 8px; height: 30px; width: 66px; border-radius: 6px; background: #fff;"></span></span>
+<span style="color: #F2F1EE; font-size: 14px; line-height: 1.5;"><strong>Prototype · opens on {{b.screen}}</strong><span style="display: block; color: #B9B7B1;">Uses this project’s prototype. Visitors can click through every screen.</span></span>
+</div>
+
+<div style="display: {{b.ownD}}; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600;">My ownership<textarea class="inp" placeholder="What you personally did and decided" style="min-height: 96px; margin: 0; font-size: 14px;"></textarea></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600;">Team result<textarea class="inp" placeholder="What the team shipped together" style="min-height: 96px; margin: 0; font-size: 14px;"></textarea></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600;">Business outcome<textarea class="inp" placeholder="What changed, labelled achieved, target or projected" style="min-height: 96px; margin: 0; font-size: 14px;"></textarea></label>
+</div>
+
+<div style="display: {{b.phD}}; align-items: center; gap: 14px; padding: 18px; border: 1.5px dashed var(--ln2); border-radius: 10px; background: var(--sf2); font-size: 14px; color: var(--tx2);"><span style="flex: 1;">{{b.phText}}</span><button class="btn" style="display: {{b.phBtnD}}; height: 38px;">{{b.phBtn}}</button></div>
+</article>
+</sc-for>
+</div>
+
+<button class="addb" onClick="{{togglePalette}}" aria-expanded="{{palAria}}" style="display: {{addBtnD}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add block</button>
+<div class="card" role="group" aria-label="Block types" style="display: {{palD}}; margin-top: 14px; padding: 16px; flex-direction: column; gap: 12px; animation: stUp .18s ease-out;">
+<div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-size: 15px; font-weight: 600;">Add a block to “{{selTitle}}”</span><button class="ib sm" onClick="{{togglePalette}}" aria-label="Close block list"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px;">
+<sc-for list="{{types}}" as="t" hint-placeholder-count="16"><button class="pt" data-t="{{t.k}}" onClick="{{t.add}}"><span class="pti"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.icon}}"></path></svg></span><span style="font-size: 14px; font-weight: 600;">{{t.name}}</span><span style="font-size: 12px; line-height: 1.4; color: var(--tx3);">{{t.desc}}</span></button></sc-for>
+</div>
+</div>
+</section>
+
+<aside style="flex: 1 1 270px; max-width: 320px;" aria-label="Settings">
+<div class="card" style="padding: 18px;">
+<div style="display: {{rpChD}}; flex-direction: column;">
+<div class="mono">Chapter settings</div>
+<div style="margin-top: 14px; font-size: 14px; font-weight: 600;">Link to this chapter</div>
+<div style="margin-top: 6px; padding: 8px 10px; border-radius: 8px; background: #F2F1EE; font-family: var(--fm); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">/work/puja-engagement-platform#{{anchor}}</div>
+<div style="margin-top: 6px; font-size: 13px; color: var(--tx3);">Updates when you rename the chapter.</div>
+<div style="height: 1px; background: var(--ln); margin: 16px 0 6px;"></div>
+<button class="sw" role="switch" aria-checked="{{selShownAria}}" onClick="{{toggleSelHidden}}"><span class="trk" aria-hidden="true" style="background: {{selShownTrk}};"><span class="knb" style="left: {{selShownKnb}}px;"></span></span>Show on the live page</button>
+<div style="font-size: 13px; line-height: 1.5; color: var(--tx3);">{{selShownNote}}</div>
+</div>
+<div style="display: {{rpBlkD}}; flex-direction: column;">
+<div style="display: flex; align-items: center; justify-content: space-between;"><span class="mono">{{rpTitle}}</span><button onClick="{{deselect}}" style="border: 0; background: none; padding: 0; font: 500 13px/1 var(--fu); color: var(--tx2); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Chapter settings</button></div>
+<div style="display: {{rpTextD}}; flex-direction: column; margin-top: 14px;"><span class="lbl" id="l-sty">Style</span><div class="seg" role="group" aria-labelledby="l-sty"><button aria-pressed="{{styBody}}" data-v="body" onClick="{{setStyle}}">Body</button><button aria-pressed="{{styLead}}" data-v="lead" onClick="{{setStyle}}">Lead</button></div><div class="hrow"><span class="hint">Lead is larger. Use it once, to open a chapter.</span></div></div>
+<div style="display: {{rpCalloutD}}; flex-direction: column; margin-top: 14px;"><span class="lbl" id="l-tone">Tone</span><div class="seg" role="group" aria-labelledby="l-tone"><button aria-pressed="{{toneN}}" data-v="neutral" onClick="{{setTone}}">Neutral</button><button aria-pressed="{{toneA}}" data-v="accent" onClick="{{setTone}}">Accent</button></div></div>
+<div style="display: {{rpCardsD}}; flex-direction: column; margin-top: 14px;"><span class="lbl" id="l-cols">Columns</span><div class="seg" role="group" aria-labelledby="l-cols"><button aria-pressed="{{cols2}}" data-v="2" onClick="{{setCols}}">2</button><button aria-pressed="{{cols3}}" data-v="3" onClick="{{setCols}}">3</button><button aria-pressed="{{cols4}}" data-v="4" onClick="{{setCols}}">4</button></div><div class="hrow"><span class="hint">On phones, cards stack into one column.</span></div></div>
+<div style="display: {{rpTableD}}; flex-direction: column; margin-top: 8px;"><button class="sw" role="switch" aria-checked="{{tCheck}}" data-k="check" onClick="{{toggleTbl}}"><span class="trk" aria-hidden="true" style="background: {{tCheckTrk}};"><span class="knb" style="left: {{tCheckKnb}}px;"></span></span>Check scores against inputs</button><button class="sw" role="switch" aria-checked="{{tSort}}" data-k="sort" onClick="{{toggleTbl}}"><span class="trk" aria-hidden="true" style="background: {{tSortTrk}};"><span class="knb" style="left: {{tSortKnb}}px;"></span></span>Sort rows by score</button><button class="sw" role="switch" aria-checked="{{tTop}}" data-k="top" onClick="{{toggleTbl}}"><span class="trk" aria-hidden="true" style="background: {{tTopTrk}};"><span class="knb" style="left: {{tTopKnb}}px;"></span></span>Highlight the top three</button><button class="sw" role="switch" aria-checked="{{tCards}}" data-k="cards" onClick="{{toggleTbl}}"><span class="trk" aria-hidden="true" style="background: {{tCardsTrk}};"><span class="knb" style="left: {{tCardsKnb}}px;"></span></span>On phones, show rows as cards</button></div>
+<div style="display: {{rpMetricsD}}; flex-direction: column; margin-top: 14px; font-size: 14px; line-height: 1.55; color: var(--tx2);">These numbers come from Outcomes, so the page, the card and this chapter always agree.<a href="EditorOutcomes.dc.html" style="margin-top: 10px; font-weight: 600; color: var(--tx); text-decoration: underline; text-underline-offset: 3px;">Edit in Outcomes →</a></div>
+<div style="display: {{rpProtoD}}; flex-direction: column; margin-top: 14px;"><label class="lbl" for="f-scr">Opens on</label><select id="f-scr" class="inp" value="{{selScreen}}" onChange="{{onScreen}}"><option>Home</option><option>Recommendations</option><option>Booking</option><option>Calendar</option><option>Trust &amp; transparency</option><option>Video feed</option><option>WhatsApp booking</option></select><div class="hrow"><span class="hint">Screens come from the prototype in Visuals.</span></div></div>
+<div style="display: {{rpOtherD}}; margin-top: 14px; font-size: 14px; line-height: 1.55; color: var(--tx2);">Fill this block, or remove it. Empty blocks are skipped on the live page.</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+
+<sc-if value="{{dialogOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 80; background: rgba(20,20,22,.48); display: flex; justify-content: center; align-items: flex-start; padding-top: 120px;" onClick="{{closePublish}}">
+<div role="dialog" aria-modal="true" aria-labelledby="pub-title" onClick="{{stop}}" style="width: 560px; max-width: calc(100% - 40px); border-radius: 16px; background: #fff; box-shadow: 0 30px 80px rgba(20,20,22,.3); animation: stUp .2s ease-out; overflow: hidden;">
+<div style="padding: 24px 26px 0;">
+<div class="mono">Publish changes</div>
+<h2 id="pub-title" style="margin: 8px 0 0; font-size: 22px; font-weight: 600; letter-spacing: -.01em;">Update the live page for “Puja engagement platform”?</h2>
+<p style="margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--tx2);">The live version is replaced. The page updates within a minute; its link stays the same.</p>
+</div>
+<div style="margin: 20px 26px 0; border: 1px solid var(--ln); border-radius: 12px; overflow: hidden;">
+<div style="padding: 12px 16px; background: var(--sf2); font-size: 13px; font-weight: 600;">What’s changing</div>
+<div style="padding: 10px 16px 12px; font-size: 14px; line-height: 1.7; color: var(--tx2);"><sc-for list="{{changes}}" as="c" hint-placeholder-count="2"><div>{{c.text}}</div></sc-for></div>
+</div>
+<div style="margin: 14px 26px 0; display: grid; gap: 8px; font-size: 14px; line-height: 1.5;">
+<div style="display: {{blockD}}; gap: 10px; padding: 12px 14px; border-radius: 10px; background: var(--errbg); color: var(--err);"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6M9 9l6 6"></path></svg><span><strong>{{blockText}}</strong> Fix this to publish.</span></div>
+<sc-for list="{{checks}}" as="k" hint-placeholder-count="2"><div style="display: flex; gap: 10px; color: {{k.color}};"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{k.okD}};"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="display: {{k.warnD}};"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg><span style="color: var(--tx2);">{{k.text}}</span></div></sc-for>
+</div>
+<div style="margin-top: 22px; padding: 16px 26px; border-top: 1px solid var(--ln); display: flex; align-items: center; justify-content: flex-end; gap: 10px; background: var(--sf2);">
+<a href="StudioPreview.dc.html" style="margin-right: auto; font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px;">Preview first</a>
+<button class="btn" data-pub-cancel onClick="{{closePublish}}">Cancel</button>
+<button class="cta" onClick="{{confirmPublish}}" aria-disabled="{{confirmAria}}" aria-busy="{{publishingAria}}"><span style="display: {{pubSpinD}}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: stSpin .8s linear infinite;"></span>{{confirmLabel}}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<div style="display: {{toastD}}; position: absolute; left: 50%; bottom: 28px; z-index: 90; transform: translateX(-50%); align-items: center; gap: 14px; padding: 12px 12px 12px 18px; border-radius: 12px; background: #141416; color: #F2F1EE; font-size: 14px; box-shadow: 0 16px 40px rgba(20,20,22,.28); animation: stUp .22s ease-out;">
+<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" style="color: #6FD3A0;"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><span>{{toastMsg}}</span><button onClick="{{toastUndo}}" style="display: {{toastUndoD}}; height: 34px; padding: 0 12px; border: 0; border-radius: 8px; background: #2A2A31; color: #fff; font: 600 13px/1 var(--fu); cursor: pointer;">Undo</button><a href="CaseStudy.dc.html" style="display: {{toastLinkD}}; height: 34px; align-items: center; padding: 0 12px; border-radius: 8px; background: #2A2A31; color: #fff; font-weight: 600; font-size: 13px;">View live page ↗</a>
+<button onClick="{{closeToast}}" aria-label="Dismiss" style="width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; color: #B9B7B1; cursor: pointer;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div class="sr" aria-live="polite">{{announce}}</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["default","add block","empty chapter","re-ranked","text selected","dragging chapter","saving","offline","save failed","publish dialog","published"],"default":"default"},"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+
+    const I = {
+      text: 'M5 6h14M5 10h14M5 14h10M5 18h7', heading: 'M6 5v14M18 5v14M6 12h12', list: 'M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01',
+      callout: 'M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z', metrics: 'M4 20V10M10 20V4M16 20v-7M2 20h20',
+      table: 'M3 5h18v14H3zM3 10h18M3 15h18M9 5v14', image: 'M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4', gallery: 'M3 7h13v13H3zM8 3h13v13',
+      video: 'M3 6h13v12H3zM16 10l5-3v10l-5-3', proto: 'M7 3h10v18H7zM11 18h2', beforeafter: 'M12 3v18M4 6h16v12H4z', journey: 'M3 12h18M6 9v6M12 9v6M18 9v6',
+      ownership: 'M9 8a3 3 0 106 0 3 3 0 00-6 0M4 20c.8-3.5 3.6-5 8-5s7.2 1.5 8 5', quote: 'M7 7h4v4c0 3-1.5 5-4 6M15 7h4v4c0 3-1.5 5-4 6', cards: 'M3 5h8v14H3zM13 5h8v14h-8z', divider: 'M3 12h18'
+    };
+    this.I = I;
+    this.TYPES = [
+      ['text', 'Text', 'Paragraphs, bold and links'], ['heading', 'Heading', 'A subhead inside the chapter'], ['list', 'List', 'Bulleted or numbered points'],
+      ['callout', 'Callout', 'One idea you want remembered'], ['metrics', 'Metrics', 'Results from Outcomes, with their labels'], ['table', 'Table', 'Scoring or comparison, with an optional formula'],
+      ['image', 'Image', 'One image with caption and alt text'], ['gallery', 'Gallery', 'A swipeable strip of images'], ['video', 'Video', 'YouTube, Vimeo, Loom or Google Drive link'],
+      ['proto', 'Prototype', 'Open the prototype on a chosen screen'], ['beforeafter', 'Before / after', 'Two images with a slider'], ['journey', 'Journey', 'Stages across a timeline'],
+      ['ownership', 'Ownership', 'What you owned, the team, the business'], ['quote', 'Quote', 'From a user or a stakeholder'], ['cards', 'Cards', 'Two to four side-by-side groups'], ['divider', 'Divider', 'A thin rule between ideas']
+    ];
+    this.LABEL = { text: 'Text', heading: 'Heading', list: 'List', callout: 'Callout', metrics: 'Metrics · from Outcomes', table: 'Table', image: 'Image', gallery: 'Gallery', video: 'Video', proto: 'Prototype', beforeafter: 'Before / after', journey: 'Journey', ownership: 'Ownership', quote: 'Quote', cards: 'Cards', divider: 'Divider' };
+    this.R0 = [
+      { f: 'WhatsApp integration', r: 9, i: 2.5, c: 85, e: 2, s: 9.6 },
+      { f: 'Product education', r: 7, i: 2, c: 65, e: 1, s: 9.1 },
+      { f: 'Puja recommendation engine', r: 9, i: 2.7, c: 90, e: 3, s: 7.3 },
+      { f: 'Video feed', r: 9, i: 2.5, c: 95, e: 3, s: 7.1 },
+      { f: 'Spiritual calendar and reminders', r: 9, i: 2, c: 95, e: 2.5, s: 6.8 },
+      { f: 'Subscription packages', r: 8, i: 2.5, c: 85, e: 1.5, s: 5.7 },
+      { f: 'Complementary puja suggestions', r: 6, i: 2, c: 65, e: 2, s: 3.9 },
+      { f: 'Tiered loyalty rewards', r: 6, i: 2, c: 65, e: 3, s: 2.6 },
+      { f: 'Puja and Aashirvaad box authenticity', r: 5, i: 1.5, c: 60, e: 2, s: 2.3 }
+    ];
+    this.k = 0;
+    this.staticChanges = [];
+    ['retrySave', 'openPublish', 'closePublish', 'confirmPublish', 'closeToast', 'toastUndo', 'onRootKey', 'stop', 'pickCh', 'eye', 'toggleSelHidden', 'startDrag', 'over', 'endDrag', 'keyMove', 'addChapter', 'onChTitle', 'pickB', 'deselect', 'upB', 'dnB', 'dupB', 'delB', 'togglePalette', 'addType', 'onBody', 'setStyle', 'setTone', 'setCols', 'onScreen', 'toggleTbl', 'riceUse', 'riceEffort', 'riceKeep', 'riceReset'].forEach((k) => { this[k] = this[k].bind(this); });
+    this.state = Object.assign(this.fresh(), this.preset(props.state));
+  }
+
+  fresh() {
+    return Object.assign({ save: 'saved', savedAt: 'All changes saved', live: true, dialog: null, toast: null, showErrors: false, announce: '' }, this.boardFresh());
+  }
+  preset(n) {
+    switch (n) {
+      case 'saving': return { save: 'saving' };
+      case 'offline': return { save: 'offline' };
+      case 'save failed': return { save: 'failed' };
+      case 'publish dialog': return { dialog: 'open' };
+      case 'publishing': return { dialog: 'publishing' };
+      case 'published': return { live: false, toast: { msg: 'Published. The live page updates within a minute.', link: true } };
+      default: return this.boardPreset(n);
+    }
+  }
+  componentDidUpdate(prev) {
+    if (prev.state === this.props.state) return;
+    this.clearTimers();
+    this.setState(Object.assign(this.fresh(), this.preset(this.props.state)));
+    if (this.boardAfterPreset) setTimeout(() => this.boardAfterPreset(), 0);
+  }
+  componentWillUnmount() { clearTimeout(this.st); clearTimeout(this.pt); clearTimeout(this.tt); this.clearTimers(); }
+  clearTimers() { if (this.boardTimers) this.boardTimers(); }
+  autosave() {
+    if (this.state.save === 'offline') return;
+    clearTimeout(this.st);
+    this.setState({ save: 'saving', live: true, touched: true });
+    this.st = setTimeout(() => this.setState({ save: 'saved', savedAt: 'Saved just now' }), 800);
+  }
+  retrySave() {
+    clearTimeout(this.st);
+    this.setState({ save: 'saving' });
+    this.st = setTimeout(() => this.setState({ save: 'saved', savedAt: 'Saved just now', announce: 'Saved.' }), 900);
+  }
+  openPublish(e) {
+    const s = this.state;
+    if (s.save === 'offline') { this.setState({ toast: { msg: 'You’re offline. Publish once you’re back online.' } }); this.armToast(); return; }
+    if (!s.live) return;
+    const root = e.currentTarget.closest('.st');
+    this.setState({ dialog: 'open', showErrors: true });
+    requestAnimationFrame(() => { const b = root && root.querySelector('[data-pub-cancel]'); if (b) b.focus(); });
+  }
+  closePublish() { if (this.state.dialog !== 'publishing') this.setState({ dialog: null }); }
+  stop(e) { e.stopPropagation(); }
+  confirmPublish() {
+    if (this.boardIssues().length || this.state.dialog === 'publishing') return;
+    this.setState({ dialog: 'publishing' });
+    this.pt = setTimeout(() => {
+      this.setState({ dialog: null, live: false, toast: { msg: 'Published. The live page updates within a minute.', link: true }, announce: 'Published.' });
+      this.armToast();
+    }, 1200);
+  }
+  armToast() { clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: null }), 8000); }
+  toastNow(msg) { this.setState({ toast: { msg }, announce: msg }); this.armToast(); }
+  closeToast() { clearTimeout(this.tt); this.setState({ toast: null }); }
+  toastUndo() { const u = this.state.toast && this.state.toast.undo; if (u && this.boardUndo) this.boardUndo(u); }
+  onRootKey(e) {
+    if (e.key !== 'Escape') return;
+    if (this.state.dialog === 'open') this.setState({ dialog: null });
+    else if (this.boardEscape) this.boardEscape();
+  }
+  shellVals() {
+    const s = this.state, iss = this.boardIssues(), publishing = s.dialog === 'publishing';
+    const saveMap = { saved: [s.savedAt, '#4A4A51'], saving: ['Saving…', '#4A4A51'], offline: ['Offline · saved on this device', '#8A5A00'], failed: ['Couldn’t save', '#B42318'] };
+    const own = this.boardChanges();
+    const changes = own.concat(this.staticChanges || []).map((t) => ({ text: t }));
+    const checks = this.boardChecks().map((c) => ({ text: c.text, color: c.ok ? '#0F7A4A' : '#8A5A00', okD: c.ok ? 'inline' : 'none', warnD: c.ok ? 'none' : 'inline' }));
+    return {
+      titleShow: 'Puja engagement platform',
+      chgD: s.live ? 'inline-flex' : 'none', tabDotD: s.live && own.length ? 'inline-block' : 'none',
+      saveText: saveMap[s.save][0], saveColor: saveMap[s.save][1],
+      saveSpinD: s.save === 'saving' ? 'inline-block' : 'none', saveOkD: s.save === 'saved' ? 'inline' : 'none', saveOffD: s.save === 'offline' ? 'inline' : 'none', saveErrD: s.save === 'failed' ? 'inline' : 'none',
+      retrySave: this.retrySave, offBannerD: s.save === 'offline' ? 'flex' : 'none', errBannerD: s.save === 'failed' ? 'flex' : 'none',
+      pubLabel: s.live ? 'Publish changes' : 'Published', pubDoneIcoD: s.live ? 'none' : 'inline',
+      pubAria: !s.live || s.save === 'offline' ? 'true' : 'false',
+      pubTitle: s.save === 'offline' ? 'Reconnect to publish' : (s.live ? 'Review and publish your edits' : 'Everything is live'),
+      openPublish: this.openPublish, closePublish: this.closePublish, confirmPublish: this.confirmPublish, stop: this.stop, onRootKey: this.onRootKey,
+      dialogOpen: !!s.dialog, changes, checks,
+      blockD: iss.length ? 'flex' : 'none', blockText: iss.join(' '),
+      confirmAria: iss.length ? 'true' : 'false', publishingAria: publishing ? 'true' : 'false',
+      pubSpinD: publishing ? 'inline-block' : 'none', confirmLabel: publishing ? 'Publishing…' : (iss.length ? 'Fix ' + iss.length + ' to publish' : 'Publish now'),
+      toastD: s.toast ? 'flex' : 'none', toastMsg: s.toast ? s.toast.msg : '', toastLinkD: s.toast && s.toast.link ? 'inline-flex' : 'none', closeToast: this.closeToast,
+      toastUndoD: s.toast && s.toast.undo ? 'inline-flex' : 'none', toastUndo: this.toastUndo,
+      announce: s.announce
+    };
+  }
+
+  boardFresh() {
+    return {
+      chs: [
+        { id: 'c1', t: 'Objective', hidden: false, blocks: ['b1', 'b2'] },
+        { id: 'c2', t: 'Who we’re solving for', hidden: false, blocks: ['b3'] },
+        { id: 'c3', t: 'What’s broken today', hidden: false, blocks: ['b4'] },
+        { id: 'c4', t: 'Prioritisation', hidden: false, blocks: ['b5', 'b6', 'b7'] },
+        { id: 'c5', t: 'The bet: WhatsApp-native booking', hidden: false, blocks: ['b8', 'b9'] },
+        { id: 'c6', t: 'Recommendations, from cold start', hidden: false, blocks: ['b10'] },
+        { id: 'c7', t: 'My role and decisions', hidden: false, blocks: [], prompts: ['What did you own, and what did the team own?', 'Which call was hardest, and what did you give up? For example, WhatsApp before the recommendation engine.'] },
+        { id: 'c8', t: 'Learnings and next steps', hidden: false, blocks: [], prompts: ['What would you validate first, and how would you measure it?', 'What would you do differently next time?'] }
+      ],
+      bl: {
+        b1: { type: 'text', style: 'lead', body: 'Improve order per user, meaning monthly order frequency, for the puja service at Sri Mandir.' },
+        b2: { type: 'metrics' },
+        b3: { type: 'cards', cols: 3, items: [{ t: 'Tech-savvy devotees (millennials and Gen Z)', n: '' }, { t: 'NRIs and devotees far from home', n: '' }, { t: 'Time-constrained individuals', n: '' }, { t: 'People with specific needs', n: '' }, { t: 'Tech-informed devotees seeking regular practice', n: '' }, { t: 'Non-technological regular devotees', n: '' }, { t: 'Devotees who don’t speak Hindi or English', n: '' }] },
+        b4: { type: 'cards', cols: 2, items: [{ t: 'Key motivations', n: '' }, { t: 'Pain points', n: 'From Google Play reviews and app usage' }] },
+        b5: { type: 'text', style: 'body', body: 'Nine ideas, scored with RICE: reach × impact × confidence ÷ effort.' },
+        b6: { type: 'table', rice: true },
+        b7: { type: 'callout', tone: 'neutral', body: 'Top three: WhatsApp integration, product education and the puja recommendation engine.' },
+        b8: { type: 'text', style: 'body', body: 'Booking moves into WhatsApp: tap a menu, browse top pujas, pick a package, pay through a deep link, then get confirmation and tracking in the same chat.' },
+        b9: { type: 'proto', screen: 'WhatsApp booking' },
+        b10: { type: 'cards', cols: 2, items: [{ t: 'Cold start (no user data)', n: 'Local favourites, seasonal events, what’s trending' }, { t: 'When user data is available', n: 'Profile details, important dates, a “For you” carousel' }] }
+      },
+      sel: 'c4', selB: 'b6', pal: false, dragCh: null, movedCh: null, movedB: null, flip: 0,
+      rice: 'open', tbl: { check: true, sort: true, top: true, cards: true }, touched: false
+    };
+  }
+  boardPreset(n) {
+    const f = this.boardFresh();
+    switch (n) {
+      case 'add block': return { selB: null, pal: true };
+      case 'empty chapter': return { sel: 'c7', selB: null };
+      case 're-ranked': return { rice: 'use', touched: true, selB: 'b6' };
+      case 'text selected': return { selB: 'b5' };
+      case 'dragging chapter': { const chs = f.chs.slice(); const t = chs[4]; chs[4] = chs[3]; chs[3] = t; return { chs, dragCh: 'c5', touched: true }; }
+      default: return {};
+    }
+  }
+  boardEscape() { if (this.state.pal) this.setState({ pal: false }); else if (this.state.selB) this.setState({ selB: null }); }
+  id(e) { return e.currentTarget.getAttribute('data-id'); }
+  ch() { return this.state.chs.find((c) => c.id === this.state.sel); }
+  setCh(id, patch) { return this.state.chs.map((c) => (c.id === id ? Object.assign({}, c, patch) : c)); }
+  setBl(id, patch) { return Object.assign({}, this.state.bl, { [id]: Object.assign({}, this.state.bl[id], patch) }); }
+  hasContent(c) {
+    return c.blocks.some((id) => {
+      const b = this.state.bl[id];
+      if (['text', 'heading', 'list', 'quote', 'callout'].indexOf(b.type) > -1) return !!(b.body || '').trim();
+      return ['metrics', 'table', 'cards', 'proto', 'ownership'].indexOf(b.type) > -1;
+    });
+  }
+  pickCh(e) { this.setState({ sel: this.id(e), selB: null, pal: false }); }
+  eye(e) {
+    const id = this.id(e), c = this.state.chs.find((x) => x.id === id);
+    this.setState({ chs: this.setCh(id, { hidden: !c.hidden }), announce: c.t + (c.hidden ? ' shown' : ' hidden') + ' on the live page.' });
+    this.autosave();
+  }
+  toggleSelHidden() { const c = this.ch(); this.setState({ chs: this.setCh(c.id, { hidden: !c.hidden }) }); this.autosave(); }
+  startDrag(e) { if (e.button !== undefined && e.button !== 0) return; e.preventDefault(); this.setState({ dragCh: this.id(e) }); }
+  over(e) {
+    const s = this.state;
+    if (!s.dragCh) return;
+    const id = this.id(e);
+    if (id === s.dragCh) return;
+    const arr = s.chs.slice(), from = arr.findIndex((c) => c.id === s.dragCh), to = arr.findIndex((c) => c.id === id);
+    const [m] = arr.splice(from, 1); arr.splice(to, 0, m);
+    this.setState({ chs: arr });
+  }
+  endDrag() {
+    const s = this.state;
+    if (!s.dragCh) return;
+    const i = s.chs.findIndex((c) => c.id === s.dragCh);
+    this.setState({ dragCh: null, movedCh: s.dragCh, flip: s.flip + 1, announce: s.chs[i].t + ' is now chapter ' + (i + 1) + '.' });
+    this.autosave();
+  }
+  keyMove(e) {
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+    e.preventDefault();
+    const s = this.state, id = this.id(e), arr = s.chs.slice(), i = arr.findIndex((c) => c.id === id), j = e.key === 'ArrowUp' ? i - 1 : i + 1;
+    if (j < 0 || j >= arr.length) return;
+    const [m] = arr.splice(i, 1); arr.splice(j, 0, m);
+    const box = e.currentTarget.closest('[data-list]');
+    this.setState({ chs: arr, movedCh: id, flip: s.flip + 1, announce: m.t + ' is now chapter ' + (j + 1) + ' of ' + arr.length + '.' });
+    requestAnimationFrame(() => { const h = box && box.querySelector('[data-handle="' + id + '"]'); if (h) h.focus(); });
+    this.autosave();
+  }
+  addChapter() {
+    this.k += 1;
+    const id = 'cn' + this.k;
+    this.setState({ chs: this.state.chs.concat([{ id, t: 'New chapter', hidden: false, blocks: [], prompts: ['What should a reader take from this chapter?'] }]), sel: id, selB: null, pal: false, movedCh: id, flip: this.state.flip + 1 });
+    this.autosave();
+  }
+  onChTitle(e) { this.setState({ chs: this.setCh(this.state.sel, { t: e.target.value }) }); this.autosave(); }
+  pickB(e) { const id = this.id(e); if (this.state.selB !== id) this.setState({ selB: id, pal: false }); }
+  deselect() { this.setState({ selB: null }); }
+  moveB(id, dir) {
+    const c = this.ch(), arr = c.blocks.slice(), i = arr.indexOf(id), j = i + dir;
+    if (i < 0 || j < 0 || j >= arr.length) return;
+    arr.splice(i, 1); arr.splice(j, 0, id);
+    this.setState({ chs: this.setCh(c.id, { blocks: arr }), movedB: id, flip: this.state.flip + 1, announce: 'Block moved to position ' + (j + 1) + ' of ' + arr.length + '.' });
+    this.autosave();
+  }
+  upB(e) { this.moveB(this.id(e), -1); }
+  dnB(e) { this.moveB(this.id(e), 1); }
+  dupB(e) {
+    const id = this.id(e), c = this.ch(), arr = c.blocks.slice();
+    this.k += 1;
+    const nid = 'bn' + this.k, src = this.state.bl[id];
+    arr.splice(arr.indexOf(id) + 1, 0, nid);
+    this.setState({ bl: Object.assign({}, this.state.bl, { [nid]: JSON.parse(JSON.stringify(src)) }), chs: this.setCh(c.id, { blocks: arr }), selB: nid, movedB: nid, flip: this.state.flip + 1 });
+    this.toastNow('Block duplicated.');
+    this.autosave();
+  }
+  delB(e) {
+    const id = this.id(e), c = this.ch(), idx = c.blocks.indexOf(id);
+    this.setState({ chs: this.setCh(c.id, { blocks: c.blocks.filter((x) => x !== id) }), selB: null, toast: { msg: this.LABEL[this.state.bl[id].type] + ' block deleted.', undo: { ch: c.id, id, idx } }, announce: 'Block deleted.' });
+    this.armToast();
+    this.autosave();
+  }
+  boardUndo(u) {
+    const c = this.state.chs.find((x) => x.id === u.ch);
+    if (!c) return;
+    const arr = c.blocks.slice(); arr.splice(u.idx, 0, u.id);
+    this.setState({ chs: this.setCh(u.ch, { blocks: arr }), sel: u.ch, selB: u.id, movedB: u.id, flip: this.state.flip + 1, toast: { msg: 'Block restored.' }, announce: 'Block restored.' });
+    this.armToast();
+  }
+  togglePalette() { this.setState({ pal: !this.state.pal, selB: this.state.pal ? this.state.selB : null }); }
+  newBlock(t) {
+    if (t === 'cards') return { type: t, cols: 2, items: [{ t: 'First group', n: '' }, { t: 'Second group', n: '' }] };
+    if (t === 'proto') return { type: t, screen: 'Home' };
+    if (t === 'table') return { type: t, rice: false };
+    return { type: t, body: '', style: 'body', tone: 'neutral' };
+  }
+  addType(e) {
+    const t = e.currentTarget.getAttribute('data-t'), c = this.ch();
+    this.k += 1;
+    const nid = 'bn' + this.k;
+    this.setState({ bl: Object.assign({}, this.state.bl, { [nid]: this.newBlock(t) }), chs: this.setCh(c.id, { blocks: c.blocks.concat(nid) }), selB: nid, pal: false, movedB: nid, flip: this.state.flip + 1, announce: this.LABEL[t] + ' block added.' });
+    this.autosave();
+  }
+  onBody(e) { const id = this.id(e); this.setState({ bl: this.setBl(id, { body: e.target.value }) }); this.autosave(); }
+  setStyle(e) { this.setState({ bl: this.setBl(this.state.selB, { style: e.currentTarget.getAttribute('data-v') }) }); this.autosave(); }
+  setTone(e) { this.setState({ bl: this.setBl(this.state.selB, { tone: e.currentTarget.getAttribute('data-v') }) }); this.autosave(); }
+  setCols(e) { this.setState({ bl: this.setBl(this.state.selB, { cols: +e.currentTarget.getAttribute('data-v') }) }); this.autosave(); }
+  onScreen(e) { this.setState({ bl: this.setBl(this.state.selB, { screen: e.target.value }) }); this.autosave(); }
+  toggleTbl(e) { const k = e.currentTarget.getAttribute('data-k'); this.setState({ tbl: Object.assign({}, this.state.tbl, { [k]: !this.state.tbl[k] }) }); this.autosave(); }
+  riceUse() { this.setState({ rice: 'use', flip: this.state.flip + 1, announce: 'Score set to 11.3. Subscription packages now ranks first.' }); this.autosave(); }
+  riceEffort() { this.setState({ rice: 'effort', flip: this.state.flip + 1, announce: 'Effort set to 3 months. The score of 5.7 now matches.' }); this.autosave(); }
+  riceKeep() { this.setState({ rice: 'keep', announce: 'Marked as reviewed.' }); this.autosave(); }
+  riceReset() { this.setState({ rice: 'open', flip: this.state.flip + 1, announce: 'Change undone.' }); this.autosave(); }
+  boardIssues() {
+    const out = [];
+    this.state.chs.forEach((c, i) => { if (!c.t.trim() && this.hasContent(c)) out.push('Chapter ' + (i + 1) + ' needs a title.'); });
+    return out;
+  }
+  boardChanges() { return ['Story · Prioritisation table, edited 12 min ago'].concat(this.state.touched ? ['Story · chapters and blocks, edited just now'] : []); }
+  boardChecks() {
+    const s = this.state, out = [];
+    if (s.rice === 'open' && s.tbl.check) out.push({ ok: false, text: 'RICE table: Subscription packages scores 11.3 from its inputs but shows 5.7.' });
+    if (s.rice === 'use') out.push({ ok: false, text: 'Ranking changed: check the callout and “The bet” still match it.' });
+    const hid = s.chs.filter((c) => c.hidden || !this.hasContent(c));
+    if (hid.length) out.push({ ok: false, text: hid.length + (hid.length === 1 ? ' chapter stays' : ' chapters stay') + ' hidden: ' + hid.map((c) => c.t || 'Untitled').join(', ') + '.' });
+    out.push({ ok: true, text: 'Every chapter with content has a title.' });
+    return out;
+  }
+  riceRows() {
+    const s = this.state;
+    const rows = this.R0.map((r, i) => Object.assign({}, r, { idx: i }));
+    if (s.rice === 'use') rows[5] = Object.assign({}, rows[5], { s: 11.3 });
+    if (s.rice === 'effort') rows[5] = Object.assign({}, rows[5], { e: 3 });
+    const ranked = rows.slice().sort((a, b) => b.s - a.s);
+    ranked.forEach((r, i) => { r.rank = i + 1; });
+    return (s.tbl.sort ? ranked : rows).map((r) => {
+      const off = s.tbl.check && s.rice !== 'keep' && Math.abs((r.r * r.i * r.c) / 100 / r.e - r.s) > 0.06;
+      const changed = r.idx === 5 && (s.rice === 'use' || s.rice === 'effort');
+      return { rank: r.rank, f: r.f, r: r.r, i: r.i, c: r.c, e: r.e, s: r.s.toFixed(1), warnD: off ? 'inline' : 'none',
+        bg: off ? '#FFF4DB' : (s.tbl.top && r.rank <= 3 ? '#F3F8F4' : ''), sColor: off ? '#8A5A00' : '#141416',
+        anim: changed ? (s.flip % 2 ? 'stFlashA 1.2s ease-out' : 'stFlashB 1.2s ease-out') : 'none' };
+    });
+  }
+  slug(t) { return (t || 'chapter').toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  boardVals() {
+    const s = this.state, c = this.ch(), selIdx = s.chs.findIndex((x) => x.id === s.sel);
+    const lock = s.dragCh;
+    const chs = s.chs.map((x, i) => {
+      const empty = !this.hasContent(x), cur = x.id === s.sel, drag = x.id === s.dragCh;
+      return { id: x.id, t: x.t || 'Untitled chapter', n: String(i + 1).padStart(2, '0'),
+        sub: x.hidden ? 'Hidden by you' : (empty ? 'Hidden · empty' : x.blocks.length + (x.blocks.length === 1 ? ' block' : ' blocks')),
+        subColor: x.hidden || empty ? '#8A5A00' : '#6A6A72', tColor: x.hidden || empty ? '#6A6A72' : '#141416',
+        cur: cur ? 'true' : 'false', hidAria: x.hidden ? 'true' : 'false', eyeOnD: x.hidden ? 'none' : 'inline', eyeOffD: x.hidden ? 'inline' : 'none',
+        eyeTitle: x.hidden ? 'Hidden. Click to show it on the live page' : 'Shown. Click to hide it on the live page', eyeColor: x.hidden ? '#8A5A00' : '#6A6A72',
+        bg: drag ? '#fff' : '', shadow: drag ? '0 12px 28px rgba(20,20,22,.16), 0 0 0 1.5px #141416' : 'none', cursor: lock ? 'grabbing' : 'grab',
+        anim: s.movedCh === x.id && !drag ? (s.flip % 2 ? 'stFlashA 1s ease-out' : 'stFlashB 1s ease-out') : 'none',
+        over: this.over, down: this.startDrag, key: this.keyMove, pick: this.pickCh, eye: this.eye };
+    });
+    const textish = ['text', 'heading', 'list', 'quote'];
+    const ph = { image: ['Choose an image from your media library, or upload one. Alt text is required.', 'Choose image'], gallery: ['Pick two or more images. Each needs alt text.', 'Choose images'], video: ['Paste a YouTube, Vimeo, Loom or Google Drive link.', 'Paste link'], beforeafter: ['Pick a before and an after image. Readers drag a slider to compare.', 'Choose images'], journey: ['Add three to seven stages, one line each.', 'Add stage'], divider: ['A thin rule between ideas. Nothing to fill in.', ''] };
+    const blocks = c.blocks.map((id, i) => {
+      const b = s.bl[id], t = b.type, sel = s.selB === id;
+      const empty = (textish.indexOf(t) > -1 || t === 'callout') ? !(b.body || '').trim() : ['image', 'gallery', 'video', 'beforeafter', 'journey'].indexOf(t) > -1;
+      let warn = '';
+      if (t === 'table' && b.rice && s.rice === 'open' && s.tbl.check) warn = '1 row needs a look';
+      if (t === 'callout' && id === 'b7' && s.rice === 'use') warn = 'Mentions the old top three';
+      const p = ph[t];
+      return { id, typeLabel: this.LABEL[t] + (t === 'table' && b.rice ? ' · RICE' : ''), icon: this.I[t], label: this.LABEL[t] + ' block',
+        selAria: sel ? 'true' : 'false', border: sel ? '#141416' : (warn ? '#E5CF98' : '#E4E3DF'), ring: sel ? '0 0 0 1px #141416' : 'none',
+        anim: s.movedB === id ? (s.flip % 2 ? 'stRingA 1.1s ease-out' : 'stRingB 1.1s ease-out') : 'none',
+        warn, warnD: warn ? 'inline-flex' : 'none', emptyD: empty && t !== 'divider' ? 'inline-flex' : 'none',
+        firstAria: i === 0 ? 'true' : 'false', lastAria: i === c.blocks.length - 1 ? 'true' : 'false',
+        textD: textish.indexOf(t) > -1 ? 'block' : 'none', body: b.body || '',
+        ph: t === 'heading' ? 'Heading' : t === 'list' ? 'One point per line' : t === 'quote' ? 'The quote, then who said it' : 'Write something…',
+        fs: t === 'heading' ? 22 : (b.style === 'lead' ? 20 : 16), fw: t === 'heading' ? 600 : 400, fst: t === 'quote' ? 'italic' : 'normal',
+        calloutD: t === 'callout' ? 'flex' : 'none', calloutBg: b.tone === 'accent' ? '#FDECEE' : '#F2F1EE', calloutIco: b.tone === 'accent' ? '#C2182C' : '#4A4A51',
+        metricsD: t === 'metrics' ? 'flex' : 'none', tableD: t === 'table' && b.rice ? 'flex' : 'none',
+        cardsD: t === 'cards' ? 'grid' : 'none', cols: b.cols || 2, items: b.items || [],
+        protoD: t === 'proto' ? 'flex' : 'none', screen: b.screen || 'Home', ownD: t === 'ownership' ? 'grid' : 'none',
+        phD: p || (t === 'table' && !b.rice) ? 'flex' : 'none', phText: p ? p[0] : 'An empty table. Add columns and rows, then pick a formula if it scores something.', phBtn: p ? p[1] : 'Edit table', phBtnD: p && !p[1] ? 'none' : 'inline-flex',
+        pick: this.pickB, up: this.upB, dn: this.dnB, dup: this.dupB, del: this.delB, onBody: this.onBody };
+    });
+    const sb = s.selB ? s.bl[s.selB] : null, st = sb ? sb.type : null;
+    const sw = (k) => ({ ['t' + k]: s.tbl[k.toLowerCase()] ? 'true' : 'false', ['t' + k + 'Trk']: s.tbl[k.toLowerCase()] ? '#141416' : '#D2D0CA', ['t' + k + 'Knb']: s.tbl[k.toLowerCase()] ? 18 : 2 });
+    const visCount = s.chs.filter((x) => !x.hidden && this.hasContent(x)).length;
+    const empty = !this.hasContent(c);
+    return Object.assign({
+      chs, chCount: s.chs.length, visCount, chSelect: s.dragCh ? 'none' : 'auto', endDrag: this.endDrag, addChapter: this.addChapter,
+      selN: String(selIdx + 1).padStart(2, '0'), selTitle: c.t, onChTitle: this.onChTitle,
+      selTitleInvalid: !c.t.trim() ? 'true' : 'false', selTitleBorder: !c.t.trim() ? '#B42318' : '', selTitleErrD: !c.t.trim() ? 'block' : 'none',
+      selHidD: c.hidden || empty ? 'inline-flex' : 'none', selHidText: c.hidden ? 'Hidden by you' : 'Hidden on the live page · empty',
+      emptyChD: c.blocks.length ? 'none' : 'flex', prompt1: (c.prompts || [''])[0], prompt2: (c.prompts || [])[1] || '', prompt2D: (c.prompts || [])[1] ? 'block' : 'none', addType: this.addType,
+      blocks, addBtnD: s.pal ? 'none' : 'flex', palD: s.pal ? 'flex' : 'none', palAria: s.pal ? 'true' : 'false', togglePalette: this.togglePalette,
+      types: this.TYPES.map((t) => ({ k: t[0], name: t[1], desc: t[2], icon: this.I[t[0]], add: this.addType })),
+      rice: this.riceRows(), riceUse: this.riceUse, riceEffort: this.riceEffort, riceKeep: this.riceKeep, riceReset: this.riceReset,
+      riceOpenD: s.rice === 'open' && s.tbl.check ? 'flex' : 'none', riceUseD: s.rice === 'use' ? 'flex' : 'none', riceOkD: s.rice === 'effort' || s.rice === 'keep' ? 'flex' : 'none',
+      riceOkText: s.rice === 'effort' ? 'Effort set to 3 months, so the score of 5.7 now matches its inputs.' : 'Marked as reviewed. The score stays 5.7.',
+      riceSortNote: s.tbl.sort ? 'Sorted by score.' : 'In the order you entered them.',
+      rpChD: sb ? 'none' : 'flex', rpBlkD: sb ? 'flex' : 'none', rpTitle: sb ? this.LABEL[st] + ' settings' : '', deselect: this.deselect,
+      anchor: this.slug(c.t), selShownAria: c.hidden ? 'false' : 'true', selShownTrk: c.hidden ? '#D2D0CA' : '#141416', selShownKnb: c.hidden ? 2 : 18, toggleSelHidden: this.toggleSelHidden,
+      selShownNote: c.hidden ? 'Hidden by you. It keeps its content.' : (empty ? 'On, but empty chapters stay hidden until they have content.' : 'Visible in the page and its contents list.'),
+      rpTextD: textish.indexOf(st) > -1 ? 'flex' : 'none', styBody: sb && sb.style !== 'lead' ? 'true' : 'false', styLead: sb && sb.style === 'lead' ? 'true' : 'false', setStyle: this.setStyle,
+      rpCalloutD: st === 'callout' ? 'flex' : 'none', toneN: sb && sb.tone !== 'accent' ? 'true' : 'false', toneA: sb && sb.tone === 'accent' ? 'true' : 'false', setTone: this.setTone,
+      rpCardsD: st === 'cards' ? 'flex' : 'none', cols2: sb && sb.cols === 2 ? 'true' : 'false', cols3: sb && sb.cols === 3 ? 'true' : 'false', cols4: sb && sb.cols === 4 ? 'true' : 'false', setCols: this.setCols,
+      rpTableD: st === 'table' ? 'flex' : 'none', toggleTbl: this.toggleTbl,
+      rpMetricsD: st === 'metrics' ? 'flex' : 'none', rpProtoD: st === 'proto' ? 'flex' : 'none', selScreen: sb && sb.screen ? sb.screen : 'Home', onScreen: this.onScreen,
+      rpOtherD: st && ['image', 'gallery', 'video', 'beforeafter', 'journey', 'ownership', 'divider'].indexOf(st) > -1 ? 'block' : 'none'
+    }, sw('Check'), sw('Sort'), sw('Top'), sw('Cards'));
+  }
+  renderVals() { return Object.assign(this.shellVals(), this.boardVals()); }
+}
+</script>
+</body>
+</html>
