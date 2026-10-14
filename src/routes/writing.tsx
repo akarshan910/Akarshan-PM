@@ -4,6 +4,7 @@ import { type ShouldRevalidateFunctionArgs, useSearchParams } from "react-router
 import { PageFooter } from "~/components/footer/PageFooter";
 import { WritingIndex } from "~/components/writing/WritingIndex";
 import { loadPublicContent } from "~/lib/content.server";
+import { seoMeta, siteUrl, writingSeo } from "~/lib/seo";
 import { buildChrome } from "~/lib/site";
 import { writingAddress, writingIndex } from "~/lib/writing";
 
@@ -13,7 +14,11 @@ import { NotFoundPage } from "./not-found";
 /** The list's cards only. Null while nothing is published: the page is then the 404 (D19). */
 export async function loader() {
   const content = await loadPublicContent();
-  return { view: writingIndex(content), footer: buildChrome(content).footer };
+  return {
+    view: writingIndex(content),
+    footer: buildChrome(content).footer,
+    seo: writingSeo(content, siteUrl(process.env.SITE_URL)),
+  };
 }
 
 /** Topic and page live in the address; changing them never refetches the prerendered data. */
@@ -27,10 +32,7 @@ export function shouldRevalidate({
 
 export function meta({ loaderData }: Route.MetaArgs) {
   if (!loaderData.view) return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
-  return [
-    { title: `Writing · ${loaderData.footer.name}` },
-    { name: "description", content: `Posts by ${loaderData.footer.name}.` },
-  ];
+  return seoMeta(loaderData.seo);
 }
 
 const noSubscribe = () => () => undefined;

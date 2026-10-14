@@ -12,6 +12,8 @@ export interface PublicProject {
   slug: string;
   /** `visibility = 'public'`: listed on shelves and /work. Unlisted projects never reach the build. */
   listed: boolean;
+  /** `index_allowed`: false keeps the page out of search (noindex) and the sitemap. Unset is true. */
+  indexAllowed?: boolean;
   publishedAt: string;
   firstPublishedAt: string;
   project: ProjectPublished;

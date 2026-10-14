@@ -7,6 +7,7 @@ import { formatDate } from "~/components/sections/Footer";
 import { NotFound } from "~/components/states/NotFound";
 import { caseStudyView } from "~/lib/case-study";
 import { loadPublicContent } from "~/lib/content.server";
+import { projectSeo, seoMeta, siteUrl } from "~/lib/seo";
 import { isQa, QA_NOW } from "~/lib/qa";
 
 import type { Route } from "./+types/work.$slug";
@@ -16,18 +17,19 @@ import type { Route } from "./+types/work.$slug";
  * prerendered; any other address gets the 404 state.
  */
 export async function loader({ params }: Route.LoaderArgs) {
-  return { view: caseStudyView(await loadPublicContent(), params.slug) };
+  const content = await loadPublicContent();
+  const view = caseStudyView(content, params.slug);
+  const entry = content.projects.find((p) => p.listed && p.slug === params.slug);
+  return {
+    view,
+    ...(view && entry ? { seo: projectSeo(content, entry, siteUrl(process.env.SITE_URL)) } : {}),
+  };
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  if (!loaderData.view) return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
-  const { project, name } = loaderData.view;
-  const { overview, seo } = project;
-  const description = seo.description ?? overview.summary;
-  return [
-    { title: `${seo.title ?? overview.title} · ${name}` },
-    ...(description ? [{ name: "description", content: description }] : []),
-  ];
+  if (!loaderData.view || !loaderData.seo)
+    return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
+  return seoMeta(loaderData.seo);
 }
 
 const noSubscribe = () => () => undefined;
