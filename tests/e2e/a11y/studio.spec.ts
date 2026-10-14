@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { MEMORY_CODE } from "../../../src/lib/studio/memory";
 import { knownDefect } from "../devices/known-defects";
 import { axe, overflowing } from "./pages";
 
@@ -11,7 +12,8 @@ import { axe, overflowing } from "./pages";
  */
 const DEV = process.env.STUDIO_URL ?? `http://localhost:${Number(process.env.PW_PORT_BASE ?? 4310) + 1}`;
 const OWNER = "owner@example.test";
-const CODE = "123456"; // src/lib/studio/memory.ts › MEMORY_CODE
+/** STUDIO_CODE overrides it when STUDIO_URL points at another branch's dev server. */
+const CODE = process.env.STUDIO_CODE ?? MEMORY_CODE;
 
 const SCREENS = [
   { name: "dashboard", path: "/studio", title: /dashboard|studio/i },
@@ -63,9 +65,10 @@ for (const width of [1440, 834, 390]) {
 
     test("sign-in: axe, no overflow, one h1, titled", async ({ page }) => {
       test.skip(!(await studioBuilt(page)), "Studio's sign-in isn't on this branch yet");
+      // Settle first: the SPA sets <title> on the client, and axe checks it (CI race, review 2200).
+      await expect(page).toHaveTitle(/sign in/i);
       expect(await axe(page)).toEqual([]);
       expect((await overflowing(page)).offenders).toEqual([]);
-      await expect(page).toHaveTitle(/sign in/i);
     });
 
     test("sign-in: a visible h1", async ({ page }) => {
@@ -80,6 +83,7 @@ for (const width of [1440, 834, 390]) {
         test.skip(!(await studioBuilt(page)), "Studio isn't on this branch yet");
         await signIn(page);
         await open(page, s.path);
+        await expect(page).toHaveTitle(/Studio/);
         expect(await axe(page)).toEqual([]);
         expect((await overflowing(page)).offenders).toEqual([]);
         await expect(page.locator("h1").filter({ visible: true })).toHaveCount(1);
@@ -123,9 +127,11 @@ for (const width of [1440, 834, 390]) {
               [r.right - 3, r.bottom - 3],
               [r.left + r.width / 2, r.top + r.height / 2],
             ];
+            // A wrapping <label> is part of the control: its hit area (`.t44` ::after) may sit on top.
+            const control = el.closest("label") ?? el;
             const covered = pts.every(([x = 0, y = 0]) => {
               const at = document.elementFromPoint(x, y);
-              return !at || (at !== el && !el.contains(at));
+              return !at || (at !== control && !control.contains(at));
             });
             const label = (el.getAttribute("aria-label") ?? el.textContent).trim().slice(0, 40);
             return { id: `${el.tagName.toLowerCase()} "${label}"`, ring, covered };
