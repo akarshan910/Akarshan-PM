@@ -1,0 +1,15 @@
+# Secret scan for the whole history (10 · Security gates). Default rules, plus a rule that
+# catches any Supabase-style JWT. The anon key is public by design but never belongs in the
+# repo either: it lives in Vercel's environment.
+[extend]
+useDefault = true
+
+[[rules]]
+id = "supabase-jwt"
+description = "A JWT (Supabase anon or service-role key)"
+regex = '''eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}'''
+keywords = ["eyJ"]
+
+[allowlist]
+description = "Design boards and test fixtures hold no credentials"
+paths = ['''^tests/fixtures/''', '''^design/''']

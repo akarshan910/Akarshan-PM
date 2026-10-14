@@ -82,9 +82,9 @@ Build in this order. Each milestone ends with the [QA](08-qa.md) pass for what i
   - Geist;
   - Geist Mono;
   - JetBrains Mono for the nav.
-- [ ] CI on GitHub Actions: typecheck, lint, test and build on every push, plus a secret scan (gitleaks) that fails the build on a finding.
+- [x] CI on GitHub Actions: typecheck, lint, test and build on every push, plus a secret scan (gitleaks) that fails the build on a finding.
 - [x] Replace the Figma Make `package.json` with the new stack, and commit `package-lock.json`.
-- [ ] `.env.example` with the variable names from [01](01-architecture.md#environment) and empty values.
+- [x] `.env.example` with the variable names from [01](01-architecture.md#environment) and empty values.
 - [x] Move the current site's content out of `src/app/App.tsx` into `src/legacy/content.ts`, verbatim. Nothing renders it any more; it feeds the V0 seed. See [07](07-v0-content.md#extraction).
 
 ### M1 · Components

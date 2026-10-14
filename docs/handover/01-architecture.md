@@ -131,7 +131,7 @@ Every variable, where its value lives, and who can see it. Only the three `VITE_
 
 - Commit `.env.example` with the variable names and empty values. Never commit a value.
 - Local development uses `.env.local`, which `.gitignore` already covers.
-- The build fails if a `VITE_` variable's value looks like a service-role key: a JWT whose `role` claim is `service_role`. `scripts/write-vercel-config.ts` runs this check.
+- The build fails if a `VITE_` variable's value looks like a service-role key: a JWT whose `role` claim is `service_role`. `scripts/check-env.ts` runs this check before every build, together with the other build-time gates in [10](10-execution-plan.md#security-gates).
 
 ## Headers
 
