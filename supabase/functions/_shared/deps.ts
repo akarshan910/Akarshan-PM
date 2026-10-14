@@ -1,0 +1,53 @@
+/**
+ * What every `pm-` function needs from its runtime, as small ports (06 · Edge Functions). The Deno
+ * runtime (`runtime.ts`) fills them with a Postgres connection, Supabase Auth and Storage; the tests
+ * fill them with PGlite and in-memory fakes. No module here reads `Deno` directly.
+ */
+
+/** A SQL connection with service-role power (the functions' `SUPABASE_DB_URL`). */
+export interface Sql {
+  query<T = Record<string, unknown>>(text: string, params?: unknown[]): Promise<T[]>;
+  /** Runs `fn` in one transaction; a throw rolls everything back. */
+  transaction<T>(fn: (tx: Sql) => Promise<T>): Promise<T>;
+}
+
+export type Bucket = "pm-media-draft" | "pm-media-public";
+
+export interface StoragePort {
+  /** Object names under `prefix` (e.g. `<id>/r1/`) in a bucket. */
+  list(bucket: Bucket, prefix: string): Promise<string[]>;
+  /** Copies one object from the draft bucket into the public one, overwriting. */
+  publish(name: string): Promise<void>;
+  remove(bucket: Bucket, names: string[]): Promise<void>;
+  /** A signed URL for a draft file, valid for `seconds`. */
+  signedUrl(name: string, seconds: number): Promise<string>;
+}
+
+export interface AuthPort {
+  /** The user id for an access token, or null when it isn't a valid session. */
+  userId(jwt: string): Promise<string | null>;
+}
+
+export interface Env {
+  /** `PM_SITE_URL`: the site's origin, for preview links (D53: https://akarshan-pm.vercel.app). */
+  siteUrl: string;
+  /** `PM_ALLOWED_ORIGINS`: the origins Studio and the site run on. */
+  allowedOrigins: string[];
+  /** `PM_DEPLOY_HOOK_URL`: the Vercel deploy hook. Never logged or returned. */
+  deployHookUrl?: string | undefined;
+  /** The service-role key, which cron sends as its bearer token. */
+  serviceRoleKey: string;
+}
+
+export interface Deps {
+  sql: Sql;
+  storage: StoragePort;
+  auth: AuthPort;
+  env: Env;
+  /** Outbound requests: the deploy hook and link checks. */
+  fetch: typeof fetch;
+  now(): Date;
+  randomBytes(n: number): Uint8Array;
+}
+
+export type Handler = (req: Request, deps: Deps) => Promise<Response>;
