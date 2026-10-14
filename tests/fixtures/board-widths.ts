@@ -4,7 +4,7 @@
  * width's strings over the base fixture. Only copy changes here, never structure: every document
  * still passes its schema, and 1440 (or no width) is the base fixture as it is.
  */
-import type { Block, Profile, Project, ResultType } from "../../src/lib/types";
+import type { Block, Profile, Project, ResultType, SiteLayout } from "../../src/lib/types";
 
 export type FixtureWidth = 1440 | 834 | 390;
 
@@ -14,6 +14,7 @@ export function fixtureWidth(value: string | undefined): FixtureWidth {
 
 interface Docs {
   profile: Profile;
+  layout: SiteLayout;
   projects: { slug: string; document: Project }[];
 }
 
@@ -46,7 +47,12 @@ const CARDS: Record<834 | 390, Record<string, Card>> = {
     "image-based-food-logging": { cardLabel: "LLM", outcomes: [{ label: "of meal logs" }] },
     "the-cgm-journey-end-to-end": { outcomes: [{ value: "CSAT 42 → 72", label: "" }] },
     "the-glp-1-app-0-to-1": { outcomes: [{ label: "renewal" }] },
-    "puja-engagement-platform": { cardLabel: "Strategy + prototype", outcomes: [{ label: "orders per user" }] },
+    // HomeMobile's strategy lead has no summary line.
+    "puja-engagement-platform": {
+      cardLabel: "Strategy + prototype",
+      summary: "",
+      outcomes: [{ label: "orders per user" }],
+    },
     "arcana-workspace": { cardLabel: "Fintech B2B", outcomes: [{ label: "widgets in V1" }] },
     "glp-1-digital-scaffold": { outcomes: [{ label: "lose >1 kg today" }] },
     "word-games-monetisation-strategy": { cardLabel: "Word Trip", outcomes: [{ label: "MAU" }] },
@@ -56,7 +62,7 @@ const CARDS: Record<834 | 390, Record<string, Card>> = {
 
 function applyCard(doc: Project, card: Card) {
   if (card.cardLabel) doc.overview.cardLabel = card.cardLabel;
-  if (card.summary) doc.overview.summary = card.summary;
+  if (card.summary !== undefined) doc.overview.summary = card.summary;
   card.outcomes?.forEach((o, i) => {
     const target = doc.outcomes[i];
     if (!target) return;
@@ -127,6 +133,9 @@ function profileAt(width: 834 | 390, p: Profile): Profile {
     const glance = entry("e-glance");
     if (glance) {
       glance.dates = "2022 — 2025";
+      // HomeTablet draws the compact entry: the role line, then the highlights joined.
+      glance.location = "personalisation and serving for 230M+ users";
+      delete glance.summary;
       glance.highlights = [
         {
           id: "h-glance",
@@ -347,5 +356,17 @@ export function atWidth<T extends Docs>(width: FixtureWidth, docs: T): T {
     if (slug === "puja-engagement-platform") pujaAt(width, doc);
     return { slug, document: doc };
   });
-  return { ...docs, profile: profileAt(width, docs.profile), projects };
+  // Contact's intro is one sentence on both condensed boards.
+  const layout: SiteLayout = {
+    ...docs.layout,
+    sections: docs.layout.sections.map((s) =>
+      s.kind === "contact" && s.header
+        ? {
+            ...s,
+            header: { ...s.header, intro: "Open to Senior / Lead PM roles in health-tech, consumer and fintech." },
+          }
+        : s,
+    ),
+  };
+  return { ...docs, profile: profileAt(width, docs.profile), layout, projects };
 }

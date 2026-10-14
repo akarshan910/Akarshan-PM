@@ -137,12 +137,12 @@
   border-left: 2px solid var(--ln2);
 }
 
+/* HomeMobile: an 18px line 12px under the bullets; `hit44` gives it the 44px touch target. */
 .more {
   display: none;
   align-items: center;
   gap: 6px;
-  min-height: 44px;
-  margin-top: 4px;
+  margin-top: 12px;
   padding: 0;
   border: 0;
   background: none;
