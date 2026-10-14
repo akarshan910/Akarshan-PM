@@ -8,6 +8,9 @@ import { newPost } from "~/lib/defaults";
 import { nextUntitledSlug } from "~/lib/defaults";
 import { resumeIdeas } from "~/lib/studio/writing";
 import { slugify } from "~/lib/v0";
+import { studioMeta } from "~/lib/studio/paths";
+
+export const meta = () => studioMeta("Writing");
 
 export default function StudioWriting() {
   const repo = useRepo();

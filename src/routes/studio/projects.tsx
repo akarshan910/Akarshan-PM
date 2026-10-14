@@ -2,6 +2,9 @@ import { useQuery } from "~/components/studio/data";
 import { ProjectsSkeleton } from "~/components/studio/projects/ProjectsList";
 import { ProjectsScreen } from "~/components/studio/projects/ProjectsScreen";
 import { LoadError } from "~/components/studio/states/LoadError";
+import { studioMeta } from "~/lib/studio/paths";
+
+export const meta = () => studioMeta("Projects");
 
 export default function StudioProjects() {
   const q = useQuery(

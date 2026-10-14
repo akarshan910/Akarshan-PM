@@ -18,7 +18,8 @@ import { projectChecks, projectIssues, type ProjectIssue } from "~/lib/studio/ch
 import { changedTabs as draftTabs, tabNames } from "~/lib/studio/diff";
 import { changeLines, changedTabs, placement, publishButton } from "~/lib/studio/editor";
 import { dayAndTime } from "~/lib/studio/format";
-import type { EditorTabSlug } from "~/lib/studio/paths";
+import { TAB_LABELS, type EditorTabSlug } from "~/lib/studio/paths";
+import { useStudioTitle } from "../useStudioTitle";
 import { projectStatus } from "~/lib/studio/projects";
 import type { DocRow, MediaRow, ProjectRow } from "~/lib/studio/repo";
 import type { Img, ResolveImg } from "~/lib/published";
@@ -132,6 +133,7 @@ export function ProjectEditor({
   const button = publishButton(row, offline);
   const dots = changedTabs(draft, row.published, resolve);
   const title = draft.overview.title.trim() || "Untitled project";
+  useStudioTitle(title, TAB_LABELS[tab]);
 
   // ?field= (the dashboard, the checklist) focuses a field.
   const wantPublish = params.get("publish") === "1";

@@ -5,9 +5,11 @@ import { OverviewTab } from "~/components/studio/editor/OverviewTab";
 import { ProjectEditor, type EditorData } from "~/components/studio/editor/ProjectEditor";
 import { EditorTabs } from "~/components/studio/editor/tabs";
 import { LoadError } from "~/components/studio/states/LoadError";
-import { EDITOR_TABS, type EditorTabSlug } from "~/lib/studio/paths";
+import { EDITOR_TABS, studioMeta, type EditorTabSlug } from "~/lib/studio/paths";
 
 /** The editors keep the 72px rail on laptops, and phones trade the tab bar for Preview and Publish. */
+export const meta = () => studioMeta("Project");
+
 export const handle = { studioNav: "rail", studioTabbar: false };
 
 export default function StudioEditor() {

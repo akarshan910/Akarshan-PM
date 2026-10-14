@@ -215,3 +215,41 @@
   color: var(--tx);
   font-family: var(--fu);
 }
+
+/* Phones: focus scrolling clears the app bar and the fixed tab bar (8 + 48 + safe area, plus 8),
+   so the focused item is never hidden behind them (QA-S1; WCAG 2.4.11). */
+@media (max-width: 767px) {
+  html:has(.st) {
+    scroll-padding-top: 76px;
+    scroll-padding-bottom: calc(max(26px, env(safe-area-inset-bottom)) + 65px);
+  }
+}
+
+/* Touch layouts (iPad and phones): 44px hit areas without changing the drawing (08 · Targets;
+   QA-S4). `t44` grows a control vertically only, so side-by-side chips don't overlap; icon
+   buttons grow both ways. */
+@media (max-width: 1023px) {
+  /* Zero specificity, so a control placed absolutely (a block's delete button) stays put. */
+  :where(.st .t44, .st .ib, .st .mono a) {
+    position: relative;
+  }
+  .st .t44::after,
+  .st .mono a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: max(44px, 100%);
+    transform: translateY(-50%);
+  }
+  .st .ib::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(44px, 100%);
+    height: max(44px, 100%);
+    transform: translate(-50%, -50%);
+  }
+}

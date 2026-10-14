@@ -7,6 +7,9 @@ import { useToast } from "~/components/studio/Toast";
 import { LoadError } from "~/components/studio/states/LoadError";
 import { buildDashboard } from "~/lib/studio/dashboard";
 import { createProject } from "~/lib/studio/projects";
+import { studioMeta } from "~/lib/studio/paths";
+
+export const meta = () => studioMeta("Dashboard");
 
 export default function StudioDashboard() {
   const repo = useRepo();

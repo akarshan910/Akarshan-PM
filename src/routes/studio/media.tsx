@@ -2,6 +2,9 @@ import { useQuery } from "~/components/studio/data";
 import { MediaLibrary } from "~/components/studio/media/MediaLibrary";
 import { LoadError } from "~/components/studio/states/LoadError";
 import type { MediaUse } from "~/lib/studio/repo";
+import { studioMeta } from "~/lib/studio/paths";
+
+export const meta = () => studioMeta("Media");
 
 export default function StudioMedia() {
   const q = useQuery(

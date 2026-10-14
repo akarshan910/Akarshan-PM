@@ -18,6 +18,7 @@ import { ConflictDialog } from "../states/ConflictDialog";
 import { useToast } from "../Toast";
 import { TopicPicker, type TopicUse } from "../TopicPicker";
 import { useAutosave } from "../useAutosave";
+import { useStudioTitle } from "../useStudioTitle";
 import { useUpload } from "../media/useUpload";
 import styles from "./Writing.module.css";
 import { isHttpsUrl } from "~/lib/schemas";
@@ -74,6 +75,7 @@ export function PostEditor({
     },
   });
   const p = a.draft;
+  useStudioTitle(p.title.trim() || "Untitled draft", "Writing");
   const row = a.row;
   const status = postStatus(row);
 

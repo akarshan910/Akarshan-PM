@@ -248,6 +248,27 @@ describe("Login", { timeout: 20_000 }, () => {
     return { repo, clock, local, session, onSignedIn, ...utils };
   }
 
+  it("makes the form title the page's h1 on phones, where the panel is hidden", () => {
+    const listeners = new Set<() => void>();
+    const mq = {
+      matches: true,
+      addEventListener: (_: string, f: () => void) => listeners.add(f),
+      removeEventListener: (_: string, f: () => void) => listeners.delete(f),
+    };
+    vi.stubGlobal("matchMedia", () => mq);
+    try {
+      const { unmount } = setup();
+      expect(screen.getByRole("heading", { level: 1, name: "Sign in to Studio" })).toBeInTheDocument();
+      unmount();
+      expect(listeners.size).toBe(0);
+      mq.matches = false;
+      setup();
+      expect(screen.getByRole("heading", { level: 2, name: "Sign in to Studio" })).toBeInTheDocument();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("checks the address, sends a code and signs the owner in", async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime.bind(vi) });

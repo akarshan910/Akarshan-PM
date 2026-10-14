@@ -3,6 +3,9 @@ import { useParams } from "react-router";
 import { useQuery } from "~/components/studio/data";
 import { LoadError } from "~/components/studio/states/LoadError";
 import { PostEditor } from "~/components/studio/writing/PostEditor";
+import { studioMeta } from "~/lib/studio/paths";
+
+export const meta = () => studioMeta("Writing");
 
 export default function StudioPost() {
   const { id = "" } = useParams();
