@@ -1,0 +1,247 @@
+/*
+ * C10 · Hero ink panel. Values copied from Home.dc.html (laptop), HomeTablet.dc.html (iPad) and
+ * HomeMobile.dc.html (phone): `.ink`, `.ink-panel`, `.tone`, `.tone-r`, `.px`.
+ *
+ * Motion hooks for M2 (04 · M-HERO-TILT, M-HERO-DRIFT): write `--mx` and `--my` (-1…1) on any
+ * ancestor, such as the hero section, and the tilt and the four layers follow. Without them the
+ * panel holds the rest pose (.2, -.1). Add `.paused` on an ancestor to pause the drift.
+ */
+@keyframes vaInkDrift {
+  0%,
+  100% {
+    transform: rotateX(-1.5deg) rotateY(2deg);
+  }
+  50% {
+    transform: rotateX(1.5deg) rotateY(-2deg);
+  }
+}
+
+.stage {
+  --rmx: var(--mx, 0.2);
+  --rmy: var(--my, -0.1);
+  position: relative;
+  perspective: 1600px;
+  perspective-origin: 50% 40%;
+}
+
+/* The hero motion switch is off (04 · Ground rules 2), or reduced motion: flat, layers at rest. */
+.flat {
+  --rmx: 0;
+  --rmy: 0;
+}
+
+.ink {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--eo);
+  transform: rotateX(calc(var(--rmy) * -3deg)) rotateY(calc(var(--rmx) * 4deg));
+}
+
+.panel {
+  position: relative;
+  min-height: 660px;
+  border: 2px solid var(--tx);
+  background: var(--bg2);
+  overflow: hidden;
+}
+
+.px {
+  transition: transform 0.5s var(--eo);
+}
+
+/* L1 · screentone */
+.tone {
+  position: absolute;
+  inset: -40px;
+  background-image: radial-gradient(var(--tone) 1.2px, transparent 1.5px);
+  background-size: 8px 8px;
+  -webkit-mask-image: radial-gradient(ellipse at 80% 26%, #000 0%, transparent 58%);
+  mask-image: radial-gradient(ellipse at 80% 26%, #000 0%, transparent 58%);
+  transform: translate3d(calc(var(--rmx) * -12px), calc(var(--rmy) * -9px), 0);
+}
+
+/* L2 · outlined numerals */
+.numerals {
+  position: absolute;
+  right: -10px;
+  bottom: -52px;
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: 260px;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ln2);
+  white-space: nowrap;
+  transform: translate3d(calc(var(--rmx) * -8px), calc(var(--rmy) * -6px), 0);
+}
+
+/* L3 · speed lines */
+.lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: translate3d(calc(var(--rmx) * -4px), calc(var(--rmy) * -3px), 0);
+}
+.linesIpad,
+.linesPhone {
+  display: none;
+}
+
+/* L4 · red halftone disc */
+.disc {
+  position: absolute;
+  right: 7%;
+  top: 5%;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background-image: radial-gradient(#d61f33 2px, transparent 2.4px);
+  background-size: 9px 9px;
+  -webkit-mask-image: radial-gradient(circle, #000 0%, #000 24%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 0%, #000 24%, transparent 70%);
+  transform: translate3d(calc(var(--rmx) * 6px), calc(var(--rmy) * 4px), 0);
+}
+
+.kicker {
+  position: absolute;
+  left: 26px;
+  top: 22px;
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--act);
+}
+
+.body {
+  position: relative;
+  padding: 78px 56px 60px;
+  max-width: 860px;
+}
+
+/* Touch and no-hover devices drift instead of tilting; the layers don't shift (04 · M-HERO-DRIFT). */
+@media not ((hover: hover) and (pointer: fine)) {
+  .ink {
+    transform: none;
+    animation: vaInkDrift 9s ease-in-out infinite;
+  }
+  .flat .ink {
+    animation: none;
+  }
+  .tone,
+  .numerals,
+  .lines,
+  .disc {
+    transform: none;
+  }
+}
+
+/* iPad (HomeTablet.dc.html) */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .stage {
+    perspective: 1200px;
+    perspective-origin: 50% 50%;
+  }
+  .panel {
+    min-height: 700px;
+  }
+  .numerals {
+    bottom: -38px;
+    font-size: 190px;
+  }
+  .disc {
+    right: 4%;
+    top: 4%;
+    width: 300px;
+    height: 300px;
+  }
+  .kicker {
+    left: 20px;
+    top: 18px;
+  }
+  .body {
+    padding: 60px 32px 40px;
+    max-width: none;
+  }
+}
+
+/* Phone (HomeMobile.dc.html) */
+@media (max-width: 767px) {
+  .stage {
+    perspective: 900px;
+    perspective-origin: 50% 50%;
+  }
+  .panel {
+    min-height: 540px;
+  }
+  .numerals {
+    bottom: -24px;
+    font-size: 120px;
+  }
+  .disc {
+    right: -30px;
+    top: -20px;
+    width: 220px;
+    height: 220px;
+  }
+  .kicker {
+    left: 14px;
+    top: 14px;
+    font-size: 11px;
+  }
+  .body {
+    padding: 46px 18px 24px;
+    max-width: none;
+  }
+}
+
+/* The touch boards' static paths: iPad and phone layouts on touch devices (04 · M-HERO-DRIFT). */
+@media not ((hover: hover) and (pointer: fine)) {
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .linesLaptop {
+      display: none;
+    }
+    .linesIpad {
+      display: block;
+    }
+  }
+  @media (max-width: 767px) {
+    .linesLaptop {
+      display: none;
+    }
+    .linesPhone {
+      display: block;
+    }
+  }
+}
+
+/* M2 pauses the drift off screen or in a hidden tab (04 · Ground rules 5). */
+:global(.paused) .ink {
+  animation-play-state: paused;
+}
+
+/* Reduced motion (04 · Ground rules 1): flat, still, no transitions. */
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    --rmx: 0;
+    --rmy: 0;
+  }
+  .ink,
+  .px {
+    transition: none;
+  }
+  .ink {
+    animation: none;
+  }
+}
+:global(html.still) .stage {
+  --rmx: 0;
+  --rmy: 0;
+}
+:global(html.still) .ink,
+:global(html.still) .px {
+  transition: none;
+  animation: none;
+}

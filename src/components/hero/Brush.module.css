@@ -1,0 +1,55 @@
+/* The brush underline under the hero name (02 · C10, 04 · M-HERO-BRUSH). */
+@keyframes vaInkDraw {
+  from {
+    stroke-dashoffset: 900;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.brush {
+  display: block;
+  width: 520px;
+  height: 32px;
+  margin-top: 6px;
+}
+
+.stroke {
+  stroke-dasharray: 900;
+  animation: vaInkDraw 1.4s var(--eo) 0.4s both;
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .brush {
+    width: 400px;
+    height: 26px;
+  }
+}
+
+@media (max-width: 767px) {
+  .brush {
+    width: 250px;
+    height: 20px;
+  }
+}
+
+/* Once per session, like M-HERO-RISE; paused off screen (04 · Ground rules 5). */
+:global(html.no-intro) .stroke {
+  animation: none;
+  stroke-dasharray: none;
+}
+:global(.paused) .stroke {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stroke {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}
+:global(html.still) .stroke {
+  animation: none;
+  stroke-dasharray: none;
+}
