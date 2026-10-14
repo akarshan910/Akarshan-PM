@@ -23,7 +23,7 @@ import { ConflictDialog } from "../states/ConflictDialog";
 import { UnconfirmedDialog } from "../states/UnconfirmedDialog";
 import { StudioIcon } from "../StudioIcon";
 import { useToast } from "../Toast";
-import { useAutosave } from "../useAutosave";
+import { UNSAVED_MESSAGE, useAutosave } from "../useAutosave";
 import styles from "./Profile.module.css";
 import { newId } from "~/lib/defaults";
 import type { ProfilePublished } from "~/lib/published";
@@ -195,8 +195,11 @@ export function ProfileEditor({ data }: { data: ProfileData }) {
   // ---- publishing (the site publish: profile and layout together)
   const publish = async (confirmUnconfirmed = false) => {
     setPublishing(true);
-    await prof.flush();
-    await lay.flush();
+    if (!(await prof.flush()) || !(await lay.flush())) {
+      setPublishing(false);
+      toast.show({ message: UNSAVED_MESSAGE, tone: "error" });
+      return;
+    }
     const result = await repo.publish({
       action: "publish",
       kind: "site",

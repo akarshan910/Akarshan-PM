@@ -7,9 +7,18 @@ import {
   ogRect,
   origName,
   runPipeline,
+  sniff,
   variantFile,
   variantWidths,
 } from "./media-pipeline";
+
+const bytes = (...b: number[]) => new Uint8Array([...b, ...new Array<number>(16).fill(0)]);
+const PNG = bytes(0x89, 0x50, 0x4e, 0x47);
+const JPG = bytes(0xff, 0xd8, 0xff);
+const GIF = bytes(0x47, 0x49, 0x46, 0x38);
+const WEBP = bytes(0x52, 0x49, 0x46, 0x46, 0, 0, 0, 0, 0x57, 0x45, 0x42, 0x50);
+const PDF = bytes(0x25, 0x50, 0x44, 0x46);
+const HEIC = bytes(0, 0, 0, 0x18, 0x66, 0x74, 0x79, 0x70, 0x68, 0x65, 0x69, 0x63);
 
 describe("media pipeline", () => {
   afterEach(() => {
@@ -38,8 +47,18 @@ describe("media pipeline", () => {
     expect(averageColour(new Uint8ClampedArray([1, 2, 3, 0]))).toBe("#1A1A1F");
   });
 
+  it("tells files apart by their first bytes", async () => {
+    expect(await sniff(new Blob([PNG]))).toBe("image/png");
+    expect(await sniff(new Blob([JPG]))).toBe("image/jpeg");
+    expect(await sniff(new Blob([GIF]))).toBe("image/gif");
+    expect(await sniff(new Blob([WEBP]))).toBe("image/webp");
+    expect(await sniff(new Blob([PDF]))).toBe("application/pdf");
+    expect(await sniff(new Blob([HEIC]))).toBe("image/heic");
+    expect(await sniff(new Blob(["hello world, plain"]))).toBeNull();
+  });
+
   it("passes PDFs through", async () => {
-    const pdf = new Blob(["%PDF-1.7"], { type: "application/pdf" });
+    const pdf = new Blob([PDF], { type: "application/pdf" });
     const out = await runPipeline(pdf, "application/pdf");
     expect(out).toMatchObject({
       kind: "document",
@@ -70,7 +89,7 @@ describe("media pipeline", () => {
     vi.stubGlobal("createImageBitmap", () =>
       Promise.resolve({ width: 2000, height: 1000, close: () => undefined }),
     );
-    const jpg = await runPipeline(new Blob(["x"], { type: "image/webp" }), "image/webp");
+    const jpg = await runPipeline(new Blob([WEBP], { type: "image/webp" }), "image/webp");
     expect(jpg).toMatchObject({
       kind: "image",
       mime: "image/jpeg",
@@ -81,16 +100,24 @@ describe("media pipeline", () => {
     });
     expect(jpg.files.map((f) => f.name)).toEqual(["480.webp", "960.webp", "1600.webp", "orig.jpg"]);
     expect(drawn).toEqual([16, 480, 960, 1600, 2000]);
-    const png = await runPipeline(new Blob(["x"]), "image/png");
+    const png = await runPipeline(new Blob([PNG]), "image/png");
     expect(png.mime).toBe("image/png");
     expect(png.files.at(-1)?.name).toBe("orig.png");
-    const gifFile = new Blob(["GIF89a"], { type: "image/gif" });
+    const gifFile = new Blob([GIF], { type: "image/gif" });
     const gif = await runPipeline(gifFile, "image/gif");
     expect(gif.files.at(-1)).toEqual({ name: "orig.gif", blob: gifFile, type: "image/gif" });
 
+    vi.stubGlobal("createImageBitmap", () =>
+      Promise.resolve({ width: 8000, height: 6000, close: () => undefined }),
+    );
+    await expect(runPipeline(new Blob([JPG]), "image/jpeg")).rejects.toThrow(/over 40 megapixels/);
     vi.stubGlobal("createImageBitmap", () => Promise.reject(new Error("decode")));
-    await expect(runPipeline(new Blob(["x"]), "image/heic")).rejects.toThrow(/HEIC/);
-    await expect(runPipeline(new Blob(["x"]), "image/jpeg")).rejects.toThrow(/Couldn’t read this image/);
+    await expect(runPipeline(new Blob([HEIC]), "image/heic")).rejects.toThrow(/HEIC/);
+    await expect(runPipeline(new Blob([JPG]), "image/jpeg")).rejects.toThrow(/Couldn’t read this image/);
+    // The contents decide, not the name or type.
+    await expect(runPipeline(new Blob(["<script>"]), "image/png")).rejects.toThrow(/isn’t the image or PDF/);
+    await expect(runPipeline(new Blob([PDF]), "image/png")).rejects.toThrow(/isn’t the image or PDF/);
+    await expect(runPipeline(new Blob([PNG]), "application/pdf")).rejects.toThrow(/isn’t the image or PDF/);
   });
 
   it("crops the link preview around the focal point", async () => {

@@ -9,7 +9,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { dropPending, putPending } from "~/lib/studio/offline";
+import { dropPending, getPending, putPending } from "~/lib/studio/offline";
 import { markUnsynced } from "./unsynced";
 import type { SaveResult } from "~/lib/studio/repo";
 import type { SaveState } from "./SaveStatus";
@@ -43,6 +43,10 @@ export interface Autosave<D, R> {
   reset: (row: R) => void;
 }
 
+/** Shown when a publish stops because the last edit hasn’t reached the database. */
+export const UNSAVED_MESSAGE =
+  "Your last change didn’t save, so nothing was published. Try again once it’s saved.";
+
 export function useAutosave<D, R extends Versioned<D>>(options: {
   /** The offline-queue key, such as "project:<id>". */
   key: string;
@@ -69,56 +73,93 @@ export function useAutosave<D, R extends Versioned<D>>(options: {
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const retryTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // `run` calls itself again (a newer edit, or a retry), so it reaches itself through a ref.
+  // One save loop at a time. Every caller (debounce, retry, flush) gets the same promise, which
+  // settles once nothing is left unsaved (true) or a save failed or conflicted (false). An edit
+  // typed while a save is in flight is picked up by the same loop.
+  const loop = useRef<Promise<boolean> | null>(null);
   const runRef = useRef<() => Promise<boolean>>(() => Promise.resolve(true));
-  const run = useCallback(async (): Promise<boolean> => {
-    const l = latest.current;
-    if (!l.dirty) return true;
-    if (l.inFlight) {
-      l.again = true;
-      return false;
-    }
-    l.inFlight = true;
-    setState("saving");
-    const sending = l.draft;
-    let result: SaveResult<R>;
-    try {
-      result = await saveRef.current(sending, l.version);
-    } catch (e) {
-      result = { ok: false, reason: "error", message: e instanceof Error ? e.message : "" };
-    }
-    l.inFlight = false;
-    if (result.ok) {
-      l.version = result.row.version;
-      if (l.draft === sending) l.dirty = false;
-      setRow(result.row);
-      setSaved(true);
-      setDirty(l.dirty);
-      setState(l.dirty ? "saving" : "saved");
-      void dropPending(key);
-      onSavedRef.current?.(result.row);
-      if (l.dirty || l.again) {
-        l.again = false;
-        return runRef.current();
+  const run = useCallback((): Promise<boolean> => {
+    if (loop.current) return loop.current;
+    const attempt = async (): Promise<boolean> => {
+      for (;;) {
+        const l = latest.current;
+        if (!l.dirty) return true;
+        l.inFlight = true;
+        setState("saving");
+        const sending = l.draft;
+        let result: SaveResult<R>;
+        try {
+          result = await saveRef.current(sending, l.version);
+        } catch (e) {
+          result = { ok: false, reason: "error", message: e instanceof Error ? e.message : "" };
+        }
+        l.inFlight = false;
+        if (result.ok) {
+          l.version = result.row.version;
+          if (l.draft === sending) l.dirty = false;
+          setRow(result.row);
+          setSaved(true);
+          setDirty(l.dirty);
+          setState(l.dirty ? "saving" : "saved");
+          if (!l.dirty) void dropPending(key);
+          onSavedRef.current?.(result.row);
+          continue;
+        }
+        // The document is gone (deleted here or elsewhere): nothing to save, nothing to queue.
+        if (result.reason === "error" && result.message === "Not found.") {
+          l.dirty = false;
+          setDirty(false);
+          setState("saved");
+          void dropPending(key);
+          return false;
+        }
+        if (result.reason === "conflict") {
+          setState("saved");
+          setConflict(result.latest);
+          return false;
+        }
+        await putPending({ key, draft: l.draft, version: l.version, at: Date.now() });
+        setState(result.reason === "offline" ? "offline" : "failed");
+        clearTimeout(retryTimer.current);
+        retryTimer.current = setTimeout(() => {
+          void runRef.current();
+        }, RETRY_DELAY);
+        return false;
       }
-      return true;
-    }
-    if (result.reason === "conflict") {
-      setState("saved");
-      setConflict(result.latest);
-      return false;
-    }
-    await putPending({ key, draft: l.draft, version: l.version, at: Date.now() });
-    setState(result.reason === "offline" ? "offline" : "failed");
-    clearTimeout(retryTimer.current);
-    retryTimer.current = setTimeout(() => {
-      void runRef.current();
-    }, RETRY_DELAY);
-    return false;
+    };
+    const p = attempt().finally(() => {
+      loop.current = null;
+    });
+    loop.current = p;
+    return p;
   }, [key]);
   useEffect(() => {
     runRef.current = run;
   }, [run]);
+
+  // An edit queued on this device that the startup sync couldn't save (it was made on an older
+  // version) comes back here: same version, it saves; older, the conflict dialog asks which wins.
+  const initial = useRef(options.row);
+  useEffect(() => {
+    let alive = true;
+    void getPending<D>(key).then((p) => {
+      const l = latest.current;
+      if (!alive || !p || l.dirty) return;
+      l.draft = p.draft;
+      l.dirty = true;
+      setDraft(p.draft);
+      setDirty(true);
+      if (p.version === l.version) {
+        void runRef.current();
+        return;
+      }
+      l.version = p.version;
+      setConflict(initial.current);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [key]);
 
   useEffect(() => {
     const online = () => {
@@ -130,7 +171,7 @@ export function useAutosave<D, R extends Versioned<D>>(options: {
       clearTimeout(timer.current);
       clearTimeout(retryTimer.current);
       // Leaving within the debounce still saves the last edit (or queues it offline).
-      if (latest.current.dirty && !latest.current.inFlight) void run();
+      if (latest.current.dirty) void run();
     };
   }, [run]);
 
@@ -194,18 +235,34 @@ export function useAutosave<D, R extends Versioned<D>>(options: {
     return run();
   }, [run]);
 
-  const reset = useCallback((next: R) => {
-    latest.current = {
-      draft: next.draft,
-      version: next.version,
-      dirty: false,
-      inFlight: false,
-      again: false,
-    };
-    setRow(next);
-    setDraft(next.draft);
-    setDirty(false);
-  }, []);
+  /**
+   * Takes a newer row (after a publish or an address change). Edits typed since the last flush
+   * are kept: only the version and row are taken, and the edit saves on top of them.
+   */
+  const reset = useCallback(
+    (next: R) => {
+      const l = latest.current;
+      setRow(next);
+      if (l.dirty) {
+        l.version = next.version;
+        clearTimeout(timer.current);
+        timer.current = setTimeout(() => {
+          void runRef.current();
+        }, delay);
+        return;
+      }
+      latest.current = {
+        draft: next.draft,
+        version: next.version,
+        dirty: false,
+        inFlight: false,
+        again: false,
+      };
+      setDraft(next.draft);
+      setDirty(false);
+    },
+    [delay],
+  );
 
   return {
     draft,

@@ -76,3 +76,18 @@ export function mediaUses(mediaId: string, docs: Docs): MediaUse[] {
     }
   return uses;
 }
+
+/** Every media id the given documents refer to (drafts or published), for signing only those. */
+export function usedMediaIds(docs: unknown[]): Set<string> {
+  const out = new Set<string>();
+  const walk = (v: unknown) => {
+    if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === "object")
+      for (const [k, x] of Object.entries(v)) {
+        if (k === "mediaId" && typeof x === "string" && x) out.add(x);
+        else walk(x);
+      }
+  };
+  docs.forEach(walk);
+  return out;
+}
