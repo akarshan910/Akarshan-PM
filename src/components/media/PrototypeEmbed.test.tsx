@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -24,7 +24,6 @@ function mockMatchMedia(matches: boolean) {
 }
 
 afterEach(() => {
-  cleanup();
   vi.unstubAllGlobals();
   vi.useRealTimers();
 });

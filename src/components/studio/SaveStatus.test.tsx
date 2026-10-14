@@ -1,11 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { SaveStatus } from "./SaveStatus";
-
-afterEach(cleanup);
 
 describe("SaveStatus", () => {
   it("says each state in a status region", () => {

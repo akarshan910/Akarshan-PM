@@ -1,12 +1,10 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { Button, IconButton } from "./Button";
 import { TextLink } from "./TextLink";
-
-afterEach(cleanup);
 
 describe("Button (C3)", () => {
   it("renders a button by default and a link with href", () => {

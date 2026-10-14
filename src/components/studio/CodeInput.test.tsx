@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -7,7 +7,6 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { CODE_SUBMIT_DELAY, CodeInput, digitsOnly, type CodeStatus } from "./CodeInput";
 
 afterEach(() => {
-  cleanup();
   vi.useRealTimers();
 });
 

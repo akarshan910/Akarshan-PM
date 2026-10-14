@@ -1,12 +1,10 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { Checkbox, RadioCards, Segmented, Switch } from "./Controls";
-
-afterEach(cleanup);
 
 describe("Switch", () => {
   it("is a labelled switch that toggles by click and keyboard", async () => {

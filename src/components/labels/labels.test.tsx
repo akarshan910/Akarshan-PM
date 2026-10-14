@@ -1,13 +1,11 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { RESULT_LABELS, ResultLabel, type ResultType } from "./ResultLabel";
 import { SectionHeader } from "./SectionHeader";
 import { AvailabilityChip, Chip, FilterChip, StatusBadge, VolumeTag } from "./Tags";
-
-afterEach(cleanup);
 
 describe("ResultLabel (C5)", () => {
   it.each(Object.keys(RESULT_LABELS) as ResultType[])("renders %s as text with its meaning", (type) => {

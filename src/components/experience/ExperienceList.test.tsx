@@ -1,12 +1,10 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { ExperienceEntry } from "./ExperienceEntry";
 import { type ExperienceItem, ExperienceList, kindAt } from "./ExperienceList";
-
-afterEach(cleanup);
 
 const bullets = (n: number) =>
   Array.from({ length: n }, (_, i) => ({ id: `i${i}`, text: <>Bullet {i + 1}</> }));

@@ -1,11 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { NotFound } from "./NotFound";
-
-afterEach(cleanup);
 
 describe("NotFound", () => {
   it("says the page doesn't exist and offers the ways on", () => {

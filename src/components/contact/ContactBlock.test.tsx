@@ -1,11 +1,10 @@
 // @vitest-environment jsdom
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { ContactBlock, COPIED_MS } from "./ContactBlock";
 
 afterEach(() => {
-  cleanup();
   vi.useRealTimers();
   vi.unstubAllGlobals();
 });

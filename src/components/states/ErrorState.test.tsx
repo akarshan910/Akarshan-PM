@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -7,7 +7,6 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { ErrorState } from "./ErrorState";
 
 afterEach(() => {
-  cleanup();
   vi.unstubAllGlobals();
 });
 

@@ -1,11 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { fireEvent, render, screen, within } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 
 import type { OffDutyArt } from "./art";
 import { type OffDutyItem, OffDutyPage } from "./OffDutyPage";
-
-afterEach(cleanup);
 
 const ARTS: OffDutyArt[] = ["kunai", "pencil", "paddle", "pan", "plane", "camera"];
 const ITEMS: OffDutyItem[] = ARTS.map((art, i) => ({

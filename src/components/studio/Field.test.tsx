@@ -1,12 +1,10 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 
 import { SOFT_LIMITS } from "~/lib/schemas";
 
 import { Counter, SelectField, TextArea, TextField } from "./Field";
-
-afterEach(cleanup);
 
 const noop = () => undefined;
 

@@ -1,14 +1,12 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { VideoEmbed } from "./VideoEmbed";
 
 const URL = "https://www.youtube.com/watch?v=abc123";
 const POSTER = { src: "/media/p.webp", width: 1280, height: 720, alt: "Thumbnail", dominant: "#111" };
-
-afterEach(cleanup);
 
 describe("VideoEmbed", () => {
   it("shows a poster with a real play button and loads nothing from the host", () => {

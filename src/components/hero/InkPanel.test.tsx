@@ -1,15 +1,13 @@
 // @vitest-environment jsdom
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { createRef } from "react";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { HERO_SPEED, speed } from "~/motion/speed-lines";
 
 import { Brush } from "./Brush";
 import { FloatingPreview } from "./FloatingPreview";
 import { InkPanel } from "./InkPanel";
-
-afterEach(cleanup);
 
 describe("InkPanel", () => {
   it("renders the layers, the kicker and the text column", () => {

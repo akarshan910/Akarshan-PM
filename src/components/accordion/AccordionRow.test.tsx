@@ -1,11 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { AccordionRow } from "./AccordionRow";
-
-afterEach(cleanup);
 
 describe("AccordionRow", () => {
   it("is a button that expands and collapses its panel, by click and by keyboard", async () => {

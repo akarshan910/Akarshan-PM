@@ -1,14 +1,12 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 
 import { Alert, Banner, EditorBanner } from "./Banner";
 import { Chip, Mono } from "./Chip";
 import { Icon } from "../icons";
 import { Shim } from "./Skeleton";
 import { Spinner } from "./Spinner";
-
-afterEach(cleanup);
 
 describe("Banners", () => {
   it("alerts carry their role, tone and entrance", () => {

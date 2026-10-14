@@ -1,10 +1,8 @@
 // @vitest-environment jsdom
-import { cleanup, render } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { render } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 
 import { SiteFooter } from "./SiteFooter";
-
-afterEach(cleanup);
 
 describe("SiteFooter", () => {
   it("shows the year, name, credit and last update in every device's wording", () => {

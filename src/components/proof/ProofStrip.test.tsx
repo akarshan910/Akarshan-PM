@@ -1,10 +1,8 @@
 // @vitest-environment jsdom
-import { cleanup, render, within } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { render, within } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 
 import { type ProofItem, ProofStrip } from "./ProofStrip";
-
-afterEach(cleanup);
 
 const ITEMS: [ProofItem, ProofItem, ProofItem] = [
   { id: "a", value: "230M+", label: "devices personalised and served", source: "Glance · InMobi" },

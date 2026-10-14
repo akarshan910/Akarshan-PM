@@ -8,7 +8,6 @@ beforeEach(() => {
   vi.useFakeTimers();
 });
 afterEach(() => {
-  cleanup();
   vi.useRealTimers();
 });
 

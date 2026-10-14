@@ -1,13 +1,11 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { Shelf } from "../shelf/Shelf";
 import { ClosingTile } from "./ClosingTile";
 import { Cover } from "./Cover";
 import { CompactRow, LeadCard, StandardCard, type ProjectCardData } from "./ProjectCard";
-
-afterEach(cleanup);
 
 const base: ProjectCardData = {
   href: "/work/puja",

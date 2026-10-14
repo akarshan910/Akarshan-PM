@@ -1,12 +1,10 @@
 // @vitest-environment jsdom
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useEffect, useState } from "react";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { normaliseTopic, TopicPicker, usesLabel, type TopicUse } from "./TopicPicker";
-
-afterEach(cleanup);
 
 const FEW: TopicUse[] = [
   { name: "Product", uses: 4 },

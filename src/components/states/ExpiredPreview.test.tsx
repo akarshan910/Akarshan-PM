@@ -1,11 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { ExpiredPreview } from "./ExpiredPreview";
-
-afterEach(cleanup);
 
 describe("ExpiredPreview", () => {
   it("is a friendly dead end with a way forward", () => {
