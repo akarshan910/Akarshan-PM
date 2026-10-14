@@ -126,7 +126,7 @@ export interface IconButtonProps {
   shape?: "square" | "round";
   disabled?: boolean;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-  className?: string;
+  className?: string | undefined;
   "aria-controls"?: string;
   "aria-expanded"?: boolean;
 }

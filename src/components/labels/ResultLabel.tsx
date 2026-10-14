@@ -18,7 +18,7 @@ export const RESULT_LABELS: Record<ResultType, { text: string; meaning: string }
 
 export interface ResultLabelProps {
   type: ResultType;
-  className?: string;
+  className?: string | undefined;
 }
 
 export function ResultLabel({ type, className }: ResultLabelProps) {

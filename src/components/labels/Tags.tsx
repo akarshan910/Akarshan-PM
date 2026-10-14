@@ -12,7 +12,7 @@ export interface VolumeTagProps {
   accent: string;
   /** `lead` 6px 10px, `standard` 5px 9px, `compact` the phone row's `NN` at 11px. */
   size?: "lead" | "standard" | "compact";
-  className?: string;
+  className?: string | undefined;
 }
 
 export function VolumeTag({ number, accent, size = "standard", className }: VolumeTagProps) {
@@ -36,7 +36,7 @@ export function VolumeTag({ number, accent, size = "standard", className }: Volu
 export type StatusBadgeProps = {
   /** The lead cover's larger badge. */
   lead?: boolean;
-  className?: string;
+  className?: string | undefined;
 } & (
   | { kind: "prototype" }
   | {
@@ -88,7 +88,7 @@ export interface FilterChipProps {
   children: ReactNode;
   pressed: boolean;
   onClick?: () => void;
-  className?: string;
+  className?: string | undefined;
   style?: CSSProperties;
 }
 

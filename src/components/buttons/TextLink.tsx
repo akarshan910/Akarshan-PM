@@ -13,7 +13,7 @@ export interface TextLinkProps {
   icon?: IconName;
   /** Opens in a new tab, and says so to screen readers. */
   newTab?: boolean;
-  className?: string;
+  className?: string | undefined;
 }
 
 export function TextLink({ href, children, variant = "underline", icon, newTab, className }: TextLinkProps) {

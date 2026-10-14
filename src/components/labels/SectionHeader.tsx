@@ -22,7 +22,7 @@ export interface SectionHeaderProps {
    * `wide`: About's 480px intro at 17px in `--tx2`, kept on every device.
    */
   variant?: "shelf" | "wide";
-  className?: string;
+  className?: string | undefined;
 }
 
 export function SectionHeader({
