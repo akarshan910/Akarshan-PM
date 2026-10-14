@@ -157,6 +157,19 @@ let blockId = 0;
 const bid = () => `fx-b${String(++blockId)}`;
 const ul = (items: string[]) => `<ul>${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
 
+/** The board's feature names in the RICE table (sentence case). */
+const RICE_NAMES = [
+  "WhatsApp integration",
+  "Product education",
+  "Puja recommendation engine",
+  "Video feed",
+  "Spiritual calendar and reminders",
+  "Subscription packages",
+  "Complementary puja suggestions",
+  "Tiered loyalty rewards",
+  "Puja and Aashirvaad box authenticity",
+];
+
 /** CaseStudy.dc.html, CaseStudyTablet and CaseStudyMobile: VOL.05's chapters, as on the boards. */
 function pujaStory(base: Project): Project["story"] {
   const rice = base.story.flatMap((c) => c.blocks).find((b) => b.type === "table");
@@ -166,8 +179,8 @@ function pujaStory(base: Project): Project["story"] {
       {
         id: bid(),
         type: "text",
-        style: "lead",
-        body: "<p>Improve order frequency — monthly puja orders per user — for Sri Mandir’s puja service.</p>",
+        style: "body",
+        body: "<p>Improve <strong>order frequency — monthly puja orders per user</strong> — for Sri Mandir’s puja service.</p>",
       },
       { id: bid(), type: "heading", body: "Assumptions" },
       {
@@ -246,7 +259,9 @@ function pujaStory(base: Project): Project["story"] {
         style: "body",
         body: "<p>Nine candidate features scored on Reach × Impact × Confidence ÷ Effort. The top three became the plan.</p>",
       },
-      ...(rice ? [{ ...rice, id: bid() }] : []),
+      ...(rice?.type === "table"
+        ? [{ ...rice, id: bid(), rows: rice.rows.map((r, i) => r.map((c, j) => (j === 1 ? (RICE_NAMES[i] ?? c) : c))) }]
+        : []),
     ]),
     chapter("c5", "The bet: WhatsApp-native booking", [
       {
@@ -384,6 +399,37 @@ const PROJECTS = [...SHIPPED, ...STRATEGY].map(project);
 // ---------------------------------------------------------------------------------------------
 // Profile and layout: Home.dc.html, HomeTablet and HomeMobile
 // ---------------------------------------------------------------------------------------------
+
+const SKILL_SIZES_BOARD: Record<string, Profile["skills"][number]["items"][number]["size"]> = {
+  "User & Market Research": "l",
+  "Feature Prioritisation": "m",
+  "Road-mapping": "m",
+  "Stakeholder Management": "s",
+  "A/B Testing": "xl",
+  Experimentation: "m",
+  "Data-driven Development": "s",
+  SQL: "xl",
+  "Web (Clickstream) Analytics": "m",
+  "Product & Data Analytics": "l",
+  "Visualization & Story Telling": "s",
+  ETL: "m",
+  FigmaMake: "l",
+  Prototyping: "m",
+  Wireframing: "s",
+  "Napkin.ai": "s",
+  Excel: "s",
+  Lovable: "m",
+  Mixpanel: "l",
+  Metabase: "m",
+  Tableau: "s",
+  Optimizely: "s",
+  Redash: "s",
+  Superset: "m",
+  Figma: "m",
+  JIRA: "s",
+  Amplitude: "l",
+  Airflow: "m",
+};
 
 const TESTIMONIAL_ROLES: Record<string, string> = {
   "t-anmol-loonia": "Design Leader, Consumer AI · Glance",
@@ -548,6 +594,11 @@ const profile: Profile = {
       dates: "2012 — 2017",
     },
   ],
+  // Home.dc.html's default Tweak, "sizes set in Studio (example)" (its `SK` table).
+  skills: v0.profile.skills.map((g) => ({
+    ...g,
+    items: g.items.map((i) => ({ ...i, size: SKILL_SIZES_BOARD[i.text] ?? i.size })),
+  })),
   testimonials: v0.profile.testimonials.map((t) => {
     const role = TESTIMONIAL_ROLES[t.id];
     return role

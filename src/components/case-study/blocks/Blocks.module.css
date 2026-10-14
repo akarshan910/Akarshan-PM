@@ -48,7 +48,7 @@
   color: var(--tx3);
 }
 
-/* list: bullets in the accent. */
+/* list */
 .list ul,
 .list ol {
   margin: 0;
@@ -59,9 +59,7 @@
   line-height: 1.55;
   color: var(--tx2);
 }
-.list li::marker {
-  color: var(--pa);
-}
+/* Plain bullets, as every case-study board draws them (03 said accent; the boards win). */
 .list strong {
   color: var(--tx);
   font-weight: 600;
@@ -73,19 +71,32 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 14px;
 }
+/* Side by side (CaseStudy › chapter 06): 22px padding, 14px under the heading, 15px lists. */
 .box {
-  padding: 20px 22px;
+  padding: 22px;
   border-radius: 14px;
   border: 1px solid var(--ln);
   background: var(--bg2);
 }
 .box .heading {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .box .list ul,
 .box .list ol {
   font-size: 15px;
   line-height: 1.5;
+}
+/* On its own (CaseStudy › chapter 01, Assumptions): 20px 22px, 12px, and body-size lists. */
+.box:only-child {
+  padding: 20px 22px;
+}
+.box:only-child .heading {
+  margin-bottom: 12px;
+}
+.box:only-child .list ul,
+.box:only-child .list ol {
+  font-size: 16px;
+  line-height: 1.55;
 }
 
 /* quote: WritingPublic's pull quote. */
@@ -454,7 +465,9 @@ abbr.short {
   white-space: pre-line;
 }
 .chips {
-  margin: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
   padding: 0;
   list-style: none;
   display: flex;
@@ -573,7 +586,8 @@ abbr.short {
     font-size: 13px;
     line-height: 1.5;
   }
-  .cards,
+  /* Priority cards keep their columns (CaseStudyTablet › "Who we're solving for", three up); the
+   * hairline grid drops to two. */
   .hairline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -842,5 +856,25 @@ abbr.short {
     display: inline;
     margin: 0;
     font-size: inherit;
+  }
+}
+
+/* Laptop spacing the board sets per pair (CaseStudy.dc.html, chapters 01–05): 18px around the
+ * segment chips and before the hairline grid, 22px before a lone box and the journey, 16px from the
+ * journey to its metric. Everything else follows the chapter's 20px stack. */
+@media (min-width: 1280px) {
+  div > * + .chips,
+  div > .chips + * {
+    margin-top: 18px;
+  }
+  div > * + .hairline {
+    margin-top: 18px;
+  }
+  div > * + .boxes:has(> .box:only-child),
+  div > * + .journey {
+    margin-top: 22px;
+  }
+  div > .journey + .metrics {
+    margin-top: 16px;
   }
 }

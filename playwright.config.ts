@@ -22,13 +22,15 @@ const preview = `http://localhost:${previewPort}`;
  * boards' content (CONTENT_SOURCE=fixture:boards, in build-parity/), served on base + 2.
  */
 const parity = process.env.PW_PARITY === "1";
-const parityPort = base + 2;
-const parityUse = {
-  ...devices["Desktop Chrome"],
-  launchOptions,
-  baseURL: `http://localhost:${parityPort}`,
-  contextOptions: { reducedMotion: "reduce" as const },
-};
+/**
+ * The boards condense their copy per device, so each width gets its own parity build: the fixture reads
+ * PM_FIXTURE_WIDTH to pick that width's variant (D70). Ports: base + 2, 3 and 4.
+ */
+const parityWidths = [
+  { name: "laptop", width: 1440, height: 900, touch: false },
+  { name: "ipad", width: 834, height: 1112, touch: true },
+  { name: "phone", width: 390, height: 844, touch: true },
+].map((w, i) => ({ ...w, port: base + 2 + i, dir: `build-parity-${w.width}` }));
 
 const laptop = { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 }, launchOptions };
 const phone = { ...devices["Pixel 7"], viewport: { width: 390, height: 844 }, launchOptions };
@@ -39,23 +41,18 @@ export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
   reporter: process.env.CI ? "github" : "list",
   projects: parity
-    ? [
-        {
-          name: "parity-laptop",
-          testDir: "tests/parity",
-          use: { ...parityUse, viewport: { width: 1440, height: 900 } },
+    ? parityWidths.map((w) => ({
+        name: `parity-${w.name}`,
+        testDir: "tests/parity",
+        use: {
+          ...devices["Desktop Chrome"],
+          launchOptions,
+          baseURL: `http://localhost:${w.port}`,
+          viewport: { width: w.width, height: w.height },
+          hasTouch: w.touch,
+          contextOptions: { reducedMotion: "reduce" as const },
         },
-        {
-          name: "parity-ipad",
-          testDir: "tests/parity",
-          use: { ...parityUse, viewport: { width: 834, height: 1112 }, hasTouch: true },
-        },
-        {
-          name: "parity-phone",
-          testDir: "tests/parity",
-          use: { ...parityUse, viewport: { width: 390, height: 844 }, hasTouch: true },
-        },
-      ]
+      }))
     : [
         // The static build, as visitors get it.
         {
@@ -106,16 +103,14 @@ export default defineConfig({
         },
       ],
   webServer: parity
-    ? [
-        {
-          command: `npx react-router build && npx vite preview --outDir build-parity/client --port ${parityPort} --strictPort`,
-          // Both commands need these: vite preview reads buildDirectory from react-router.config.ts.
-          env: { PM_BUILD_DIR: "build-parity", CONTENT_SOURCE: "fixture:boards" },
-          port: parityPort,
-          reuseExistingServer,
-          timeout: 180_000,
-        },
-      ]
+    ? parityWidths.map((w) => ({
+        command: `npx react-router build && npx vite preview --outDir ${w.dir}/client --port ${w.port} --strictPort`,
+        // Both commands need these: vite preview reads buildDirectory from react-router.config.ts.
+        env: { PM_BUILD_DIR: w.dir, CONTENT_SOURCE: "fixture:boards", PM_FIXTURE_WIDTH: String(w.width) },
+        port: w.port,
+        reuseExistingServer,
+        timeout: 300_000,
+      }))
     : [
         {
           command: `npm run preview -- --port ${previewPort} --strictPort`,

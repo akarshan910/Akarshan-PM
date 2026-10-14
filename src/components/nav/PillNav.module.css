@@ -142,10 +142,11 @@
   );
 }
 
+/* The boards set the links side by side with no gap (Home.dc.html .pill); the live site had 2px. */
 .links {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 0;
 }
 .nl {
   font-family: "JetBrains Mono", monospace;
@@ -266,8 +267,6 @@
   }
   .contact {
     padding: 10px 18px;
-    /* Type is never under 11px on phones (HANDOFF › Decisions made during the build). */
-    font-size: 11px;
   }
 }
 
