@@ -1,9 +1,4 @@
 /* 02 · S2 Code input, copied from StudioLogin (.otp, .box). M-ST-OTP. */
-@keyframes stBlink {
-  50% {
-    opacity: 0;
-  }
-}
 
 .lbl {
   display: block;
@@ -43,7 +38,7 @@
   width: 2px;
   height: 28px;
   background: var(--tx);
-  animation: stBlink 1s steps(1) infinite;
+  animation: global(stBlink) 1s steps(1) infinite;
 }
 .bad {
   border-color: var(--err);

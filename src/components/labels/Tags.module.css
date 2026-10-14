@@ -132,16 +132,7 @@
   height: 8px;
   border-radius: 50%;
   background: var(--ok);
-  animation: vaPulse 2.4s ease-in-out infinite;
-}
-@keyframes vaPulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(60, 203, 139, 0.55);
-  }
-  50% {
-    box-shadow: 0 0 0 6px rgba(60, 203, 139, 0);
-  }
+  animation: global(vaPulse) 2.4s ease-in-out infinite;
 }
 @media (max-width: 767px) {
   .avail {

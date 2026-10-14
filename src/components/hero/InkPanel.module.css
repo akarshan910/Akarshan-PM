@@ -6,15 +6,6 @@
  * ancestor, such as the hero section, and the tilt and the four layers follow. Without them the
  * panel holds the rest pose (.2, -.1). Add `.paused` on an ancestor to pause the drift.
  */
-@keyframes vaInkDrift {
-  0%,
-  100% {
-    transform: rotateX(-1.5deg) rotateY(2deg);
-  }
-  50% {
-    transform: rotateX(1.5deg) rotateY(-2deg);
-  }
-}
 
 .stage {
   --rmx: var(--mx, 0.2);
@@ -125,7 +116,7 @@
 @media not ((hover: hover) and (pointer: fine)) {
   .ink {
     transform: none;
-    animation: vaInkDrift 9s ease-in-out infinite;
+    animation: global(vaInkDrift) 9s ease-in-out infinite;
   }
   .flat .ink {
     animation: none;

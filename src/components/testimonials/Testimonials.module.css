@@ -2,14 +2,6 @@
  * C16 · Testimonial card and its carousel, from Home.dc.html (three per page), HomeTablet.dc.html
  * (460px rail) and HomeMobile.dc.html (312px rail) › #testimonials. Motion: M-TESTI-PAGE.
  */
-@keyframes testiIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
 /* ---- Header row ---- */
 .head {
@@ -159,7 +151,7 @@
     transition: opacity 0.2s var(--eo);
   }
   .in .card {
-    animation: testiIn 0.2s var(--eo) both;
+    animation: global(csFade) 0.2s var(--eo) both;
     animation-delay: calc(var(--k, 0) * 80ms);
   }
 }

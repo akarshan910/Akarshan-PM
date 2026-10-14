@@ -55,7 +55,7 @@
   padding: 3px;
   pointer-events: none;
   z-index: 1;
-  animation: navShimmer 3.5s linear infinite;
+  animation: global(navShimmer) 3.5s linear infinite;
   filter: blur(0.4px);
 }
 .nav::after {
@@ -83,21 +83,8 @@
   padding: 8px;
   pointer-events: none;
   z-index: 0;
-  animation: navShimmer 3.5s linear infinite;
+  animation: global(navShimmer) 3.5s linear infinite;
   filter: blur(3px);
-}
-@property --shimmer-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-@keyframes navShimmer {
-  0% {
-    --shimmer-angle: 0deg;
-  }
-  100% {
-    --shimmer-angle: 360deg;
-  }
 }
 
 /* Light variant (#nav.on-light-bg): follows the theme, never on in the dark theme (02 · C1, 4). */

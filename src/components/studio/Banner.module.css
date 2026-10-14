@@ -1,14 +1,4 @@
 /* M-ST-ENTER: every Studio entrance at .22s var(--eo) (04, D20). */
-@keyframes stUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 /* .alert (StudioLogin). */
 .alert {
@@ -73,7 +63,7 @@
 }
 
 .enter {
-  animation: stUp 0.22s var(--eo) both;
+  animation: global(stUp) 0.22s var(--eo) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

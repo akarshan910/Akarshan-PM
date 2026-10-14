@@ -1,14 +1,4 @@
 /* Studio dialogs, copied from StudioProjects (delete), Editor* (publish) and StudioStates. */
-@keyframes stUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 .overlay {
   position: fixed;
@@ -30,7 +20,7 @@
   color: var(--tx);
   font-family: var(--fu);
   box-shadow: 0 30px 80px rgba(20, 20, 22, 0.3);
-  animation: stUp 0.22s var(--eo) both;
+  animation: global(stUp) 0.22s var(--eo) both;
 }
 .dialog:focus {
   outline: none;

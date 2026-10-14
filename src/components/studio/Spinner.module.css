@@ -1,16 +1,11 @@
 /* M-ST-SPIN: stSpin .8s linear infinite; 2.4s under reduced motion (04 · Studio). */
-@keyframes stSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 .spin {
   display: inline-block;
   flex: none;
   border-radius: 50%;
   border-style: solid;
-  animation: stSpin 0.8s linear infinite;
+  animation: global(stSpin) 0.8s linear infinite;
 }
 
 /* "Saving…" (StudioStates › Saving, every editor header). */

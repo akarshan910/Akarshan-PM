@@ -16,7 +16,7 @@
   position: absolute;
   inset: 0;
   background: rgba(5, 5, 7, 0.94);
-  animation: lbFade 0.2s var(--eo) both;
+  animation: global(csFade) 0.2s var(--eo) both;
 }
 
 .stage {
@@ -38,7 +38,7 @@
   width: min(calc(100vw - 160px), calc((100vh - 190px) * var(--ar)));
   border-radius: 14px;
   overflow: hidden;
-  animation: lbIn 0.32s var(--eo) both;
+  animation: global(lbIn) 0.32s var(--eo) both;
 }
 
 .caption {
@@ -80,34 +80,7 @@
 }
 
 .closing {
-  animation: lbOut 0.2s var(--eo) both;
-}
-
-@keyframes lbFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes lbIn {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes lbOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  animation: global(lbOut) 0.2s var(--eo) both;
 }
 
 /* Phones: the image takes the width; the arrows sit over its edges. */

@@ -2,16 +2,6 @@
  * C15 · Skills cloud, copied from Home*.dc.html › #skills (`.cloud`, `.cg`, `.cw`, `.sk-hint`).
  * Motion: M-SKILLS-FOCUS (colour and opacity, kept under reduced motion) and M-SKILLS-REVEAL.
  */
-@keyframes vaRise {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 .cloud {
   position: relative;
@@ -167,7 +157,7 @@
   }
 }
 .go .cw {
-  animation: vaRise 0.56s var(--eo) both;
+  animation: global(vaRise) 0.56s var(--eo) both;
   animation-delay: calc(var(--i5) * 80ms);
 }
 

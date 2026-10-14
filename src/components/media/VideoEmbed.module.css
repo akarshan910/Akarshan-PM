@@ -96,12 +96,7 @@
   border-radius: 50%;
   border: 2px solid rgba(242, 241, 238, 0.15);
   border-top-color: #f2f1ee;
-  animation: psSpin 0.8s linear infinite;
-}
-@keyframes psSpin {
-  to {
-    transform: rotate(360deg);
-  }
+  animation: global(psSpin) 0.8s linear infinite;
 }
 
 .frame {

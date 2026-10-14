@@ -3,14 +3,6 @@
  * Motion: M-ACCORDION — the plus turns 45° over 200ms, the panel opens at once and its content fades
  * in over 200ms; height never animates.
  */
-@keyframes accIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 
 .acc {
   width: 100%;
@@ -51,7 +43,7 @@
   display: block;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--ln);
-  animation: accIn 0.2s var(--eo) both;
+  animation: global(csFade) 0.2s var(--eo) both;
 }
 .open > .acc {
   border-bottom-color: transparent;

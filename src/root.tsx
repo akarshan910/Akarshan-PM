@@ -6,6 +6,7 @@ import { BOOTSTRAP_SCRIPT } from "./lib/bootstrap";
 import "./styles/fonts.css";
 import "./styles/tokens.css";
 import "./styles/base.css";
+import "./motion/keyframes.css";
 
 export function Layout({ children }: { children: ReactNode }) {
   return (

@@ -1,0 +1,180 @@
+/*
+ * Every keyframe the components use (04 · Ground rules 9), one definition per name, imported once
+ * from src/root.tsx. Names and bodies are the boards'. CSS modules reference them as
+ * `animation: global(name) …`, so the names stay unhashed. Durations, easings, delays and the
+ * reduced-motion rules stay with each component.
+ */
+
+/* Home, Main: the availability dot (M-AVAIL-PULSE). */
+@keyframes vaPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(60, 203, 139, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(60, 203, 139, 0);
+  }
+}
+
+/* Home, Main: the skills cloud's rise (M-SKILLS-REVEAL). */
+@keyframes vaRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Home*, CaseStudyMobile: the brush stroke (M-HERO-BRUSH) and the hero drift (M-HERO-DRIFT). */
+@keyframes vaInkDraw {
+  from {
+    stroke-dashoffset: 900;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes vaInkDrift {
+  0%,
+  100% {
+    transform: rotateX(-1.5deg) rotateY(2deg);
+  }
+  50% {
+    transform: rotateX(1.5deg) rotateY(-2deg);
+  }
+}
+
+/* The pill nav's ring, from the live site (src/legacy/portfolio.css): a registered angle. */
+@property --shimmer-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes navShimmer {
+  0% {
+    --shimmer-angle: 0deg;
+  }
+  100% {
+    --shimmer-angle: 360deg;
+  }
+}
+
+/* HomeMobile, CaseStudyMobile: the phone menu. */
+@keyframes mmIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mmRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* PublicStates: the loading sheen and the spinner (buttons, video, prototype). */
+@keyframes psShim {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes psSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* CaseStudyMobile: fades (lightbox, prototype, accordion, testimonials) and the bottom sheet. */
+@keyframes csFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes csUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The lightbox's open and close (M-LIGHTBOX). */
+@keyframes lbIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes lbOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Studio boards: spinner, entering banners, toasts and dialogs, the code caret, skeletons. */
+@keyframes stSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes stUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes stBlink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes stShim {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
+}
+
+/* StudioWriting: the topic picker's menu. */
+@keyframes msUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

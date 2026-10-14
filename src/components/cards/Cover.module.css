@@ -28,15 +28,7 @@
   inset: 0;
   background: linear-gradient(100deg, transparent 30%, rgba(242, 241, 238, 0.07) 50%, transparent 70%);
   background-size: 200% 100%;
-  animation: psShim 1.6s linear infinite;
-}
-@keyframes psShim {
-  from {
-    background-position: 200% 0;
-  }
-  to {
-    background-position: -200% 0;
-  }
+  animation: global(psShim) 1.6s linear infinite;
 }
 /* Failed: the alt text stands in, in the same box. */
 .alt {

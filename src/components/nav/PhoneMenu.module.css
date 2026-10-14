@@ -10,7 +10,7 @@
   -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
   overflow-y: auto;
-  animation: mmIn 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: global(mmIn) 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 /* The catalogue draws it inside a 390 × 844 frame, as the board does, at rest. */
 .contained {
@@ -48,7 +48,7 @@
   text-transform: uppercase;
   color: var(--tx2);
   text-decoration: none;
-  animation: mmRise 0.56s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: global(mmRise) 0.56s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 .n {
   width: 24px;
@@ -75,7 +75,7 @@
 }
 .cta {
   margin-top: auto;
-  animation: mmRise 0.56s cubic-bezier(0.2, 0.8, 0.2, 1) 0.32s both;
+  animation: global(mmRise) 0.56s cubic-bezier(0.2, 0.8, 0.2, 1) 0.32s both;
 }
 .foot {
   margin-top: 14px;
@@ -114,24 +114,6 @@
 .x :global(.ico) {
   width: 15px;
   height: 15px;
-}
-@keyframes mmIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes mmRise {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .menu,
