@@ -29,7 +29,7 @@ _Last updated: 15 Oct 2026._
 | --- | --- |
 | M0 · Foundation | **Done.** Stack, routing, tokens, fonts, CI, security gates, legacy content frozen, shared content core |
 | M1 · Components | **Done.** Every C1–C22, S1, S2 and Studio primitive, on `/dev/components` (dev only) |
-| M2 · Public site on local data | **Done** (merged 15 Oct 2026), except the motion audit and the automated parity specs. See Next |
+| M2 · Public site on local data | **Done** (merged 15 Oct 2026), except closing the pixel-parity sections (30 of 75 pass). See Next |
 | M3 · Supabase | **Built and tested locally** (merged 15 Oct 2026): `pm` schema with RLS, buckets, the six `pm-` Edge Functions, `db:migrate`, `db:lint`, `setup:owner`, `seed:v0`, PGlite tests (`npm run test:db`). The Supabase content source (`CONTENT_SOURCE=supabase`, WP3.5) is built and tested; local-v0 stays the default until go-live. Not done: every go-live step on the shared project, which the owner runs (`supabase/README.md`) |
 | M4 · Studio | **In progress.** Merged 15 Oct 2026: data interface (`StudioRepo`, in-memory repo for dev and tests), shell, sign-in, dashboard, projects list, project editor frame and Overview tab, autosave and offline queue. Next: the other editor tabs, Website builder, Profile, Writing, Media, previews |
 | M5 · Publishing and SEO | Not started |
@@ -69,9 +69,7 @@ Five agents work in parallel, each in its own git worktree and branch (`claude/a
 Pick up in this order. Each item lists the doc sections and boards to read.
 
 1. **Close M2.**
-   - Motion: the audit is done (`.agents` notes); the floaters move to 1101px (D67), then tick "Motion layer". Open, low: drift resumes mid-cycle after an off-screen pause, where 04 ground rule 5 says from rest.
-   - Automated parity: `tests/parity/*.spec.ts` (QA owns them) with `npm run parity`, against the boards fixture.
-   - A security review of M2's diff, then fix what it finds (every phase so far ended this way).
+   - Pixel parity: `npm run parity` (QA's specs, one build per width, D70) passes 30 of 75 sections; portfolio closes the rest, with per-width fixture copy.
 2. **M4 · Studio, what's left.** The editor tabs (Visuals, Story, Outcomes, URL & SEO), Website builder, Profile & facts, Writing, Media, draft preview and share links, every `StudioStates` state, iPad and phone; then the shell's "Signed in. n changes synced." toast. Studio builds its own reorder and rich-text field (D69, provisional until the owner confirms).
 3. **M3 · what's left.** Reading `public_redirects()` for M5's `write-vercel-config`. The go-live steps in `supabase/README.md` are the owner's (expose `pm`, extensions, `db:migrate`, Vault, function secrets and deploys, `setup:owner`, Auth settings); nothing touches the shared project until the owner says so. Security follow-ups are in `.agents/security/inbox`.
 4. **M5 · Unknown `/work/<slug>` addresses.** Today a static server answers them with another page's prerendered HTML. React Router then finds no loader data for `routes/work.$slug` and shows the error state, not the 404. The fix follows [01 · Rendering](docs/handover/01-architecture.md#rendering): `scripts/write-vercel-config.ts` rewrites `/work/:slug` paths with no prerendered page to the `noindex` unlisted shell (`work.unlisted.tsx`). The shell shows the project or the 404 state. Every other unknown path gets `404.html` with status 404. Add the e2e case back to `tests/e2e/states.spec.ts` once the shell exists.
@@ -79,9 +77,9 @@ Pick up in this order. Each item lists the doc sections and boards to read.
 
 ## Decisions made during the build
 
-They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D69 (D49–D54 and D66 answer Q2, Q3, Q4, Q6, Q8, Q9 and Q10; D55–D59 are M3's; D61–D65 are M4's). Smaller deviations from the boards, already in the code:
+They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D74 (D49–D54 and D66 answer Q2, Q3, Q4, Q6, Q8, Q9 and Q10; D55–D59 are M3's; D61–D65 are M4's). Smaller deviations from the boards, already in the code:
 
-- **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px. Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
+- **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px, except Let's Talk on phones (10px, D74). Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
 - **Accordion:** it rotates a plus 45°, per 02 and the board, not 04's chevron.
 - **Studio:** the switch and fields follow the Studio boards over C22. Save status uses a spinner (M-ST-PULSE). Toasts last 7s and accept a prop.
 - **Iframes:**
