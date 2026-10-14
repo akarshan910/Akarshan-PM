@@ -10,6 +10,8 @@ import type { MediaRow } from "./media.ts";
 export interface Issue {
   field: string;
   message: string;
+  /** Set on the two checks the V0 seed may skip (07 · Extraction; 09, D51). */
+  code?: "summary-long" | "rice-row";
 }
 
 export type LinkChecker = (url: string, kind: LinkKind) => Promise<LinkResult>;
@@ -70,7 +72,11 @@ export async function projectChecks(
   if (!o.company.trim()) issues.push({ field: "overview.company", message: "Company is required." });
   if (!o.summary.trim()) issues.push({ field: "overview.summary", message: "Summary is required." });
   else if (o.summary.length > 140)
-    issues.push({ field: "overview.summary", message: "Summary is over 140 characters." });
+    issues.push({
+      field: "overview.summary",
+      message: "Summary is over 140 characters.",
+      code: "summary-long",
+    });
   if (!slug.trim()) issues.push({ field: "seo.slug", message: "Add an address for the page." });
 
   let missingAlt = 0;
@@ -121,6 +127,7 @@ export async function projectChecks(
           issues.push({
             field: `story.${c.id}.${b.id}`,
             message: `${n} ${n === 1 ? "row needs" : "rows need"} a look.`,
+            code: "rice-row",
           });
       }
     }

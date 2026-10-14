@@ -71,7 +71,11 @@ async function liveProjectIds(sql: Sql): Promise<Set<string>> {
   return new Set(rows.map((r) => r.id));
 }
 
-async function publishSite(deps: Deps, body: PublishBody): Promise<Response | Record<string, unknown>> {
+export async function publishSite(
+  deps: Deps,
+  body: Pick<PublishBody, "confirmUnconfirmed">,
+  options: Pick<SeedOptions, "deploy"> = {},
+): Promise<Record<string, unknown>> {
   const [profileRow] = await deps.sql.query<{ draft: unknown }>("select draft from pm.profile where id = 1");
   const [layoutRow] = await deps.sql.query<{ draft: unknown; published: Layout | null }>(
     "select draft, published from pm.site_layout where id = 1",
@@ -107,7 +111,8 @@ async function publishSite(deps: Deps, body: PublishBody): Promise<Response | Re
     ]);
     return row?.at ?? deps.now().toISOString();
   });
-  return { ok: true, publishedAt: at, deployed: await deploy(deps, "site"), changes };
+  const deployed = options.deploy === false ? false : await deploy(deps, "site");
+  return { ok: true, publishedAt: at, deployed, changes };
 }
 
 interface ProjectRow {
@@ -130,7 +135,18 @@ async function loadProject(sql: Sql, id: string): Promise<ProjectRow> {
   return row;
 }
 
-async function publishProjectRow(deps: Deps, id: string): Promise<Record<string, unknown>> {
+/** Options only the V0 seed passes: the two checks it may skip (07 · Extraction). */
+export interface SeedOptions {
+  allow?: ReadonlySet<NonNullable<Issue["code"]>>;
+  /** Skip the deploy hook: the owner deploys once the seed is done. */
+  deploy?: boolean;
+}
+
+export async function publishProjectRow(
+  deps: Deps,
+  id: string,
+  options: SeedOptions = {},
+): Promise<Record<string, unknown>> {
   const row = await loadProject(deps.sql, id);
   if (row.deleted_at) throw notFound();
   const draft = parse(Project, row.draft);
@@ -143,7 +159,8 @@ async function publishProjectRow(deps: Deps, id: string): Promise<Record<string,
     [row.slug, id],
   );
   if (taken) issues.push({ field: "seo.slug", message: "Another project already uses this address." });
-  if (issues.length > 0) throw blocked(issues);
+  const blocking = issues.filter((i) => !(i.code && options.allow?.has(i.code)));
+  if (blocking.length > 0) throw blocked(blocking);
 
   const published = sanitizeProject(publishProject(draft, publicResolver(media)));
   await publishMedia(deps.sql, deps.storage, usedMedia(media, published));
@@ -190,7 +207,8 @@ async function publishProjectRow(deps: Deps, id: string): Promise<Record<string,
     }
     return saved?.at ?? deps.now().toISOString();
   });
-  return { ok: true, publishedAt: at, deployed: await deploy(deps, `project:${row.slug}`) };
+  const deployed = options.deploy === false ? false : await deploy(deps, `project:${row.slug}`);
+  return { ok: true, publishedAt: at, deployed };
 }
 
 interface PostRow {
