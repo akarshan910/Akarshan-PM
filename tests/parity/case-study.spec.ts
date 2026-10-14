@@ -26,11 +26,24 @@ defineParity([
     path: "/work/puja-engagement-platform/",
     pill: true,
     sections: [
-      { name: "header", board: ".va > section:first-of-type", page: "main > header" },
+      {
+        name: "header",
+        board: ".va > section:first-of-type",
+        page: "main > header",
+        // 09 · D60: the facts' "Add in Studio" cells hide on the site, so the facts row is masked.
+        mask: { board: [".va > section:first-of-type dl"], page: ["main > header dl"] },
+        note: "09 · D60: facts row masked",
+      },
       {
         name: "prototype",
         board: 'section[aria-label="Interactive prototype"]',
         page: 'section[aria-label="Interactive prototype"]',
+        // 09 · D60: generated art stands in for the board's drawn poster.
+        mask: {
+          board: ['section[aria-label="Interactive prototype"] .fadein'],
+          page: ['section[aria-label="Interactive prototype"] [class*="_screen_"]'],
+        },
+        note: "09 · D60: poster art masked",
       },
       { name: "summary", board: 'section[aria-label="Summary"]', page: 'section[aria-label="Summary"]' },
       ...chapters((i) => `section#c${i}`),
@@ -45,7 +58,14 @@ defineParity([
     path: "/work/puja-engagement-platform/",
     pill: true,
     sections: [
-      { name: "header", board: ".va > section:first-of-type", page: "main > header" },
+      {
+        name: "header",
+        board: ".va > section:first-of-type",
+        page: "main > header",
+        // 09 · D60: the facts' "Add in Studio" cells hide on the site, so the facts row is masked.
+        mask: { board: [".va > section:first-of-type dl"], page: ["main > header dl"] },
+        note: "09 · D60: facts row masked",
+      },
       {
         name: "prototype",
         board: 'section[aria-label="Interactive prototype"]',

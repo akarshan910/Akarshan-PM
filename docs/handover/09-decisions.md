@@ -86,6 +86,7 @@ The reasoning behind the bigger decisions is in [`docs/story/02-decisions.md`](.
 | D72 | 15 Oct 2026 | **/work's search placeholder is "Search N volumes"** (WorkScale); its label stays "Search work" | `design/boards/WorkScale.dc.html`, [03](03-public-site.md) |
 | D73 | 15 Oct 2026 | **Post covers are 16:9 boxes everywhere** (WritingPublic); images in a post's body keep their own ratio | `design/boards/WritingPublic.dc.html`, [03 · Media](03-public-site.md) |
 | D74 | 15 Oct 2026 | **Let's Talk stays 10px on phones,** as the board and the live nav draw it, an exception to the build's "never under 11px on phones". Its contrast is Q5's question | Q5, [HANDOFF](../../HANDOFF.md) |
+| D75 | 15 Oct 2026 | **Where two boards draw the same illustrative content differently, parity masks it and cites this decision;** layout, spacing and type around it are still compared. This covers copy (the case header's dek and tag chip versus the Home card), drawn figures standing in for media (chapter 05's phone), and fixture states one board assumes and another doesn't (a post with a cover on /writing and without one on its page; "Older posts" drawn for 21 posts). Board copy is illustrative (CLAUDE.md), so these aren't defects | [08 · Pixel parity](08-qa.md#pixel-parity), D60 |
 
 ## Open questions
 
