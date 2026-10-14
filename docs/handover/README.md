@@ -137,7 +137,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
   - Turnstile in Studio; Supabase's CAPTCHA protection switched on once lumina's login sends tokens ([09](09-decisions.md), Q8);
   - the code-only email template and custom SMTP.
 - [ ] V0 seed script (`npm run seed:v0`) loads profile, layout and projects from `src/legacy/content.ts`, with the covers from `design/covers/`. See [07](07-v0-content.md). _Built and tested locally (PGlite); waits for the owner's go-live steps in `supabase/README.md`._
-- [ ] The build reads published content from Supabase at prerender time and stops using the local JSON.
+- [ ] The build reads published content from Supabase at prerender time and stops using the local JSON. _`CONTENT_SOURCE=supabase` is built and tested on the real migrations (PGlite, as anon); the build switches to it when the owner's project is live._
 
 ### M4 · Studio
 

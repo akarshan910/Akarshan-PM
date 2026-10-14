@@ -78,6 +78,8 @@ The reasoning behind the bigger decisions is in [`docs/story/02-decisions.md`](.
 | D64 | 15 Oct 2026 | **A project's first publish** uses the dialog kicker "Publish" and the title "Publish “{title}”?"; the boards draw only the update case | [05](05-studio.md) |
 | D65 | 15 Oct 2026 | **Studio's own data layer instead of TanStack Query and idb-keyval:** a small query cache (`components/studio/data.tsx`) and a 60-line IndexedDB wrapper do what 05 and 06 · Autosave ask. dnd-kit and TipTap stay, as 01 · Stack names them | [01 · Stack](01-architecture.md), [06 · Autosave](06-backend.md#autosave) |
 | D66 | 15 Oct 2026 | **Sign-in codes are 8 digits (Q9),** because CAPTCHA stays off (D54): guessing gets 100 times harder. Supabase's Email OTP length is 8, applied with the owner alongside D52 (lumina doesn't use email codes); the code input shows 8 boxes. This updates D8's "6-digit" and the copy in 02 and 05 | [06 · Auth](06-backend.md#auth), [05 · Sign-in](05-studio.md#sign-in) |
+| D67 | 15 Oct 2026 | **The hero's laptop floaters start at 1101px,** as the Home boards' `@media (max-width:1100px)` and 04 say, not at 02's 1280px laptop breakpoint: the boards outrank 02. From 1101 to 1279px the laptop set shows | [04 · Floaters](04-motion.md), `design/boards/Home.dc.html` |
+| D68 | 15 Oct 2026 | **The Experience accordion rotates a plus 45°,** as 02 · C14 and `HomeMobile` draw it; 04 now says so (it said a chevron turning 180°) | [04 · M-ACCORDION](04-motion.md#m-accordion--experience-accordion-ipad-and-phone) |
 
 ## Open questions
 
