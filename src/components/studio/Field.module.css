@@ -1,0 +1,270 @@
+/* Studio fields, copied from EditorOverview, StudioWriting and StudioStates (.lbl, .req, .inp, .hrow). */
+.field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.lbl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tx);
+}
+.req {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--tx3);
+}
+
+.inp {
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin-top: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--ln2);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--tx);
+  font: 400 15px/1.4 var(--fu);
+}
+textarea.inp {
+  height: auto;
+  min-height: 88px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+.inp::placeholder {
+  color: #8f8d87;
+}
+.inp:focus,
+.inp:focus-visible {
+  outline: none;
+  border-color: var(--tx);
+  box-shadow: 0 0 0 1px var(--tx);
+}
+/* The boards set the error border inline, so it holds while focused. */
+.inp.invalid,
+.inp.invalid:focus {
+  border-color: var(--err);
+}
+.inp:disabled {
+  background: #f1f0ec;
+  color: var(--tx3);
+}
+/* A slug or address field uses Geist Mono (02 · C22). */
+.monoInp {
+  font-family: var(--fm);
+  font-size: 14px;
+}
+select.inp {
+  cursor: pointer;
+}
+
+.hrow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.hint {
+  color: var(--tx3);
+}
+.err,
+.warn {
+  display: flex;
+  gap: 6px;
+  font-weight: 500;
+}
+.err {
+  color: var(--err);
+}
+.warn {
+  color: var(--warn);
+}
+.msgIco {
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+}
+.cnt {
+  margin-left: auto;
+  font-family: var(--fm);
+  font-size: 12px;
+  white-space: nowrap;
+  color: var(--tx3);
+}
+.cntWarn {
+  color: var(--warn);
+}
+.cntOver {
+  color: var(--err);
+}
+
+/* .seg: segmented control (Editor* 36px buttons; StudioWriting and StudioStates 34px). */
+.seg {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 3px;
+  border-radius: 10px;
+  background: #eae9e4;
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+.seg button {
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--tx2);
+  font: 500 14px/1 var(--fu);
+  cursor: pointer;
+}
+.seg34 button {
+  height: 34px;
+}
+.seg button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--tx);
+  box-shadow: 0 1px 2px rgba(20, 20, 22, 0.12);
+}
+
+/* .sw / .trk / .knb: switch (StudioWriting, StudioSite). M-ST-SWITCH. */
+.sw {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font: 400 14px/1.4 var(--fu);
+  color: var(--tx);
+  cursor: pointer;
+}
+.trk {
+  position: relative;
+  flex: none;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: #d2d0ca;
+  transition: background 0.15s;
+}
+.sw[aria-checked="true"] .trk {
+  background: #141416;
+}
+.knb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: left 0.15s;
+}
+.sw[aria-checked="true"] .knb {
+  left: 18px;
+}
+.sw:disabled {
+  color: var(--tx3);
+  cursor: not-allowed;
+}
+
+/* .chk: checkbox (EditorVisuals). */
+.chk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--tx);
+  cursor: pointer;
+}
+.chk input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #141416;
+  cursor: pointer;
+}
+
+/* .rc / .rdo: radio cards (StudioProfile). */
+.rgroup {
+  display: grid;
+  gap: 8px;
+}
+.rc {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 3px 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  background: #fff;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.rc[aria-checked="true"] {
+  border-color: var(--tx);
+  box-shadow: 0 0 0 1px var(--tx);
+}
+.rdo {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 2px solid #8f8d87;
+  display: grid;
+  place-items: center;
+}
+.rc[aria-checked="true"] .rdo {
+  border-color: var(--tx);
+}
+.rc[aria-checked="true"] .rdo::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tx);
+}
+.rcTitle {
+  font-size: 15px;
+  font-weight: 600;
+}
+.rcNote {
+  font-size: 13px;
+  color: var(--tx3);
+}
+
+@media (pointer: coarse) {
+  .seg button,
+  .sw {
+    min-height: 44px;
+  }
+  .chk {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trk,
+  .knb {
+    transition: none;
+  }
+}
+:global(html.still) .trk,
+:global(html.still) .knb {
+  transition: none;
+}
