@@ -53,6 +53,16 @@ export type Section = {
    * decision in `note`). They compare as background, so the layout around them still counts.
    */
   mask?: { board: string[]; page: string[] };
+  /**
+   * Parts removed (`display: none`) before the shot, for 09 · D75 content that one side draws and
+   * the other doesn't (a figure, a cover, a pager): masking can't help when the heights differ.
+   */
+  collapse?: { board?: string[]; page?: string[] };
+  /**
+   * Crop each side at the bottom of this element (selector inside the section, per side), to
+   * compare the top of a section whose lower part is D75 content.
+   */
+  until?: { board: string; page: string };
   /** Raise to 0.01 only for glyph-antialiasing-only diffs, with a note (08 · Fonts). */
   allowed?: number;
   note?: string;
@@ -81,23 +91,27 @@ async function settle(page: Page) {
   await page.waitForTimeout(250);
 }
 
-async function shoot(page: Page, selector: string, hide: string, band = false) {
+async function shoot(page: Page, selector: string, opts: { band?: boolean; until?: string } = {}) {
   const el = page.locator(selector).filter({ visible: true }).first();
   await expect(el, `${selector} is missing`).toBeAttached();
   await el.scrollIntoViewIfNeeded();
-  const options = { animations: "disabled", caret: "hide", style: `${MASK_CSS} ${hide}` } as const;
-  if (!band) return PNG.sync.read(await el.screenshot(options));
-  const box = await el.evaluate((e) => {
-    const r = e.getBoundingClientRect();
-    return { y: r.top + scrollY, height: r.height, width: document.documentElement.clientWidth };
-  });
-  return PNG.sync.read(
-    await page.screenshot({
-      ...options,
-      fullPage: true,
-      clip: { x: 0, y: box.y, width: box.width, height: box.height },
-    }),
+  const options = { animations: "disabled", caret: "hide", style: MASK_CSS } as const;
+  if (!opts.band && !opts.until) return PNG.sync.read(await el.screenshot(options));
+  const box = await el.evaluate(
+    (e, { band, until }) => {
+      const r = e.getBoundingClientRect();
+      const end = until ? e.querySelector(until)?.getBoundingClientRect().bottom : undefined;
+      if (until && end === undefined) throw new Error(`${until} is missing`);
+      return {
+        x: band ? 0 : r.left + scrollX,
+        y: r.top + scrollY,
+        width: band ? document.documentElement.clientWidth : r.width,
+        height: Math.round((end ?? r.bottom) - r.top),
+      };
+    },
+    { band: Boolean(opts.band), until: opts.until },
   );
+  return PNG.sync.read(await page.screenshot({ ...options, fullPage: true, clip: box }));
 }
 
 /** Copies the top-left w×h of a PNG, so differently sized crops can still be diffed. */
@@ -117,10 +131,20 @@ async function compareSection(
 ) {
   if (s.boardScript) await boardPage.evaluate(s.boardScript);
   if (s.pageScript) await sitePage.evaluate(s.pageScript);
-  const hidden = (list: string[] | undefined) =>
-    `${[...(list ?? []), "[data-qa-mask]"].join(", ")} { visibility: hidden !important; }`;
-  const a = await shoot(boardPage, s.board, `${hide.board} ${hidden(s.mask?.board)}`);
-  const b = await shoot(sitePage, s.page, `${hide.page} ${hidden(s.mask?.page)}`, s.band);
+  // Masks and collapses go in before measuring, so crops see the final layout.
+  const css = (mask: string[] | undefined, collapse: string[] | undefined, extra: string) =>
+    [
+      extra,
+      `${[...(mask ?? []), "[data-qa-mask]"].join(", ")} { visibility: hidden !important; }`,
+      collapse?.length ? `${collapse.join(", ")} { display: none !important; }` : "",
+    ].join("\n");
+  await boardPage.addStyleTag({ content: css(s.mask?.board, s.collapse?.board, hide.board) });
+  await sitePage.addStyleTag({ content: css(s.mask?.page, s.collapse?.page, hide.page) });
+  const a = await shoot(boardPage, s.board, { ...(s.until ? { until: s.until.board } : {}) });
+  const b = await shoot(sitePage, s.page, {
+    ...(s.band ? { band: true } : {}),
+    ...(s.until ? { until: s.until.page } : {}),
+  });
   const w = Math.min(a.width, b.width);
   const h = Math.min(a.height, b.height);
   const diff = new PNG({ width: w, height: h });
