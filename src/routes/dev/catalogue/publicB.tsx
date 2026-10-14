@@ -6,6 +6,7 @@ import { InkPanel } from "~/components/hero/InkPanel";
 import { AccordionRow } from "~/components/accordion/AccordionRow";
 import { ExperienceList, type ExperienceItem } from "~/components/experience/ExperienceList";
 import { SiteFooter } from "~/components/footer/SiteFooter";
+import { type SkillGroup, type SkillSize, SkillsCloud } from "~/components/skills/SkillsCloud";
 import { ProofStrip } from "~/components/proof/ProofStrip";
 
 import { Specimen, State } from "./Specimen";
@@ -364,6 +365,82 @@ function ExperienceSpecimen() {
   );
 }
 
+/** Home.dc.html › this.SK, with the board's example sizes. */
+const SK: [string, string, [string, SkillSize][]][] = [
+  [
+    "Product",
+    "Strategy & execution",
+    [
+      ["User & Market Research", "l"],
+      ["Feature Prioritisation", "m"],
+      ["Road-mapping", "m"],
+      ["Stakeholder Management", "s"],
+      ["A/B Testing", "xl"],
+      ["Experimentation", "m"],
+      ["Data-driven Development", "s"],
+    ],
+  ],
+  [
+    "Data",
+    "My unfair advantage",
+    [
+      ["SQL", "xl"],
+      ["Web (Clickstream) Analytics", "m"],
+      ["Product & Data Analytics", "l"],
+      ["Visualization & Story Telling", "s"],
+      ["ETL", "m"],
+    ],
+  ],
+  [
+    "Design",
+    "Pixel-perfect craft",
+    [
+      ["FigmaMake", "l"],
+      ["Prototyping", "m"],
+      ["Wireframing", "s"],
+      ["Napkin.ai", "s"],
+    ],
+  ],
+  [
+    "Tools",
+    "The full stack",
+    [
+      ["Excel", "s"],
+      ["Lovable", "m"],
+      ["Mixpanel", "l"],
+      ["Metabase", "m"],
+      ["Tableau", "s"],
+      ["Optimizely", "s"],
+      ["Redash", "s"],
+      ["Superset", "m"],
+      ["Figma", "m"],
+      ["JIRA", "s"],
+      ["Amplitude", "l"],
+      ["Airflow", "m"],
+    ],
+  ],
+];
+const skillGroups = (regular: boolean): SkillGroup[] =>
+  SK.map(([title, subtitle, items], g) => ({
+    id: `g${g}`,
+    title,
+    subtitle,
+    items: items.map(([text, size], i) => ({ id: `s${g}-${i}`, text, size: regular ? "m" : size })),
+  }));
+
+function SkillsSpecimen() {
+  return (
+    <Specimen title="C15 · Skills cloud" board="Home*.dc.html · #skills .cloud">
+      <Wide label="Sizes set in Studio (example). Hover, focus or click a group word">
+        <SkillsCloud groups={skillGroups(false)} />
+      </Wide>
+      <Wide label="V0: every skill regular">
+        <SkillsCloud groups={skillGroups(true)} />
+      </Wide>
+    </Specimen>
+  );
+}
+
 function FooterSpecimen() {
   return (
     <Specimen title="C19 · Footer" board="Home*.dc.html · footer">
@@ -392,6 +469,7 @@ export default function PublicBSpecimens() {
       <HeroSpecimen />
       <ProofSpecimen />
       <ExperienceSpecimen />
+      <SkillsSpecimen />
       <FooterSpecimen />
     </>
   );
