@@ -1,6 +1,7 @@
 import { useQuery } from "~/components/studio/data";
 import { MediaLibrary } from "~/components/studio/media/MediaLibrary";
 import { LoadError } from "~/components/studio/states/LoadError";
+import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import type { MediaUse } from "~/lib/studio/repo";
 import { studioMeta } from "~/lib/studio/paths";
 
@@ -21,7 +22,7 @@ export default function StudioMedia() {
     },
     { fresh: true },
   );
-  if (q.status === "loading") return <main aria-busy="true" aria-label="Loading media" style={{ flex: 1 }} />;
+  if (q.status === "loading") return <ScreenSkeleton label="Loading media" />;
   if (q.status === "error")
     return (
       <main style={{ padding: "28px clamp(20px, 3vw, 40px)" }}>

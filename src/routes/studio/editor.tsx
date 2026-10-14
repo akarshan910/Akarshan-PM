@@ -5,6 +5,7 @@ import { OverviewTab } from "~/components/studio/editor/OverviewTab";
 import { ProjectEditor, type EditorData } from "~/components/studio/editor/ProjectEditor";
 import { EditorTabs } from "~/components/studio/editor/tabs";
 import { LoadError } from "~/components/studio/states/LoadError";
+import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import { EDITOR_TABS, studioMeta, type EditorTabSlug } from "~/lib/studio/paths";
 
 /** The editors keep the 72px rail on laptops, and phones trade the tab bar for Preview and Publish. */
@@ -34,8 +35,7 @@ export default function StudioEditor() {
 
   if (!tab || !(EDITOR_TABS as readonly string[]).includes(tab))
     return <Navigate to={`/studio/projects/${id}/overview`} replace />;
-  if (q.status === "loading")
-    return <main aria-busy="true" aria-label="Loading the project" style={{ flex: 1 }} />;
+  if (q.status === "loading") return <ScreenSkeleton label="Loading the project" variant="editor" />;
   if (q.status === "error" || q.data === null)
     return (
       <main style={{ padding: "28px clamp(20px, 3vw, 40px) 48px" }}>

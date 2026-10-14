@@ -1,5 +1,6 @@
 import { useQuery } from "~/components/studio/data";
 import { LoadError } from "~/components/studio/states/LoadError";
+import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import { WebsiteBuilder } from "~/components/studio/website/WebsiteBuilder";
 import { studioMeta } from "~/lib/studio/paths";
 
@@ -25,8 +26,7 @@ export default function StudioWebsite() {
     },
     { fresh: true },
   );
-  if (q.status === "loading")
-    return <main aria-busy="true" aria-label="Loading the website builder" style={{ flex: 1 }} />;
+  if (q.status === "loading") return <ScreenSkeleton label="Loading the website builder" variant="builder" />;
   if (q.status === "error")
     return (
       <main style={{ padding: "28px clamp(20px, 3vw, 40px)" }}>

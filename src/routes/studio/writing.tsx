@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 
 import { useQuery, useRepo, useStudio } from "~/components/studio/data";
 import { LoadError } from "~/components/studio/states/LoadError";
+import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import { useToast } from "~/components/studio/Toast";
 import { WritingList } from "~/components/studio/writing/WritingList";
 import { newPost } from "~/lib/defaults";
@@ -25,7 +26,7 @@ export default function StudioWriting() {
     },
     { fresh: true },
   );
-  if (q.status === "loading") return <main aria-busy="true" aria-label="Loading posts" style={{ flex: 1 }} />;
+  if (q.status === "loading") return <ScreenSkeleton label="Loading posts" />;
   if (q.status === "error")
     return (
       <main style={{ padding: "24px clamp(20px, 3vw, 36px)" }}>

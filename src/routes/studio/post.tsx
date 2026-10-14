@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 
 import { useQuery } from "~/components/studio/data";
 import { LoadError } from "~/components/studio/states/LoadError";
+import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import { PostEditor } from "~/components/studio/writing/PostEditor";
 import { studioMeta } from "~/lib/studio/paths";
 
@@ -17,8 +18,7 @@ export default function StudioPost() {
     },
     { fresh: true },
   );
-  if (q.status === "loading")
-    return <main aria-busy="true" aria-label="Loading the post" style={{ flex: 1 }} />;
+  if (q.status === "loading") return <ScreenSkeleton label="Loading the post" variant="editor" />;
   if (q.status === "error" || q.data === null)
     return (
       <main style={{ padding: "24px clamp(20px, 3vw, 36px)" }}>

@@ -4,6 +4,7 @@ import { useQuery } from "~/components/studio/data";
 import { DraftPreview } from "~/components/studio/preview/DraftPreview";
 import { mediaImg } from "~/components/studio/editor/ProjectEditor";
 import { LoadError } from "~/components/studio/states/LoadError";
+import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import { studioMeta } from "~/lib/studio/paths";
 import type { PreviewKind } from "~/lib/studio/preview";
 
@@ -58,13 +59,6 @@ export default function StudioPreview() {
         />
       </main>
     );
-  if (q.status === "loading")
-    return (
-      <main
-        aria-busy="true"
-        aria-label="Loading the preview"
-        style={{ minHeight: "100vh", background: "#26262C" }}
-      />
-    );
+  if (q.status === "loading") return <ScreenSkeleton label="Loading the preview" variant="preview" />;
   return <DraftPreview kind={k} id={id} source={q.data} />;
 }

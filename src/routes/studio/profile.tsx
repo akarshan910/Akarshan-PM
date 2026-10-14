@@ -1,6 +1,7 @@
 import { useQuery } from "~/components/studio/data";
 import { ProfileEditor } from "~/components/studio/profile/ProfileEditor";
 import { LoadError } from "~/components/studio/states/LoadError";
+import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import { studioMeta } from "~/lib/studio/paths";
 
 export const meta = () => studioMeta("Profile & facts");
@@ -14,8 +15,7 @@ export default function StudioProfile() {
     },
     { fresh: true },
   );
-  if (q.status === "loading")
-    return <main aria-busy="true" aria-label="Loading your profile" style={{ flex: 1 }} />;
+  if (q.status === "loading") return <ScreenSkeleton label="Loading your profile" />;
   if (q.status === "error")
     return (
       <main style={{ padding: "28px clamp(20px, 3vw, 40px)" }}>
