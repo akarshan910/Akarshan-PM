@@ -1,0 +1,307 @@
+/*
+ * C13 · Experience entries, from Home.dc.html, HomeTablet.dc.html and HomeMobile.dc.html ›
+ * #experience. Featured, Standard, Compact and Education follow position (02 · C13).
+ */
+.list {
+  border-top: 1px solid var(--ln2);
+}
+
+/* ---- Laptop (the base) ---- */
+.entry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 48px;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--ln);
+}
+.compact,
+.education {
+  gap: 12px 48px;
+  padding: 28px 0;
+}
+
+.meta {
+  flex: 1 1 220px;
+  max-width: 280px;
+}
+.dates {
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+.featured .dates {
+  color: var(--act);
+}
+.company {
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 600;
+}
+.role {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--tx2);
+}
+.compact .company,
+.education .company {
+  margin-top: 8px;
+  font-size: 19px;
+}
+.compact .role {
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+.main {
+  flex: 999 1 560px;
+  min-width: 0;
+}
+
+.summary {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+
+.para {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+
+.main strong,
+.para strong {
+  font-weight: inherit;
+  color: var(--tx);
+}
+
+/* Highlight cards: a Featured entry with grouped highlights. */
+.cards {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.card {
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--bg2);
+  border: 1px solid var(--ln);
+}
+.cardTitle {
+  margin-bottom: 12px;
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+.cardList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--tx2);
+}
+.cardList strong {
+  font-weight: 500;
+}
+
+/* Bullets: the phone list everywhere, and the Standard grid on laptop. */
+.bullets {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--tx2);
+}
+.grid {
+  margin-top: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px 32px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.grid > li {
+  padding-left: 16px;
+  border-left: 2px solid var(--ln2);
+}
+
+.more {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--act);
+  font: 500 14px/1.3 var(--fu);
+  cursor: pointer;
+}
+.moreIcon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s var(--eo);
+}
+.expanded .moreIcon {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 1280px) {
+  .main > :first-child {
+    margin-top: 0;
+  }
+  .list > .entry:last-child {
+    border-bottom: 0;
+  }
+  .hideLaptop {
+    display: none;
+  }
+}
+
+/* ---- iPad and phone ---- */
+@media (max-width: 1279px) {
+  .entry {
+    display: block;
+  }
+  .meta {
+    max-width: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0 16px;
+  }
+  .company {
+    order: 1;
+    margin-top: 0;
+  }
+  .dates {
+    order: 2;
+  }
+  .role {
+    order: 3;
+    flex: 1 0 100%;
+  }
+  .grid {
+    margin-top: 12px;
+    grid-template-columns: none;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .grid > li {
+    padding-left: 0;
+    border-left: 0;
+  }
+  /* Accordion entries: the row is the header; the article draws no line of its own. */
+  .compact,
+  .education {
+    padding: 0;
+    border-bottom: 0;
+  }
+  .compact .meta,
+  .education .meta {
+    display: none;
+  }
+  .compact .summary {
+    font-size: 15px;
+  }
+}
+
+/* iPad (HomeTablet.dc.html) */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .featured {
+    padding: 28px 0;
+  }
+  .standard {
+    padding: 24px 0;
+  }
+  .standard .company {
+    font-size: 20px;
+  }
+  .summary {
+    margin-top: 14px;
+    font-size: 16px;
+  }
+  .para {
+    margin-top: 12px;
+  }
+  .cards {
+    margin-top: 18px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .card {
+    padding: 16px;
+  }
+  .cardTitle {
+    margin-bottom: 10px;
+  }
+  .cardList {
+    gap: 8px;
+  }
+  .hideIpad {
+    display: none;
+  }
+}
+
+/* Phone (HomeMobile.dc.html) */
+@media (max-width: 767px) {
+  .featured {
+    padding: 20px 0;
+  }
+  .featured .company {
+    font-size: 19px;
+  }
+  .featured .role {
+    margin-top: 2px;
+    font-size: 14px;
+  }
+  .featured .summary {
+    margin-top: 12px;
+  }
+  .summary {
+    font-size: 15px;
+  }
+  .standard {
+    padding: 0;
+    border-bottom: 0;
+  }
+  .standard .meta {
+    display: none;
+  }
+  .extra {
+    display: none;
+  }
+  .expanded .extra {
+    display: list-item;
+  }
+  .more {
+    display: inline-flex;
+  }
+  .hidePhone {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moreIcon {
+    transition: none;
+  }
+}
+:global(html.still) .moreIcon {
+  transition: none;
+}

@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Brush } from "~/components/hero/Brush";
 import { FloatingPreview } from "~/components/hero/FloatingPreview";
 import { InkPanel } from "~/components/hero/InkPanel";
+import { AccordionRow } from "~/components/accordion/AccordionRow";
+import { ExperienceList, type ExperienceItem } from "~/components/experience/ExperienceList";
 import { SiteFooter } from "~/components/footer/SiteFooter";
 import { ProofStrip } from "~/components/proof/ProofStrip";
 
@@ -195,6 +197,173 @@ function ProofSpecimen() {
   );
 }
 
+const hl = (id: string, bold: string, rest: string) => ({
+  id,
+  text: (
+    <>
+      <strong>{bold}</strong> — {rest}
+    </>
+  ),
+});
+const EXPERIENCE: ExperienceItem[] = [
+  {
+    id: "sugarfit",
+    company: "Sugar.fit",
+    jobTitle: "Product Manager",
+    location: "Bengaluru",
+    dates: "May 2025 — now",
+    summary:
+      "Own product for GLP-1, Type 2 diabetes and Active Foods D2C, reporting to the co-founder/CPO. Lead the Central Analytics team: 3 direct reports, 10 analysts across growth, marketing, clinical, ops, product and D2C.",
+    highlights: [
+      {
+        id: "g1",
+        title: "AI-native products",
+        items: [
+          hl("a1", "3D body scan", "±2–3 pp vs BIA (n=110)"),
+          hl("a2", "In-house rPPG + PPG", "₹84L–1.2Cr/yr saved"),
+          hl("a3", "AI food logging", "62% of logs, +34%"),
+          hl("a4", "Support automation", "73% auto-resolved, TAT 80 → 32 h"),
+        ],
+      },
+      {
+        id: "g2",
+        title: "Data & platforms",
+        items: [
+          hl("b1", "BigQuery / Dataform", "one KPI truth, $48K/yr saved"),
+          hl("b2", "Commerce off Shopify", "self-serve offers and pricing tests"),
+          hl("b3", "WhatsApp CRM", "send rate 70% → 98%"),
+        ],
+      },
+      {
+        id: "g3",
+        title: "Consumer product",
+        items: [
+          hl("c1", "CGM journey", "CSAT 42 → 72, ₹3.2 Cr saved"),
+          hl("c2", "T2D renewals", "+20%, +₹17–20L a month"),
+          hl("c3", "GLP-1 app 0→1", "52% renewal"),
+          hl("c4", "Active Foods", "AOV +7%, COD returns −25%"),
+        ],
+      },
+    ],
+  },
+  {
+    id: "glance",
+    company: "Glance (InMobi Group)",
+    jobTitle: "Product Manager",
+    location: "Bengaluru",
+    dates: "May 2022 — May 2025",
+    summary: "Owned personalisation, content experience and the serving stack for 230M+ lockscreen users.",
+    highlights: [
+      {
+        id: "h1",
+        items: [
+          {
+            id: "i1",
+            text: (
+              <>
+                Rebuilt serving-funnel rendering and tracking: <strong>serving +22%, CTR 1.7×</strong>
+              </>
+            ),
+          },
+          {
+            id: "i2",
+            text: (
+              <>
+                ML-clustered Summaries &amp; Collections: <strong>1.4M DAU, L0 engagement +21%</strong>
+              </>
+            ),
+          },
+          {
+            id: "i3",
+            text: (
+              <>
+                <strong>$1.4M ARR</strong> via Tracfone; <strong>$600K ARR</strong> from Japan and Brazil
+              </>
+            ),
+          },
+          { id: "i4", text: "Owned GDPR readiness that unblocked the EU launch" },
+          { id: "i5", text: "A hidden placeholder bullet", hidden: true },
+        ],
+      },
+    ],
+  },
+  {
+    id: "razorpay",
+    company: "Razorpay",
+    jobTitle: "Senior Product Analyst",
+    dates: "Jul — Sep 2021",
+    summary: (
+      <>
+        <strong>+30% sign-ups and +23% MTU</strong> from a redesigned signup funnel and activation flow.
+      </>
+    ),
+  },
+  {
+    id: "wipro",
+    company: "Wipro Analytics",
+    jobTitle: "Senior Analyst",
+    dates: "Aug 2017 — Jan 2021",
+    highlights: [
+      {
+        id: "h1",
+        items: [
+          { id: "i1", text: "Data initiatives for Uber GSS operations across 64 languages" },
+          { id: "i2", text: "Also Lloyds Banking Group and Capital One" },
+        ],
+      },
+    ],
+  },
+];
+const EDUCATION: ExperienceItem[] = [
+  {
+    id: "bit",
+    company: "BIT Mesra, Ranchi",
+    jobTitle: "Integrated M.Sc. Mathematics & Computing, with distinction.",
+    dates: "2012 — 2017",
+  },
+];
+const V0_FEATURED: ExperienceItem = {
+  id: "v0",
+  company: "SugarFit",
+  jobTitle: "Senior Product Manager",
+  location: "Bengaluru",
+  dates: "May 2025 — Present",
+  highlights: [
+    {
+      id: "h1",
+      items: ["one", "two", "three", "four", "five"].map((n, i) => ({
+        id: `i${i + 1}`,
+        text: `Ungrouped bullet ${n}, as V0's entries are`,
+      })),
+    },
+  ],
+};
+
+function ExperienceSpecimen() {
+  return (
+    <Specimen title="C13 · Experience entry · C14 · Accordion row" board="Home*.dc.html · #experience, .acc">
+      <Wide label="Featured (grouped: cards), Standard, Compact (summary; joined bullets), Education">
+        <ExperienceList entries={EXPERIENCE} education={EDUCATION} />
+      </Wide>
+      <Wide label="Featured with ungrouped highlights (V0): bullet grid; phones show four, then expand">
+        <ExperienceList entries={[V0_FEATURED]} />
+      </Wide>
+      <Wide label="C14 · accordion row, closed and open">
+        <AccordionRow title="Vedantu" subtitle="Senior Product Analyst · 2021">
+          <p style={{ margin: 0, color: "var(--tx2)", fontSize: 15, lineHeight: 1.6 }}>
+            +800 daily inbound leads from Book Online Demo experiments.
+          </p>
+        </AccordionRow>
+        <AccordionRow title="BIT Mesra" subtitle="M.Sc. Mathematics & Computing · 2012–2017" defaultOpen>
+          <p style={{ margin: 0, color: "var(--tx2)", fontSize: 15, lineHeight: 1.6 }}>
+            Integrated M.Sc. Mathematics &amp; Computing, with distinction.
+          </p>
+        </AccordionRow>
+      </Wide>
+    </Specimen>
+  );
+}
+
 function FooterSpecimen() {
   return (
     <Specimen title="C19 · Footer" board="Home*.dc.html · footer">
@@ -222,6 +391,7 @@ export default function PublicBSpecimens() {
     <>
       <HeroSpecimen />
       <ProofSpecimen />
+      <ExperienceSpecimen />
       <FooterSpecimen />
     </>
   );
