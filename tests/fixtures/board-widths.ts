@@ -318,6 +318,9 @@ function pujaAt(width: 834 | 390, doc: Project) {
         second.body = ul(["Gotra and important dates", "Date-based suggestions", "A “For you” carousel"]);
     }
   } else {
+    // CaseStudyMobile draws no segment chips in chapter 02.
+    const c2 = doc.story.find((c) => c.id === "c2");
+    if (c2) c2.blocks = c2.blocks.filter((b) => !(b.type === "cards" && b.style === "chips"));
     const labels = ["monthly orders per user", "WhatsApp conversion", "regional languages"];
     labels.forEach((label, i) => {
       const o = doc.outcomes[i];
@@ -329,6 +332,9 @@ function pujaAt(width: 834 | 390, doc: Project) {
       0,
       "<p>Improve <strong>order frequency</strong>: monthly puja orders per user, for Sri Mandir’s puja service.</p>",
     );
+    // CaseStudyMobile sets chapter 01's opener as a lead.
+    const opener = blocksOf(doc, "c1")[0];
+    if (opener?.type === "text") opener.style = "lead";
     setText(
       doc,
       "c5",

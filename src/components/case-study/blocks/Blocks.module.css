@@ -644,6 +644,7 @@ abbr.short {
   }
   .lead {
     font-size: 19px;
+    line-height: 1.65;
   }
   .heading {
     font-size: 11px;
@@ -687,6 +688,29 @@ abbr.short {
   }
   .box .list li:first-child {
     border-top: 0;
+  }
+  /* The numbered list ("What's broken today") sits 10px under its intro on phones. */
+  div > * + .hairline {
+    margin-top: 10px;
+  }
+  /* The lone box on phones: 22px above, the label, 6px, then hairline rows from the first. */
+  div > * + .boxes:has(> .box:only-child) {
+    margin-top: 22px;
+  }
+  .box:only-child .heading {
+    margin-bottom: 6px;
+  }
+  .box:only-child .list ul,
+  .box:only-child .list ol {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .box:only-child .list li:first-child {
+    border-top: 1px solid var(--ln);
+  }
+  /* A lead's highlighted phrase is in the accent on phones (CaseStudyMobile › chapter 01). */
+  .lead strong {
+    color: var(--pa);
   }
   .quote p {
     font-size: 24px;

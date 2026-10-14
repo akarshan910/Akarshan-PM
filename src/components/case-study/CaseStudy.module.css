@@ -1030,7 +1030,9 @@
     padding: 44px 20px 0;
     scroll-margin-top: 128px;
   }
+  /* CaseStudyMobile's `.cs-num` is an inline span, so it sits in a full line box. */
   .chn {
+    display: inline;
     font-size: 15px;
     line-height: normal;
   }

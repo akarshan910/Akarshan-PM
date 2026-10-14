@@ -69,3 +69,16 @@
     display: inline;
   }
 }
+
+/* Case studies on phones (CaseStudyMobile): only "© year name" in mono 12px, 24px 20px 40px; the
+ * page already ends with "All work · N volumes", so the back link isn't repeated. */
+@media (max-width: 767px) {
+  .withBack .inner {
+    padding: 24px 20px 40px;
+    font-family: var(--fm);
+    font-size: 12px;
+  }
+  .withBack .back {
+    display: none;
+  }
+}
