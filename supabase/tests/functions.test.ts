@@ -461,7 +461,7 @@ describe("pm-publish · video posters", () => {
     expect(evil?.poster).toBeUndefined();
     expect(evil?.duration).toBe("1:01");
     expect(world.calls.some((c) => c.url.startsWith("https://evil.example.com"))).toBe(false);
-    const posterFile = `${(yt?.poster?.src ?? "").replace(/^\/media\//, "")}`;
+    const posterFile = (yt?.poster?.src ?? "").replace(/^\/media\//, "");
     expect(world.files["pm-media-public"].has(posterFile)).toBe(true);
 
     const count = async () =>
