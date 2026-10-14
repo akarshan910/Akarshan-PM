@@ -1,0 +1,463 @@
+/*
+ * The work list. Values from WorkScale.dc.html › "Laptop · the work page" (`.fc`, `.lr`, `.lr.h`)
+ * and "Mobile · the work page"; row hover is M-ROW (04). iPad has no board: the laptop list
+ * without the Shelf column.
+ */
+.root {
+  position: relative;
+}
+.moved {
+  margin-bottom: 24px;
+}
+
+/* ---- Head ---- */
+.head {
+  position: relative;
+}
+.kicker {
+  color: var(--tx3);
+}
+.title {
+  margin: 10px 0 0;
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 800;
+  font-size: 72px;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.phoneOnly {
+  display: none;
+}
+.head .filtersButton {
+  display: none;
+}
+
+/* ---- Filter chips (`.fc`) ---- */
+.fc {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--ln2);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--tx2);
+  font: 500 13px/1 var(--fm);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s var(--eo),
+    border-color 0.2s var(--eo),
+    color 0.2s var(--eo);
+}
+.fc:hover {
+  border-color: var(--tx3);
+}
+.fc[aria-pressed="true"] {
+  background: #f2f1ee;
+  color: #0b0b0e;
+  border-color: #f2f1ee;
+}
+.fcSet {
+  color: var(--tx);
+  border-color: var(--tx3);
+}
+.fc:focus-visible {
+  outline: 2px solid var(--act);
+  outline-offset: 3px;
+}
+
+.controls {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.sep {
+  width: 1px;
+  height: 24px;
+  margin: 0 6px;
+  background: rgba(242, 241, 238, 0.15);
+}
+
+/* ---- Dropdowns ---- */
+.menu {
+  position: relative;
+}
+.panel {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  top: calc(100% + 6px);
+  min-width: 220px;
+  max-height: 320px;
+  overflow: auto;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid var(--ln2);
+  border-radius: 8px;
+  background: var(--sf);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+}
+.panel[hidden] {
+  display: none;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--tx2);
+  cursor: pointer;
+}
+.check:hover {
+  background: var(--bg2);
+  color: var(--tx);
+}
+.check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #d61f33;
+}
+
+/* ---- Search and sort ---- */
+.searchWrap {
+  margin-left: auto;
+}
+.search {
+  width: 260px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--ln2);
+  border-radius: 0;
+  background: #111116;
+  color: var(--tx);
+  font: 400 14px/1 var(--fu);
+}
+.search::placeholder {
+  color: var(--tx3);
+}
+.search:focus-visible,
+.sort:focus-visible,
+.check input:focus-visible {
+  outline: 2px solid var(--act);
+  outline-offset: 3px;
+}
+.sortWrap {
+  position: relative;
+  display: inline-flex;
+}
+.sort {
+  appearance: none;
+  padding-right: 32px;
+  background: transparent;
+}
+.sort option {
+  background: var(--sf);
+  color: var(--tx);
+}
+.caret {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font: 500 13px/1 var(--fm);
+  color: var(--tx2);
+  pointer-events: none;
+}
+
+/* ---- The list (`.lr`) ---- */
+.table {
+  margin-top: 20px;
+  border-top: 1px solid rgba(242, 241, 238, 0.12);
+}
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.row {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr) 170px 190px 210px;
+  gap: 16px;
+  align-items: center;
+  height: 58px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(242, 241, 238, 0.08);
+  font-size: 15px;
+  transition: background-color 0.2s var(--eo);
+}
+@media (hover: hover) {
+  a.row:hover {
+    background: var(--bg2);
+  }
+}
+a.row:focus-visible {
+  outline-offset: -2px;
+}
+.rowHead {
+  height: 40px;
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+.rowHead .headline {
+  justify-content: flex-end;
+}
+.vol {
+  font-family: var(--fm);
+  font-size: 13px;
+  color: var(--act);
+}
+.name {
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.company {
+  font-size: 14px;
+  color: var(--tx2);
+}
+.shelf {
+  font-size: 13px;
+  color: var(--tx3);
+}
+.rowHead .company,
+.rowHead .shelf {
+  font-size: 11px;
+  color: var(--tx3);
+}
+.headline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.value {
+  font-family: var(--fd);
+  font-stretch: 70%;
+  font-weight: 800;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.empty {
+  margin-top: 28px;
+}
+
+/* ---- Foot: "Showing N of M" and "Load n more" ---- */
+.foot {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.count {
+  font-size: 14px;
+  color: var(--tx3);
+}
+.more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 26px;
+  border: 1px solid rgba(242, 241, 238, 0.25);
+  border-radius: 2px;
+  background: rgba(11, 11, 14, 0.5);
+  color: var(--tx);
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.2s var(--eo);
+}
+.more:hover {
+  border-color: var(--tx3);
+}
+
+/* ---- Phone filter sheet ---- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(0, 0, 0, 0.5);
+}
+.sheet {
+  width: 100%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--ln2);
+  border-radius: 16px 16px 0 0;
+  background: var(--bg2);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+  outline: none;
+}
+.sheetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 8px 8px 20px;
+  border-bottom: 1px solid var(--ln);
+}
+.sheetTitle {
+  margin: 0;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+.sheetClose {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--tx2);
+  cursor: pointer;
+}
+.sheetBody {
+  overflow: auto;
+  padding: 16px 20px 20px;
+}
+.sheetSearch .search {
+  width: 100%;
+  height: 44px;
+}
+.group {
+  margin: 18px 0 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 2px;
+}
+.groupLabel {
+  padding: 0;
+  margin-bottom: 8px;
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sheetFoot {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ln);
+}
+.sheetFoot .more {
+  width: 100%;
+}
+
+/* Touch screens get 44px targets (02 · Layout). */
+@media (pointer: coarse) {
+  .fc,
+  .search {
+    min-height: 44px;
+  }
+}
+
+/* ---- iPad: the laptop list without the Shelf column ---- */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .title {
+    font-size: 60px;
+  }
+  .row {
+    grid-template-columns: 72px minmax(0, 1fr) 150px 170px;
+  }
+  .row .shelf {
+    display: none;
+  }
+  .searchWrap {
+    margin-left: 0;
+  }
+}
+
+/* ---- Phones: "All work · N", Filters (n), compact rows ---- */
+@media (max-width: 767px) {
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .kicker,
+  .controls,
+  .row.rowHead,
+  .laptopOnly,
+  .row .company,
+  .row .shelf {
+    display: none;
+  }
+  .phoneOnly {
+    display: inline;
+  }
+  .title {
+    margin: 0;
+    font-stretch: 68%;
+    font-size: 26px;
+    line-height: 1;
+  }
+  .head .filtersButton {
+    display: inline-flex;
+    height: 34px;
+  }
+  .table {
+    margin-top: 10px;
+  }
+  .row {
+    display: flex;
+    gap: 12px;
+    height: 54px;
+    padding: 0;
+  }
+  .vol {
+    font-size: 12px;
+  }
+  .name {
+    flex: 1;
+    min-width: 0;
+    font-size: 17px;
+  }
+  .value {
+    display: none;
+  }
+  .foot {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .more {
+    width: 100%;
+  }
+}

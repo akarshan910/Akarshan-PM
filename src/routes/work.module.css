@@ -1,0 +1,12 @@
+/* /work: WorkScale.dc.html › "the work page" (110px above the kicker, 56px below the list). */
+.page {
+  padding-top: 110px;
+  padding-bottom: 56px;
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding-top: 96px;
+    padding-bottom: 40px;
+  }
+}
