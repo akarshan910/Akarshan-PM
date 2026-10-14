@@ -62,6 +62,10 @@ export function fakeWorld(db: PGlite): FakeWorld {
             .filter((n) => n.startsWith(prefix) && (!before || (created.get(n) ?? new Date(0)) < before))
             .sort(),
         ),
+      upload(name) {
+        files["pm-media-draft"].add(name);
+        return Promise.resolve();
+      },
       publish(name) {
         if (!files["pm-media-draft"].has(name)) return Promise.reject(new Error("missing"));
         files["pm-media-public"].add(name);

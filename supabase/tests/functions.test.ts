@@ -390,6 +390,101 @@ describe("pm-publish · projects", () => {
   });
 });
 
+describe("pm-publish · video posters", () => {
+  const slug = "glp-1-digital-scaffold";
+  const YT = "https://www.youtube.com/watch?v=abc123DEF45";
+  const VIMEO = "https://vimeo.com/123456";
+  const DRIVE = "https://drive.google.com/file/d/drive_1/view";
+  const EVIL = "https://www.loom.com/share/evilthumb";
+
+  it("stores the host's thumbnail as a poster, adds the duration, and reuses it on republish", async () => {
+    world.responses.set(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent(YT)}`, () =>
+      Response.json({
+        thumbnail_url: "https://i.ytimg.com/vi/abc/hqdefault.jpg",
+        thumbnail_width: 480,
+        thumbnail_height: 360,
+      }),
+    );
+    world.responses.set(`https://vimeo.com/api/oembed.json?url=${encodeURIComponent(VIMEO)}`, () =>
+      Response.json({ thumbnail_url: "https://i.vimeocdn.com/video/1.jpg", duration: 204 }),
+    );
+    world.responses.set(`https://www.loom.com/v1/oembed?url=${encodeURIComponent(EVIL)}`, () =>
+      Response.json({ thumbnail_url: "https://evil.example.com/x.jpg", duration: 61 }),
+    );
+    const jpeg = () =>
+      new Response(new Uint8Array([0xff, 0xd8, 0xff, 0xd9]), { headers: { "content-type": "image/jpeg" } });
+    world.responses.set("https://i.ytimg.com/vi/abc/hqdefault.jpg", jpeg);
+    world.responses.set("https://i.vimeocdn.com/video/1.jpg", jpeg);
+
+    const draft = reviewed(await draftOf(slug));
+    const [first, ...rest] = draft.story;
+    if (!first) throw new Error("story");
+    await setDraft(slug, {
+      ...draft,
+      visuals: { ...draft.visuals, hero: { type: "video", url: VIMEO } },
+      story: [
+        {
+          ...first,
+          blocks: [
+            ...first.blocks,
+            { id: "v1", type: "video", url: YT },
+            { id: "v2", type: "video", url: DRIVE },
+            { id: "v3", type: "video", url: EVIL },
+          ],
+        },
+        ...rest,
+      ],
+    });
+    const publishOnce = async () => {
+      const res = await publish({ action: "publish", kind: "project", id: projectIds.get(slug) });
+      expect(res.status, JSON.stringify(await res.clone().json())).toBe(200);
+      const [row] = (
+        await db.query<{ published: Project & Record<string, unknown> }>(
+          "select published from pm.projects where slug = $1",
+          [slug],
+        )
+      ).rows;
+      return row?.published as unknown as {
+        visuals: { hero: { poster?: { src: string }; duration?: string }; cover?: { src: string } };
+        story: { blocks: { id: string; poster?: { src: string; alt: string }; duration?: string }[] }[];
+      };
+    };
+    const p = await publishOnce();
+    expect(p.visuals.hero.duration).toBe("3:24");
+    expect(p.visuals.hero.poster?.src).toMatch(/^\/media\/[0-9a-f-]{36}\/r1\/orig\.jpg$/);
+    const blocks = p.story[0]?.blocks ?? [];
+    const yt = blocks.find((b) => b.id === "v1");
+    expect(yt?.poster?.src).toMatch(/^\/media\/[0-9a-f-]{36}\/r1\/orig\.jpg$/);
+    expect(yt?.poster?.alt).toBe("");
+    expect(blocks.find((b) => b.id === "v2")?.poster?.src).toBe(p.visuals.cover?.src);
+    const evil = blocks.find((b) => b.id === "v3");
+    expect(evil?.poster).toBeUndefined();
+    expect(evil?.duration).toBe("1:01");
+    expect(world.calls.some((c) => c.url.startsWith("https://evil.example.com"))).toBe(false);
+    const posterFile = `${(yt?.poster?.src ?? "").replace(/^\/media\//, "")}`;
+    expect(world.files["pm-media-public"].has(posterFile)).toBe(true);
+
+    const count = async () =>
+      (
+        await db.query<{ n: number }>(
+          "select count(*)::int as n from pm.media where filename like 'poster-%'",
+        )
+      ).rows[0]?.n;
+    expect(await count()).toBe(2);
+    await publishOnce();
+    expect(await count()).toBe(2);
+    await setDraft(slug, draft);
+    await publish({ action: "unpublish", kind: "project", id: projectIds.get(slug) });
+  });
+
+  it("rebuilds without publishing on Try again", async () => {
+    const res = await publish({ action: "deploy", kind: "site" });
+    expect(await body(res)).toMatchObject({ ok: true, deployed: true });
+    expect(world.calls).toContainEqual({ url: DEPLOY_HOOK, method: "POST" });
+    expect((await publish({ action: "deploy", kind: "project", id: projectIds.get(slug) })).status).toBe(400);
+  });
+});
+
 describe("pm-publish · site", () => {
   it("asks before publishing unconfirmed facts, then publishes with hidden parts left out", async () => {
     const [p] = (

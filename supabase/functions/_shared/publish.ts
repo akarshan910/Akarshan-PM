@@ -18,11 +18,12 @@ import { Post, Profile, Project, SiteLayout } from "./lib/schemas.ts";
 import type { SiteLayout as Layout } from "./lib/types.ts";
 import { loadMedia, mediaIds, publicResolver, publishedKeys, publishMedia, type MediaRow } from "./media.ts";
 import { publishPostDoc } from "./post.ts";
+import { addVideoPosters } from "./poster.ts";
 import { sanitizeLayout, sanitizePost, sanitizeProfile, sanitizeProject } from "./sanitize.ts";
 import { layoutChanges, placeProject, publishableLayout, pruneProfile, visibleUnconfirmed } from "./site.ts";
 
 export const PublishBody = z.strictObject({
-  action: z.enum(["publish", "unpublish", "delete", "restore", "settings"]),
+  action: z.enum(["publish", "unpublish", "delete", "restore", "settings", "deploy"]),
   kind: z.enum(["site", "project", "post"]),
   id: z.uuid().optional(),
   confirmUnconfirmed: z.boolean().optional(),
@@ -164,7 +165,12 @@ export async function publishProjectRow(
   const blocking = issues.filter((i) => i.code !== "rice-row" && !(i.code && options.allow?.has(i.code)));
   if (blocking.length > 0) throw blocked(blocking);
 
-  const published = sanitizeProject(publishProject(draft, publicResolver(media)));
+  const withPosters = await addVideoPosters(
+    deps,
+    sanitizeProject(publishProject(draft, publicResolver(media))),
+  );
+  const published = withPosters.project;
+  for (const row of withPosters.rows) media.set(row.id, row);
   await publishMedia(deps.sql, deps.storage, usedMedia(media, published));
 
   const at = await deps.sql.transaction(async (tx) => {
@@ -350,6 +356,7 @@ async function changeState(deps: Deps, body: PublishBody & { id: string }): Prom
       break;
     }
     case "publish":
+    case "deploy":
       throw new HttpError(400, "bad-request");
   }
   if (rows.length === 0) {
@@ -372,6 +379,15 @@ export const publishHandler = handle("pm-publish", async (req, deps) => {
   if (!parsed.success) throw new HttpError(400, "bad-request");
   const body = parsed.data;
 
+  // "Try again" after a failed deploy hook (06 · pm-publish step 5): rebuild, publish nothing.
+  if (body.action === "deploy") {
+    if (body.kind !== "site" || body.id) throw new HttpError(400, "bad-request");
+    return json(req, deps, 200, {
+      ok: true,
+      publishedAt: deps.now().toISOString(),
+      deployed: await deploy(deps, "retry"),
+    });
+  }
   if (body.kind === "site") {
     if (body.action !== "publish") throw new HttpError(400, "bad-request");
     return json(req, deps, 200, await publishSite(deps, body));
