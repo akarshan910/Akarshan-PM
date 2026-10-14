@@ -5,10 +5,12 @@
  *
  * Everything is a pure function of the draft layout, the draft profile, the projects and posts.
  */
-import type { ProfilePublished } from "../published";
+import type { PublicContent } from "../content-source";
+import { publishProfile, publishProject, type ProfilePublished, type ResolveImg } from "../published";
+import { numberVolumes } from "../volumes";
 import type { Profile, SiteLayout } from "../types";
 import { proofText } from "./profile";
-import type { ProjectRow } from "./repo";
+import type { PostRow, ProjectRow } from "./repo";
 
 export type Section = SiteLayout["sections"][number];
 
@@ -413,4 +415,82 @@ function profileDiffers(d: ProfilePublished, l: ProfilePublished): boolean {
   const norm = (p: ProfilePublished) =>
     JSON.stringify({ ...p, about: { ...p.about, photo: p.about.photo?.alt ?? null } });
   return norm(d) !== norm(l);
+}
+
+// ---- the preview's content
+
+/**
+ * The draft homepage as the public components take it: the draft profile and layout, published
+ * projects and posts, and (with "Show drafts") draft projects drawn as cards. On Phone the
+ * floating previews are left out, as the site does.
+ */
+export function previewContent(o: {
+  profile: Profile;
+  layout: SiteLayout;
+  projects: ProjectRow[];
+  posts: PostRow[];
+  resolve: ResolveImg;
+  drafts: boolean;
+  phone: boolean;
+  updatedAt: string;
+}): { content: PublicContent; draftSlugs: string[] } {
+  const draftSlugs: string[] = [];
+  const projects: PublicContent["projects"] = [];
+  for (const r of o.projects) {
+    if (r.published && r.publishedSlug) {
+      projects.push({
+        id: r.id,
+        slug: r.publishedSlug,
+        listed: r.visibility === "public",
+        publishedAt: r.publishedAt ?? r.updatedAt,
+        firstPublishedAt: r.firstPublishedAt ?? r.publishedAt ?? r.updatedAt,
+        project: r.published,
+      });
+    } else if (o.drafts) {
+      draftSlugs.push(r.slug);
+      projects.push({
+        id: r.id,
+        slug: r.slug,
+        listed: true,
+        publishedAt: r.updatedAt,
+        firstPublishedAt: r.updatedAt,
+        project: publishProject(r.draft, o.resolve),
+      });
+    }
+  }
+  const posts: PublicContent["posts"] = [];
+  for (const p of o.posts)
+    if (p.published && p.publishedSlug)
+      posts.push({
+        id: p.id,
+        slug: p.publishedSlug,
+        publishedAt: p.publishedAt ?? p.updatedAt,
+        post: p.published,
+      });
+  const layout = o.phone
+    ? {
+        ...o.layout,
+        sections: o.layout.sections.map((s) =>
+          s.hero ? { ...s, hero: { ...s.hero, floaters: { ...s.hero.floaters, items: [] } } } : s,
+        ),
+      }
+    : o.layout;
+  return {
+    content: {
+      profile: publishProfile(o.profile, o.resolve),
+      layout,
+      projects,
+      posts,
+      updatedAt: o.updatedAt,
+    },
+    draftSlugs,
+  };
+}
+
+/** "VOL.01": every project on a visible shelf, drafts included, numbered in page order. */
+export function volumeNumbers(layout: SiteLayout, projects: ProjectRow[]): Map<string, string> {
+  return numberVolumes(
+    layout.sections,
+    new Map(projects.map((r) => [r.id, { published: true, listed: r.visibility === "public" }])),
+  );
 }
