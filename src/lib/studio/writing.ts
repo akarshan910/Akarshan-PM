@@ -50,9 +50,7 @@ export function resumeIdeas(
 }
 
 /** "Facts you can cite": confirmed profile numbers that carry a result label. */
-export function citableFacts(
-  profile: Profile,
-): {
+export function citableFacts(profile: Profile): {
   id: string;
   text: string;
   value: string;
