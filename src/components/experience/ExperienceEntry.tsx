@@ -74,7 +74,8 @@ export function ExperienceEntry({
   const groups = highlights
     .map((g) => ({ ...g, items: g.items.filter((i) => !i.hidden) }))
     .filter((g) => g.items.length > 0);
-  const items = groups.flatMap((g) => g.items);
+  // Item ids are unique within a group only, so the flat list keys by group too.
+  const items = groups.flatMap((g) => g.items.map((item) => ({ ...item, key: `${g.id}:${item.id}` })));
   const grouped = kind === "featured" && groups.some((g) => g.title);
   const roleLine = [jobTitle, location].filter(Boolean).join(" · ");
 
@@ -91,7 +92,7 @@ export function ExperienceEntry({
     summary ??
     (items.length > 0
       ? items.map((item, i) => (
-          <Fragment key={item.id}>
+          <Fragment key={item.key}>
             {i > 0 ? " · " : null}
             {item.text}
           </Fragment>
@@ -120,7 +121,7 @@ export function ExperienceEntry({
         {items.length > 0 ? (
           <ul id={bulletsId} className={cx(styles.bullets, !grouped && styles.grid, grouped && show("p"))}>
             {items.map((item, i) => (
-              <li key={item.id} className={i >= PHONE_BULLETS ? styles.extra : undefined}>
+              <li key={item.key} className={i >= PHONE_BULLETS ? styles.extra : undefined}>
                 {item.text}
               </li>
             ))}
@@ -154,7 +155,7 @@ export function ExperienceEntry({
         {items.length > 0 ? (
           <ul className={cx(styles.bullets, standard && styles.grid, show(standard ? "lp" : "ip"))}>
             {items.map((item) => (
-              <li key={item.id}>{item.text}</li>
+              <li key={item.key}>{item.text}</li>
             ))}
           </ul>
         ) : null}
