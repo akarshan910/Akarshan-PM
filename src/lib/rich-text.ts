@@ -1,0 +1,393 @@
+/**
+ * The rich-text sanitiser (06 · Rich text, 10 · Security gates): `Inline` and `Rich` strings from
+ * content are parsed here into a small tree of allowed nodes, and never rendered as raw HTML.
+ *
+ * - Allowed: `p`, `strong`, `em`, `a[href]`, `ul`, `ol`, `li` (`b` and `i` become `strong` and
+ *   `em`). In inline mode only `strong`, `em` and `a` survive.
+ * - Every other tag is dropped and its text kept, except elements whose content is never text for
+ *   a reader (`script`, `style`, `iframe`, `svg`…), which are dropped with their content.
+ * - Every attribute is dropped, except `href` on links, and only when it passes the 06 link rule
+ *   (`safeHref`). A link that fails it keeps its text and loses the link.
+ * - Comments, doctypes and processing instructions vanish; entities are decoded, so the text the
+ *   renderer escapes is the text the author meant.
+ *
+ * Plain TypeScript with no DOM, so the server prerender and the browser build the same tree.
+ */
+import { safeHref } from "./links";
+
+export type RichTag = "p" | "strong" | "em" | "ul" | "ol" | "li";
+
+export type RichNode =
+  | { type: "text"; text: string }
+  | { type: RichTag; children: RichNode[] }
+  | { type: "a"; href: string; external: boolean; children: RichNode[] };
+
+type ElementNode = Exclude<RichNode, { type: "text" }>;
+
+const INLINE_TAGS = new Set(["strong", "em", "a"]);
+const BLOCK_TAGS = new Set(["p", "ul", "ol", "li"]);
+const ALIASES: Record<string, string> = { b: "strong", i: "em" };
+/** Elements dropped together with everything inside them. */
+const DROP_WITH_CONTENT = new Set([
+  "script",
+  "style",
+  "template",
+  "iframe",
+  "frameset",
+  "object",
+  "applet",
+  "noscript",
+  "noembed",
+  "noframes",
+  "textarea",
+  "title",
+  "xmp",
+  "plaintext",
+  "svg",
+  "math",
+  "select",
+  "option",
+  "head",
+]);
+/** Void elements that separate words. */
+const BREAKS = new Set(["br", "hr", "wbr"]);
+/** Deeper nesting than this is flattened: no real content needs it, and it bounds the work. */
+const MAX_DEPTH = 24;
+
+// ---------------------------------------------------------------------------------------------
+// Entities
+// ---------------------------------------------------------------------------------------------
+
+const NAMED: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+  ndash: "–",
+  mdash: "—",
+  hellip: "…",
+  lsquo: "‘",
+  rsquo: "’",
+  ldquo: "“",
+  rdquo: "”",
+  middot: "·",
+  rarr: "→",
+  larr: "←",
+  times: "×",
+  copy: "©",
+  reg: "®",
+  trade: "™",
+  bull: "•",
+  deg: "°",
+  plusmn: "±",
+  minus: "−",
+  rupee: "₹",
+  euro: "€",
+  pound: "£",
+};
+
+function codePoint(n: number): string {
+  // Out of range, surrogates and NUL become the replacement character, as browsers do.
+  if (!Number.isFinite(n) || n <= 0 || n > 0x10ffff || (n >= 0xd800 && n <= 0xdfff)) return "�";
+  return String.fromCodePoint(n);
+}
+
+/** Decodes character references. Unknown names are left as they were written. */
+export function decodeEntities(value: string): string {
+  return value.replace(
+    /&(#[xX][0-9a-fA-F]{1,8}|#[0-9]{1,8}|[A-Za-z][A-Za-z0-9]{1,31});?/g,
+    (whole, ref: string) => {
+      if (ref.startsWith("#x") || ref.startsWith("#X")) return codePoint(parseInt(ref.slice(2), 16));
+      if (ref.startsWith("#")) return codePoint(parseInt(ref.slice(1), 10));
+      return NAMED[ref] ?? whole;
+    },
+  );
+}
+
+// ---------------------------------------------------------------------------------------------
+// Tokenizer
+// ---------------------------------------------------------------------------------------------
+
+export type RichToken =
+  | { kind: "text"; text: string }
+  | { kind: "start"; name: string; attrs: Record<string, string>; selfClosing: boolean }
+  | { kind: "end"; name: string };
+
+const NAME = /^[A-Za-z][A-Za-z0-9-]*/;
+
+/** Reads attributes from the inside of a start tag (after the name). Later duplicates are ignored. */
+function parseAttrs(source: string): { attrs: Record<string, string>; selfClosing: boolean } {
+  const attrs: Record<string, string> = {};
+  const re = /([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(source)) !== null) {
+    const name = (m[1] ?? "").toLowerCase();
+    if (!name || Object.prototype.hasOwnProperty.call(attrs, name)) continue;
+    attrs[name] = decodeEntities(m[2] ?? m[3] ?? m[4] ?? "");
+  }
+  return { attrs, selfClosing: /\/\s*$/.test(source) };
+}
+
+/** Where a tag that opens at `from` ends: the first `>` outside quotes, or -1. */
+function tagEnd(html: string, from: number): number {
+  let quote = "";
+  for (let i = from; i < html.length; i++) {
+    const c = html[i];
+    if (quote) {
+      if (c === quote) quote = "";
+    } else if (c === '"' || c === "'") {
+      quote = c;
+    } else if (c === ">") {
+      return i;
+    }
+  }
+  return -1;
+}
+
+/** Splits HTML into text, start and end tokens. Comments and declarations are skipped. */
+export function tokenize(html: string): RichToken[] {
+  const out: RichToken[] = [];
+  let text = "";
+  let i = 0;
+  const flush = () => {
+    if (text) out.push({ kind: "text", text: decodeEntities(text) });
+    text = "";
+  };
+
+  while (i < html.length) {
+    const lt = html.indexOf("<", i);
+    if (lt === -1) {
+      text += html.slice(i);
+      break;
+    }
+    text += html.slice(i, lt);
+    const rest = html.slice(lt + 1);
+
+    if (rest.startsWith("!--")) {
+      const close = html.indexOf("-->", lt + 4);
+      i = close === -1 ? html.length : close + 3;
+      continue;
+    }
+    if (rest.startsWith("!") || rest.startsWith("?")) {
+      const close = html.indexOf(">", lt);
+      i = close === -1 ? html.length : close + 1;
+      continue;
+    }
+
+    const isEnd = rest.startsWith("/");
+    const name = NAME.exec(isEnd ? rest.slice(1) : rest)?.[0];
+    if (!name) {
+      // "a < b", "</ 3": not a tag, so it's text. A bare "</>" is dropped, as browsers do.
+      if (rest.startsWith("/>")) {
+        i = lt + 3;
+        continue;
+      }
+      text += "<";
+      i = lt + 1;
+      continue;
+    }
+
+    const close = tagEnd(html, lt + 1);
+    if (close === -1) {
+      // An unterminated tag swallows the rest of the input in browsers; drop it.
+      i = html.length;
+      continue;
+    }
+    flush();
+    const tag = name.toLowerCase();
+    const inside = html.slice(lt + 1 + (isEnd ? 1 : 0) + name.length, close);
+    i = close + 1;
+
+    if (isEnd) {
+      out.push({ kind: "end", name: tag });
+      continue;
+    }
+    const { attrs, selfClosing } = parseAttrs(inside);
+    out.push({ kind: "start", name: tag, attrs, selfClosing });
+
+    if (DROP_WITH_CONTENT.has(tag) && !selfClosing) {
+      // Raw content: skip to the matching end tag, whatever is inside.
+      const endRe = new RegExp(`</${tag}(?=[\\s/>])[^>]*>`, "i");
+      const m = endRe.exec(html.slice(i));
+      if (!m) {
+        i = html.length;
+      } else {
+        i += m.index + m[0].length;
+        out.push({ kind: "end", name: tag });
+      }
+    }
+  }
+  flush();
+  return out;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Tree builder
+// ---------------------------------------------------------------------------------------------
+
+interface Frame {
+  node: ElementNode | { type: "root"; children: RichNode[] };
+  implicit?: boolean;
+}
+
+/** Parses an `Inline` or `Rich` string into the allowed tree. Never throws. */
+export function parseRichText(html: string, options: { inline?: boolean } = {}): RichNode[] {
+  const inline = options.inline ?? false;
+  const root = { type: "root" as const, children: [] as RichNode[] };
+  const stack: Frame[] = [{ node: root }];
+  let dropping = 0;
+  /** Link start tags that were skipped (nested or unsafe), so their end tags are skipped too. */
+  let skippedLinks = 0;
+
+  const top = () => stack[stack.length - 1]?.node ?? root;
+  const openAt = (type: string) => {
+    for (let k = stack.length - 1; k > 0; k--) if (stack[k]?.node.type === type) return k;
+    return -1;
+  };
+  const closeTo = (k: number) => {
+    stack.length = Math.max(1, k);
+  };
+  const push = (node: ElementNode, implicit = false) => {
+    top().children.push(node);
+    stack.push({ node, implicit });
+  };
+  const addText = (value: string) => {
+    if (!value) return;
+    let parent = top();
+    if (!inline) {
+      // Text never sits loose in the body or in a list: it gets a paragraph or a list item.
+      if (parent.type === "root" || parent.type === "ul" || parent.type === "ol") {
+        if (!value.trim()) return;
+        push({ type: parent.type === "root" ? "p" : "li", children: [] }, true);
+        parent = top();
+      }
+    }
+    const last = parent.children[parent.children.length - 1];
+    if (last?.type === "text") last.text += value;
+    else parent.children.push({ type: "text", text: value });
+  };
+  const openInline = (node: ElementNode) => {
+    if (!inline && (top().type === "root" || top().type === "ul" || top().type === "ol")) {
+      push({ type: top().type === "root" ? "p" : "li", children: [] }, true);
+    }
+    push(node);
+  };
+  const closeInlines = () => {
+    while (stack.length > 1 && INLINE_TAGS.has(top().type)) stack.pop();
+  };
+
+  for (const token of tokenize(html)) {
+    if (dropping > 0) {
+      if (token.kind === "start" && DROP_WITH_CONTENT.has(token.name) && !token.selfClosing) dropping++;
+      if (token.kind === "end" && DROP_WITH_CONTENT.has(token.name)) dropping--;
+      continue;
+    }
+    if (token.kind === "text") {
+      addText(token.text);
+      continue;
+    }
+
+    const name = ALIASES[token.name] ?? token.name;
+
+    if (token.kind === "start") {
+      if (DROP_WITH_CONTENT.has(name)) {
+        if (!token.selfClosing) dropping = 1;
+        continue;
+      }
+      if (BREAKS.has(name)) {
+        addText(" ");
+        continue;
+      }
+      if (stack.length > MAX_DEPTH) continue;
+
+      if (INLINE_TAGS.has(name)) {
+        if (name === "a") {
+          // No links inside links; an unsafe or missing href keeps the text without the link.
+          const href = safeHref(token.attrs.href?.trim());
+          if (openAt("a") !== -1 || !href) {
+            skippedLinks++;
+            continue;
+          }
+          openInline({ type: "a", href, external: href.startsWith("https://"), children: [] });
+        } else {
+          openInline({ type: name as "strong" | "em", children: [] });
+        }
+        continue;
+      }
+
+      if (BLOCK_TAGS.has(name) && !inline) {
+        if (name === "li") {
+          const list = Math.max(openAt("ul"), openAt("ol"));
+          if (list === -1) continue; // a stray item: its text joins the flow
+          closeTo(list + 1);
+          push({ type: "li", children: [] });
+          continue;
+        }
+        closeInlines();
+        const p = openAt("p");
+        if (p !== -1) closeTo(p);
+        if (name === "p" && (top().type === "ul" || top().type === "ol")) {
+          push({ type: "li", children: [] }, true);
+        }
+        push({ type: name as "p" | "ul" | "ol", children: [] });
+        continue;
+      }
+
+      if (BLOCK_TAGS.has(name) && inline) addText(" ");
+      // Anything else: the tag goes, its text stays.
+      continue;
+    }
+
+    // End tags
+    if (BLOCK_TAGS.has(name) && inline) {
+      addText(" ");
+      continue;
+    }
+    if (name === "a" && skippedLinks > 0) {
+      skippedLinks--;
+      continue;
+    }
+    if (INLINE_TAGS.has(name) || BLOCK_TAGS.has(name)) {
+      const k = openAt(name);
+      if (k !== -1) closeTo(k);
+    }
+  }
+
+  return prune(root.children, inline);
+}
+
+/** Merges text, drops empty elements, and trims the space the inline separators added. */
+function prune(nodes: RichNode[], inline: boolean): RichNode[] {
+  const out: RichNode[] = [];
+  for (const node of nodes) {
+    if (node.type === "text") {
+      const last = out[out.length - 1];
+      if (last?.type === "text") last.text += node.text;
+      else if (node.text) out.push({ ...node });
+      continue;
+    }
+    const children = prune(node.children, inline);
+    const empty = children.every((c) => c.type === "text" && !c.text.trim());
+    if (empty && node.type !== "li") continue;
+    out.push({ ...node, children });
+  }
+  if (inline && out.length > 0) {
+    const first = out[0];
+    const last = out[out.length - 1];
+    if (first?.type === "text") first.text = first.text.replace(/^\s+/, "");
+    if (last?.type === "text") last.text = last.text.replace(/\s+$/, "");
+    return out.filter((n) => n.type !== "text" || n.text !== "");
+  }
+  return out;
+}
+
+/** The text alone, for meta descriptions and labels: tags gone, whitespace collapsed. */
+export function richTextToPlain(html: string): string {
+  const walk = (nodes: RichNode[]): string =>
+    nodes.map((n) => (n.type === "text" ? n.text : walk(n.children))).join("");
+  return walk(parseRichText(html, { inline: true }))
+    .replace(/\s+/g, " ")
+    .trim();
+}
