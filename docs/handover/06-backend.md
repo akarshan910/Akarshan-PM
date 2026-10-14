@@ -476,15 +476,17 @@ create policy owner_all on projects for all to authenticated
 **Visitor reads.** Column grants first, then a row policy:
 
 ```sql
--- The owner works through RLS, so authenticated gets table privileges and the policies decide.
-grant select, insert, update, delete on all tables in schema pm to authenticated;
-grant usage on all sequences in schema pm to authenticated;
+-- The owner works through RLS, and writes drafts only (D55): published columns, revisions, redirects,
+-- previews, link checks and deploys are written by the pm- functions. 0001_init.sql has the full list.
+grant select on pm.profile, pm.site_layout, pm.projects, pm.posts, pm.media /* …every Studio table */ to authenticated;
+grant update (draft, version) on profile, site_layout to authenticated;
+grant insert (slug, draft), update (slug, draft, version) on projects, posts to authenticated;
 
-grant select (published_slug, published, published_at, first_published_at) on projects to anon;
+grant select (id, published_slug, published, published_at, first_published_at) on projects to anon;   -- id: D56
 create policy public_read on projects for select to anon
   using (published is not null and deleted_at is null and visibility = 'public');
 
-grant select (published_slug, published, published_at) on posts to anon;
+grant select (id, published_slug, published, published_at) on posts to anon;
 create policy public_read on posts for select to anon
   using (published is not null and deleted_at is null);
 
@@ -493,7 +495,7 @@ create policy public_read on profile for select to anon using (published is not 
 create policy public_read on site_layout for select to anon using (published is not null);
 ```
 
-Every later migration that creates a table repeats, for that table, the `grant select, insert, update, delete … to authenticated`, `enable row level security` and `owner_all` statements: line one's `on all tables` covers only the tables that exist when it runs.
+Every later migration that creates a table adds, for that table, its grants to `authenticated` (select, and writes on draft columns only), `enable row level security` and `owner_all`, in the same migration; `npm run db:lint` fails otherwise. `db:migrate` also records each file's SHA-256 (from `0003`) and refuses to run when an applied file has changed: a change always goes in a new migration.
 
 Nothing else is granted to `anon`: no media table, revisions, previews, link checks or deploys. Every function is created with `revoke all … from public` and an explicit grant, as below. Nothing here touches the `public` schema.
 

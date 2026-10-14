@@ -5,7 +5,7 @@ import { PGlite } from "@electric-sql/pglite";
 import { describe, expect, it } from "vitest";
 
 import { lintDir, lintSql, splitStatements } from "../../scripts/migration-lint.ts";
-import { loadMigrations, runMigrations } from "../../scripts/migrate.ts";
+import { checksum, loadMigrations, runMigrations } from "../../scripts/migrate.ts";
 import { CRON_STUBS, freshProject, migrationTarget, SUPABASE_STUBS } from "./harness.ts";
 
 const lint = (sql: string) => lintSql("t.sql", sql).map((f) => f.message);
@@ -61,6 +61,20 @@ describe("the migration lint", () => {
       /row level security/,
     ],
     ["create table pm.t (id int); alter table pm.t enable row level security", /policies/],
+    ["do $$ begin execute 'drop table x'; end $$", /execute/],
+    [
+      "create function pm.f() returns void language plpgsql set search_path = '' as $$ begin perform format('%s', 1); end $$; revoke all on function pm.f() from public",
+      /format/,
+    ],
+    [
+      "create function pm.f() returns bigint language sql set search_path = '' as $$ select count(*) from storage.objects $$; revoke all on function pm.f() from public",
+      /storage\.objects/,
+    ],
+    ["do $$ begin perform cron.schedule('x', '* * * * *', 'select 1'); end $$", /cron\.schedule/],
+    [
+      "create function pm.f() returns text language sql set search_path = '' as $$ select secret from vault.secrets $$; revoke all on function pm.f() from public",
+      /vault\.secrets/,
+    ],
   ])("flags %s", (sql, message) => {
     expect(lint(sql).join("\n")).toMatch(message);
   });
@@ -71,6 +85,7 @@ describe("the migration lint", () => {
     "create policy pm_x on storage.objects for all to authenticated using (bucket_id = 'pm-media-draft' and pm.is_owner()) with check (bucket_id = 'pm-media-draft')",
     "grant select (id, published) on pm.projects, pm.posts to anon",
     "select cron.schedule('pm-x', '* * * * *', $j$select 1$j$)",
+    "create function pm.f() returns text language sql set search_path = '' as $$ select decrypted_secret from vault.decrypted_secrets where name = 'x.y' $$; revoke all on function pm.f() from public",
   ])("allows %s", (sql) => {
     expect(lint(sql)).toEqual([]);
   });
@@ -81,8 +96,29 @@ describe("the migration runner", () => {
     const db = new PGlite();
     await db.exec(SUPABASE_STUBS);
     const all = loadMigrations().filter((m) => !m.version.endsWith("_cron"));
-    expect(await runMigrations(migrationTarget(db), all)).toEqual(["0001_init"]);
+    expect(await runMigrations(migrationTarget(db), all)).toEqual(["0001_init", "0003_migration_checksums"]);
     expect(await runMigrations(migrationTarget(db), all)).toEqual([]);
+    await db.close();
+  });
+
+  it("backfills checksums for files applied before 0003, then refuses an edited file", async () => {
+    const db = new PGlite();
+    await db.exec(SUPABASE_STUBS);
+    const all = loadMigrations().filter((m) => !m.version.endsWith("_cron"));
+    const [init, sums] = all;
+    if (!init || !sums) throw new Error("migrations");
+    await runMigrations(migrationTarget(db), [init]); // as on a project migrated before 0003
+    await runMigrations(migrationTarget(db), all);
+    const rows = await db.query<{ version: string; checksum: string }>(
+      "select version, checksum from pm.schema_migrations order by 1",
+    );
+    expect(rows.rows.map((r) => [r.version, r.checksum])).toEqual([
+      [init.version, checksum(init.sql)],
+      [sums.version, checksum(sums.sql)],
+    ]);
+    const edited = [{ ...init, sql: `${init.sql}\n-- a later edit` }, sums];
+    await expect(runMigrations(migrationTarget(db), edited)).rejects.toThrow(/changed after it was applied/);
+    await expect(runMigrations(migrationTarget(db), [sums])).rejects.toThrow(/its file is missing/);
     await db.close();
   });
 

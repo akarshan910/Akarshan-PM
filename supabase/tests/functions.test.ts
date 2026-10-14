@@ -8,7 +8,7 @@ import * as legacy from "../../src/legacy/content.ts";
 import { buildV0Documents } from "../../src/lib/v0.ts";
 import { loadMigrations } from "../../scripts/migrate.ts";
 import { staleCopies } from "../../scripts/sync-functions-lib.ts";
-import { blocksFraming, checkLink, isFetchable } from "../functions/_shared/check-link.ts";
+import { blocksFraming, checkLink, isFetchable, isPrivateIp } from "../functions/_shared/check-link.ts";
 import { riceMismatches } from "../functions/_shared/checks.ts";
 import {
   checkLinkHandler,
@@ -322,9 +322,48 @@ describe("pm-publish · projects", () => {
     expect(
       (await db.query("select 1 from pm.projects where id = $1 and deleted_at is null", [id])).rows,
     ).toHaveLength(1);
+    // Undo of Unpublish: restore on a live-once, unpublished row puts its last live version back.
+    const [rev] = (
+      await db.query<{ published: unknown }>(
+        "select published from pm.project_revisions where project_id = $1 order by id desc limit 1",
+        [id],
+      )
+    ).rows;
+    expect(await body(await publish({ action: "restore", kind: "project", id }))).toMatchObject({
+      ok: true,
+      deployed: true,
+    });
+    const [back] = (
+      await db.query<{ published: unknown }>("select published from pm.projects where id = $1", [id])
+    ).rows;
+    expect(back?.published).toEqual(rev?.published);
+    // A draft that was never live has nothing to restore.
+    expect(
+      await body(
+        await publish({ action: "restore", kind: "project", id: projectIds.get("arcana-workspace") }),
+      ),
+    ).toMatchObject({
+      ok: true,
+      deployed: false,
+    });
     expect((await publish({ action: "publish", kind: "project", id: uuid("10000000", 999) })).status).toBe(
       404,
     );
+  });
+
+  it("publishes with a flagged RICE row, returning it as a warning (the boards' rule)", async () => {
+    const draft = await draftOf("puja-platform");
+    await setDraft("puja-platform", {
+      ...draft,
+      story: draft.story.map((c) => ({
+        ...c,
+        blocks: c.blocks.map((b) => (b.type === "table" ? { ...b, reviewed: [] } : b)),
+      })),
+    });
+    const res = await publish({ action: "publish", kind: "project", id: projectIds.get(slug) });
+    const b = await body<{ ok: boolean; warnings?: { message: string }[] }>(res);
+    expect(res.status, JSON.stringify(b)).toBe(200);
+    expect(b.warnings?.map((w) => w.message)).toEqual(["1 row needs a look."]);
   });
 
   it("changes who can find it with settings", async () => {
@@ -506,6 +545,26 @@ describe("pm-project", () => {
 
 describe("pm-check-link", () => {
   it.each([
+    ["127.0.0.1", true],
+    ["10.1.2.3", true],
+    ["172.20.0.1", true],
+    ["192.168.1.1", true],
+    ["100.100.0.1", true],
+    ["169.254.169.254", true],
+    ["0.0.0.0", true],
+    ["::1", true],
+    ["fd12::1", true],
+    ["fe80::1", true],
+    ["::ffff:10.0.0.1", true],
+    ["::ffff:127.0.0.1", true],
+    ["93.184.215.14", false],
+    ["2606:4700::1111", false],
+    ["172.32.0.1", false],
+  ])("treats %s as private: %s", (ip, priv) => {
+    expect(isPrivateIp(ip)).toBe(priv);
+  });
+
+  it.each([
     ["https://example.com/x", true],
     ["http://example.com", false],
     ["https://localhost/x", false],
@@ -523,8 +582,12 @@ describe("pm-check-link", () => {
 
   it("classifies redirects to sign-in, missing pages and framing rules", async () => {
     // Fresh responses per call: a cloned body can't be cancelled on its own.
-    const opts = (map: Record<string, ResponseInit & { body?: string }>) => ({
+    const opts = (
+      map: Record<string, ResponseInit & { body?: string }>,
+      dns: Record<string, string[]> = {},
+    ) => ({
       siteOrigin: SITE,
+      resolve: (host: string) => Promise.resolve(dns[host] ?? ["93.184.215.14"]),
       fetch: (input: RequestInfo | URL) => {
         const r = map[input instanceof Request ? input.url : input.toString()];
         return Promise.resolve(r ? new Response(r.body ?? null, r) : new Response("", { status: 200 }));
@@ -582,6 +645,30 @@ describe("pm-check-link", () => {
     expect(
       blocksFraming(new Headers({ "content-security-policy": `frame-ancestors 'self' ${SITE}` }), SITE),
     ).toBe(false);
+    // A public name that resolves to a private address, directly or after a redirect.
+    expect(
+      await checkLink("https://127.0.0.1.nip.io/", "prd", opts({}, { "127.0.0.1.nip.io": ["127.0.0.1"] })),
+    ).toMatchObject({
+      status: "error",
+      detail: "Points at a private address.",
+    });
+    expect(
+      await checkLink(
+        "https://doc.example.com/",
+        "prd",
+        opts(
+          { "https://doc.example.com/": { status: 302, headers: { location: "https://meta.example.org/" } } },
+          {
+            "meta.example.org": ["169.254.169.254"],
+          },
+        ),
+      ),
+    ).toMatchObject({ detail: "Points at a private address." });
+    expect(
+      await checkLink("https://nx.example.com/", "prd", opts({}, { "nx.example.com": [] })),
+    ).toMatchObject({
+      detail: "The address doesn't resolve.",
+    });
     expect(blocksFraming(new Headers({ "content-security-policy": "frame-ancestors 'self'" }), SITE)).toBe(
       true,
     );
@@ -673,11 +760,16 @@ describe("posts, the scheduler and the purge", () => {
     const orphan = uuid("30000000", 77);
     world.files["pm-media-draft"].add(`${orphan}/r1/480.webp`);
     world.files["pm-media-public"].add(`${orphan}/r1/480.webp`);
+    const inFlight = uuid("30000000", 78);
+    world.files["pm-media-draft"].add(`${inFlight}/r1/480.webp`);
+    world.created.set(`${inFlight}/r1/480.webp`, new Date(world.clock.now.getTime() - 3600_000));
     await db.query("update pm.posts set deleted_at = now() - interval '31 days' where slug = 'broken'");
     const res = await purgeHandler(request("POST", "pm-purge", { token: SERVICE_KEY }), world.deps);
     expect(await body(res)).toMatchObject({ posts: 1 });
     expect(world.files["pm-media-draft"].has(`${orphan}/r1/480.webp`)).toBe(false);
     expect(world.files["pm-media-public"].has(`${orphan}/r1/480.webp`)).toBe(false);
+    // An hour-old upload without its media row yet stays.
+    expect(world.files["pm-media-draft"].has(`${inFlight}/r1/480.webp`)).toBe(true);
     const cover = coverIds.get("puja-engagement-platform") ?? "";
     // Live again since the pm-project test: its files stay in both buckets.
     expect(world.files["pm-media-public"].has(`${cover}/r1/1600.webp`)).toBe(true);

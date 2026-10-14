@@ -45,6 +45,41 @@ function isLoginUrl(url: URL): boolean {
   return LOGIN_HOSTS.some((h) => hp === h || hp.startsWith(`${h}/`) || url.hostname.toLowerCase() === h);
 }
 
+/** Whether an IP address is loopback, private, link-local, CGNAT, multicast or otherwise not public. */
+export function isPrivateIp(ip: string): boolean {
+  const v = ip
+    .trim()
+    .toLowerCase()
+    .replace(/^\[|\]$/g, "");
+  const mapped = /^(?:0{0,4}:){0,5}(?:0{0,4}:)?ffff:(\d+\.\d+\.\d+\.\d+)$/.exec(v)?.[1];
+  const v4 = mapped ?? (/^\d+\.\d+\.\d+\.\d+$/.test(v) ? v : null);
+  if (v4) {
+    const [a = 0, b = 0] = v4.split(".").map(Number);
+    return (
+      a === 0 ||
+      a === 10 ||
+      a === 127 ||
+      a >= 224 ||
+      (a === 100 && b >= 64 && b <= 127) || // CGNAT 100.64/10
+      (a === 169 && b === 254) || // link-local, cloud metadata
+      (a === 172 && b >= 16 && b <= 31) ||
+      (a === 192 && b === 168) ||
+      (a === 192 && b === 0) || // 192.0.0/24, 192.0.2/24
+      (a === 198 && (b === 18 || b === 19)) // benchmarking 198.18/15
+    );
+  }
+  if (!v.includes(":")) return true; // not an address we understand: refuse
+  if (v === "::" || v === "::1") return true;
+  if (/^(fc|fd)/.test(v)) return true; // ULA fc00::/7
+  if (/^fe[89ab]/.test(v)) return true; // link-local fe80::/10
+  if (/^ff/.test(v)) return true; // multicast
+  if (/^(64:ff9b|2001:db8|2001:0?db8)/.test(v)) return true; // NAT64, documentation
+  return false;
+}
+
+/** Resolves a host's A and AAAA records. Empty when it doesn't resolve. */
+export type ResolveHost = (host: string) => Promise<string[]>;
+
 /** Whether a page's headers forbid framing from `siteOrigin`. */
 export function blocksFraming(headers: Headers, siteOrigin: string): boolean {
   const xfo = (headers.get("x-frame-options") ?? "").trim().toLowerCase();
@@ -76,7 +111,7 @@ function drivePreview(url: URL): string | null {
 export async function checkLink(
   value: string,
   kind: LinkKind,
-  options: { fetch: typeof fetch; siteOrigin: string },
+  options: { fetch: typeof fetch; siteOrigin: string; resolve: ResolveHost },
 ): Promise<LinkResult> {
   if (!isFetchable(value)) return { status: "error", detail: "Use a public https:// link." };
   let url = new URL(value);
@@ -98,6 +133,11 @@ export async function checkLink(
     for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
       if (!isFetchable(url.toString()))
         return { status: "error", detail: "Redirects to an address that can't be checked." };
+      // Names can point anywhere: resolve each hop and refuse private addresses. (A rebinding between
+      // this lookup and the fetch's own is still possible; the body is never returned either way.)
+      const addresses = await options.resolve(url.hostname).catch(() => []);
+      if (addresses.length === 0) return { status: "error", detail: "The address doesn't resolve." };
+      if (addresses.some(isPrivateIp)) return { status: "error", detail: "Points at a private address." };
       if (isLoginUrl(url)) {
         return url.hostname === "accounts.google.com" && kind === "video"
           ? { status: "not-shared", detail: "Set sharing to “Anyone with the link”." }
