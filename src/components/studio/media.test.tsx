@@ -93,6 +93,11 @@ describe("Media", { timeout: 20_000 }, () => {
     await user.click(within(details).getByRole("button", { name: "OK" }));
     const input = document.querySelector<HTMLInputElement>('input[type="file"][multiple]');
     await user.upload(must(input), [file("loose.png", "image/png")]);
+    await user.upload(must(input), [file("cv.pdf", "application/pdf")]);
+    expect(
+      await screen.findByText(/PDFs go up as they are, so they keep their own details/),
+    ).toBeInTheDocument();
+    await user.click(must(screen.getAllByRole("button", { name: /loose\.png/ })[0]));
     await screen.findByDisplayValue("loose.png");
     await user.click(within(details).getByRole("button", { name: "Delete…" }));
     expect(
@@ -141,5 +146,18 @@ describe("Media", { timeout: 20_000 }, () => {
     await waitFor(() => {
       expect(within(sheet).queryByLabelText(/Alt text for screen-09\.png/)).not.toBeInTheDocument();
     });
+  });
+
+  it("says why an upload failed, and retries it", async () => {
+    const user = userEvent.setup({ applyAccept: false });
+    const { repo } = await renderMedia();
+    repo.offline = true;
+    const input = document.querySelector<HTMLInputElement>('input[type="file"][multiple]');
+    await user.upload(must(input), [file("retry-me.png", "image/png")]);
+    expect(await screen.findByText(/^offline$|Retry once you’re back|offline/)).toBeInTheDocument();
+    repo.offline = false;
+    await user.click(screen.getByRole("button", { name: "Retry" }));
+    expect(await screen.findByDisplayValue("retry-me.png")).toBeInTheDocument();
+    expect((await repo.media.list()).some((m) => m.filename === "retry-me.png")).toBe(true);
   });
 });

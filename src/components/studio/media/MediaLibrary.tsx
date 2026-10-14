@@ -79,22 +79,26 @@ export function MediaLibrary({
   const current = rows.find((m) => m.id === sel);
   const currentUses = current ? (uses[current.id] ?? []) : [];
 
+  /** Rows that made it, from an upload or a retry: into the grid, selected, counted. */
+  const took = async (done: MediaRow[]) => {
+    if (!done.length) return;
+    setRows((r) => [...done, ...r]);
+    setUses((u) => ({ ...u, ...Object.fromEntries(done.map((d) => [d.id, []])) }));
+    for (const d of done) {
+      const u = await repo.media.url(d, "960");
+      setUrls((x) => ({ ...x, [d.id]: u }));
+    }
+    setSel(done[0]?.id ?? null);
+    setUsed((n) => n + done.reduce((sum, d) => sum + d.bytes, 0));
+    cache.invalidate("media");
+  };
+
   const addFiles = async (files: FileList | File[] | null) => {
     if (!files || files.length === 0) return;
     const list = [...files];
     const done = await upload.upload(list);
     const failed = list.length - done.length;
-    if (done.length) {
-      setRows((r) => [...done, ...r]);
-      setUses((u) => ({ ...u, ...Object.fromEntries(done.map((d) => [d.id, []])) }));
-      for (const d of done) {
-        const u = await repo.media.url(d, "960");
-        setUrls((x) => ({ ...x, [d.id]: u }));
-      }
-      setSel(done[0]?.id ?? null);
-      setUsed((n) => n + done.reduce((s, d) => s + d.bytes, 0));
-      cache.invalidate("media");
-    }
+    await took(done);
     const first = done[0];
     announce(
       failed > 0
@@ -234,6 +238,18 @@ export function MediaLibrary({
                   <strong>{p.name}</strong> ·{" "}
                   {p.message?.match(/^\d/) ? `Too large: ${p.message}` : p.message}
                 </span>
+                {p.retry ? (
+                  <button
+                    type="button"
+                    className={buttons.btn}
+                    style={{ height: 34 }}
+                    onClick={() => {
+                      void upload.retry(p.key).then(took);
+                    }}
+                  >
+                    Retry
+                  </button>
+                ) : null}
                 <button
                   type="button"
                   className="ib"
@@ -422,6 +438,13 @@ export function MediaLibrary({
                       .filter(Boolean)
                       .join(" · ")}
                   </div>
+                  {current.kind === "document" || current.mime === "image/gif" ? (
+                    <p className={styles.hint} style={{ margin: "10px 0 0", fontSize: 13, lineHeight: 1.5 }}>
+                      {current.kind === "document" ? "PDFs" : "GIFs"} go up as they are, so they keep their
+                      own details, such as a PDF’s author and title. Photos lose their location and camera
+                      data.
+                    </p>
+                  ) : null}
                   {current.kind === "image" ? (
                     <div className={styles.altBox}>
                       <label className={styles.lbl} htmlFor="f-alt">

@@ -6,6 +6,7 @@ import { mediaImg } from "~/components/studio/editor/ProjectEditor";
 import { LoadError } from "~/components/studio/states/LoadError";
 import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import { studioMeta } from "~/lib/studio/paths";
+import { usedMediaIds } from "~/lib/studio/usage";
 import type { PreviewKind } from "~/lib/studio/preview";
 
 export const meta = () => studioMeta("Draft preview");
@@ -29,7 +30,16 @@ export default function StudioPreview() {
         r.media.list(),
       ]);
       const urls: Record<string, string> = {};
-      await Promise.all(media.map(async (m) => (urls[m.id] = await r.media.url(m, "1600"))));
+      // Only the files these documents use get a signed URL.
+      const used = usedMediaIds([
+        profile.draft,
+        layout.draft,
+        ...projects.map((p) => p.draft),
+        ...posts.map((p) => p.draft),
+      ]);
+      await Promise.all(
+        media.filter((m) => used.has(m.id)).map(async (m) => (urls[m.id] = await r.media.url(m, "1600"))),
+      );
       const byId = new Map(media.map((m) => [m.id, m]));
       return {
         profile,

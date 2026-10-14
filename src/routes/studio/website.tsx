@@ -3,6 +3,7 @@ import { LoadError } from "~/components/studio/states/LoadError";
 import { ScreenSkeleton } from "~/components/studio/states/ScreenSkeleton";
 import { WebsiteBuilder } from "~/components/studio/website/WebsiteBuilder";
 import { studioMeta } from "~/lib/studio/paths";
+import { usedMediaIds } from "~/lib/studio/usage";
 
 export const meta = () => studioMeta("Website");
 
@@ -21,7 +22,16 @@ export default function StudioWebsite() {
         r.media.list(),
       ]);
       const urls: Record<string, string> = {};
-      await Promise.all(media.map(async (m) => (urls[m.id] = await r.media.url(m, "960"))));
+      // Only the files these documents use get a signed URL.
+      const used = usedMediaIds([
+        profile.draft,
+        layout.draft,
+        ...projects.map((p) => p.draft),
+        ...posts.map((p) => p.draft),
+      ]);
+      await Promise.all(
+        media.filter((m) => used.has(m.id)).map(async (m) => (urls[m.id] = await r.media.url(m, "960"))),
+      );
       return { profile, layout, projects, posts, media, urls };
     },
     { fresh: true },

@@ -32,7 +32,7 @@ import {
   sentRecord,
 } from "./signin";
 import { must, T0, testRepo } from "./test-helpers";
-import { mediaUses, postMediaRefs, projectMediaRefs } from "./usage";
+import { mediaUses, postMediaRefs, projectMediaRefs, usedMediaIds } from "./usage";
 
 class MemoryStorage implements Storage {
   private m = new Map<string, string>();
@@ -357,5 +357,16 @@ describe("client", () => {
     const a = await loadRepo();
     expect(await loadRepo()).toBe(a);
     expect(new RepoUnavailable().message).toMatch(/isn’t connected/);
+  });
+
+  it("collects the media ids documents use", () => {
+    expect([
+      ...usedMediaIds([
+        { a: { mediaId: "m1" }, b: [{ mediaId: "m2" }, { mediaId: "" }] },
+        null,
+        "x",
+        { mediaId: "m1" },
+      ]),
+    ]).toEqual(["m1", "m2"]);
   });
 });

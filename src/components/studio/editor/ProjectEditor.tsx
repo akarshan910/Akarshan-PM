@@ -10,7 +10,7 @@ import { useRepo, useStudio } from "../data";
 import { useShell } from "../shell/ShellContext";
 import { ConflictDialog } from "../states/ConflictDialog";
 import { useToast } from "../Toast";
-import { useAutosave, type Autosave } from "../useAutosave";
+import { UNSAVED_MESSAGE, useAutosave, type Autosave } from "../useAutosave";
 import { EditorFrame } from "./EditorFrame";
 import { PublishDialog } from "./PublishDialog";
 import { ACCENT_COLOURS } from "~/lib/accents";
@@ -177,8 +177,11 @@ export function ProjectEditor({
   const publish = async () => {
     if (issues.length > 0) return;
     setPublishing(true);
-    await autosave.flush();
-    await layout.flush();
+    if (!(await autosave.flush()) || !(await layout.flush())) {
+      setPublishing(false);
+      toast.show({ message: UNSAVED_MESSAGE, tone: "error" });
+      return;
+    }
     const result = await repo.publish({ action: "publish", kind: "project", id: row.id });
     setPublishing(false);
     if (!result.ok) {

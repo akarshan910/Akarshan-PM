@@ -91,6 +91,7 @@ The reasoning behind the bigger decisions is in [`docs/story/02-decisions.md`](.
 | D77 | 16 Oct 2026 | **Proof rows in Profile & facts have an Edit button** (the board's `.fixb` style), because 05 says numbers are confirmed there and nothing else edits them; the board draws them read-only. Rows hidden in Website say "Hidden in Website" under the label | [05 · Profile & facts](05-studio.md#profile--facts) |
 | D78 | 16 Oct 2026 | **The phone case study's footer has no "Back to all work",** as `CaseStudyMobile` draws it; the pill nav and "More volumes" lead back | `design/boards/CaseStudyMobile.dc.html` |
 | D79 | 16 Oct 2026 | **The prototype note shows on laptop only;** `CaseStudyTablet` and `CaseStudyMobile` don't draw it | `design/boards/CaseStudy*.dc.html` |
+| D80 | 16 Oct 2026 | **No `heic2any`; resumable uploads use `tus-js-client` 4.3.1.** heic2any 0.0.4 is unmaintained since 2023 and its 2.6 MB bundle compiles in libheif (LGPL) with no licence notice, which a public site shouldn't serve unattributed. Safari decodes HEIC natively; elsewhere Studio asks for a JPG export (its existing message). tus-js-client is MIT; its `combine-errors` dependency declares MIT in its README (no licence file). Both changes depart from 06 · Storage's named packages; the owner can revisit HEIC conversion | [06 · Storage](06-backend.md#storage), [10 · Supply chain](10-execution-plan.md) |
 
 ## Open questions
 

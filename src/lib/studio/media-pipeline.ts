@@ -8,6 +8,8 @@
  * names pm-publish copies (supabase/functions/_shared/media.ts).
  */
 
+import { formatBytes, MAX_BYTES } from "./upload";
+
 export const WIDTHS = [480, 960, 1600] as const;
 
 export interface PipelineFile {
@@ -114,8 +116,31 @@ async function draw(bitmap: ImageBitmap, width: number, type: string, quality: n
   return encode(c, type, quality);
 }
 
+/** Images bigger than this aren't drawn to a canvas (memory); 06's 10 MB files stay well under it. */
+export const MAX_PIXELS = 40_000_000;
+
+/** What the file's first bytes say it is, whatever its name or `type` claim. */
+export async function sniff(file: Blob): Promise<string | null> {
+  const b = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+  const at = (i: number, ...v: number[]) => v.every((x, j) => b[i + j] === x);
+  if (at(0, 0x89, 0x50, 0x4e, 0x47)) return "image/png";
+  if (at(0, 0xff, 0xd8, 0xff)) return "image/jpeg";
+  if (at(0, 0x47, 0x49, 0x46, 0x38)) return "image/gif";
+  if (at(0, 0x52, 0x49, 0x46, 0x46) && at(8, 0x57, 0x45, 0x42, 0x50)) return "image/webp";
+  if (at(0, 0x25, 0x50, 0x44, 0x46)) return "application/pdf";
+  if (
+    at(4, 0x66, 0x74, 0x79, 0x70) &&
+    /^(heic|heix|heim|heis|hevc|mif1|msf1)$/.test(String.fromCharCode(...b.slice(8, 12)))
+  )
+    return "image/heic";
+  return null;
+}
+
 /** Runs the pipeline. Throws with a message for the owner when the file can't be read. */
-export async function runPipeline(file: Blob, mime: string): Promise<PipelineResult> {
+export async function runPipeline(file: Blob, claimed: string): Promise<PipelineResult> {
+  const mime = (await sniff(file)) ?? "";
+  if (!mime || (mime === "application/pdf") !== (claimed === "application/pdf"))
+    throw new Error("This file isn’t the image or PDF its name says. Export it again and upload that.");
   if (mime === "application/pdf") {
     return {
       kind: "document",
@@ -139,6 +164,10 @@ export async function runPipeline(file: Blob, mime: string): Promise<PipelineRes
     );
   }
   const { width, height } = bitmap;
+  if (width * height > MAX_PIXELS) {
+    bitmap.close();
+    throw new Error("This image is over 40 megapixels. Export it smaller and upload that.");
+  }
   const tiny = canvas(16, 16);
   const tctx = context(tiny);
   tctx.drawImage(bitmap, 0, 0, 16, 16);
@@ -166,6 +195,12 @@ export async function runPipeline(file: Blob, mime: string): Promise<PipelineRes
   }
   bitmap.close();
   const orig = files[files.length - 1];
+  // Re-encoding can make a file bigger (a PNG at full quality): check before anything uploads.
+  const big = files.find((f) => f.blob.size > MAX_BYTES);
+  if (big)
+    throw new Error(
+      `After converting, it’s ${formatBytes(big.blob.size)}. Images can be up to 10 MB. Resize it and upload again.`,
+    );
   return {
     kind: "image",
     mime: stored,
