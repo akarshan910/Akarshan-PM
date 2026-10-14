@@ -269,10 +269,10 @@ describe("the catalogue", () => {
     expect(writes).toEqual([]);
   });
 
-  it("records every migration in pm.schema_migrations", async () => {
-    expect((await rows("select version from pm.schema_migrations order by 1")).map((r) => r.version)).toEqual(
-      ["0001_init"],
-    );
+  it("records every migration in pm.schema_migrations, with its checksum", async () => {
+    const applied = await rows("select version, checksum from pm.schema_migrations order by 1");
+    expect(applied.map((r) => r.version)).toEqual(["0001_init", "0003_migration_checksums"]);
+    for (const r of applied) expect(String(r.checksum)).toMatch(/^[0-9a-f]{64}$/);
   });
 });
 

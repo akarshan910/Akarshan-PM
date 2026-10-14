@@ -33,6 +33,21 @@ export default [
   // Unknown paths reached inside the SPA (e.g. a mistyped link in Studio) render the same page.
   route("*", "routes/not-found.tsx", { id: "catch-all" }),
   route("preview/:token", "routes/preview.$token.tsx"),
-  ...prefix("studio", [index("routes/studio/dashboard.tsx"), route("login", "routes/studio/login.tsx")]),
+  // Studio (05 · Routes): client-only, every screen a lazy route chunk.
+  ...prefix("studio", [
+    route("login", "routes/studio/login.tsx"),
+    route("signed-out", "routes/studio/signed-out.tsx"),
+    layout("routes/studio/shell.tsx", [
+      index("routes/studio/dashboard.tsx"),
+      route("website", "routes/studio/website.tsx"),
+      route("website/profile", "routes/studio/profile.tsx"),
+      route("projects", "routes/studio/projects.tsx"),
+      route("projects/:id/:tab?", "routes/studio/editor.tsx"),
+      route("writing", "routes/studio/writing.tsx"),
+      route("writing/:id", "routes/studio/post.tsx"),
+      route("media", "routes/studio/media.tsx"),
+      route("preview/:kind/:id", "routes/studio/preview.tsx"),
+    ]),
+  ]),
   ...catalogue,
 ] satisfies RouteConfig;

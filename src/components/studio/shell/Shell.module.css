@@ -1,0 +1,270 @@
+/* The Studio shell: StudioDashboard (sidebar), StudioTablet (rail, landscape sidebar), StudioMobile (tab bar). */
+
+.shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  background: var(--bg);
+  color: var(--tx);
+  font-family: var(--fu);
+}
+
+/* "Skip to content": off screen until focused (WCAG 2.4.1). */
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--tx);
+  color: #fff;
+  font: 600 14px/1 var(--fu);
+}
+.skip:focus {
+  top: 12px;
+}
+.main:focus {
+  outline: none;
+}
+
+/* ---------------------------------------------------------------- sidebar (StudioDashboard) */
+.sidebar {
+  flex: 1 1 232px;
+  max-width: 256px;
+  background: #fbfbfa;
+  border-right: 1px solid var(--ln);
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+}
+.brand {
+  padding: 4px 12px 18px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.mark,
+.markSm {
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.markSm {
+  font-size: 24px;
+}
+.dot {
+  color: var(--ac);
+}
+.sideNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: var(--tx2);
+  font-size: 14px;
+  font-weight: 500;
+}
+.nav:hover {
+  background: #efeeea;
+  color: var(--tx);
+}
+.nav.on {
+  background: #eae9e4;
+  color: var(--tx);
+}
+.count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--tx3);
+}
+.divider {
+  height: 1px;
+  background: var(--ln);
+  margin: 10px 4px;
+}
+.account {
+  margin-top: auto;
+}
+
+/* ---------------------------------------------------------------- rail (StudioTablet, StudioSite) */
+.rail {
+  display: none;
+  width: 68px;
+  flex: none;
+  background: #fbfbfa;
+  border-right: 1px solid var(--ln);
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+}
+.railMark {
+  margin-bottom: 12px;
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: 24px;
+}
+.rl {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--tx3);
+}
+.rl:hover {
+  background: #efeeea;
+  color: var(--tx);
+}
+.rl.on {
+  background: #eae9e4;
+  color: var(--tx);
+}
+.railEnd {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.tip {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--tx);
+  color: #fff;
+  font: 500 12px/1.2 var(--fu);
+  animation: global(stUp) 0.22s var(--eo) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tip {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------- main */
+.main {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------------------------------------- tab bar (StudioMobile) */
+.tabbar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 8px 6px max(26px, env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1px solid var(--ln);
+}
+.tbi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tx3);
+}
+.tbi.on {
+  color: var(--tx);
+}
+
+/* ---------------------------------------------------------------- breakpoints */
+/* iPad portrait: the rail. Landscape (1024+) keeps the sidebar, as on StudioTablet. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sidebar {
+    display: none;
+  }
+  .rail {
+    display: flex;
+  }
+}
+/* The Website builder and the editors keep the rail on laptops too, at the boards' 72px with
+   48px items (EditorOverview, StudioSite); iPad's is 68px with 46px items (StudioTablet). */
+@media (min-width: 768px) {
+  .shell[data-nav="rail"] .sidebar {
+    display: none;
+  }
+  .shell[data-nav="rail"] .rail {
+    display: flex;
+  }
+}
+@media (min-width: 1024px) {
+  .rail {
+    width: 72px;
+    padding: 16px 0;
+  }
+  .rl {
+    width: 48px;
+    height: 48px;
+  }
+  .railMark {
+    margin-bottom: 14px;
+    font-size: 26px;
+    line-height: 1;
+  }
+}
+/* Phones: the bottom tab bar. */
+@media (max-width: 767px) {
+  .shell {
+    display: block;
+  }
+  .sidebar,
+  .rail {
+    display: none;
+  }
+  .tabbar {
+    display: grid;
+  }
+  .main {
+    padding-bottom: 90px;
+  }
+  .shell[data-tabbar="off"] .tabbar {
+    display: none;
+  }
+  .shell[data-tabbar="off"] .main {
+    padding-bottom: 0;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .sidebar {
+    flex: none;
+    width: 232px;
+    padding: 18px 12px;
+  }
+  .brand {
+    padding: 4px 12px 16px;
+  }
+  .brand .mark {
+    font-size: 24px;
+  }
+}

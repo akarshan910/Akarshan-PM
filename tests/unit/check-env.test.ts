@@ -65,5 +65,17 @@ describe("check-env", () => {
   it("fails when the fixture would feed production", () => {
     const env = { CONTENT_SOURCE: "fixture:boards", VERCEL_ENV: "production" };
     expect(findProblems(project(""), env)).toHaveLength(1);
+    expect(
+      findProblems(project(""), { CONTENT_SOURCE: "fixture:boards", VERCEL_ENV: "preview" }),
+    ).toHaveLength(1);
+    expect(findProblems(project(""), { CONTENT_SOURCE: "fixture:boards" })).toEqual([]);
+  });
+
+  it("lets production read only Supabase once a source is named", () => {
+    expect(findProblems(project(""), { CONTENT_SOURCE: "local-v0", VERCEL_ENV: "production" })).toHaveLength(
+      1,
+    );
+    expect(findProblems(project(""), { CONTENT_SOURCE: "supabase", VERCEL_ENV: "production" })).toEqual([]);
+    expect(findProblems(project(""), { CONTENT_SOURCE: "local-v0", VERCEL_ENV: "preview" })).toEqual([]);
   });
 });

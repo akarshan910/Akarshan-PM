@@ -733,6 +733,7 @@ Board: `StudioLogin.dc.html` (tweaks "enter code" to "wait to resend"; CSS `.otp
 </div>
 ```
 
+- Codes are 8 digits since [09](09-decisions.md) D66: read "6" and "six" in this section as 8 and eight, with eight boxes.
 - A visible `<label for="otp-in">6-digit code</label>` sits above the grid, and `.otp` itself is `role="group" aria-label="6-digit code"`. The hint below is `#otp-h`: "Paste the code, or type it. It signs you in as soon as all six digits are in." The error alerts above the boxes are `role="alert"`.
 - `.otp`: a 6-column grid, gap 10px. The CSS sets 22px above, but the board overrides it inline to `margin-top: 8px` under the label; build 8px.
 - `.box`: 64px tall, radius 12, 1px `--ln2`, white, Geist Mono 600 28px.

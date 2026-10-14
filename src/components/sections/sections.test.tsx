@@ -133,9 +133,29 @@ describe("Hero", () => {
       items: s.items.filter((i) => i.id !== "intro" && i.id !== "availability" && i.id !== "location"),
     }));
     const { container } = renderSection(section);
-    const delays = [...container.querySelectorAll<HTMLElement>(".rise")].map((e) => e.style.animationDelay);
-    expect(delays).toEqual(["0ms", "80ms", "160ms"]);
+    const steps = [...container.querySelectorAll<HTMLElement>(".rise")].map((e) =>
+      e.style.getPropertyValue("--i"),
+    );
+    expect(steps).toEqual(["0", "1", "2"]);
     expect(container.querySelector(".intro")).toBeNull();
+  });
+
+  it("gives phones their own steps, skipping the intro and a location-only row they hide", () => {
+    const view = structuredClone(home);
+    view.profile.availability = undefined;
+    const { container } = renderSection(sectionOf("hero"), view);
+    const steps = [...container.querySelectorAll<HTMLElement>(".rise")].map((e) => [
+      e.style.getPropertyValue("--i"),
+      e.style.getPropertyValue("--ip"),
+    ]);
+    // row (location only), name, positioning, intro, buttons
+    expect(steps).toEqual([
+      ["0", "0"],
+      ["1", "0"],
+      ["2", "1"],
+      ["3", "2"],
+      ["4", "2"],
+    ]);
   });
 
   it("hides empty parts, the brush when it's off, and the buttons without targets", () => {

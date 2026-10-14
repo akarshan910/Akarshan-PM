@@ -2,10 +2,11 @@ import { forwardRef, useEffect, useRef, useState, type ChangeEvent, type Clipboa
 
 import styles from "./CodeInput.module.css";
 import { cx } from "../cx";
+import { CODE_LENGTH, CODE_LENGTH_WORD } from "~/lib/studio/signin";
 
 /** How long six digits wait before they submit on their own (02 · S2). */
 export const CODE_SUBMIT_DELAY = 150;
-export const CODE_LENGTH = 6;
+export { CODE_LENGTH, CODE_LENGTH_WORD };
 
 /**
  * - `idle`: typing.
@@ -94,9 +95,9 @@ export const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(function C
   return (
     <div>
       <label htmlFor={id} className={styles.lbl}>
-        6-digit code
+        {CODE_LENGTH}-digit code
       </label>
-      <div className={styles.otp} role="group" aria-label="6-digit code">
+      <div className={styles.otp} role="group" aria-label={`${CODE_LENGTH}-digit code`}>
         {Array.from({ length: CODE_LENGTH }, (_, i) => (
           <span key={i} className={boxClass(i)} aria-hidden="true" data-box={i}>
             {digits[i] ?? ""}
@@ -134,7 +135,7 @@ export const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(function C
         />
       </div>
       <p id={hintId} className={styles.note}>
-        Paste the code, or type it. It signs you in as soon as all six digits are in.
+        Paste the code, or type it. It signs you in as soon as all {CODE_LENGTH_WORD} digits are in.
       </p>
     </div>
   );
