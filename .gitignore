@@ -28,3 +28,4 @@ qa/
 .idea/
 .vscode/*
 !.vscode/extensions.json
+public/fonts/

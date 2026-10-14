@@ -3,6 +3,9 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse }
 
 import type { Route } from "./+types/root";
 import { BOOTSTRAP_SCRIPT } from "./lib/bootstrap";
+import "./styles/fonts.css";
+import "./styles/tokens.css";
+import "./styles/base.css";
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -12,6 +15,20 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script dangerouslySetInnerHTML={{ __html: BOOTSTRAP_SCRIPT }} />
         <Meta />
+        <link
+          rel="preload"
+          href="/fonts/archivo-latin-wdth-normal.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/geist-latin-wght-normal.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <Links />
       </head>
       <body>

@@ -1,3 +1,4 @@
+import "~/styles/studio.css";
 import type { Route } from "./+types/login";
 
 export function meta(_: Route.MetaArgs) {
@@ -11,5 +12,5 @@ export function clientLoader(_: Route.ClientLoaderArgs) {
 
 /** Placeholder until M4. */
 export default function StudioLogin() {
-  return <main />;
+  return <main className="st" />;
 }

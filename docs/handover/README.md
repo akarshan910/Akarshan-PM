@@ -76,8 +76,8 @@ Build in this order. Each milestone ends with the [QA](08-qa.md) pass for what i
 - [x] TypeScript strict, ESLint and Prettier, Vitest, Playwright, plus `typecheck`, `lint`, `test`, `build` and `e2e` scripts.
 - [x] React Router 7 framework mode: prerendered public routes, `/studio/*` as a client-only SPA. See [01](01-architecture.md#rendering).
 - [x] Folder structure, per [01](01-architecture.md#folders).
-- [ ] `tokens.css` with every token from [02](02-tokens-and-components.md), in dark and light.
-- [ ] Self-hosted fonts:
+- [x] `tokens.css` with every token from [02](02-tokens-and-components.md), in dark and light.
+- [x] Self-hosted fonts:
   - Archivo variable, `wdth` 62–125 and `wght` 100–900;
   - Geist;
   - Geist Mono;
