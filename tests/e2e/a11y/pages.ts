@@ -14,8 +14,8 @@ export const PAGES: { path: string; name: string; placeholder?: string }[] = [
   { path: "/work/arcana-workspace/", name: "case arcana" },
   { path: "/work/glp-1-digital-scaffold/", name: "case glp-1" },
   { path: "/work/revenue-growth-strategy/", name: "case revenue" },
-  { path: "/404/", name: "404", placeholder: "HANDOFF Next 3: not-found.tsx is a placeholder" },
-  { path: "/writing/", name: "writing", placeholder: "HANDOFF Next 2: /writing is a placeholder" },
+  { path: "/404/", name: "404" },
+  { path: "/writing/", name: "writing" },
 ];
 
 /** The widths QA checks (08 · Check by eye, plus 320 for 400% zoom on a 1280 window). */

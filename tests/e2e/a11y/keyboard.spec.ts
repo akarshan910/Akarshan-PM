@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { knownDefect } from "../devices/known-defects";
 import { PAGES } from "./pages";
 
 /** What the focused element looks like, read after its focus ring has finished animating in. */
@@ -142,6 +143,30 @@ test.describe("dialogs and disclosures by keyboard", () => {
       await page.keyboard.press("Escape");
       await expect(sheet).toBeHidden();
       await expect(bar).toBeFocused();
+    });
+  }
+
+  for (const width of [834, 390]) {
+    test(`case study chapter sheet @${width}: choosing a chapter focuses its heading`, async ({ page }) => {
+      const known = knownDefect("chapter sheet focus", width);
+      test.fail(Boolean(known), known ? `${known.id}: ${known.note}` : "");
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/work/puja-engagement-platform/");
+      await page.evaluate(() => {
+        scrollTo(0, 2500);
+      });
+      const bar = page.getByRole("button", { name: "Jump to chapter" });
+      await bar.focus();
+      await page.keyboard.press("Enter");
+      const sheet = page.getByRole("navigation", { name: "Chapters" }).last();
+      const third = sheet.getByRole("link").nth(2);
+      const anchor = (await third.getAttribute("href"))?.slice(1) ?? "";
+      for (let i = 0; i < 3; i++) await page.keyboard.press("Tab");
+      await expect(third).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(sheet).toBeHidden();
+      // Not <body>: the reader's place moves with them (08 · Keyboard; 2.4.3).
+      await expect(page.locator(`[id="${anchor}-t"]`)).toBeFocused();
     });
   }
 
