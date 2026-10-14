@@ -2,7 +2,7 @@
 
 This file lets a new session pick up the build without any memory of earlier sessions. Read it after [`CLAUDE.md`](CLAUDE.md), then follow the reading order below. Keep it current: update the **Status** and **Next** sections in the same commit as the work.
 
-_Last updated: 14 Oct 2026._
+_Last updated: 15 Oct 2026._
 
 ## Start here
 
@@ -50,7 +50,11 @@ _Last updated: 14 Oct 2026._
 - **Home.** `src/routes/home.tsx` and `src/components/sections/*` render every section at 1440/834/390. The hero motion (rise, brush, tilt, drift, floaters, pause) is in `src/motion/*`, and scroll reveals are included.
 - **Rich text.** `src/lib/rich-text.ts` and `src/components/rich/RichText.tsx` form the only path for `Inline`/`Rich` strings. The renderer is allowlist-based and tested with XSS payloads.
 - **/work list.** Commit `4885a85`: filters, search, sort and paging. See `src/lib/work-list.ts` and `src/components/work/`.
-- **Case-study view helper, started.** `src/lib/case-study.ts` has the view logic for `/work/:slug` (finding the project by slug, prev/next and so on), with unit tests. The route and its components aren't built yet.
+- **Case study `/work/:slug`.** `src/routes/work.$slug.tsx` renders `src/components/case-study/` on the view from `src/lib/case-study.ts`:
+  - the header and facts, the prototype heading per device (or a video or the cover), and the Summary;
+  - the chapter rail with its sliding marker (laptop), and the chapter bar and sheet (iPad and phones);
+  - reading progress, prev/next, "More volumes" on phones, and every block type in `blocks/`.
+  - It's checked by eye against the three boards with V0 content. Pixel parity waits for the board fixture (Next, item 4), and Playwright hasn't run on it yet (see Gotchas).
 
 **Remaining:** see **Next**.
 
@@ -58,7 +62,7 @@ _Last updated: 14 Oct 2026._
 
 The owner stopped the session on 14 Oct 2026 to save tokens. Nothing is running, and everything finished is pushed. A new session should restart these, in this order:
 
-1. **Case-study track.** Finish `/work/:slug` (Next, item 1) on top of `src/lib/case-study.ts`. Check that the `/work` list needs nothing more (03 · Work list).
+1. **Case-study track.** Done on 15 Oct 2026, apart from the parity pass and an e2e spec for `/work/:slug`.
 2. **Writing, page states and parity track.** Next, items 2–4.
 
 Run each as one agent at a time in the main checkout, pushing after every commit to `claude/elegant-allen-xdmal0` (see How we work).
@@ -67,13 +71,7 @@ Run each as one agent at a time in the main checkout, pushing after every commit
 
 Pick up in this order. Each item lists the doc sections and boards to read.
 
-1. **Case study `/work/:slug`.** `src/routes/work.$slug.tsx` is still a placeholder. Build on the view logic in `src/lib/case-study.ts`.
-   - **Header and per-device prototype heading:** the header rows, the facts (Type = `PROJECT_KIND_LABELS`), and the prototype heading for each device.
-   - **Chapter content:** summary and success measures, then every block type in `src/components/case-study/`.
-   - **Chapter navigation:** the chapter rail, the iPad chapter bar, the phone sheet, and the reading progress bar.
-   - **Footer:** prev/next, "More volumes" on phones, and "Back to all work".
-   - **Motion:** M-CHAPTER-*, M-PROTO and the reading progress.
-   - **Sources:** 03 · Case study and Blocks, 04, 06 · Project, 07 · Story; boards `CaseStudy*`, `WorkScale`.
+1. **Case study `/work/:slug`: what's left.** Add an e2e spec (axe at three sizes, the chapter sheet, no JavaScript), then the parity pass once the board fixture exists.
 2. **Writing.**
    - Add `publishPost` to `src/lib/published.ts`: reading time is words ÷ 220, the excerpt is the post's own or its first 160 characters, plus `modifiedAt`.
    - Build `/writing`, which returns the 404 page while there are no posts, and `/writing/:slug`.
@@ -102,6 +100,11 @@ They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46
   - Every link rendered from props goes through `safeHref()` (`src/lib/links.ts`).
 - **Generated cover:** the WorkScale cover without art.
 - **Testimonial avatar colours:** derived from the tone (18% accent on `#0B0B0E`, text at 55% accent on white).
+- **Case study:**
+  - On phones the Summary also shows "The problem" and "What I proposed", stacked above the measures; the phone board shows only the measures, but 03 hides them only when empty.
+  - The accent colours "· In the plan" and the current row in the chapter sheet (the board's coral `#FF5A67` was its accent).
+  - Cards with kickers draw as priority cards; cards without draw as the hairline grid (chapter 03), and as a numbered list on phones.
+  - On iPad, RICE tables drop the `#` column into the item ("1 · …") and shorten the input headers to R, I, C and E, as on the board.
 - **Content gaps:** the testimonial "tag" isn't rendered (no board shows it). Compact experience entries join bullets with " · ", as on the iPad board.
 
 ## How we work
@@ -144,7 +147,8 @@ They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46
 
 ## Environment gotchas
 
-- **Playwright:** Chromium is preinstalled at `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`, and `playwright.config.ts` uses it. Never run `playwright install`.
+- **Playwright on the owner's Mac:** the Playwright version in the lockfile needs `chromium_headless_shell-1194`, which isn't in `~/Library/Caches/ms-playwright` until `npx playwright install chromium` runs (ask the owner first: it's a download).
+- **Playwright in the cloud sandbox:** Chromium is preinstalled at `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`, and `playwright.config.ts` uses it. Never run `playwright install`.
 - **The catalogue:** `/dev/components` exists in dev and typegen only. A production build leaves it out unless `CATALOGUE=1`, and `check-env` fails a production build where `CATALOGUE` or `CONTENT_SOURCE` is set.
 - **`ssr: false` + prerender:** every route with a `loader` needs at least one prerendered page, so `/writing/:slug` is registered only when posts exist (always for typegen). `/404` is prerendered for the host to serve; unknown SPA paths use the catch-all.
 - **Fonts and covers:** a Vite plugin copies them into `public/` on start, so dev and build both work. `public/fonts` and `public/media` are git-ignored.
