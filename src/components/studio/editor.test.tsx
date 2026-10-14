@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 
 import { must } from "~/lib/studio/test-helpers";
 import { OverviewTab } from "./editor/OverviewTab";
-import { renderEditor } from "./test-editor";
+import { fill, renderEditor } from "./test-editor";
 
 const live = (rows: { id: string; published: unknown }[]) => must(rows.find((r) => r.published)).id;
 const draft = (rows: { id: string; published: unknown }[]) => must(rows.find((r) => !r.published)).id;
@@ -30,7 +30,7 @@ describe("Project editor · frame", { timeout: 20_000 }, () => {
     const title = screen.getByRole("textbox", { name: /^Title/ });
     clock.now += 60_000;
     await user.clear(title);
-    await user.type(title, "A new title");
+    await fill(user, title, "A new title");
     await waitFor(
       () => {
         expect(screen.getAllByText("Saved just now").length).toBeGreaterThan(0);
@@ -102,20 +102,25 @@ describe("Project editor · frame", { timeout: 20_000 }, () => {
 });
 
 describe("Overview tab", { timeout: 20_000 }, () => {
-  it("edits every field and warns at the limits", async () => {
+  it("warns at the limits", async () => {
     const user = userEvent.setup();
-    const { repo, id } = await renderEditor(live, "overview", <OverviewTab />);
+    await renderEditor(live, "overview", <OverviewTab />);
     const summary = screen.getByRole("textbox", { name: /One-line summary/ });
     await user.clear(summary);
-    await user.type(summary, "x".repeat(141));
+    await fill(user, summary, "x".repeat(141));
     expect(screen.getByText("Trim to 140 characters so it fits on the card.")).toBeInTheDocument();
-    await user.type(screen.getByRole("textbox", { name: "Card label" }), "Consumer");
-    await user.type(screen.getByRole("textbox", { name: "The problem" }), "Broken");
+    await fill(user, screen.getByRole("textbox", { name: "PRD or document" }), "ftp://x");
+    expect(screen.getByText("Use a full link that starts with https://")).toBeInTheDocument();
+  });
+
+  it("edits every field and saves it", async () => {
+    const user = userEvent.setup();
+    const { repo, id } = await renderEditor(live, "overview", <OverviewTab />);
+    await fill(user, screen.getByRole("textbox", { name: "Card label" }), "Consumer");
+    await fill(user, screen.getByRole("textbox", { name: "The problem" }), "Broken");
     await user.type(screen.getByRole("textbox", { name: /My role/ }), "PM");
     expect(screen.getByText("Shown under the title and in “My role and decisions”.")).toBeInTheDocument();
     expect(screen.getByText("2 of 3 empty")).toBeInTheDocument();
-    await user.type(screen.getByRole("textbox", { name: "PRD or document" }), "ftp://x");
-    expect(screen.getByText("Use a full link that starts with https://")).toBeInTheDocument();
     await user.click(
       within(screen.getByRole("group", { name: "Homepage shelf" })).getByRole("button", { name: "Shipped" }),
     );

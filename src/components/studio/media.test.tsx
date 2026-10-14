@@ -8,6 +8,7 @@ import { MEMORY_OWNER } from "~/lib/studio/memory";
 import { must, testRepo } from "~/lib/studio/test-helpers";
 import StudioMedia from "~/routes/studio/media";
 import { StudioDataProvider } from "./data";
+import { fill } from "./test-editor";
 import { ShellContext } from "./shell/ShellContext";
 import { ToastProvider } from "./Toast";
 
@@ -27,7 +28,6 @@ async function renderMedia() {
       </StudioDataProvider>
     </MemoryRouter>,
   );
-  await screen.findByRole("heading", { level: 1, name: "Media" }, { timeout: 3000 }).catch(() => undefined);
   await screen.findByText(/Every file you’ve uploaded/);
   return { repo, announce };
 }
@@ -57,7 +57,7 @@ describe("Media", { timeout: 20_000 }, () => {
     await user.click(screen.getByRole("button", { name: /^Needs alt text · 1/ }));
     expect(screen.getAllByRole("button", { name: /needs alt text$/ })).toHaveLength(1);
     const alt = screen.getByRole("textbox", { name: /Alt text/ });
-    await user.type(alt, "A screen");
+    await fill(user, alt, "A screen");
     await user.tab();
     await waitFor(async () => {
       expect((await repo.media.list()).find((m) => m.filename === "screen-08.png")?.alt).toBe("A screen");
@@ -119,7 +119,7 @@ describe("Media", { timeout: 20_000 }, () => {
     ).toBeInTheDocument();
     const name = within(details).getByRole("textbox", { name: "File name" });
     await user.clear(name);
-    await user.type(name, "renamed.png");
+    await fill(user, name, "renamed.png");
     await user.tab();
     await waitFor(async () => {
       expect((await repo.media.list()).some((m) => m.filename === "renamed.png" && m.rev === 2)).toBe(true);
@@ -136,7 +136,7 @@ describe("Media", { timeout: 20_000 }, () => {
     const files = within(sheet).getByLabelText(/Files · images and PDFs/);
     await user.upload(files, file("screen-09.png", "image/png"));
     const altBox = await within(sheet).findByLabelText(/Alt text for screen-09\.png/);
-    await user.type(altBox, "Ninth screen");
+    await fill(user, altBox, "Ninth screen");
     await user.click(within(sheet).getByRole("button", { name: "Save" }));
     await waitFor(() => {
       expect(within(sheet).queryByLabelText(/Alt text for screen-09\.png/)).not.toBeInTheDocument();

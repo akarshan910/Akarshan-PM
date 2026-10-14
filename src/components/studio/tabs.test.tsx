@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 import { must } from "~/lib/studio/test-helpers";
-import { renderEditor } from "./test-editor";
+import { fill, renderEditor } from "./test-editor";
 import { OutcomesTab } from "./editor/OutcomesTab";
 import { SettingsTab } from "./editor/SettingsTab";
 import { StoryTab } from "./editor/StoryTab";
@@ -29,21 +29,21 @@ describe("Visuals", { timeout: 20_000 }, () => {
     expect(screen.getByText("Uses the cover image below, cropped to 16:10.")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Video" }));
     const video = screen.getByRole("textbox", { name: "Video link" });
-    await user.type(video, "https://example.com/v");
+    await fill(user, video, "https://example.com/v");
     expect(screen.getByText(/That link isn’t from YouTube, Vimeo, Loom or Google Drive/)).toBeInTheDocument();
     await user.clear(video);
-    await user.type(video, "https://drive.google.com/file/d/abc/view");
+    await fill(user, video, "https://drive.google.com/file/d/abc/view");
     expect(screen.getByText("Google Drive video")).toBeInTheDocument();
     expect(screen.getByText(/Anyone with the link/)).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Prototype" }));
     const proto = screen.getByRole("textbox", { name: "Prototype link" });
-    await user.type(proto, "http://x");
+    await fill(user, proto, "http://x");
     expect(screen.getByText("Use an https:// address.")).toBeInTheDocument();
     await user.clear(proto);
-    await user.type(proto, "https://app-git-main-me.vercel.app");
+    await fill(user, proto, "https://app-git-main-me.vercel.app");
     expect(screen.getByText(/This is a Vercel preview link/)).toBeInTheDocument();
     await user.clear(proto);
-    await user.type(proto, "https://www.figma.com/proto/abc");
+    await fill(user, proto, "https://www.figma.com/proto/abc");
     expect(
       await screen.findByText("Figma prototype: it plays in Figma’s embed.", {}, { timeout: 2000 }),
     ).toBeInTheDocument();
@@ -82,7 +82,7 @@ describe("Visuals", { timeout: 20_000 }, () => {
     expect(
       screen.getByText("Add alt text so screen reader users get the same information."),
     ).toBeInTheDocument();
-    await user.type(alt, "A cover");
+    await fill(user, alt, "A cover");
     await saved(
       () => repo.projects.get(id),
       (r) => {
@@ -111,7 +111,7 @@ describe("Visuals", { timeout: 20_000 }, () => {
     expect(await screen.findByText("Too large")).toBeInTheDocument();
     expect(await screen.findByText("Image 1 of 2")).toBeInTheDocument();
     expect(screen.getByText("2 need alt text")).toBeInTheDocument();
-    await user.type(screen.getByRole("textbox", { name: /^Alt text/ }), "First screen");
+    await fill(user, screen.getByRole("textbox", { name: /^Alt text/ }), "First screen");
     await user.type(screen.getByRole("textbox", { name: "Caption" }), "Home");
     await user.click(screen.getByRole("button", { name: "Move later" }));
     expect(screen.getByText("Image 2 of 2")).toBeInTheDocument();
@@ -244,7 +244,7 @@ describe("Outcomes", { timeout: 20_000 }, () => {
     const card = must(screen.getAllByRole("article").at(-1));
     expect(within(card).getByText("Pick one. Unlabelled numbers can’t be published.")).toBeInTheDocument();
     await user.type(within(card).getByPlaceholderText("e.g. 52%"), "52%");
-    await user.type(within(card).getByPlaceholderText("e.g. renewal rate"), "renewal rate");
+    await fill(user, within(card).getByPlaceholderText("e.g. renewal rate"), "renewal rate");
     await user.click(within(card).getByRole("button", { name: "Achieved" }));
     const added = must(screen.getAllByRole("article").at(-1));
     expect(
@@ -253,7 +253,7 @@ describe("Outcomes", { timeout: 20_000 }, () => {
     expect(
       screen.getByText(`Result ${before + 1} is marked achieved with no evidence note.`),
     ).toBeInTheDocument();
-    await user.type(within(added).getByRole("textbox", { name: /Evidence/ }), "Dashboard");
+    await fill(user, within(added).getByRole("textbox", { name: /Evidence/ }), "Dashboard");
     await user.click(within(added).getByRole("button", { name: "Business outcome" }));
     await user.click(within(added).getByRole("button", { name: "Make card headline" }));
     expect(within(added).getByRole("button", { name: "Card headline" })).toHaveAttribute(
@@ -302,7 +302,7 @@ describe("URL & SEO", { timeout: 20_000 }, () => {
     expect(screen.getByText("This is the current address")).toBeInTheDocument();
     await user.clear(slug);
     expect(screen.getByText("Add an address.")).toBeInTheDocument();
-    await user.type(slug, "Bad Slug");
+    await fill(user, slug, "Bad Slug");
     expect(screen.getByText("Use only lowercase letters, numbers and single hyphens.")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Use bad-slug" }));
     expect(await screen.findByText("Available", {}, { timeout: 2000 })).toBeInTheDocument();
@@ -323,11 +323,11 @@ describe("URL & SEO", { timeout: 20_000 }, () => {
     Object.defineProperty(navigator, "clipboard", { value: { writeText }, configurable: true });
     const { repo, id } = await renderEditor(live, "settings", <SettingsTab ownerName="Test Owner" />);
     expect(screen.getByText("Using the project title and your name.")).toBeInTheDocument();
-    await user.type(screen.getByRole("textbox", { name: "Search title" }), "x".repeat(61));
+    await fill(user, screen.getByRole("textbox", { name: "Search title" }), "x".repeat(61));
     expect(
       screen.getByText("Search engines may cut this off after about 60 characters."),
     ).toBeInTheDocument();
-    await user.type(screen.getByRole("textbox", { name: "Search description" }), "A description.");
+    await fill(user, screen.getByRole("textbox", { name: "Search description" }), "A description.");
     expect(screen.getByText("Custom description.")).toBeInTheDocument();
     await user.click(screen.getByRole("radio", { name: /Unlisted/ }));
     expect(screen.getByText("Off: unlisted pages are always noindex.")).toBeInTheDocument();

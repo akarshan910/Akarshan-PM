@@ -19,6 +19,7 @@ import {
 import StudioPost from "~/routes/studio/post";
 import StudioWriting from "~/routes/studio/writing";
 import { StudioDataProvider } from "./data";
+import { fill } from "./test-editor";
 import { ShellContext } from "./shell/ShellContext";
 import { ToastProvider } from "./Toast";
 
@@ -92,22 +93,22 @@ describe("Writing", { timeout: 20_000 }, () => {
     const row = await repo.posts.create(newPost(), "untitled-1");
     renderAt(repo, `/studio/writing/${row.id}`);
     const title = await screen.findByRole("textbox", { name: "Title" });
-    await user.type(title, "Hello world");
+    await fill(user, title, "Hello world");
     await waitFor(
       async () => {
         expect((await repo.posts.get(row.id))?.slug).toBe("hello-world");
       },
       { timeout: 3000 },
     );
-    await user.type(screen.getByRole("textbox", { name: "Subtitle" }), "A dek");
+    await fill(user, screen.getByRole("textbox", { name: "Subtitle" }), "A dek");
     await user.click(screen.getByRole("button", { name: "Heading" }));
-    await user.type(screen.getByRole("textbox", { name: "Heading" }), "Part one");
+    await fill(user, screen.getByRole("textbox", { name: "Heading" }), "Part one");
     await user.click(screen.getByRole("button", { name: "Code" }));
-    await user.type(screen.getByRole("textbox", { name: "Code" }), "x = 1");
+    await fill(user, screen.getByRole("textbox", { name: "Code" }), "x = 1");
     await user.click(screen.getByRole("button", { name: "Embed" }));
-    await user.type(screen.getByRole("textbox", { name: "Embed link" }), "https://youtu.be/abc");
+    await fill(user, screen.getByRole("textbox", { name: "Embed link" }), "https://youtu.be/abc");
     await user.click(screen.getByRole("button", { name: "Add" }));
-    await user.type(screen.getByRole("textbox", { name: "Excerpt" }), "Short.");
+    await fill(user, screen.getByRole("textbox", { name: "Excerpt" }), "Short.");
     await user.click(screen.getByRole("switch", { name: "Show on my homepage" }));
     expect(screen.getByText(/words · 1 min read/)).toBeInTheDocument();
 

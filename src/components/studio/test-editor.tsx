@@ -1,5 +1,6 @@
 /** Renders the project editor around one tab, on the in-memory repo, for the editor tests. */
 import { render } from "@testing-library/react";
+import type { UserEvent } from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { vi } from "vitest";
@@ -59,4 +60,10 @@ export async function renderEditor(
     </MemoryRouter>,
   );
   return { repo, clock, id, announce, ...utils };
+}
+
+/** Types a long value in one step: `user.type` renders once per keystroke, which is slow on CI. */
+export async function fill(user: UserEvent, el: HTMLElement, text: string) {
+  await user.click(el);
+  await user.paste(text);
 }
