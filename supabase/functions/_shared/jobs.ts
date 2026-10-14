@@ -64,7 +64,7 @@ export const checkLinkHandler = handle("pm-check-link", async (req, deps) => {
   if (!service) await requireOwner(req, deps);
   const parsed = CheckBody.safeParse(await readJson(req));
   if (!parsed.success) throw new HttpError(400, "bad-request");
-  const options = { fetch: deps.fetch, siteOrigin: deps.env.siteUrl };
+  const options = { fetch: deps.fetch, siteOrigin: deps.env.siteUrl, resolve: deps.resolveHost };
 
   if ("nightly" in parsed.data) {
     if (!service) throw new HttpError(403, "forbidden");

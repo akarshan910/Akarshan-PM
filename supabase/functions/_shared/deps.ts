@@ -46,6 +46,8 @@ export interface Deps {
   env: Env;
   /** Outbound requests: the deploy hook and link checks. */
   fetch: typeof fetch;
+  /** A and AAAA records for a host, for the link check's private-address guard. */
+  resolveHost(host: string): Promise<string[]>;
   now(): Date;
   randomBytes(n: number): Uint8Array;
 }

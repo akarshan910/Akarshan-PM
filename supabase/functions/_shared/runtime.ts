@@ -93,6 +93,17 @@ function makeDeps(): Deps {
       },
     },
     fetch: (input, init) => fetch(input, init),
+    async resolveHost(host) {
+      const out: string[] = [];
+      for (const type of ["A", "AAAA"] as const) {
+        try {
+          out.push(...(await Deno.resolveDns(host, type)));
+        } catch {
+          // no records of this type
+        }
+      }
+      return out;
+    },
     now: () => new Date(),
     randomBytes: (n) => crypto.getRandomValues(new Uint8Array(n)),
   };

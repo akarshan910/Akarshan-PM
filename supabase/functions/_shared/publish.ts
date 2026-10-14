@@ -152,7 +152,7 @@ export async function publishProjectRow(
   const draft = parse(Project, row.draft);
   const media = await loadMedia(deps.sql, mediaIds(draft));
   const issues = await projectChecks(draft, row.slug, media, (url, kind) =>
-    checkLink(url, kind, { fetch: deps.fetch, siteOrigin: deps.env.siteUrl }),
+    checkLink(url, kind, { fetch: deps.fetch, siteOrigin: deps.env.siteUrl, resolve: deps.resolveHost }),
   );
   const [taken] = await deps.sql.query<{ id: string }>(
     "select id::text from pm.projects where published_slug = $1 and id <> $2",

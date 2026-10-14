@@ -168,6 +168,10 @@ async function main(): Promise<void> {
           signedUrl: () => Promise.resolve(""),
         },
         fetch,
+        async resolveHost(host) {
+          const { lookup } = await import("node:dns/promises");
+          return (await lookup(host, { all: true })).map((a) => a.address);
+        },
         now: () => new Date(),
         randomBytes: (n) => crypto.getRandomValues(new Uint8Array(n)),
       };
