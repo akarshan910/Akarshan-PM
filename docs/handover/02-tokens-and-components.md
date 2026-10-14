@@ -102,11 +102,12 @@ Studio components, copied from `StudioDashboard.dc.html` and the other Studio bo
 
 - `.nav` sidebar items: 40px tall, radius 8. Hover `#EFEEEA`; active `#EAE9E4`.
 - `.card`: radius 14, 1px `--ln`.
-- `.cta`: the angled publish button, 42px tall, 8px cut, `--fd` 75% 700, 14px, `letter-spacing: .1em`.
-- `.btn`: 42px tall, radius 8, white, 1px `--ln2`. Hover border `#B9B7B1`.
-- `.chip`: 24px tall, radius 6, 12px 500.
+- `.cta`: the angled publish button, 42px tall, padding `0 18px`, 8px cut, `--fd` 75% 700, 14px, `letter-spacing: .1em`; hover `#E42A3F`.
+- `.btn`: 42px tall, padding `0 16px`, radius 8, white, 1px `--ln2`, `500 14px` `--fu`. Hover border `#B9B7B1`.
+- `.chip`: 24px tall, padding `0 8px`, radius 6, 12px 500.
 - `.mono`: 12px, `letter-spacing: .06em`.
-- Focus: `outline: 2px solid var(--tx); outline-offset: 2px`.
+- Focus: `outline: 2px solid var(--tx); outline-offset: 2px` (3px on the sign-in screen).
+- Sign-in buttons: `.pbtn` 52px, radius 10, `#141416` fill, `500 16px` (disabled `#B9B7B1`); `.btn2` 46px, radius 10, 1px `--ln2`.
 - Skeleton: `.shim`, `#ECEBE7`→`#F6F5F2`, 1.3s linear.
 
 ## Type
@@ -128,13 +129,13 @@ Scale, as laptop / iPad / phone, from `System.dc.html`:
 | --- | --- | --- | --- |
 | display-xl, the hero name | 136 / 92 / 72. The pages use `clamp(64px, 8.4vw, 126px)`, 100px and 66px | .86 | `--fd` 62% 800, uppercase |
 | h1, case-study title | 88 / 64 / 44. Page: `clamp(52px, 6.4vw, 92px)` | .96–.98 | `--fd` 75% 700 |
-| h2, section title | 64 / 48 / 36–38. Page: `clamp(40px, 5vw, 64px)` | .95 | `--fd` 68% 800, uppercase |
+| h2, section title | 64 / 48 / 38 (System lists 36; HomeMobile `.h2` is 38). Page: `clamp(40px, 5vw, 64px)` | .95 | `--fd` 68% 800, uppercase |
 | h3, card title | 40 / 32 / 28. Lead card `clamp(30px, 3vw, 42px)`, standard card 28px | 1.02–1.05 | `--fd` 75% 700 |
 | lead, hero positioning | 32 / 26 / 22. Page: `clamp(22px, 2.2vw, 30px)`, 25px, 20px | 1.28–1.3 | `--fu` 400, `letter-spacing: -.015em` |
 | reading, case study and posts | 19 / 18 / 17. Measure 680px | 1.65 | `--fu` |
 | body · small | 16 · 14 | 1.6 | `--fu` |
 | meta and mono labels | 12, never smaller (11 on tags and the phone kicker) | — | `--fm`, `letter-spacing: .08em`, uppercase, `--tx3` |
-| numeral | 52 / 44–46 / 38–40 | 1 | `--fd` 62% 800 |
+| numeral | 52 / 46 / 38 on the pages (System lists 52 / 44 / 40) | 1 | `--fd` 62% 800 |
 
 Where the page boards use a fluid `clamp()`, build the `clamp()`. The scale table shows the sizes it resolves to at 1440, 834 and 390.
 
@@ -179,7 +180,7 @@ Between breakpoints the layout is fluid. Check at 360, 390, 430, 768, 834, 1024,
 | --- | --- |
 | e0, resting | Hairline `--ln` |
 | e1, hover | Lifts 4px, border `--ln2` |
-| e2, overlays | Floating previews, dialogs, sheets and toasts. Previews use `0 24px 48px rgba(0,0,0,.45)`; dialogs and toasts use `0 24px 64px rgba(0,0,0,.45)` |
+| e2, overlays | Floating previews, dialogs, sheets and toasts. Previews use `0 24px 48px rgba(0,0,0,.45)`; dialogs and sheets use `0 24px 64px rgba(0,0,0,.55)`; toasts use `0 24px 64px rgba(0,0,0,.45)` |
 
 **Focus.** Use `outline: 2px solid var(--act); outline-offset: 3px` on links and buttons. The angled CTA is the exception: it uses an inner ring, `box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 4px #D61F33`, because its cut corners would clip an outline.
 
@@ -188,11 +189,13 @@ Between breakpoints the layout is fluid. Check at 360, 390, 430, 768, 834, 1024,
 One set, used across the site and Studio:
 
 - 24px grid, `stroke-width: 1.75`, round caps and joins, `fill: none`, `stroke: currentColor`.
-- Size with the `.ico` class: 18px on the site, 20px in Studio, 14–15px inline.
+- Size with the `.ico` class: 18px on the site and in Studio (every `.st .ico` is 18px), 20px on the System board's samples, 14–16px inline.
 
 The 24 icons and their path data are in the `icons` array in `System.dc.html`:
 
 arrow-right, arrow-out, arrow-down, download, play, pause, expand, menu, close, sun, moon, check, alert, info, upload, image, video, prototype, grip, trash, copy, eye, link, plus.
+
+Boards also use these, which must be in `icons.tsx` too: arrow-left `M19 12H5M11 18l-6-6 6-6`, mail `M3 6h18v12H3zM3 7l9 6 9-6`, chevron-down `M6 9l6 6 6-6`, chevron-left `M15 6l-6 6 6 6`, chevron-right `M9 6l6 6-6 6`, image-off `M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M3 3l18 18`, alert-circle (circle r9 + `M12 8v5M12 16h.01`), clock `M12 8v4l3 2M12 3a9 9 0 100 18 9 9 0 000-18z`, rss `M5 5a14 14 0 0114 14M5 11a8 8 0 018 8M6 18h.01`, more (three r1.2 dots at y12). The play icon on cover badges is filled (`fill: currentColor`).
 
 Put them in `src/components/icons.tsx` as one component that takes a `name` prop. Decorative icons get `aria-hidden="true"`.
 
@@ -287,7 +290,7 @@ Board: `HomeMobile.dc.html` with the `nav: menu open` Tweak, and `CaseStudyMobil
 | Primary, the angled CTA | `.cta` | 52px tall (54 inside the phone menu). Padding `0 28px`, `--ac` fill, white text. `--fd` 75% 600, 15px, `letter-spacing: .14em`, uppercase. `clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))` |
 | Secondary | `.cta2` | 52px tall, padding `0 26px`, 1px `--ln2` border, transparent, `--tx` text, `--fd` 75% 500, 15px |
 | Secondary, compact | `.cta2` with inline overrides | 44px tall, padding `0 18px`, 14px. "Full résumé" in Experience |
-| Ghost | System board | 44px tall, 15px 500, `--tx2` |
+| Ghost | System board | 44px tall, padding `0 14px`, 15px 500, `--tx2` |
 | Destructive | System board | `.cta2` with border `rgba(255,90,103,.45)` and text `#FF8A93` |
 | Icon button | System board | 44×44, radius 8, 1px `--ln` |
 | Round arrow button | Testimonials | 44×44, radius 999, 1px `--ln2`. Disabled: `--ln` border, `--tx3` icon |
@@ -313,7 +316,7 @@ On phones, full-width buttons are `display: flex; width: 100%`.
 [intro]              15–17px, 1.6, --tx3 or --tx2, max-width 420–480px. On laptop it sits right-aligned beside the title
 ```
 
-Layout: `display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: 40px` on laptop. On iPad and phones it stacks: kicker, `.h2`, then the intro.
+Layout: `display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: 40px` on laptop (About 48 with gap `32px 64px`; Skills and Off duty 30; Testimonials 36). The kicker-to-title gap is 14px (laptop), 12px (iPad `.h2`, 48px) and 10px (phone `.h2`, 38px). The shelves show no intro on iPad or phones. On iPad and phones it stacks: kicker, `.h2`, then the intro.
 
 The two-tone split is stored data: Studio keeps the title in two fields, `title` and `titleMuted`. Never split strings automatically.
 
@@ -342,7 +345,7 @@ The text is uppercase in the markup. Give each label a visually hidden expansion
 | Volume tag (covers) | `padding: 6px 10px` (lead) or `5px 9px` (standard), radius 6, accent fill, `#0B0B0E` text, `--fm` 12px 600, `letter-spacing: .08em`, `VOL.NN`. Phone rows use a compact `NN` at 11px |
 | Status badge (cover, top right) | `.badge`: `rgba(0,0,0,.5)` fill, `#F2F1EE` text, 12–13px 500, radius 6, play icon plus "Prototype"; or a dot plus "Shipped · AI" |
 | Chip | `.chip`: 30px tall (32 on iPad), padding `0 12px`, radius 999, 1px `--ln`, 13px `--tx2`. Problem spaces, segments |
-| Availability chip | 32px tall (30 on phones), padding `0 14px 0 12px`, radius 999, border `rgba(60,203,139,.35)`, fill `rgba(60,203,139,.08)`, `--okt` 13px 500. An 8px `--ok` dot with M-AVAIL-PULSE |
+| Availability chip | 32px tall (30px tall and 12px text on phones), padding `0 14px 0 12px`, radius 999, border `rgba(60,203,139,.35)`, fill `rgba(60,203,139,.08)`, `--okt` 13px 500. An 8px `--ok` dot with M-AVAIL-PULSE |
 | Filter chip | The System board's "All / Shipped / Strategy": 32px, radius 999. Selected: `--tx` fill with `--bg` text. Not selected: 1px `--ln2` border |
 
 ### C7 · Project card
@@ -363,7 +366,7 @@ The whole card is one link to `/work/:slug`.
 | **Standard** | Laptop 3 up, iPad 2 up | Column, padding `14px 14px 22px`, radius 20, `--bg2`, gap 20. Cover 4:3, radius 12. Body padding `0 6px`, gap 10: meta, h3 28px (26 on iPad), 15px summary (laptop only), then the headline row: numeral 26px (24 on iPad), line 14px, label |
 | **Compact row** | Phones, after the lead | `.row`: grid `96px 1fr`, gap 14, padding 10, radius 16, `--bg2`. A 96px cover thumb with radius 10 and the compact `NN` tag. Title 16px 600, then the headline line 13px plus the label |
 | **See all N** | The last cell when a shelf is over its cap | `.see-all`: dashed `--ln2`, radius 20, padding 22. "See all N" with "K more on the work page, with filters, search and sort." Links to `/work?shelf=<key>` |
-| **All work · N** | Fills the empty cells of the last row | Same frame. The spectrum bar is nine accent bars in project order, 120px tall at `opacity: .85`. "All work · N volumes →" in `--fd` 68% 800, 44px; on iPad 30px. Links to `/work` |
+| **All work · N** | Fills the empty cells of the last row | Same frame. The spectrum bar is nine accent bars in project order, 120px tall (max-width 360, gap 6; iPad 110px, gap 5, tile padding 20, gap 16) at `opacity: .85`. Lead-cover status badge: padding `6px 10px`, fill `rgba(0,0,0,.45)`, inset 18 (iPad 16, phone 12), 7px accent dot. "All work · N volumes →" in `--fd` 68% 800, 44px; on iPad 30px. Links to `/work` |
 | **Phone closing row** | Phones | `.all-row`: dashed, radius 16, padding `18px 16px`. "All work · N volumes" or "See all N" |
 
 Rules that apply to every variant:
@@ -452,9 +455,9 @@ Laptop:
 - Each cell is `--bg` with padding `32px 28px 30px`. The first cell has no left padding and the last has no right padding.
 - Inside: the numeral (52px), an optional unit span (30px, `--tx3`), the line (15px `--tx2`, `margin-top: 10px`) and the source (mono, `margin-top: 10px`).
 
-iPad and phones: 2 × 2 at 46px and 38px. The phone hides the source line.
+iPad and phones: 2 × 2 at 46px and 38px. The phone hides the source line and the unit span; its line is 14px/1.4.
 
-Below the cells, the "Problem spaces" row: a mono label and chips (C6). The phone board hides it.
+Below the cells, the "Problem spaces" row: a mono label and chips (C6). The phone board hides it. iPad shows the chips without the label (gap 8, padding `20px 0 24px`).
 
 ### C13 · Experience entry
 
@@ -475,7 +478,8 @@ A Featured entry shows highlight cards only when its highlights are grouped (a g
 
 - `min-height: 56px`, padding `16px 0` (iPad `22px 0`), bottom hairline;
 - `600 16px/1.3 var(--fu)` (iPad 18px); the subtitle is 13–15px 400 `--tx3`;
-- a chevron on the right.
+- a `plus` icon on the right (`M12 5v14M5 12h14`), rotated 45° while open (M-ACCORDION).
+- Subtitle 400: on phones 13px `--tx3` on its own line (`display: block; margin-top: 2px`); on iPad 15px `--tx2`, inline after "·". iPad row font `600 18px/1.2`.
 
 A `button` with `aria-expanded` and `aria-controls`. Expanding shows the entry's summary and bullets, in the phone Featured layout.
 
@@ -534,7 +538,7 @@ The group's subtitle is mono 11px in `--act`, above the word.
   - the active group word fills `#D61F33`;
   - other group words dim their stroke to `--ln2` and their subtitle to `.3`.
 - Transitions: `opacity .2s var(--eo), color .2s var(--eo)`.
-- Under the cloud, the hint reads: "Hover or click a group to light up its skills · N skills in G groups" on laptop, and "Tap a group to light it up" on phones.
+- Under the cloud, the hint reads: "Hover or click a group to light up its skills · N skills in G groups" on laptop, "Tap a group to light up its skills · N skills in G groups" on iPad, and "Tap a group to light it up" on phones.
 
 **Motion:** M-SKILLS-REVEAL, M-SKILLS-FOCUS.
 
@@ -544,15 +548,18 @@ The group's subtitle is mono 11px in `--act`, above the word.
 
 - padding 28 (iPad 24, phone 20), radius 18 (phone 16), `--bg`, 1px `--ln`;
 - `blockquote` 16px (phone 15), line height 1.65, `--tx2`, with curly quotes;
-- `figcaption`: a 40px initials avatar (the testimonial's own colour pair, 14px 600), name 15px 600, role 13px `--tx3`, and an arrow-out link to LinkedIn when there's a URL.
+- `figcaption`: a 40px initials avatar (the testimonial's own colour pair, 14px 600), name 15px 600, role 13px `--tx3`, and an arrow-out link to LinkedIn (`aria-label="{name} on LinkedIn"`) when there's a URL. Laptop figure: `display:flex; flex-direction:column; gap:24px`, figcaption `margin-top:auto`.
+- **On iPad and phones the figcaption has no avatar and no LinkedIn link:** iPad shows "Name · Role" on one line (14px, name 600, rest `--tx3`, `margin-top: 20px`); phones show the name, then the role on its own line (13px `--tx3`, `margin-top: 16px`).
+
+The Testimonials header uses its own h2 size: `clamp(36px, 4.2vw, 54px)` / 40 / 32, with the kicker "Testimonials · N" on iPad and phones and a mono "Swipe →" hint (13px `--tx3`) on iPad. Laptop prev/next are labelled "Previous testimonials" / "Next testimonials".
 
 Layout:
 
 - **Laptop:** three per page with "1–3 of 7" and prev/next round buttons (C3). Paging moves by three.
-- **iPad:** a swipe rail of 460px cards with dots. The active dot is 24×6 `--tx`; the others are 6×6 `--ln2`.
-- **Phone:** a rail of 312px cards, active dot 20×6.
+- **iPad:** a swipe rail of 460px cards (gap 16) with dots. The active dot is 24×6 `--tx`; the others are 6×6 `--ln2`.
+- **Phone:** a rail of 312px cards (gap 12), active dot 20×6.
 
-The rail uses `scroll-snap-type: x mandatory`. Dots are buttons with `aria-label="Show testimonial N"`, and the current one has `aria-current`.
+The rail uses `scroll-snap-type: x mandatory`. Dots are buttons labelled "Show testimonial N of M", and the current one has `aria-current="true"` (the boards draw them as spans; build them as buttons).
 
 **Motion:** M-TESTI-PAGE.
 
@@ -591,7 +598,7 @@ Layers, bottom to top:
 | --- | --- | --- | --- |
 | Laptop | 12, gap 12 | 278 / 278 / 340px | Item 1: columns 1–7, rows 1–2. Items 2–3: columns 8–12, one row each. Items 4–6: four columns each, row 3 |
 | iPad | 6, gap 10 | 560 / 300 / 450px | Item 1: full width. Items 2–3: three columns each. Items 4–6: two columns each |
-| Phone | — | — | A horizontal rail of 300px panels (`scroll-snap-type: x mandatory`, gap 12, bleeding off the right edge). Each panel has a 170px art band with the caption box overlapping it by 30px. Dots below, as in testimonials. The spine shelf follows the rail and scrolls sideways |
+| Phone | — | — | A horizontal rail of 300px panels (`scroll-snap-type: x mandatory`, gap 12, bleeding off the right edge). Each panel has a 170px art band with the caption box overlapping it by 30px. Decorative dots below (20×6 active, 6×6 `--ln2`, gap 6, `aria-hidden`). The spine shelf follows the rail and scrolls sideways |
 
 Exact caption, art and number positions per panel size are inline on the boards.
 
@@ -626,15 +633,16 @@ Buttons:
 
 | Size | Buttons |
 | --- | --- |
-| Laptop | "Email me" (`mailto:`), "Copy email" (copies to the clipboard, then shows the toast "Email copied"), then links: LinkedIn, GitHub, Résumé (PDF) |
+| Laptop | "Email me" (`mailto:`), "Copy email" (copies to the clipboard; the button label changes to "Copied" for 2 seconds, announced through a polite live region; no toast), then links: LinkedIn, GitHub, Résumé (PDF) |
 | iPad | Email me, LinkedIn, GitHub |
-| Phone | Email me full width, then LinkedIn and GitHub side by side |
+| Phone | Email me full width, then LinkedIn and GitHub in a `1fr 1fr` grid, gap 10, `padding: 0`. Title 60px |
 
-Any link without a URL hides.
+Any link without a URL hides. Copy email and Résumé (PDF) are laptop-only, as on the boards.
 
 ### C19 · Footer
 
 - **Laptop:** 80px tall, a hairline above, 13px `--tx3`. Left: "© {year} {name} · {credit}". Right: "Last updated {date}" in mono 12px.
+- **iPad:** padding `24px 32px`, "© {year} {name}" left, "Updated {date}" mono 12px right. **Phone:** padding 20, one line "© {year} {name} · Updated {date}".
 - **iPad and phones:** a shorter version of the same.
 
 "Last updated" is the date of the last site publish.
@@ -658,6 +666,18 @@ Specified in [03](03-public-site.md#page-states):
 - an expired preview;
 - no results;
 - error.
+
+### C22 · Form controls (System board)
+
+`System.dc.html` › Components. Used by the public site's filters and dialogs, and as the dark counterparts of Studio's controls.
+
+- **Text field:** 44px, padding `0 14px`, radius 8, 1px `--ln2`, `--bg` fill, `400 15px` (a slug field uses `--fm`); label `500 14px`, gap 6. Error: border `#FF5A67`, ring `0 0 0 3px rgba(255,90,103,.18)`. Warning: border `#F2B53A`, message 13px `#F2C66B` with the alert icon at 16px.
+- **Segmented control:** `role="radiogroup"`, padding 4, radius 10, 1px `--ln`, `--bg`; items 36px, padding `0 14px`, radius 7, 14px `--tx2`; selected `--sf2`, `--tx`, `inset 0 0 0 1px --ln2`.
+- **Switch:** 44×26, radius 999, on `#D61F33`, 20px white knob inset 3.
+- **Checkbox:** 20×20, radius 5, `#D61F33`, check 14px at stroke 2.5.
+- **Status pills:** 28px, padding `0 10px`, radius 999, 13px 500, 7px dot. Published `rgba(60,203,139,.12)` / `--okt`; Draft `--sf2` / `--tx2` with a hollow 1.5px `#8F8D87` dot; Unpublished changes `rgba(242,181,58,.12)` / `#F2C66B`.
+- **Toast:** padding `12px 14px`, radius 12, `--sf2`, 1px `--ln2`, 22px round icon.
+- **Dark skeleton** `.shim`: `#1D1D24` → `#26262E`, 480px, 1.4s linear.
 
 ## Studio components
 

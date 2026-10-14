@@ -71,14 +71,14 @@ This was decided on 13 Oct 2026. It replaces the earlier Google sign-in design, 
 - **The code.** Six digits. It works once and expires after 10 minutes, and each new code replaces the last.
   - It's entered in a numeric field with `autocomplete="one-time-code"`, so phones offer it from Mail.
   - Six digits submit straight away: `verifyOtp({ email, token, type: 'email', options: { captchaToken } })`.
-- **Owner check.** After the code is accepted, the signed-in email is checked against the `owners` table.
+- **Owner check.** After the code is accepted, the signed-in user's id is checked against `pm.owners` (D28).
   - Every RLS policy checks the same table.
   - Any other account is signed out at once and sees "This account can't open Studio".
 - **Limits against guessing.**
   - One code per minute per address.
   - The boxes lock after 5 wrong codes.
   - Supabase's per-IP limits apply.
-  - **Cloudflare Turnstile** CAPTCHA (Supabase CAPTCHA protection) guards code requests. It's invisible unless traffic looks automated.
+  - **Cloudflare Turnstile** CAPTCHA (Supabase CAPTCHA protection) guards code requests once CAPTCHA protection is switched on (D35, Q8). It's invisible unless traffic looks automated.
 - **Staying signed in.**
   - Sessions refresh silently on each device.
   - The address is remembered on that device, so signing in again is one tap.
@@ -125,7 +125,7 @@ Flow details to build:
 
 ## Data model
 
-All tables live in the `pm` schema. The handover's [backend chapter](../handover/06-backend.md#schema) has the build version, which keys owners by user id.
+All tables live in the `pm` schema. This is the design-phase sketch; the handover's [backend chapter](../handover/06-backend.md#schema) is the build version and supersedes it: owners keyed by user id with `pm.is_owner()` in every policy (D28), `pm-` function names, and the project fields `overview.problem`, `overview.proposal` and `visuals.accent` (D25, D26).
 
 ```sql
 create table owners (
@@ -397,7 +397,7 @@ Studio › Website controls the homepage and the navigation.
   - A draft project keeps its spot but can't be switched on. It takes that spot when it's published.
 - **Navigation.**
   - Any section can be linked in the pill nav, with its own label. Links follow page order.
-  - "Let's Talk" always shows. It links to Contact, or to the email address when Contact is hidden.
+  - "Let's Talk" always shows. It goes to Contact by default; Studio can switch it to email, LinkedIn or a booking link.
 - **Settings.** Selecting a section opens its settings:
 
   | Section | Settings |
@@ -406,7 +406,7 @@ Studio › Website controls the homepage and the navigation.
   | Shelf | Title, intro, rows on the homepage (1, 2 or 3) |
   | Writing | Posts on the homepage (the latest 2, 3 or 4) |
   | About | The About text |
-  | Skills | Title, second half in grey, intro. Each group: name, subtitle, its skills, and each skill's size (S, M, L or XL) |
+  | Skills | Label, title, second half in grey, intro. Groups and their order; each group's name, subtitle and skills, their order, and each skill's size (S, M, L or XL) |
   | Off duty | Title, second half in grey, intro. Each item: title, label, text, tag, accent, art. The first item's shelf of favourites |
   | Contact | The closing line |
 
@@ -521,14 +521,14 @@ create policy public_read on projects for select to anon
 - `draft` has no column grant for `anon`, so it can't be selected even by a hand-written query. Private evidence notes live only in `draft`.
 - Signed-in users who aren't owners match no policy and see nothing.
 - Unlisted projects are served by slug through an edge function that adds `X-Robots-Tag: noindex`. They never appear in public reads, shelves, `/work` or the sitemap.
-- The same pattern (owner-all policy, column grants, published-only policy) applies to `profile`, `site_layout`, `posts` and `media`. A scheduled post that was never published has `published = null`, so visitors can't read it early.
+- The same pattern (owner-all policy, column grants, published-only policy) applies to `profile`, `site_layout` and `posts`. A scheduled post that was never published has `published = null`, so visitors can't read it early. Media rows are owner-only; visitors get files from `pm-media-public` copies made at build.
 - The service-role key exists only in edge functions and the cron job, never in browser code.
 
 ## Editing and publishing
 
 1. **Autosave.** 800ms after an edit, the draft is written with `version = version + 1 where version = :seen`. A zero-row update means another tab or device saved first, and Studio shows "This changed in another tab".
 2. **Offline.** Edits queue in IndexedDB and sync on reconnect. Publishing waits for the connection.
-3. **Publish** is one edge function, `publish`, called with `site`, `project` or `post`. It first checks that the JWT email is on the allowlist.
+3. **Publish** is one Edge Function, `pm-publish`, called with `site`, `project` or `post`. It first checks that the signed-in user is in `pm.owners`.
 
    | Kind | Checks | What it copies | What it rebuilds |
    | --- | --- | --- | --- |
@@ -549,6 +549,7 @@ create policy public_read on projects for select to anon
   - Uploads are resumable, so a lost connection pauses rather than fails.
   - Serve resized variants (for example 480, 960 and 1600 wide) with `srcset`.
   - Store the focal point for crops.
+  - Published images are copied into the static site at build (`/media/…`), so visitors never load from Supabase.
 - **Video.** Links only, validated by URL pattern. Files aren't uploaded: they're heavy and would use up the free storage quota.
 
   | Host | How it embeds |
@@ -571,7 +572,7 @@ create policy public_read on projects for select to anon
     - The prototype runs on its own origin, so `allow-same-origin` only gives it its own storage. It can never read the site, its cookies or Studio.
     - The main site's CSP `frame-src` lists the allowed hosts.
 - **PDFs.** Up to 10 MB, for example the résumé.
-- **In-use files can't be deleted.** "Replace file" swaps a file everywhere it is used: projects, posts and the profile.
+- **In-use files can't be deleted.** "Replace file" uploads a new version; live pages switch to it as each document using it is published again (Studio offers "Publish all n").
 - **Links are checked again** before every publish, so a prototype or video that has moved or gone private is caught early.
 
 Free-plan quotas change, so check current Supabase limits for storage, file size and database before launch.
@@ -628,7 +629,7 @@ The exact mapping, field by field, is in the [handover's V0 content chapter](../
 
 - No secrets in client code. The anon key is public by design, and RLS is what protects data.
 - Every mutation goes through RLS (owner only) or an edge function that re-checks the allowlist.
-- Sign-in codes: one per minute per address, a 10-minute expiry, single use, a per-IP limit on checks, and a Turnstile CAPTCHA on requests. The "Check your email" screen never reveals whether an address owns the site.
+- Sign-in codes: one per minute per address, a 10-minute expiry, single use, a per-IP limit on checks, and a Turnstile CAPTCHA on requests once CAPTCHA protection is switched on (D35, Q8). The "Check your email" screen never reveals whether an address owns the site.
 - The owner's address comes from `OWNER_EMAIL` at setup, and is never written in code or migrations. The repository is public and holds no secrets (see `SECURITY.md`).
 - Sanitise rich text in projects, posts and text sections. Escape code blocks. Build RSS only from sanitised HTML.
 - Validate URLs (`https:` only), including canonical links and embeds.

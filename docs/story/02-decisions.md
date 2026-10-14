@@ -101,12 +101,12 @@ Each entry records the context, the options considered, what was chosen, and wha
 - **Chosen.** A 6-digit code by email to the owner's existing account.
   - Sign-ups are off from day one.
   - Codes are single-use, last 10 minutes, and can be requested once a minute.
-  - Cloudflare Turnstile guards code requests, and Supabase limits code checks per IP.
+  - Cloudflare Turnstile guards code requests once Supabase's CAPTCHA protection is switched on, after lumina's login sends tokens too; Supabase limits code checks per IP.
   - The owner check runs in the database.
 - **Trade-off.**
   - It depends on email delivery, so a custom SMTP sender is needed.
   - A code can be phished, so the email says where it may be used.
-  - Guessing is the main risk, which is why the CAPTCHA and limits are required, not optional.
+  - Guessing is the main risk, which is why the limits are required and CAPTCHA protection is switched on as soon as lumina supports it (Q8).
   - In return there's no Google Cloud project or OAuth consent screen, and no window where anyone could sign up.
 
 ### Share one Supabase project with the photography site
@@ -128,7 +128,7 @@ Each entry records the context, the options considered, what was chosen, and wha
   - No secrets in code or history.
   - The owner's address is supplied at setup as `OWNER_EMAIL`.
   - Public keys only in the browser.
-  - The service-role key lives only in Edge Functions.
+  - The service-role key lives only in Supabase (Edge Functions and Vault, for cron) and in the owner's shell for one-off scripts.
   - `SECURITY.md` explains it all.
 - **Trade-off.** Setup needs a few manual steps in dashboards, which are documented in the handover.
 

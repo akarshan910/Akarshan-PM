@@ -313,7 +313,7 @@ These five redirects are fixed in the config, not in `slug_redirects`. If a slug
 2. Put the production addresses in `scripts/v0-prototypes.json`: `{ "puja-engagement-platform": "https://…", "word-games-monetisation-strategy": "https://…", "revenue-growth-strategy": "https://…" }`.
 3. Run the seed, or add the links later in Studio.
 
-The old paths (`/sri_mandir_prototype.html` and the others) redirect permanently to the deployed addresses once they're known, so old shared links keep working. After launch, delete the copies in `public/` and at the repo root (M6).
+The old paths (`/sri_mandir_prototype.html` and the others) redirect permanently to the deployed addresses once they're known, so old shared links keep working. After launch, delete the copies in `public/` and at the repo root ([09](09-decisions.md#launch-checklist-owner), launch checklist item 11).
 
 ## Worth a check
 

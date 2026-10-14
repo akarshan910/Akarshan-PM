@@ -21,7 +21,7 @@ The first portfolio was exported from Figma Make. It started as a Vite and React
 
 **What hurt:**
 
-- Every content change was a code change: more than 30 commits are titled "Update App.tsx".
+- Every content change was a code change: 11 commits are titled "Update App.tsx".
 - There were no drafts and no preview.
 - Case studies opened in a modal with no URL of their own (`?open=<id>` was the only link), so they couldn't be shared individually or indexed.
 - Targets, projections and measured results looked the same.
@@ -84,7 +84,7 @@ Each round of the owner's comments on the canvas changed the product. In order:
 | "Phone navigation … what happens when the user clicks Menu?" | A full-screen phone menu with the section links, Let's Talk, and three ways to close it |
 | "Can this be made as a word cloud? … looks very tabular" | Skills became one word cloud. Group words are outlined, skills are spread through the cloud, and hovering a group lights up its skills. Sizes are set per skill in Studio |
 | "Off duty is plain vanilla … earlier one was okay … make something better" | Off duty became a manga page: ink panels with art, caption boxes and tags. The anime favourites became volume spines on a shelf |
-| "Can we do the CMS auth using email-based OTP?" | Studio sign-in switched from Google to a 6-digit email code, the pattern from the owner's lumina-photography admin. Turnstile, limits and closed sign-ups make it hard to abuse |
+| "Can we do the CMS auth using email-based OTP?" | Studio sign-in switched from Google to a 6-digit email code, the pattern from the owner's lumina-photography admin. Limits and closed sign-ups make it hard to abuse, and Turnstile joins them once CAPTCHA protection can be switched on for the shared project |
 | "Make the repo public … ensure nothing security-level is in it" | A security pass: no secrets in history, the owner's address supplied at setup only, `SECURITY.md`, and hardened ignore rules |
 | "Give options to add topics … past many topics, a multi-select dropdown" | A topic picker: chips and "+ Add topic" up to 8 topics, then a searchable multi-select dropdown, shared by posts and projects |
 | "Make sure [skills] is config-driven from the CMS" | Every part of the Skills section became editable in Studio, including its label and the order and names of skills |

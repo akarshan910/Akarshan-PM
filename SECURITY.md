@@ -20,7 +20,9 @@ You'll get a reply within a week.
 **Where the secrets live:**
 
 - **Vercel environment variables:** the Supabase URL, the anon key and the Turnstile site key. All three are public by design.
-- **Supabase Edge Function secrets:** the Vercel deploy hook and the allowed origins. Supabase provides the service-role key to functions itself.
+- **Supabase Edge Function secrets:** the Vercel deploy hook, the allowed origins and the site URL for preview links. Supabase provides the service-role key to functions itself.
+- **Supabase Vault:** `pm_service_role_key`, which the cron jobs use to call the `pm-` functions.
+- **The owner's local shell, only while a script runs:** the service-role key for `setup:owner`, `seed:v0` and `backup`, and the database URL for `db:migrate`.
 - **Supabase dashboard:** SMTP credentials and the Turnstile secret key.
 
 The owner's email address for Studio is supplied as `OWNER_EMAIL` when the one-time setup script runs. It isn't written into code or migrations.
@@ -32,7 +34,7 @@ The owner's email address for Studio is supplied as `OWNER_EMAIL` when the one-t
 - Studio signs in with a 6-digit code sent by email. Sign-ups are off, so only the owner's existing account can get a code.
 - Codes expire after 10 minutes and work once.
 - One code can be requested per minute.
-- Cloudflare Turnstile guards code requests. Supabase limits how many codes can be checked from one IP address.
+- Cloudflare Turnstile guards code requests once Supabase's CAPTCHA protection is switched on. That setting is project-wide, so it waits until the photography site's login sends tokens too. Until then, rate limits protect sign-in, and Supabase always limits how many codes can be checked from one IP address.
 
 **One backend, two sites.** The Supabase project is shared with the owner's photography site. The portfolio keeps everything in its own `pm` schema, `pm-` storage buckets and `pm-` functions, with its own owner check. Each site's admins have no access to the other's data, and the policies and tests are written so neither site's rules can expose the other's.
 
@@ -42,7 +44,7 @@ The owner's email address for Studio is supplied as `OWNER_EMAIL` when the one-t
 - Every write requires the owner's session.
 - Draft columns aren't readable by visitors at all.
 
-**Privileged work:** the service-role key is used only inside Supabase Edge Functions, which check the owner's session first. That covers publishing, previews and link checks.
+**Privileged work:** the service-role key is used only inside Supabase (Edge Functions, and the cron jobs through Vault) and in the owner's local shell for `setup:owner`, `seed:v0` and `backup`. Functions that Studio calls check the owner's session first (publishing, creating previews, link checks); preview and unlisted-page reads return only what that token or slug allows.
 
 **Drafts never leak:**
 

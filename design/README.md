@@ -3,7 +3,7 @@
 These are the design files for the portfolio and its CMS, Studio: every exploration and every final board. They come from the owner's design canvas and were exported on 13 Oct 2026.
 
 - **`boards/`:** the 48 boards, as `.dc.html` source. Two of them, `HomeLower` and `HomeTabletLower`, only re-show the bottom of the tall Home boards.
-- **`previews/`:** a WebP render of each board, so you can browse them on GitHub.
+- **`previews/`:** a WebP render of each board except the two viewing aids, `HomeLower` and `HomeTabletLower`, so you can browse them on GitHub.
 - **`canvas.json`:** how the canvas lays them out: pages, sizes and titles.
 - **`covers/`:** the five V0 project covers, rendered from the Home board's cards ([07 · Covers](../docs/handover/07-v0-content.md#covers)).
 - **`tools/render-board.mjs`:** renders any board, in any Tweaks state, to static HTML and a PNG, for reading and for the pixel-parity checks ([08](../docs/handover/08-qa.md#pixel-parity)).
@@ -71,7 +71,7 @@ V0 of the rebuilt site launches with the current site's content. [`docs/handover
 | [CaseStudy](boards/CaseStudy.dc.html) · [preview](previews/CaseStudy.webp) | `/work/:slug` at 1440 | theme |
 | [CaseStudyTablet](boards/CaseStudyTablet.dc.html) · [preview](previews/CaseStudyTablet.webp) | `/work/:slug` at 834 | — |
 | [CaseStudyMobile](boards/CaseStudyMobile.dc.html) · [preview](previews/CaseStudyMobile.webp) | `/work/:slug` at 390 | menu, chapter picker, prototype states, motion |
-| [WorkScale](boards/WorkScale.dc.html) · [preview](previews/WorkScale.webp) | How shelves scale; `/work` on laptop and phone | slider, filters |
+| [WorkScale](boards/WorkScale.dc.html) · [preview](previews/WorkScale.webp) | How shelves scale (drag the project-count slider); `/work` on laptop and phone | — |
 | [WritingPublic](boards/WritingPublic.dc.html) · [preview](previews/WritingPublic.webp) | Writing on the homepage, `/writing`, `/writing/:slug` | — |
 | [PublicStates](boards/PublicStates.dc.html) · [preview](previews/PublicStates.webp) | Media states and page states: 404, moved, preview, expired, empty, error | — |
 
@@ -87,10 +87,10 @@ V0 of the rebuilt site launches with the current site's content. [`docs/handover
 | [EditorOverview](boards/EditorOverview.dc.html) · [preview](previews/EditorOverview.webp) | Project editor › Overview: basics, case-study summary, your part, links | save and publish states |
 | [EditorVisuals](boards/EditorVisuals.dc.html) · [preview](previews/EditorVisuals.webp) | › Visuals: top of the page, accent colour, cover, gallery, video, prototype | upload and link states |
 | [EditorCaseStudy](boards/EditorCaseStudy.dc.html) · [preview](previews/EditorCaseStudy.webp) | › Story: chapters and blocks | block builder states |
-| [EditorOutcomes](boards/EditorOutcomes.dc.html) · [preview](previews/EditorOutcomes.webp) | › Outcomes: labelled numbers | label, evidence, honesty check |
+| [EditorOutcomes](boards/EditorOutcomes.dc.html) · [preview](previews/EditorOutcomes.webp) | › Outcomes: labelled numbers | achieved without evidence, new result, no results, save and publish states |
 | [EditorSettings](boards/EditorSettings.dc.html) · [preview](previews/EditorSettings.webp) | › URL & SEO | redirect, preview link, unlisted, delete |
-| [StudioWriting](boards/StudioWriting.dc.html) · [preview](previews/StudioWriting.webp) | `/studio/writing` | draft, empty, scheduled, published |
-| [StudioMedia](boards/StudioMedia.dc.html) · [preview](previews/StudioMedia.webp) | `/studio/media` | upload, alt text, delete blocked |
+| [StudioWriting](boards/StudioWriting.dc.html) · [preview](previews/StudioWriting.webp) | `/studio/writing` | draft, many topics, topics dropdown open, no posts yet, publish dialog, scheduled, published |
+| [StudioMedia](boards/StudioMedia.dc.html) · [preview](previews/StudioMedia.webp) | `/studio/media` | uploading, needs alt text, delete blocked, empty filter |
 | [StudioProfile](boards/StudioProfile.dc.html) · [preview](previews/StudioProfile.webp) | Profile & facts | confirm states |
 | [StudioPreview](boards/StudioPreview.dc.html) · [preview](previews/StudioPreview.webp) | Draft preview and share links | devices, compare, share |
 | [StudioStates](boards/StudioStates.dc.html) · [preview](previews/StudioStates.webp) | Every system state | — |

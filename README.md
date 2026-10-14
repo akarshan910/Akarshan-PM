@@ -15,7 +15,7 @@ How it got here (the research, the options, the decisions and their trade-offs) 
 
 **The problem.** The first version worked, but it was a wall of code. Five case studies, seven testimonials, a career history and every number on the page lived inside a single 4,113-line component.
 
-- Changing a sentence meant changing code: there are 30-odd "Update App.tsx" commits in the history.
+- Changing a sentence meant changing code: there are a dozen "Update App.tsx" commits in the history.
 - There were no drafts and no previews.
 - A case study had no address of its own, so it couldn't be shared or found by search.
 - Targets and projections looked exactly like measured results.
@@ -78,10 +78,10 @@ The homepage is a list of **sections**, and each section is a widget with its ow
 | Shelves | Any number. Title, intro and 1–3 rows each. The lead card is the first project on the shelf |
 | Writing | The latest 2, 3 or 4 posts |
 | About, Experience | Text and entries |
-| Skills | A word cloud. Each skill has its own size |
-| Testimonials | Which quotes show |
+| Skills | A word cloud: label, title, intro, groups, skills, their order and each skill's size. V0 starts every skill at M |
+| Testimonials | Which quotes show; every switched-on quote is in the carousel |
 | Off duty | A manga page of panels: each one's art, accent and favourites |
-| Contact, Footer | Copy and links |
+| Contact, Footer | Copy and links, and where Let's Talk goes: Contact (default), email, LinkedIn or a booking link |
 
 - Every section and every item inside it can be shown, hidden and reordered, by drag or by keyboard.
 - The pill nav is generated from the sections linked to it.
@@ -92,7 +92,7 @@ The homepage is a list of **sections**, and each section is a widget with its ow
 
 | Path | What it holds |
 | --- | --- |
-| [`design/`](design/README.md) | Every design board (46), with rendered previews: explorations, the final site at 1440 / 834 / 390, Studio, and the motion system |
+| [`design/`](design/README.md) | Every design board (48, two of them viewing aids for the tall Home boards), with rendered previews: explorations, the final site at 1440 / 834 / 390, Studio, and the motion system |
 | [`docs/story/`](docs/story/README.md) | How the project evolved: the decisions, the trade-offs, and what changed after feedback |
 | [`docs/redesign/`](docs/redesign/README.md) | The design phase: audit, design system, CMS architecture, acceptance criteria |
 | [`docs/handover/`](docs/handover/README.md) | The engineering handover: architecture, tokens, every page and state, every animation, Studio, backend, V0 content, QA, decisions |

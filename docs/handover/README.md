@@ -18,13 +18,13 @@ Read this file first, then the chapter for the area you're working on. The worki
 | 08 | [QA](08-qa.md) | Pixel-parity procedure, motion checks, accessibility and performance budgets |
 | 09 | [Decisions](09-decisions.md) | What's decided, and what still needs the owner |
 
-The design-phase documents stay valid and are referenced throughout:
+The design-phase documents are background and are referenced throughout; where they disagree with 09 or this handover, 09 and the handover win:
 
 - [`docs/redesign/02`](../redesign/02-design-system-and-directions.md): design system and motion summary.
 - [`docs/redesign/03`](../redesign/03-cms-architecture.md): data model, RLS, publishing, media, auth.
 - [`docs/redesign/04`](../redesign/04-acceptance-criteria.md): acceptance criteria.
 
-Where this handover adds detail, the handover wins.
+Where this handover adds detail or differs, the handover wins.
 
 ## Design files
 
@@ -33,36 +33,37 @@ The canvas is the owner's private design file. Its boards are mirrored in [`desi
 | Board | Route or screen | States in the board's Tweaks |
 | --- | --- | --- |
 | `System.dc.html` | Design system: tokens, type, grid, components | — |
-| `Home.dc.html` | `/` at 1440 | skills: V0 sizes or sizes set in Studio; theme dark or light; motion full or reduced |
+| `Home.dc.html` | `/` at 1440 | skills: "V0: every skill regular" or "sizes set in Studio (example)"; theme: dark or light; motion: full or reduced |
 | `HomeTablet.dc.html` | `/` at 834 | skills; motion |
+| `HomeLower.dc.html`, `HomeTabletLower.dc.html` | Viewing aids only: the bottom of `Home` and `HomeTablet` (Testimonials to the footer). Build from `Home` and `HomeTablet` | same as Home / HomeTablet |
 | `HomeMobile.dc.html` | `/` at 390, including the phone menu | skills; menu open; motion |
 | `CaseStudy.dc.html` | `/work/:slug` at 1440 | theme |
 | `CaseStudyTablet.dc.html` | `/work/:slug` at 834 | — |
 | `CaseStudyMobile.dc.html` | `/work/:slug` at 390 | menu, chapter picker, prototype states, motion |
-| `WorkScale.dc.html` | Shelf scaling rules, `/work` at laptop and phone | interactive slider and filters |
+| `WorkScale.dc.html` | Shelf scaling rules, `/work` at laptop and phone | — (the project-count slider and filters are in-board controls, not Tweaks) |
 | `WritingPublic.dc.html` | Homepage Writing section, `/writing`, `/writing/:slug`, laptop and phone | — |
 | `PublicStates.dc.html` | Media states and page states: 404, moved, preview, expired, empty, error | — |
-| `Motion.dc.html` | Every animation, as a live demo with its spec | Replay; reduced motion |
+| `Motion.dc.html` | Every animation, as a live demo with its spec | — (Replay and Reduced motion are in-board controls) |
 | `R3Ink.dc.html` | Where the hero came from (reference only) | — |
-
-The other boards in `design/boards/` are earlier rounds (`Main`, `Direction*`, `Devices*`, `R2*`, `R3*`). They're history, not spec: never build from them.
-| `StudioLogin.dc.html` | `/studio/login`: sign-in by email code | email, sending code, bot check, enter code, code typed, checking, wrong code, expired, too many tries, wait to resend, signed in, signed out, offline, deep link, not the owner |
+| `StudioLogin.dc.html` | `/studio/login`: sign-in by email code | email, sending code, bot check, enter code, code typed, checking code, wrong code, code expired, too many tries, wait to resend, signed in, signed out, offline, deep link, not the owner |
 | `StudioAuthFlow.dc.html` | Every sign-in and sign-out path as a storyboard, plus the rules for codes, limits and the owner check | — |
 | `StudioDashboard.dc.html` | `/studio` | populated, empty, loading |
 | `StudioSite.dc.html` | `/studio/website`: Website builder | default, reordered, widget hidden, shelf selected, skill group selected, off duty item selected, phone preview, publish dialog |
-| `StudioProjects.dc.html` | `/studio/projects` | dragging, layout changed, menu open, delete confirm, filtered, no results, loading, error |
-| `EditorOverview.dc.html` | `/studio/projects/:id` › Overview | offline, save failed, validation, publish states |
-| `EditorVisuals.dc.html` | › Visuals | uploading, missing alt text, publish blocked, video, Drive, prototype link states |
-| `EditorCaseStudy.dc.html` | › Story | add block, empty chapter, re-ranked, text selected, dragging chapter, saving, offline, save failed, publish |
-| `EditorOutcomes.dc.html` | › Outcomes | achieved without evidence, new result, no results, saving, offline, save failed, publish |
-| `EditorSettings.dc.html` | › URL & SEO | redirect, previews, unlisted, preview link, unpublish or delete |
+| `StudioProjects.dc.html` | `/studio/projects` | default, dragging, layout changed, menu open, delete confirm, filtered, no results, loading, error |
+| `EditorOverview.dc.html` | `/studio/projects/:id` › Overview | default, saving, offline, save failed, validation error, publish dialog, publish blocked, publishing, published |
+| `EditorVisuals.dc.html` | › Visuals | default, uploading, missing alt text, publish blocked, video hero, video link error, video from Google Drive, prototype preview link, prototype can't embed, saving, offline, save failed, publish dialog, published |
+| `EditorCaseStudy.dc.html` | › Story | default, add block, empty chapter, re-ranked, text selected, dragging chapter, saving, offline, save failed, publish dialog, published |
+| `EditorOutcomes.dc.html` | › Outcomes | default, achieved, no evidence, new result, no results, saving, offline, save failed, publish dialog, published |
+| `EditorSettings.dc.html` | › URL & SEO | default, address changed, address taken, invalid address, unlisted, preview link, delete confirm, saving, offline, publish dialog, published |
 | `StudioWriting.dc.html` | `/studio/writing` | writing a draft, many topics, topics dropdown open, no posts, publish dialog, scheduled, published |
 | `StudioMedia.dc.html` | `/studio/media` | uploading, needs alt text, delete blocked, empty filter |
 | `StudioProfile.dc.html` | `/studio/website/profile`: Profile & facts | default, all confirmed, availability off, publish with open items |
-| `StudioPreview.dc.html` | Draft preview: device switcher, changes, share link | desktop, tablet, phone, compare, share open |
+| `StudioPreview.dc.html` | Draft preview: device switcher, changes, share link | desktop, tablet, phone, compare desktop, compare phone, share open |
 | `StudioStates.dc.html` | Every system state: saving, toasts, dialogs, session, conflicts, uploads, empty, loading | — |
 | `StudioTablet.dc.html` | Studio at iPad portrait and landscape | — |
 | `StudioMobile.dc.html` | Studio on phones | — |
+
+The other boards in `design/boards/` are earlier rounds (`Main`, `Direction*`, `Devices*`, `R2*`, `R3*`). They're history, not spec: never build from them.
 
 ## Milestones
 
@@ -104,6 +105,7 @@ Every component lives under `src/components/`, matches its board, and has a dev-
 - [ ] Experience entry, accordion row, testimonial card, contact block, footer.
 - [ ] Skills cloud: interleaved order, five tiers, group highlight by hover, focus and tap. See [02 · C15](02-tokens-and-components.md#c15--skills-cloud).
 - [ ] Off duty page: manga panels with the six art presets, caption boxes, the spine shelf, and the phone rail. See [02 · C17](02-tokens-and-components.md#c17--off-duty-page).
+- [ ] Topic picker: chips up to 8 topics, then a multi-select dropdown with search and create; shared by posts and projects. See [02 · S1](02-tokens-and-components.md#s1--topic-picker).
 - [ ] Media: image (loading, loaded, failed), lightbox, video embed (poster, starting, playing, unavailable), prototype embed (poster, loading, running, error, can't embed, phone sheet).
 - [ ] Page states: 404, moved project note, draft preview bar, expired preview, no results, error.
 
@@ -130,7 +132,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 - [ ] Sign-in by email code, as in [06](06-backend.md#auth):
   - sign-ups off;
   - the owner created by `npm run setup:owner`, reading `OWNER_EMAIL` from the local shell;
-  - the `owners` table and the `is_owner()` check;
+  - the `pm.owners` table keyed by user id and the `pm.is_owner()` check ([09](09-decisions.md), D28);
   - Turnstile in Studio; Supabase's CAPTCHA protection switched on once lumina's login sends tokens ([09](09-decisions.md), Q8);
   - the code-only email template and custom SMTP.
 - [ ] V0 seed script (`npm run seed:v0`) loads profile, layout and projects from `src/legacy/content.ts`, with the covers from `design/covers/`. See [07](07-v0-content.md).
@@ -183,7 +185,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
   - `npm run setup:owner`, then a first sign-in;
   - prototypes deployed;
   - GitHub security settings.
-- [ ] Remove `dist/` from git, the two duplicate prototype files at the repo root, and any dependencies nothing uses.
+- [ ] After launch ([09](09-decisions.md#launch-checklist-owner), item 11): remove `dist/` from git, delete the old prototype copies in `public/` and at the repo root, and remove any dependencies nothing uses.
 
 ### M7 · The wiki
 

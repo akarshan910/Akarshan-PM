@@ -142,7 +142,10 @@ Implementation is done when every line below holds on the deployed site. Check i
 - [ ] Nav links follow page order, each with its own label.
 - [ ] "Publish website" lists every change and publishes the layout and profile together. Project pages, posts and drafts aren't touched.
 - [ ] A draft project keeps its spot but can't be switched on. It takes that spot when it's published.
-- [ ] Skills: each group's name, subtitle and skills can be edited, with a size per skill. Off duty: each item's title, label, text, tag, accent and art can be edited, plus the first item's favourites.
+- [ ] Skills: the label, title, intro, groups, skills, their order and each skill's size can be edited. Off duty: each item's title, label, text, tag, accent and art can be edited, plus the first item's favourites.
+- [ ] Every switched-on testimonial appears in the homepage carousel; there's no testimonials page and no cap.
+- [ ] Posts and projects share one topic picker: chips up to 8, a searchable multi-select dropdown past 8.
+- [ ] Let's Talk goes to Contact by default and can be switched to email, LinkedIn or a booking link.
 
 **Publishing**
 
@@ -161,5 +164,6 @@ Implementation is done when every line below holds on the deployed site. Check i
 **Media and devices**
 
 - [ ] Uploads (images and PDFs) show progress, resume after a dropped connection, and explain every rejection: size, type, a video file or a prototype file. The last two point to the link fields.
-- [ ] Files in use can't be deleted. Replace swaps them everywhere.
+- [ ] Files in use can't be deleted. "Replace file" uploads a new version; live pages switch to it as each document using it is published again (Studio offers "Publish all n").
+- [ ] Published pages load no images from Supabase; published images are served from the site's own `/media/`.
 - [ ] Studio is fully usable on iPad and on a phone: bottom tabs on phones, tables as cards, publish bar in reach.

@@ -55,11 +55,11 @@ The repository is public, so treat every commit as published.
 - **Never commit** `.env` files, keys, tokens, passwords, database URLs with passwords, or exported data. `.gitignore` covers the usual files. Check `git diff --cached` before every commit anyway.
 - **The browser gets only** `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` and `VITE_TURNSTILE_SITE_KEY`. All three are public by design.
 - **Server secrets live in dashboards only:**
-  - the Supabase service-role key and the Vercel deploy hook URL go in Supabase Edge Function secrets;
+  - the Vercel deploy hook URL, allowed origins and site URL go in Supabase Edge Function secrets (`PM_DEPLOY_HOOK_URL`, `PM_ALLOWED_ORIGINS`, `PM_SITE_URL`). Supabase provides the service-role key to functions itself, and the cron jobs read it from Vault as `pm_service_role_key`;
   - the SMTP password and Turnstile secret key go in the Supabase Auth settings.
 - **The Studio sign-in address** never appears in code, migrations, seeds or tests. Scripts read it from `OWNER_EMAIL` in the local shell, and tests use `owner@example.test`. The contact address shown on the site is content, so it's fine in `src/legacy/content.ts` and the seed.
 - **Row-level security** is on for every table, and every new table ships with its policies in the same migration.
-- **The Supabase project is shared with lumina-photography.** Everything this repo creates lives in the `pm` schema, the `pm-` buckets and the `pm-` functions. Never touch `public`, lumina's bucket, functions or auth users. Never run `supabase db push`, `db reset --linked` or `db pull` against the project, and never change an Auth setting that [06 · Auth](docs/handover/06-backend.md#auth) doesn't list. See [06 · The shared project](docs/handover/06-backend.md#the-shared-project).
+- **The Supabase project is shared with lumina-photography.** Everything this repo creates lives in the `pm` schema, the `pm-` buckets and the `pm-` functions. Never touch `public`, lumina's bucket, functions or auth users. Never run `supabase db push`, `db reset --linked`, `db pull` or `migration repair` against the project, and never change an Auth setting that [06 · Auth](docs/handover/06-backend.md#auth) doesn't list. See [06 · The shared project](docs/handover/06-backend.md#the-shared-project).
 - **If a secret is ever committed,** stop. Tell the owner, rotate the secret first, then clean the history. Deleting the file isn't enough.
 - Follow [`SECURITY.md`](SECURITY.md) and [06 · Backend](docs/handover/06-backend.md#security).
 

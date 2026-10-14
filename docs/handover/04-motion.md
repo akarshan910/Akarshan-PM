@@ -16,36 +16,49 @@ The conflicts found so far are already resolved in the [table at the end](#resol
 
 ## Tokens
 
-Put these in `tokens.css`. Animations use these values only.
+Put these in `tokens.css`. Animations use these values. The Studio values and the values copied from the live nav are listed exceptions.
 
 | Token | Value | Use |
 | --- | --- | --- |
 | `--eo` | `cubic-bezier(.2,.8,.2,1)` | Every movement: fast start, soft landing |
 | `linear` | — | Only drift, rotation (spinners, the nav ring) and progress (sheens, bars) |
 | `ease-in-out` | — | Only breathing loops: touch drift, availability pulse |
-| `ease` | — | Only the floating-preview fade (`opacity .7s ease`) and the live nav's own transitions, copied verbatim |
+| `ease` | — | Only the floating-preview fade (`opacity .7s ease`) and the live nav's own transitions, copied verbatim, including `#nav { transition: box-shadow .4s ease }` |
+| `ease-out` | — | Only the Studio flash and ring (M-ST-FLASH, M-ST-RING) |
+| `steps(1)` | — | Only the Studio code-box caret blink |
 | Spring | `cubic-bezier(.34,1.26,.64,1)` | Only the nav's sliding highlight, copied from the live site |
 
 **Durations:**
 
 | Duration | Use |
 | --- | --- |
-| 120ms | Press |
-| 200ms | Colour, hover and focus, the skills highlight |
-| 220ms | Nav link hover; Studio toasts and dialogs |
+| 120ms | Press; Studio upload bar |
+| 150ms | Studio switches, row hover and section chevrons |
+| 180ms | Studio drag lift, story chapters and blocks, crop handle, outcome card border |
+| 200ms | Colour, hover and focus, the skills highlight, chapter-sheet chevron |
+| 220ms | Nav link hover; Studio toasts, dialogs and popovers |
 | 240ms | Arrow nudge, chapter marker, phone menu fade |
+| 260ms | Chapter sheet |
+| 300ms | Phone prototype sheet, Let's Talk glow, floating-preview hover shadow |
 | 320ms | Card and row lift, Off duty panel and spine lift, image fade, prototype fade |
+| 400ms | Nav pill shadow (`#nav`, copied from the live site) |
 | 500ms | Off duty art and speed lines on hover |
 | 560ms | Entrances and reveals, including the skills cloud |
 | 600ms | Hero tilt, cover zoom |
 | 700ms | Floating-preview fade |
+| 800ms | One spinner turn |
+| 1s / 1.1s / 1.2s | Studio flash (rows, sections, chapters) / Studio ring / Studio flash (blocks) |
+| 1.3s | Studio skeleton shimmer |
 | 1.4s | Brush draw |
-| 2.4s | Availability pulse |
+| 1.6s | Image-loading sheen |
+| 2.4s | Availability pulse; one spinner turn under reduced motion |
 | 3.5s | Nav ring |
 | 4s | Body-scan sweep |
 | 9s | Touch drift |
 
-**Stagger:** 80ms between siblings, at most five steps (0, 80, 160, 240, 320ms). The sixth sibling onwards uses 320ms.
+Motion's own token table lists tilt at 700ms. Its spec and CSS use 600ms (`.mo .tilt { transition: transform .6s }`), so build 600ms.
+
+**Stagger:** 80ms between siblings, at most five steps (0, 80, 160, 240, 320ms). The sixth sibling onwards uses 320ms. The exception is the skills cloud, which wraps (`index % 5`), as [M-SKILLS-REVEAL](#m-skills-reveal--skills-cloud-entrance) describes.
 
 **Distances:**
 
@@ -72,9 +85,14 @@ These apply to every animation:
    - **Floating previews hidden:** removes M-HERO-FLOATERS.
 
    A visitor's reduced-motion setting always wins over these.
-3. **Transform and opacity only.** There are two exceptions, both copied as they are:
+3. **Transform and opacity for anything that moves.** The exceptions, copied as they are:
    - the availability pulse animates `box-shadow` on an 8px dot;
-   - the nav ring animates a registered custom property.
+   - the nav ring animates a registered custom property;
+   - the nav pill animates `left` and `width`;
+   - hover shadows (Let's Talk, Off duty captions, floating previews) and Studio rings and focus rings animate `box-shadow`;
+   - Studio flashes animate `background-color`;
+   - sheens and skeletons animate `background-position`;
+   - Studio switches animate `left`; `.tpadd` and the upload bar animate `width`; the crop handle animates `left` and `top`; the device-frame preview animates `width`, `height` and `border-radius`.
 4. **Pointer reads.** Read the pointer once per frame, inside `requestAnimationFrame`. Write it to CSS custom properties on the hero element, not to React state. React re-renders nothing while the pointer moves.
 5. **Pause off screen.** An `IntersectionObserver` on the hero, plus `visibilitychange`, pauses the hero when it's off screen or the tab is hidden:
    - add `.paused`, which sets `animation-play-state: paused` on the drift, pulse and brush;
@@ -127,7 +145,7 @@ Back-navigation within the app doesn't replay it.
 
 **Reduced:** shown in place, no movement.
 
-**Boards:** `Home.dc.html` (`.rise` with delays 0, 80, 160, 240 and 320ms); `Motion.dc.html` › Hero entrance. The iPad and phone boards put `.rise` on only the first two lines; apply it to all of them ([D20](09-decisions.md)).
+**Boards:** `Home.dc.html` (`.rise` with delays 0, 80, 160, 240 and 320ms); `Motion.dc.html` › Hero entrance. The iPad and phone boards put `.rise` on only the first two lines; apply it to all of them ([D20](09-decisions.md)). Those boards don't define `vaRise` or `vaPulse`, so their `.rise` and `.live` classes do nothing there. Use Home's keyframes on every device, including the availability pulse.
 
 ### M-HERO-BRUSH · Brush underline
 
@@ -143,7 +161,10 @@ Back-navigation within the app doesn't replay it.
 The path is `M6 24 C 130 10, 330 6, 552 14`, with `stroke: #D61F33; stroke-width: 8; stroke-linecap: round`, in a `0 0 560 34` viewBox.
 
 - **Laptop:** drawn at 520×32px.
-- **iPad and phone:** scaled to the name's width, as on their boards.
+- **iPad:** drawn at 400×26px.
+- **Phone:** drawn at 250×20px.
+
+All three sit `margin-top: 6px` below the name.
 
 It follows the once-per-session rule of M-HERO-RISE.
 
@@ -260,8 +281,8 @@ The SVG is `viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid slice"`, `fill=
 
 **Where:**
 
-- laptop: 1, 2 or 3 at once, set in Studio, default 3;
-- iPad: 1;
+- laptop, wider than 1100px: 1, 2 or 3 at once, set in Studio, default 3. The Home boards hide `.tz` at `max-width: 1100px`;
+- iPad: 1, the single floater on `HomeTablet.dc.html`, where `.fl .tz` overrides that rule;
 - phones: none.
 
 **Data:** Studio › Website › Hero › "Projects that float". This is an ordered list of project ids.
@@ -284,6 +305,7 @@ Each card shows:
 - `.fl`: `position: absolute; left: {x}%; top: {y}%; width: 262px; pointer-events: none; transform: translateZ({z}px) rotate({r}deg)`. The percentages are of the `.ink` box.
 - `.tz`: `transform: translate({tx}px, {ty}px) scale(.9)`, `opacity`, a per-phase `transition` and `will-change: opacity, transform`.
 - `pointer-events: auto` only while the card is visible.
+- **Hover (laptop):** `.tz` rests at `box-shadow: 0 24px 48px rgba(0,0,0,.45)`, and on hover goes to `box-shadow: 0 28px 56px rgba(0,0,0,.55), 0 0 0 1px var(--tx3)`. On the board, the inline per-phase `transition` overrides `.tz { transition: box-shadow .3s var(--eo) }`, so the shadow changes instantly there. Append `, box-shadow .3s var(--eo)` to every per-phase transition. Reduced: the shadow still changes.
 
 **Laptop scheduler.** Port `startFloat`, `spawn`, `leave`, `pick`, `hold` and `release` from `Home.dc.html` verbatim. Drive `.tz` styles with refs, not state.
 
@@ -484,6 +506,9 @@ No board timing either, so these are decided too.
 .cloud.lit .cw.on    { color: var(--tx); }
 .cloud.lit .cw.xl.on { color: #FF5A67; }
 .cw.g.on button      { color: #D61F33; -webkit-text-stroke-color: #D61F33; }
+.cw.g button:hover   { color: #D61F33; -webkit-text-stroke-color: #D61F33; }
+.cloud.lit .cw.g:not(.on) button { -webkit-text-stroke-color: var(--ln2); }
+.cloud.lit .cw.g:not(.on) .cw-sub { opacity: .3; }   /* no transition on .cw-sub */
 ```
 
 **Reduced:** unchanged. It's colour, not movement, and it carries information.
@@ -546,7 +571,7 @@ The spine's own lift (its `padding-top`) is layout, not motion, and doesn't chan
 | --- | --- | --- |
 | Rows (`.lrow`, `/work` rows, phone `.row`) | Fill `--bg2` | 200ms |
 | Their arrow (`.go`) | `translateX(4px)` | 240ms |
-| Dashed tiles (`.see-all`, `.all-row`) | Border `--tx3`, background `--bg2` | 320ms `--eo` |
+| Dashed tiles (`.see-all`, `.all-row`) | Border `--tx3`, background `--bg2`. No lift: don't give the tile the `.card` lift, even though `Home.dc.html` marks it `class="card see-all"` | 320ms `--eo`, border and background |
 
 **Reduced:** colour change only.
 
@@ -577,11 +602,11 @@ The case-study rail and the iPad chapter bar also show a 2px progress line in th
 
 **Motion:** a 3px marker in the project accent slides along the list's left edge to the current chapter row: `transform: translateY(…)`, `.24s var(--eo)`.
 
-- The current row also gets the board's highlight: `--bg2` fill, `--tx` text and an accent number. That change is instant.
+- The current row also gets the board's highlight: `--bg2` fill, `--tx` text and an accent number. The fill is instant. The text colour transitions over `.2s var(--eo)` (Motion `.chap`, CaseStudy `.toc a`), and so does the hover colour (`.toc a:hover { color: var(--tx) }`).
 - **Current chapter:** the last chapter whose top has passed 30% of the viewport, using an `IntersectionObserver`.
 - **Clicking a chapter** scrolls to it with `scroll-margin-top: 96px` (128px on phones, as on the boards).
 
-**Reduced:** the marker jumps.
+**Reduced:** the marker jumps. The colour change stays.
 
 **Boards:** `Motion.dc.html` › Chapter rail (`.ind`); `CaseStudy.dc.html` › `nav.toc`.
 
@@ -594,9 +619,9 @@ The sticky chapter bar (`.cbar`, 52px) opens a dropdown sheet under it:
 .sheet { animation: csDown .26s cubic-bezier(.2,.8,.2,1) both; }
 ```
 
-The chevron rotates 180°. Choosing a chapter closes the sheet and scrolls there.
+The chevron rotates 180° over 200ms. The board has `transition: transform .2s`; add `var(--eo)`. Choosing a chapter closes the sheet and scrolls there.
 
-**Reduced:** no animation. **Board:** `CaseStudyMobile.dc.html` › `chapter picker`.
+**Reduced:** no animation and no chevron rotation transition. **Board:** `CaseStudyMobile.dc.html` › `chapter picker`.
 
 ### M-PROTO · Prototype load
 
@@ -609,7 +634,7 @@ The chevron rotates 180°. Choosing a chapter closes the sheet and scrolls there
 | Can't embed | Known at publish. "Open prototype ↗" opens a new tab |
 
 - **Esc** exits, and focus returns to the poster button.
-- **Phones:** the prototype opens as a full-screen sheet: `@keyframes csUp { from { opacity: 0; transform: translateY(24px) } to { opacity: 1; transform: none } }`, `.3s var(--eo)`.
+- **Phones, and iPad in portrait:** the prototype opens as a full-screen sheet ([03](03-public-site.md)): `@keyframes csUp { from { opacity: 0; transform: translateY(24px) } to { opacity: 1; transform: none } }`, `.3s var(--eo)`.
 
 **Reduced:** the spinner turns once every 2.4s; there's no fade and no sheet rise.
 
@@ -653,19 +678,31 @@ Studio uses the same curve, more quietly. Its values are in the Studio boards.
 
 | ID | What | Spec |
 | --- | --- | --- |
-| M-ST-ENTER | Toasts, dialogs, menus and the sign-in card entering | `@keyframes stUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }`, `.22s var(--eo)` |
-| M-ST-FLASH | A moved row or section | Background `#FFF1C9` fading to transparent over 1s, once (`stFlashA` and `stFlashB` alternate so a second move replays it) |
-| M-ST-RING | A chapter or block moved by keyboard in the story editor | `stRingA`/`stRingB`: `box-shadow 0 0 0 3px #F5A524` to transparent, 1s |
+| M-ST-ENTER | Toasts, dialogs, menus and the sign-in card entering | `@keyframes stUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }`, `.22s var(--eo)`. The Studio boards vary: toasts `.22s`, dialogs `.2s`, popovers and the block palette `.18s`, and one banner `.24s`, all `ease-out` inline. Build every entrance at `.22s var(--eo)`, per Motion's Studio table ([D20](09-decisions.md), [Resolved conflicts](#resolved-conflicts)) |
+| M-ST-FLASH | A moved row, section or chapter, or a changed block | Background `#FFF1C9` to transparent, `ease-out`, once: 1s for a moved row, section or chapter; 1.2s for a changed block (EditorCaseStudy). `stFlashA` and `stFlashB` alternate so a second move replays it |
+| M-ST-RING | A chapter or block in the story editor, or an Outcomes metric, moved by keyboard | `stRingA`/`stRingB`: `box-shadow 0 0 0 3px #F5A524` to `0 0 0 0 rgba(245,165,36,0)`, 1.1s `ease-out` |
 | M-ST-SWITCH | Switches | Track `background .15s`, knob `left .15s` |
 | M-ST-DRAG | A dragged row | Lifts to `scale(1.012)` with a shadow. `.prow` transition `box-shadow .18s, transform .18s, background-color .18s` |
 | M-ST-SPIN | Saving and upload spinners, "Email me a code" while it sends, and the code boxes while checking | `stSpin .8s linear infinite`. Reduced: 2.4s |
-| M-ST-SHIM | Loading skeletons | `stShim 1.3s linear infinite`, `#ECEBE7`→`#F6F5F2` |
-| M-ST-PULSE | The "Saving…" dot | `stPulse` opacity `1 → .35 → 1` |
-| M-ST-ROW | Row hover | `background-color .15s` |
+| M-ST-SHIM | Loading skeletons | `stShim 1.3s linear infinite`, `#ECEBE7`→`#F6F5F2`. Reduced: static |
+| M-ST-PULSE | — | Not used. "Saving…" shows a 13px M-ST-SPIN spinner (2px `#D2D0CA` border, `border-top-color: #4A4A51`). `stPulse` is defined on the editor boards but unused, so don't build it |
+| M-ST-ROW | Row hover (`.row`, StudioSite `.tr`) | `background-color .15s` |
+| M-ST-TOPIC-ADD | The topic picker's "+ Add" field growing | `.tpadd { transition: width .2s cubic-bezier(.2,.8,.2,1) }`. Reduced: none |
+| M-ST-BTN | Primary button hover | `.pbtn { transition: background-color .2s var(--eo) }`. Reduced: none |
+| M-ST-BLOCK | Story chapters and blocks while dragging or focused | `.chr { transition: background-color .15s, box-shadow .18s }`, `.blk { transition: box-shadow .18s, border-color .18s }`. Reduced: none |
+| M-ST-UPLOAD | Upload progress bar | `.bar span { transition: width .12s linear }` (StudioMedia, EditorVisuals) |
+| M-ST-CROP | The focal-point or crop handle | `transition: left .18s, top .18s` (EditorVisuals) |
+| M-ST-FRAME | Device-frame preview resizing | `transition: width .2s, height .2s, border-radius .2s` (EditorVisuals) |
+| M-ST-CARD | Outcome card border | `.mc { transition: border-color .18s }` (EditorOutcomes) |
+| M-ST-CHEV | Section expand chevron | `transform: rotate(…)`, `transition: transform .15s` (StudioSite) |
 | M-ST-OTP | The code boxes on the sign-in page | Border and focus ring: `transition: border-color .2s var(--eo), box-shadow .2s var(--eo)`. The empty box with the caret shows a 2×28px caret: `stBlink 1s steps(1) infinite` (`50% { opacity: 0 }`). Each step of the sign-in card (email, code, signed in) enters with M-ST-ENTER. Reduced: no blink, no entrance |
 | M-ST-POP | The topic picker's dropdown, and other popovers | `@keyframes msUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }`, `.22s cubic-bezier(.2,.8,.2,1)`. Closes instantly. Reduced: none |
 
-**Studio under reduced motion:** the boards use `.st * { animation-duration: .01ms !important }`, plus no transitions on rows, blocks and switches. Spinners still turn, once every 2.4s.
+**Studio under reduced motion:**
+
+- Use `.st * { animation-duration: .01ms !important }`, followed by `.st .spin { animation-duration: 2.4s !important }`, so spinners still turn once every 2.4s. The `.st *` rule alone, as on StudioProjects and the editor boards, would stop them. StudioLogin and StudioAuthFlow keep them at 2.4s.
+- `.shim` gets `animation: none`, so skeletons are static.
+- There are no transitions on `.prow`, `.chr`, `.blk`, `.trk`, `.knb`, `.pbtn`, `.otp .box` or `.tpadd`.
 
 ---
 
@@ -675,10 +712,11 @@ These are binding through [09-decisions](09-decisions.md), D20.
 
 | Topic | Board A | Board B | Build |
 | --- | --- | --- | --- |
-| CTA hover duration | `Home.dc.html`: `.25s` | `Motion.dc.html`: 200ms, plus a 120ms press | 200ms hover, 120ms press to `scale(.98)` |
+| CTA and secondary button hover duration | `Home.dc.html`: `.cta`/`.cta2` `.25s` | `Motion.dc.html`: 200ms, plus a 120ms press | 200ms hover (both), 120ms press to `scale(.98)` |
 | Hero entrance on iPad and phone | `.rise` on the chips and name only | Motion: every hero line | Every visible line, 80ms apart |
 | Prototype loading | `CaseStudy.dc.html`: skeleton, a 1.1s red bar, a `.36s` fade with `scale(.985)` | Motion and PublicStates: spinner 0.8s, fade 320ms, opacity only | Spinner and label inside the frame; 320ms opacity fade |
 | Reading progress | `CaseStudy.dc.html`: 2px in `--pa` | Motion, WritingPublic, CaseStudyMobile: 3px `#D61F33` | 3px `#D61F33` everywhere |
 | Chapter rail | `CaseStudy.dc.html`: a highlighted row, no marker | Motion: a sliding 3px marker | Both: the board's row highlight plus the sliding 3px marker in `--pa` |
-| All work tile hover | `Home.dc.html`: no transition | Motion: 320ms | 320ms |
+| All work tile hover | `Home.dc.html`: the tile is a `.card`, so it lifts 4px with a 320ms transform and border; the background is instant | Motion: no lift, border and background 320ms | Border and background 320ms `--eo`, no lift |
+| Studio entrances | Studio boards: toasts `.22s`, dialogs `.2s`, popovers `.18s`, one banner `.24s`, all `ease-out` inline; StudioLogin `.22s var(--eo)` | Motion's Studio table: 220ms | Every Studio entrance at `.22s var(--eo)` |
 | iPad floaters | `HomeTablet.dc.html`: drift 8–14px, dwell 4.8–6.4s, gap 0.5–1.4s | Motion: drift 10–18px, dwell 4.8–6.8s, gap 0.3–1.3s | iPad uses its own board's values; laptop uses Motion's |

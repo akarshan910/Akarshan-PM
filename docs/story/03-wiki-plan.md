@@ -1,6 +1,6 @@
 # 03 · Wiki plan
 
-**When.** After milestone M7 in the [engineering handover](../handover/README.md#milestones), once the site and Studio are built, launched and stable. The wiki documents what was actually built, so it's written last.
+**When.** Milestone M7 in the [engineering handover](../handover/README.md#milestones), after M6, once the site and Studio are built, launched and stable. The wiki documents what was actually built, so it's written last.
 
 **Where.** The repository's GitHub wiki: a separate git repository at `…/Akarshan-PM.wiki.git`.
 
