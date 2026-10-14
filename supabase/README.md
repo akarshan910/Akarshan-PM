@@ -33,7 +33,7 @@ In this order. Each step changes only the portfolio's namespace.
    - `supabase functions deploy pm-publish --project-ref <ref>`, and the same for `pm-check-link`, `pm-post-scheduler` and `pm-purge`;
    - `supabase functions deploy pm-preview --project-ref <ref> --no-verify-jwt` and the same for `pm-project`: visitors call these without a session, and each checks its own token or slug.
 7. **The owner's account:** `OWNER_EMAIL=… SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… npm run setup:owner`.
-8. **Auth settings** as listed in [06 · Supabase settings](../docs/handover/06-backend.md#supabase-settings), applied with the owner (D52).
+8. **Auth settings** as listed in [06 · Supabase settings](../docs/handover/06-backend.md#supabase-settings), applied with the owner (D52). Among them: **Email OTP length 8** (D66) and expiration 600 seconds. Studio's code input expects 8 digits, so set the length before the owner first signs in.
 
 ## Who writes what
 

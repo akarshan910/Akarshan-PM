@@ -641,9 +641,9 @@ export async function checkCode(email: string, token: string, captchaToken: stri
 | Owner-only data | RLS with `is_owner()` |
 | 5 wrong codes lock that device for 15 minutes | Studio (convenience, not security) |
 
-**What's left.** Supabase limits code checks per IP address, not per email address, and doesn't lock a code after wrong guesses. An attacker with many IP addresses could request a fresh code every minute and spread guesses across addresses. With 6 digits, that becomes a real risk only for a sustained, well-resourced attack. It would also flood the owner's inbox with a code a minute, which is easy to notice.
+**What's left.** Supabase limits code checks per IP address, not per email address, and doesn't lock a code after wrong guesses. An attacker with many IP addresses could request a fresh code every minute and spread guesses across addresses. With 8 digits (D66) and CAPTCHA off (D54), it stays impractical even for a sustained attack: 100 million codes, a fresh one each minute. It would also flood the owner's inbox with a code a minute, which is easy to notice.
 
-If that risk matters, set Email OTP length to 8. That's one dashboard setting, and makes guessing 100 times harder. The code input then shows 8 boxes instead of 6 ([09](09-decisions.md), Q9). The 6-digit design ships unless the owner chooses 8.
+The owner chose 8 digits over the boards' 6 (Q9, D66): one dashboard setting that makes guessing 100 times harder. The code input shows 8 boxes.
 
 ## Storage
 
