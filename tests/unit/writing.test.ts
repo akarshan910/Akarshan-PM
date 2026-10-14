@@ -51,7 +51,7 @@ describe("writingIndex", () => {
     expect(writingIndex(v0)).toBeNull();
   });
 
-  it("lists every post newest first, with the intro, RSS and topics by use", () => {
+  it("lists every post newest first, with the intro, RSS and topics as the newest posts name them", () => {
     const view = writingIndex(withPosts([post(1, ["AI"]), post(3, ["Data", "AI"]), post(2, ["Product"])]));
     expect(view?.posts.map((p) => p.slug)).toEqual(["post-3", "post-2", "post-1"]);
     expect(view?.posts[0]).toMatchObject({
@@ -60,7 +60,7 @@ describe("writingIndex", () => {
       excerpt: "Body",
       readingMinutes: 1,
     });
-    expect(view?.topics).toEqual(["AI", "Data", "Product"]);
+    expect(view?.topics).toEqual(["Data", "AI", "Product"]);
     expect(view?.intro).toBe("On product.");
     expect(view?.rss).toBe(false);
   });

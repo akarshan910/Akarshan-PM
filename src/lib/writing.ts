@@ -25,7 +25,7 @@ export interface WritingIndexView {
   /** The Writing section's intro: one line on what the owner writes about. */
   intro?: string;
   rss: boolean;
-  /** Every topic in use, most used first, then A–Z. "All" is the page's own. */
+  /** Every topic in use, newest first. "All" is the page's own. */
   topics: string[];
   /** Newest first. */
   posts: PostCard[];
@@ -59,10 +59,9 @@ export function postCard(p: PublicPost): PostCard {
   };
 }
 
-function topicsByUse(posts: PublicPost[]): string[] {
-  const count = new Map<string, number>();
-  for (const p of posts) for (const t of p.post.topics) count.set(t, (count.get(t) ?? 0) + 1);
-  return [...count.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([t]) => t);
+/** Every topic in use, in the order the newest posts first name them. */
+function topicsInUse(posts: PublicPost[]): string[] {
+  return [...new Set(posts.flatMap((p) => p.post.topics))];
 }
 
 /** /writing, or null while nothing is published (the page is then the 404, D19). */
@@ -75,7 +74,7 @@ export function writingIndex(content: PublicContent): WritingIndexView | null {
   return {
     ...(intro ? { intro } : {}),
     rss: section?.writing?.rss ?? true,
-    topics: topicsByUse(posts),
+    topics: topicsInUse(posts),
     posts: posts.map(postCard),
   };
 }
