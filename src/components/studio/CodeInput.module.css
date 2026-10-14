@@ -1,0 +1,94 @@
+/* 02 · S2 Code input, copied from StudioLogin (.otp, .box). M-ST-OTP. */
+@keyframes stBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.lbl {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tx);
+}
+
+/* The CSS says 22px above; the board overrides it inline to 8px under the label. */
+.otp {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.box {
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ln2);
+  border-radius: 12px;
+  background: #fff;
+  font: 600 28px/1 var(--fm);
+  color: var(--tx);
+  transition:
+    border-color 0.2s var(--eo),
+    box-shadow 0.2s var(--eo);
+}
+.cur {
+  border-color: var(--tx);
+  box-shadow: 0 0 0 3px rgba(20, 20, 22, 0.12);
+}
+.cur::after {
+  content: "";
+  width: 2px;
+  height: 28px;
+  background: var(--tx);
+  animation: stBlink 1s steps(1) infinite;
+}
+.bad {
+  border-color: var(--err);
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12);
+}
+.off {
+  background: #f1f0ec;
+  color: var(--tx3);
+}
+
+/* One real input over the boxes, so paste, autofill and screen readers see a normal field. */
+.input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  font-size: 16px;
+  cursor: text;
+}
+.input:disabled {
+  cursor: default;
+}
+
+.note {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--tx3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .box {
+    transition: none;
+  }
+  .cur::after {
+    animation: none;
+  }
+}
+:global(html.still) .box {
+  transition: none;
+}
+:global(html.still) .cur::after {
+  animation: none;
+}

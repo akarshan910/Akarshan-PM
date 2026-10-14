@@ -1,0 +1,26 @@
+/* M-ST-SHIM: `.shim`, #ECEBE7 → #F6F5F2, 600px, stShim 1.3s linear infinite; static under reduced motion. */
+@keyframes stShim {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
+}
+
+.shim {
+  display: block;
+  background: linear-gradient(90deg, #ecebe7 0, #f6f5f2 50%, #ecebe7 100%);
+  background-size: 600px 100%;
+  animation: stShim 1.3s linear infinite;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shim {
+    animation: none;
+  }
+}
+:global(html.still) .shim {
+  animation: none;
+}

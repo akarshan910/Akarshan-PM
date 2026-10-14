@@ -1,0 +1,163 @@
+/* Studio dialogs, copied from StudioProjects (delete), Editor* (publish) and StudioStates. */
+@keyframes stUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 120px 20px 20px;
+  overflow-y: auto;
+  background: rgba(20, 20, 22, 0.48);
+}
+
+.dialog {
+  width: 480px;
+  max-width: 100%;
+  border-radius: 16px;
+  background: #fff;
+  color: var(--tx);
+  font-family: var(--fu);
+  box-shadow: 0 30px 80px rgba(20, 20, 22, 0.3);
+  animation: stUp 0.22s var(--eo) both;
+}
+.dialog:focus {
+  outline: none;
+}
+
+/* Plain: a confirm (StudioProjects "Delete …?"). */
+.plain {
+  padding: 26px;
+}
+.tile {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: #efeeea;
+  color: var(--tx);
+}
+.tileErr {
+  background: var(--errbg);
+  color: var(--err);
+}
+.plain .title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.tile + .title {
+  margin-top: 16px;
+}
+.plain .desc {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+.plain .acts {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Panel: the publish checklist (Editor*: 560px; header, checks, footer on --sf2). */
+.panel {
+  overflow: hidden;
+}
+.head {
+  padding: 24px 26px 0;
+}
+.kicker {
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+.panel .title {
+  margin: 8px 0 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.panel .desc {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+.content {
+  padding: 0 26px;
+}
+.panel .acts {
+  margin-top: 22px;
+  padding: 16px 26px;
+  border-top: 1px solid var(--ln);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  background: var(--sf2);
+}
+
+.start {
+  margin-right: auto;
+}
+
+/* Type to confirm (StudioStates › Delete). */
+.typeLbl {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--tx2);
+}
+.typeLbl strong {
+  font-family: var(--fm);
+}
+.typeInp {
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin-top: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--ln2);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--tx);
+  font: 400 14px/1.4 var(--fm);
+}
+.typeInp:focus,
+.typeInp:focus-visible {
+  outline: none;
+  border-color: var(--tx);
+  box-shadow: 0 0 0 1px var(--tx);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog {
+    animation: none;
+  }
+}
+:global(html.still) .dialog {
+  animation: none;
+}

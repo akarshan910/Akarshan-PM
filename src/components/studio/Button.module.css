@@ -1,0 +1,225 @@
+/* Studio buttons, copied from the Studio boards (02 · Studio tokens). */
+
+/* .cta: the angled publish button (StudioDashboard, Editor*). */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border: 0;
+  background: var(--ac);
+  color: #fff;
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.cta:hover {
+  background: #e42a3f;
+}
+.cta[aria-disabled="true"] {
+  background: #d2d0ca;
+  color: #4a4a51;
+  cursor: not-allowed;
+}
+/* The cut corners clip an outline, so focus is an inner ring (System board's rule, in Studio's ink). */
+.cta:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 2px var(--tx),
+    inset 0 0 0 4px #fff;
+}
+
+/* .btn: the plain button (StudioDashboard). */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--ln2);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--tx);
+  font: 500 14px/1 var(--fu);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn:hover {
+  border-color: #b9b7b1;
+}
+.btn[aria-disabled="true"] {
+  color: var(--tx3);
+  background: var(--sf2);
+  border-color: var(--ln);
+  cursor: not-allowed;
+}
+
+/* .pbtn: the sign-in primary (StudioLogin). M-ST-BTN. */
+.pbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 52px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 10px;
+  background: #141416;
+  color: #fff;
+  font: 500 16px/1 var(--fu);
+  cursor: pointer;
+  transition: background-color 0.2s var(--eo);
+}
+.pbtn:hover {
+  background: #2a2a30;
+}
+.pbtn[aria-disabled="true"] {
+  background: #b9b7b1;
+  cursor: not-allowed;
+}
+.pbtn[aria-busy="true"] {
+  background: #141416;
+  cursor: progress;
+}
+
+/* .btn2: the sign-in secondary (StudioLogin). */
+.btn2,
+.btn2Dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 18px;
+  border: 1px solid var(--ln2);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--tx);
+  font: 500 15px/1 var(--fu);
+  cursor: pointer;
+}
+.btn2:hover {
+  border-color: var(--tx3);
+}
+/* "Open the dashboard" (StudioLogin › signed in). */
+.btn2Dark {
+  background: #141416;
+  border-color: #141416;
+  color: #fff;
+}
+
+/* Ghost: System board's ghost (no border, --tx2) at Studio's 42px, with `.ib`'s hover fill. */
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--tx2);
+  font: 500 14px/1 var(--fu);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.ghost:hover {
+  background: #efeeea;
+  color: var(--tx);
+}
+
+/* Destructive: "Delete project" (StudioProjects), `.dbtn` (StudioStates). Off: EditorSettings. */
+.danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--err);
+  color: #fff;
+  font: 600 14px/1 var(--fu);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.danger[aria-disabled="true"] {
+  background: #e4e3df;
+  color: #6a6a72;
+  cursor: not-allowed;
+}
+
+/* .link: text button (StudioLogin). */
+.link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--tx);
+  font: 500 14px/1.4 var(--fu);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.link[aria-disabled="true"] {
+  color: var(--tx3);
+  text-decoration: none;
+  cursor: default;
+}
+
+/* .ib: icon button (Editor* 38px, StudioStates and StudioWriting 36px). */
+.ib {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--tx2);
+  cursor: pointer;
+}
+.ib36 {
+  width: 36px;
+  height: 36px;
+}
+.ib:hover {
+  background: #efeeea;
+  color: var(--tx);
+}
+
+/* 44px touch targets on iPad and phones (05 · Accessibility). */
+@media (pointer: coarse) {
+  .cta,
+  .btn,
+  .ghost,
+  .danger {
+    min-height: 44px;
+  }
+  .ib {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pbtn {
+    transition: none;
+  }
+}
+:global(html.still) .pbtn {
+  transition: none;
+}

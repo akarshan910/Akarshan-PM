@@ -1,0 +1,57 @@
+/* .chip (StudioDashboard, Editor*): 24px, padding 0 8px, radius 6, 12px 500. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+/* The small size in list rows: 20px, 11px (StudioDashboard, StudioSite). */
+.sm {
+  height: 20px;
+  font-size: 11px;
+}
+.neutral {
+  background: #efeeea;
+  color: var(--tx2);
+}
+.ok {
+  background: var(--okbg);
+  color: var(--ok);
+}
+.warn {
+  background: var(--warnbg);
+  color: var(--warn);
+}
+.err {
+  background: var(--errbg);
+  color: var(--err);
+}
+/* Result label chip (EditorOutcomes: TARGET). */
+.outline {
+  height: 22px;
+  border: 1px solid rgba(20, 20, 22, 0.3);
+  color: #4a4a51;
+  font-family: var(--fm);
+  letter-spacing: 0.06em;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* .mono (Studio): 12px, letter-spacing .06em, uppercase, --tx3. */
+.mono {
+  margin: 0;
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
