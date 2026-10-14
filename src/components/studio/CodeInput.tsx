@@ -1,10 +1,18 @@
-import { forwardRef, useEffect, useRef, useState, type ChangeEvent, type ClipboardEvent } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type ClipboardEvent,
+  type CSSProperties,
+} from "react";
 
 import styles from "./CodeInput.module.css";
 import { cx } from "../cx";
 import { CODE_LENGTH, CODE_LENGTH_WORD } from "~/lib/studio/signin";
 
-/** How long six digits wait before they submit on their own (02 · S2). */
+/** How long a full code waits before it submits on its own (02 · S2). */
 export const CODE_SUBMIT_DELAY = 150;
 export { CODE_LENGTH, CODE_LENGTH_WORD };
 
@@ -18,11 +26,11 @@ export { CODE_LENGTH, CODE_LENGTH_WORD };
 export type CodeStatus = "idle" | "wrong" | "expired" | "checking" | "locked";
 
 interface CodeInputProps {
-  /** The digits so far, at most six. */
+  /** The digits so far, at most CODE_LENGTH. */
   value: string;
   /** Every edit, already stripped to digits. Clear a wrong or expired status here when the owner types. */
   onChange: (digits: string) => void;
-  /** Called 150ms after the sixth digit arrives, unless another edit comes first. */
+  /** Called 150ms after the last digit arrives, unless another edit comes first. */
   onComplete: (code: string) => void;
   status?: CodeStatus;
   /** The input's id. The page has one code input, so it's `otp-in` as on the board. */
@@ -37,7 +45,7 @@ export function digitsOnly(raw: string): string {
 }
 
 /**
- * 02 · S2: the visible label "6-digit code", six boxes (decorative) under one real input with
+ * 02 · S2: the visible label "8-digit code", one box per digit (decorative) under one real input with
  * `autocomplete="one-time-code"`, and the hint. Non-digits are dropped, so "482 913" pastes as "482913".
  */
 export const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(function CodeInput(
@@ -97,7 +105,12 @@ export const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(function C
       <label htmlFor={id} className={styles.lbl}>
         {CODE_LENGTH}-digit code
       </label>
-      <div className={styles.otp} role="group" aria-label={`${CODE_LENGTH}-digit code`}>
+      <div
+        className={styles.otp}
+        role="group"
+        aria-label={`${CODE_LENGTH}-digit code`}
+        style={{ "--n": CODE_LENGTH } as CSSProperties}
+      >
         {Array.from({ length: CODE_LENGTH }, (_, i) => (
           <span key={i} className={boxClass(i)} aria-hidden="true" data-box={i}>
             {digits[i] ?? ""}

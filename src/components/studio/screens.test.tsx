@@ -266,7 +266,7 @@ describe("Login", { timeout: 20_000 }, () => {
       "aria-disabled",
       "true",
     );
-    await user.type(screen.getByRole("textbox", { name: "6-digit code" }), MEMORY_CODE);
+    await user.type(screen.getByRole("textbox", { name: "8-digit code" }), MEMORY_CODE);
     expect(await screen.findByRole("heading", { name: "Welcome back" })).toBeInTheDocument();
     act(() => {
       vi.advanceTimersByTime(1300);
@@ -285,11 +285,11 @@ describe("Login", { timeout: 20_000 }, () => {
     await user.click(screen.getByRole("button", { name: /Resend code in/ }));
     expect(screen.getByRole("status")).toHaveTextContent("A code was sent moments ago.");
     for (let i = 0; i < 4; i++) {
-      await user.type(screen.getByRole("textbox", { name: "6-digit code" }), "000000");
+      await user.type(screen.getByRole("textbox", { name: "8-digit code" }), "00000000");
       expect(await screen.findByText("That code didn’t work.", { selector: "b" })).toBeInTheDocument();
-      await user.clear(screen.getByRole("textbox", { name: "6-digit code" }));
+      await user.clear(screen.getByRole("textbox", { name: "8-digit code" }));
     }
-    await user.type(screen.getByRole("textbox", { name: "6-digit code" }), "000000");
+    await user.type(screen.getByRole("textbox", { name: "8-digit code" }), "00000000");
     expect(await screen.findByText("Too many tries.", { selector: "b" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sign in" })).toHaveAttribute("aria-disabled", "true");
     expect(screen.getByRole("button", { name: "Send a new code" })).toHaveAttribute("aria-disabled", "false");
@@ -304,7 +304,7 @@ describe("Login", { timeout: 20_000 }, () => {
     await user.click(screen.getByRole("button", { name: "Email me a code" }));
     await screen.findByRole("heading", { name: "Check your email" });
     clock.now += 11 * 60_000;
-    await user.type(screen.getByRole("textbox", { name: "6-digit code" }), MEMORY_CODE);
+    await user.type(screen.getByRole("textbox", { name: "8-digit code" }), MEMORY_CODE);
     expect(await screen.findByText("That code has expired.", { selector: "b" })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Send a new code" }));
     await waitFor(() => {
@@ -318,7 +318,7 @@ describe("Login", { timeout: 20_000 }, () => {
     await user.type(screen.getByLabelText("Email"), "someone@example.test");
     await user.click(screen.getByRole("button", { name: "Email me a code" }));
     await screen.findByRole("heading", { name: "Check your email" });
-    await user.type(screen.getByRole("textbox", { name: "6-digit code" }), MEMORY_CODE);
+    await user.type(screen.getByRole("textbox", { name: "8-digit code" }), MEMORY_CODE);
     expect(
       await screen.findByRole("heading", { name: "This account can’t open Studio" }),
     ).toBeInTheDocument();

@@ -40,7 +40,7 @@ import type {
 import { mediaUses } from "./usage";
 
 /** The code the in-memory auth accepts. Real codes come from Supabase Auth (06 · Auth). */
-export const MEMORY_CODE = "123456";
+export const MEMORY_CODE = "12345678";
 /** The address the in-memory auth treats as the owner. Never the real sign-in address. */
 export const MEMORY_OWNER = "owner@example.test";
 const CODE_TTL = 10 * 60_000;
