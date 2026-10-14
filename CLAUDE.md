@@ -9,9 +9,10 @@ The design is final. Your job is to build it exactly, not to redesign it.
 
 ## Start here
 
-1. Read `docs/handover/README.md` end to end before writing code. It has the milestones and the definition of done. Then read `docs/handover/10-execution-plan.md` for the order of work, the default values, the architecture rules and the security gates.
-2. Read the handover chapter for the area you're working on, plus the matching design boards in `design/boards/`. `design/README.md` explains how to read them.
-3. Keep `docs/handover/`, `design/` and `docs/redesign/` open as the reference. Don't rely on memory of earlier sessions.
+1. Read [`HANDOFF.md`](HANDOFF.md) first: the current status, what's next, how we work and the environment gotchas. Work happens on `claude/elegant-allen-xdmal0`; `main` stays the live site until launch.
+2. Read `docs/handover/README.md` end to end before writing code. It has the milestones and the definition of done. Then read `docs/handover/10-execution-plan.md` for the order of work, the default values, the architecture rules and the security gates.
+3. Read the handover chapter for the area you're working on, plus the matching design boards in `design/boards/`. `design/README.md` explains how to read them.
+4. Keep `docs/handover/`, `design/` and `docs/redesign/` open as the reference. Don't rely on memory of earlier sessions.
 
 ## Sources of truth, in order
 

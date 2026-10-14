@@ -57,12 +57,15 @@ The reasoning behind the bigger decisions is in [`docs/story/02-decisions.md`](.
 | D43 | 14 Oct 2026 | **Deleting from the Projects list is a soft delete** with a plain confirm, "Unpublish instead" and a 7-second Undo. Only URL & SEO's delete is permanent, and only it asks the owner to type the address | [05 · Projects](05-studio.md#projects) |
 | D44 | 14 Oct 2026 | **Up to 8 topics per post or project.** At the cap the topic picker disables the unselected options, ignores "+ Create" and Enter, and says "Up to 8 topics per post." (or "per project") in its polite live region | [02 · S1](02-tokens-and-components.md#s1--topic-picker) |
 | D45 | 14 Oct 2026 | **Small additions beyond the boards,** built in the boards' styles: the shelf's kicker and second title half in the Website builder, "Unschedule" for a scheduled post, and the More fields forms (D38). The Website builder previews Desktop and Phone only, as drawn; iPad is checked in Draft preview | [05 · Website](05-studio.md#website-builder), [05 · Writing](05-studio.md#writing) |
+| D46 | 14 Oct 2026 | **`main` stays the live site until launch.** The rebuild lives on `claude/elegant-allen-xdmal0`; `main` (which the live site deploys from) is not touched until M6 launch, when the branch is merged | [HANDOFF](../../HANDOFF.md) |
+| D47 | 14 Oct 2026 | **The Figma Make scaffolding is removed (Q1, at its default).** The old stylesheet is kept read-only at `src/legacy/portfolio.css` for the nav, and the old `App.tsx` at `tests/fixtures/legacy-app.tsx.txt` for tracing content | [10 · Phase 0](10-execution-plan.md#phase-0--foundation-m0) |
+| D48 | 14 Oct 2026 | **The shelf's ghost numeral shows the real range** ("01—05" in V0), following 03's data rule rather than the board's illustrative "01—09" | [03 · Shelf](03-public-site.md#shelf) |
 
 ## Open questions
 
 | # | Needed before | Question | Recommendation and trade-off | Default if unanswered |
 | --- | --- | --- | --- | --- |
-| Q1 | M0 | May the Figma Make scaffolding be removed (D1)? | Yes. It's unused, it slows installs, and it hides what the site really depends on | Remove it |
+| Q1 | M0 | ~~May the Figma Make scaffolding be removed (D1)?~~ Answered at the default, D47. | Yes. It's unused, it slows installs, and it hides what the site really depends on | Remove it |
 | Q2 | M5 | Which domain does the site use? | A short personal domain. It's needed for canonical URLs, the email sender and the Turnstile widget. Until then, the Vercel address works for everything but email deliverability | Build on the Vercel address; keep `SITE_URL` configurable |
 | Q3 | M3 | Which Vercel account hosts the site and the prototypes project? | The owner's existing account, where lumina-photography already runs. Two more projects fit the free plan | The owner's account |
 | Q4 | M3 | Which email sender for sign-in codes? | Resend's free plan, on the site's domain with SPF, DKIM and DMARC. If lumina already has a custom sender in the shared project, reuse it: it's one setting | Supabase's built-in sender in development only. Launch waits for this |
