@@ -1,0 +1,457 @@
+/*
+ * The homepage section frames (03 · Home): padding, bands and header spacing, copied from
+ * Home.dc.html (laptop, ≥1280), HomeTablet.dc.html (iPad, 768–1279) and HomeMobile.dc.html (phone).
+ * The components inside (C4–C19) carry their own values.
+ */
+
+/* `.wrap` (02 · Layout) */
+.wrap {
+  max-width: 1312px;
+  margin: 0 auto;
+  padding-left: clamp(20px, 4vw, 56px);
+  padding-right: clamp(20px, 4vw, 56px);
+}
+
+/* Legacy anchors (#exp, #testi, #work): empty, at the start of their section (07 · Legacy links). */
+.anchor {
+  display: block;
+  height: 0;
+}
+
+/* ---- Proof strip ---- */
+.proof {
+  border-bottom: 1px solid var(--ln);
+}
+
+/* ---- Shelf ---- */
+/* A shelf ends with the board's 112px (#strategy), or 40px when another shelf follows (#work). */
+.shelfFrame > section {
+  padding-bottom: 112px;
+}
+.shelfFrame:has(+ .shelfFrame) > section {
+  padding-bottom: 40px;
+}
+
+/* ---- About ---- */
+.about {
+  background: var(--bg2);
+  border-top: 1px solid var(--ln);
+  border-bottom: 1px solid var(--ln);
+}
+.aboutWrap {
+  padding-top: 104px;
+  padding-bottom: 104px;
+}
+.aboutHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 64px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+.aboutHead.aboutHead > :first-child {
+  margin-bottom: 0;
+}
+.aboutBody {
+  max-width: 480px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+.aboutBody p {
+  margin: 0;
+}
+.aboutBody p + p {
+  margin-top: 16px;
+}
+.aboutBody strong,
+.pointText strong,
+.bullet strong {
+  font-weight: 500;
+  color: var(--tx);
+}
+/* Without a header row to share, the body sits under the title at full width. */
+.aboutWide {
+  max-width: none;
+}
+.photo {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  margin-top: 24px;
+  border-radius: 18px;
+}
+.points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.point {
+  padding: 28px;
+  border-radius: 18px;
+  background: var(--bg);
+  border: 1px solid var(--ln);
+}
+.pointNum {
+  display: block;
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--act);
+}
+.pointTitle {
+  margin: 18px 0 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.pointText {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+
+/* ---- Experience ---- */
+.experience {
+  padding-top: 104px;
+  padding-bottom: 88px;
+}
+.expHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-bottom: 40px;
+}
+.expHead.expHead > :first-child {
+  margin-bottom: 0;
+}
+.resumePhone.resumePhone {
+  display: none;
+}
+
+/* ---- Skills ---- */
+.skills {
+  padding-top: 8px;
+  padding-bottom: 112px;
+}
+.head30.head30 {
+  margin-bottom: 30px;
+}
+
+/* ---- Testimonials ---- */
+.testimonials {
+  background: var(--bg2);
+  border-top: 1px solid var(--ln);
+  border-bottom: 1px solid var(--ln);
+}
+.testiWrap {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+.kicker {
+  font-family: var(--fm);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--act);
+}
+.count {
+  display: none;
+}
+.testiTitle {
+  margin: 14px 0 0;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: clamp(36px, 4.2vw, 54px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.muted {
+  color: var(--tx3);
+}
+.testiIntro {
+  margin: 12px 0 0;
+  max-width: 420px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--tx3);
+}
+
+/* ---- Off duty ---- */
+.offduty {
+  border-top: 1px solid var(--ln);
+}
+.offWrap {
+  padding-top: 104px;
+  padding-bottom: 112px;
+}
+.offPage {
+  margin-top: 26px;
+}
+
+/* ---- Contact ---- */
+.contact {
+  border-top: 1px solid var(--ln);
+}
+.contact strong {
+  font-weight: 500;
+  color: var(--tx);
+}
+
+/* ---- Text section (the post body column, WritingPublic.dc.html) ---- */
+.text {
+  padding-top: 104px;
+  padding-bottom: 88px;
+}
+.prose {
+  max-width: 68ch;
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--tx2);
+}
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.1em;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+}
+.prose li + li {
+  margin-top: 0.4em;
+}
+.prose strong {
+  font-weight: 600;
+  color: var(--tx);
+}
+.prose a {
+  color: var(--tx);
+  text-decoration: underline;
+  text-decoration-color: var(--ac);
+  text-underline-offset: 3px;
+}
+
+/* ---- iPad (HomeTablet.dc.html) ---- */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .wrap {
+    max-width: none;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .shelfFrame > section,
+  .shelfFrame:has(+ .shelfFrame) > section {
+    padding-bottom: 0;
+  }
+  .about {
+    margin-top: 80px;
+  }
+  .aboutWrap {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+  .aboutHead {
+    display: block;
+    margin-bottom: 0;
+  }
+  .aboutBody {
+    max-width: none;
+    margin-top: 18px;
+  }
+  .points {
+    grid-template-columns: none;
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .point {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 16px;
+    padding: 22px;
+    border-radius: 16px;
+  }
+  .pointNum {
+    font-size: 40px;
+  }
+  .pointTitle {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+  .pointText {
+    margin-top: 8px;
+    font-size: 15px;
+  }
+  .experience,
+  .skills,
+  .text {
+    padding-top: 72px;
+    padding-bottom: 0;
+  }
+  .expHead {
+    display: block;
+    margin-bottom: 28px;
+  }
+  .expHead > a {
+    display: none;
+  }
+  .head30.head30 {
+    margin-bottom: 0;
+  }
+  /* The shelves hide their intro on touch layouts; Skills and Off duty keep it (the boards). */
+  .keepIntro.keepIntro p {
+    display: block;
+    margin: 12px 0 0;
+    max-width: none;
+  }
+  .testimonials {
+    margin-top: 72px;
+  }
+  .testiWrap {
+    max-width: none;
+    padding: 64px 0 64px 32px;
+  }
+  .count {
+    display: inline;
+  }
+  .testiTitle {
+    margin-top: 12px;
+    font-size: 40px;
+  }
+  .offduty {
+    border-top: 0;
+  }
+  .offWrap {
+    padding-top: 72px;
+    padding-bottom: 0;
+  }
+  .contact {
+    margin-top: 72px;
+  }
+}
+
+/* ---- Phone (HomeMobile.dc.html) ---- */
+@media (max-width: 767px) {
+  .wrap {
+    max-width: none;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .shelfFrame > section,
+  .shelfFrame:has(+ .shelfFrame) > section {
+    padding-bottom: 0;
+  }
+  .about {
+    margin-top: 56px;
+  }
+  .aboutWrap {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .aboutHead {
+    display: block;
+    margin-bottom: 0;
+  }
+  .aboutBody {
+    max-width: none;
+    margin-top: 14px;
+    font-size: 16px;
+  }
+  .points {
+    grid-template-columns: none;
+    gap: 12px;
+    margin-top: 22px;
+  }
+  .point {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 12px;
+    align-items: baseline;
+    padding: 18px;
+    border-radius: 14px;
+  }
+  .pointBody {
+    display: contents;
+  }
+  .pointNum {
+    font-size: 30px;
+    line-height: normal;
+  }
+  .pointTitle {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: 0;
+  }
+  .pointText {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .experience,
+  .skills,
+  .text {
+    padding-top: 48px;
+    padding-bottom: 0;
+  }
+  .expHead {
+    display: block;
+    margin-bottom: 20px;
+  }
+  .expHead > a {
+    display: none;
+  }
+  .resumePhone.resumePhone {
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .head30.head30 {
+    margin-bottom: 0;
+  }
+  .keepIntro.keepIntro p {
+    display: block;
+    margin: 12px 0 0;
+    max-width: none;
+  }
+  .testimonials {
+    margin-top: 48px;
+  }
+  .testiWrap {
+    max-width: none;
+    padding: 44px 0 44px 20px;
+  }
+  .count {
+    display: inline;
+  }
+  .testiTitle {
+    margin-top: 10px;
+    font-size: 32px;
+  }
+  .offduty {
+    border-top: 0;
+    overflow: hidden;
+  }
+  .offWrap {
+    padding-top: 48px;
+    padding-bottom: 0;
+  }
+  .contact {
+    margin-top: 48px;
+  }
+  .prose {
+    font-size: 18px;
+  }
+}

@@ -3,6 +3,8 @@
  * (compact rows on phones) and the closing tile, capped by `src/lib/shelf.ts`. Every device shows
  * the same projects. With nothing published, the shelf hides completely, header included.
  */
+import type { ReactNode } from "react";
+
 import { planShelf, type ClosingTile as Closing, type ShelfRows } from "~/lib/shelf";
 
 import { ClosingTile } from "../cards/ClosingTile";
@@ -18,7 +20,8 @@ export interface ShelfProps {
   kicker?: string | undefined;
   title: string;
   titleMuted?: string | undefined;
-  intro?: string | undefined;
+  /** Plain text, or the sanitised inline rendering of `header.intro`. */
+  intro?: ReactNode;
   /** The shelf's published, visible projects in order; the first is the lead (D37). */
   projects: readonly ProjectCardData[];
   /** Rows of three under the lead, set per shelf in Studio. */

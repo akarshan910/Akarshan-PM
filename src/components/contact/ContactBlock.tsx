@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { Button } from "~/components/buttons/Button";
 import { cx } from "~/components/cx";
@@ -18,7 +18,8 @@ interface ContactBlockProps {
   titleAccent?: string;
   /** For the section's aria-labelledby. */
   titleId?: string;
-  intro?: string;
+  /** Plain text, or the sanitised inline rendering of `header.intro`. */
+  intro?: ReactNode;
   /** Without an email, Email me and Copy email hide (03 · Contact). */
   email?: string;
   linkedin?: string;
