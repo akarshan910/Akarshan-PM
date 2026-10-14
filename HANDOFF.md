@@ -85,11 +85,11 @@ Pick up in this order. Each item lists the doc sections and boards to read.
    - Wire `?qa=1` through `src/lib/qa.ts` and add the `parity` Playwright project.
    - The `tests/parity/*.spec.ts` specs need `pixelmatch` and `pngjs`. Add them as dev dependencies, with exact versions and the lockfile.
 5. **Close M2:** run the 08 QA pass for what M2 touched, tick the M2 boxes, then run a security review of M2's diff and fix what it finds (every phase so far ended this way).
-6. **M3 · Supabase, local first.** See [Environment gotchas](#environment-gotchas) for how to test without Docker images. **Before** anything touches the shared project, stop and ask the owner for Q3, Q4, Q6 and Q10. They must also expose the `pm` schema and run `npm run db:migrate` themselves (10 · Owner touchpoints).
+6. **M3 · Supabase, local first.** See [Environment gotchas](#environment-gotchas) for how to test without Docker images. The owner answered Q3, Q4, Q6 and Q10 (D49–D52), but nothing touches the shared project until the owner says so: they expose the `pm` schema and run `npm run db:migrate` themselves (10 · Owner touchpoints).
 
 ## Decisions made during the build
 
-They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D48. Smaller deviations from the boards, already in the code:
+They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D52 (D49–D52 answer Q3, Q4, Q6 and Q10). Smaller deviations from the boards, already in the code:
 
 - **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px. Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
 - **Accordion:** it rotates a plus 45°, per 02 and the board, not 04's chevron.
@@ -147,7 +147,7 @@ They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46
 
 ## Environment gotchas
 
-- **Playwright on the owner's Mac:** the Playwright version in the lockfile needs `chromium_headless_shell-1194`, which isn't in `~/Library/Caches/ms-playwright` until `npx playwright install chromium` runs (ask the owner first: it's a download).
+- **Playwright on the owner's Mac:** `chromium_headless_shell-1194` is installed (the owner approved the download on 15 Oct 2026). Port 5173 there belongs to another project, so `playwright.config.ts` serves the preview on 4310 and the dev server on 4311. Set `PW_PORT_BASE` to run several worktrees at once, and `PW_REUSE=1` to reuse a server you started yourself.
 - **Playwright in the cloud sandbox:** Chromium is preinstalled at `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`, and `playwright.config.ts` uses it. Never run `playwright install`.
 - **The catalogue:** `/dev/components` exists in dev and typegen only. A production build leaves it out unless `CATALOGUE=1`, and `check-env` fails a production build where `CATALOGUE` or `CONTENT_SOURCE` is set.
 - **`ssr: false` + prerender:** every route with a `loader` needs at least one prerendered page, so `/writing/:slug` is registered only when posts exist (always for typegen). `/404` is prerendered for the host to serve; unknown SPA paths use the catch-all.
