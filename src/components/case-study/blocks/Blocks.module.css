@@ -18,9 +18,10 @@
 .text ol {
   margin: 16px 0 0;
 }
+/* Highlighted phrases are brighter, not bolder (CaseStudy.dc.html chapter 01's `.rd` span). */
 .text strong {
   color: var(--tx);
-  font-weight: 600;
+  font-weight: inherit;
 }
 .text a,
 .list a,
@@ -502,24 +503,45 @@ abbr.short {
   .lead {
     font-size: 20px;
   }
-  .box {
-    padding: 18px 20px;
+  /* Side by side (CaseStudyTablet › chapter 06): 18px, 12px under the heading, 14px lists. */
+  .box,
+  .box:only-child {
+    padding: 18px;
   }
-  .box .heading {
-    margin-bottom: 10px;
+  .box .heading,
+  .box:only-child .heading {
+    margin-bottom: 12px;
   }
   .box .list ul,
   .box .list ol {
     gap: 6px;
     font-size: 14px;
+    line-height: 1.5;
   }
   .boxes {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
-  /* One box takes the whole column (CaseStudyTablet › Assumptions). */
+  /* On its own (Assumptions): the whole column, 18px 20px, 10px, 15px lists. */
   .box:only-child {
     grid-column: 1 / -1;
+    padding: 18px 20px;
+  }
+  .box:only-child .heading {
+    margin-bottom: 10px;
+  }
+  .box:only-child .list ul,
+  .box:only-child .list ol {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  /* The board's spacing per pair: 18px before a lone box and the journey. */
+  div > * + .boxes:has(> .box:only-child),
+  div > * + .journey {
+    margin-top: 18px;
+  }
+  div > .journey + .metrics {
+    margin-top: 12px;
   }
   .metric {
     flex-wrap: nowrap;

@@ -100,7 +100,7 @@ defineParity([
         page: 'section[aria-label="Interactive prototype"]',
       },
       { name: "chapter-bar", board: "button.cbar", page: 'button[aria-label="Jump to chapter"]' },
-      ...chapters((i) => `section[data-chapter="0${i}"]`),
+      ...chapters((i) => `section#ch-0${i}`),
       {
         name: "more-volumes",
         board: 'section[aria-label="More volumes"]',
