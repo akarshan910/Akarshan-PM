@@ -1,0 +1,48 @@
+/*
+ * M-REVEAL (04 · Scroll): `src/motion/reveal.ts` adds `rv-wait` to a section below the fold and
+ * numbers its blocks with `data-reveal-step`; the observer swaps `rv-wait` for `rv-run`. The values
+ * are Motion.dc.html's `.mo .rv` and `.rv.in`: 16px rise, .56s, --eo, 80ms stagger.
+ *
+ * `!important` holds the waiting pose and the reveal transition over the blocks' own transitions
+ * (card hover and so on) for the half-second they matter; reveal.ts removes both afterwards.
+ */
+.rv-wait [data-reveal-step] {
+  opacity: 0 !important;
+  transform: translateY(16px) !important;
+}
+.rv-run [data-reveal-step] {
+  transition:
+    opacity 0.56s var(--eo),
+    transform 0.56s var(--eo) !important;
+  transition-delay: calc(var(--step, 0) * 80ms) !important;
+}
+[data-reveal-step="1"] {
+  --step: 1;
+}
+[data-reveal-step="2"] {
+  --step: 2;
+}
+[data-reveal-step="3"] {
+  --step: 3;
+}
+[data-reveal-step="4"] {
+  --step: 4;
+}
+
+/* Reduced: visible from the start, no transitions (reveal.ts doesn't hide anything either). */
+@media (prefers-reduced-motion: reduce) {
+  .rv-wait [data-reveal-step] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .rv-run [data-reveal-step] {
+    transition: none !important;
+  }
+}
+html.still .rv-wait [data-reveal-step] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+html.still .rv-run [data-reveal-step] {
+  transition: none !important;
+}
