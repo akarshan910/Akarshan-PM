@@ -125,7 +125,7 @@ export function ExperienceEntry({
         {items.length > PHONE_BULLETS ? (
           <button
             type="button"
-            className={styles.more}
+            className={cx(styles.more, "hit44")}
             aria-expanded={expanded}
             aria-controls={bulletsId}
             onClick={() => {

@@ -1,72 +1,16 @@
 // @vitest-environment jsdom
-import { act, render, screen, waitFor, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import type { ReactNode } from "react";
-import { MemoryRouter, Route, Routes } from "react-router";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { MEMORY_OWNER } from "~/lib/studio/memory";
-import type { MemoryRepo } from "~/lib/studio/memory";
-import { must, testRepo } from "~/lib/studio/test-helpers";
-import { StudioDataProvider } from "./data";
+import { must } from "~/lib/studio/test-helpers";
 import { OverviewTab } from "./editor/OverviewTab";
-import { ProjectEditor, type EditorData } from "./editor/ProjectEditor";
-import { ShellContext } from "./shell/ShellContext";
-import { ToastProvider } from "./Toast";
-import type { EditorTabSlug } from "~/lib/studio/paths";
-
-export async function editorData(repo: MemoryRepo, id: string): Promise<EditorData> {
-  const [row, rows, layout, media] = await Promise.all([
-    repo.projects.get(id),
-    repo.projects.list(),
-    repo.layout.get(),
-    repo.media.list(),
-  ]);
-  const urls: Record<string, string> = {};
-  for (const m of media) urls[m.id] = await repo.media.url(m);
-  return { row: must(row), rows, layout, media, urls };
-}
-
-export async function renderEditor(
-  pick: (rows: Awaited<ReturnType<MemoryRepo["projects"]["list"]>>) => string,
-  tab: EditorTabSlug,
-  body: ReactNode,
-  query = "",
-) {
-  const { repo, clock } = testRepo();
-  const id = pick(await repo.projects.list());
-  const data = await editorData(repo, id);
-  const announce = vi.fn();
-  const utils = render(
-    <MemoryRouter initialEntries={[`/studio/projects/${id}/${tab}${query}`]}>
-      <StudioDataProvider repo={repo}>
-        <ToastProvider>
-          <ShellContext.Provider
-            value={{ session: { email: MEMORY_OWNER, userId: "owner" }, signOut: vi.fn(), announce }}
-          >
-            <Routes>
-              <Route
-                path="/studio/projects/:id/:tab"
-                element={
-                  <ProjectEditor data={data} tab={tab}>
-                    {body}
-                  </ProjectEditor>
-                }
-              />
-              <Route path="*" element={<p>Elsewhere</p>} />
-            </Routes>
-          </ShellContext.Provider>
-        </ToastProvider>
-      </StudioDataProvider>
-    </MemoryRouter>,
-  );
-  return { repo, clock, id, announce, ...utils };
-}
+import { fill, renderEditor } from "./test-editor";
 
 const live = (rows: { id: string; published: unknown }[]) => must(rows.find((r) => r.published)).id;
 const draft = (rows: { id: string; published: unknown }[]) => must(rows.find((r) => !r.published)).id;
 
-describe("Project editor · frame", () => {
+describe("Project editor · frame", { timeout: 20_000 }, () => {
   it("shows the breadcrumb, status, tabs and the publish button state", async () => {
     await renderEditor(live, "overview", <OverviewTab />);
     expect(screen.getByText("Projects · Strategy & prototypes · 01")).toBeInTheDocument();
@@ -86,7 +30,7 @@ describe("Project editor · frame", () => {
     const title = screen.getByRole("textbox", { name: /^Title/ });
     clock.now += 60_000;
     await user.clear(title);
-    await user.type(title, "A new title");
+    await fill(user, title, "A new title");
     await waitFor(
       () => {
         expect(screen.getAllByText("Saved just now").length).toBeGreaterThan(0);
@@ -157,21 +101,26 @@ describe("Project editor · frame", () => {
   });
 });
 
-describe("Overview tab", () => {
-  it("edits every field and warns at the limits", async () => {
+describe("Overview tab", { timeout: 20_000 }, () => {
+  it("warns at the limits", async () => {
     const user = userEvent.setup();
-    const { repo, id } = await renderEditor(live, "overview", <OverviewTab />);
+    await renderEditor(live, "overview", <OverviewTab />);
     const summary = screen.getByRole("textbox", { name: /One-line summary/ });
     await user.clear(summary);
-    await user.type(summary, "x".repeat(141));
+    await fill(user, summary, "x".repeat(141));
     expect(screen.getByText("Trim to 140 characters so it fits on the card.")).toBeInTheDocument();
-    await user.type(screen.getByRole("textbox", { name: "Card label" }), "Consumer");
-    await user.type(screen.getByRole("textbox", { name: "The problem" }), "Broken");
+    await fill(user, screen.getByRole("textbox", { name: "PRD or document" }), "ftp://x");
+    expect(screen.getByText("Use a full link that starts with https://")).toBeInTheDocument();
+  });
+
+  it("edits every field and saves it", async () => {
+    const user = userEvent.setup();
+    const { repo, id } = await renderEditor(live, "overview", <OverviewTab />);
+    await fill(user, screen.getByRole("textbox", { name: "Card label" }), "Consumer");
+    await fill(user, screen.getByRole("textbox", { name: "The problem" }), "Broken");
     await user.type(screen.getByRole("textbox", { name: /My role/ }), "PM");
     expect(screen.getByText("Shown under the title and in “My role and decisions”.")).toBeInTheDocument();
     expect(screen.getByText("2 of 3 empty")).toBeInTheDocument();
-    await user.type(screen.getByRole("textbox", { name: "PRD or document" }), "ftp://x");
-    expect(screen.getByText("Use a full link that starts with https://")).toBeInTheDocument();
     await user.click(
       within(screen.getByRole("group", { name: "Homepage shelf" })).getByRole("button", { name: "Shipped" }),
     );

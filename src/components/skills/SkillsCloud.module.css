@@ -136,8 +136,9 @@
   opacity: 0.3;
 }
 
+/* The board sets only margin-top, so the paragraph keeps its default 1em below. */
 .hint {
-  margin: 22px 0 0;
+  margin: 22px 0 1em;
   text-align: center;
   font-family: var(--fm);
   font-size: 12px;
@@ -200,8 +201,6 @@
   }
   .g button {
     font-size: 50px;
-    /* 43px at this size; one more makes the 44px touch target (08 · Targets). */
-    min-height: 44px;
   }
   .xl {
     font-size: 34px;

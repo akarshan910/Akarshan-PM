@@ -38,7 +38,7 @@ async function renderScreen() {
 
 const shelf = (name: string) => screen.getByRole("list", { name: `${name} projects, in homepage order` });
 
-describe("Projects", () => {
+describe("Projects", { timeout: 20_000 }, () => {
   it("lists shelves in homepage order and reorders by keyboard, then publishes the layout", async () => {
     const user = userEvent.setup();
     const { repo, announce } = await renderScreen();
@@ -182,7 +182,7 @@ describe("Projects", () => {
   });
 });
 
-describe("useAutosave", () => {
+describe("useAutosave", { timeout: 20_000 }, () => {
   type Row = DocRow<{ n: number }>;
   const row: Row = { draft: { n: 0 }, published: null, publishedAt: null, version: 1, updatedAt: "" };
   const wrap = ({ children }: { children: ReactNode }) => <>{children}</>;

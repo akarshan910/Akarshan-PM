@@ -310,12 +310,18 @@ describe("usage", () => {
       projects: [{ id: "p1", draft: p }],
       posts: [{ id: "x", draft: post }],
     });
-    expect(uses.map((u) => u.href)).toEqual([
-      "/studio/website/profile",
-      "/studio/projects/p1/visuals",
-      "/studio/writing/x",
+    expect(uses.map((u) => [u.href, u.where])).toEqual([
+      ["/studio/website/profile", "About photo"],
+      ["/studio/projects/p1/visuals", "Prototype poster"],
+      ["/studio/projects/p1/visuals", "Gallery"],
+      ["/studio/projects/p1/story", "Story · Untitled chapter"],
+      ["/studio/projects/p1/settings", "Link preview"],
+      ["/studio/writing/x", "Cover"],
+      ["/studio/writing/x", "Image"],
     ]);
-    expect(uses.map((u) => u.title)).toEqual(["Profile & facts", "Untitled project", "Untitled post"]);
+    expect(new Set(uses.map((u) => u.title))).toEqual(
+      new Set(["Profile & facts", "Untitled project", "Untitled post"]),
+    );
   });
 });
 

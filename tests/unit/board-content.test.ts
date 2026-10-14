@@ -5,6 +5,7 @@ import { buildHomeView, listedProjects } from "~/lib/site";
 import { writingIndex } from "~/lib/writing";
 
 import { boardDocuments, boardsFixture, loadBoardContent } from "../fixtures/board-content";
+import { atWidth, fixtureWidth } from "../fixtures/board-widths";
 
 describe("the boards fixture (08 · Pixel parity)", () => {
   it("is made of documents that pass the schemas", () => {
@@ -56,5 +57,25 @@ describe("the boards fixture (08 · Pixel parity)", () => {
       ["[Post title 5]", 5],
     ]);
     expect(writing?.intro).toBe("[One line on what you write about.]");
+  });
+
+  it("has the iPad and phone boards' copy per width (D70), still valid documents", () => {
+    expect([fixtureWidth(undefined), fixtureWidth("834"), fixtureWidth("390"), fixtureWidth("x")]).toEqual([
+      1440, 834, 390, 1440,
+    ]);
+    expect(atWidth(1440, boardDocuments)).toBe(boardDocuments);
+    for (const width of [834, 390] as const) {
+      const docs = atWidth(width, boardDocuments);
+      expect(Profile.safeParse(docs.profile).error?.issues).toBeUndefined();
+      for (const p of docs.projects) {
+        expect(Project.safeParse(p.document).error?.issues, `${p.slug} @${String(width)}`).toBeUndefined();
+      }
+    }
+    // The base documents are untouched.
+    expect(boardDocuments.profile.about.body[0]).toMatch(/^Eight years/);
+    expect(loadBoardContent(390).profile.about.body[0]).toMatch(/^Four years/);
+    expect(
+      loadBoardContent(834).projects.find((p) => p.slug === "arcana-workspace")?.project.overview.cardLabel,
+    ).toBe("Fintech B2B");
   });
 });

@@ -2,7 +2,17 @@
  * Sign-in by email code (05 · Sign-in; StudioLogin, every state; StudioAuthFlow paths 1–6).
  * The brand panel and the form column on laptop and iPad; the wordmark above the form on phones.
  */
-import { useCallback, useEffect, useId, useRef, useState, type FormEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 
 import { Alert } from "../Banner";
 import buttons from "../Button.module.css";
@@ -348,7 +358,7 @@ export function Login({
 
           {emailStep ? (
             <form onSubmit={onSubmit} noValidate>
-              <h2 className={styles.h2}>Sign in to Studio</h2>
+              <FormTitle>Sign in to Studio</FormTitle>
               <p className={styles.intro}>
                 Studio is private. Enter the email address that owns this portfolio, and we’ll send you a{" "}
                 {CODE_LENGTH}-digit code.
@@ -444,9 +454,7 @@ export function Login({
                 <Icon name="arrow-left" size={16} />
                 Use a different email
               </button>
-              <h2 className={styles.h2} style={{ marginTop: 18 }}>
-                Check your email
-              </h2>
+              <FormTitle style={{ marginTop: 18 }}>Check your email</FormTitle>
               <p className={styles.intro}>
                 If <b className={styles.strong}>{maskEmail(normaliseEmail(email))}</b> owns this site, a{" "}
                 {CODE_LENGTH}-digit code is on its way. It expires in 10 minutes.
@@ -544,9 +552,7 @@ export function Login({
               <div className={styles.okTile}>
                 <Icon name="tick" size={26} />
               </div>
-              <h2 className={styles.h2} style={{ marginTop: 22 }}>
-                Welcome back
-              </h2>
+              <FormTitle style={{ marginTop: 22 }}>Welcome back</FormTitle>
               <p className={styles.intro}>You’re signed in on this device until you sign out.</p>
               <button
                 type="button"
@@ -568,9 +574,7 @@ export function Login({
               <div className={styles.errTile}>
                 <Icon name="padlock" size={26} />
               </div>
-              <h2 className={styles.h2} style={{ marginTop: 22 }}>
-                This account can’t open Studio
-              </h2>
+              <FormTitle style={{ marginTop: 22 }}>This account can’t open Studio</FormTitle>
               <p className={styles.intro}>
                 Studio is private to the site owner. You’ve been signed out, and nothing was created or
                 shared.
@@ -592,5 +596,30 @@ export function Login({
         </div>
       </main>
     </div>
+  );
+}
+
+const PHONE = "(max-width: 767px)";
+function subscribePhone(cb: () => void) {
+  if (typeof window.matchMedia !== "function") return () => undefined;
+  const mq = window.matchMedia(PHONE);
+  mq.addEventListener("change", cb);
+  return () => {
+    mq.removeEventListener("change", cb);
+  };
+}
+const isPhone = () => typeof window.matchMedia === "function" && window.matchMedia(PHONE).matches;
+
+/**
+ * The form's title: an h2 beside the panel's h1, and the page's h1 on phones, where the panel
+ * isn't shown (QA-S3; looks the same either way).
+ */
+function FormTitle({ style, children }: { style?: CSSProperties; children: ReactNode }) {
+  const phone = useSyncExternalStore(subscribePhone, isPhone, () => false);
+  const H = phone ? "h1" : "h2";
+  return (
+    <H className={styles.h2} style={style}>
+      {children}
+    </H>
   );
 }

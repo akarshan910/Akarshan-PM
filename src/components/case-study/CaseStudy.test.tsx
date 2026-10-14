@@ -100,8 +100,8 @@ describe("CaseStudyPage", () => {
     expect(within(summary).getByText("Success measures")).toBeInTheDocument();
 
     const chapters = container.querySelectorAll("article section");
-    expect(chapters[0]?.id).toBe("ch-01");
-    expect(chapters[1]?.id).toBe("ch-02");
+    expect(chapters[0]?.getAttribute("data-chapter")).toBe("01");
+    expect(chapters[1]?.getAttribute("data-chapter")).toBe("02");
     const rail = screen.getAllByRole("navigation", { name: "Chapters" })[0];
     expect(rail).toHaveTextContent(`Chapters · ${chapters.length}`);
     expect(within(rail as HTMLElement).getAllByRole("link")[0]).toHaveAttribute("aria-current", "true");
@@ -180,8 +180,15 @@ describe("CaseStudyPage", () => {
 
     await user.click(bar);
     const links = within(sheet as HTMLElement).getAllByRole("link");
+    const scroll = vi.fn();
+    Element.prototype.scrollIntoView = scroll;
     await user.click(links[1] as HTMLElement);
     expect(bar).toHaveAttribute("aria-expanded", "false");
+    // QA-D5: the jump is done here, and focus lands on the chapter's heading.
+    const anchor = links[1]?.getAttribute("href")?.slice(1) ?? "";
+    expect(window.location.hash).toBe(`#${anchor}`);
+    expect(scroll).toHaveBeenCalledWith({ block: "start" });
+    expect(document.activeElement).toBe(document.getElementById(`${anchor}-t`));
   });
 });
 

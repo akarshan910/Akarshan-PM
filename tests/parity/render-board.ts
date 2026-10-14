@@ -6,6 +6,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 
 type Scope = Record<string, unknown>;
 type Vals = Scope;
@@ -74,12 +75,30 @@ function expand(s: string, scopes: Scope[]): string {
 }
 
 /**
+ * The boards load Archivo, Geist, Geist Mono and JetBrains Mono from Google Fonts; the site
+ * self-hosts the same families from @fontsource-variable (src/styles/fonts.css). Different builds
+ * of a font rasterise differently, which shows up as glyph-outline diffs. So the board render
+ * uses the site's own @font-face rules and files: both sides then draw identical glyphs, and what
+ * remains in a diff is layout. Bump RENDER_VERSION when this changes, to drop cached renders.
+ */
+const RENDER_VERSION = 2;
+
+function siteFonts(): string {
+  const dir = resolve("public/fonts");
+  if (!existsSync(resolve(dir, "archivo-latin-wdth-normal.woff2"))) {
+    throw new Error("public/fonts is missing: run a build or `node scripts/copy-fonts.ts` first");
+  }
+  const base = pathToFileURL(dir).href;
+  return readFileSync(resolve("src/styles/fonts.css"), "utf8").replaceAll('url("/fonts/', `url("${base}/`);
+}
+
+/**
  * Writes `qa/boards/parity/<name>.html` for the board in the given Tweaks and state, and returns
  * its path. Re-renders only when the board is newer than the output.
  */
 export function renderBoard(board: string, name: string, props: Scope = {}, state: Scope = {}): string {
   const file = resolve("design/boards", `${board}.dc.html`);
-  const out = resolve("qa/boards/parity", `${name}.html`);
+  const out = resolve("qa/boards/parity", `${name}.v${RENDER_VERSION}.html`);
   if (existsSync(out) && statSync(out).mtimeMs > statSync(file).mtimeMs) return out;
 
   const html = readFileSync(file, "utf8");
@@ -114,9 +133,11 @@ export function renderBoard(board: string, name: string, props: Scope = {}, stat
   instance.state = { ...instance.state, ...state };
   const vals = instance.renderVals();
 
-  const helmet = html.slice(html.indexOf("<helmet>") + 8, html.indexOf("</helmet>"));
+  const helmet = html
+    .slice(html.indexOf("<helmet>") + 8, html.indexOf("</helmet>"))
+    .replace(/<link[^>]*fonts\.(googleapis|gstatic)\.com[^>]*>/g, "");
   const markup = html.slice(html.indexOf("</helmet>") + 9, html.indexOf("</x-dc>"));
-  const page = `<!doctype html><html><head><meta charset="utf-8">${helmet}<style>sc-for,sc-if{display:contents}</style></head><body>${expand(markup, [vals])}</body></html>`;
+  const page = `<!doctype html><html><head><meta charset="utf-8">${helmet}<style>${siteFonts()}</style><style>sc-for,sc-if{display:contents}</style></head><body>${expand(markup, [vals])}</body></html>`;
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, page);
   return out;

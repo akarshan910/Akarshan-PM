@@ -117,7 +117,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 - [x] Home with every section in the V0 order, at 1440, 834 and 390.
 - [x] Hero: ink panel, layers, speed lines, brush, floating previews, tilt and drift.
 - [x] Proof strip, Strategy & prototypes shelf (Shipped stays hidden in V0), About, Experience, Skills, Testimonials, Off duty, Contact, footer.
-- [ ] Motion layer, all of [04](04-motion.md), with reduced-motion variants. _Built with the pages; waits for a motion audit against every entry in 04 (duration, easing, delay, reduced motion)._
+- [x] Motion layer, all of [04](04-motion.md), with reduced-motion variants.
 - [x] `/work` list: filters, search, sort, load 24 at a time.
 - [x] `/work/:slug` case study for all five V0 projects, every block type, at all three sizes.
 - [x] `/writing` and `/writing/:slug`. V0 has no posts, so `/writing` returns the 404 page and the homepage section is hidden.
@@ -147,14 +147,14 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
   - save status.
 - [ ] Sign-in by email code and every path on `StudioAuthFlow`. See [05](05-studio.md#sign-in).
 - [x] Dashboard.
-- [ ] Website builder: outline, order, show or hide, nav labels, section settings, floating previews, skill sizes, off duty items, add section, live preview, publish website.
-- [ ] Profile & facts, with confirm states.
+- [ ] Website builder: outline, order, show or hide, nav labels, section settings, floating previews, skill sizes, off duty items, add section, live preview, publish website. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
+- [ ] Profile & facts, with confirm states. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
 - [x] Projects list: order, lead star, menu, filters, layout publish bar.
-- [ ] Project editor: Overview, Visuals, Story, Outcomes, URL & SEO, with autosave, conflict, offline and publish checks.
-- [ ] Writing: list, editor, settings with the topic picker, schedule, publish.
-- [ ] Media library.
-- [ ] Draft preview and share links.
-- [ ] Every state on `StudioStates`.
+- [ ] Project editor: Overview, Visuals, Story, Outcomes, URL & SEO, with autosave, conflict, offline and publish checks. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
+- [ ] Writing: list, editor, settings with the topic picker, schedule, publish. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
+- [ ] Media library. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
+- [x] Draft preview and share links.
+- [ ] Every state on `StudioStates`. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
 - [ ] iPad and phone layouts.
 
 ### M5 · Publishing and SEO

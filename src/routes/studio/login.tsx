@@ -38,7 +38,8 @@ export default function StudioLogin({ loaderData }: Route.ComponentProps) {
       signedOut={signedOut}
       sendNow={params.get("send") === "1"}
       onSignedIn={(to) => {
-        void navigate(to, { replace: true });
+        // The shell says "Signed in. N changes synced." when queued edits sync on arrival.
+        void navigate(to, { replace: true, state: { signedIn: true } });
       }}
     />
   );

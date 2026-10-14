@@ -350,14 +350,30 @@ export function postIssues(post: Post, ctx: Pick<CheckContext, "media">): Publis
   return out;
 }
 
-export function postChecks(post: Post): Check[] {
-  const out: Check[] = [];
+/** The publish dialog's lines (StudioWriting › `checks()`), blockers included. */
+export function postChecks(post: Post, issues: PublishIssue[] = []): (Check & { block?: boolean })[] {
+  const out: (Check & { block?: boolean })[] = [];
+  const blocked = new Set(issues.map((i) => i.field));
+  out.push(
+    blocked.has("title")
+      ? { ok: false, block: true, text: "Add a title." }
+      : { ok: true, text: "Title is set." },
+  );
   const words = postWords(post);
-  if (words < 300) out.push({ ok: false, text: `Short so far (${words} words). Publishing is still fine.` });
-  if (!post.excerpt?.trim()) out.push({ ok: false, text: "No excerpt: the first lines will be used." });
+  out.push(
+    words >= 150
+      ? { ok: true, text: `${words} words.` }
+      : { ok: false, text: `Short so far (${words} words). Publishing is still fine.` },
+  );
+  out.push(
+    post.excerpt?.trim()
+      ? { ok: true, text: "Excerpt is set." }
+      : { ok: false, text: "No excerpt: the first lines will be used." },
+  );
+  if (blocked.has("cover")) out.push({ ok: false, block: true, text: "The cover needs alt text." });
   out.push({
     ok: true,
-    text: post.showOnHome ? "Will show on your homepage's Writing section." : "Only on /writing and in RSS.",
+    text: post.showOnHome ? "Will show on your homepage’s Writing section." : "Only on /writing and in RSS.",
   });
   return out;
 }

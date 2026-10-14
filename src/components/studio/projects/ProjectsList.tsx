@@ -176,7 +176,7 @@ export function ProjectsList(props: ProjectsListProps) {
             <h1 className={styles.h1}>Projects</h1>
             <p className={styles.lede}>
               This order is your homepage order. Drag a row, or focus its handle and use the arrow keys.{" "}
-              <Link to="/studio/website" className={styles.u}>
+              <Link to="/studio/website" className={cx(styles.u, "t44")}>
                 Arrange the whole homepage in Website →
               </Link>
             </p>
@@ -205,6 +205,7 @@ export function ProjectsList(props: ProjectsListProps) {
               <button
                 key={f}
                 type="button"
+                className="t44"
                 aria-pressed={filter === f}
                 onClick={() => {
                   setFilter(f);
@@ -214,7 +215,7 @@ export function ProjectsList(props: ProjectsListProps) {
               </button>
             ))}
           </div>
-          <label className={styles.search}>
+          <label className={cx(styles.search, "t44")}>
             <span className="sr-only">Search projects</span>
             <StudioIcon name="search" className={cx("ico", styles.searchIco)} />
             <input
@@ -274,12 +275,12 @@ export function ProjectsList(props: ProjectsListProps) {
                   <span className="mono">{g.total} on this shelf</span>
                   <span className={styles.phoneCount}>{g.total}</span>
                 </div>
-                <Link to="/studio/website" className={styles.editShelf}>
+                <Link to="/studio/website" className={cx(styles.editShelf, "t44")}>
                   Edit shelf in Website
                 </Link>
                 <button
                   type="button"
-                  className={styles.reorderBtn}
+                  className={cx(styles.reorderBtn, "t44")}
                   aria-pressed={reorder === g.id}
                   onClick={() => {
                     setReorder(reorder === g.id ? null : g.id);
@@ -341,7 +342,10 @@ export function ProjectsList(props: ProjectsListProps) {
                         className={styles.thumb}
                         style={{ background: thumbBackground(r.row.draft.visuals.accent) }}
                       />
-                      <Link to={`/studio/projects/${r.row.id}/overview`} className={styles.titleCell}>
+                      <Link
+                        to={`/studio/projects/${r.row.id}/overview`}
+                        className={cx(styles.titleCell, "t44")}
+                      >
                         <span className={styles.title}>{r.title}</span>
                         <span className={styles.sub}>{r.sub}</span>
                         <span className={styles.phoneStatus}>

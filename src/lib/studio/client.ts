@@ -1,8 +1,9 @@
 /**
- * Picks the `StudioRepo` for this build. Until the Supabase repo exists (M3), development uses
- * the in-memory repo seeded from the V0 content. A production build never includes it: the
- * dynamic import sits behind `import.meta.env.DEV`, so Vite drops it, and Studio shows its
- * error state rather than editing anything fake.
+ * Picks the `StudioRepo` for this build. A production build talks to Supabase with the public
+ * URL and anon key (the only values the browser gets, besides the Turnstile site key); without
+ * them Studio shows its error state rather than editing anything fake. Development uses the
+ * in-memory repo seeded from the V0 content, which a production build never includes: its
+ * dynamic import sits behind `import.meta.env.DEV`, so Vite drops it.
  */
 import type { StudioRepo } from "./repo";
 
@@ -48,5 +49,10 @@ async function create(): Promise<StudioRepo> {
     (globalThis as { __studioRepo?: unknown }).__studioRepo = repo;
     return repo;
   }
-  throw new RepoUnavailable();
+  // Named one by one, so Vite inlines just these two public values (scripts/check-env.ts).
+  const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+  const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+  if (!url || !key) throw new RepoUnavailable();
+  const { supabaseRepo } = await import("./supabase");
+  return supabaseRepo(url, key);
 }

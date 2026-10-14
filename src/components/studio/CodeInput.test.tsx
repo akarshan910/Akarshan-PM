@@ -35,28 +35,28 @@ function Harness({
 }
 
 const boxes = () => [...document.querySelectorAll("[data-box]")];
-const input = () => screen.getByLabelText("6-digit code", { selector: "input" });
+const input = () => screen.getByLabelText("8-digit code", { selector: "input" });
 
 describe("CodeInput", () => {
   it("keeps only digits", () => {
     expect(digitsOnly("482 913")).toBe("482913");
-    expect(digitsOnly("12-34-56-78")).toBe("123456");
+    expect(digitsOnly("12-34-56-78-90")).toBe("12345678");
   });
 
-  it("is one labelled input over six hidden boxes, as on the board", () => {
+  it("is one labelled input over eight hidden boxes (Q9)", () => {
     render(<Harness />);
     const el = input();
     expect(el).toHaveAttribute("id", "otp-in");
     expect(el).toHaveAttribute("autocomplete", "one-time-code");
     expect(el).toHaveAttribute("inputmode", "numeric");
-    expect(el).toHaveAttribute("maxlength", "6");
+    expect(el).toHaveAttribute("maxlength", "8");
     expect(el).toHaveAttribute("aria-describedby", "otp-h");
     expect(el).toHaveAttribute("aria-invalid", "false");
-    expect(screen.getByRole("group", { name: "6-digit code" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "8-digit code" })).toBeInTheDocument();
     expect(document.getElementById("otp-h")).toHaveTextContent(
-      "Paste the code, or type it. It signs you in as soon as all six digits are in.",
+      "Paste the code, or type it. It signs you in as soon as all eight digits are in.",
     );
-    expect(boxes()).toHaveLength(6);
+    expect(boxes()).toHaveLength(8);
     for (const b of boxes()) expect(b).toHaveAttribute("aria-hidden", "true");
   });
 
@@ -67,7 +67,7 @@ describe("CodeInput", () => {
     expect(boxes()[0]).toHaveClass("cur");
     await user.keyboard("48a2");
     expect(input()).toHaveValue("482");
-    expect(boxes().map((b) => b.textContent)).toEqual(["4", "8", "2", "", "", ""]);
+    expect(boxes().map((b) => b.textContent)).toEqual(["4", "8", "2", "", "", "", "", ""]);
     expect(boxes()[3]).toHaveClass("cur");
     await user.tab();
     expect(boxes().some((b) => b.classList.contains("cur"))).toBe(false);
@@ -82,12 +82,12 @@ describe("CodeInput", () => {
     expect(boxes()[3]).toHaveTextContent("");
   });
 
-  it("paste drops the spaces and submits 150ms after the sixth digit", () => {
+  it("paste drops the spaces and submits 150ms after the last digit", () => {
     vi.useFakeTimers();
     const done = vi.fn();
     render(<Harness onComplete={done} />);
-    fireEvent.paste(input(), { clipboardData: { getData: () => "482 913" } });
-    expect(input()).toHaveValue("482913");
+    fireEvent.paste(input(), { clipboardData: { getData: () => "4829 1375" } });
+    expect(input()).toHaveValue("48291375");
     act(() => {
       vi.advanceTimersByTime(CODE_SUBMIT_DELAY - 1);
     });
@@ -95,7 +95,7 @@ describe("CodeInput", () => {
     act(() => {
       vi.advanceTimersByTime(1);
     });
-    expect(done).toHaveBeenCalledWith("482913");
+    expect(done).toHaveBeenCalledWith("48291375");
   });
 
   it("a paste with no digits is left to the browser", () => {
@@ -108,9 +108,9 @@ describe("CodeInput", () => {
   it("an edit within 150ms cancels the submit", () => {
     vi.useFakeTimers();
     const done = vi.fn();
-    render(<Harness onComplete={done} initial="48291" />);
-    fireEvent.change(input(), { target: { value: "482913" } });
-    fireEvent.change(input(), { target: { value: "48291" } });
+    render(<Harness onComplete={done} initial="4829137" />);
+    fireEvent.change(input(), { target: { value: "48291375" } });
+    fireEvent.change(input(), { target: { value: "4829137" } });
     act(() => {
       vi.advanceTimersByTime(500);
     });
@@ -119,7 +119,7 @@ describe("CodeInput", () => {
 
   it("wrong code: red boxes and aria-invalid; typing clears it", async () => {
     const user = userEvent.setup();
-    render(<Harness initial="482931" status="wrong" />);
+    render(<Harness initial="48293175" status="wrong" />);
     expect(input()).toHaveAttribute("aria-invalid", "true");
     for (const b of boxes()) expect(b).toHaveClass("bad");
     await user.click(input());
@@ -129,13 +129,13 @@ describe("CodeInput", () => {
   });
 
   it("code expired: the boxes are not red", () => {
-    render(<Harness initial="482913" status="expired" />);
+    render(<Harness initial="48291375" status="expired" />);
     for (const b of boxes()) expect(b).not.toHaveClass("bad");
     expect(input()).toHaveAttribute("aria-invalid", "false");
   });
 
   it("checking and locked: boxes .off and the input disabled", () => {
-    const { unmount } = render(<Harness initial="482913" status="checking" />);
+    const { unmount } = render(<Harness initial="48291375" status="checking" />);
     expect(input()).toBeDisabled();
     for (const b of boxes()) expect(b).toHaveClass("off");
     unmount();

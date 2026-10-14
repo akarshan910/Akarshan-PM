@@ -17,7 +17,19 @@ export const ALLOWED = 0.005;
  * scrolled to; it's hidden in section shots and compared once on its own.
  */
 const MASK_CSS = "iframe, time, [data-live] { visibility: hidden !important; }";
-const PILL = { board: ".pill", page: 'nav[aria-label="Primary"]' };
+const PILL: Section = { name: "nav", board: ".pill", page: 'nav[aria-label="Primary"]' };
+
+/**
+ * Home's boards draw "Work" highlighted at scroll 0, but M-NAV-PILL hides the highlight over the
+ * hero (04), so on Home the board's pill is compared with its highlight removed, as the page shows
+ * it at the top. Case studies keep it: "Work" is current there.
+ */
+const PILL_OVER_HERO: Section = {
+  ...PILL,
+  boardScript:
+    "document.querySelectorAll('.pill .on').forEach((e) => { e.classList.remove('on'); e.removeAttribute('aria-current'); })",
+  note: "highlight removed on the board: 04 · M-NAV-PILL hides it over the hero",
+};
 
 export type Section = {
   name: string;
@@ -30,6 +42,32 @@ export type Section = {
    * that include the page margins (WorkScale, WritingPublic) while the page element is `.wrap`.
    */
   band?: boolean;
+  /**
+   * Scripts run before the shots, on the board and on the page: to put a component in the page's
+   * state, or to mark one element for masking with `data-qa-mask` when CSS can't single it out.
+   */
+  boardScript?: string;
+  pageScript?: string;
+  /**
+   * Parts hidden on both sides before the shot, for content conflicts recorded in 09 (cite the
+   * decision in `note`). They compare as background, so the layout around them still counts.
+   */
+  mask?: { board: string[]; page: string[] };
+  /**
+   * Parts removed (`display: none`) before the shot, for 09 · D75 content that one side draws and
+   * the other doesn't (a figure, a cover, a pager): masking can't help when the heights differ.
+   */
+  collapse?: { board?: string[]; page?: string[] };
+  /**
+   * Crop each side at the bottom of this element (selector inside the section, per side), to
+   * compare the top of a section whose lower part is D75 content.
+   */
+  until?: { board: string; page: string };
+  /**
+   * Compare type instead of pixels: for 09 · D75 copy whose height follows its text, so a box diff
+   * can't pass, but its type (size, weight, line height, measure, colour, spacing above) must match.
+   */
+  type?: true;
   /** Raise to 0.01 only for glyph-antialiasing-only diffs, with a note (08 · Fonts). */
   allowed?: number;
   note?: string;
@@ -48,33 +86,57 @@ export type ParityCase = {
   /** The page width this case compares at; runs only in the parity project with that width. */
   width: number;
   path: string;
-  /** Compare the pill nav (pages that show it at the top of the board). */
-  pill?: boolean;
+  /** Compare the pill nav: as drawn, or "over-hero" (highlight hidden, M-NAV-PILL). */
+  pill?: boolean | "over-hero";
   sections: Section[];
 };
+
+/** The computed type of the first visible match, for `type` sections. */
+async function typeOf(page: Page, selector: string) {
+  const el = page.locator(selector).filter({ visible: true }).first();
+  await expect(el, `${selector} is missing`).toBeAttached();
+  return el.evaluate((e) => {
+    const cs = getComputedStyle(e);
+    return {
+      fontFamily: (cs.fontFamily.split(",")[0] ?? "").replace(/["']/g, "").trim(),
+      fontSize: cs.fontSize,
+      fontWeight: cs.fontWeight,
+      fontStretch: cs.getPropertyValue("font-stretch"),
+      lineHeight: cs.lineHeight,
+      letterSpacing: cs.letterSpacing,
+      color: cs.color,
+      marginTop: cs.marginTop,
+      width: `${Math.round(e.getBoundingClientRect().width)}px`,
+    };
+  });
+}
 
 async function settle(page: Page) {
   await page.evaluate(() => Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 4000))]));
   await page.waitForTimeout(250);
 }
 
-async function shoot(page: Page, selector: string, hide: string, band = false) {
+async function shoot(page: Page, selector: string, opts: { band?: boolean; until?: string } = {}) {
   const el = page.locator(selector).filter({ visible: true }).first();
   await expect(el, `${selector} is missing`).toBeAttached();
   await el.scrollIntoViewIfNeeded();
-  const options = { animations: "disabled", caret: "hide", style: `${MASK_CSS} ${hide}` } as const;
-  if (!band) return PNG.sync.read(await el.screenshot(options));
-  const box = await el.evaluate((e) => {
-    const r = e.getBoundingClientRect();
-    return { y: r.top + scrollY, height: r.height, width: document.documentElement.clientWidth };
-  });
-  return PNG.sync.read(
-    await page.screenshot({
-      ...options,
-      fullPage: true,
-      clip: { x: 0, y: box.y, width: box.width, height: box.height },
-    }),
+  const options = { animations: "disabled", caret: "hide", style: MASK_CSS } as const;
+  if (!opts.band && !opts.until) return PNG.sync.read(await el.screenshot(options));
+  const box = await el.evaluate(
+    (e, { band, until }) => {
+      const r = e.getBoundingClientRect();
+      const end = until ? e.querySelector(until)?.getBoundingClientRect().bottom : undefined;
+      if (until && end === undefined) throw new Error(`${until} is missing`);
+      return {
+        x: band ? 0 : r.left + scrollX,
+        y: r.top + scrollY,
+        width: band ? document.documentElement.clientWidth : r.width,
+        height: Math.round((end ?? r.bottom) - r.top),
+      };
+    },
+    { band: Boolean(opts.band), until: opts.until },
   );
+  return PNG.sync.read(await page.screenshot({ ...options, fullPage: true, clip: box }));
 }
 
 /** Copies the top-left w×h of a PNG, so differently sized crops can still be diffed. */
@@ -92,8 +154,22 @@ async function compareSection(
   info: TestInfo,
   hide: { board: string; page: string },
 ) {
-  const a = await shoot(boardPage, s.board, hide.board);
-  const b = await shoot(sitePage, s.page, hide.page, s.band);
+  if (s.boardScript) await boardPage.evaluate(s.boardScript);
+  if (s.pageScript) await sitePage.evaluate(s.pageScript);
+  // Masks and collapses go in before measuring, so crops see the final layout.
+  const css = (mask: string[] | undefined, collapse: string[] | undefined, extra: string) =>
+    [
+      extra,
+      `${[...(mask ?? []), "[data-qa-mask]"].join(", ")} { visibility: hidden !important; }`,
+      collapse?.length ? `${collapse.join(", ")} { display: none !important; }` : "",
+    ].join("\n");
+  await boardPage.addStyleTag({ content: css(s.mask?.board, s.collapse?.board, hide.board) });
+  await sitePage.addStyleTag({ content: css(s.mask?.page, s.collapse?.page, hide.page) });
+  const a = await shoot(boardPage, s.board, { ...(s.until ? { until: s.until.board } : {}) });
+  const b = await shoot(sitePage, s.page, {
+    ...(s.band ? { band: true } : {}),
+    ...(s.until ? { until: s.until.page } : {}),
+  });
   const w = Math.min(a.width, b.width);
   const h = Math.min(a.height, b.height);
   const diff = new PNG({ width: w, height: h });
@@ -130,7 +206,8 @@ export function defineParity(cases: ParityCase[]) {
       test.beforeEach(({ page }) => {
         test.skip(page.viewportSize()?.width !== c.width, `${c.name} is compared at ${c.width}`);
       });
-      const sections = c.pill ? [{ name: "nav", ...PILL }, ...c.sections] : c.sections;
+      const pill = c.pill === "over-hero" ? PILL_OVER_HERO : PILL;
+      const sections = c.pill ? [pill, ...c.sections] : c.sections;
       for (const s of sections) {
         test(s.name, async ({ page, browser }, info) => {
           if (s.note) info.annotations.push({ type: "note", description: s.note });
@@ -149,6 +226,12 @@ export function defineParity(cases: ParityCase[]) {
             board: isPill ? "" : `${PILL.board} { visibility: hidden !important; }`,
             page: isPill ? "" : `${PILL.page} { visibility: hidden !important; }`,
           };
+          if (s.type) {
+            const [want, got] = [await typeOf(boardPage, s.board), await typeOf(page, s.page)];
+            await ctx.close();
+            expect(got, `${s.name}: page type vs board`).toEqual(want);
+            return;
+          }
           const r = await compareSection(boardPage, page, c, s, info, hide);
           await ctx.close();
           expect(r, `board ${r.board}, page ${r.page}, ${r.differing} differ`).toMatchObject({ pass: true });

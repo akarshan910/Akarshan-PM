@@ -30,16 +30,35 @@ for (const width of [1440, 390]) {
     test.use({ viewport: { width, height: heightFor(width) }, hasTouch: isTouchWidth(width) });
     for (const p of PAGES.filter((p) => !p.placeholder)) {
       test(p.name, async ({ page }) => {
-        await page.goto(p.path);
-        // The hero entrance is ~1.6s (04 · On load); let every finite animation finish.
-        await page.evaluate(() =>
-          Promise.all(
-            document
-              .getAnimations()
-              .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
-              .map((a) => a.finished.catch(() => undefined)),
+        // `?qa=1` puts the floating previews in their rest slots (08 · Pixel parity › 2): they
+        // otherwise fade in and out on timers forever, and axe would catch one mid-fade. At rest
+        // they're at full opacity, so their contrast is still checked.
+        await page.goto(`${p.path}?qa=1`);
+        // Then wait until no finite animation or transition has run for two checks in a row: the
+        // hero entrance (~1.6s, 04 · On load) and anything hydration starts after it.
+        await expect
+          .poll(
+            async () =>
+              page.evaluate(
+                () =>
+                  document
+                    .getAnimations()
+                    .filter((a) => a.playState === "running")
+                    .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity).length,
+              ),
+            { intervals: [250], timeout: 10_000 },
+          )
+          .toBe(0);
+        await page.waitForTimeout(250);
+        expect(
+          await page.evaluate(
+            () =>
+              document
+                .getAnimations()
+                .filter((a) => a.playState === "running")
+                .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity).length,
           ),
-        );
+        ).toBe(0);
         expect(await axe(page)).toEqual([]);
       });
     }

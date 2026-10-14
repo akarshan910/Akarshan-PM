@@ -68,6 +68,8 @@ export interface MediaRow {
   filename: string;
   published: boolean;
   createdAt: string;
+  /** `og.jpg` exists: the 1200×630 crop around the focal point, made for covers. */
+  hasOg?: boolean;
 }
 
 /** Where a media row is used, for "Used in" and the delete check (06 · Storage). */
@@ -76,6 +78,8 @@ export interface MediaUse {
   /** Project or post id; absent for the profile. */
   id?: string;
   title: string;
+  /** Where in the document: "Cover", "Gallery", "Story · The bet", "About photo". */
+  where: string;
   /** A Studio path that opens the field, e.g. `/studio/projects/<id>/visuals`. */
   href: string;
 }
@@ -213,6 +217,11 @@ export interface MediaPort {
   ): Promise<MediaRow>;
   /** Uploads a new revision under the same id and bumps `rev` (D41). */
   replace(id: string, input: UploadInput): Promise<MediaRow>;
+  /**
+   * Makes (or remakes) `og.jpg`, the 1200×630 crop around the focal point: when an image becomes
+   * a cover, and again whenever its focal point moves (06 · Storage, step 5).
+   */
+  makeOg(id: string): Promise<MediaRow>;
   /** Refuses (returns the uses) while any draft or published document uses it. */
   remove(id: string): Promise<{ ok: true } | { ok: false; uses: MediaUse[] }>;
   uses(id: string): Promise<MediaUse[]>;

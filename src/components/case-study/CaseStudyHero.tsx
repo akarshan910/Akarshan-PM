@@ -224,7 +224,7 @@ function PrototypeHeading({ view, hero }: { view: CaseStudyView; hero: Prototype
           </div>
         </div>
       </div>
-      {hero.note ? <p className={cx(styles.heroNote, styles.notPhone)}>{hero.note}</p> : null}
+      {hero.note ? <p className={cx(styles.heroNote, styles.notPhone, styles.notIpad)}>{hero.note}</p> : null}
 
       {/* Phones */}
       <div className={cx(styles.protoCard, styles.notLaptop, styles.notIpad)}>

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   caseStudyFacts,
   caseStudyView,
-  chapterAnchor,
+  chapterAnchors,
   chapterNumber,
   companyLine,
   countWord,
@@ -105,7 +105,27 @@ describe("facts and lines", () => {
   it("numbers chapters from position", () => {
     expect(chapterNumber(0)).toBe("01");
     expect(chapterNumber(11)).toBe("12");
-    expect(chapterAnchor(3)).toBe("ch-04");
+    expect(
+      chapterAnchors([
+        "Objective",
+        "Who we’re solving for",
+        "Objective",
+        "",
+        "The GLP-1 app, 0→1",
+        "2024 plan",
+        "Summary",
+        "Ünïcode café",
+      ]),
+    ).toEqual([
+      "objective",
+      "who-we-re-solving-for",
+      "objective-2",
+      "chapter-04",
+      "the-glp-1-app-0-to-1",
+      "ch-2024-plan",
+      "summary-2",
+      "unicode-cafe",
+    ]);
   });
 });
 
