@@ -5,8 +5,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { buildHomeView } from "~/lib/site";
 import { loadLocalV0 } from "~/lib/sources/local-v0";
 
-import { Hero } from "./Hero";
-import { applyPose } from "./HeroFloaters";
+import { Hero, restartDrift } from "./Hero";
+import { applyPose, IPAD_QUERY, LAPTOP_QUERY } from "./HeroFloaters";
 
 const home = buildHomeView(loadLocalV0(new Date("2026-10-13T12:30:00Z")));
 const hero = home.sections.find((s) => s.kind === "hero");
@@ -16,7 +16,7 @@ let matching: string[] = [];
 let ioCallbacks: ((entries: { isIntersecting: boolean }[]) => void)[] = [];
 
 beforeEach(() => {
-  matching = ["(min-width: 1280px)", "(hover: hover) and (pointer: fine)"];
+  matching = [LAPTOP_QUERY, "(hover: hover) and (pointer: fine)"];
   ioCallbacks = [];
   vi.useFakeTimers();
   vi.stubGlobal(
@@ -131,7 +131,7 @@ describe("Hero motion", () => {
   });
 
   it("runs the single iPad floater at iPad widths", () => {
-    matching = ["(min-width: 768px) and (max-width: 1279px)"];
+    matching = [IPAD_QUERY];
     const { container } = renderHero();
     const pad = [...container.querySelectorAll<HTMLElement>(".flIpad a")];
     expect(visible(pad)).toBe(1);
@@ -205,6 +205,29 @@ describe("Hero motion", () => {
     for (const l of container.querySelectorAll(".rise")) if (l !== intro) end(l, "vaRise");
     end(container.querySelector("path[d^='M6 24']") ?? section, "vaInkDraw");
     expect(sessionStorage.getItem("va:intro")).toBe("1");
+  });
+
+  it("switches floater sets at the boards' 1100px, not the layout's 1279px (D67)", () => {
+    expect(LAPTOP_QUERY).toBe("(min-width: 1101px)");
+    expect(IPAD_QUERY).toBe("(min-width: 768px) and (max-width: 1100px)");
+  });
+
+  it("restarts the drift from rest when the hero comes back on screen", () => {
+    const hero = document.createElement("section");
+    const ink = document.createElement("div");
+    ink.dataset.ink = "";
+    hero.append(ink);
+    const names: string[] = [];
+    ink.getBoundingClientRect = () => {
+      names.push(ink.style.animationName);
+      return new DOMRect();
+    };
+    restartDrift(hero);
+    expect(names).toEqual(["none"]);
+    expect(ink.style.animationName).toBe("");
+    expect(() => {
+      restartDrift(document.createElement("section"));
+    }).not.toThrow();
   });
 
   it("applyPose ignores a missing card", () => {

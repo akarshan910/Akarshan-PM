@@ -155,9 +155,10 @@
   position: relative;
   display: inline-flex;
 }
+/* The board's "Your order ▾" button: 14px padding, the text, an 8px gap and the 8px caret. */
 .sort {
   appearance: none;
-  padding-right: 32px;
+  padding-right: 30px;
   background: transparent;
 }
 .sort option {
@@ -166,7 +167,7 @@
 }
 .caret {
   position: absolute;
-  right: 12px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
   font: 500 13px/1 var(--fm);
@@ -460,4 +461,25 @@ a.row:focus-visible {
   .more {
     width: 100%;
   }
+}
+
+/* Result labels in the list use WorkScale.dc.html's `.r3 .tag` (22px tall, 0 7px, 14% fills and
+ * lighter borders), not Home's. Doubled to win over the label's own class. */
+.tag.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 7px;
+}
+.tag.tag[data-result="achieved"] {
+  background: rgba(60, 203, 139, 0.14);
+}
+.tag.tag[data-result="output"] {
+  background: rgba(255, 90, 103, 0.14);
+}
+.tag.tag[data-result="target"] {
+  border-color: rgba(242, 241, 238, 0.3);
+}
+.tag.tag[data-result="projected"] {
+  border-color: rgba(242, 241, 238, 0.4);
 }

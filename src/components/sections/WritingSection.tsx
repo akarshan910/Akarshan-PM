@@ -41,7 +41,12 @@ export function WritingSection({ section, posts }: SectionProps) {
           <li key={p.slug}>
             <Link to={p.href} className={styles.card}>
               {p.cover ? (
-                <Image image={p.cover} className={styles.cover} sizes="(max-width: 767px) 100vw, 400px" />
+                <Image
+                  image={p.cover}
+                  className={styles.cover}
+                  ratio="16 / 9"
+                  sizes="(max-width: 767px) 100vw, 400px"
+                />
               ) : null}
               <span className={cx(styles.mono, styles.cardMeta)}>
                 {postDate(p.publishedAt)} · {minutes(p.readingMinutes)}

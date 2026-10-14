@@ -180,8 +180,15 @@ describe("CaseStudyPage", () => {
 
     await user.click(bar);
     const links = within(sheet as HTMLElement).getAllByRole("link");
+    const scroll = vi.fn();
+    Element.prototype.scrollIntoView = scroll;
     await user.click(links[1] as HTMLElement);
     expect(bar).toHaveAttribute("aria-expanded", "false");
+    // QA-D5: the jump is done here, and focus lands on the chapter's heading.
+    const anchor = links[1]?.getAttribute("href")?.slice(1) ?? "";
+    expect(window.location.hash).toBe(`#${anchor}`);
+    expect(scroll).toHaveBeenCalledWith({ block: "start" });
+    expect(document.activeElement).toBe(document.getElementById(`${anchor}-t`));
   });
 });
 

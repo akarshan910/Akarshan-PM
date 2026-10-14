@@ -32,8 +32,10 @@ export interface FloaterCard {
   href: string;
 }
 
-const LAPTOP_QUERY = "(min-width: 1280px)";
-const IPAD_QUERY = "(min-width: 768px) and (max-width: 1279px)";
+// The boards hide the laptop set at 1100px and below (Home.dc.html `.tz`), so 1101–1279 keeps the
+// laptop set although the rest of the page uses the iPad layout there (D67).
+export const LAPTOP_QUERY = "(min-width: 1101px)";
+export const IPAD_QUERY = "(min-width: 768px) and (max-width: 1100px)";
 
 type Mode = "laptop" | "ipad" | "none";
 

@@ -179,7 +179,7 @@ export function WorkList({ rows, shelves, query, onChange, moved, onDismissMoved
         id={id}
         type="search"
         className={styles.search}
-        placeholder="Search work"
+        placeholder={`Search ${String(rows.length)} volumes`}
         autoComplete="off"
         value={value}
         onChange={(e) => {

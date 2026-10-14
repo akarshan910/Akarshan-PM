@@ -8,12 +8,6 @@ export type Known = { id: string; note: string; pages: string[]; when: (width: n
 
 export const KNOWN: Known[] = [
   {
-    id: "QA-D5",
-    note: "Choosing a chapter in the sheet leaves focus on <body>: the link's own fragment navigation runs after onClick focuses the h2 (ChapterNav.tsx:143)",
-    pages: ["chapter sheet focus"],
-    when: () => true,
-  },
-  {
     id: "QA-S1",
     note: "Studio phone: the fixed bottom tab bar fully covers focused dashboard cards (2.4.11); add scroll-padding for the bars",
     pages: ["studio dashboard focus"],

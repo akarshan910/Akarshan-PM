@@ -155,4 +155,16 @@ test.describe("Home", () => {
     await page.clock.runFor(700 + 1300 + 60);
     await expect.poll(() => cards.nth(3).evaluate((e) => (e as HTMLElement).style.opacity)).toBe("1");
   });
+
+  test("between 1101 and 1279 the laptop floaters show, as on the boards (D67)", async ({ page }) => {
+    test.skip(isPhone(page), "Laptop project only");
+    await page.setViewportSize({ width: 1200, height: 900 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    await expect(page.locator("[class*='flLaptop']")).toBeVisible();
+    await expect(page.locator("[class*='flIpad']")).toBeHidden();
+    await page.setViewportSize({ width: 1100, height: 900 });
+    await expect(page.locator("[class*='flLaptop']")).toBeHidden();
+    await expect(page.locator("[class*='flIpad']")).toBeVisible();
+  });
 });
