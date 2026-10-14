@@ -21,6 +21,27 @@ import { pathToFileURL } from "node:url";
 
 export const MIGRATIONS_DIR = "supabase/pm/migrations";
 
+/** Schemas a body may not name, except for the allowed objects below (Supabase's and lumina's). */
+const GUARDED_SCHEMAS = new Set([
+  "public",
+  "auth",
+  "storage",
+  "cron",
+  "vault",
+  "net",
+  "extensions",
+  "realtime",
+  "graphql",
+  "graphql_public",
+  "pgsodium",
+  "supabase_functions",
+  "supabase_migrations",
+  "pg_catalog",
+  "information_schema",
+]);
+/** The only objects outside pm that a function or do-block body may name. */
+const BODY_ALLOWED = new Set(["auth.uid", "auth.jwt", "vault.decrypted_secrets", "net.http_post"]);
+
 /** Tables that have RLS on and, by design, no policies (06 · Row-level security). */
 const POLICY_LESS = new Set(["owners", "schema_migrations"]);
 
@@ -201,6 +222,18 @@ export function lintSql(file: string, sql: string): Finding[] {
     const before = text.slice(Math.max(0, (m.index ?? 0) - 20), m.index).toLowerCase();
     if (name === "users" && /references\s*$/.test(before)) continue;
     add(`touches auth.${name}; only auth.uid(), auth.jwt() and references auth.users are allowed`);
+  }
+
+  // Bodies of functions and do-blocks: no dynamic SQL, and nothing outside pm but the allowlist.
+  for (const body of text.matchAll(/(\$[A-Za-z_]*\$)([\s\S]*?)\1/g)) {
+    const code = (body[2] ?? "").replace(/'(?:[^']|'')*'/g, "''").toLowerCase();
+    if (/\bexecute\b/.test(code)) add("a function or do-block body uses execute (dynamic SQL)");
+    if (/\bformat\s*\(/.test(code)) add("a function or do-block body uses format() (dynamic SQL)");
+    for (const m of code.matchAll(/\b([a-z_][a-z0-9_]*)\s*\.\s*([a-z_][a-z0-9_]*)/g)) {
+      const schema = m[1] ?? "";
+      const name = `${schema}.${m[2] ?? ""}`;
+      if (GUARDED_SCHEMAS.has(schema) && !BODY_ALLOWED.has(name)) add(`a body names ${name}, outside pm`);
+    }
   }
 
   const statements = splitStatements(sql);

@@ -12,12 +12,7 @@
  */
 import { PGlite } from "@electric-sql/pglite";
 
-import {
-  runMigrations,
-  transactionBody,
-  type Migration,
-  type MigrationTarget,
-} from "../../scripts/migrate.ts";
+import { runMigrations, type Migration, type MigrationTarget } from "../../scripts/migrate.ts";
 
 export const SUPABASE_STUBS = /* sql */ `
 create role anon nologin noinherit;
@@ -100,15 +95,15 @@ export type Db = PGlite;
 
 export function migrationTarget(db: Db): MigrationTarget {
   return {
-    async applied() {
-      const r = await db.query<{ t: string | null }>("select to_regclass('pm.schema_migrations')::text as t");
-      if (!r.rows[0]?.t) return new Set();
-      const rows = await db.query<{ version: string }>("select version from pm.schema_migrations");
-      return new Set(rows.rows.map((x) => x.version));
-    },
-    async apply(m: Migration) {
+    query: async <T>(sql: string, params: unknown[] = []) => (await db.query<T>(sql, params)).rows,
+    async transaction(fn) {
       await db.transaction(async (tx) => {
-        for (const part of transactionBody(m)) await tx.exec(part);
+        await fn(
+          async <T>(sql: string, params: unknown[] = []) => (await tx.query<T>(sql, params)).rows,
+          async (sql) => {
+            await tx.exec(sql);
+          },
+        );
       });
     },
   };

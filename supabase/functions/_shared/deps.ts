@@ -14,8 +14,8 @@ export interface Sql {
 export type Bucket = "pm-media-draft" | "pm-media-public";
 
 export interface StoragePort {
-  /** Object names under `prefix` (e.g. `<id>/r1/`) in a bucket. */
-  list(bucket: Bucket, prefix: string): Promise<string[]>;
+  /** Object names under `prefix` (e.g. `<id>/r1/`) in a bucket; with `before`, only older objects. */
+  list(bucket: Bucket, prefix: string, before?: Date): Promise<string[]>;
   /** Copies one object from the draft bucket into the public one, overwriting. */
   publish(name: string): Promise<void>;
   remove(bucket: Bucket, names: string[]): Promise<void>;

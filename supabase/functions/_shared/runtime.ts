@@ -65,10 +65,11 @@ function makeDeps(): Deps {
       },
     },
     storage: {
-      async list(bucket: Bucket, prefix: string) {
+      async list(bucket: Bucket, prefix: string, before?: Date) {
         const rows = await sql.query<{ name: string }>(
-          "select name from storage.objects where bucket_id = $1 and starts_with(name, $2) order by name",
-          [bucket, prefix],
+          `select name from storage.objects where bucket_id = $1 and starts_with(name, $2)
+             and ($3::timestamptz is null or created_at < $3) order by name`,
+          [bucket, prefix, before?.toISOString() ?? null],
         );
         return rows.map((r) => r.name);
       },

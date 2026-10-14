@@ -20,6 +20,8 @@ import { deploy, publishPostRow } from "./publish.ts";
 
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 export const PURGE_DAYS = 30;
+/** Draft files younger than this are never purged: their media row may not exist yet. */
+export const UPLOAD_GRACE_MS = 24 * 3600_000;
 const NIGHTLY_LIMIT = 200;
 
 export const projectHandler = handle("pm-project", async (req, deps) => {
@@ -154,7 +156,9 @@ export const purgeHandler = handle("pm-purge", async (req, deps) => {
     ["pm-media-draft", current],
     ["pm-media-public", live],
   ] as const) {
-    const names = (await deps.storage.list(bucket, "")).filter((n) => !keep.has(keyOf(n)));
+    // Studio uploads a file before it inserts its media row, so a young draft file may be in flight.
+    const before = bucket === "pm-media-draft" ? new Date(deps.now().getTime() - UPLOAD_GRACE_MS) : undefined;
+    const names = (await deps.storage.list(bucket, "", before)).filter((n) => !keep.has(keyOf(n)));
     for (let i = 0; i < names.length; i += 100) await deps.storage.remove(bucket, names.slice(i, i + 100));
     removed[bucket] = names.length;
   }

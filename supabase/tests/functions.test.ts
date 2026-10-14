@@ -322,9 +322,48 @@ describe("pm-publish · projects", () => {
     expect(
       (await db.query("select 1 from pm.projects where id = $1 and deleted_at is null", [id])).rows,
     ).toHaveLength(1);
+    // Undo of Unpublish: restore on a live-once, unpublished row puts its last live version back.
+    const [rev] = (
+      await db.query<{ published: unknown }>(
+        "select published from pm.project_revisions where project_id = $1 order by id desc limit 1",
+        [id],
+      )
+    ).rows;
+    expect(await body(await publish({ action: "restore", kind: "project", id }))).toMatchObject({
+      ok: true,
+      deployed: true,
+    });
+    const [back] = (
+      await db.query<{ published: unknown }>("select published from pm.projects where id = $1", [id])
+    ).rows;
+    expect(back?.published).toEqual(rev?.published);
+    // A draft that was never live has nothing to restore.
+    expect(
+      await body(
+        await publish({ action: "restore", kind: "project", id: projectIds.get("arcana-workspace") }),
+      ),
+    ).toMatchObject({
+      ok: true,
+      deployed: false,
+    });
     expect((await publish({ action: "publish", kind: "project", id: uuid("10000000", 999) })).status).toBe(
       404,
     );
+  });
+
+  it("publishes with a flagged RICE row, returning it as a warning (the boards' rule)", async () => {
+    const draft = await draftOf("puja-platform");
+    await setDraft("puja-platform", {
+      ...draft,
+      story: draft.story.map((c) => ({
+        ...c,
+        blocks: c.blocks.map((b) => (b.type === "table" ? { ...b, reviewed: [] } : b)),
+      })),
+    });
+    const res = await publish({ action: "publish", kind: "project", id: projectIds.get(slug) });
+    const b = await body<{ ok: boolean; warnings?: { message: string }[] }>(res);
+    expect(res.status, JSON.stringify(b)).toBe(200);
+    expect(b.warnings?.map((w) => w.message)).toEqual(["1 row needs a look."]);
   });
 
   it("changes who can find it with settings", async () => {
@@ -721,11 +760,16 @@ describe("posts, the scheduler and the purge", () => {
     const orphan = uuid("30000000", 77);
     world.files["pm-media-draft"].add(`${orphan}/r1/480.webp`);
     world.files["pm-media-public"].add(`${orphan}/r1/480.webp`);
+    const inFlight = uuid("30000000", 78);
+    world.files["pm-media-draft"].add(`${inFlight}/r1/480.webp`);
+    world.created.set(`${inFlight}/r1/480.webp`, new Date(world.clock.now.getTime() - 3600_000));
     await db.query("update pm.posts set deleted_at = now() - interval '31 days' where slug = 'broken'");
     const res = await purgeHandler(request("POST", "pm-purge", { token: SERVICE_KEY }), world.deps);
     expect(await body(res)).toMatchObject({ posts: 1 });
     expect(world.files["pm-media-draft"].has(`${orphan}/r1/480.webp`)).toBe(false);
     expect(world.files["pm-media-public"].has(`${orphan}/r1/480.webp`)).toBe(false);
+    // An hour-old upload without its media row yet stays.
+    expect(world.files["pm-media-draft"].has(`${inFlight}/r1/480.webp`)).toBe(true);
     const cover = coverIds.get("puja-engagement-platform") ?? "";
     // Live again since the pm-project test: its files stay in both buckets.
     expect(world.files["pm-media-public"].has(`${cover}/r1/1600.webp`)).toBe(true);

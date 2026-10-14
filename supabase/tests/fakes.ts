@@ -32,6 +32,7 @@ export interface FakeWorld {
   tokens: Map<string, string>;
   /** DNS answers by host; anything else resolves to a public documentation-free address. */
   dns: Map<string, string[]>;
+  created: Map<string, Date>;
   clock: { now: Date };
 }
 
@@ -41,6 +42,8 @@ export function fakeWorld(db: PGlite): FakeWorld {
   const responses = new Map<string, () => Response>();
   const tokens = new Map<string, string>();
   const dns = new Map<string, string[]>();
+  /** When a file was uploaded; files without an entry count as old. */
+  const created = new Map<string, Date>();
   const clock = { now: new Date() };
   let seed = 1;
   const deps: Deps = {
@@ -53,8 +56,12 @@ export function fakeWorld(db: PGlite): FakeWorld {
     },
     auth: { userId: (jwt) => Promise.resolve(tokens.get(jwt) ?? null) },
     storage: {
-      list: (bucket, prefix) =>
-        Promise.resolve([...files[bucket]].filter((n) => n.startsWith(prefix)).sort()),
+      list: (bucket, prefix, before) =>
+        Promise.resolve(
+          [...files[bucket]]
+            .filter((n) => n.startsWith(prefix) && (!before || (created.get(n) ?? new Date(0)) < before))
+            .sort(),
+        ),
       publish(name) {
         if (!files["pm-media-draft"].has(name)) return Promise.reject(new Error("missing"));
         files["pm-media-public"].add(name);
@@ -79,7 +86,7 @@ export function fakeWorld(db: PGlite): FakeWorld {
     now: () => clock.now,
     randomBytes: (n) => new Uint8Array(n).map(() => (seed = (seed * 1103515245 + 12345) % 256)),
   };
-  return { deps, files, calls, responses, tokens, dns, clock };
+  return { deps, files, calls, responses, tokens, dns, created, clock };
 }
 
 export function request(

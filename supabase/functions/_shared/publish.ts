@@ -159,7 +159,9 @@ export async function publishProjectRow(
     [row.slug, id],
   );
   if (taken) issues.push({ field: "seo.slug", message: "Another project already uses this address." });
-  const blocking = issues.filter((i) => !(i.code && options.allow?.has(i.code)));
+  // A flagged RICE row is a warning, as on the EditorCaseStudy and EditorOverview boards.
+  const warnings = issues.filter((i) => i.code === "rice-row");
+  const blocking = issues.filter((i) => i.code !== "rice-row" && !(i.code && options.allow?.has(i.code)));
   if (blocking.length > 0) throw blocked(blocking);
 
   const published = sanitizeProject(publishProject(draft, publicResolver(media)));
@@ -208,7 +210,7 @@ export async function publishProjectRow(
     return saved?.at ?? deps.now().toISOString();
   });
   const deployed = options.deploy === false ? false : await deploy(deps, `project:${row.slug}`);
-  return { ok: true, publishedAt: at, deployed };
+  return { ok: true, publishedAt: at, deployed, ...(warnings.length > 0 ? { warnings } : {}) };
 }
 
 interface PostRow {
@@ -315,13 +317,27 @@ async function changeState(deps: Deps, body: PublishBody & { id: string }): Prom
         [body.id],
       );
       break;
-    case "restore":
+    case "restore": {
+      // Undo of Delete: back from the bin. Undo of Unpublish: the last live version goes back up,
+      // with no checks, since it was live moments ago (05 · Projects).
       rows = await deps.sql.query(
         `update ${table} set deleted_at = null where id = $1 and deleted_at is not null
          returning slug, published is not null as live`,
         [body.id],
       );
+      if (rows.length === 0) {
+        const revisions = body.kind === "project" ? "pm.project_revisions" : "pm.post_revisions";
+        const key = body.kind === "project" ? "project_id" : "post_id";
+        rows = await deps.sql.query(
+          `update ${table} t set published = r.published, published_at = coalesce(t.published_at, now())
+           from (select published from ${revisions} where ${key} = $1 order by id desc limit 1) r
+           where t.id = $1 and t.published is null and t.deleted_at is null and t.published_slug is not null
+           returning t.slug, true as live`,
+          [body.id],
+        );
+      }
       break;
+    }
     case "settings": {
       if (body.kind !== "project") throw new HttpError(400, "bad-request");
       if (body.visibility === undefined && body.indexAllowed === undefined)
