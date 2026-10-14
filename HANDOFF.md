@@ -89,7 +89,7 @@ Pick up in this order. Each item lists the doc sections and boards to read.
 
 ## Decisions made during the build
 
-They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D52 (D49–D52 answer Q3, Q4, Q6 and Q10). Smaller deviations from the boards, already in the code:
+They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D53 (D49–D53 answer Q2, Q3, Q4, Q6 and Q10). Smaller deviations from the boards, already in the code:
 
 - **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px. Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
 - **Accordion:** it rotates a plus 45°, per 02 and the board, not 04's chevron.

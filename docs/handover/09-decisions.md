@@ -64,13 +64,14 @@ The reasoning behind the bigger decisions is in [`docs/story/02-decisions.md`](.
 | D50 | 15 Oct 2026 | **Sign-in email sender (Q4): Resend's free plan,** which the owner already uses. The shared project reuses that sender, with SPF, DKIM and DMARC on the site's domain | [06 · Supabase settings](06-backend.md#supabase-settings) |
 | D51 | 15 Oct 2026 | **Arcana's 143-character summary is published as is (Q6).** The owner edits it later in Studio | [07 · Projects](07-v0-content.md#projects) |
 | D52 | 15 Oct 2026 | **Shared Auth settings (Q10): yes.** Sign-ups off and 10-minute password-reset links, both fine for lumina. They're applied with the owner, after the owner exposes `pm` and runs `db:migrate`; these answers don't unblock touching the shared project by themselves | [06 · Auth](06-backend.md#auth) |
+| D53 | 15 Oct 2026 | **The site lives at `https://akarshan-pm.vercel.app` (Q2); there's no custom domain.** `SITE_URL`, `PM_SITE_URL`, canonical URLs, the sitemap and RSS use this origin; `PM_ALLOWED_ORIGINS` is it plus the dev origins; the Turnstile widget lists it and `localhost`. A `vercel.app` domain can't be verified in Resend, so D50's sender is still open: either lumina's existing Resend SMTP (the setting is shared by the project) or Supabase's built-in sender in development only. Launch item 4 waits for the owner's pick | [06 · Supabase settings](06-backend.md#supabase-settings), [09 · Launch checklist](#launch-checklist-owner) |
 
 ## Open questions
 
 | # | Needed before | Question | Recommendation and trade-off | Default if unanswered |
 | --- | --- | --- | --- | --- |
 | Q1 | M0 | ~~May the Figma Make scaffolding be removed (D1)?~~ Answered at the default, D47. | Yes. It's unused, it slows installs, and it hides what the site really depends on | Remove it |
-| Q2 | M5 | Which domain does the site use? | A short personal domain. It's needed for canonical URLs, the email sender and the Turnstile widget. Until then, the Vercel address works for everything but email deliverability | Build on the Vercel address; keep `SITE_URL` configurable |
+| Q2 | M5 | ~~Which domain does the site use?~~ Answered, D53. | A short personal domain. It's needed for canonical URLs, the email sender and the Turnstile widget. Until then, the Vercel address works for everything but email deliverability | Build on the Vercel address; keep `SITE_URL` configurable |
 | Q3 | M3 | ~~Which Vercel account hosts the site and the prototypes project?~~ Answered, D49. | The owner's existing account, where lumina-photography already runs. Two more projects fit the free plan | The owner's account |
 | Q4 | M3 | ~~Which email sender for sign-in codes?~~ Answered, D50. | Resend's free plan, on the site's domain with SPF, DKIM and DMARC. If lumina already has a custom sender in the shared project, reuse it: it's one setting | Supabase's built-in sender in development only. Launch waits for this |
 | Q5 | M6 | Three reds in the live nav and the CTA miss WCAG AA for small text: Let's Talk `#E8273A` (4.39:1 with white), its hover `#FF4D5E` (3.24:1), and the CTA hover `#E42A3F` (4.47:1). Keep them exactly, or adjust? | Adjust slightly: Let's Talk `#D61F33` (5.12:1, the site's CTA red), and both hovers `#C8202F` (5.67:1), darker instead of lighter. Nearly the same look, and it meets AA. Keeping them exact honours "copy the nav exactly", but fails the accessibility rule | Build the exact live values, and list them as known exceptions in QA |
@@ -92,7 +93,7 @@ These need the owner's accounts or decisions. The build agent prepares everythin
    4. Edge Functions: set `PM_DEPLOY_HOOK_URL`, `PM_ALLOWED_ORIGINS` and `PM_SITE_URL`, then deploy the `pm-` functions one by one.
    5. Vault: add `pm_service_role_key` for the cron jobs.
 3. **The owner's account:** `npm run setup:owner` with `OWNER_EMAIL`, `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in the shell.
-4. **Email:** the custom sender (Q4) with SPF, DKIM and DMARC, then send a test code to the owner's address.
+4. **Email:** the sender (Q4, D50, D53: with no custom domain, pick lumina's Resend SMTP or stay on the built-in sender for development) with SPF, DKIM and DMARC, then send a test code to the owner's address.
 5. **Turnstile:** create the widget (Q7). The site key goes in Vercel as `VITE_TURNSTILE_SITE_KEY`. The secret goes in Supabase › Attack Protection, switched on after Q8.
 6. **Vercel:**
    - create the site project with `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_TURNSTILE_SITE_KEY` and `SITE_URL`;
