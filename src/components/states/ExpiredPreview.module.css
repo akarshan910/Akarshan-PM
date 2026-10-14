@@ -1,0 +1,40 @@
+/* C21 · Expired preview. PublicStates.dc.html › Pages › Expired or revoked preview. */
+.root {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+}
+.icon {
+  color: #8f8d87;
+}
+.title {
+  margin: 12px 0 0;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.text {
+  margin: 8px 0 0;
+  max-width: 420px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #b9b7b1;
+}
+.actions {
+  margin-top: 16px;
+}
+
+/* On phones: one message and a full-width button. */
+@media (max-width: 767px) {
+  .actions {
+    display: grid;
+    width: 100%;
+  }
+  .actions > * {
+    height: 46px;
+  }
+}

@@ -1,0 +1,39 @@
+/* C21 · Error. PublicStates.dc.html › Pages › Something went wrong. */
+.root {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+}
+.title {
+  margin: 0;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.text {
+  margin: 8px 0 0;
+  max-width: 440px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #b9b7b1;
+}
+.actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+/* On phones: stacked, full-width buttons. */
+@media (max-width: 767px) {
+  .actions {
+    display: grid;
+    width: 100%;
+  }
+  .actions > * {
+    height: 46px;
+  }
+}

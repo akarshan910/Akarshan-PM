@@ -1,0 +1,61 @@
+/* C21 · No results. PublicStates.dc.html › Pages › No results on /work. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.end {
+  margin-left: auto;
+}
+.chip {
+  height: 30px;
+}
+.on {
+  background: #f2f1ee;
+  color: #0b0b0e;
+  border-color: #f2f1ee;
+}
+.body {
+  margin-top: 50px;
+  text-align: center;
+}
+.title {
+  margin: 0;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.text {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #b9b7b1;
+}
+.actions {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+@media (pointer: coarse) {
+  .chip {
+    min-height: 44px;
+  }
+}
+
+/* On phones: full-width buttons. */
+@media (max-width: 767px) {
+  .actions {
+    display: grid;
+  }
+  .actions > * {
+    height: 46px;
+  }
+}

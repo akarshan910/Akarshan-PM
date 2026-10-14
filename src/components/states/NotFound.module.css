@@ -1,0 +1,63 @@
+/* C21 · Not found. PublicStates.dc.html › Pages › Not found (404), and On phones. */
+.root {
+  max-width: 860px;
+}
+.code {
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: 120px;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(242, 241, 238, 0.25);
+}
+.title {
+  margin: 14px 0 0;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.text {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #b9b7b1;
+}
+.actions {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.phone {
+  display: none;
+}
+
+/* On phones: stacked, full-width buttons 46px tall, "one tap away". */
+@media (max-width: 767px) {
+  .code {
+    font-size: 110px;
+  }
+  .title {
+    font-size: 30px;
+  }
+  .text {
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  .actions {
+    margin-top: 18px;
+    display: grid;
+  }
+  .actions > * {
+    height: 46px;
+  }
+  .laptop {
+    display: none;
+  }
+  .phone {
+    display: inline;
+  }
+}
