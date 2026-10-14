@@ -30,3 +30,6 @@ qa/
 .vscode/*
 !.vscode/extensions.json
 public/fonts/
+
+# local agent worktrees
+.claude/worktrees/
