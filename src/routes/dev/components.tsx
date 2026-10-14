@@ -2,7 +2,8 @@ import "~/styles/studio.css";
 
 import type { Route } from "./+types/components";
 import MediaSpecimens from "./catalogue/media";
-import PublicSpecimens from "./catalogue/public";
+import PublicASpecimens from "./catalogue/publicA";
+import PublicBSpecimens from "./catalogue/publicB";
 import StudioSpecimens from "./catalogue/studio";
 
 export function meta(_: Route.MetaArgs) {
@@ -21,7 +22,8 @@ export default function Catalogue() {
         Components
       </h1>
       <p className="mono">Development only. Compare each specimen with the board named beside it.</p>
-      <PublicSpecimens />
+      <PublicASpecimens />
+      <PublicBSpecimens />
       <MediaSpecimens />
       <StudioSpecimens />
     </main>
