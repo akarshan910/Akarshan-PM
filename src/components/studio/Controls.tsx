@@ -8,13 +8,15 @@ interface SwitchProps {
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
   /** The visible label, inside the switch as on the boards. */
-  children: ReactNode;
+  children?: ReactNode;
+  /** The accessible name when the switch has no visible label ("Show {role} at {company} on the site"). */
+  label?: string | undefined;
   disabled?: boolean | undefined;
   id?: string | undefined;
 }
 
 /** `.sw`: Studio's switch (StudioWriting "Show on my homepage"). M-ST-SWITCH. */
-export function Switch({ checked, onCheckedChange, children, disabled, id }: SwitchProps) {
+export function Switch({ checked, onCheckedChange, children, label, disabled, id }: SwitchProps) {
   return (
     <RadixSwitch.Root
       className={styles.sw}
@@ -22,6 +24,7 @@ export function Switch({ checked, onCheckedChange, children, disabled, id }: Swi
       onCheckedChange={onCheckedChange}
       {...(disabled ? { disabled } : {})}
       {...(id ? { id } : {})}
+      {...(label ? { "aria-label": label } : {})}
     >
       <span className={styles.trk} aria-hidden="true">
         <RadixSwitch.Thumb className={styles.knb} />

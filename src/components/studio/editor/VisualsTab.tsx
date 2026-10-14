@@ -19,24 +19,13 @@ import { useEditor } from "./ProjectEditor";
 import styles from "./VisualsTab.module.css";
 import { ACCENT_COLOURS } from "~/lib/accents";
 import { ACCENTS, SOFT_LIMITS } from "~/lib/schemas";
+import { ACCENT_NAMES } from "~/lib/studio/format";
 import { prototypeProblem, videoHost } from "~/lib/studio/checks";
 import type { LinkStatus, MediaRow } from "~/lib/studio/repo";
 import type { Accent, MediaRef, Project, ProjectHero } from "~/lib/types";
 
 type Hero = ProjectHero;
 type Gallery = Project["visuals"]["gallery"];
-
-const ACCENT_NAMES: Record<Accent, string> = {
-  teal: "Teal",
-  amber: "Amber",
-  sky: "Sky",
-  violet: "Violet",
-  coral: "Coral",
-  slate: "Slate",
-  green: "Green",
-  yellow: "Yellow",
-  lime: "Lime",
-};
 
 const FRAMES = {
   phone: [128, 230, 18, "3px solid #3A2A2C"],
