@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 
+import { isHttpsUrl } from "~/lib/schemas";
 import { caseStudyFacts, type CaseStudyView, companyLine, lastCardSpan } from "~/lib/case-study";
 
 import { cx } from "../cx";
@@ -39,7 +40,7 @@ export function CaseStudyHeader({ view }: { view: CaseStudyView }) {
             <div key={fact.label} className={cx(styles.fact, fact.label === "Focus" && styles.factWide)}>
               <dt className={styles.mono}>{fact.label}</dt>
               <dd>
-                {fact.href ? (
+                {fact.href && isHttpsUrl(fact.href) ? (
                   <a href={fact.href} target="_blank" rel="noopener noreferrer">
                     {fact.value}
                     <span aria-hidden="true"> ↗</span>

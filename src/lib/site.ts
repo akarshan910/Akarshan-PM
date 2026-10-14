@@ -154,6 +154,38 @@ export function volumes(content: PublicContent, sections: Section[]): Map<string
   );
 }
 
+/**
+ * The profile cut down to what the visible sections show. Hidden sections and hidden items stay
+ * out of the page's data, not just out of its markup (10 · Security gates › Drafts).
+ */
+export function homeProfile(profile: ProfilePublished, sections: Section[]): ProfilePublished {
+  const ids = (kind: Section["kind"]) =>
+    new Set(sections.filter((s) => s.kind === kind).flatMap((s) => s.items.map((i) => i.id)));
+  const shown = (kind: Section["kind"]) => sections.some((s) => s.kind === kind);
+  const proof = ids("proof");
+  const about = ids("about");
+  const experience = ids("experience");
+  const skills = ids("skills");
+  const testimonials = ids("testimonials");
+  const offDuty = ids("offduty");
+  const { spaces, education, about: aboutPart, ...rest } = profile;
+  return {
+    ...rest,
+    about: {
+      body: about.has("text") ? aboutPart.body : [],
+      ...(about.has("points") && aboutPart.points ? { points: aboutPart.points } : {}),
+      ...(about.has("photo") && aboutPart.photo ? { photo: aboutPart.photo } : {}),
+    },
+    proof: profile.proof.filter((p) => proof.has(p.id)),
+    ...(spaces && proof.has("spaces") ? { spaces } : {}),
+    experience: profile.experience.filter((e) => experience.has(e.id)),
+    ...(education && shown("experience") ? { education } : {}),
+    skills: profile.skills.filter((g) => skills.has(g.id)),
+    testimonials: profile.testimonials.filter((t) => testimonials.has(t.id)),
+    offDuty: profile.offDuty.filter((o) => offDuty.has(o.id)),
+  };
+}
+
 export function buildHomeView(content: PublicContent): HomeView {
   const sections = publicSections(content);
   const numbers = volumes(content, sections);
@@ -169,10 +201,20 @@ export function buildHomeView(content: PublicContent): HomeView {
   return {
     chrome: buildChrome(content, sections),
     sections,
-    profile: content.profile,
+    profile: homeProfile(content.profile, sections),
     projects,
-    posts: content.posts.filter((p) => p.post.showOnHome),
+    posts: homePosts(content.posts, sections),
   };
+}
+
+/** The newest posts marked "Show on my homepage", only while a Writing section shows (03 · Writing). */
+export function homePosts(posts: PublicContent["posts"], sections: Section[]): PublicContent["posts"] {
+  const writing = sections.find((s) => s.kind === "writing");
+  if (!writing) return [];
+  return posts
+    .filter((p) => p.post.showOnHome)
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+    .slice(0, writing.writing?.latest ?? 3);
 }
 
 /** Every listed project with its volume, in volume order then publish order (03 · /work). */

@@ -10,6 +10,8 @@
  */
 import type { CSSProperties } from "react";
 
+import { safeHref } from "~/lib/links";
+
 import { cx } from "../cx";
 import { Icon } from "../icons";
 import { ResultLabel, type ResultType } from "../labels/ResultLabel";
@@ -71,7 +73,7 @@ export function LeadCard({ project, lazy = true, className }: CardProps) {
   const meta = metaLine(project);
   const outcomes = (project.outcomes ?? []).slice(0, 2);
   return (
-    <a className={cx(styles.card, styles.lead, className)} href={project.href}>
+    <a className={cx(styles.card, styles.lead, className)} href={safeHref(project.href)}>
       <div className={styles.leadMedia}>
         <Cover
           image={project.cover}
@@ -142,7 +144,7 @@ function Headline({ outcome }: { outcome: CardOutcome | undefined }) {
 export function StandardCard({ project, lazy = true, className }: CardProps) {
   const meta = metaLine(project);
   return (
-    <a className={cx(styles.card, styles.std, className)} href={project.href}>
+    <a className={cx(styles.card, styles.std, className)} href={safeHref(project.href)}>
       <div className={styles.stdMedia}>
         <Cover
           image={project.cover}
@@ -169,7 +171,7 @@ export function StandardCard({ project, lazy = true, className }: CardProps) {
 export function CompactRow({ project, lazy = true, className }: CardProps) {
   const h = project.headline;
   return (
-    <a className={cx(styles.row, className)} href={project.href}>
+    <a className={cx(styles.row, className)} href={safeHref(project.href)}>
       <Cover
         image={project.cover}
         accent={project.accent}

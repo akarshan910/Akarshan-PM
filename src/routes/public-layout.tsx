@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router";
+import { Outlet, type ShouldRevalidateFunctionArgs, useLocation } from "react-router";
 
 import { PillNav } from "~/components/nav/PillNav";
 import { loadPublicContent } from "~/lib/content.server";
@@ -17,6 +17,15 @@ export async function loader() {
     workLink: sections.find((s) => s.kind === "shelf" && s.nav)?.id,
     heroId: sections.find((s) => s.kind === "hero")?.id,
   };
+}
+
+/** The chrome never changes with the query string (a /work filter, a legacy ?open= link). */
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  return currentUrl.pathname === nextUrl.pathname ? false : defaultShouldRevalidate;
 }
 
 export default function PublicLayout({ loaderData }: Route.ComponentProps) {

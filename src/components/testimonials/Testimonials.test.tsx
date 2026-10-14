@@ -49,6 +49,11 @@ describe("TestimonialCard", () => {
     );
   });
 
+  it("never links a LinkedIn value that isn't https", () => {
+    render(<TestimonialCard {...item(1, { linkedin: "javascript:alert(1)" })} />);
+    expect(screen.queryByRole("link")).toBeNull();
+  });
+
   it("hides the link and role when they're empty", () => {
     const { container } = render(<TestimonialCard {...item(1, { role: "" })} />);
     expect(screen.queryByRole("link")).toBeNull();
