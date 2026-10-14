@@ -5,11 +5,17 @@ import { defineParity, type Section } from "./compare";
  * the boards' volume. Chapters 07 and 08 are Studio prompts on the boards, so the site shows six
  * (09 · D60); the chapter rail's list differs for the same reason and isn't compared.
  */
+/**
+ * 09 · D75: the boards draw the chapter numeral in different reds (CaseStudy's --pa #E8273A,
+ * CaseStudyMobile's #FF5A67), so the numeral is masked; the chapter around it is compared.
+ */
 const chapters = (board: (i: number) => string): Section[] =>
   [1, 2, 3, 4, 5, 6].map((i) => ({
     name: `chapter-0${i}`,
     board: board(i),
     page: `[data-chapter="0${i}"]`,
+    mask: { board: [".chn", ".cs-num"], page: ['[class*="_chn_"]'] },
+    note: "09 · D75: chapter numeral colour differs between boards",
   }));
 
 /**
@@ -45,7 +51,7 @@ const dek = (root: string): Section => ({
 const withoutFigure = (sections: Section[], figure: string): Section[] =>
   sections.map((x) =>
     x.name === "chapter-05"
-      ? { ...x, collapse: { board: [figure] }, note: "09 · D75: the board's drawn figure removed" }
+      ? { ...x, collapse: { board: [figure] }, note: "09 · D75: drawn figure removed, numeral masked" }
       : x,
   );
 
