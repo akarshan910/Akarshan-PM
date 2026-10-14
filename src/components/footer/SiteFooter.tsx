@@ -19,7 +19,7 @@ interface SiteFooterProps {
  */
 export function SiteFooter({ year, name, credit, updated, back }: SiteFooterProps) {
   return (
-    <footer className={styles.footer}>
+    <footer className={back ? `${styles.footer ?? ""} ${styles.withBack ?? ""}` : styles.footer}>
       <div className={styles.inner}>
         <span>
           © {year} {name}

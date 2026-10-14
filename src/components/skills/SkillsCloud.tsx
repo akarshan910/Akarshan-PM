@@ -66,6 +66,8 @@ export function SkillsCloud({ groups, reveal }: SkillsCloudProps) {
                 <button
                   id={id}
                   type="button"
+                  // 43px tall on phones: the 44px touch target comes from `hit44` (08 · Targets).
+                  className="hit44"
                   aria-pressed={pin === gi}
                   onClick={() => {
                     setPin((p) => (p === gi ? -1 : gi));
