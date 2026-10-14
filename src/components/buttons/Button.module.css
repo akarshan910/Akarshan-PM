@@ -1,0 +1,199 @@
+/*
+ * C3 · Buttons. `.cta` and `.cta2` are copied from Home.dc.html; ghost, destructive, icon and round
+ * buttons from System.dc.html and the Testimonials controls. Hover timings are Motion.dc.html's
+ * (M-CTA, M-BTN2): 200ms, plus a 120ms press, replacing Home's .25s (D20).
+ */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 2px;
+  background: #d61f33;
+  color: #fff;
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  transition:
+    background-color 0.2s var(--eo),
+    transform 0.2s var(--eo);
+}
+.cta:hover {
+  background: #e42a3f;
+  color: #fff;
+  transform: translateY(-2px);
+}
+.cta:active {
+  transform: scale(0.98);
+  transition-duration: 0.12s;
+}
+.cta:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 2px #fff,
+    inset 0 0 0 4px #d61f33;
+}
+/* Disabled: #2A2A31 fill, #6E6C68 text, no movement. */
+.cta[aria-disabled="true"],
+.cta[aria-disabled="true"]:hover,
+.cta[aria-disabled="true"]:active {
+  background: #2a2a31;
+  color: #6e6c68;
+  transform: none;
+  cursor: not-allowed;
+}
+/* Inside the phone menu (02 · C2): 54px. */
+.menu {
+  height: 54px;
+}
+
+.cta2 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 26px;
+  border: 1px solid var(--ln2);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--tx);
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s var(--eo);
+}
+.cta2:hover {
+  border-color: var(--tx3);
+  color: var(--tx);
+}
+/* "Full résumé" in Experience: the board's inline overrides. */
+.compact {
+  height: 44px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+.destructive {
+  border-color: rgba(255, 90, 103, 0.45);
+  color: #ff8a93;
+}
+.destructive:hover {
+  color: #ff8a93;
+}
+.cta2[aria-disabled="true"] {
+  border-color: var(--ln);
+  color: var(--tx3);
+  cursor: not-allowed;
+}
+
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px;
+  border: 0;
+  background: transparent;
+  color: var(--tx2);
+  font-family: var(--fu);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ghost:hover {
+  color: var(--tx2);
+}
+
+/* Full-width on phones: display flex, width 100%. */
+.block {
+  display: flex;
+  width: 100%;
+}
+
+/* 14px spinner: 2px ring, rgba(255,255,255,.35) with a white top. One turn in 800ms (2.4s reduced). */
+.spinner {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icon button (System board) and round arrow button (Testimonials). */
+.icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--ln);
+  background: transparent;
+  color: var(--tx2);
+  cursor: pointer;
+}
+.round {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--ln2);
+  background: transparent;
+  color: var(--tx);
+  cursor: pointer;
+}
+.round:disabled,
+.round[aria-disabled="true"] {
+  border-color: var(--ln);
+  color: var(--tx3);
+  cursor: default;
+}
+.icon:disabled,
+.icon[aria-disabled="true"] {
+  color: var(--tx3);
+  cursor: default;
+}
+
+/* M-CTA reduced: colour change only, no lift or press scale. */
+@media (prefers-reduced-motion: reduce) {
+  .cta:hover,
+  .cta:active {
+    transform: none;
+  }
+  .spinner {
+    animation-duration: 2.4s;
+  }
+}
+:global(html.still) .cta:hover,
+:global(html.still) .cta:active {
+  transform: none;
+}
+:global(html.still) .spinner {
+  animation-duration: 2.4s;
+}

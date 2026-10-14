@@ -1,0 +1,88 @@
+/*
+ * C4 · Section header. Laptop: Home.dc.html's header row (flex, wrap, flex-end, space-between).
+ * iPad: kicker then `.h2` (48px, 12px above). Phone: `.h2` 38px, 10px above.
+ */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-bottom: 40px;
+}
+.kicker {
+  font-family: var(--fm);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--act);
+}
+.title {
+  margin: 0;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.kicker + .title {
+  margin-top: 14px;
+}
+.muted {
+  color: var(--tx3);
+}
+.intro {
+  margin: 0;
+  max-width: 420px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--tx3);
+}
+/* About: gap 32px 64px, 48 below, a 480px intro at 17px in --tx2. */
+.wide {
+  gap: 32px 64px;
+  margin-bottom: 48px;
+}
+.wide .intro {
+  max-width: 480px;
+  font-size: 17px;
+  color: var(--tx2);
+}
+
+@media (max-width: 1279px) {
+  .head {
+    display: block;
+    margin-bottom: 32px;
+  }
+  .title {
+    font-size: 48px;
+  }
+  .kicker + .title {
+    margin-top: 12px;
+  }
+  /* The shelves show no intro on iPad or phones. */
+  .shelf .intro {
+    display: none;
+  }
+  .wide .intro {
+    margin-top: 18px;
+    max-width: none;
+  }
+}
+@media (max-width: 767px) {
+  .head {
+    margin-bottom: 24px;
+  }
+  .title {
+    font-size: 38px;
+  }
+  .kicker + .title {
+    margin-top: 10px;
+  }
+  .wide .intro {
+    margin-top: 14px;
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,91 @@
+/*
+ * A project cover: the cover ground holds the exact box, then the image fades in (M-IMG-FADE).
+ * Without an image, the generated cover: screentone and the outlined volume number in the accent
+ * (WorkScale.dc.html's cover without art).
+ */
+.cv {
+  position: relative;
+  overflow: hidden;
+  background: var(--pg);
+}
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.32s var(--eo);
+}
+:global(html.js) .img[data-state="loading"] {
+  opacity: 0;
+}
+.img[data-instant] {
+  transition: none;
+}
+/* The slow sheen while loading (M-IMG-FADE). */
+.shim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(242, 241, 238, 0.07) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: psShim 1.6s linear infinite;
+}
+@keyframes psShim {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+/* Failed: the alt text stands in, in the same box. */
+.alt {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--tx3);
+}
+
+.tone {
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+  background-image: radial-gradient(var(--tone) 1.2px, transparent 1.5px);
+  background-size: 8px 8px;
+  -webkit-mask-image: linear-gradient(200deg, #000, transparent 60%);
+  mask-image: linear-gradient(200deg, #000, transparent 60%);
+}
+.num {
+  position: absolute;
+  right: -6px;
+  bottom: -18px;
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: 130px;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--pa);
+  opacity: 0.5;
+}
+
+/* Reduced: no sheen and no fade. */
+@media (prefers-reduced-motion: reduce) {
+  .shim {
+    animation: none;
+  }
+  .img {
+    transition: none;
+  }
+}
+:global(html.still) .shim {
+  animation: none;
+}
+:global(html.still) .img {
+  transition: none;
+}

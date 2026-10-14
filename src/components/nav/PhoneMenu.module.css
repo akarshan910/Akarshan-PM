@@ -1,0 +1,147 @@
+/* C2 · Phone menu, copied from HomeMobile.dc.html `.mmenu`, `.mm-*` (M-NAV-MENU). */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 4999;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 20px 24px;
+  background: rgba(11, 11, 14, 0.97);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  overflow-y: auto;
+  animation: mmIn 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+/* The catalogue draws it inside a 390 × 844 frame, as the board does, at rest. */
+.contained {
+  position: absolute;
+  z-index: 4;
+}
+.contained,
+.contained .l,
+.contained .cta {
+  animation: none;
+}
+.k {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+.sections {
+  margin-top: 10px;
+  border-top: 1px solid var(--ln);
+}
+.l {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ln);
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--tx2);
+  text-decoration: none;
+  animation: mmRise 0.56s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.n {
+  width: 24px;
+  flex: none;
+  font-family: var(--fm);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--tx3);
+}
+.l[aria-current="true"] {
+  color: var(--tx);
+}
+.l[aria-current="true"] .n {
+  color: #ff5a67;
+}
+.l[aria-current="true"]::after {
+  content: "";
+  margin-left: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff5a67;
+}
+.cta {
+  margin-top: auto;
+  animation: mmRise 0.56s cubic-bezier(0.2, 0.8, 0.2, 1) 0.32s both;
+}
+.foot {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tx2);
+}
+/* 44px tall hit areas without moving anything: the padding is taken back by the margin. */
+.foot a {
+  display: inline-block;
+  padding: 14px 0;
+  margin: -14px 0;
+  color: var(--tx2);
+}
+.x {
+  margin-top: 14px;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 16px;
+  border: 0;
+  background: none;
+  color: var(--tx2);
+  font: 500 13px/1 var(--fm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.x :global(.ico) {
+  width: 15px;
+  height: 15px;
+}
+@keyframes mmIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mmRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .l,
+  .cta {
+    animation: none;
+  }
+}
+:global(html.still) .menu,
+:global(html.still) .l,
+:global(html.still) .cta {
+  animation: none;
+}

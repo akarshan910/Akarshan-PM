@@ -1,0 +1,38 @@
+/* C5 · Result labels, copied from Home.dc.html `.tag-a` … `.tag-o`; phones use HomeMobile's padding. */
+.tag {
+  flex: none;
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: normal;
+  white-space: nowrap;
+}
+.achieved {
+  background: rgba(60, 203, 139, 0.12);
+  color: var(--okt);
+}
+.target {
+  border: 1px solid var(--ln2);
+  color: var(--tx2);
+}
+.projected {
+  border: 1px dashed var(--ln2);
+  color: var(--tx2);
+}
+.baseline {
+  background: var(--sf2);
+  color: var(--tx2);
+}
+.output {
+  background: rgba(255, 90, 103, 0.12);
+  color: var(--act);
+}
+@media (max-width: 767px) {
+  .tag {
+    padding: 2px 7px;
+  }
+}

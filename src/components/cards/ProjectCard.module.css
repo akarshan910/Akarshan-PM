@@ -1,0 +1,443 @@
+/*
+ * C7 · Project cards: lead, standard and the phone's compact row. Laptop values from Home.dc.html,
+ * iPad from HomeTablet.dc.html, phone from HomeMobile.dc.html. Hover is M-CARD (cards) and M-ROW
+ * (rows), only on devices that hover; focus gets the same lift everywhere.
+ */
+.card {
+  display: block;
+  border: 1px solid var(--ln);
+  background: var(--bg2);
+  color: var(--tx);
+  text-decoration: none;
+  transition:
+    transform 0.32s var(--eo),
+    border-color 0.32s var(--eo);
+}
+.cv {
+  transition: transform 0.6s var(--eo);
+}
+.go {
+  transition: transform 0.24s var(--eo);
+}
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--ln2);
+    color: var(--tx);
+  }
+  .card:hover .cv {
+    transform: scale(1.03);
+  }
+  .card:hover .go {
+    transform: translateX(4px);
+  }
+}
+.card:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--ln2);
+}
+.card:focus-visible .cv {
+  transform: scale(1.03);
+}
+.card:focus-visible .go {
+  transform: translateX(4px);
+}
+
+.meta {
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+.tag {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+}
+.badge {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+}
+
+/* ---------- Lead ---------- */
+.lead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 40px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 22px;
+}
+.leadMedia {
+  flex: 999 1 520px;
+  min-width: 0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.leadMedia .cv {
+  aspect-ratio: 16 / 10;
+}
+.lead .tag {
+  left: 18px;
+  top: 18px;
+}
+.lead .badge {
+  right: 18px;
+  top: 18px;
+}
+.bigNum {
+  position: absolute;
+  right: 18px;
+  bottom: -22px;
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 800;
+  font-size: 200px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--pa) 35%, transparent);
+}
+.leadBody {
+  flex: 1 1 340px;
+  min-width: 0;
+  padding: 8px 12px 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.leadTitle {
+  margin: 0;
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: clamp(30px, 3vw, 42px);
+  line-height: 1.02;
+}
+.leadSummary {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+/* Up to two outcomes in a hairline-divided box: value bold and line --tx2, label on the right. */
+.results {
+  display: grid;
+  gap: 1px;
+  background: var(--ln);
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.result {
+  background: var(--bg2);
+  padding: 14px 16px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.resultText {
+  font-size: 15px;
+}
+.value {
+  font-weight: 600;
+}
+.dim {
+  color: var(--tx2);
+}
+/* iPad's results: two columns, the value and label on one row and the line below. */
+.resultsStacked {
+  display: none;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 18px;
+  background: var(--ln);
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.stackCell {
+  background: var(--bg2);
+  padding: 14px 16px;
+}
+.stackTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.stackValue {
+  font-size: 20px;
+  font-weight: 600;
+}
+.stackLine {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--tx2);
+}
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ---------- Standard ---------- */
+.std {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 14px 14px 22px;
+  border-radius: 20px;
+}
+.stdMedia {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.stdMedia .cv {
+  aspect-ratio: 4 / 3;
+}
+.stdBody {
+  padding: 0 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.stdTitle {
+  margin: 0;
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.05;
+}
+.stdSummary {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+.headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-top: 6px;
+}
+.num {
+  font-family: var(--fd);
+  font-stretch: 70%;
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1;
+}
+.line {
+  font-size: 14px;
+  color: var(--tx2);
+}
+
+/* ---------- Compact row (phones) ---------- */
+.row {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--ln);
+  border-radius: 16px;
+  background: var(--bg2);
+  color: var(--tx);
+  text-decoration: none;
+  transition: background-color 0.2s var(--eo);
+}
+@media (hover: hover) {
+  .row:hover {
+    background: var(--bg2);
+    color: var(--tx);
+  }
+}
+.thumb {
+  height: 96px;
+  border-radius: 10px;
+}
+.thumb .tag {
+  left: 6px;
+  top: 6px;
+}
+.rowTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.rowLine {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--tx2);
+}
+
+/* ---------- iPad ---------- */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .lead {
+    display: block;
+    padding: 14px 14px 24px;
+  }
+  .leadMedia .cv {
+    aspect-ratio: 16 / 9;
+  }
+  .lead .tag,
+  .lead .badge {
+    top: 16px;
+  }
+  .lead .tag {
+    left: 16px;
+  }
+  .lead .badge {
+    right: 16px;
+  }
+  .bigNum {
+    font-size: 170px;
+    bottom: -20px;
+  }
+  .leadBody {
+    display: block;
+    padding: 22px 8px 0;
+  }
+  .leadTitle {
+    margin-top: 12px;
+    font-size: 36px;
+  }
+  .leadSummary {
+    margin-top: 12px;
+  }
+  .results,
+  .readMore {
+    display: none;
+  }
+  .resultsStacked {
+    display: grid;
+  }
+  .std {
+    display: block;
+    padding: 12px 12px 20px;
+  }
+  .std .tag {
+    left: 12px;
+    top: 12px;
+  }
+  .std .badge {
+    right: 12px;
+    top: 12px;
+  }
+  .stdBody {
+    display: block;
+    padding: 16px 6px 0;
+  }
+  .stdTitle {
+    margin-top: 8px;
+    font-size: 26px;
+  }
+  .stdSummary {
+    display: none;
+  }
+  .headline {
+    margin-top: 12px;
+    gap: 8px;
+  }
+  .num {
+    font-size: 24px;
+    line-height: normal;
+  }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 767px) {
+  .lead {
+    display: block;
+    padding: 10px 10px 20px;
+    border-radius: 20px;
+  }
+  .leadMedia {
+    border-radius: 12px;
+  }
+  .leadMedia .cv {
+    aspect-ratio: 4 / 3;
+  }
+  .lead .tag {
+    left: 12px;
+    top: 12px;
+  }
+  .lead .badge {
+    right: 12px;
+    top: 12px;
+  }
+  .bigNum,
+  .readMore {
+    display: none;
+  }
+  .leadBody {
+    display: block;
+    padding: 16px 6px 0;
+  }
+  .leadTitle {
+    margin-top: 8px;
+    font-size: 30px;
+  }
+  .leadSummary {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  /* One result, in an outlined box. */
+  .results {
+    margin-top: 14px;
+    background: none;
+  }
+  .result {
+    background: none;
+    padding: 12px 14px;
+    align-items: center;
+    gap: 10px;
+  }
+  .result + .result {
+    display: none;
+  }
+  .resultText {
+    font-size: 14px;
+  }
+}
+
+/* Reduced motion: colour and border changes only (M-CARD, M-ROW). */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card .cv,
+  .card .go {
+    transition: border-color 0.32s var(--eo);
+  }
+  .card:hover,
+  .card:focus-visible,
+  .card:hover .cv,
+  .card:focus-visible .cv,
+  .card:hover .go,
+  .card:focus-visible .go {
+    transform: none;
+  }
+}
+:global(html.still) .card,
+:global(html.still) .card .cv,
+:global(html.still) .card .go {
+  transition: border-color 0.32s var(--eo);
+}
+:global(html.still) .card:hover,
+:global(html.still) .card:focus-visible,
+:global(html.still) .card:hover .cv,
+:global(html.still) .card:focus-visible .cv,
+:global(html.still) .card:hover .go,
+:global(html.still) .card:focus-visible .go {
+  transform: none;
+}

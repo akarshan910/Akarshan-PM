@@ -1,0 +1,113 @@
+/*
+ * C7 · The closing tiles: "See all N" and "All work · N volumes" (Home.dc.html `.see-all`,
+ * HomeTablet `.see-all`), and the phone's closing row (HomeMobile `.all-row`). M-ROW: border and
+ * background over 320ms, no lift.
+ */
+.tile,
+.row {
+  color: var(--tx);
+  text-decoration: none;
+  border: 1px dashed var(--ln2);
+  background: transparent;
+  transition:
+    border-color 0.32s var(--eo),
+    background-color 0.32s var(--eo);
+}
+@media (hover: hover) {
+  .tile:hover,
+  .row:hover {
+    border-color: var(--tx3);
+    background: var(--bg2);
+    color: var(--tx);
+  }
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px;
+  border-radius: 20px;
+}
+.spectrum {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  max-width: 360px;
+}
+.bar {
+  flex: 1;
+  opacity: 0.85;
+}
+.title {
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.arrow {
+  color: var(--ac);
+}
+.sub {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--tx2);
+}
+.subTouch {
+  display: none;
+}
+@media (max-width: 1279px) {
+  .tile {
+    gap: 16px;
+    padding: 20px;
+  }
+  .spectrum {
+    gap: 5px;
+    height: 110px;
+    max-width: none;
+  }
+  .title {
+    font-size: 30px;
+  }
+  .sub {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .subLaptop {
+    display: none;
+  }
+  .subTouch {
+    display: inline;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 16px;
+  border-radius: 16px;
+}
+.rowTitle {
+  display: block;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.rowSub {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--tx2);
+}
+.row :global(.ico) {
+  color: var(--ac);
+}
