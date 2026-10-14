@@ -64,6 +64,8 @@ function metaLine(p: ProjectCardData): string {
 function Badge({ project, lead }: { project: ProjectCardData; lead?: boolean }) {
   if (project.prototype)
     return <StatusBadge kind="prototype" lead={lead ?? false} className={styles.badge} />;
+  // The dot-and-label status shows on the lead's cover only (Home, HomeTablet).
+  if (!lead) return null;
   return (
     <StatusBadge kind="status" label={project.status} accent={project.accent} className={styles.badge} />
   );

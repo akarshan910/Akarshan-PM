@@ -504,6 +504,10 @@ abbr.short {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
+  /* One box takes the whole column (CaseStudyTablet › Assumptions). */
+  .box:only-child {
+    grid-column: 1 / -1;
+  }
   .metric {
     flex-wrap: nowrap;
     gap: 20px;
@@ -630,6 +634,12 @@ abbr.short {
   }
   .box {
     padding: 14px 16px;
+  }
+  /* A lone box is a plain heading and list on phones (CaseStudyMobile › Assumptions). */
+  .box:only-child {
+    padding: 0;
+    border: 0;
+    background: none;
   }
   .box .heading {
     margin-bottom: 0;

@@ -25,6 +25,7 @@ const at = QA_NOW.toISOString();
 
 interface CardSpec {
   slug: string;
+  sector?: string;
   title: string;
   company: string;
   cardLabel: string;
@@ -40,6 +41,7 @@ interface CardSpec {
 const SHIPPED: CardSpec[] = [
   {
     slug: "3d-body-scan-for-glp-1-users",
+    sector: "AI",
     title: "3D body scan for GLP-1 users",
     company: "Sugar.fit",
     cardLabel: "AI-native health · 0→1",
@@ -54,6 +56,7 @@ const SHIPPED: CardSpec[] = [
   },
   {
     slug: "image-based-food-logging",
+    sector: "LLM",
     title: "Image-based food logging",
     company: "Sugar.fit",
     cardLabel: "LLM · Consumer",
@@ -64,6 +67,7 @@ const SHIPPED: CardSpec[] = [
   },
   {
     slug: "the-cgm-journey-end-to-end",
+    sector: "Hardware to app",
     title: "The CGM journey, end to end",
     company: "Sugar.fit",
     cardLabel: "Hardware to app",
@@ -74,6 +78,7 @@ const SHIPPED: CardSpec[] = [
   },
   {
     slug: "the-glp-1-app-0-to-1",
+    sector: "0→1",
     title: "The GLP-1 app, 0→1",
     company: "Sugar.fit",
     cardLabel: "Digital health · 0→1",
@@ -270,20 +275,25 @@ function pujaStory(base: Project): Project["story"] {
         style: "body",
         body: "<p>Collect details like gotra and important dates at the right moment — when a user taps a puja — and always explain the benefit.</p>",
       },
+      { id: bid(), type: "heading", body: "No user data yet" },
       {
         id: bid(),
-        type: "cards",
-        columns: 2,
-        items: [
-          {
-            title: "No user data yet",
-            note: "Most-booked pujas in the user’s city · Upcoming and seasonal festivals · A “What’s trending” strip as social proof",
-          },
-          {
-            title: "When we know the user",
-            note: "Gotra, birthdays and anniversaries · Suggestions for important dates · A “For you” carousel from past bookings",
-          },
-        ],
+        type: "list",
+        body: ul([
+          "Most-booked pujas in the user’s city",
+          "Upcoming and seasonal festivals",
+          "A “What’s trending” strip as social proof",
+        ]),
+      },
+      { id: bid(), type: "heading", body: "When we know the user" },
+      {
+        id: bid(),
+        type: "list",
+        body: ul([
+          "Gotra, birthdays and anniversaries",
+          "Suggestions for important dates",
+          "A “For you” carousel from past bookings",
+        ]),
       },
     ]),
     // The board's last two chapters hold only Studio prompts, so they're empty and hide.
@@ -319,6 +329,7 @@ function project(spec: CardSpec): { slug: string; document: Project } {
       title: spec.title,
       company: spec.company,
       cardLabel: spec.cardLabel,
+      ...(spec.sector ? { sector: spec.sector } : {}),
       summary: spec.summary,
       kind: spec.kind,
       topics: base?.overview.topics.slice(0, 3) ?? [],
@@ -342,8 +353,8 @@ function project(spec: CardSpec): { slug: string; document: Project } {
     document.overview = {
       ...document.overview,
       sector: "Devotional consumer app",
-      summary:
-        "How might Sri Mandir increase monthly puja orders per user? A WhatsApp-native booking flow, a recommendation engine and a spiritual calendar — prioritised with RICE and prototyped end to end.",
+      // The case-study boards' longer summary ("How might Sri Mandir…") would break the Home
+      // board's card; Home wins, so the case study's header differs there.
       problem:
         "Play Store reviews and app usage pointed to generic discovery, low awareness of the puja service, thin trust signals and Hindi/English-only flows.",
       proposal:
@@ -379,6 +390,14 @@ const TESTIMONIAL_ROLES: Record<string, string> = {
   "t-pallav-srivastava": "SDE 4 (Android) · Glance",
   "t-vishal-gopal": "Product · Glance",
 };
+const TESTIMONIAL_QUOTES: Record<string, string> = {
+  "t-anmol-loonia":
+    "Akarshan was my PM on multiple projects through the TV Integration with a leading OEM. He brought a lot of user first approaches to the table, which led to deep business as well as user impact. His ability to get everyone on the same page and turn the wheel is what really worked for the product.",
+  "t-pallav-srivastava":
+    "Akarshan is one of the sharpest product minds I have had the pleasure of working with. His ability to break down complex problems, ask the right questions, and approach every decision with a data-driven mindset made a huge impact on our work.",
+  "t-vishal-gopal":
+    "The striking thing about working with him is his Conviction. The conviction that arises out of a detailed and thorough thought process. A great asset to work with.",
+};
 const TESTIMONIAL_ORDER = ["t-anmol-loonia", "t-pallav-srivastava", "t-vishal-gopal"];
 
 const profile: Profile = {
@@ -386,7 +405,8 @@ const profile: Profile = {
   title: "Product Manager",
   availability: "Open to Senior / Lead PM roles",
   location: "Bengaluru · IST",
-  positioning: "I build AI-native health products — and the data platforms that prove they work.",
+  positioning:
+    "I build <strong>AI-native health products</strong> — and the <strong>data platforms</strong> that prove they work.",
   intro:
     "Product manager at Sugar.fit for GLP-1, Type 2 diabetes and Active Foods, leading a 10-analyst Central Analytics team. Before that: personalisation and serving for 230M+ devices at Glance (InMobi).",
   heroButtons: { primary: { label: "See selected work", href: "#shipped" }, resume: true },
@@ -413,10 +433,10 @@ const profile: Profile = {
     ],
   },
   proof: [
-    { id: "p-devices", value: "230", unit: "M+", label: "devices personalised and served", source: "Glance · InMobi" },
+    { id: "p-devices", value: "230M+", label: "devices personalised and served", source: "Glance · InMobi" },
     { id: "p-arr", value: "$2M", unit: "ARR", label: "unlocked via Tracfone, Japan and Brazil", source: "Glance · InMobi" },
-    { id: "p-glp", value: "₹3.6", unit: "Cr", label: "in month one from a GLP-1 app I built 0→1", source: "Sugar.fit" },
-    { id: "p-saved", value: "~₹1.5", unit: "Cr /yr", label: "saved by in-housing vendor services", source: "Sugar.fit" },
+    { id: "p-glp", value: "₹3.6 Cr", label: "in month one from a GLP-1 app I built 0→1", source: "Sugar.fit" },
+    { id: "p-saved", value: "~₹1.5 Cr", unit: "/yr", label: "saved by in-housing vendor services", source: "Sugar.fit" },
   ],
   spaces: {
     label: "Problem spaces",
@@ -444,29 +464,29 @@ const profile: Profile = {
           id: "h-ai",
           group: "AI-native products",
           items: [
-            "3D body scan — ±2–3 pp vs BIA (n=110)",
-            "In-house rPPG + PPG — ₹84L–1.2Cr/yr saved",
-            "AI food logging — 62% of logs, +34%",
-            "Support automation — 73% auto-resolved, TAT 80 → 32 h",
+            "<strong>3D body scan</strong> — ±2–3 pp vs BIA (n=110)",
+            "<strong>In-house rPPG + PPG</strong> — ₹84L–1.2Cr/yr saved",
+            "<strong>AI food logging</strong> — 62% of logs, +34%",
+            "<strong>Support automation</strong> — 73% auto-resolved, TAT 80 → 32 h",
           ].map((text, i) => ({ id: `h-ai-${String(i)}`, text })),
         },
         {
           id: "h-data",
           group: "Data & platforms",
           items: [
-            "BigQuery / Dataform — one KPI truth, $48K/yr saved",
-            "Commerce off Shopify — self-serve offers and pricing tests",
-            "WhatsApp CRM — send rate 70% → 98%",
+            "<strong>BigQuery / Dataform</strong> — one KPI truth, $48K/yr saved",
+            "<strong>Commerce off Shopify</strong> — self-serve offers and pricing tests",
+            "<strong>WhatsApp CRM</strong> — send rate 70% → 98%",
           ].map((text, i) => ({ id: `h-data-${String(i)}`, text })),
         },
         {
           id: "h-consumer",
           group: "Consumer product",
           items: [
-            "CGM journey — CSAT 42 → 72, ₹3.2 Cr saved",
-            "T2D renewals — +20%, +₹17–20L a month",
-            "GLP-1 app 0→1 — 52% renewal",
-            "Active Foods — AOV +7%, COD returns −25%",
+            "<strong>CGM journey</strong> — CSAT 42 → 72, ₹3.2 Cr saved",
+            "<strong>T2D renewals</strong> — +20%, +₹17–20L a month",
+            "<strong>GLP-1 app 0→1</strong> — 52% renewal",
+            "<strong>Active Foods</strong> — AOV +7%, COD returns −25%",
           ].map((text, i) => ({ id: `h-consumer-${String(i)}`, text })),
         },
       ],
@@ -482,12 +502,12 @@ const profile: Profile = {
         {
           id: "h-glance",
           items: [
-            "Rebuilt serving-funnel rendering and tracking: serving +22%, CTR 1.7×",
-            "ML-clustered Summaries &amp; Collections: 1.4M DAU, L0 engagement +21%",
-            "$1.4M ARR via Tracfone; $600K ARR from Japan and Brazil",
-            "NFL on Google NAB: 2.5M Airtel Xstream devices",
+            "Rebuilt serving-funnel rendering and tracking: <strong>serving +22%, CTR 1.7×</strong>",
+            "ML-clustered Summaries &amp; Collections: <strong>1.4M DAU, L0 engagement +21%</strong>",
+            "<strong>$1.4M ARR</strong> via Tracfone; <strong>$600K ARR</strong> from Japan and Brazil",
+            "NFL on Google NAB: <strong>2.5M Airtel Xstream devices</strong>",
             "Owned GDPR readiness that unblocked the EU launch",
-            "Lakmé campaign: 12M impressions, 64% higher ad recall",
+            "Lakmé campaign: <strong>12M impressions, 64% higher ad recall</strong>",
           ].map((text, i) => ({ id: `h-glance-${String(i)}`, text })),
         },
       ],
@@ -498,7 +518,7 @@ const profile: Profile = {
       role: "Senior Product Analyst",
       dates: "Jul — Sep 2021",
       summary:
-        "+30% sign-ups and +23% MTU from a redesigned signup funnel and activation flow. “Ace in the Race” award for data instrumentation across GST, OCR and merchant verification.",
+        "<strong>+30% sign-ups and +23% MTU</strong> from a redesigned signup funnel and activation flow. “Ace in the Race” award for data instrumentation across GST, OCR and merchant verification.",
       highlights: [],
     },
     {
@@ -507,7 +527,7 @@ const profile: Profile = {
       role: "Senior Product Analyst",
       dates: "Jan — Jul 2021",
       summary:
-        "+800 daily inbound leads from Book Online Demo experiments; micro-concept video retention +17% and ₹7L a month in revenue.",
+        "<strong>+800 daily inbound leads</strong> from Book Online Demo experiments; micro-concept video retention +17% and ₹7L a month in revenue.",
       highlights: [],
     },
     {
@@ -516,7 +536,7 @@ const profile: Profile = {
       role: "Senior Analyst",
       dates: "Aug 2017 — Jan 2021",
       summary:
-        "Data initiatives for Uber GSS operations across 64 languages; cut Uber Eats localisation spend through cost-per-language analysis (amount under NDA). Also Lloyds Banking Group and Capital One.",
+        "Data initiatives for Uber GSS operations across <strong>64 languages</strong>; cut Uber Eats localisation spend through cost-per-language analysis (amount under NDA). Also Lloyds Banking Group and Capital One.",
       highlights: [],
     },
   ],
@@ -531,7 +551,12 @@ const profile: Profile = {
   testimonials: v0.profile.testimonials.map((t) => {
     const role = TESTIMONIAL_ROLES[t.id];
     return role
-      ? { ...t, role, linkedin: `https://www.linkedin.com/in/${t.id.replace(/^t-/, "")}` }
+      ? {
+          ...t,
+          role,
+          quote: TESTIMONIAL_QUOTES[t.id] ?? t.quote,
+          linkedin: `https://www.linkedin.com/in/${t.id.replace(/^t-/, "")}`,
+        }
       : t;
   }),
   contact: { ...v0.profile.contact, github: "https://github.com/example" },

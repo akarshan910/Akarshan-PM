@@ -46,7 +46,8 @@ export function Testimonials({ section, profile }: SectionProps) {
         id: t.id,
         quote: t.quote,
         name: t.name,
-        role: [t.role, t.tag].filter(Boolean).join(" · "),
+        // The tag isn't shown: no board has it (HANDOFF › Decisions made during the build).
+        role: t.role,
         initials: t.initials,
         avatar: avatarColours(t.tone),
         ...(t.linkedin ? { linkedin: t.linkedin } : {}),
