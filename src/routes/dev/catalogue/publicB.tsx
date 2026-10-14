@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Brush } from "~/components/hero/Brush";
 import { FloatingPreview } from "~/components/hero/FloatingPreview";
 import { InkPanel } from "~/components/hero/InkPanel";
+import { SiteFooter } from "~/components/footer/SiteFooter";
+import { ProofStrip } from "~/components/proof/ProofStrip";
 
 import { Specimen, State } from "./Specimen";
 
@@ -147,11 +149,80 @@ function HeroSpecimen() {
   );
 }
 
+const PROOF = [
+  {
+    id: "p1",
+    value: "230M+",
+    label: "devices personalised and served",
+    source: "Glance · InMobi",
+  },
+  {
+    id: "p2",
+    value: "$2M",
+    unit: "ARR",
+    label: "unlocked via Tracfone, Japan and Brazil",
+    source: "Glance · InMobi",
+  },
+  { id: "p3", value: "₹3.6 Cr", label: "in month one from a GLP-1 app I built 0→1", source: "Sugar.fit" },
+  {
+    id: "p4",
+    value: "~₹1.5 Cr",
+    unit: "/yr",
+    label: "saved by in-housing vendor services",
+    source: "Sugar.fit",
+  },
+];
+const SPACES = [
+  "AI-native health",
+  "Hardware-to-app (CGM)",
+  "Personalisation & serving",
+  "Data platforms",
+  "Growth funnels",
+  "Monetisation",
+  "0→1",
+];
+
+function ProofSpecimen() {
+  return (
+    <Specimen title="C12 · Proof strip cell" board="Home*.dc.html · aria-label=Highlights">
+      <Wide label="Four cells with units and sources, then Problem spaces">
+        <ProofStrip items={PROOF} spaces={{ label: "Problem spaces", items: SPACES }} />
+      </Wide>
+      <Wide label="No sources, no units, no chips">
+        <ProofStrip items={PROOF.slice(0, 2).map(({ id, value, label }) => ({ id, value, label }))} />
+      </Wide>
+    </Specimen>
+  );
+}
+
+function FooterSpecimen() {
+  return (
+    <Specimen title="C19 · Footer" board="Home*.dc.html · footer">
+      <Wide label="Home: credit and last updated">
+        <SiteFooter
+          year={2026}
+          name="Akarshan Kumar"
+          credit="Vibe-coded in Bengaluru"
+          updated="13 Oct 2026"
+        />
+      </Wide>
+      <Wide label="Case study: back to all work">
+        <SiteFooter year={2026} name="Akarshan Kumar" back={{ href: "/work", label: "Back to all work" }} />
+      </Wide>
+      <Wide label="No credit, no date">
+        <SiteFooter year={2026} name="Akarshan Kumar" />
+      </Wide>
+    </Specimen>
+  );
+}
+
 /** Catalogue specimens for the public track, part B (C10–C19). Each component adds a <Specimen> here. */
 export default function PublicBSpecimens() {
   return (
     <>
       <HeroSpecimen />
+      <ProofSpecimen />
+      <FooterSpecimen />
     </>
   );
 }
