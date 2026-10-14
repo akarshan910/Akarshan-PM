@@ -18,6 +18,19 @@ export const THUMB: Record<Accent, [string, string]> = {
   lime: ["#A3E635", "#365314"],
 };
 
+/** The accents' names, for swatch labels and announcements. */
+export const ACCENT_NAMES: Record<Accent, string> = {
+  teal: "Teal",
+  amber: "Amber",
+  sky: "Sky",
+  violet: "Violet",
+  coral: "Coral",
+  slate: "Slate",
+  green: "Green",
+  yellow: "Yellow",
+  lime: "Lime",
+};
+
 export function thumbBackground(accent: Accent): string {
   const [a, b] = THUMB[accent];
   return `linear-gradient(135deg, ${a}, ${b})`;

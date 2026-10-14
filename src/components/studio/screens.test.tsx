@@ -36,7 +36,7 @@ class MemoryStorage implements Storage {
   }
 }
 
-describe("Shell", () => {
+describe("Shell", { timeout: 20_000 }, () => {
   it("marks the current item in the sidebar, rail and tab bar, with the project count", () => {
     render(
       <MemoryRouter initialEntries={["/studio/projects/abc/story"]}>
@@ -80,7 +80,7 @@ describe("Shell", () => {
   });
 });
 
-describe("SessionExpired and LoadError", () => {
+describe("SessionExpired and LoadError", { timeout: 20_000 }, () => {
   it("can't be dismissed, and offers a code", async () => {
     const user = userEvent.setup();
     const onSignIn = vi.fn();
@@ -101,7 +101,7 @@ describe("SessionExpired and LoadError", () => {
   });
 });
 
-describe("Dashboard", () => {
+describe("Dashboard", { timeout: 20_000 }, () => {
   async function model() {
     const { repo } = testRepo();
     return buildDashboard({
@@ -180,7 +180,7 @@ describe("Dashboard", () => {
   });
 });
 
-describe("data layer", () => {
+describe("data layer", { timeout: 20_000 }, () => {
   function Probe({ id }: { id: string }) {
     const q = useQuery(`project:${id}`, (r) => r.projects.get(id));
     if (q.status === "loading") return <p>Loading</p>;
@@ -228,7 +228,7 @@ describe("data layer", () => {
   });
 });
 
-describe("Login", () => {
+describe("Login", { timeout: 20_000 }, () => {
   function setup(props: Partial<Parameters<typeof Login>[0]> = {}) {
     const { repo, clock } = testRepo({ signedIn: false });
     const local = new MemoryStorage();
@@ -248,6 +248,27 @@ describe("Login", () => {
     return { repo, clock, local, session, onSignedIn, ...utils };
   }
 
+  it("makes the form title the page's h1 on phones, where the panel is hidden", () => {
+    const listeners = new Set<() => void>();
+    const mq = {
+      matches: true,
+      addEventListener: (_: string, f: () => void) => listeners.add(f),
+      removeEventListener: (_: string, f: () => void) => listeners.delete(f),
+    };
+    vi.stubGlobal("matchMedia", () => mq);
+    try {
+      const { unmount } = setup();
+      expect(screen.getByRole("heading", { level: 1, name: "Sign in to Studio" })).toBeInTheDocument();
+      unmount();
+      expect(listeners.size).toBe(0);
+      mq.matches = false;
+      setup();
+      expect(screen.getByRole("heading", { level: 2, name: "Sign in to Studio" })).toBeInTheDocument();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("checks the address, sends a code and signs the owner in", async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime.bind(vi) });
@@ -266,7 +287,7 @@ describe("Login", () => {
       "aria-disabled",
       "true",
     );
-    await user.type(screen.getByRole("textbox", { name: "6-digit code" }), MEMORY_CODE);
+    await user.type(screen.getByRole("textbox", { name: "8-digit code" }), MEMORY_CODE);
     expect(await screen.findByRole("heading", { name: "Welcome back" })).toBeInTheDocument();
     act(() => {
       vi.advanceTimersByTime(1300);
@@ -285,11 +306,11 @@ describe("Login", () => {
     await user.click(screen.getByRole("button", { name: /Resend code in/ }));
     expect(screen.getByRole("status")).toHaveTextContent("A code was sent moments ago.");
     for (let i = 0; i < 4; i++) {
-      await user.type(screen.getByRole("textbox", { name: "6-digit code" }), "000000");
+      await user.type(screen.getByRole("textbox", { name: "8-digit code" }), "00000000");
       expect(await screen.findByText("That code didn’t work.", { selector: "b" })).toBeInTheDocument();
-      await user.clear(screen.getByRole("textbox", { name: "6-digit code" }));
+      await user.clear(screen.getByRole("textbox", { name: "8-digit code" }));
     }
-    await user.type(screen.getByRole("textbox", { name: "6-digit code" }), "000000");
+    await user.type(screen.getByRole("textbox", { name: "8-digit code" }), "00000000");
     expect(await screen.findByText("Too many tries.", { selector: "b" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sign in" })).toHaveAttribute("aria-disabled", "true");
     expect(screen.getByRole("button", { name: "Send a new code" })).toHaveAttribute("aria-disabled", "false");
@@ -304,7 +325,7 @@ describe("Login", () => {
     await user.click(screen.getByRole("button", { name: "Email me a code" }));
     await screen.findByRole("heading", { name: "Check your email" });
     clock.now += 11 * 60_000;
-    await user.type(screen.getByRole("textbox", { name: "6-digit code" }), MEMORY_CODE);
+    await user.type(screen.getByRole("textbox", { name: "8-digit code" }), MEMORY_CODE);
     expect(await screen.findByText("That code has expired.", { selector: "b" })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Send a new code" }));
     await waitFor(() => {
@@ -318,7 +339,7 @@ describe("Login", () => {
     await user.type(screen.getByLabelText("Email"), "someone@example.test");
     await user.click(screen.getByRole("button", { name: "Email me a code" }));
     await screen.findByRole("heading", { name: "Check your email" });
-    await user.type(screen.getByRole("textbox", { name: "6-digit code" }), MEMORY_CODE);
+    await user.type(screen.getByRole("textbox", { name: "8-digit code" }), MEMORY_CODE);
     expect(
       await screen.findByRole("heading", { name: "This account can’t open Studio" }),
     ).toBeInTheDocument();

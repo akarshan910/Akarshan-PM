@@ -66,3 +66,13 @@ export function pageName(
       return "Studio";
   }
 }
+
+/** "Dashboard · Studio": each screen's document title names it (08 · Screen readers; WCAG 2.4.2). */
+export function studioTitle(...parts: (string | undefined)[]): string {
+  return [...parts.filter((p): p is string => Boolean(p)), "Studio"].join(" · ");
+}
+
+/** A route's `meta`: the leaf route's list replaces the shell's, so each one keeps `noindex`. */
+export function studioMeta(...parts: (string | undefined)[]) {
+  return [{ title: studioTitle(...parts) }, { name: "robots", content: "noindex, nofollow" }];
+}

@@ -10,6 +10,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { dropPending, putPending } from "~/lib/studio/offline";
+import { markUnsynced } from "./unsynced";
 import type { SaveResult } from "~/lib/studio/repo";
 import type { SaveState } from "./SaveStatus";
 
@@ -128,8 +129,21 @@ export function useAutosave<D, R extends Versioned<D>>(options: {
       window.removeEventListener("online", online);
       clearTimeout(timer.current);
       clearTimeout(retryTimer.current);
+      // Leaving within the debounce still saves the last edit (or queues it offline).
+      if (latest.current.dirty && !latest.current.inFlight) void run();
     };
   }, [run]);
+
+  // The leave guard: what hasn't reached the database yet.
+  useEffect(() => {
+    markUnsynced(key, state === "offline" ? "offline" : dirty || state === "failed" ? "pending" : null);
+  }, [key, dirty, state]);
+  useEffect(
+    () => () => {
+      markUnsynced(key, null);
+    },
+    [key],
+  );
 
   const update = useCallback(
     (fn: (d: D) => D) => {

@@ -18,7 +18,8 @@ import { projectChecks, projectIssues, type ProjectIssue } from "~/lib/studio/ch
 import { changedTabs as draftTabs, tabNames } from "~/lib/studio/diff";
 import { changeLines, changedTabs, placement, publishButton } from "~/lib/studio/editor";
 import { dayAndTime } from "~/lib/studio/format";
-import type { EditorTabSlug } from "~/lib/studio/paths";
+import { TAB_LABELS, type EditorTabSlug } from "~/lib/studio/paths";
+import { useStudioTitle } from "../useStudioTitle";
 import { projectStatus } from "~/lib/studio/projects";
 import type { DocRow, MediaRow, ProjectRow } from "~/lib/studio/repo";
 import type { Img, ResolveImg } from "~/lib/published";
@@ -30,9 +31,12 @@ export interface EditorData {
   layout: DocRow<SiteLayout>;
   media: MediaRow[];
   urls: Record<string, string>;
+  /** The profile's name, for the default search title ("{title} · {name}"). */
+  ownerName: string;
 }
 
 interface EditorApi {
+  ownerName: string;
   row: ProjectRow;
   draft: Project;
   update: (fn: (d: Project) => Project) => void;
@@ -129,6 +133,7 @@ export function ProjectEditor({
   const button = publishButton(row, offline);
   const dots = changedTabs(draft, row.published, resolve);
   const title = draft.overview.title.trim() || "Untitled project";
+  useStudioTitle(title, TAB_LABELS[tab]);
 
   // ?field= (the dashboard, the checklist) focuses a field.
   const wantPublish = params.get("publish") === "1";
@@ -210,6 +215,7 @@ export function ProjectEditor({
   };
 
   const api: EditorApi = {
+    ownerName: data.ownerName,
     row,
     draft,
     update: autosave.update,

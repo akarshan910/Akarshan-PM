@@ -3,14 +3,17 @@ import { Outlet, redirect, useMatches, useNavigate, useLocation } from "react-ro
 
 import "~/styles/studio.css";
 import { StudioError } from "~/components/studio/states/StudioError";
-import { StudioDataProvider, useQuery } from "~/components/studio/data";
+import { StudioDataProvider, useQuery, useStudio } from "~/components/studio/data";
 import { SessionExpired } from "~/components/studio/shell/SessionExpired";
 import { Inert } from "~/components/studio/Inert";
+import { LeaveGuard } from "~/components/studio/states/LeaveGuard";
+import { useToast } from "~/components/studio/Toast";
 import { ShellContext } from "~/components/studio/shell/ShellContext";
 import { Shell } from "~/components/studio/shell/Shell";
 import { ToastProvider } from "~/components/studio/Toast";
 import { loadRepo } from "~/lib/studio/client";
 import { loginPath } from "~/lib/studio/paths";
+import { syncPending } from "~/lib/studio/sync";
 import type { Session, StudioRepo } from "~/lib/studio/repo";
 import type { Route } from "./+types/shell";
 
@@ -37,20 +40,55 @@ export function HydrateFallback() {
   return <div className="st" style={{ minHeight: "100vh" }} />;
 }
 
-/** A route's `handle.studioNav` picks the rail on laptops (Website builder). */
-function useNavMode(): { nav: "auto" | "rail"; tabbar: boolean } {
+/**
+ * A route's `handle.studioNav` picks the rail on laptops (Website builder); `studioTabbar: false`
+ * hides the phone tab bar (editors); `studioChrome: false` drops the Studio nav altogether (Draft
+ * preview, which has its own bar).
+ */
+function useNavMode(): { nav: "auto" | "rail"; tabbar: boolean; chrome: boolean } {
   const matches = useMatches();
-  const handles = matches.map((m) => (m.handle ?? {}) as { studioNav?: string; studioTabbar?: boolean });
+  const handles = matches.map(
+    (m) => (m.handle ?? {}) as { studioNav?: string; studioTabbar?: boolean; studioChrome?: boolean },
+  );
   return {
     nav: handles.some((h) => h.studioNav === "rail") ? "rail" : "auto",
     tabbar: !handles.some((h) => h.studioTabbar === false),
+    chrome: !handles.some((h) => h.studioChrome === false),
   };
 }
 
 function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { nav, tabbar } = useNavMode();
+  const location = useLocation();
+  const { pathname } = location;
+  const { nav, tabbar, chrome } = useNavMode();
+  const toast = useToast();
+  const { cache } = useStudio();
+  // Edits queued offline (or before a session ended) sync before the page loads, so it opens on
+  // the saved versions. "✓ Signed in. 3 changes synced." after a sign-in (05 · Session expiry).
+  const [synced, setSynced] = useState(false);
+  const signedIn = Boolean((location.state as { signedIn?: boolean } | null)?.signedIn);
+  useEffect(() => {
+    let alive = true;
+    void syncPending(repo)
+      .then(({ synced: n }) => {
+        if (!alive) return;
+        if (n > 0) {
+          cache.clear();
+          const what = `${String(n)} ${n === 1 ? "change" : "changes"} synced.`;
+          toast.show({ message: signedIn ? `Signed in. ${what}` : what });
+        }
+      })
+      .catch(() => undefined)
+      .finally(() => {
+        if (alive) setSynced(true);
+      });
+    return () => {
+      alive = false;
+    };
+    // Once per arrival in Studio.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [repo]);
   const projects = useQuery("projects", (r) => r.projects.list());
   const signingOut = useRef(false);
   const [expired, setExpired] = useState(false);
@@ -94,29 +132,37 @@ function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
   );
   const signOut = api.signOut;
 
+  const body = (
+    <>
+      <Inert when={expired}>{synced ? <Outlet /> : <div aria-busy="true" style={{ flex: 1 }} />}</Inert>
+      <LeaveGuard />
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {spoken.text}
+      </div>
+      <SessionExpired
+        open={expired}
+        email={session.email}
+        onSignIn={() => {
+          void navigate(loginPath(pathname, "signed-out"));
+        }}
+      />
+    </>
+  );
   return (
     <ShellContext.Provider value={api}>
-      <Shell
-        email={session.email}
-        projectCount={projects.data?.length}
-        nav={nav}
-        tabbar={tabbar}
-        onSignOut={signOut}
-      >
-        <Inert when={expired}>
-          <Outlet />
-        </Inert>
-        <div className="sr-only" aria-live="polite" aria-atomic="true">
-          {spoken.text}
-        </div>
-        <SessionExpired
-          open={expired}
+      {chrome ? (
+        <Shell
           email={session.email}
-          onSignIn={() => {
-            void navigate(loginPath(pathname, "signed-out"));
-          }}
-        />
-      </Shell>
+          projectCount={projects.data?.length}
+          nav={nav}
+          tabbar={tabbar}
+          onSignOut={signOut}
+        >
+          {body}
+        </Shell>
+      ) : (
+        <div className="st">{body}</div>
+      )}
     </ShellContext.Provider>
   );
 }

@@ -34,7 +34,7 @@ describe("MemoryRepo · auth", () => {
     const { repo, clock } = testRepo({ signedIn: false });
     expect(await repo.auth.session()).toBeNull();
     expect(await repo.auth.sendCode(MEMORY_OWNER)).toBe("sent");
-    expect(await repo.auth.checkCode(MEMORY_OWNER, "000000", clock.now)).toBe("wrong");
+    expect(await repo.auth.checkCode(MEMORY_OWNER, "00000000", clock.now)).toBe("wrong");
     expect(await repo.auth.checkCode("someone@example.test", MEMORY_CODE, clock.now)).toBe("not-owner");
     const seen: (string | null)[] = [];
     const off = repo.auth.onChange((s) => seen.push(s?.email ?? null));

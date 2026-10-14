@@ -1,0 +1,93 @@
+/* EditorCaseStudy's `.rt`, as an editable area, and the "text selected" bubble menu. */
+.wrap {
+  position: relative;
+}
+.area {
+  display: block;
+  width: 100%;
+  min-height: 72px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  font: 400 16px/1.6 var(--fu);
+  color: var(--tx);
+  overflow-wrap: anywhere;
+}
+.area:hover {
+  border-color: var(--ln);
+}
+.area:focus,
+.area:focus-visible {
+  outline: none;
+  border-color: var(--tx);
+  background: #fff;
+}
+.area p,
+.area ul,
+.area ol {
+  margin: 0 0 0.6em;
+}
+.area > :last-child {
+  margin-bottom: 0;
+}
+.area a {
+  color: var(--tx);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.empty::before {
+  content: attr(data-placeholder);
+  color: #8f8d87;
+  pointer-events: none;
+}
+.bubble {
+  position: absolute;
+  z-index: 40;
+  transform: translate(-50%, calc(-100% - 8px));
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 10px;
+  background: #141416;
+  box-shadow: 0 12px 30px rgba(20, 20, 22, 0.25);
+  animation: global(msUp) 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.bubble button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #fff;
+  font: 500 13px/1 var(--fu);
+  cursor: pointer;
+}
+.bubble button:hover {
+  background: #2a2a31;
+}
+.bubble button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+.linkForm {
+  display: flex;
+  gap: 4px;
+}
+.linkForm input {
+  width: 220px;
+  height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 7px;
+  background: #2a2a31;
+  color: #fff;
+  font: 400 13px/1 var(--fm);
+}
+.linkForm input:focus {
+  outline: 2px solid #fff;
+}
+:global(html.still) .bubble {
+  animation: none;
+}

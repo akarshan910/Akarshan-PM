@@ -243,15 +243,26 @@ describe("posts", () => {
     expect(postWords(post)).toBe(6);
     expect(readingMinutes(0)).toBe(1);
     expect(readingMinutes(221)).toBe(2);
-    expect(postChecks(post).map((c) => c.text)).toEqual([
+    expect(postChecks(post, postIssues(post, { media: noMedia })).map((c) => c.text)).toEqual([
+      "Title is set.",
       "Short so far (6 words). Publishing is still fine.",
       "No excerpt: the first lines will be used.",
-      "Will show on your homepage's Writing section.",
+      "The cover needs alt text.",
+      "Will show on your homepage’s Writing section.",
     ]);
     post.showOnHome = false;
     post.excerpt = "E";
+    post.title = "";
+    post.cover = undefined;
     post.blocks = [{ id: "a", type: "text", body: "w ".repeat(400) }];
-    expect(postChecks(post).map((c) => c.text)).toEqual(["Only on /writing and in RSS."]);
+    expect(
+      postChecks(post, postIssues(post, { media: noMedia })).map((c) => [c.text, Boolean(c.block)]),
+    ).toEqual([
+      ["Add a title.", true],
+      ["400 words.", false],
+      ["Excerpt is set.", false],
+      ["Only on /writing and in RSS.", false],
+    ]);
   });
 });
 
