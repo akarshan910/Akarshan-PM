@@ -1,7 +1,9 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useNavigate } from "react-router";
 
 import { HomeContext, legacyAnchors, SECTIONS } from "~/components/sections";
 import { loadPublicContent } from "~/lib/content.server";
+import { legacyCaseRedirect } from "~/lib/legacy-links";
 import { richTextToPlain } from "~/lib/rich-text";
 import { buildHomeView } from "~/lib/site";
 
@@ -22,6 +24,12 @@ export function meta({ loaderData }: Route.MetaArgs) {
 /** Home (03 · Home): the published layout's sections, in order. The footer sits after `<main>`. */
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { sections, profile, projects, posts, chrome } = loaderData;
+  const navigate = useNavigate();
+  // The live site's `?open=<id>` links go to the case study (07 · Legacy links).
+  useEffect(() => {
+    const to = legacyCaseRedirect(window.location.search);
+    if (to) void navigate(to, { replace: true });
+  }, [navigate]);
   const context = useMemo(
     () => ({ anchors: legacyAnchors(sections), updatedAt: chrome.footer.updatedAt }),
     [sections, chrome.footer.updatedAt],
