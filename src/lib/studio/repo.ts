@@ -76,6 +76,8 @@ export interface MediaUse {
   /** Project or post id; absent for the profile. */
   id?: string;
   title: string;
+  /** Where in the document: "Cover", "Gallery", "Story · The bet", "About photo". */
+  where: string;
   /** A Studio path that opens the field, e.g. `/studio/projects/<id>/visuals`. */
   href: string;
 }
