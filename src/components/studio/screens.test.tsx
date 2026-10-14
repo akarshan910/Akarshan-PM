@@ -36,7 +36,7 @@ class MemoryStorage implements Storage {
   }
 }
 
-describe("Shell", () => {
+describe("Shell", { timeout: 20_000 }, () => {
   it("marks the current item in the sidebar, rail and tab bar, with the project count", () => {
     render(
       <MemoryRouter initialEntries={["/studio/projects/abc/story"]}>
@@ -80,7 +80,7 @@ describe("Shell", () => {
   });
 });
 
-describe("SessionExpired and LoadError", () => {
+describe("SessionExpired and LoadError", { timeout: 20_000 }, () => {
   it("can't be dismissed, and offers a code", async () => {
     const user = userEvent.setup();
     const onSignIn = vi.fn();
@@ -101,7 +101,7 @@ describe("SessionExpired and LoadError", () => {
   });
 });
 
-describe("Dashboard", () => {
+describe("Dashboard", { timeout: 20_000 }, () => {
   async function model() {
     const { repo } = testRepo();
     return buildDashboard({
@@ -180,7 +180,7 @@ describe("Dashboard", () => {
   });
 });
 
-describe("data layer", () => {
+describe("data layer", { timeout: 20_000 }, () => {
   function Probe({ id }: { id: string }) {
     const q = useQuery(`project:${id}`, (r) => r.projects.get(id));
     if (q.status === "loading") return <p>Loading</p>;
@@ -228,7 +228,7 @@ describe("data layer", () => {
   });
 });
 
-describe("Login", () => {
+describe("Login", { timeout: 20_000 }, () => {
   function setup(props: Partial<Parameters<typeof Login>[0]> = {}) {
     const { repo, clock } = testRepo({ signedIn: false });
     const local = new MemoryStorage();

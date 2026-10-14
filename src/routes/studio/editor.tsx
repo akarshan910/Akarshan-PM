@@ -15,16 +15,17 @@ export default function StudioEditor() {
   const q = useQuery(
     `editor:${id}`,
     async (r): Promise<EditorData | null> => {
-      const [row, rows, layout, media] = await Promise.all([
+      const [row, rows, layout, media, profile] = await Promise.all([
         r.projects.get(id),
         r.projects.list(),
         r.layout.get(),
         r.media.list(),
+        r.profile.get(),
       ]);
       if (!row) return null;
       const urls: Record<string, string> = {};
       await Promise.all(media.map(async (m) => (urls[m.id] = await r.media.url(m, "960"))));
-      return { row, rows, layout, media, urls };
+      return { row, rows, layout, media, urls, ownerName: profile.draft.name };
     },
     { fresh: true },
   );

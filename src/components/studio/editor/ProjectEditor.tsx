@@ -30,9 +30,12 @@ export interface EditorData {
   layout: DocRow<SiteLayout>;
   media: MediaRow[];
   urls: Record<string, string>;
+  /** The profile's name, for the default search title ("{title} · {name}"). */
+  ownerName: string;
 }
 
 interface EditorApi {
+  ownerName: string;
   row: ProjectRow;
   draft: Project;
   update: (fn: (d: Project) => Project) => void;
@@ -210,6 +213,7 @@ export function ProjectEditor({
   };
 
   const api: EditorApi = {
+    ownerName: data.ownerName,
     row,
     draft,
     update: autosave.update,
