@@ -46,7 +46,7 @@ export function EditorFrame(p: EditorFrameProps) {
         </Link>
         <div className={styles.titleBox}>
           <div className={cx("mono", styles.crumb)}>{p.breadcrumb}</div>
-          <div className={styles.title}>{p.title}</div>
+          <h1 className={styles.title}>{p.title}</h1>
           <div className={styles.chipsSm}>
             {p.published ? <span className={cx("chip", styles.chipSm, styles.ok)}>Published</span> : null}
             {p.editsNotLive ? (

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Outlet, redirect, useMatches, useNavigate, useLocation } from "react-router";
 
 import "~/styles/studio.css";
+import { StudioError } from "~/components/studio/states/StudioError";
 import { StudioDataProvider, useQuery } from "~/components/studio/data";
 import { SessionExpired } from "~/components/studio/shell/SessionExpired";
 import { Inert } from "~/components/studio/Inert";
@@ -26,6 +27,10 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     return redirect(loginPath(url.pathname));
   }
   return { repo, session };
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  return <StudioError error={error} />;
 }
 
 export function HydrateFallback() {

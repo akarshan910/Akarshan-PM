@@ -9,8 +9,7 @@
  * leaves the browser and is never used in a production build (see `client.ts`).
  */
 import { ACCENT_COLOURS } from "../accents";
-import { publishPost } from "./publish-post";
-import { publishProfile, publishProject, type Img, type ResolveImg } from "../published";
+import { publishPost, publishProfile, publishProject, type Img, type ResolveImg } from "../published";
 import {
   Post as PostSchema,
   Profile as ProfileSchema,

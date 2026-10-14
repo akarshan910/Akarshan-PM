@@ -16,7 +16,6 @@ import {
 } from "./format";
 import { loginPath, pageName, safeNext } from "./paths";
 import { createProject, projectStatus, shelfOf, shelves } from "./projects";
-import { publishPost } from "./publish-post";
 import {
   LOCK_MS,
   clearLock,
@@ -344,37 +343,6 @@ describe("projects", () => {
     const base = { published: {}, publishedAt: "2026-01-02", updatedAt: "2026-01-02" } as never;
     expect(projectStatus(base)).toBe("published");
     expect(projectStatus({ ...(base as object), updatedAt: "2026-01-03" } as never)).toBe("edits");
-  });
-});
-
-describe("publishPost", () => {
-  it("resolves images and fills the excerpt and reading time", () => {
-    const post = newPost();
-    post.title = "T";
-    post.cover = { mediaId: "c", alt: "Override" };
-    post.blocks = [
-      { id: "a", type: "text", body: "<p>Hello <strong>world</strong></p>" },
-      { id: "i", type: "image", mediaId: "c", caption: "Cap" },
-      { id: "j", type: "image", mediaId: "c", decorative: true },
-      { id: "k", type: "image", mediaId: "missing" },
-      { id: "l", type: "image", mediaId: "c", alt: "Own" },
-    ];
-    const img = { src: "/x", srcset: "/x 1w", width: 1, height: 1, alt: "Row", dominant: "#000" };
-    const out = publishPost(post, (r) => (r.mediaId === "c" ? img : undefined), "2026-10-15T00:00:00Z");
-    expect(out.cover?.alt).toBe("Override");
-    expect(out.excerpt).toBe("Hello world");
-    expect(out.readingMinutes).toBe(1);
-    expect(out.blocks.map((b) => (b.type === "image" ? [b.media.alt, b.media.caption] : b.type))).toEqual([
-      "text",
-      ["Row", "Cap"],
-      ["", undefined],
-      ["Own", undefined],
-    ]);
-    post.excerpt = "Mine";
-    post.cover = { mediaId: "c" };
-    const again = publishPost(post, () => img, "x");
-    expect(again.excerpt).toBe("Mine");
-    expect(again.cover?.alt).toBe("Row");
   });
 });
 

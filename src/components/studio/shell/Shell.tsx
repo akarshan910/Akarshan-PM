@@ -8,7 +8,7 @@
  * The Website builder uses the rail at every width above phones (`nav="rail"`).
  */
 import * as Tooltip from "@radix-ui/react-tooltip";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { NavLink, useLocation } from "react-router";
 
 import { cx } from "../../cx";
@@ -68,6 +68,28 @@ export function Shell({
 }: ShellProps) {
   const items = navItems(projectCount);
   const { pathname } = useLocation();
+  const main = useRef<HTMLDivElement>(null);
+  const first = useRef(true);
+
+  // A new Studio page moves focus to its heading, as a full page load would (WCAG 2.4.3).
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    const t = setTimeout(() => {
+      const h1 = [...(main.current?.querySelectorAll<HTMLElement>("h1") ?? [])].find(
+        (h) => h.offsetParent !== null,
+      );
+      const target = h1 ?? main.current;
+      if (!target) return;
+      if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+    }, 0);
+    return () => {
+      clearTimeout(t);
+    };
+  }, [pathname]);
   // The editor and post routes keep their parent's item current.
   const current = (item: NavItem) =>
     item.end ? pathname === item.to || pathname === `${item.to}/` : pathname.startsWith(item.to);
@@ -75,6 +97,9 @@ export function Shell({
   return (
     <Tooltip.Provider delayDuration={300}>
       <div className={cx("st", styles.shell)} data-nav={nav} data-tabbar={tabbar ? undefined : "off"}>
+        <a className={styles.skip} href="#studio-main">
+          Skip to content
+        </a>
         <aside className={styles.sidebar} aria-label="Studio">
           <div className={styles.brand}>
             <Wordmark />
@@ -155,7 +180,7 @@ export function Shell({
           </div>
         </nav>
 
-        <div className={styles.main} id="studio-main">
+        <div className={styles.main} id="studio-main" ref={main} tabIndex={-1}>
           {children}
         </div>
 

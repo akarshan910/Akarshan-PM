@@ -366,14 +366,24 @@ describe("Login", () => {
     expect(await screen.findByRole("heading", { name: "Check your email" })).toBeInTheDocument();
   });
 
-  it("shows the bot check when Turnstile asks", async () => {
+  it("shows the bot check when Turnstile asks, and an error without a widget", async () => {
     const user = userEvent.setup();
     const { repo } = testRepo({ signedIn: false });
-    vi.spyOn(repo.auth, "sendCode").mockResolvedValue("captcha");
-    render(
+    const send = vi
+      .spyOn(repo.auth, "sendCode")
+      .mockResolvedValueOnce("captcha")
+      .mockResolvedValueOnce("sent")
+      .mockResolvedValueOnce("captcha");
+    const render1 = vi.fn((_el: HTMLElement, o: { callback: (t: string) => void }) => {
+      o.callback("tok");
+      return "w1";
+    });
+    window.turnstile = { render: render1, remove: vi.fn() };
+    const { unmount } = render(
       <Login
         auth={repo.auth}
         next="/studio"
+        siteKey="site-key"
         onSignedIn={() => undefined}
         local={new MemoryStorage()}
         session={new MemoryStorage()}
@@ -381,6 +391,24 @@ describe("Login", () => {
     );
     await user.type(screen.getByLabelText("Email"), MEMORY_OWNER);
     await user.click(screen.getByRole("button", { name: "Email me a code" }));
-    expect(await screen.findByText("Verify you are human")).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Check your email" })).toBeInTheDocument();
+    expect(send).toHaveBeenLastCalledWith(MEMORY_OWNER, "tok");
+    unmount();
+    render(
+      <Login
+        auth={repo.auth}
+        next="/studio"
+        siteKey=""
+        onSignedIn={() => undefined}
+        local={new MemoryStorage()}
+        session={new MemoryStorage()}
+      />,
+    );
+    await user.type(screen.getByLabelText("Email"), MEMORY_OWNER);
+    await user.click(screen.getByRole("button", { name: "Email me a code" }));
+    expect(await screen.findByText("The bot check didn’t load.")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Try again" }));
+    expect(screen.queryByText("The bot check didn’t load.")).not.toBeInTheDocument();
+    delete window.turnstile;
   });
 });

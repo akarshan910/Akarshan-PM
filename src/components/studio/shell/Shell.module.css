@@ -9,6 +9,25 @@
   font-family: var(--fu);
 }
 
+/* "Skip to content": off screen until focused (WCAG 2.4.1). */
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--tx);
+  color: #fff;
+  font: 600 14px/1 var(--fu);
+}
+.skip:focus {
+  top: 12px;
+}
+.main:focus {
+  outline: none;
+}
+
 /* ---------------------------------------------------------------- sidebar (StudioDashboard) */
 .sidebar {
   flex: 1 1 232px;

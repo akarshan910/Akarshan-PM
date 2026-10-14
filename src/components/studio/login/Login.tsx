@@ -26,12 +26,14 @@ import {
   sentRecord,
 } from "~/lib/studio/signin";
 import styles from "./Login.module.css";
+import { Turnstile, turnstileSiteKey } from "./Turnstile";
 
 export type Phase =
   | "email"
   | "invalid"
   | "sending"
   | "captcha"
+  | "captcha-error"
   | "code"
   | "checking"
   | "wrong"
@@ -45,10 +47,7 @@ const ANNOUNCE: Partial<Record<Phase, string>> = {
   sending: "Sending a code.",
   code: "Code sent. Check your email.",
   checking: "Checking the code.",
-  wrong: "That code didn’t work.",
-  expired: "That code has expired.",
   done: "Signed in.",
-  locked: "Too many tries.",
 };
 
 interface LoginProps {
@@ -62,6 +61,8 @@ interface LoginProps {
   /** Send a code to the remembered address at once (the session-expired dialog's button). */
   sendNow?: boolean;
   onSignedIn: (next: string) => void;
+  /** Turnstile's public site key; empty when the build has none (05 · bot check). */
+  siteKey?: string | undefined;
   /** The clock and storage, so tests can drive them. */
   now?: () => number;
   local?: Storage | undefined;
@@ -83,6 +84,7 @@ export function Login({
   signedOut,
   sendNow,
   onSignedIn,
+  siteKey = turnstileSiteKey(),
   now = Date.now,
   ...props
 }: LoginProps) {
@@ -124,8 +126,16 @@ export function Login({
     if (phase === "code") codeRef.current?.focus();
   }, [phase]);
 
+  const doneTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(
+    () => () => {
+      clearTimeout(doneTimer.current);
+    },
+    [],
+  );
+
   const send = useCallback(
-    async (resend = false) => {
+    async (resend = false, captchaToken?: string) => {
       const address = normaliseEmail(email);
       if (!looksLikeEmail(address)) {
         setPhase("invalid");
@@ -140,7 +150,7 @@ export function Login({
         return;
       }
       if (!resend) setPhase("sending");
-      const result = await auth.sendCode(address);
+      const result = await auth.sendCode(address, captchaToken);
       if (result === "offline") {
         setOffline(true);
         setPhase("email");
@@ -148,7 +158,7 @@ export function Login({
       }
       setOffline(false);
       if (result === "captcha") {
-        setPhase("captcha");
+        setPhase(siteKey ? "captcha" : "captcha-error");
         return;
       }
       if (result === "rate") {
@@ -164,7 +174,7 @@ export function Login({
       setPhase("code");
       if (resend) setAnnounce("A new code is on its way.");
     },
-    [auth, email, locked, now, phase, sent, session, waitLeft],
+    [auth, email, locked, now, phase, sent, session, siteKey, waitLeft],
   );
 
   const sendOnce = useRef(false);
@@ -187,7 +197,8 @@ export function Login({
           clearLock(local, address);
           rememberEmail(local, address);
           setPhase("done");
-          setTimeout(() => {
+          clearTimeout(doneTimer.current);
+          doneTimer.current = setTimeout(() => {
             onSignedIn(next);
           }, 1200);
           return;
@@ -230,7 +241,7 @@ export function Login({
     void send();
   };
 
-  const emailStep = ["email", "invalid", "sending", "captcha"].includes(shownPhase);
+  const emailStep = ["email", "invalid", "sending", "captcha", "captcha-error"].includes(shownPhase);
   const codeStep = ["code", "checking", "wrong", "expired", "locked", "wait"].includes(shownPhase);
   const codeStatus: CodeStatus =
     shownPhase === "wrong"
@@ -371,18 +382,35 @@ export function Login({
               ) : null}
               {shownPhase === "captcha" ? (
                 <div className={styles.enter} style={{ marginTop: 14 }}>
-                  <div className={styles.ts} id="turnstile">
-                    <span className={styles.cb} />
-                    Verify you are human
-                    <span className={styles.tsBrand}>
-                      CLOUDFLARE
-                      <br />
-                      Turnstile
-                    </span>
-                  </div>
+                  <Turnstile
+                    siteKey={siteKey}
+                    onToken={(token) => {
+                      void send(false, token);
+                    }}
+                    onError={() => {
+                      setPhase("captcha-error");
+                    }}
+                  />
                   <p className={styles.note} style={{ marginTop: 8 }}>
                     Shown only when the sign-in looks unusual.
                   </p>
+                </div>
+              ) : null}
+              {shownPhase === "captcha-error" ? (
+                <div className={styles.gap}>
+                  <Alert tone="err" role="alert" enter icon={<Icon name="alert" />}>
+                    <b>The bot check didn’t load.</b> Wait a minute, then try again.{" "}
+                    <button
+                      type="button"
+                      className={buttons.link}
+                      style={{ color: "inherit", fontSize: 14 }}
+                      onClick={() => {
+                        setPhase("email");
+                      }}
+                    >
+                      Try again
+                    </button>
+                  </Alert>
                 </div>
               ) : null}
               <button
@@ -525,6 +553,7 @@ export function Login({
                 className={buttons.btn2Dark}
                 style={{ marginTop: 24 }}
                 onClick={() => {
+                  clearTimeout(doneTimer.current);
                   onSignedIn(next);
                 }}
               >

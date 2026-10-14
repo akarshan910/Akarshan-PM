@@ -2,13 +2,11 @@ import { forwardRef, useEffect, useRef, useState, type ChangeEvent, type Clipboa
 
 import styles from "./CodeInput.module.css";
 import { cx } from "../cx";
+import { CODE_LENGTH, CODE_LENGTH_WORD } from "~/lib/studio/signin";
 
 /** How long six digits wait before they submit on their own (02 · S2). */
 export const CODE_SUBMIT_DELAY = 150;
-export const CODE_LENGTH = 6;
-/** The length in words, for "all six digits" (Q9 may make it eight). */
-export const CODE_LENGTH_WORD =
-  ({ 6: "six", 8: "eight" } as Record<number, string>)[CODE_LENGTH] ?? String(CODE_LENGTH);
+export { CODE_LENGTH, CODE_LENGTH_WORD };
 
 /**
  * - `idle`: typing.

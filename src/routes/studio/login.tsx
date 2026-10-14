@@ -1,6 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router";
 
 import "~/styles/studio.css";
+import { StudioError } from "~/components/studio/states/StudioError";
 import { Login } from "~/components/studio/login/Login";
 import { loadRepo } from "~/lib/studio/client";
 import { pageName, safeNext } from "~/lib/studio/paths";
@@ -14,6 +15,10 @@ export function meta(_: Route.MetaArgs) {
 export async function clientLoader() {
   const repo = await loadRepo();
   return { auth: repo.auth };
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  return <StudioError error={error} />;
 }
 
 export function HydrateFallback() {

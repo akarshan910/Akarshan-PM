@@ -181,14 +181,19 @@ export function ProjectsScreen({
         }}
         onPublishLayout={() => void publishSite(false)}
         onNewProject={(shelfId) => {
-          void layout.flush().then(async () => {
-            const row = await createProject(repo, shelfId);
-            const fresh = await repo.layout.get();
-            layout.reset(fresh);
-            cache.invalidate("projects");
-            cache.invalidate("dashboard");
-            void navigate(`/studio/projects/${row.id}/overview`);
-          });
+          void layout
+            .flush()
+            .then(async () => {
+              const row = await createProject(repo, shelfId);
+              const fresh = await repo.layout.get();
+              layout.reset(fresh);
+              cache.invalidate("projects");
+              cache.invalidate("dashboard");
+              void navigate(`/studio/projects/${row.id}/overview`);
+            })
+            .catch(() => {
+              toast.show({ message: "Couldn’t create the project. Try again.", tone: "error" });
+            });
         }}
       />
       <UnconfirmedDialog

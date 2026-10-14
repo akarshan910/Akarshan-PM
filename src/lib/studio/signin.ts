@@ -5,6 +5,11 @@
  * honest and stop a person from guessing.
  */
 
+/** The sign-in code's length: 6 unless the owner picks 8 (Q9). Everything reads this one value. */
+export const CODE_LENGTH: number = 6;
+/** The length in words, for "all six digits are in". */
+export const CODE_LENGTH_WORD = CODE_LENGTH === 8 ? "eight" : CODE_LENGTH === 6 ? "six" : String(CODE_LENGTH);
+
 export const RESEND_WAIT = 60;
 export const CODE_TTL_MS = 10 * 60_000;
 export const MAX_WRONG = 5;
@@ -14,7 +19,7 @@ const EMAIL_KEY = "studio.email";
 const SENT_KEY = "studio.sent";
 const lockKey = (email: string) => `studio.lock.${email}`;
 
-/** StudioLogin's `mask()`: `a••••••••0@gmail.com`, at most eight dots. */
+/** StudioLogin's `mask()`: `o•••r@example.test`, at most eight dots in the middle. */
 export function maskEmail(email: string): string {
   const m = /^(.)(.*)(.)@(.+)$/.exec(email);
   if (!m) return "that address";
