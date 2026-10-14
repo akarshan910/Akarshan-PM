@@ -94,6 +94,10 @@ describe("Visuals", { timeout: 20_000 }, () => {
       await new Promise((r) => setTimeout(r, 500));
     });
     expect((await repo.media.list()).find((m) => m.id === `cover-${id}`)?.focal).toEqual({ x: 0.6, y: 0.55 });
+    // The cover's link-preview crop exists, and follows the focal point.
+    await waitFor(async () => {
+      expect((await repo.media.list()).find((m) => m.id === `cover-${id}`)?.hasOg).toBe(true);
+    });
   });
 
   it("uploads gallery images, edits the selected one, and refuses files that are too large", async () => {

@@ -1,6 +1,15 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { averageColour, hex, origName, runPipeline, variantFile, variantWidths } from "./media-pipeline";
+import {
+  averageColour,
+  cropOg,
+  hex,
+  ogRect,
+  origName,
+  runPipeline,
+  variantFile,
+  variantWidths,
+} from "./media-pipeline";
 
 describe("media pipeline", () => {
   afterEach(() => {
@@ -82,5 +91,36 @@ describe("media pipeline", () => {
     vi.stubGlobal("createImageBitmap", () => Promise.reject(new Error("decode")));
     await expect(runPipeline(new Blob(["x"]), "image/heic")).rejects.toThrow(/HEIC/);
     await expect(runPipeline(new Blob(["x"]), "image/jpeg")).rejects.toThrow(/Couldn’t read this image/);
+  });
+
+  it("crops the link preview around the focal point", async () => {
+    expect(ogRect(2400, 1260, null)).toEqual({ x: 0, y: 0, width: 2400, height: 1260 });
+    // A tall image: full width, the band around the focal point.
+    expect(ogRect(1200, 2000, { x: 0.5, y: 0.1 })).toEqual({ x: 0, y: 0, width: 1200, height: 630 });
+    expect(ogRect(1200, 2000, { x: 0.5, y: 0.5 })).toEqual({ x: 0, y: 685, width: 1200, height: 630 });
+    expect(ogRect(1200, 2000, { x: 0.5, y: 1 })).toEqual({ x: 0, y: 1370, width: 1200, height: 630 });
+    // A wide image: full height, slid towards the focal point.
+    expect(ogRect(4000, 1050, { x: 0.9, y: 0.5 })).toEqual({ x: 2000, y: 0, width: 2000, height: 1050 });
+
+    const drawn: number[][] = [];
+    class Canvas {
+      constructor(
+        public width: number,
+        public height: number,
+      ) {}
+      getContext() {
+        return { drawImage: (...a: unknown[]) => drawn.push(a.slice(1) as number[]) };
+      }
+      convertToBlob(o: { type: string }) {
+        return Promise.resolve(new Blob(["og"], { type: o.type }));
+      }
+    }
+    vi.stubGlobal("OffscreenCanvas", Canvas);
+    vi.stubGlobal("createImageBitmap", () =>
+      Promise.resolve({ width: 1200, height: 2000, close: () => undefined }),
+    );
+    const og = await cropOg(new Blob(["x"]), { x: 0.5, y: 0.5 });
+    expect(og.type).toBe("image/jpeg");
+    expect(drawn[0]).toEqual([0, 685, 1200, 630, 0, 0, 1200, 630]);
   });
 });

@@ -97,9 +97,14 @@ export function VisualsTab() {
     if (!cover) return;
     clearTimeout(focalTimer.current);
     focalTimer.current = setTimeout(() => {
-      void repo.media.update(cover.id, { focal: next }).then((row) => {
-        e.setMedia((m) => m.map((x) => (x.id === row.id ? row : x)));
-      });
+      // The link preview's crop follows the focal point.
+      void repo.media
+        .update(cover.id, { focal: next })
+        .then((row) => (row.kind === "image" ? repo.media.makeOg(row.id) : row))
+        .then((row) => {
+          e.setMedia((m) => m.map((x) => (x.id === row.id ? row : x)));
+        })
+        .catch(() => undefined);
     }, 400);
   };
   useEffect(
@@ -108,6 +113,19 @@ export function VisualsTab() {
     },
     [],
   );
+  // An image that becomes the cover gets its 1200×630 link-preview crop (06 · Storage).
+  const ogAsked = useRef(new Set<string>());
+  const coverId = cover?.kind === "image" && !cover.hasOg ? cover.id : null;
+  useEffect(() => {
+    if (!coverId || ogAsked.current.has(coverId)) return;
+    ogAsked.current.add(coverId);
+    void repo.media
+      .makeOg(coverId)
+      .then((row) => {
+        e.setMedia((m) => m.map((x) => (x.id === row.id ? row : x)));
+      })
+      .catch(() => undefined);
+  }, [coverId, repo, e]);
   const onFocalClick = (ev: MouseEvent<HTMLButtonElement>) => {
     if (!ev.clientX && !ev.clientY) return;
     const r = ev.currentTarget.getBoundingClientRect();

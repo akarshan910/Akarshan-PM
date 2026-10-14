@@ -14,7 +14,7 @@ import { createClient, type AuthError } from "@supabase/supabase-js";
 
 import type { Post, Profile, Project, SiteLayout } from "../types";
 import type { PostPublished, ProfilePublished, ProjectPublished } from "../published";
-import { runPipeline, variantFile, type PipelineResult } from "./media-pipeline";
+import { cropOg, origName, runPipeline, variantFile, type PipelineResult } from "./media-pipeline";
 import type {
   CheckCodeResult,
   DocRow,
@@ -118,6 +118,7 @@ const post = (r: PostCols): PostRow => ({
 });
 
 interface MediaCols {
+  has_og?: boolean;
   id: string;
   rev: number;
   key: string;
@@ -151,6 +152,7 @@ const media = (r: MediaCols): MediaRow & { variants: number[] } => ({
   filename: r.filename,
   published: r.published,
   createdAt: r.created_at,
+  hasOg: r.has_og ?? false,
   variants: r.variants ?? [],
 });
 
@@ -160,7 +162,7 @@ const POST_COLS =
   "id, slug, published_slug, draft, published, published_at, scheduled_for, schedule_error, version, updated_at, deleted_at";
 const DOC_COLS = "draft, published, published_at, version, updated_at";
 const MEDIA_COLS =
-  "id, rev, key, kind, mime, bytes, width, height, variants, focal, alt, decorative, dominant, filename, published, created_at";
+  "id, rev, key, kind, mime, bytes, width, height, variants, has_og, focal, alt, decorative, dominant, filename, published, created_at";
 
 // ---- auth (06 · Client code)
 
@@ -461,6 +463,28 @@ export function supabaseRepo(url: string, anonKey: string): StudioRepo {
         if (patch.filename !== undefined) cols.filename = patch.filename.slice(0, 255);
         return media(
           must(await sb.from("media").update(cols).eq("id", id).select(MEDIA_COLS).single<MediaCols>()),
+        );
+      },
+      makeOg: async (id) => {
+        const row = await mediaGet(id);
+        if (row.kind !== "image") return row;
+        const orig = await sb.storage.from(DRAFT_BUCKET).download(`${row.key}/${origName(row.mime)}`);
+        if (orig.error) throw orig.error;
+        const og = await cropOg(orig.data, row.focal);
+        const up = await sb.storage
+          .from(DRAFT_BUCKET)
+          .upload(`${row.key}/og.jpg`, og, { contentType: "image/jpeg", upsert: true, cacheControl: "3600" });
+        if (up.error) throw up.error;
+        signed.delete(`${row.key}/og.jpg`);
+        return media(
+          must(
+            await sb
+              .from("media")
+              .update({ has_og: true })
+              .eq("id", id)
+              .select(MEDIA_COLS)
+              .single<MediaCols>(),
+          ),
         );
       },
       replace: async (id, input) => {
