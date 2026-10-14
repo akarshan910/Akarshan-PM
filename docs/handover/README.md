@@ -141,20 +141,20 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 
 ### M4 · Studio
 
-- [ ] Shell:
+- [x] Shell:
   - 240px sidebar on laptop, 72px rail on iPad, bottom tabs on phones;
   - the account menu;
   - save status.
-- [ ] Sign-in by email code and every path on `StudioAuthFlow`. See [05](05-studio.md#sign-in).
+- [x] Sign-in by email code and every path on `StudioAuthFlow`. See [05](05-studio.md#sign-in).
 - [x] Dashboard.
-- [ ] Website builder: outline, order, show or hide, nav labels, section settings, floating previews, skill sizes, off duty items, add section, live preview, publish website. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
-- [ ] Profile & facts, with confirm states. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
+- [x] Website builder: outline, order, show or hide, nav labels, section settings, floating previews, skill sizes, off duty items, add section, live preview, publish website.
+- [x] Profile & facts, with confirm states.
 - [x] Projects list: order, lead star, menu, filters, layout publish bar.
-- [ ] Project editor: Overview, Visuals, Story, Outcomes, URL & SEO, with autosave, conflict, offline and publish checks. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
-- [ ] Writing: list, editor, settings with the topic picker, schedule, publish. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
-- [ ] Media library. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
+- [x] Project editor: Overview, Visuals, Story, Outcomes, URL & SEO, with autosave, conflict, offline and publish checks.
+- [x] Writing: list, editor, settings with the topic picker, schedule, publish.
+- [x] Media library.
 - [x] Draft preview and share links.
-- [ ] Every state on `StudioStates`. _Built (merged 16 Oct 2026); ticked once publish waits for a successful save (review 0230 in studio's inbox)._
+- [x] Every state on `StudioStates`.
 - [ ] iPad and phone layouts.
 
 ### M5 · Publishing and SEO

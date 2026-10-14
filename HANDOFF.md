@@ -31,7 +31,7 @@ _Last updated: 15 Oct 2026._
 | M1 · Components | **Done.** Every C1–C22, S1, S2 and Studio primitive, on `/dev/components` (dev only) |
 | M2 · Public site on local data | **Done** (merged 15 Oct 2026), except closing the pixel-parity sections (about 49 of 75 pass). See Next |
 | M3 · Supabase | **Built and tested locally** (merged 15 Oct 2026): `pm` schema with RLS, buckets, the six `pm-` Edge Functions, `db:migrate`, `db:lint`, `setup:owner`, `seed:v0`, PGlite tests (`npm run test:db`). The Supabase content source (`CONTENT_SOURCE=supabase`, WP3.5) is built and tested; local-v0 stays the default until go-live. Not done: every go-live step on the shared project, which the owner runs (`supabase/README.md`) |
-| M4 · Studio | **Nearly built.** Merged 16 Oct 2026: every screen (dashboard, projects, the project editor's tabs, Writing, Media, Profile & facts, Website builder, Draft preview, system states) and the Supabase-backed repo. Open: publish must wait for a successful save, and the review's other follow-ups; HEIC and resumable uploads before launch |
+| M4 · Studio | **Built** (merged 16 Oct 2026): every screen, the review fixes and the Supabase-backed repo (security-reviewed against the real migrations). Open: iPad and phone (QA's pass); HEIC and resumable uploads before launch |
 | M5 · Publishing and SEO | Not started |
 | M6 · QA and launch | Not started |
 | M7 · Wiki | Not started |
@@ -70,7 +70,7 @@ Pick up in this order. Each item lists the doc sections and boards to read.
 
 1. **Close M2.**
    - Pixel parity: `npm run parity` (QA's specs, one build per width, D70) passes about 49 of 75 pixel sections (plus the dek type checks); portfolio closes the rest, with per-width fixture copy.
-2. **M4 · Studio, what's left.** Fix the review's findings (publish after a failed save loses edits; delete success on failure; queued offline conflicts; upload messages; Delete-section Undo; RichArea drop and native undo), then tick the M4 boxes. Before launch: `heic2any` and `tus-js-client` (06's pipeline), and the Supabase repo run against the real migrations. iPad and phone: QA's parity pass.
+2. **M4 · Studio, what's left.** iPad and phone layouts, through QA's pass. Before launch: `heic2any` and `tus-js-client` (06's pipeline; studio requests exact versions), and the security LOWs on the media pipeline (size check after re-encoding). PDFs and GIFs keep their metadata (an open item for the owner's résumé PDF).
 3. **M3 · what's left.** Reading `public_redirects()` for M5's `write-vercel-config`. The go-live steps in `supabase/README.md` are the owner's (expose `pm`, extensions, `db:migrate`, Vault, function secrets and deploys, `setup:owner`, Auth settings); nothing touches the shared project until the owner says so. Security follow-ups are in `.agents/security/inbox`.
 4. **M5 · Unknown `/work/<slug>` addresses.** Today a static server answers them with another page's prerendered HTML. React Router then finds no loader data for `routes/work.$slug` and shows the error state, not the 404. The fix follows [01 · Rendering](docs/handover/01-architecture.md#rendering): `scripts/write-vercel-config.ts` rewrites `/work/:slug` paths with no prerendered page to the `noindex` unlisted shell (`work.unlisted.tsx`). The shell shows the project or the 404 state. Every other unknown path gets `404.html` with status 404. Add the e2e case back to `tests/e2e/states.spec.ts` once the shell exists.
 5. **M5 · The RSS feed.** `RssLink` already points at `/writing/rss.xml`; the feed must exist before the first post is published.
