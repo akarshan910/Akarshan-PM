@@ -71,7 +71,9 @@ export function SettingsTab({ ownerName }: { ownerName: string }) {
     timer.current = setTimeout(() => {
       void (async () => {
         await e.autosave.flush();
-        const r = await repo.projects.setSlug(row.id, value, e.autosave.row.version);
+        // The flush may have bumped the version, so read the row's current one.
+        const current = await repo.projects.get(row.id);
+        const r = await repo.projects.setSlug(row.id, value, current?.version ?? e.autosave.row.version);
         if (r.ok) {
           e.setRow(r.row);
           cache.invalidate("projects");
