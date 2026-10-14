@@ -17,6 +17,7 @@ Read this file first, then the chapter for the area you're working on. The worki
 | 07 | [V0 content](07-v0-content.md) | How the current site's content maps into Studio for the cold start |
 | 08 | [QA](08-qa.md) | Pixel-parity procedure, motion checks, accessibility and performance budgets |
 | 09 | [Decisions](09-decisions.md) | What's decided, and what still needs the owner |
+| 10 | [Execution plan](10-execution-plan.md) | The order of work, what runs in parallel, default values, architecture rules and security gates |
 
 The design-phase documents are background and are referenced throughout; where they disagree with 09 or this handover, 09 and the handover win:
 
@@ -67,7 +68,7 @@ The other boards in `design/boards/` are earlier rounds (`Main`, `Direction*`, `
 
 ## Milestones
 
-Build in this order. Each milestone ends with the [QA](08-qa.md) pass for what it touched. Tick the boxes in the same commit as the work.
+Build in this order. Each milestone ends with the [QA](08-qa.md) pass for what it touched. Tick the boxes in the same commit as the work. [10 · Execution plan](10-execution-plan.md) sequences these milestones: which work runs in parallel, which shared code comes first, and when the owner is needed.
 
 ### M0 · Foundation
 

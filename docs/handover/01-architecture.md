@@ -91,7 +91,8 @@ src/
   motion/
     reduced-motion.ts  tilt.ts  speed-lines.ts  floaters.ts  reveal.ts  drift.css  keyframes.css
   lib/
-    supabase.ts  auth.ts  schemas.ts  types.ts  shelves.ts  volumes.ts  labels.ts
+    supabase.ts  auth.ts  schemas.ts  types.ts  defaults.ts  v0.ts  content-source.ts
+    shelves.ts  volumes.ts  labels.ts
     skills-order.ts  rich-text.ts  links.ts  seo.ts
   styles/
     tokens.css  base.css  studio.css
