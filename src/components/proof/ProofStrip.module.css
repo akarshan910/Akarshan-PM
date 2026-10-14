@@ -66,18 +66,6 @@
   color: var(--tx3);
 }
 
-/* A minimal C6 chip, as `.chip` on the Home board. Unify with C6 when the tracks merge. */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  height: 30px;
-  padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid var(--ln);
-  font-size: 13px;
-  color: var(--tx2);
-}
-
 /* iPad: 2 × 2 at 46px; chips without the label (HomeTablet.dc.html). */
 @media (min-width: 768px) and (max-width: 1279px) {
   .cells {
@@ -115,9 +103,6 @@
   }
   .spacesLabel {
     display: none;
-  }
-  .chip {
-    height: 32px;
   }
 }
 

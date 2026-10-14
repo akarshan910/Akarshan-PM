@@ -1,3 +1,4 @@
+import { Button } from "../buttons/Button";
 import actions from "./actions.module.css";
 import styles from "./NoResults.module.css";
 
@@ -51,9 +52,9 @@ export function NoResults({ filters, message, onClear, onKeepSearch }: NoResults
         <h2 className={styles.title}>No projects match.</h2>
         {message ? <p className={styles.text}>{message}</p> : null}
         <div className={styles.actions}>
-          <button type="button" className={actions.ctax} onClick={onClear}>
+          <Button size="small" onClick={onClear}>
             Clear filters
-          </button>
+          </Button>
           {searching && onKeepSearch ? (
             <button type="button" className={actions.btnx} onClick={onKeepSearch}>
               Keep the search, clear the rest

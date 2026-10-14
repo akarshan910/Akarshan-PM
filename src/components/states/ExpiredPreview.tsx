@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 
 import { Icon } from "../icons";
-import actions from "./actions.module.css";
+import { buttonClass } from "../buttons/Button";
 import styles from "./ExpiredPreview.module.css";
 
 interface ExpiredPreviewProps {
@@ -17,7 +17,7 @@ export function ExpiredPreview({ publishedHref = "/work" }: ExpiredPreviewProps)
       <h1 className={styles.title}>This preview link has expired.</h1>
       <p className={styles.text}>Preview links last 7 days. Ask for a new one, or see the published work.</p>
       <div className={styles.actions}>
-        <Link className={actions.ctax} to={publishedHref}>
+        <Link className={buttonClass("primary", "small")} to={publishedHref}>
           See the published work
         </Link>
       </div>

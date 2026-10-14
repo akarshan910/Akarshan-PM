@@ -4,6 +4,7 @@ import { Icon } from "~/components/icons";
 
 import { type Testimonial, TestimonialCard } from "./TestimonialCard";
 import styles from "./Testimonials.module.css";
+import { cx } from "../cx";
 
 const PAGE = 3;
 /** M-TESTI-PAGE: the cards fade out over 200ms before the page changes. */
@@ -85,9 +86,7 @@ export function Testimonials({ heading, items, swipeHint = "Swipe →" }: Testim
       el.scrollTo({ left: card.offsetLeft - el.offsetLeft, behavior: still() ? "auto" : "smooth" });
   };
 
-  const track = [styles.track, phase === "out" && styles.out, phase === "in" && styles.in]
-    .filter(Boolean)
-    .join(" ");
+  const track = cx(styles.track, phase === "out" && styles.out, phase === "in" && styles.in);
 
   return (
     <>

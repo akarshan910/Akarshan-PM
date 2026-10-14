@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { isCrossOriginHttps, prototypeUrl } from "~/lib/links";
 
 import { Icon } from "../icons";
+import { buttonClass } from "../buttons/Button";
 import actions from "../states/actions.module.css";
 import { Image } from "./Image";
 import styles from "./PrototypeEmbed.module.css";
@@ -367,13 +368,13 @@ export function PrototypeEmbed({
                   posterButton.current = node;
                 }}
                 type="button"
-                className={actions.ctax}
+                className={buttonClass("primary", "small")}
                 onClick={explore}
               >
                 Explore the prototype
               </button>
             ) : (
-              <NewTab href={src} className={actions.ctax}>
+              <NewTab href={src} className={buttonClass("primary", "small")}>
                 Open prototype ↗
               </NewTab>
             )}

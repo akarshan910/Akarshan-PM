@@ -37,7 +37,7 @@ interface ToastViewProps extends ToastOptions {
 /** One toast, as drawn. `ToastProvider` places it bottom centre; the catalogue shows it in place. */
 export function Toast({ message, tone = "success", action, link, onDismiss }: ToastViewProps) {
   return (
-    <div className={[styles.toast, tone === "error" ? styles.error : ""].filter(Boolean).join(" ")}>
+    <div className={cx(styles.toast, tone === "error" ? styles.error : "")}>
       {tone === "success" ? <Icon name="tick" className={cx("ico", styles.okIco)} /> : null}
       {tone === "error" ? <Icon name="alert-circle" className={cx("ico", styles.errIco)} /> : null}
       <span className={styles.msg}>{message}</span>

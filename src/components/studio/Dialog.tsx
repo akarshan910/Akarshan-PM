@@ -3,6 +3,7 @@ import { useId, useRef, useState, type ReactNode } from "react";
 
 import { Button } from "./Button";
 import styles from "./Dialog.module.css";
+import { cx } from "../cx";
 
 interface DialogProps {
   open: boolean;
@@ -76,9 +77,7 @@ export function Dialog({
   const head = (
     <>
       {!panel && icon ? (
-        <span className={[styles.tile, iconTone === "err" ? styles.tileErr : ""].filter(Boolean).join(" ")}>
-          {icon}
-        </span>
+        <span className={cx(styles.tile, iconTone === "err" ? styles.tileErr : "")}>{icon}</span>
       ) : null}
       {panel && kicker ? <div className={styles.kicker}>{kicker}</div> : null}
       <RadixDialog.Title className={styles.title}>{title}</RadixDialog.Title>
@@ -131,7 +130,7 @@ export function Dialog({
         <div className="st" style={{ background: "none" }}>
           <RadixDialog.Overlay className={styles.overlay}>
             <RadixDialog.Content
-              className={[styles.dialog, panel ? styles.panel : styles.plain].join(" ")}
+              className={cx(styles.dialog, panel ? styles.panel : styles.plain)}
               style={width ? { width } : panel ? { width: 560 } : undefined}
               {...(description ? {} : { "aria-describedby": undefined })}
               onOpenAutoFocus={(e) => {

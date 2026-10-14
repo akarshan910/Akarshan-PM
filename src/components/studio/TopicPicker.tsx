@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 
 import { Icon } from "../icons";
 import styles from "./TopicPicker.module.css";
+import { cx } from "../cx";
 
 /** A post or project holds at most 8 topics (06 · Topics, D44). */
 export const TOPIC_CAP = 8;
@@ -267,7 +268,7 @@ export function TopicPicker({
       {/* Esc anywhere in the picker closes the dropdown; the keys themselves live on its controls. */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={styles.ms} ref={wrap} onKeyDown={onWrapKey}>
-        <div className={[styles.field, open ? styles.open : ""].filter(Boolean).join(" ")}>
+        <div className={cx(styles.field, open ? styles.open : "")}>
           {value.map((t) => (
             <span key={t} className={styles.msChip}>
               {t}
@@ -342,7 +343,7 @@ export function TopicPicker({
                   <li
                     key={t}
                     id={`${base}-o-${i}`}
-                    className={[styles.opt, i === active ? styles.act : ""].filter(Boolean).join(" ")}
+                    className={cx(styles.opt, i === active ? styles.act : "")}
                     role="option"
                     aria-selected={on}
                     aria-disabled={off ? true : undefined}

@@ -212,13 +212,13 @@ function TagsAndChips() {
   return (
     <Specimen title="C6 · Tags, badges and chips" board="Home*.dc.html covers, hero, proof; System.dc.html">
       <State label="Volume tag · lead">
-        <VolumeTag number="01" accent="#2DD4BF" size="lead" />
+        <VolumeTag number="01" accent={ACCENT_COLOURS.teal.accent} size="lead" />
       </State>
       <State label="Volume tag · standard">
-        <VolumeTag number="02" accent="#F5A524" />
+        <VolumeTag number="02" accent={ACCENT_COLOURS.amber.accent} />
       </State>
       <State label="Volume tag · compact (phone row)">
-        <VolumeTag number="03" accent="#38BDF8" size="compact" />
+        <VolumeTag number="03" accent={ACCENT_COLOURS.sky.accent} size="compact" />
       </State>
       <State label="Badge · prototype">
         <span style={{ display: "inline-flex", padding: 12, background: "#1C0C0F", borderRadius: 10 }}>
@@ -231,8 +231,15 @@ function TagsAndChips() {
         </span>
       </State>
       <State label="Badge · status">
-        <span style={{ display: "inline-flex", padding: 12, background: "#0D1918", borderRadius: 10 }}>
-          <StatusBadge kind="status" label="Shipped · AI" accent="#2DD4BF" />
+        <span
+          style={{
+            display: "inline-flex",
+            padding: 12,
+            background: ACCENT_COLOURS.teal.ground,
+            borderRadius: 10,
+          }}
+        >
+          <StatusBadge kind="status" label="Shipped · AI" accent={ACCENT_COLOURS.teal.accent} />
         </span>
       </State>
       <State label="Chip">

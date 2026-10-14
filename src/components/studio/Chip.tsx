@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import styles from "./Chip.module.css";
+import { cx } from "../cx";
 
 export type ChipTone = "neutral" | "ok" | "warn" | "err" | "outline";
 
@@ -16,7 +17,7 @@ interface ChipProps {
 /** Studio's status chip, `.chip`. */
 export function Chip({ tone = "neutral", size = "md", dot, children }: ChipProps) {
   return (
-    <span className={[styles.chip, styles[tone], size === "sm" ? styles.sm : ""].filter(Boolean).join(" ")}>
+    <span className={cx(styles.chip, styles[tone], size === "sm" ? styles.sm : "")}>
       {dot ? <span className={styles.dot} aria-hidden="true" /> : null}
       {children}
     </span>

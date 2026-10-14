@@ -1,13 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-
+import { cx } from "../cx";
 import { Icon } from "../icons";
 import styles from "./Image.module.css";
 import type { ImageData } from "./types";
+import { type ImageState, useImageLoad } from "./useImageLoad";
 
-export type ImageState = "loading" | "loaded" | "failed";
-
-/** useLayoutEffect in the browser, useEffect while prerendering (no warning on the server). */
-const useBrowserLayoutEffect = typeof document === "undefined" ? useEffect : useLayoutEffect;
+export type { ImageState } from "./useImageLoad";
 
 interface ImageProps {
   image: ImageData;
@@ -28,27 +25,9 @@ interface ImageProps {
  * alt text in place if the file fails, never the browser's broken-image icon.
  */
 export function Image({ image, sizes, priority, fit = "cover", className, state: forced }: ImageProps) {
-  const ref = useRef<HTMLImageElement>(null);
-  // The state belongs to one `src`: a new image starts loading again.
-  const [status, setStatus] = useState<{ src: string; state: ImageState }>({
-    src: image.src,
-    state: "loading",
-  });
-  const [instant, setInstant] = useState(false);
-  const shown = forced ?? (status.src === image.src ? status.state : "loading");
-  const settle = (state: ImageState) => {
-    setStatus({ src: image.src, state });
-  };
+  const { ref, state: shown, instant, onLoad, onError } = useImageLoad(image.src, forced);
 
-  // A prerendered image that finished before hydration skips the fade (M-IMG-FADE).
-  useBrowserLayoutEffect(() => {
-    const img = ref.current;
-    if (forced || !img?.complete) return;
-    setInstant(true);
-    settle(img.naturalWidth > 0 ? "loaded" : "failed");
-  }, [forced, image.src]);
-
-  const box = [styles.box, instant ? styles.instant : "", className ?? ""].filter(Boolean).join(" ");
+  const box = cx(styles.box, instant && styles.instant, className);
 
   return (
     <span
@@ -78,12 +57,8 @@ export function Image({ image, sizes, priority, fit = "cover", className, state:
               loading={priority ? "eager" : "lazy"}
               decoding="async"
               style={fit === "contain" ? { objectFit: "contain" } : undefined}
-              onLoad={() => {
-                settle("loaded");
-              }}
-              onError={() => {
-                settle("failed");
-              }}
+              onLoad={onLoad}
+              onError={onError}
             />
           )}
           {shown === "loading" ? <span className={styles.shim} aria-hidden="true" /> : null}

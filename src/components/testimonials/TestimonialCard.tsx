@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { Icon } from "~/components/icons";
 
 import styles from "./Testimonials.module.css";
+import { cx } from "../cx";
 
 export interface Testimonial {
   id: string;
@@ -36,7 +37,7 @@ export function TestimonialCard({
   style,
 }: TestimonialCardProps) {
   return (
-    <figure className={className ? `${styles.card ?? ""} ${className}` : styles.card} style={style}>
+    <figure className={cx(styles.card, className)} style={style}>
       <blockquote className={styles.quote}>“{quote}”</blockquote>
       <figcaption className={styles.caption}>
         <span className={styles.avatar} style={avatar} aria-hidden="true">

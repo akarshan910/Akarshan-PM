@@ -3,6 +3,7 @@ import { type ReactNode, useId, useState } from "react";
 import { Icon } from "~/components/icons";
 
 import styles from "./AccordionRow.module.css";
+import { cx } from "../cx";
 
 interface AccordionRowProps {
   title: ReactNode;
@@ -32,9 +33,7 @@ export function AccordionRow({
 }: AccordionRowProps) {
   const [open, setOpen] = useState(defaultOpen);
   const panelId = useId();
-  const root = [collapse === "always" ? "" : styles[collapse], open ? styles.open : "", className]
-    .filter(Boolean)
-    .join(" ");
+  const root = cx(collapse === "always" ? "" : styles[collapse], open ? styles.open : "", className);
   return (
     <div className={root}>
       <button
@@ -50,7 +49,7 @@ export function AccordionRow({
           {title}
           {subtitle ? <span className={styles.sub}>{subtitle}</span> : null}
         </span>
-        <Icon name="plus" className={`ico ${styles.icon ?? ""}`} />
+        <Icon name="plus" className={cx("ico", styles.icon)} />
       </button>
       <div id={panelId} className={styles.panel}>
         {children}

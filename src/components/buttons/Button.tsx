@@ -1,7 +1,7 @@
 /**
  * C3 · Buttons (02 · C3, 04 · M-CTA, M-BTN2).
  *
- * - `primary`: the angled CTA, `.cta`.
+ * - `primary`: the angled CTA, `.cta`; `small` for the page and media states' `.ctax`.
  * - `secondary`: `.cta2`; `compact` for "Full résumé"; `destructive` for delete actions.
  * - `ghost`: the System board's plain button.
  *
@@ -15,12 +15,16 @@ import { Icon, type IconName } from "../icons";
 import styles from "./Button.module.css";
 
 export type ButtonVariant = "primary" | "secondary" | "destructive" | "ghost";
+export type ButtonSize = "default" | "compact" | "menu" | "small";
 
 export interface ButtonProps {
   children: ReactNode;
   variant?: ButtonVariant;
-  /** `compact`: the 44px secondary ("Full résumé"). `menu`: the 54px CTA inside the phone menu. */
-  size?: "default" | "compact" | "menu";
+  /**
+   * `compact`: the 44px secondary ("Full résumé"). `menu`: the 54px CTA inside the phone menu.
+   * `small`: the 42px primary of the page and media states.
+   */
+  size?: ButtonSize;
   /** Renders an `<a>`. */
   href?: string | undefined;
   /** Opens in a new tab, and says so to screen readers (03 · Accessibility). */
@@ -50,6 +54,21 @@ const VARIANT: Record<ButtonVariant, (string | undefined)[]> = {
   ghost: [styles.ghost],
 };
 
+const SIZE: Record<ButtonSize, string | undefined> = {
+  default: undefined,
+  compact: styles.compact,
+  menu: styles.menu,
+  small: styles.small,
+};
+
+/**
+ * The button's class names, for an element `Button` can't render itself: a router `Link`, a link
+ * that opens a new tab with its own markup, or a button that needs a ref.
+ */
+export function buttonClass(variant: ButtonVariant = "primary", size: ButtonSize = "default"): string {
+  return cx(...VARIANT[variant], SIZE[size]);
+}
+
 export function Button({
   children,
   variant = "primary",
@@ -68,13 +87,7 @@ export function Button({
   ...aria
 }: ButtonProps) {
   const inert = Boolean(disabled || loading);
-  const classes = cx(
-    ...VARIANT[variant],
-    size === "compact" && styles.compact,
-    size === "menu" && styles.menu,
-    block && styles.block,
-    className,
-  );
+  const classes = cx(buttonClass(variant, size), block && styles.block, className);
   const handle = (event: MouseEvent<HTMLElement>) => {
     if (inert) {
       event.preventDefault();

@@ -56,6 +56,23 @@
 .menu {
   height: 54px;
 }
+/*
+ * The small angled CTA of the page and media states: PublicStates.dc.html `.ctax` (42px, 13px text,
+ * square corners, an 8px cut). Touch screens keep a 44px target (02 · Layout).
+ */
+.small {
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 0;
+  font-size: 13px;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+@media (pointer: coarse) {
+  .small {
+    min-height: 44px;
+  }
+}
 
 .cta2 {
   display: inline-flex;

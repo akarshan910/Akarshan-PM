@@ -2,6 +2,7 @@ import { forwardRef, type ButtonHTMLAttributes, type MouseEvent, type ReactNode 
 
 import styles from "./Button.module.css";
 import { Spinner, type SpinnerKind } from "./Spinner";
+import { cx } from "../cx";
 
 export type ButtonVariant = "cta" | "btn" | "pbtn" | "btn2" | "btn2-dark" | "ghost" | "danger" | "link";
 
@@ -47,7 +48,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     <button
       ref={ref}
       type={type}
-      className={[CLASS[variant], className].filter(Boolean).join(" ")}
+      className={cx(CLASS[variant], className)}
       aria-disabled={disabled ? true : undefined}
       aria-busy={busy ? true : undefined}
       onClick={handle}
@@ -77,7 +78,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
       ref={ref}
       type={type}
       aria-label={label}
-      className={[styles.ib, size === 36 ? styles.ib36 : "", className].filter(Boolean).join(" ")}
+      className={cx(styles.ib, size === 36 ? styles.ib36 : "", className)}
       {...rest}
     >
       {children}

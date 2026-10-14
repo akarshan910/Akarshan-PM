@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 
+import { buttonClass } from "../buttons/Button";
 import actions from "./actions.module.css";
 import styles from "./NotFound.module.css";
 
@@ -24,7 +25,7 @@ export function NotFound({ showWriting = false }: NotFoundProps) {
         <span className={styles.phone}>tap</span> away.
       </p>
       <div className={styles.actions}>
-        <Link className={actions.ctax} to="/work">
+        <Link className={buttonClass("primary", "small")} to="/work">
           See all work
         </Link>
         {showWriting ? (

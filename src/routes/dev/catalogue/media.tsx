@@ -11,6 +11,7 @@ import { MovedNote } from "~/components/states/MovedNote";
 import { NoResults } from "~/components/states/NoResults";
 import { NotFound } from "~/components/states/NotFound";
 import { ChangedMark, PreviewBar } from "~/components/states/PreviewBar";
+import { ACCENT_COLOURS } from "~/lib/accents";
 
 import { Specimen, State } from "./Specimen";
 
@@ -29,13 +30,13 @@ const cover = (src: string, alt: string, dominant: string): ImageData => ({
   dominant,
 });
 
-const PUJA = cover(puja, "Puja engagement platform cover", "#1C0C0F");
+const PUJA = cover(puja, "Puja engagement platform cover", ACCENT_COLOURS.coral.ground);
 const GALLERY: LightboxItem[] = [
   { image: PUJA, caption: "Booking" },
-  { image: cover(glp, "GLP-1 digital scaffold cover", "#130F1F"), caption: "Scaffold" },
-  { image: cover(revenue, "Revenue growth strategy cover", "#141F06") },
-  { image: cover(arcana, "Arcana workspace cover", "#0D1918"), caption: "Workspace" },
-  { image: cover(words, "Word games monetisation strategy cover", "#1A140A") },
+  { image: cover(glp, "GLP-1 digital scaffold cover", ACCENT_COLOURS.violet.ground), caption: "Scaffold" },
+  { image: cover(revenue, "Revenue growth strategy cover", ACCENT_COLOURS.lime.ground) },
+  { image: cover(arcana, "Arcana workspace cover", ACCENT_COLOURS.teal.ground), caption: "Workspace" },
+  { image: cover(words, "Word games monetisation strategy cover", ACCENT_COLOURS.amber.ground) },
 ];
 
 /** Board copy: the catalogue may use it; the site never does. */

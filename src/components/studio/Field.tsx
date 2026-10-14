@@ -38,7 +38,7 @@ export function Counter({ length, limit, warnAbove }: CounterLimit & { length: n
   const tone =
     length > limit ? styles.cntOver : warnAbove !== undefined && length > warnAbove ? styles.cntWarn : "";
   return (
-    <span className={[styles.cnt, tone].filter(Boolean).join(" ")} data-over={length > limit || undefined}>
+    <span className={cx(styles.cnt, tone)} data-over={length > limit || undefined}>
       {length}/{limit}
     </span>
   );
@@ -96,9 +96,12 @@ function controlProps(chrome: FieldChrome, extraClass?: string) {
   const described = chrome.hint || chrome.error || chrome.warning || chrome.counter;
   return {
     id: chrome.id,
-    className: [styles.inp, chrome.mono ? styles.monoInp : "", chrome.error ? styles.invalid : "", extraClass]
-      .filter(Boolean)
-      .join(" "),
+    className: cx(
+      styles.inp,
+      chrome.mono ? styles.monoInp : "",
+      chrome.error ? styles.invalid : "",
+      extraClass,
+    ),
     "aria-invalid": chrome.error ? true : undefined,
     "aria-describedby": described ? `${chrome.id}-h` : undefined,
   };

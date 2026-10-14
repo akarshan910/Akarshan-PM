@@ -2,20 +2,13 @@ import type { CSSProperties, MouseEventHandler, Ref } from "react";
 
 import type { ResultType } from "~/lib/types";
 
+import { ResultLabel } from "../labels/ResultLabel";
 import styles from "./FloatingPreview.module.css";
-
-const LABELS: Record<ResultType, string> = {
-  achieved: "ACHIEVED",
-  target: "TARGET",
-  projected: "PROJECTED",
-  baseline: "BASELINE",
-  output: "OUTPUT",
-};
 
 export interface FloatingPreviewProps {
   /** The volume number, e.g. "01". */
   volume: string;
-  /** The project accent, e.g. "#2DD4BF". */
+  /** The project accent's hex, from `ACCENT_COLOURS` in `~/lib/accents`. */
   accent: string;
   /** The card label, or the company. Empty hides it. */
   kicker?: string;
@@ -84,9 +77,7 @@ export function FloatingPreview({
         {value || result ? (
           <span className={styles.headline}>
             {value ? <span className={styles.value}>{value}</span> : null}
-            {result ? (
-              <span className={`${styles.tag} ${styles[result] ?? ""}`}>{LABELS[result]}</span>
-            ) : null}
+            {result ? <ResultLabel type={result} /> : null}
           </span>
         ) : null}
       </a>

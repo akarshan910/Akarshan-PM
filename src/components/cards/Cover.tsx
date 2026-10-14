@@ -2,9 +2,10 @@
  * The cover inside a project card (02 · C7): the uploaded image with its focal point, or the
  * generated cover in the project's accent when there's none yet (06 · `cover?`).
  */
-import { useCallback, useState, type CSSProperties, type ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import { cx } from "../cx";
+import { useImageLoad } from "../media/useImageLoad";
 import styles from "./Cover.module.css";
 
 export interface CoverImage {
@@ -33,18 +34,9 @@ export interface CoverProps {
   children?: ReactNode;
 }
 
-type LoadState = "loading" | "loaded" | "failed";
-
 export function Cover({ image, accent, ground, number, lazy = true, className, children }: CoverProps) {
-  const [state, setState] = useState<LoadState>("loading");
-  const [instant, setInstant] = useState(false);
-  // A prerendered image that's already complete at hydration skips the fade (M-IMG-FADE).
-  const ref = useCallback((img: HTMLImageElement | null) => {
-    if (img?.complete && img.naturalWidth > 0) {
-      setInstant(true);
-      setState("loaded");
-    }
-  }, []);
+  // The same load states as C20's Image (M-IMG-FADE); only the markup differs.
+  const { ref, state, instant, onLoad, onError } = useImageLoad(image?.src ?? "");
   const style = { "--pa": accent, "--pg": ground } as CSSProperties;
 
   return (
@@ -73,12 +65,8 @@ export function Cover({ image, accent, ground, number, lazy = true, className, c
                   ? { objectPosition: `${image.focal.x * 100}% ${image.focal.y * 100}%` }
                   : undefined
               }
-              onLoad={() => {
-                setState("loaded");
-              }}
-              onError={() => {
-                setState("failed");
-              }}
+              onLoad={onLoad}
+              onError={onError}
             />
           </>
         )

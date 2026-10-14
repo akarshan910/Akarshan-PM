@@ -79,35 +79,6 @@
   font-size: 20px;
 }
 
-/* A minimal C5 result label, as `.tag-*` on the Home board. Unify with C5 when the tracks merge. */
-.tag {
-  flex: none;
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-family: var(--fm);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--tx2);
-}
-.achieved {
-  background: rgba(60, 203, 139, 0.12);
-  color: var(--okt);
-}
-.target {
-  border: 1px solid var(--ln2);
-}
-.projected {
-  border: 1px dashed var(--ln2);
-}
-.baseline {
-  background: var(--sf2);
-}
-.output {
-  background: rgba(255, 90, 103, 0.12);
-  color: var(--act);
-}
-
 /* iPad: scale .88 (HomeTablet.dc.html). Phones have no floaters (03 · Hero). */
 @media (min-width: 768px) and (max-width: 1279px) {
   .tz {

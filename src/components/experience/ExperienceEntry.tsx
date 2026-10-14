@@ -4,6 +4,7 @@ import { AccordionRow } from "~/components/accordion/AccordionRow";
 import { Icon } from "~/components/icons";
 
 import styles from "./Experience.module.css";
+import { cx } from "../cx";
 
 export type ExperienceKind = "featured" | "standard" | "compact" | "education";
 
@@ -39,17 +40,11 @@ const PHONE_BULLETS = 4;
 
 /** Which layouts show an element: l = laptop, i = iPad, p = phone. */
 function show(where: string): string {
-  return [
+  return cx(
     where.includes("l") ? "" : styles.hideLaptop,
     where.includes("i") ? "" : styles.hideIpad,
     where.includes("p") ? "" : styles.hidePhone,
-  ]
-    .filter(Boolean)
-    .join(" ");
-}
-
-function cx(...names: (string | false | undefined)[]): string {
-  return names.filter(Boolean).join(" ");
+  );
 }
 
 /**
@@ -138,7 +133,7 @@ export function ExperienceEntry({
             }}
           >
             All {company} highlights
-            <Icon name="arrow-down" className={`ico ${styles.moreIcon ?? ""}`} />
+            <Icon name="arrow-down" className={cx("ico", styles.moreIcon)} />
           </button>
         ) : null}
       </>

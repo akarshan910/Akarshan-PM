@@ -3,6 +3,8 @@
  * from Home.dc.html (laptop), HomeTablet.dc.html (iPad) and HomeMobile.dc.html (phone); the speed
  * lines on every board are `speed()` around these focus points (02 · C17), checked in the tests.
  */
+import { ACCENT_COLOURS } from "~/lib/accents";
+import type { Accent } from "~/lib/types";
 import { offDutySpeed } from "~/motion/speed-lines";
 
 export type LaptopSlot = "big" | "side" | "bottom";
@@ -90,15 +92,16 @@ export function ipadRows(n: number): string {
 }
 
 /** The spine colours cycle Coral, Amber, Sky, Violet, Teal, Yellow, Green, Slate (02 · C17). */
-export const SPINE_COLOURS = [
-  "#FF5A67",
-  "#F5A524",
-  "#38BDF8",
-  "#A78BFA",
-  "#2DD4BF",
-  "#FACC15",
-  "#4ADE80",
-  "#94A3B8",
-] as const;
+export const SPINE_ACCENTS = [
+  "coral",
+  "amber",
+  "sky",
+  "violet",
+  "teal",
+  "yellow",
+  "green",
+  "slate",
+] as const satisfies readonly Accent[];
+export const SPINE_COLOURS = SPINE_ACCENTS.map((name) => ACCENT_COLOURS[name].accent);
 /** Each spine's deterministic lift. */
 export const SPINE_LIFTS = [6, 18, 0, 22, 10, 4, 16, 8] as const;

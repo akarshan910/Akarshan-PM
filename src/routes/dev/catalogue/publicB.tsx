@@ -12,6 +12,7 @@ import { type SkillGroup, type SkillSize, SkillsCloud } from "~/components/skill
 import type { Testimonial } from "~/components/testimonials/TestimonialCard";
 import { Testimonials } from "~/components/testimonials/Testimonials";
 import { ProofStrip } from "~/components/proof/ProofStrip";
+import { ACCENT_COLOURS } from "~/lib/accents";
 
 import { Specimen, State } from "./Specimen";
 
@@ -69,7 +70,7 @@ const FLOATERS = [
     kicker: "Shipped · AI",
     value: "±2–3 pp",
     result: "achieved",
-    accent: "#2DD4BF",
+    accent: ACCENT_COLOURS.teal.accent,
     href: "#vol-01",
   },
   {
@@ -78,7 +79,7 @@ const FLOATERS = [
     kicker: "Shipped · Hardware to app",
     value: "42 → 72",
     result: "achieved",
-    accent: "#38BDF8",
+    accent: ACCENT_COLOURS.sky.accent,
     href: "#vol-03",
   },
   {
@@ -87,7 +88,7 @@ const FLOATERS = [
     kicker: "Strategy + prototype",
     value: "+30%",
     result: "target",
-    accent: "#FF5A67",
+    accent: ACCENT_COLOURS.coral.accent,
     href: "#vol-05",
   },
 ] as const;
@@ -126,7 +127,7 @@ function HeroSpecimen() {
             volume="06"
             title="Arcana Workspace"
             value="7"
-            accent="#94A3B8"
+            accent={ACCENT_COLOURS.slate.accent}
             href="#vol-06"
             x={0}
             y={0}
@@ -143,7 +144,7 @@ function HeroSpecimen() {
             kicker="Strategy + prototype"
             value="+$50–65K"
             result="projected"
-            accent="#A3E635"
+            accent={ACCENT_COLOURS.lime.accent}
             href="#vol-09"
             x={0}
             y={0}
@@ -531,8 +532,7 @@ const OFF: OffDutyItem[] = [
     title: "Anime",
     text: "Big fan of layered storytelling — the kind where every detail from episode 1 pays off in the finale. AoT, Vinland Saga, FMA, and JJK are my benchmarks for what great narrative looks like.",
     tag: "Currently watching",
-    accent: "#FF5A67",
-    ground: "#1C0C0F",
+    ...ACCENT_COLOURS.coral,
     art: "kunai",
     picks: [
       ["Attack on Titan", "Action · Strategy"],
@@ -551,8 +551,7 @@ const OFF: OffDutyItem[] = [
     title: "Sketching",
     text: "I sketch to think — on notebooks, sticky notes, whatever’s nearby. It’s how I get ideas out of my head before they disappear. Mostly rough wireframes and random diagrams.",
     tag: "Product flows",
-    accent: "#FACC15",
-    ground: "#1F1A06",
+    ...ACCENT_COLOURS.yellow,
     art: "pencil",
   },
   {
@@ -561,8 +560,7 @@ const OFF: OffDutyItem[] = [
     title: "Table Tennis",
     text: "Been playing TT for years — it’s the one sport where I genuinely enjoy losing because it means I’m playing someone better. Best stress relief I’ve found so far.",
     tag: "Competitive player",
-    accent: "#38BDF8",
-    ground: "#0A1620",
+    ...ACCENT_COLOURS.sky,
     art: "paddle",
   },
   {
@@ -571,8 +569,7 @@ const OFF: OffDutyItem[] = [
     title: "Cooking",
     text: "I cook mostly Indian and continental. Weekends I’ll try something new — sometimes it’s great, sometimes it’s a disaster. The kitchen is the one place I’m happy either way.",
     tag: "Weekend chef",
-    accent: "#F5A524",
-    ground: "#1A140A",
+    ...ACCENT_COLOURS.amber,
     art: "pan",
   },
   {
@@ -581,8 +578,7 @@ const OFF: OffDutyItem[] = [
     title: "Travel",
     text: "Love the feeling of landing somewhere new and figuring it out. No rigid itineraries — just a list of things worth seeing and room for whatever happens in between.",
     tag: "Always planning next",
-    accent: "#4ADE80",
-    ground: "#0E1F14",
+    ...ACCENT_COLOURS.green,
     art: "plane",
   },
   {
@@ -591,8 +587,7 @@ const OFF: OffDutyItem[] = [
     title: "Photography",
     text: "Street and travel photography on my phone mostly. Chasing light, interesting faces, and scenes that tell a story without a caption.",
     tag: "Street & travel",
-    accent: "#A78BFA",
-    ground: "#130F1F",
+    ...ACCENT_COLOURS.violet,
     art: "camera",
   },
 ];

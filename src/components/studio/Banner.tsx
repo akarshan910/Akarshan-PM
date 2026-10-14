@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import styles from "./Banner.module.css";
+import { cx } from "../cx";
 
 export type BannerTone = "err" | "warn" | "info";
 
@@ -17,14 +18,10 @@ interface BannerProps {
   children: ReactNode;
 }
 
-function classes(...names: (string | false | undefined)[]) {
-  return names.filter(Boolean).join(" ");
-}
-
 /** `.alert`: the sign-in page's alerts (StudioLogin): wrong code, expired, too many tries, offline. */
 export function Alert({ tone, icon, action, role, enter, children }: BannerProps) {
   return (
-    <div className={classes(styles.alert, styles[tone], enter && styles.enter)} role={role}>
+    <div className={cx(styles.alert, styles[tone], enter && styles.enter)} role={role}>
       {icon}
       <span className={styles.body}>{children}</span>
       {action}
@@ -35,7 +32,7 @@ export function Alert({ tone, icon, action, role, enter, children }: BannerProps
 /** `.ban`: a rounded banner (StudioStates › Banners, Upload problems). */
 export function Banner({ tone, icon, action, role, enter, children }: BannerProps) {
   return (
-    <div className={classes(styles.ban, styles.sm, styles[tone], enter && styles.enter)} role={role}>
+    <div className={cx(styles.ban, styles.sm, styles[tone], enter && styles.enter)} role={role}>
       {icon}
       <span className={styles.body}>{children}</span>
       {action}
@@ -46,7 +43,7 @@ export function Banner({ tone, icon, action, role, enter, children }: BannerProp
 /** The full-width banner under an editor's header: offline, or the last change didn't save. */
 export function EditorBanner({ tone, icon, action, role, children }: Omit<BannerProps, "enter">) {
   return (
-    <div className={classes(styles.bar, styles[tone])} role={role}>
+    <div className={cx(styles.bar, styles[tone])} role={role}>
       {icon}
       <span className={styles.body}>{children}</span>
       {action}

@@ -1,3 +1,4 @@
+import { Chip } from "../labels/Tags";
 import styles from "./ProofStrip.module.css";
 
 export interface ProofItem {
@@ -49,9 +50,7 @@ export function ProofStrip({ items, spaces }: ProofStripProps) {
         <div className={styles.spaces}>
           {spaces.label ? <span className={styles.spacesLabel}>{spaces.label}</span> : null}
           {spaces.items.map((chip) => (
-            <span key={chip} className={styles.chip}>
-              {chip}
-            </span>
+            <Chip key={chip}>{chip}</Chip>
           ))}
         </div>
       ) : null}

@@ -12,6 +12,7 @@ import {
   SPINE_LIFTS,
 } from "./layout";
 import styles from "./OffDutyPage.module.css";
+import { cx } from "../cx";
 
 export interface OffDutyItem {
   id: string;
@@ -21,7 +22,7 @@ export interface OffDutyItem {
   text: string;
   /** The tag with the accent dot. Empty hides it. */
   tag?: string;
-  /** The item's accent and its cover ground (02 · Project accents), e.g. "#FF5A67" and "#1C0C0F". */
+  /** The item's accent and its cover ground (02 · Project accents): spread `ACCENT_COLOURS[name]`. */
   accent: string;
   ground: string;
   art: OffDutyArt;
@@ -148,20 +149,16 @@ export function OffDutyPage({
               <div className={styles.art}>
                 <div className={styles.tone} aria-hidden="true" />
                 <Lines
-                  className={`${styles.sl ?? ""} ${styles.slL ?? ""}`}
+                  className={cx(styles.sl, styles.slL)}
                   g={SLOT_LINES.laptop[l.slot]}
                   accent={item.accent}
                 />
                 <Lines
-                  className={`${styles.sl ?? ""} ${styles.slI ?? ""}`}
+                  className={cx(styles.sl, styles.slI)}
                   g={SLOT_LINES.ipad[ip.slot]}
                   accent={item.accent}
                 />
-                <Lines
-                  className={`${styles.sl ?? ""} ${styles.slP ?? ""}`}
-                  g={SLOT_LINES.phone}
-                  accent={item.accent}
-                />
+                <Lines className={cx(styles.sl, styles.slP)} g={SLOT_LINES.phone} accent={item.accent} />
                 <div className={styles.num} aria-hidden="true">
                   {pad(i + 1)}
                 </div>
@@ -190,10 +187,7 @@ export function OffDutyPage({
       {n > 1 ? (
         <div className={styles.dots} aria-hidden="true">
           {items.map((item, i) => (
-            <span
-              key={item.id}
-              className={i === current ? `${styles.dot ?? ""} ${styles.dotOn ?? ""}` : styles.dot}
-            />
+            <span key={item.id} className={i === current ? cx(styles.dot, styles.dotOn) : styles.dot} />
           ))}
         </div>
       ) : null}

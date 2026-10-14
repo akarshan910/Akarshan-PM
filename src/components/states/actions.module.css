@@ -1,46 +1,9 @@
 /*
- * The compact buttons used by the page and media states, copied from PublicStates.dc.html:
- * `.ctax` (the small angled CTA) and `.btnx` (the mono outline button), plus CaseStudyMobile's
- * `.btn3`. Hover and press follow M-CTA and M-BTN2 (04 · Motion).
+ * The mono outline buttons used by the page and media states: PublicStates.dc.html's `.btnx` and
+ * CaseStudyMobile's `.btn3`. Hover follows M-BTN2 (04 · Motion). The small angled CTA (`.ctax`) is
+ * C3's `Button size="small"`; these two are a different design (mono type, their own fills), so they
+ * stay here.
  */
-.ctax {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 42px;
-  padding: 0 18px;
-  border: 0;
-  background: #d61f33;
-  color: #fff;
-  font-family: var(--fd);
-  font-stretch: 75%;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  cursor: pointer;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-  transition:
-    background-color 0.2s var(--eo),
-    transform 0.2s var(--eo);
-}
-.ctax:hover {
-  background: #e42a3f;
-  transform: translateY(-2px);
-}
-.ctax:active {
-  transform: scale(0.98);
-  transition-duration: 0.12s;
-}
-.ctax:focus-visible {
-  outline: none;
-  box-shadow:
-    inset 0 0 0 2px #fff,
-    inset 0 0 0 4px #d61f33;
-}
-
 .btnx {
   display: inline-flex;
   align-items: center;
@@ -88,19 +51,7 @@
 
 /* Touch screens get 44px targets (02 · Layout). */
 @media (pointer: coarse) {
-  .btnx,
-  .ctax {
+  .btnx {
     min-height: 44px;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ctax:hover,
-  .ctax:active {
-    transform: none;
-  }
-}
-:global(html.still) .ctax:hover,
-:global(html.still) .ctax:active {
-  transform: none;
 }

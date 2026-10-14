@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { Button } from "~/components/buttons/Button";
+import { cx } from "~/components/cx";
 import { Icon } from "~/components/icons";
 
 import styles from "./ContactBlock.module.css";
@@ -114,33 +116,33 @@ export function ContactBlock({
           <div className={styles.actions}>
             {email ? (
               <>
-                <a className={styles.cta} href={`mailto:${email}`}>
-                  <Icon name="mail" className={`ico ${styles.mailIcon ?? ""}`} />
+                <Button href={`mailto:${email}`} className={styles.email}>
+                  <Icon name="mail" className={cx("ico", styles.mailIcon)} />
                   Email me
-                </a>
-                <button
-                  type="button"
-                  className={`${styles.cta2 ?? ""} ${styles.copy ?? ""}`}
+                </Button>
+                <Button
+                  variant="secondary"
+                  className={styles.copy}
                   onClick={() => {
                     void onCopy();
                   }}
                 >
                   <Icon name={copied ? "check" : "copy"} />
                   {copied ? "Copied" : "Copy email"}
-                </button>
+                </Button>
               </>
             ) : null}
             {linkedin || github ? (
               <div className={styles.pair}>
                 {linkedin ? (
-                  <a className={styles.cta2} href={linkedin}>
+                  <Button variant="secondary" href={linkedin} className={styles.pairBtn}>
                     LinkedIn
-                  </a>
+                  </Button>
                 ) : null}
                 {github ? (
-                  <a className={styles.cta2} href={github}>
+                  <Button variant="secondary" href={github} className={styles.pairBtn}>
                     GitHub
-                  </a>
+                  </Button>
                 ) : null}
               </div>
             ) : null}
@@ -151,19 +153,19 @@ export function ContactBlock({
             {linkedin ? (
               <a className={styles.link} href={linkedin}>
                 LinkedIn
-                <Icon name="arrow-out" className={`ico ${styles.small ?? ""}`} />
+                <Icon name="arrow-out" className={cx("ico", styles.small)} />
               </a>
             ) : null}
             {github ? (
               <a className={styles.link} href={github}>
                 GitHub
-                <Icon name="arrow-out" className={`ico ${styles.small ?? ""}`} />
+                <Icon name="arrow-out" className={cx("ico", styles.small)} />
               </a>
             ) : null}
             {resume ? (
               <a className={styles.link} href={resume}>
                 Résumé (PDF)
-                <Icon name="download" className={`ico ${styles.small ?? ""}`} />
+                <Icon name="download" className={cx("ico", styles.small)} />
               </a>
             ) : null}
           </div>

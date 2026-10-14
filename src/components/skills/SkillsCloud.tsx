@@ -3,6 +3,7 @@ import { type CSSProperties, useId, useMemo, useState } from "react";
 import { altFaces, skillsOrder } from "~/lib/skills-order";
 
 import styles from "./SkillsCloud.module.css";
+import { cx } from "../cx";
 
 export type SkillSize = "xl" | "l" | "m" | "s";
 
@@ -50,7 +51,7 @@ export function SkillsCloud({ groups, reveal }: SkillsCloudProps) {
   const skills = groups.reduce((n, g) => n + g.items.length, 0);
   const counts = `${skills} skill${skills === 1 ? "" : "s"} in ${groups.length} group${groups.length === 1 ? "" : "s"}`;
   const pos = (p: number) => ({ order: p, "--i5": p % 5 }) as CSSProperties;
-  const cloud = [styles.cloud, active > -1 && styles.lit, reveal && styles[reveal]].filter(Boolean).join(" ");
+  const cloud = cx(styles.cloud, active > -1 && styles.lit, reveal && styles[reveal]);
 
   return (
     <>
@@ -60,10 +61,7 @@ export function SkillsCloud({ groups, reveal }: SkillsCloudProps) {
           const id = `${uid}-g${gi}`;
           return (
             <div key={g.id} className={styles.cg} role="group" aria-labelledby={id}>
-              <h3
-                className={[styles.cw, styles.g, on && styles.on].filter(Boolean).join(" ")}
-                style={pos(order.groups[gi] ?? 0)}
-              >
+              <h3 className={cx(styles.cw, styles.g, on && styles.on)} style={pos(order.groups[gi] ?? 0)}>
                 {g.subtitle ? <span className={styles.sub}>{g.subtitle}</span> : null}
                 <button
                   id={id}
@@ -96,9 +94,7 @@ export function SkillsCloud({ groups, reveal }: SkillsCloudProps) {
                   <li
                     key={w.id}
                     role="listitem"
-                    className={[styles.cw, styles[w.size], alt[gi]?.[wi] && styles.alt, on && styles.on]
-                      .filter(Boolean)
-                      .join(" ")}
+                    className={cx(styles.cw, styles[w.size], alt[gi]?.[wi] && styles.alt, on && styles.on)}
                     style={pos(order.items[gi]?.[wi] ?? 0)}
                   >
                     {w.text}

@@ -26,7 +26,7 @@ const TEXT: Record<Exclude<SaveState, "saved">, string> = {
 export function SaveStatus({ state, savedLabel = "All changes saved", onRetry }: SaveStatusProps) {
   const tone = state === "offline" ? styles.offline : state === "failed" ? styles.failed : "";
   return (
-    <span className={[styles.status, tone].filter(Boolean).join(" ")} data-state={state}>
+    <span className={cx(styles.status, tone)} data-state={state}>
       <span role="status" className={styles.live}>
         {state === "saving" ? <Spinner kind="save" /> : null}
         {state === "saved" ? <Icon name="tick" className={cx("ico", styles.ico)} /> : null}

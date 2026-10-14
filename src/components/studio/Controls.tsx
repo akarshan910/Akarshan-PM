@@ -2,6 +2,7 @@ import * as RadixSwitch from "@radix-ui/react-switch";
 import { useId, useRef, type KeyboardEvent, type ReactNode } from "react";
 
 import styles from "./Field.module.css";
+import { cx } from "../cx";
 
 interface SwitchProps {
   checked: boolean;
@@ -82,11 +83,7 @@ export function Segmented<V extends string>({
       <span className={styles.lbl} id={id}>
         {label}
       </span>
-      <div
-        className={[styles.seg, size === 34 ? styles.seg34 : ""].filter(Boolean).join(" ")}
-        role="group"
-        aria-labelledby={id}
-      >
+      <div className={cx(styles.seg, size === 34 ? styles.seg34 : "")} role="group" aria-labelledby={id}>
         {options.map((o) => (
           <button
             key={o.value}

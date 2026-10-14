@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 
+import { Button } from "../buttons/Button";
 import actions from "./actions.module.css";
 import styles from "./ErrorState.module.css";
 
@@ -21,9 +22,8 @@ export function ErrorState({ onRetry, headingLevel = 1 }: ErrorStateProps) {
       <Heading className={styles.title}>Something went wrong.</Heading>
       <p className={styles.text}>This page couldn’t load. It’s us, not you. Try again in a moment.</p>
       <div className={styles.actions}>
-        <button
-          type="button"
-          className={actions.ctax}
+        <Button
+          size="small"
           onClick={
             onRetry ??
             (() => {
@@ -32,7 +32,7 @@ export function ErrorState({ onRetry, headingLevel = 1 }: ErrorStateProps) {
           }
         >
           Try again
-        </button>
+        </Button>
         <Link className={actions.btnx} to="/">
           Go home
         </Link>

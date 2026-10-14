@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useRef, useState, type ChangeEvent, type ClipboardEvent } from "react";
 
 import styles from "./CodeInput.module.css";
+import { cx } from "../cx";
 
 /** How long six digits wait before they submit on their own (02 · S2). */
 export const CODE_SUBMIT_DELAY = 150;
@@ -83,14 +84,12 @@ export const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(function C
 
   const cur = Math.min(digits.length, CODE_LENGTH - 1);
   const boxClass = (i: number) =>
-    [
+    cx(
       styles.box,
       status === "wrong" ? styles.bad : "",
       off ? styles.off : "",
       !off && focused && i === cur && digits.length < CODE_LENGTH ? styles.cur : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
   return (
     <div>
