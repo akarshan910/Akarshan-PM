@@ -16,6 +16,8 @@ import { QA_NOW } from "../../src/lib/qa";
 import type { Accent, Block, Post, Profile, Project, ResultType, Section, SiteLayout } from "../../src/lib/types";
 import { buildV0Documents } from "../../src/lib/v0";
 
+import { atWidth, fixtureWidth, type FixtureWidth } from "./board-widths";
+
 const v0 = buildV0Documents(legacy);
 const at = QA_NOW.toISOString();
 
@@ -797,8 +799,13 @@ function coverImg(slug: string, accent: Accent): Img | undefined {
 
 const byMediaId = (ref: { mediaId: string }, accent: Accent) => coverImg(ref.mediaId.replace(/^cover-/, ""), accent);
 
-export function loadBoardContent(): PublicContent {
-  const projects: PublicProject[] = PROJECTS.map(({ slug, document }) => ({
+/**
+ * The fixture for one parity width (D70): `PM_FIXTURE_WIDTH` picks 834 or 390's condensed copy;
+ * unset, it's the laptop boards' copy.
+ */
+export function loadBoardContent(width: FixtureWidth = fixtureWidth(process.env.PM_FIXTURE_WIDTH)): PublicContent {
+  const docs = atWidth(width, { profile, projects: PROJECTS });
+  const projects: PublicProject[] = docs.projects.map(({ slug, document }) => ({
     id: slug,
     slug,
     listed: true,
@@ -829,7 +836,7 @@ export function loadBoardContent(): PublicContent {
   });
 
   return {
-    profile: publishProfile(profile, () => undefined),
+    profile: publishProfile(docs.profile, () => undefined),
     layout,
     projects,
     posts,

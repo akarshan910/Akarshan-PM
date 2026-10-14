@@ -9,7 +9,7 @@ const chapters = (board: (i: number) => string): Section[] =>
   [1, 2, 3, 4, 5, 6].map((i) => ({
     name: `chapter-0${i}`,
     board: board(i),
-    page: `#ch-0${i}`,
+    page: `[data-chapter="0${i}"]`,
   }));
 
 const tail: Section[] = [
@@ -80,7 +80,7 @@ defineParity([
         page: 'section[aria-label="Interactive prototype"]',
       },
       { name: "chapter-bar", board: "button.cbar", page: 'button[aria-label="Jump to chapter"]' },
-      ...chapters((i) => `section#ch-0${i}`),
+      ...chapters((i) => `section[data-chapter="0${i}"]`),
       {
         name: "more-volumes",
         board: 'section[aria-label="More volumes"]',
