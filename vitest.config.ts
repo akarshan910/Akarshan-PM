@@ -8,6 +8,7 @@ export default defineConfig({
   test: {
     include: ["tests/unit/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"],
     setupFiles: ["tests/setup.ts"],
+    exclude: ["**/node_modules/**", ".claude/**"],
     css: { modules: { classNameStrategy: "non-scoped" } },
     coverage: {
       provider: "v8",
