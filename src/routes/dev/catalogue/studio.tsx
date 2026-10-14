@@ -9,7 +9,6 @@ import { CodeInput, type CodeStatus } from "~/components/studio/CodeInput";
 import { Checkbox, RadioCards, Segmented, Switch } from "~/components/studio/Controls";
 import { Dialog } from "~/components/studio/Dialog";
 import { SelectField, TextArea, TextField } from "~/components/studio/Field";
-import { Glyph } from "~/components/studio/glyphs";
 import { SaveStatus } from "~/components/studio/SaveStatus";
 import { Shim } from "~/components/studio/Skeleton";
 import { Spinner } from "~/components/studio/Spinner";
@@ -345,7 +344,7 @@ function PublishingDemo() {
       >
         <div style={{ marginTop: 14, display: "grid", gap: 8, fontSize: 14, lineHeight: 1.5 }}>
           <div style={{ display: "flex", gap: 10, color: "var(--ok)" }}>
-            <Glyph name="tick" />
+            <Icon name="tick" />
             <span style={{ color: "var(--tx2)" }}>Cover, prototype and every image’s alt text are set.</span>
           </div>
           <div style={{ display: "flex", gap: 10, color: "var(--warn)" }}>
@@ -620,13 +619,13 @@ export default function StudioSpecimens() {
         <State label="Banners">
           <Box width={420}>
             <div style={{ display: "grid", gap: 10 }}>
-              <Banner tone="warn" icon={<Glyph name="cloud-off" />}>
+              <Banner tone="warn" icon={<Icon name="cloud-off" />}>
                 <strong>You’re offline.</strong> Keep editing; publishing is paused.
               </Banner>
-              <Banner tone="err" icon={<Glyph name="alert-circle" />}>
+              <Banner tone="err" icon={<Icon name="alert-circle" />}>
                 <strong>Your last change didn’t save.</strong> Retrying.
               </Banner>
-              <Banner tone="info" icon={<Glyph name="clock-sm" />}>
+              <Banner tone="info" icon={<Icon name="clock-sm" />}>
                 A code was sent moments ago. You can ask for another in 0:42.
               </Banner>
             </div>
@@ -634,13 +633,13 @@ export default function StudioSpecimens() {
         </State>
         <State label="Editor banners">
           <Box width={720}>
-            <EditorBanner tone="warn" icon={<Glyph name="cloud-off" />}>
+            <EditorBanner tone="warn" icon={<Icon name="cloud-off" />}>
               <strong>You’re offline.</strong> Keep editing. Changes are kept on this device and sync when you
               reconnect. Publishing is paused.
             </EditorBanner>
             <EditorBanner
               tone="err"
-              icon={<Glyph name="alert-circle" />}
+              icon={<Icon name="alert-circle" />}
               action={
                 <Button style={{ height: 34, borderColor: "#F0B4AD" }} onClick={noop}>
                   Retry now

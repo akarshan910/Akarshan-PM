@@ -1,9 +1,10 @@
 /**
  * The one icon set for the site and Studio (02 · Icons): 24px grid, stroke 1.75, round caps and
  * joins, no fill, currentColor. Path data is copied from the `icons` array in System.dc.html, plus
- * the extra icons the boards use. Size with the `.ico` class (18px) or the `size` prop.
+ * the extra icons the boards use, including the Studio glyphs (whose board shapes are kept as drawn).
+ * Size with the `.ico` class (18px) or the `size` prop, which wins over the class.
  */
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
 
 const PATHS = {
   "arrow-right": "M5 12h14M13 6l6 6-6 6",
@@ -20,7 +21,6 @@ const PATHS = {
   moon: "M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z",
   check: "M5 12l5 5 9-10",
   alert: "M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z",
-  "alert-circle": "M12 3a9 9 0 100 18 9 9 0 000-18zM12 8v5M12 16h.01",
   info: "M12 11v6M12 7h.01M12 3a9 9 0 100 18 9 9 0 000-18z",
   upload: "M12 20V9M7 14l5-5 5 5M5 4h14",
   image: "M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M15 9h.01",
@@ -41,21 +41,79 @@ const PATHS = {
   rss: "M5 5a14 14 0 0114 14M5 11a8 8 0 018 8M6 18h.01",
 } as const;
 
-export type IconName = keyof typeof PATHS | "more";
-export const ICON_NAMES = [...Object.keys(PATHS), "more"] as IconName[];
+/** Icons drawn with more than one element, copied as the boards draw them. */
+const SHAPES = {
+  more: (
+    <>
+      {[5, 12, 19].map((cx) => (
+        <circle key={cx} cx={cx} cy={12} r={1.2} fill="currentColor" stroke="none" />
+      ))}
+    </>
+  ),
+  /** Studio's tick: StudioStates, StudioDashboard and every editor (not `check`). */
+  tick: <path d="M5 12.5l4.5 4.5L19 7.5" />,
+  /** Offline (cloud with a slash): save status and banners. */
+  "cloud-off": (
+    <path d="M3 3l18 18M8.5 8.6A6 6 0 006 13.5 4.5 4.5 0 0010.5 18H17M14 6.3A6 6 0 0118 11.5a4 4 0 012.6 5.6" />
+  ),
+  /** A circle with an exclamation mark, as PublicStates and the Studio boards draw it. */
+  "alert-circle": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 8v5M12 16h.01" />
+    </>
+  ),
+  /** Publish blocked: a circle with a cross. */
+  "x-circle": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M15 9l-6 6M9 9l6 6" />
+    </>
+  ),
+  /** Session expired (StudioStates). */
+  lock: (
+    <>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V8a4 4 0 018 0v3" />
+    </>
+  ),
+  /** Too many tries, not the owner (StudioLogin). */
+  padlock: <path d="M6 10h12v10H6zM8 10V7a4 4 0 018 0v3" />,
+  /** Offline on the sign-in page (StudioLogin). */
+  wifi: <path d="M2 8.8a15 15 0 0120 0M5 12.2a10 10 0 0114 0M8.5 15.6a5 5 0 017 0M12 19h.01" />,
+  /** Resend wait (StudioStates banner): hands differ from `clock`. */
+  "clock-sm": (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </>
+  ),
+} satisfies Record<string, ReactNode>;
+
+export type IconName = keyof typeof PATHS | keyof typeof SHAPES;
+export const ICON_NAMES = [...Object.keys(PATHS), ...Object.keys(SHAPES)] as IconName[];
 
 interface IconProps extends Omit<SVGProps<SVGSVGElement>, "name"> {
   name: IconName;
-  /** Pixel size; omit to size with CSS (`.ico` is 18px). */
-  size?: number;
+  /** Pixel size; wins over the class. Omit to size with CSS (`.ico` is 18px). */
+  size?: number | undefined;
   /** An accessible name. Without one the icon is decorative and hidden from assistive tech. */
   label?: string;
   /** The play icon on cover badges is filled (02 · Icons). */
   filled?: boolean;
 }
 
-export function Icon({ name, size, label, filled, className, ...rest }: IconProps) {
+function isPath(name: IconName): name is keyof typeof PATHS {
+  return name in PATHS;
+}
+
+export function Icon({ name, size, label, filled, className, style, ...rest }: IconProps) {
   const a11y = label ? { role: "img", "aria-label": label } : { "aria-hidden": true as const };
+  const merged = {
+    ...(size ? { width: size, height: size } : {}),
+    ...(filled ? { fill: "currentColor" } : {}),
+    ...style,
+  };
   return (
     <svg
       viewBox="0 0 24 24"
@@ -63,15 +121,11 @@ export function Icon({ name, size, label, filled, className, ...rest }: IconProp
       width={size}
       height={size}
       focusable="false"
-      {...(filled ? { style: { fill: "currentColor" } } : {})}
+      {...(Object.keys(merged).length ? { style: merged } : {})}
       {...a11y}
       {...rest}
     >
-      {name === "more" ? (
-        [5, 12, 19].map((cx) => <circle key={cx} cx={cx} cy={12} r={1.2} fill="currentColor" stroke="none" />)
-      ) : (
-        <path d={PATHS[name]} />
-      )}
+      {isPath(name) ? <path d={PATHS[name]} /> : SHAPES[name]}
     </svg>
   );
 }

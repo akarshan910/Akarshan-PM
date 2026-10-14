@@ -6,9 +6,9 @@ import {
   type TextareaHTMLAttributes,
 } from "react";
 
+import { cx } from "../cx";
 import { Icon } from "../icons";
 import styles from "./Field.module.css";
-import { Glyph } from "./glyphs";
 
 export interface CounterLimit {
   /** The soft limit: the counter reads "n/limit" and turns red past it (see `SOFT_LIMITS`). */
@@ -57,7 +57,7 @@ function HintRow({
     <div className={styles.hrow} id={id}>
       {error ? (
         <span className={styles.err}>
-          <Glyph name="alert-circle" className={styles.msgIco} />
+          <Icon name="alert-circle" className={cx("ico", styles.msgIco)} />
           <span>{error}</span>
         </span>
       ) : warning ? (

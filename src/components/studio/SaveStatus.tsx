@@ -1,5 +1,6 @@
 import styles from "./SaveStatus.module.css";
-import { Glyph } from "./glyphs";
+import { cx } from "../cx";
+import { Icon } from "../icons";
 import { Spinner } from "./Spinner";
 
 export type SaveState = "saved" | "saving" | "offline" | "failed";
@@ -28,9 +29,9 @@ export function SaveStatus({ state, savedLabel = "All changes saved", onRetry }:
     <span className={[styles.status, tone].filter(Boolean).join(" ")} data-state={state}>
       <span role="status" className={styles.live}>
         {state === "saving" ? <Spinner kind="save" /> : null}
-        {state === "saved" ? <Glyph name="tick" className={styles.ico} /> : null}
-        {state === "offline" ? <Glyph name="cloud-off" className={styles.ico} /> : null}
-        {state === "failed" ? <Glyph name="alert-circle" className={styles.ico} /> : null}
+        {state === "saved" ? <Icon name="tick" className={cx("ico", styles.ico)} /> : null}
+        {state === "offline" ? <Icon name="cloud-off" className={cx("ico", styles.ico)} /> : null}
+        {state === "failed" ? <Icon name="alert-circle" className={cx("ico", styles.ico)} /> : null}
         {state === "saved" ? savedLabel : TEXT[state]}
       </span>
       {state === "failed" && onRetry ? (

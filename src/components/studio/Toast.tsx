@@ -9,8 +9,8 @@ import {
   type ReactNode,
 } from "react";
 
+import { cx } from "../cx";
 import { Icon } from "../icons";
-import { Glyph } from "./glyphs";
 import styles from "./Toast.module.css";
 
 /** Undo and "View live ↗" stay for 7 seconds (05 · Shell, Website builder). */
@@ -38,8 +38,8 @@ interface ToastViewProps extends ToastOptions {
 export function Toast({ message, tone = "success", action, link, onDismiss }: ToastViewProps) {
   return (
     <div className={[styles.toast, tone === "error" ? styles.error : ""].filter(Boolean).join(" ")}>
-      {tone === "success" ? <Glyph name="tick" className={styles.okIco} /> : null}
-      {tone === "error" ? <Glyph name="alert-circle" className={styles.errIco} /> : null}
+      {tone === "success" ? <Icon name="tick" className={cx("ico", styles.okIco)} /> : null}
+      {tone === "error" ? <Icon name="alert-circle" className={cx("ico", styles.errIco)} /> : null}
       <span className={styles.msg}>{message}</span>
       {link ? (
         <a className={styles.act} href={link.href} target="_blank" rel="noreferrer">
