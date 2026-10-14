@@ -1,0 +1,110 @@
+/* Toasts, copied from the placed toasts on StudioProjects and Editor*. M-ST-ENTER. */
+@keyframes stUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Bottom centre, one at a time. The wrapper centres, so the entrance can own `transform`. */
+.dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  z-index: 90;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: min(360px, 100%);
+  max-width: 640px;
+  padding: 12px 12px 12px 18px;
+  border-radius: 12px;
+  background: #141416;
+  color: #f2f1ee;
+  font: 400 14px/1.4 var(--fu);
+  box-shadow: 0 16px 40px rgba(20, 20, 22, 0.28);
+  pointer-events: auto;
+  animation: stUp 0.22s var(--eo) both;
+}
+.error {
+  background: #3a1210;
+}
+
+.msg {
+  flex: 1;
+  min-width: 0;
+}
+.okIco {
+  color: #6fd3a0;
+}
+.errIco {
+  color: #ff9b91;
+}
+
+.act {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  height: 34px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #2a2a31;
+  color: #fff;
+  font: 600 13px/1 var(--fu);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.error .act {
+  background: #5a1d19;
+}
+.close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #b9b7b1;
+  cursor: pointer;
+}
+/* Studio's focus ink is dark; on the dark toast it needs the light ink. */
+.toast .act:focus-visible,
+.toast .close:focus-visible {
+  outline: 2px solid #f2f1ee;
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .act,
+  .close {
+    min-height: 44px;
+  }
+  .close {
+    min-width: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+}
+:global(html.still) .toast {
+  animation: none;
+}

@@ -1,0 +1,86 @@
+/* M-ST-ENTER: every Studio entrance at .22s var(--eo) (04, D20). */
+@keyframes stUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* .alert (StudioLogin). */
+.alert {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.alert b,
+.alert strong {
+  font-weight: 600;
+}
+
+/* .ban (StudioStates › Banners and Upload problems). */
+.ban {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* The full-width banner under an editor's header (EditorOverview offline and save failed). */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+}
+.bar.warn {
+  border-bottom: 1px solid #f1dfb0;
+}
+.bar.err {
+  border-bottom: 1px solid #f5c9c4;
+}
+
+.err {
+  background: var(--errbg);
+  color: var(--err);
+}
+.warn {
+  background: var(--warnbg);
+  color: var(--warn);
+}
+.info {
+  background: #efeeea;
+  color: var(--tx2);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+.sm :global(.ico) {
+  width: 16px;
+  height: 16px;
+}
+
+.enter {
+  animation: stUp 0.22s var(--eo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter {
+    animation: none;
+  }
+}
+:global(html.still) .enter {
+  animation: none;
+}

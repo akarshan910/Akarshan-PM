@@ -1,0 +1,38 @@
+/* Save status in an editor's header (EditorOverview, StudioStates › Saving). */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #4a4a51;
+}
+.offline {
+  color: #8a5a00;
+}
+.failed {
+  color: #b42318;
+}
+.ico {
+  width: 16px;
+  height: 16px;
+}
+.retry {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: 600 13px/1 var(--fu);
+  color: var(--err);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+@media (pointer: coarse) {
+  .retry {
+    min-height: 44px;
+  }
+}
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
