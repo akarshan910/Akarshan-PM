@@ -13,11 +13,37 @@
   max-width: 1312px;
   margin: 0 auto;
   padding: 112px clamp(20px, 4vw, 56px) 72px;
+  /* M-HERO-TILT, M-HERO-DRIFT: the board puts the perspective on the padded wrap, so the vanishing
+   * point sits where the board has it; the panel's stage passes the 3D context through. */
+  perspective: 1600px;
+  perspective-origin: 50% 40%;
+}
+.wrap > div {
+  perspective: none;
+  transform-style: preserve-3d;
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+  .wrap {
+    perspective: 1200px;
+    perspective-origin: 50% 50%;
+  }
+}
+@media (max-width: 767px) {
+  .wrap {
+    perspective: 900px;
+    perspective-origin: 50% 50%;
+  }
 }
 
 /* M-HERO-RISE: every visible line, 80ms apart (delays inline), once per session. */
 .rise {
   animation: global(vaRise) 0.56s var(--eo) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+@media (max-width: 767px) {
+  .rise {
+    animation-delay: calc(var(--ip, 0) * 80ms);
+  }
 }
 :global(html.no-intro) .rise {
   animation: none;

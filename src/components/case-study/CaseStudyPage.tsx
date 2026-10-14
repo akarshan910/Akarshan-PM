@@ -11,6 +11,7 @@ import { CaseStudySummary } from "./CaseStudySummary";
 import { ChapterBar, ChapterRail } from "./ChapterNav";
 import { CaseStudyContext } from "./context";
 import { useChapterSpy } from "./useChapterSpy";
+import { useReveal } from "~/motion/reveal";
 
 /**
  * /work/:slug (03 · Case study): the header, the hero media, the Summary, then the chapters with
@@ -52,24 +53,7 @@ export function CaseStudyPage({ view }: { view: CaseStudyView }) {
               <ChapterRail chapters={chapters} current={current} />
               <article ref={article} className={styles.article}>
                 {chapters.map(({ chapter, anchor, groups }, i) => (
-                  <section
-                    key={chapter.id}
-                    id={anchor}
-                    className={styles.chapter}
-                    aria-labelledby={`${anchor}-t`}
-                  >
-                    <span className={styles.chn} aria-hidden="true">
-                      {chapterNumber(i)}
-                    </span>
-                    <h2 id={`${anchor}-t`} className={styles.cht} tabIndex={-1}>
-                      {chapter.title}
-                    </h2>
-                    <div className={styles.blocks}>
-                      {groups.map((group) => (
-                        <Block key={group.kind === "boxes" ? group.id : group.block.id} group={group} />
-                      ))}
-                    </div>
-                  </section>
+                  <Chapter key={chapter.id} anchor={anchor} index={i} title={chapter.title} groups={groups} />
                 ))}
               </article>
             </div>
@@ -77,5 +61,38 @@ export function CaseStudyPage({ view }: { view: CaseStudyView }) {
         ) : null}
       </main>
     </CaseStudyContext.Provider>
+  );
+}
+
+/**
+ * One chapter. Below the fold it reveals as it scrolls in (M-REVEAL): the number, the title, then
+ * its blocks, 80ms apart.
+ */
+function Chapter({
+  anchor,
+  index,
+  title,
+  groups,
+}: {
+  anchor: string;
+  index: number;
+  title: string;
+  groups: ReturnType<typeof groupBlocks>;
+}) {
+  const ref = useReveal<HTMLElement>({ blocks: ":scope > span, :scope > h2, :scope > div > *" });
+  return (
+    <section ref={ref} id={anchor} className={styles.chapter} aria-labelledby={`${anchor}-t`}>
+      <span className={styles.chn} aria-hidden="true">
+        {chapterNumber(index)}
+      </span>
+      <h2 id={`${anchor}-t`} className={styles.cht} tabIndex={-1}>
+        {title}
+      </h2>
+      <div className={styles.blocks}>
+        {groups.map((group) => (
+          <Block key={group.kind === "boxes" ? group.id : group.block.id} group={group} />
+        ))}
+      </div>
+    </section>
   );
 }

@@ -189,6 +189,24 @@ describe("Hero motion", () => {
     expect(document.documentElement).toHaveClass("no-intro");
   });
 
+  it("doesn't wait for a line that's hidden, which never fires animationend", () => {
+    sessionStorage.clear();
+    document.documentElement.classList.remove("no-intro");
+    const { container } = renderHero();
+    const section = container.querySelector("section");
+    if (!section) throw new Error("no section");
+    const end = (el: Element, animationName: string) => {
+      const e = new Event("webkitAnimationEnd", { bubbles: true });
+      Object.assign(e, { animationName });
+      el.dispatchEvent(e);
+    };
+    const intro = container.querySelector<HTMLElement>(".intro");
+    if (intro) intro.style.display = "none"; // as the phone layout does
+    for (const l of container.querySelectorAll(".rise")) if (l !== intro) end(l, "vaRise");
+    end(container.querySelector("path[d^='M6 24']") ?? section, "vaInkDraw");
+    expect(sessionStorage.getItem("va:intro")).toBe("1");
+  });
+
   it("applyPose ignores a missing card", () => {
     expect(() => {
       applyPose(null, { x: 0, y: 0, z: 0, r: 0, tx: 0, ty: 0, op: 0, tr: "" });
