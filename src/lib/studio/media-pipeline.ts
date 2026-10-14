@@ -177,3 +177,32 @@ export async function runPipeline(file: Blob, mime: string): Promise<PipelineRes
     files,
   };
 }
+
+// ---- the Open Graph image (06 · Storage, step 5)
+
+export const OG = { width: 1200, height: 630 } as const;
+
+/** The largest 1200:630 rectangle of a `w`×`h` image, centred on the focal point where it fits. */
+export function ogRect(w: number, h: number, focal: { x: number; y: number } | null) {
+  const ratio = OG.width / OG.height;
+  const cw = Math.min(w, h * ratio);
+  const ch = cw / ratio;
+  const f = focal ?? { x: 0.5, y: 0.5 };
+  const clamp = (v: number, max: number) => Math.min(Math.max(v, 0), max);
+  return {
+    x: Math.round(clamp(f.x * w - cw / 2, w - cw)),
+    y: Math.round(clamp(f.y * h - ch / 2, h - ch)),
+    width: Math.round(cw),
+    height: Math.round(ch),
+  };
+}
+
+/** `og.jpg`: the image cropped around its focal point to 1200×630, JPG at 0.85. */
+export async function cropOg(file: Blob, focal: { x: number; y: number } | null): Promise<Blob> {
+  const bitmap = await createImageBitmap(file);
+  const r = ogRect(bitmap.width, bitmap.height, focal);
+  const c = canvas(OG.width, OG.height);
+  context(c).drawImage(bitmap, r.x, r.y, r.width, r.height, 0, 0, OG.width, OG.height);
+  bitmap.close();
+  return encode(c, "image/jpeg", 0.85);
+}

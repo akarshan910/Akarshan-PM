@@ -139,6 +139,12 @@ const fake = {
         files.set(path, blob);
         return Promise.resolve({ error: null });
       },
+      download: (path: string) => {
+        const blob = files.get(path);
+        return Promise.resolve(
+          blob ? { data: blob, error: null } : { data: null, error: { message: "Object not found" } },
+        );
+      },
       createSignedUrl: (path: string) =>
         Promise.resolve({ data: { signedUrl: `https://signed.example/${path}` }, error: null }),
     }),
@@ -150,6 +156,7 @@ vi.mock("./media-pipeline", async (orig) => {
   const real = await orig<typeof Pipeline>();
   return {
     ...real,
+    cropOg: () => Promise.resolve(new Blob(["og"], { type: "image/jpeg" })),
     runPipeline: (file: Blob, mime: string): Promise<PipelineResult> =>
       Promise.resolve(
         mime === "application/pdf"
@@ -374,6 +381,9 @@ describe("supabaseRepo", () => {
       filename: "s.png",
     });
     expect(edited).toMatchObject({ alt: "A screen", filename: "s.png", focal: { x: 0.2, y: 0.4 } });
+    const withOg = await repo.media.makeOg(row.id);
+    expect(withOg.hasOg).toBe(true);
+    expect(files.has(`${row.id}/r1/og.jpg`)).toBe(true);
     const replaced = await repo.media.replace(row.id, {
       file: new Blob(["x"]),
       filename: "new.png",
@@ -387,6 +397,9 @@ describe("supabaseRepo", () => {
       kind: "document",
       mime: "application/pdf",
     });
+    expect((await repo.media.makeOg(pdf.id)).hasOg).toBe(false);
+    files.delete(`${replaced.key}/orig.jpg`);
+    await expect(repo.media.makeOg(replaced.id)).rejects.toMatchObject({ message: "Object not found" });
     expect(await repo.media.url(pdf)).toBe(`https://signed.example/${pdf.id}/r1/orig.pdf`);
     expect((await repo.media.list()).map((m) => m.filename).sort()).toEqual(["cv.pdf", "new.png"]);
     expect((await repo.media.storageUsed()).used).toBeGreaterThan(0);

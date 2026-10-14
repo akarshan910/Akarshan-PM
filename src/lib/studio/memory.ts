@@ -448,6 +448,13 @@ export class MemoryRepo implements StudioRepo {
       Object.assign(row, patch);
       return clone(row);
     },
+    makeOg: async (id: string) => {
+      await this.tick();
+      const row = this.mediaRows.get(id);
+      if (!row) throw new Error("Not found.");
+      if (row.kind === "image") row.hasOg = true;
+      return clone(row);
+    },
     replace: async (id: string, input: UploadInput) => {
       await this.tick();
       const row = this.mediaRows.get(id);
@@ -459,6 +466,7 @@ export class MemoryRepo implements StudioRepo {
       row.width = input.width ?? row.width;
       row.height = input.height ?? row.height;
       row.filename = input.filename;
+      row.hasOg = false;
       if (typeof URL.createObjectURL === "function") this.mediaUrls.set(id, URL.createObjectURL(input.file));
       return clone(row);
     },
