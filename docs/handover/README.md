@@ -146,10 +146,10 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
   - the account menu;
   - save status.
 - [ ] Sign-in by email code and every path on `StudioAuthFlow`. See [05](05-studio.md#sign-in).
-- [ ] Dashboard.
+- [x] Dashboard.
 - [ ] Website builder: outline, order, show or hide, nav labels, section settings, floating previews, skill sizes, off duty items, add section, live preview, publish website.
 - [ ] Profile & facts, with confirm states.
-- [ ] Projects list: order, lead star, menu, filters, layout publish bar.
+- [x] Projects list: order, lead star, menu, filters, layout publish bar.
 - [ ] Project editor: Overview, Visuals, Story, Outcomes, URL & SEO, with autosave, conflict, offline and publish checks.
 - [ ] Writing: list, editor, settings with the topic picker, schedule, publish.
 - [ ] Media library.
