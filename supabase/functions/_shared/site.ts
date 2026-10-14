@@ -80,7 +80,8 @@ export function pruneProfile(profile: ProfilePublished, layout: SiteLayout): Pro
   const skills = listed("skills");
   const testimonials = listed("testimonials");
   const offDuty = listed("offduty");
-  const { spaces, ...rest } = profile;
+  const about = listed("about");
+  const { spaces, education, about: aboutPart, ...rest } = profile;
   return {
     ...rest,
     ...(spaces && proof.has("spaces") ? { spaces } : {}),
@@ -89,7 +90,13 @@ export function pruneProfile(profile: ProfilePublished, layout: SiteLayout): Pro
     skills: profile.skills.filter((g) => skills.has(g.id)),
     testimonials: profile.testimonials.filter((t) => testimonials.has(t.id)),
     offDuty: profile.offDuty.filter((o) => offDuty.has(o.id)),
-    about: has("about") ? profile.about : { body: [] },
+    // The About section's parts are items too: "text", "points" and "photo" (defaults.ts).
+    about: {
+      body: about.has("text") ? aboutPart.body : [],
+      ...(about.has("points") && aboutPart.points ? { points: aboutPart.points } : {}),
+      ...(about.has("photo") && aboutPart.photo ? { photo: aboutPart.photo } : {}),
+    },
+    ...(education && has("experience") ? { education } : {}),
   };
 }
 
