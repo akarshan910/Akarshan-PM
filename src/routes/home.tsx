@@ -1,10 +1,17 @@
+import { loadPublicContent } from "~/lib/content.server";
+import { buildHomeView } from "~/lib/site";
+
 import type { Route } from "./+types/home";
 
-export function meta(_: Route.MetaArgs) {
-  return [{ title: "Akarshan Kumar" }];
+export async function loader() {
+  return buildHomeView(await loadPublicContent());
 }
 
-/** Placeholder until M2 builds the homepage. */
-export default function Home() {
-  return <main />;
+export function meta({ loaderData }: Route.MetaArgs) {
+  return [{ title: loaderData.profile.name }];
+}
+
+/** Placeholder until M2 renders the sections (03 · Home). */
+export default function Home(_: Route.ComponentProps) {
+  return <main id="main" />;
 }
