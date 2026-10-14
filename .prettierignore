@@ -1,0 +1,11 @@
+build/
+dist/
+coverage/
+.react-router/
+design/
+docs/
+public/
+tests/fixtures/
+package-lock.json
+*.md
+*_prototype.html

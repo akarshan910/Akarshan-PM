@@ -73,9 +73,9 @@ Build in this order. Each milestone ends with the [QA](08-qa.md) pass for what i
 ### M0 · Foundation
 
 - [ ] Ask the owner the questions marked "before M0" in [09-decisions](09-decisions.md). Keep working on anything that doesn't depend on the answers.
-- [ ] TypeScript strict, ESLint and Prettier, Vitest, Playwright, plus `typecheck`, `lint`, `test`, `build` and `e2e` scripts.
-- [ ] React Router 7 framework mode: prerendered public routes, `/studio/*` as a client-only SPA. See [01](01-architecture.md#rendering).
-- [ ] Folder structure, per [01](01-architecture.md#folders).
+- [x] TypeScript strict, ESLint and Prettier, Vitest, Playwright, plus `typecheck`, `lint`, `test`, `build` and `e2e` scripts.
+- [x] React Router 7 framework mode: prerendered public routes, `/studio/*` as a client-only SPA. See [01](01-architecture.md#rendering).
+- [x] Folder structure, per [01](01-architecture.md#folders).
 - [ ] `tokens.css` with every token from [02](02-tokens-and-components.md), in dark and light.
 - [ ] Self-hosted fonts:
   - Archivo variable, `wdth` 62–125 and `wght` 100–900;
@@ -83,9 +83,9 @@ Build in this order. Each milestone ends with the [QA](08-qa.md) pass for what i
   - Geist Mono;
   - JetBrains Mono for the nav.
 - [ ] CI on GitHub Actions: typecheck, lint, test and build on every push, plus a secret scan (gitleaks) that fails the build on a finding.
-- [ ] Replace the Figma Make `package.json` with the new stack, and commit `package-lock.json`.
+- [x] Replace the Figma Make `package.json` with the new stack, and commit `package-lock.json`.
 - [ ] `.env.example` with the variable names from [01](01-architecture.md#environment) and empty values.
-- [ ] Move the current site's content out of `src/app/App.tsx` into `src/legacy/content.ts`, verbatim. Nothing renders it any more; it feeds the V0 seed. See [07](07-v0-content.md#extraction).
+- [x] Move the current site's content out of `src/app/App.tsx` into `src/legacy/content.ts`, verbatim. Nothing renders it any more; it feeds the V0 seed. See [07](07-v0-content.md#extraction).
 
 ### M1 · Components
 
