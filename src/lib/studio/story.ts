@@ -2,7 +2,7 @@
  * The Story tab's edits (05 · Story; EditorCaseStudy): chapters and blocks as pure functions over
  * the project draft, and the RICE fixes with the board's announcements.
  */
-import { chapterAnchor } from "../case-study";
+import { chapterAnchors } from "../case-study";
 import { newBlock, newChapter, newId } from "../defaults";
 import type { Block, BlockType, Chapter, Project } from "../types";
 import { chapterHasContent, riceFlags, round1, type RiceFlag } from "./checks";
@@ -149,7 +149,7 @@ export function restoreBlock(d: Project, chapterId: string, block: Block, index:
 export function liveAnchor(d: Project, chapterId: string): string | null {
   const live = d.story.filter((c) => !c.hidden && chapterHasContent(c));
   const i = live.findIndex((c) => c.id === chapterId);
-  return i < 0 ? null : chapterAnchor(i);
+  return i < 0 ? null : (chapterAnchors(live.map((c) => c.title))[i] ?? null);
 }
 
 /** The chapter list's second line (EditorCaseStudy): "Hidden by you", "Hidden · empty", "3 blocks". */

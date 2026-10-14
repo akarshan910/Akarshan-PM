@@ -563,3 +563,12 @@
     display: none;
   }
 }
+
+/* A 44px target on phones (QA-S4); the hit area grows, the drawing doesn't. */
+@media (max-width: 767px) {
+  .reorderBtn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}

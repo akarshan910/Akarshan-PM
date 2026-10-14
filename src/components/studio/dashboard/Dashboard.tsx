@@ -196,7 +196,7 @@ export function Dashboard({ model, name, now, email, onNewProject, onSignOut }: 
               </div>
               <div className={styles.recentList}>
                 {model.recent.map((r) => (
-                  <Link key={r.id} className={cx("row", styles.recentRow)} to={r.href}>
+                  <Link key={r.id} className={cx("row", "t44", styles.recentRow)} to={r.href}>
                     <span className={styles.recentTitle}>{r.title}</span>
                     <span className={styles.ago}>{relative(r.at, now)}</span>
                   </Link>

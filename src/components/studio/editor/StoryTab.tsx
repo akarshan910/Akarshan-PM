@@ -577,9 +577,7 @@ function ChapterSettings({
       <div className={styles.setLabel}>Link to this chapter</div>
       <div className={styles.anchor}>{anchor ? `/work/${slug}#${anchor}` : `/work/${slug}`}</div>
       <div className={styles.setNote}>
-        {anchor
-          ? "Updates when you move or rename the chapter."
-          : "Hidden chapters have no link on the live page."}
+        {anchor ? "Updates when you rename the chapter." : "Hidden chapters have no link on the live page."}
       </div>
       <div className={styles.rule} />
       <Switch checked={!chapter.hidden} onCheckedChange={onToggle}>

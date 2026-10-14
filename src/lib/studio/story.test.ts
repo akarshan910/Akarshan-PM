@@ -62,7 +62,7 @@ describe("chapters", () => {
     const r = addBlock(d, must(b), "text");
     d = patchBlock(r.draft, must(b), r.id, (x) => (x.type === "text" ? { ...x, body: "<p>Hi</p>" } : x));
     expect(chapterSub(must(d.story[0]))).toEqual({ text: "1 block", muted: false });
-    expect(liveAnchor(d, must(b))).toBe("ch-01");
+    expect(liveAnchor(d, must(b))).toBe("new-chapter");
     expect(liveAnchor(d, must(a))).toBeNull();
   });
 

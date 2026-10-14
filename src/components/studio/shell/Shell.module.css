@@ -119,6 +119,11 @@
   height: 100dvh;
 }
 .railMark {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
   margin-bottom: 12px;
   font-family: var(--fd);
   font-stretch: 62%;
@@ -228,6 +233,8 @@
     height: 48px;
   }
   .railMark {
+    width: 48px;
+    height: 48px;
     margin-bottom: 14px;
     font-size: 26px;
     line-height: 1;

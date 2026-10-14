@@ -143,7 +143,8 @@ export function Shell({
                 <NavLink
                   to={item.to}
                   end={item.end ?? false}
-                  className={() => cx(styles.rl, current(item) && styles.on)}
+                  // A string, not NavLink's function form: Tooltip.Trigger (asChild) merges classNames as strings.
+                  className={cx(styles.rl, current(item) && styles.on)}
                   aria-label={item.label}
                   aria-current={current(item) ? "page" : undefined}
                 >
