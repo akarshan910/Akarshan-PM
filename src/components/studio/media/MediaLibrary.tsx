@@ -438,6 +438,13 @@ export function MediaLibrary({
                       .filter(Boolean)
                       .join(" · ")}
                   </div>
+                  {current.kind === "document" || current.mime === "image/gif" ? (
+                    <p className={styles.hint} style={{ margin: "10px 0 0", fontSize: 13, lineHeight: 1.5 }}>
+                      {current.kind === "document" ? "PDFs" : "GIFs"} go up as they are, so they keep their
+                      own details, such as a PDF’s author and title. Photos lose their location and camera
+                      data.
+                    </p>
+                  ) : null}
                   {current.kind === "image" ? (
                     <div className={styles.altBox}>
                       <label className={styles.lbl} htmlFor="f-alt">
