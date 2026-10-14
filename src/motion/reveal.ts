@@ -13,7 +13,7 @@ import { useEffect, useRef, type RefObject } from "react";
 import { prefersReducedMotion } from "./reduced-motion";
 
 export const REVEAL_MARGIN = "0px 0px -15% 0px";
-/** The line the section's top must pass: 85% of the viewport height. */
+/** The line the section's top must pass: 85% of the viewport height (the observer's margin). */
 export const REVEAL_LINE = 0.85;
 export const MAX_STEP = 4;
 const DURATION_MS = 560;
@@ -48,7 +48,8 @@ export interface RevealOptions {
 export function setupReveal(section: HTMLElement, options: RevealOptions = {}): () => void {
   const { onReveal, onWait } = options;
   const view = typeof window === "undefined" ? 0 : window.innerHeight;
-  const already = section.getBoundingClientRect().top < view * REVEAL_LINE;
+  // Anything inside the first viewport at load is excluded (04 · M-REVEAL): it never hides.
+  const already = section.getBoundingClientRect().top < view;
   if (prefersReducedMotion() || typeof IntersectionObserver === "undefined" || already) {
     onReveal?.();
     return () => undefined;

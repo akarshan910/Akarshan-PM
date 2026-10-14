@@ -89,8 +89,8 @@ describe("setupReveal", () => {
     expect((el.children[0] as HTMLElement).dataset.revealStep).toBeUndefined();
   });
 
-  it("leaves a section that's already on screen alone", () => {
-    const el = section(100);
+  it("leaves a section that's already on screen alone, even below the 85% line", () => {
+    const el = section(window.innerHeight - 10);
     const onReveal = vi.fn();
     setupReveal(el, { onReveal });
     expect(el.className).toBe("");
