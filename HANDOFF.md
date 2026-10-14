@@ -30,7 +30,7 @@ _Last updated: 15 Oct 2026._
 | M0 · Foundation | **Done.** Stack, routing, tokens, fonts, CI, security gates, legacy content frozen, shared content core |
 | M1 · Components | **Done.** Every C1–C22, S1, S2 and Studio primitive, on `/dev/components` (dev only) |
 | M2 · Public site on local data | **In progress.** See below |
-| M3 · Supabase | Not started. Local-only work can start; owner input needed before the shared project is touched |
+| M3 · Supabase | **Built and tested locally** (merged 15 Oct 2026): `pm` schema with RLS, buckets, the six `pm-` Edge Functions, `db:migrate`, `db:lint`, `setup:owner`, `seed:v0`, PGlite tests (`npm run test:db`). Not done: the Supabase content source in `src/lib` (WP3.5), and every go-live step on the shared project, which the owner runs (`supabase/README.md`) |
 | M4 · Studio | Not started |
 | M5 · Publishing and SEO | Not started |
 | M6 · QA and launch | Not started |
@@ -85,12 +85,12 @@ Pick up in this order. Each item lists the doc sections and boards to read.
    - Wire `?qa=1` through `src/lib/qa.ts` and add the `parity` Playwright project.
    - The `tests/parity/*.spec.ts` specs need `pixelmatch` and `pngjs`. Add them as dev dependencies, with exact versions and the lockfile.
 5. **Close M2:** run the 08 QA pass for what M2 touched, tick the M2 boxes, then run a security review of M2's diff and fix what it finds (every phase so far ended this way).
-6. **M3 · Supabase, local first.** See [Environment gotchas](#environment-gotchas) for how to test without Docker images. The owner answered Q3, Q4, Q6 and Q10 (D49–D52), but nothing touches the shared project until the owner says so: they expose the `pm` schema and run `npm run db:migrate` themselves (10 · Owner touchpoints).
+6. **M3 · what's left.** The Supabase content source in `src/lib/sources/` (WP3.5) so the build reads published rows. The go-live steps in `supabase/README.md` are the owner's (expose `pm`, extensions, `db:migrate`, Vault, function secrets and deploys, `setup:owner`, Auth settings); nothing touches the shared project until the owner says so. Security follow-ups are in `.agents/security/inbox`.
 7. **M5 · Unknown `/work/<slug>` addresses.** Today a static server answers them with another page's prerendered HTML. React Router then finds no loader data for `routes/work.$slug` and shows the error state, not the 404. The fix follows [01 · Rendering](docs/handover/01-architecture.md#rendering): `scripts/write-vercel-config.ts` rewrites `/work/:slug` paths with no prerendered page to the `noindex` unlisted shell (`work.unlisted.tsx`). The shell shows the project or the 404 state. Every other unknown path gets `404.html` with status 404. Add the e2e case back to `tests/e2e/states.spec.ts` once the shell exists.
 
 ## Decisions made during the build
 
-They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D54 (D49–D54 answer Q2, Q3, Q4, Q6, Q8 and Q10). Smaller deviations from the boards, already in the code:
+They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D59 (D49–D54 answer Q2, Q3, Q4, Q6, Q8 and Q10; D55–D59 are M3's). Smaller deviations from the boards, already in the code:
 
 - **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px. Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
 - **Accordion:** it rotates a plus 45°, per 02 and the board, not 04's chevron.
@@ -110,7 +110,7 @@ They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46
 
 ## How we work
 
-- **Checks before every commit:** `npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run build && npx playwright test`. Coverage floors: `src/lib` 90/85, `src/components` 80/70.
+- **Checks before every commit:** `npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run test:db && npm run db:lint && npm run build && npx playwright test`. CI also type-checks the Edge Functions with Deno. Coverage floors: `src/lib` 90/85, `src/components` 80/70.
 - **Push after every commit** to `claude/elegant-allen-xdmal0`. Cloud containers get reset, and unpushed work is lost.
 - **Small commits,** one milestone item at a time, ticking the README boxes in the same commit.
 - **Pixel parity:**
@@ -143,7 +143,8 @@ They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46
 | `src/components/**` | Components, one folder per area; `studio/` is Studio-only |
 | `src/motion/` | Keyframes, reduced motion, tilt, floaters, reveal, pause, speed lines |
 | `src/routes/` | Pages; `public-layout.tsx` is the shell; `dev/` is the catalogue (never ships) |
-| `scripts/` | `check-env.ts` (pre-build gates), `check-build.ts` (post-build gates), `copy-fonts.ts`, `copy-local-covers.ts` |
+| `scripts/` | `check-env.ts` (pre-build gates), `check-build.ts` (post-build gates), `copy-fonts.ts`, `copy-local-covers.ts`, `migrate.ts`, `migration-lint.ts`, `setup-owner.ts`, `seed-v0.ts`, `sync-functions-lib.ts` |
+| `supabase/` | `pm/migrations/` (schema, RLS, cron), `functions/` (the `pm-` Edge Functions and `_shared/`), `tests/` (PGlite), `README.md` (the owner's go-live steps) |
 | `tests/unit`, `tests/e2e`, `tests/fixtures` | Vitest, Playwright, fixtures |
 
 ## Environment gotchas

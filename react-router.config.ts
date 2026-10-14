@@ -7,6 +7,9 @@ import type { Config } from "@react-router/dev/config";
  */
 export default {
   appDirectory: "src",
+  // The parity build (CONTENT_SOURCE=fixture:boards) goes to its own folder, so it never mixes with
+  // the real build (08 · Pixel parity).
+  buildDirectory: process.env.PM_BUILD_DIR ?? "build",
   ssr: false,
   async prerender() {
     const { loadPublicContent } = await import("./src/lib/content.server");

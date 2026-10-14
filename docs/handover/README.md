@@ -127,16 +127,16 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 
 ### M3 · Supabase
 
-- [ ] Read [06 · The shared project](06-backend.md#the-shared-project). The Supabase project also runs lumina-photography.
-- [ ] `npm run db:migrate` and `supabase/pm/migrations/`: the `pm` schema with every table, policy, column grant and index in [06](06-backend.md#schema). Expose `pm` in the Data API settings.
-- [ ] The `pm-media-draft` and `pm-media-public` buckets, with the policies in [06](06-backend.md#storage).
+- [x] Read [06 · The shared project](06-backend.md#the-shared-project). The Supabase project also runs lumina-photography.
+- [ ] `npm run db:migrate` and `supabase/pm/migrations/`: the `pm` schema with every table, policy, column grant and index in [06](06-backend.md#schema). Expose `pm` in the Data API settings. _Built and tested locally (PGlite); waits for the owner's go-live steps in `supabase/README.md`._
+- [ ] The `pm-media-draft` and `pm-media-public` buckets, with the policies in [06](06-backend.md#storage). _Built and tested locally (PGlite); waits for the owner's go-live steps in `supabase/README.md`._
 - [ ] Sign-in by email code, as in [06](06-backend.md#auth):
   - sign-ups off;
   - the owner created by `npm run setup:owner`, reading `OWNER_EMAIL` from the local shell;
-  - the `pm.owners` table keyed by user id and the `pm.is_owner()` check ([09](09-decisions.md), D28);
+  - the `pm.owners` table keyed by user id and the `pm.is_owner()` check ([09](09-decisions.md), D28); built locally, with `setup:owner`;
   - Turnstile in Studio; Supabase's CAPTCHA protection switched on once lumina's login sends tokens ([09](09-decisions.md), Q8);
   - the code-only email template and custom SMTP.
-- [ ] V0 seed script (`npm run seed:v0`) loads profile, layout and projects from `src/legacy/content.ts`, with the covers from `design/covers/`. See [07](07-v0-content.md).
+- [ ] V0 seed script (`npm run seed:v0`) loads profile, layout and projects from `src/legacy/content.ts`, with the covers from `design/covers/`. See [07](07-v0-content.md). _Built and tested locally (PGlite); waits for the owner's go-live steps in `supabase/README.md`._
 - [ ] The build reads published content from Supabase at prerender time and stops using the local JSON.
 
 ### M4 · Studio

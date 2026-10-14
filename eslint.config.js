@@ -11,6 +11,7 @@ export default tseslint.config(
     ignores: [
       ".claude/",
       "build/",
+      "build-parity/",
       "dist/",
       "coverage/",
       ".react-router/",
