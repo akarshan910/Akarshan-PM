@@ -29,6 +29,18 @@ const header = (root: string): Section => ({
   note: "09 · D75: tag chip and company masked; dek and facts (D60) not compared",
 });
 
+/**
+ * The dek's copy differs between boards (D75), so its height does too; its type is compared instead
+ * (size, weight, line height, measure, colour, spacing above), as review's D75 audit asked.
+ */
+const dek = (root: string): Section => ({
+  name: "header-dek-type",
+  board: `${root} > p`,
+  page: "main > header > p",
+  type: true,
+  note: "09 · D75: dek copy differs; its type is compared",
+});
+
 /** 09 · D75: chapter 05's drawn phone figure stands in for media the fixture doesn't have. */
 const withoutFigure = (sections: Section[], figure: string): Section[] =>
   sections.map((x) =>
@@ -52,6 +64,7 @@ defineParity([
     pill: true,
     sections: [
       header(".va > section:first-of-type"),
+      dek(".va > section:first-of-type"),
       {
         name: "prototype",
         board: 'section[aria-label="Interactive prototype"]',
@@ -80,6 +93,7 @@ defineParity([
     pill: true,
     sections: [
       header(".va > section:first-of-type"),
+      dek(".va > section:first-of-type"),
       {
         name: "prototype",
         board: 'section[aria-label="Interactive prototype"]',
@@ -108,6 +122,7 @@ defineParity([
     // isn't compared with the board's measures-only block.
     sections: [
       header(".va > header"),
+      dek(".va > header"),
       {
         name: "prototype",
         board: 'section[aria-label="Prototype"]',

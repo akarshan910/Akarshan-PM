@@ -67,6 +67,8 @@ for (const width of [1440, 834, 390]) {
       test.skip(!(await studioBuilt(page)), "Studio's sign-in isn't on this branch yet");
       // Settle first: the SPA sets <title> on the client, and axe checks it (CI race, review 2200).
       await expect(page).toHaveTitle(/sign in/i);
+      // The form title is h2 on wide screens and h1 on phones (S3); either way it's rendered.
+      await expect(page.getByRole("heading", { name: "Sign in to Studio" })).toBeVisible();
       expect(await axe(page)).toEqual([]);
       expect((await overflowing(page)).offenders).toEqual([]);
     });
