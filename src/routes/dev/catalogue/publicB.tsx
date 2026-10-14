@@ -6,6 +6,7 @@ import { InkPanel } from "~/components/hero/InkPanel";
 import { AccordionRow } from "~/components/accordion/AccordionRow";
 import { ExperienceList, type ExperienceItem } from "~/components/experience/ExperienceList";
 import { SiteFooter } from "~/components/footer/SiteFooter";
+import { type OffDutyItem, OffDutyPage } from "~/components/offduty/OffDutyPage";
 import { type SkillGroup, type SkillSize, SkillsCloud } from "~/components/skills/SkillsCloud";
 import type { Testimonial } from "~/components/testimonials/TestimonialCard";
 import { Testimonials } from "~/components/testimonials/Testimonials";
@@ -521,6 +522,96 @@ function TestimonialsHeadingless({ items }: { items: Testimonial[] }) {
   return <Testimonials heading={<TestiHeading count={items.length} />} items={items} />;
 }
 
+/** Home.dc.html › #offduty, the board's six panels and eight picks. */
+const OFF: OffDutyItem[] = [
+  {
+    id: "anime",
+    label: "Passion",
+    title: "Anime",
+    text: "Big fan of layered storytelling — the kind where every detail from episode 1 pays off in the finale. AoT, Vinland Saga, FMA, and JJK are my benchmarks for what great narrative looks like.",
+    tag: "Currently watching",
+    accent: "#FF5A67",
+    ground: "#1C0C0F",
+    art: "kunai",
+    picks: [
+      ["Attack on Titan", "Action · Strategy"],
+      ["Demon Slayer", "Action · Visual Art"],
+      ["Death Note", "Psychological · Thriller"],
+      ["Fullmetal Alchemist", "Adventure · Deep"],
+      ["Jujutsu Kaisen", "Action · Current"],
+      ["One Punch Man", "Comedy · Power"],
+      ["Vinland Saga", "Historical · Epic"],
+      ["Haikyuu!!", "Sports · Motivation"],
+    ].map(([title, note], i) => ({ id: `pick${i}`, title: title ?? "", note: note ?? "" })),
+  },
+  {
+    id: "sketch",
+    label: "Creative",
+    title: "Sketching",
+    text: "I sketch to think — on notebooks, sticky notes, whatever’s nearby. It’s how I get ideas out of my head before they disappear. Mostly rough wireframes and random diagrams.",
+    tag: "Product flows",
+    accent: "#FACC15",
+    ground: "#1F1A06",
+    art: "pencil",
+  },
+  {
+    id: "tt",
+    label: "Sport",
+    title: "Table Tennis",
+    text: "Been playing TT for years — it’s the one sport where I genuinely enjoy losing because it means I’m playing someone better. Best stress relief I’ve found so far.",
+    tag: "Competitive player",
+    accent: "#38BDF8",
+    ground: "#0A1620",
+    art: "paddle",
+  },
+  {
+    id: "cook",
+    label: "At home",
+    title: "Cooking",
+    text: "I cook mostly Indian and continental. Weekends I’ll try something new — sometimes it’s great, sometimes it’s a disaster. The kitchen is the one place I’m happy either way.",
+    tag: "Weekend chef",
+    accent: "#F5A524",
+    ground: "#1A140A",
+    art: "pan",
+  },
+  {
+    id: "travel",
+    label: "Explorer",
+    title: "Travel",
+    text: "Love the feeling of landing somewhere new and figuring it out. No rigid itineraries — just a list of things worth seeing and room for whatever happens in between.",
+    tag: "Always planning next",
+    accent: "#4ADE80",
+    ground: "#0E1F14",
+    art: "plane",
+  },
+  {
+    id: "photo",
+    label: "Visual",
+    title: "Photography",
+    text: "Street and travel photography on my phone mostly. Chasing light, interesting faces, and scenes that tell a story without a caption.",
+    tag: "Street & travel",
+    accent: "#A78BFA",
+    ground: "#130F1F",
+    art: "camera",
+  },
+];
+
+function OffDutySpecimen() {
+  return (
+    <Specimen title="C17 · Off duty page" board="Home*.dc.html · #offduty .opage">
+      <Wide label="Six panels, the six art presets, the spine shelf (phones: the rail, dots and shelf)">
+        <OffDutyPage items={OFF} />
+      </Wide>
+      <Wide label="Five: the bottom row stretches to 6 + 6; no picks">
+        <OffDutyPage items={OFF.slice(0, 5).map((o) => ({ ...o, picks: [] }))} />
+      </Wide>
+      <Wide label="Two: the big panel and the side stack; no tag on the second">
+        <OffDutyPage items={OFF.slice(0, 2).map((o, i) => (i ? { ...o, tag: "" } : o))} />
+      </Wide>
+    </Specimen>
+  );
+}
+
 function FooterSpecimen() {
   return (
     <Specimen title="C19 · Footer" board="Home*.dc.html · footer">
@@ -551,6 +642,7 @@ export default function PublicBSpecimens() {
       <ExperienceSpecimen />
       <SkillsSpecimen />
       <TestimonialsSpecimen />
+      <OffDutySpecimen />
       <FooterSpecimen />
     </>
   );

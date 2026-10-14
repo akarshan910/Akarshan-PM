@@ -1,0 +1,516 @@
+/*
+ * C17 · Off duty page, copied from Home*.dc.html › #offduty (`.opage`, `.op*`, `.spines`, `.sp*`).
+ * Each panel carries `--pa` (accent) and `--pg` (cover ground). Positions per slot are the boards'
+ * inline values. Motion: M-OFF-PANEL and M-OFF-SPINE (hover devices only; none under reduced motion).
+ */
+
+/* ---- Grid ---- */
+.page {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: var(--lrows);
+  gap: 12px;
+}
+
+/* ---- Panel ---- */
+.op {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  border: 2px solid var(--tx);
+  background: var(--pg);
+  grid-column: var(--lc);
+  grid-row: var(--lr);
+  transition: transform 0.32s var(--eo);
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+}
+
+.tone {
+  position: absolute;
+  inset: -20px;
+  background-image: radial-gradient(var(--tone) 1.2px, transparent 1.5px);
+  background-size: 8px 8px;
+  -webkit-mask-image: radial-gradient(ellipse at var(--mask), #000 0%, transparent 58%);
+  mask-image: radial-gradient(ellipse at var(--mask), #000 0%, transparent 58%);
+}
+
+.sl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s var(--eo);
+}
+.slI,
+.slP {
+  display: none;
+}
+
+.num {
+  position: absolute;
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--pa) 50%, transparent);
+  pointer-events: none;
+}
+
+.ico {
+  position: absolute;
+  fill: none;
+  stroke: var(--pa);
+  color: var(--pa);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.5s var(--eo);
+}
+
+.cap {
+  position: absolute;
+  padding: 14px 16px 16px;
+  background: #f2f1ee;
+  color: #0b0b0e;
+  border: 2px solid #0b0b0e;
+  box-shadow: 5px 5px 0 var(--pa);
+  transition: box-shadow 0.32s var(--eo);
+}
+.k {
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4a4a51;
+}
+.t {
+  margin: 6px 0 0;
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: #0b0b0e;
+}
+.d {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #2a2a30;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #0b0b0e;
+  color: #f2f1ee;
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tag::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pa);
+}
+
+/* ---- Spine shelf ---- */
+.shelf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 22px 16px;
+  background: linear-gradient(rgba(11, 11, 14, 0), rgba(11, 11, 14, 0.88) 34%);
+}
+.sk {
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx2);
+}
+.spines {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 3px solid var(--tx);
+}
+.sp {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 46px;
+  padding-bottom: 10px;
+  background: var(--sf);
+  border: 1px solid var(--ln2);
+  border-bottom: 0;
+  border-top: 7px solid var(--sh);
+  transition: transform 0.32s var(--eo);
+}
+.spN {
+  font-family: var(--fm);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--sh);
+}
+.spV {
+  display: flex;
+  gap: 5px;
+}
+.spT {
+  writing-mode: vertical-rl;
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--tx);
+}
+.spG {
+  writing-mode: vertical-rl;
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--tx3);
+}
+
+.shelfPhone,
+.dots {
+  display: none;
+}
+
+/* ---- Laptop slots (Home.dc.html) ---- */
+@media (min-width: 1280px) {
+  [data-l="big"] {
+    --mask: 78% 21%;
+  }
+  [data-l="big"] .num {
+    right: 22px;
+    top: 196px;
+    font-size: 150px;
+  }
+  [data-l="big"] .ico {
+    right: 44px;
+    top: 18px;
+    width: 200px;
+    height: 172px;
+  }
+  [data-l="big"] .cap {
+    left: 22px;
+    top: 22px;
+    width: 400px;
+  }
+  [data-l="big"] .t {
+    font-size: 48px;
+  }
+  [data-l="side"] {
+    --mask: 81% 40%;
+  }
+  [data-l="side"] .num {
+    right: 12px;
+    bottom: -16px;
+    font-size: 150px;
+  }
+  [data-l="side"] .ico {
+    right: 26px;
+    top: 40px;
+    width: 150px;
+    height: 132px;
+  }
+  [data-l="side"] .cap {
+    left: 16px;
+    top: 16px;
+    width: 290px;
+  }
+  [data-l="side"] .t {
+    font-size: 32px;
+  }
+  [data-l="bottom"] {
+    --mask: 77% 21%;
+  }
+  [data-l="bottom"] .num {
+    left: 12px;
+    top: -8px;
+    font-size: 130px;
+  }
+  [data-l="bottom"] .ico {
+    right: 20px;
+    top: 14px;
+    width: 128px;
+    height: 112px;
+  }
+  [data-l="bottom"] .cap {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+  }
+  [data-l="bottom"] .t {
+    font-size: 30px;
+  }
+}
+
+/* ---- iPad slots (HomeTablet.dc.html) ---- */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .page {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: var(--irows);
+    gap: 10px;
+  }
+  .op {
+    grid-column: var(--ic);
+    grid-row: var(--ir);
+  }
+  .slL {
+    display: none;
+  }
+  .slI {
+    display: block;
+  }
+  .shelf {
+    padding: 0 18px 14px;
+  }
+  .sp {
+    width: 44px;
+  }
+  [data-i="big"] {
+    --mask: 83% 18%;
+  }
+  [data-i="big"] .num {
+    right: 20px;
+    top: 150px;
+    font-size: 120px;
+  }
+  [data-i="big"] .ico {
+    right: 40px;
+    top: 16px;
+    width: 170px;
+    height: 146px;
+  }
+  [data-i="big"] .cap {
+    left: 18px;
+    top: 18px;
+    width: 380px;
+  }
+  [data-i="big"] .t {
+    font-size: 42px;
+  }
+  [data-i="half"] {
+    --mask: 84% 23%;
+  }
+  [data-i="half"] .num {
+    right: 10px;
+    bottom: -14px;
+    font-size: 120px;
+  }
+  [data-i="half"] .ico {
+    right: 16px;
+    top: 18px;
+    width: 104px;
+    height: 92px;
+  }
+  [data-i="half"] .cap {
+    left: 12px;
+    bottom: 12px;
+    width: 250px;
+  }
+  [data-i="half"] .t {
+    font-size: 28px;
+  }
+  [data-i="third"] {
+    --mask: 76% 13%;
+  }
+  [data-i="third"] .num {
+    left: 10px;
+    top: -6px;
+    font-size: 104px;
+  }
+  [data-i="third"] .ico {
+    right: 12px;
+    top: 12px;
+    width: 96px;
+    height: 84px;
+  }
+  [data-i="third"] .cap {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+  [data-i="third"] .t {
+    font-size: 26px;
+  }
+}
+
+/* ---- Phone: a rail of 300px panels, the shelf after it (HomeMobile.dc.html) ---- */
+@media (max-width: 767px) {
+  .page {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-right: calc(-1 * var(--rail-end, 20px));
+    overflow-x: auto;
+    contain: inline-size;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .page::-webkit-scrollbar {
+    display: none;
+  }
+  .op {
+    flex: none;
+    width: 300px;
+    scroll-snap-align: start;
+    --mask: 77% 41%;
+  }
+  .art {
+    position: relative;
+    height: 170px;
+    overflow: hidden;
+  }
+  .slL {
+    display: none;
+  }
+  .slP {
+    display: block;
+  }
+  .num {
+    left: 12px;
+    top: -6px;
+    font-size: 120px;
+  }
+  .ico {
+    right: 18px;
+    top: 14px;
+    width: 120px;
+    height: 104px;
+  }
+  .cap {
+    position: relative;
+    margin: -30px 10px 10px;
+  }
+  .t {
+    font-size: 28px;
+  }
+  .shelf {
+    display: none;
+  }
+  .dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--ln2);
+  }
+  .dotOn {
+    width: 20px;
+    background: var(--tx);
+  }
+  .shelfPhone {
+    display: block;
+    margin: 30px calc(-1 * var(--rail-end, 20px)) 0 0;
+    overflow-x: auto;
+    contain: inline-size;
+    scrollbar-width: none;
+  }
+  .shelfPhone .spines {
+    width: max-content;
+    padding-right: var(--rail-end, 20px);
+  }
+  .shelfPhone .sp {
+    width: 42px;
+  }
+}
+
+/* ---- M-OFF-PANEL, M-OFF-SPINE: hover and focus within, on hover devices ---- */
+@media (hover: hover) {
+  .op:hover,
+  .op:focus-within {
+    transform: translateY(-4px);
+  }
+  .op:hover .cap,
+  .op:focus-within .cap {
+    box-shadow: 8px 8px 0 var(--pa);
+  }
+  .op:hover .ico,
+  .op:focus-within .ico {
+    transform: translate(-6px, -4px) rotate(-3deg);
+  }
+  .op:hover .sl,
+  .op:focus-within .sl {
+    transform: scale(1.04);
+  }
+  .sp:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Reduced: no transitions and no transforms; the caption shadow stays at 5px. */
+@media (prefers-reduced-motion: reduce) {
+  .op,
+  .sl,
+  .ico,
+  .cap,
+  .sp {
+    transition: none;
+  }
+  .op:hover,
+  .op:focus-within,
+  .op:hover .ico,
+  .op:focus-within .ico,
+  .op:hover .sl,
+  .op:focus-within .sl,
+  .sp:hover {
+    transform: none;
+  }
+  .op:hover .cap,
+  .op:focus-within .cap {
+    box-shadow: 5px 5px 0 var(--pa);
+  }
+}
+:global(html.still) .op,
+:global(html.still) .sl,
+:global(html.still) .ico,
+:global(html.still) .cap,
+:global(html.still) .sp {
+  transition: none;
+}
+:global(html.still) .op:hover,
+:global(html.still) .op:focus-within,
+:global(html.still) .op:hover .ico,
+:global(html.still) .op:focus-within .ico,
+:global(html.still) .op:hover .sl,
+:global(html.still) .op:focus-within .sl,
+:global(html.still) .sp:hover {
+  transform: none;
+}
+:global(html.still) .op:hover .cap,
+:global(html.still) .op:focus-within .cap {
+  box-shadow: 5px 5px 0 var(--pa);
+}
