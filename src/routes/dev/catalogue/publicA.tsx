@@ -7,10 +7,90 @@ import { TextLink } from "~/components/buttons/TextLink";
 import { RESULT_LABELS, ResultLabel, type ResultType } from "~/components/labels/ResultLabel";
 import { SectionHeader } from "~/components/labels/SectionHeader";
 import { AvailabilityChip, Chip, FilterChip, StatusBadge, VolumeTag } from "~/components/labels/Tags";
+import { PhoneMenu } from "~/components/nav/PhoneMenu";
+import { PillNav } from "~/components/nav/PillNav";
 
 import { Specimen, State } from "./Specimen";
 
 const RESULT_TYPES = Object.keys(RESULT_LABELS) as ResultType[];
+
+/** The boards' five links, pointing at the catalogue's own specimens so the live nav can spy on them. */
+const BOARD_LINKS = [
+  { id: "work", label: "Work", href: "#work" },
+  { id: "about", label: "About", href: "#about" },
+  { id: "experience", label: "Exp", href: "#experience" },
+  { id: "skills", label: "Skills", href: "#skills" },
+  { id: "testimonials", label: "Testimonial", href: "#testimonials" },
+];
+const LIVE_LINKS = [
+  { id: "c3-buttons", label: "Buttons", href: "#c3-buttons" },
+  { id: "c4-section-header", label: "Header", href: "#c4-section-header" },
+  { id: "c5-result-label", label: "Labels", href: "#c5-result-label" },
+  { id: "c6-tags-badges-and-chips", label: "Tags", href: "#c6-tags-badges-and-chips" },
+  { id: "c7-project-card", label: "Cards", href: "#c7-project-card" },
+];
+const noop = () => undefined;
+
+function Navigation() {
+  return (
+    <>
+      {/* The live nav: fixed, with the scroll-spy over the specimens below. "C8 · Shelf" stands in for Contact. */}
+      <PillNav
+        links={LIVE_LINKS}
+        heroId="c1-pill-nav"
+        contactId="c8-shelf"
+        letsTalk={{ href: "#c8-shelf" }}
+        skipTo="#c7-project-card"
+        email="owner@example.test"
+        linkedin="https://www.linkedin.com/"
+        resume="#resume"
+      />
+      <Specimen title="C1 · Pill nav" board="Home.dc.html · nav.pill; src/legacy/portfolio.css #nav">
+        <State label="Over the hero · no link active">
+          <PillNav position="static" links={BOARD_LINKS} letsTalk={{ href: "#contact" }} current="top" />
+        </State>
+        <State label="Work current · sliding highlight">
+          <PillNav position="static" links={BOARD_LINKS} letsTalk={{ href: "#contact" }} current="work" />
+        </State>
+        <State label="Skills current">
+          <PillNav position="static" links={BOARD_LINKS} letsTalk={{ href: "#contact" }} current="skills" />
+        </State>
+        <State label="Contact current · Let’s Talk glows">
+          <PillNav position="static" links={BOARD_LINKS} letsTalk={{ href: "#contact" }} current="contact" />
+        </State>
+      </Specimen>
+      <Specimen title="C2 · Phone menu" board="HomeMobile.dc.html · nav: menu open (.mmenu)">
+        <State label="Open · Work current">
+          <div
+            style={{
+              position: "relative",
+              width: "min(390px, calc(100vw - 88px))",
+              height: 844,
+              overflow: "hidden",
+              borderRadius: 24,
+              background: "var(--bg)",
+            }}
+          >
+            <PhoneMenu
+              id="catalogue-menu"
+              contained
+              links={BOARD_LINKS}
+              current="work"
+              letsTalk={{ href: "#contact" }}
+              email="owner@example.test"
+              linkedin="https://www.linkedin.com/"
+              resume="#resume"
+              onNavigate={(event) => {
+                event.preventDefault();
+              }}
+              onClose={noop}
+            />
+          </div>
+        </State>
+      </Specimen>
+    </>
+  );
+}
 
 function Buttons() {
   return (
@@ -170,6 +250,7 @@ function TagsAndChips() {
 export default function PublicASpecimens() {
   return (
     <>
+      <Navigation />
       <Buttons />
       <SectionHeaders />
       <ResultLabels />

@@ -36,8 +36,8 @@ export interface ButtonProps {
   loading?: boolean;
   loadingLabel?: string;
   type?: "button" | "submit";
-  onClick?: (event: MouseEvent<HTMLElement>) => void;
-  className?: string;
+  onClick?: ((event: MouseEvent<HTMLElement>) => void) | undefined;
+  className?: string | undefined;
   id?: string;
   "aria-label"?: string;
   "aria-describedby"?: string;

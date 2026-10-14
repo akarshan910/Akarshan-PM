@@ -1,0 +1,344 @@
+/*
+ * C1 · Pill nav, copied verbatim from the live site (src/legacy/portfolio.css: #nav, #nav::before,
+ * #nav::after, @property --shimmer-angle, navShimmer, #nav.on-light-bg, .n-links, .nl, .n-sep,
+ * #nav-pill, .n-contact). Selectors are renamed to module classes; `var(--white)` is #F0EEF8,
+ * `var(--red)` #E8273A and `var(--red2)` #FF4D5E, as in the live :root. No value is changed.
+ * Additions, each from the boards or 02: the phone pill (HomeMobile), the Menu button (`.pl`
+ * button reset), the light variant following the theme, the reduced-motion rules, the skip link.
+ */
+.nav {
+  position: fixed;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5000;
+  background: rgba(8, 6, 4, 0.62);
+  backdrop-filter: blur(48px) saturate(160%);
+  -webkit-backdrop-filter: blur(48px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  padding: 5px 5px 5px 5px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.2) inset,
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+  transition: box-shadow 0.4s ease;
+}
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 99px;
+  background: conic-gradient(
+    from var(--shimmer-angle, 0deg),
+    transparent 0deg,
+    transparent 50deg,
+    rgba(240, 238, 248, 0.04) 75deg,
+    rgba(240, 238, 248, 0.35) 100deg,
+    rgba(240, 238, 248, 0.85) 118deg,
+    rgba(255, 255, 255, 1) 125deg,
+    rgba(240, 238, 248, 0.85) 132deg,
+    rgba(240, 238, 248, 0.35) 150deg,
+    rgba(240, 238, 248, 0.04) 175deg,
+    transparent 200deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 3px;
+  pointer-events: none;
+  z-index: 1;
+  animation: navShimmer 3.5s linear infinite;
+  filter: blur(0.4px);
+}
+.nav::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 99px;
+  background: conic-gradient(
+    from var(--shimmer-angle, 0deg),
+    transparent 0deg,
+    transparent 60deg,
+    rgba(240, 238, 248, 0) 90deg,
+    rgba(240, 238, 248, 0.12) 115deg,
+    rgba(240, 238, 248, 0.28) 125deg,
+    rgba(240, 238, 248, 0.12) 135deg,
+    rgba(240, 238, 248, 0) 160deg,
+    transparent 200deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 8px;
+  pointer-events: none;
+  z-index: 0;
+  animation: navShimmer 3.5s linear infinite;
+  filter: blur(3px);
+}
+@property --shimmer-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes navShimmer {
+  0% {
+    --shimmer-angle: 0deg;
+  }
+  100% {
+    --shimmer-angle: 360deg;
+  }
+}
+
+/* Light variant (#nav.on-light-bg): follows the theme, never on in the dark theme (02 · C1, 4). */
+:global(:root[data-theme="light"]) .nav {
+  background: rgba(18, 16, 12, 0.72);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.15) inset,
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.04);
+}
+:global(:root[data-theme="light"]) .nl {
+  color: rgba(240, 238, 248, 0.6);
+}
+:global(:root[data-theme="light"]) .nl.on {
+  color: #f0eef8;
+}
+:global(:root[data-theme="light"]) .sep {
+  background: rgba(240, 238, 248, 0.1);
+}
+:global(:root[data-theme="light"]) .pill {
+  background: rgba(240, 238, 248, 0.08);
+}
+:global(:root[data-theme="light"]) .nav::before {
+  background: conic-gradient(
+    from var(--shimmer-angle, 0deg),
+    transparent 0deg,
+    transparent 50deg,
+    rgba(232, 39, 58, 0.04) 75deg,
+    rgba(232, 39, 58, 0.35) 100deg,
+    rgba(232, 39, 58, 0.85) 118deg,
+    rgba(232, 39, 58, 1) 125deg,
+    rgba(232, 39, 58, 0.85) 132deg,
+    rgba(232, 39, 58, 0.35) 150deg,
+    rgba(232, 39, 58, 0.04) 175deg,
+    transparent 200deg,
+    transparent 360deg
+  );
+}
+:global(:root[data-theme="light"]) .nav::after {
+  background: conic-gradient(
+    from var(--shimmer-angle, 0deg),
+    transparent 0deg,
+    transparent 60deg,
+    rgba(232, 39, 58, 0) 90deg,
+    rgba(232, 39, 58, 0.12) 115deg,
+    rgba(232, 39, 58, 0.28) 125deg,
+    rgba(232, 39, 58, 0.12) 135deg,
+    rgba(232, 39, 58, 0) 160deg,
+    transparent 200deg,
+    transparent 360deg
+  );
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.nl {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(240, 238, 248, 0.75);
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 99px;
+  transition: all 0.22s;
+  white-space: nowrap;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+.nl:hover {
+  color: #f0eef8;
+  background: rgba(240, 238, 248, 0.1);
+}
+.nl.on {
+  color: #f0eef8;
+  font-weight: 600;
+}
+.sep {
+  width: 1px;
+  height: 16px;
+  background: rgba(240, 238, 248, 0.1);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
+
+.pill {
+  position: absolute;
+  height: calc(100% - 10px);
+  top: 5px;
+  background: rgba(240, 238, 248, 0.14);
+  border-radius: calc(99px - 5px);
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    left 0.32s cubic-bezier(0.34, 1.26, 0.64, 1),
+    width 0.32s cubic-bezier(0.34, 1.26, 0.64, 1);
+  will-change: left, width;
+}
+.contact {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #e8273a;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: calc(99px - 5px);
+  margin-left: 1px;
+  flex-shrink: 0;
+  transition:
+    background 0.22s,
+    transform 0.22s,
+    font-weight 0.15s,
+    box-shadow 0.3s;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.contact.active {
+  font-weight: 700;
+  box-shadow:
+    0 0 20px rgba(232, 39, 58, 0.6),
+    0 0 40px rgba(232, 39, 58, 0.3);
+  background: #e8273a;
+  transform: scale(1.04);
+}
+.contact:hover {
+  background: #ff4d5e;
+  color: #fff;
+  transform: scale(1.04);
+}
+
+/* The phone pill's Menu button: the board's `.pl` on a button. Hidden above phone width. */
+.menuBtn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(240, 238, 248, 0.75);
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 99px;
+  background: transparent;
+  white-space: nowrap;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+.menuBtn :global(.ico) {
+  width: 14px;
+  height: 14px;
+}
+
+/* Phones: Menu, a separator, then Let's Talk (D4, D9). Buttons get 10px 18px for 44px targets. */
+@media (max-width: 767px) {
+  .nav {
+    top: 16px;
+    max-width: calc(100vw - 24px);
+    padding: 5px;
+  }
+  .links,
+  .pill {
+    display: none;
+  }
+  .menuBtn {
+    display: inline-flex;
+  }
+  .contact {
+    padding: 10px 18px;
+  }
+}
+
+/* The catalogue shows the pill in the page flow. */
+.static {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  z-index: auto;
+  display: inline-flex;
+}
+@media (max-width: 767px) {
+  .static {
+    top: auto;
+  }
+}
+
+/* Reduced motion: the ring stands still (M-NAV-RING), the pill jumps (M-NAV-PILL), and
+   Let's Talk keeps its colour and glow without the scale (M-NAV-CONTACT). */
+@media (prefers-reduced-motion: reduce) {
+  .nav::before,
+  .nav::after {
+    animation: none;
+  }
+  .pill {
+    transition: none;
+  }
+  .contact:hover,
+  .contact.active {
+    transform: none;
+  }
+}
+:global(html.still) .nav::before,
+:global(html.still) .nav::after {
+  animation: none;
+}
+:global(html.still) .pill {
+  transition: none;
+}
+:global(html.still) .contact:hover,
+:global(html.still) .contact.active {
+  transform: none;
+}
+
+/* "Skip to work": the first focusable element, visible on focus (03 · The page shell). */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+}
+.skip:focus-visible {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 5001;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--tx);
+  font-size: 14px;
+  font-weight: 500;
+}
