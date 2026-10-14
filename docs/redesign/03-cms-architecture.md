@@ -618,7 +618,7 @@ V0 launches the final design with the current site's content, published, so the 
 3. **Layout.**
    - The final design's section order and nav labels.
    - A "Strategy & prototypes" shelf with the five case studies, published.
-   - A "Shipped" shelf with the four Sugar.fit drafts started from the résumé. It stays hidden until one is published.
+   - A "Shipped" shelf with the four SugarFit drafts started from the résumé. It stays hidden until one is published.
 4. **Prototypes.** Deploy the three local prototypes (Sri Mandir, Word Trip, FarmVille 3) to one Vercel project, a folder each, and link them from their projects. Arcana's prototype is already deployed.
    - Once the new site is live, delete the copies in `public/` and at the repository root.
 5. **Writing** starts empty. The homepage section stays hidden until the first post is published.

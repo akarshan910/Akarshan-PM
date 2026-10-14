@@ -702,7 +702,7 @@ Board: `StudioWriting.dc.html` › Post settings › Topics (tweaks "writing a d
 - **The trigger** (`.ms-trig`) fills the rest of the field and reads "Choose topics" when none are selected, "Add topics" otherwise, with a ▾. It has `aria-haspopup="listbox"` and `aria-expanded`.
 - **The popover** (`.ms-pop`) opens under the field:
   - a search input that's also the combobox (`role="combobox"`, `aria-controls="tp-list"`, `aria-activedescendant`), placeholder "Search or create a topic";
-  - the list (`role="listbox"`, `aria-multiselectable="true"`, max height 232px, scrolls): one option per topic, each with a checkbox mark, its name, and "N posts" on the right in mono 11px;
+  - the list (`role="listbox"`, `aria-multiselectable="true"`, max height 232px, scrolls): one option per topic, each with a checkbox mark, its name, and its use count on the right in mono 11px: "1 post", "N posts", or "new" for a topic no post uses yet ("project" and "projects" in the project editor);
   - selected topics first, then alphabetical; the search filters by substring;
   - "No topic matches “x”." when nothing matches;
   - "+ Create “x”" (`.ms-create`) whenever the query doesn't exactly match a topic, ignoring case;
@@ -715,23 +715,26 @@ Board: `StudioWriting.dc.html` › Post settings › Topics (tweaks "writing a d
 - Changes autosave with the rest of the post.
 - A polite live region announces "Added {topic}", "Created and added {topic}" or "Removed {topic}".
 - A new topic is trimmed, has its inner spaces collapsed, and is at most 32 characters.
+- **The cap:** a post or project holds at most 8 topics ([06](06-backend.md#topics)). At 8, unselected chips and options are disabled (`aria-disabled="true"`), "+ Create" and Enter do nothing, and the polite live region says "Up to 8 topics per post." ("per project" in the project editor). Removing one re-enables them.
+- **In the project editor,** this component replaces the chip-and-input control drawn on `EditorOverview` ("Add a topic and press Enter"), per D23.
 - **Motion:** M-ST-POP for the popover; the input's width transition. See [04 · Studio](04-motion.md#studio).
 
 ### S2 · Code input
 
-Board: `StudioLogin.dc.html` (tweaks "enter code" to "too many tries"; CSS `.otp`, `.box`).
+Board: `StudioLogin.dc.html` (tweaks "enter code" to "wait to resend"; CSS `.otp`, `.box`).
 
 **Structure.** One real input over six visual boxes, so paste, autofill and screen readers see a normal field:
 
 ```html
 <div class="otp">
   <div class="box">4</div> … six boxes, aria-hidden …
-  <input inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6"
-         aria-label="6-digit code" aria-invalid="false" aria-describedby="code-help code-error">
+  <input id="otp-in" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6"
+         aria-invalid="false" aria-describedby="otp-h">
 </div>
 ```
 
-- `.otp`: a 6-column grid, gap 10px, 22px above.
+- A visible `<label for="otp-in">6-digit code</label>` sits above the grid, and `.otp` itself is `role="group" aria-label="6-digit code"`. The hint below is `#otp-h`: "Paste the code, or type it. It signs you in as soon as all six digits are in." The error alerts above the boxes are `role="alert"`.
+- `.otp`: a 6-column grid, gap 10px. The CSS sets 22px above, but the board overrides it inline to `margin-top: 8px` under the label; build 8px.
 - `.box`: 64px tall, radius 12, 1px `--ln2`, white, Geist Mono 600 28px.
 - The input covers the grid with `opacity: 0` and `font-size: 16px`, which stops iOS zooming in.
 
@@ -746,6 +749,6 @@ Board: `StudioLogin.dc.html` (tweaks "enter code" to "too many tries"; CSS `.otp
 **Behaviour:**
 
 - Non-digits are dropped, so a pasted "482 913" becomes "482913".
-- Six digits submit after 150ms, with no button press needed. The "Sign in" button does the same.
-- Typing after an error clears it and returns to the normal state.
+- Six digits submit after 150ms, with no button press needed. The "Sign in" button does the same. It's `aria-disabled` until six digits are in, and while locked. While checking, it shows the spinner and "Checking code…".
+- Typing after a wrong or expired code clears the error and returns to the normal state. Only "wrong code" uses `.bad`; "code expired" shows its alert with normal boxes.
 - **Motion:** M-ST-OTP and M-ST-SPIN.

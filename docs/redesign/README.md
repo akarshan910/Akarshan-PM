@@ -78,7 +78,7 @@ V0 shows the current site's values. These are worth a look once Studio is live. 
 | Sri Mandir RICE row | "Subscription packages" scores 11.3 from its inputs but shows 5.7 | Studio › Editor › Story |
 | Wipro entry | The "$XXXK" placeholder is hidden in V0. Supply a figure you can share, or leave it hidden | Studio › Website › Experience |
 | Skill sizes | Every skill starts at M. Pick the two or three to make big | Studio › Website › Skills |
-| Sugar.fit volumes | The four Shipped projects are drafts started from the résumé. Each needs screens, your role and evidence before it can go live. Until one is published, the Shipped shelf stays hidden | Studio › Projects |
+| SugarFit volumes | The four Shipped projects are drafts started from the résumé. Each needs screens, your role and evidence before it can go live. Until one is published, the Shipped shelf stays hidden | Studio › Projects |
 | Writing intro | `/writing` needs one line on what you write about | Studio › Writing |
 
 ## Documents
