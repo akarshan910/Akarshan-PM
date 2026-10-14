@@ -14,6 +14,9 @@ const base = Number(process.env.PW_PORT_BASE ?? 4310);
 const previewPort = base;
 const devPort = base + 1;
 const reuseExistingServer = process.env.PW_REUSE === "1";
+/** WebKit and Firefox run in CI; locally only with PW_ALL_BROWSERS=1 (they're a separate download). */
+const allBrowsers = Boolean(process.env.CI) || process.env.PW_ALL_BROWSERS === "1";
+const preview = `http://localhost:${previewPort}`;
 
 const laptop = { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 }, launchOptions };
 const phone = { ...devices["Pixel 7"], viewport: { width: 390, height: 844 }, launchOptions };
@@ -27,10 +30,39 @@ export default defineConfig({
     // The static build, as visitors get it.
     {
       name: "laptop",
-      testIgnore: /catalogue/,
+      testIgnore: /catalogue|\/a11y\/|\/devices\//,
       use: { ...laptop, baseURL: `http://localhost:${previewPort}` },
     },
-    { name: "phone", testIgnore: /catalogue/, use: { ...phone, baseURL: `http://localhost:${previewPort}` } },
+    {
+      name: "phone",
+      testIgnore: /catalogue|\/a11y\/|\/devices\//,
+      use: { ...phone, baseURL: `http://localhost:${previewPort}` },
+    },
+    // QA's sweeps set their own viewport, touch and motion, so they run once each (08 · QA).
+    {
+      name: "a11y",
+      testMatch: /\/a11y\/.*\.spec\.ts/,
+      use: { ...devices["Desktop Chrome"], launchOptions, baseURL: preview },
+    },
+    {
+      name: "devices-chromium",
+      testMatch: /\/devices\/.*\.spec\.ts/,
+      use: { ...devices["Desktop Chrome"], launchOptions, baseURL: preview },
+    },
+    ...(allBrowsers
+      ? [
+          {
+            name: "devices-webkit",
+            testMatch: /\/devices\/overflow\.spec\.ts/,
+            use: { ...devices["Desktop Safari"], baseURL: preview },
+          },
+          {
+            name: "devices-firefox",
+            testMatch: /\/devices\/overflow\.spec\.ts/,
+            use: { ...devices["Desktop Firefox"], baseURL: preview },
+          },
+        ]
+      : []),
     // The dev-only component catalogue, served by the dev server.
     {
       name: "catalogue-laptop",

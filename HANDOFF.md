@@ -86,10 +86,11 @@ Pick up in this order. Each item lists the doc sections and boards to read.
    - The `tests/parity/*.spec.ts` specs need `pixelmatch` and `pngjs`. Add them as dev dependencies, with exact versions and the lockfile.
 5. **Close M2:** run the 08 QA pass for what M2 touched, tick the M2 boxes, then run a security review of M2's diff and fix what it finds (every phase so far ended this way).
 6. **M3 · Supabase, local first.** See [Environment gotchas](#environment-gotchas) for how to test without Docker images. The owner answered Q3, Q4, Q6 and Q10 (D49–D52), but nothing touches the shared project until the owner says so: they expose the `pm` schema and run `npm run db:migrate` themselves (10 · Owner touchpoints).
+7. **M5 · Unknown `/work/<slug>` addresses.** Today a static server answers them with another page's prerendered HTML. React Router then finds no loader data for `routes/work.$slug` and shows the error state, not the 404. The fix follows [01 · Rendering](docs/handover/01-architecture.md#rendering): `scripts/write-vercel-config.ts` rewrites `/work/:slug` paths with no prerendered page to the `noindex` unlisted shell (`work.unlisted.tsx`). The shell shows the project or the 404 state. Every other unknown path gets `404.html` with status 404. Add the e2e case back to `tests/e2e/states.spec.ts` once the shell exists.
 
 ## Decisions made during the build
 
-They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D53 (D49–D53 answer Q2, Q3, Q4, Q6 and Q10). Smaller deviations from the boards, already in the code:
+They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D54 (D49–D54 answer Q2, Q3, Q4, Q6, Q8 and Q10). Smaller deviations from the boards, already in the code:
 
 - **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px. Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
 - **Accordion:** it rotates a plus 45°, per 02 and the board, not 04's chevron.
