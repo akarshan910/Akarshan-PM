@@ -63,6 +63,11 @@ export type Section = {
    * compare the top of a section whose lower part is D75 content.
    */
   until?: { board: string; page: string };
+  /**
+   * Compare type instead of pixels: for 09 · D75 copy whose height follows its text, so a box diff
+   * can't pass, but its type (size, weight, line height, measure, colour, spacing above) must match.
+   */
+  type?: true;
   /** Raise to 0.01 only for glyph-antialiasing-only diffs, with a note (08 · Fonts). */
   allowed?: number;
   note?: string;
@@ -85,6 +90,26 @@ export type ParityCase = {
   pill?: boolean | "over-hero";
   sections: Section[];
 };
+
+/** The computed type of the first visible match, for `type` sections. */
+async function typeOf(page: Page, selector: string) {
+  const el = page.locator(selector).filter({ visible: true }).first();
+  await expect(el, `${selector} is missing`).toBeAttached();
+  return el.evaluate((e) => {
+    const cs = getComputedStyle(e);
+    return {
+      fontFamily: (cs.fontFamily.split(",")[0] ?? "").replace(/["']/g, "").trim(),
+      fontSize: cs.fontSize,
+      fontWeight: cs.fontWeight,
+      fontStretch: cs.getPropertyValue("font-stretch"),
+      lineHeight: cs.lineHeight,
+      letterSpacing: cs.letterSpacing,
+      color: cs.color,
+      marginTop: cs.marginTop,
+      width: `${Math.round(e.getBoundingClientRect().width)}px`,
+    };
+  });
+}
 
 async function settle(page: Page) {
   await page.evaluate(() => Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 4000))]));
@@ -201,6 +226,12 @@ export function defineParity(cases: ParityCase[]) {
             board: isPill ? "" : `${PILL.board} { visibility: hidden !important; }`,
             page: isPill ? "" : `${PILL.page} { visibility: hidden !important; }`,
           };
+          if (s.type) {
+            const [want, got] = [await typeOf(boardPage, s.board), await typeOf(page, s.page)];
+            await ctx.close();
+            expect(got, `${s.name}: page type vs board`).toEqual(want);
+            return;
+          }
           const r = await compareSection(boardPage, page, c, s, info, hide);
           await ctx.close();
           expect(r, `board ${r.board}, page ${r.page}, ${r.differing} differ`).toMatchObject({ pass: true });

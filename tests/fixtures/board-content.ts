@@ -804,7 +804,7 @@ const byMediaId = (ref: { mediaId: string }, accent: Accent) => coverImg(ref.med
  * unset, it's the laptop boards' copy.
  */
 export function loadBoardContent(width: FixtureWidth = fixtureWidth(process.env.PM_FIXTURE_WIDTH)): PublicContent {
-  const docs = atWidth(width, { profile, projects: PROJECTS });
+  const docs = atWidth(width, { profile, layout, projects: PROJECTS });
   const projects: PublicProject[] = docs.projects.map(({ slug, document }) => ({
     id: slug,
     slug,
@@ -837,7 +837,7 @@ export function loadBoardContent(width: FixtureWidth = fixtureWidth(process.env.
 
   return {
     profile: publishProfile(docs.profile, () => undefined),
-    layout,
+    layout: docs.layout,
     projects,
     posts,
     updatedAt: at,

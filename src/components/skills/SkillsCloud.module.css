@@ -201,8 +201,6 @@
   }
   .g button {
     font-size: 50px;
-    /* 43px at this size; one more makes the 44px touch target (08 · Targets). */
-    min-height: 44px;
   }
   .xl {
     font-size: 34px;

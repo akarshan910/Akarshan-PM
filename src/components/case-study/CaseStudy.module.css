@@ -842,6 +842,10 @@
   .blocks > * + * {
     margin-top: 16px;
   }
+  /* A grid or boxes opening a chapter sit 16px under the title; text starts at 14px. */
+  .blocks:not(:has(> :first-child > p)) {
+    margin-top: 16px;
+  }
   .neighboursInner {
     padding: 40px 32px;
     grid-template-columns: 1fr 1fr;
@@ -1026,7 +1030,9 @@
     padding: 44px 20px 0;
     scroll-margin-top: 128px;
   }
+  /* CaseStudyMobile's `.cs-num` is an inline span, so it sits in a full line box. */
   .chn {
+    display: inline;
     font-size: 15px;
     line-height: normal;
   }
