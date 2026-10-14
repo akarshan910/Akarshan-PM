@@ -15,7 +15,11 @@ export async function loader() {
     firstShelf: sections.find((s) => s.kind === "shelf")?.id,
     /** On a case study, the nav's Work link is the current one. */
     workLink: sections.find((s) => s.kind === "shelf" && s.nav)?.id,
+    /** On Writing pages, the nav's Writing link, when the section is in the nav. */
+    writingLink: sections.find((s) => s.kind === "writing" && s.nav)?.id,
     heroId: sections.find((s) => s.kind === "hero")?.id,
+    /** The 404 page offers Writing only once a post is published (03 · Page states). */
+    hasPosts: content.posts.length > 0,
   };
 }
 
@@ -29,16 +33,17 @@ export function shouldRevalidate({
 }
 
 export default function PublicLayout({ loaderData }: Route.ComponentProps) {
-  const { chrome, firstShelf, workLink, heroId } = loaderData;
+  const { chrome, firstShelf, workLink, writingLink, heroId } = loaderData;
   const { pathname } = useLocation();
   const onHome = pathname === "/";
   const onWork = pathname === "/work" || pathname.startsWith("/work/");
+  const onWriting = pathname === "/writing" || pathname.startsWith("/writing/");
   return (
     <>
       <PillNav
         links={chrome.nav}
         letsTalk={chrome.letsTalk}
-        current={onHome ? undefined : onWork ? workLink : ""}
+        current={onHome ? undefined : onWork ? workLink : onWriting ? (writingLink ?? "") : ""}
         {...(onHome && heroId ? { heroId } : {})}
         contactId="contact"
         skipTo={onHome && firstShelf ? `#${firstShelf}` : "#main"}
