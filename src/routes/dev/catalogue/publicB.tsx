@@ -5,6 +5,7 @@ import { FloatingPreview } from "~/components/hero/FloatingPreview";
 import { InkPanel } from "~/components/hero/InkPanel";
 import { AccordionRow } from "~/components/accordion/AccordionRow";
 import { ExperienceList, type ExperienceItem } from "~/components/experience/ExperienceList";
+import { ContactBlock } from "~/components/contact/ContactBlock";
 import { SiteFooter } from "~/components/footer/SiteFooter";
 import { type OffDutyItem, OffDutyPage } from "~/components/offduty/OffDutyPage";
 import { type SkillGroup, type SkillSize, SkillsCloud } from "~/components/skills/SkillsCloud";
@@ -612,6 +613,33 @@ function OffDutySpecimen() {
   );
 }
 
+function ContactSpecimen() {
+  return (
+    <Specimen title="C18 · Contact block" board="Home*.dc.html · #contact">
+      <Wide label="Every link set; Copy email reads Copied for 2s">
+        <ContactBlock
+          kicker="Thanks for reading"
+          title="Let’s build something"
+          titleAccent="impactful."
+          intro="Open to Senior / Lead PM roles in health-tech, consumer and fintech. Data fluency, clinical context, and the ability to ship — fast."
+          email="owner@example.test"
+          linkedin="https://www.linkedin.com/"
+          github="https://github.com/"
+          resume="#resume"
+        />
+      </Wide>
+      <Wide label="Email only: no LinkedIn, GitHub or résumé">
+        <ContactBlock
+          kicker="Thanks for reading"
+          title="Let’s build something"
+          titleAccent="impactful."
+          email="owner@example.test"
+        />
+      </Wide>
+    </Specimen>
+  );
+}
+
 function FooterSpecimen() {
   return (
     <Specimen title="C19 · Footer" board="Home*.dc.html · footer">
@@ -643,6 +671,7 @@ export default function PublicBSpecimens() {
       <SkillsSpecimen />
       <TestimonialsSpecimen />
       <OffDutySpecimen />
+      <ContactSpecimen />
       <FooterSpecimen />
     </>
   );
