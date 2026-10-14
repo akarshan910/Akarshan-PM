@@ -1,0 +1,40 @@
+/* C21 · Moved note. PublicStates.dc.html › Pages › A project that was unpublished. */
+.note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #1d1d24;
+  font-size: 13px;
+  color: #b9b7b1;
+}
+.icon {
+  color: #ff5a67;
+}
+.text {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+/* The ✕ keeps the board's look; its hit area reaches 44px without growing the note. */
+.dismiss {
+  position: relative;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+.dismiss::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}

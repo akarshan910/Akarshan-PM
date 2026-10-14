@@ -1,0 +1,38 @@
+/* C21 · Draft preview bar. PublicStates.dc.html › Pages › Draft preview link. */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  padding: 0 14px;
+  background: #f5a524;
+  color: #141416;
+  font-size: 12px;
+  font-weight: 600;
+}
+.who {
+  margin-left: auto;
+  font-weight: 500;
+}
+
+.changed {
+  display: inline-block;
+  padding: 8px 10px;
+  border-left: 3px solid #f5a524;
+  background: rgba(245, 165, 36, 0.08);
+  font-size: 12px;
+  color: #f5d9a8;
+}
+
+/* On phones the bar wraps to two lines (03 · Page states). */
+@media (max-width: 767px) {
+  .bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 8px 14px;
+  }
+  .who {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,392 @@
+/*
+ * C20 · Prototype embed. Sources:
+ * - the phone frame: CaseStudy.dc.html (320×560, radius 44, 12px bezel) and CaseStudyTablet.dc.html
+ *   (300×520, radius 42) for iPad widths;
+ * - tablet, desktop and frameless proportions: EditorVisuals.dc.html's frame preview, at the
+ *   phone frame's scale (×2.5);
+ * - poster, loading, running, error and can't-embed: PublicStates.dc.html › Prototypes and
+ *   Motion.dc.html › Prototype load (M-PROTO);
+ * - the full-screen sheet: CaseStudyMobile.dc.html `.proto-ov` (csUp .3s).
+ */
+.root {
+  position: relative;
+}
+
+/* ---- Bar: New tab ↗ and Exit ✕ while it runs (PublicStates › Running) ---- */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 8px 0 16px;
+  border: 1px solid var(--ln);
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
+  background: #0b0b0e;
+}
+.barTitle {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+}
+.barButton {
+  height: 44px;
+  border: 0;
+}
+
+/* ---- Stage ---- */
+.stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+.root[data-controls="bar"] .stage {
+  overflow: hidden;
+  padding: 32px 24px 0;
+  border: 1px solid var(--ln);
+  border-radius: 14px;
+  background: var(--pg, #1c0c0f);
+}
+.root[data-controls="bar"] .bar + .stage {
+  border-radius: 0 0 14px 14px;
+  padding-bottom: 32px;
+}
+
+/* ---- Device frames ---- */
+.device {
+  position: relative;
+  flex: none;
+  width: min(100%, 320px);
+  aspect-ratio: 320 / 560;
+  padding: 12px;
+  border-radius: 44px;
+  background: #050506;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 40px 80px rgba(0, 0, 0, 0.55);
+}
+.screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 34px;
+  background: #16161c;
+}
+.screen:focus {
+  outline: none;
+}
+.root[data-frame="tablet"] .device {
+  width: min(100%, 440px);
+  aspect-ratio: 440 / 580;
+  border-radius: 36px;
+}
+.root[data-frame="tablet"] .screen {
+  border-radius: 24px;
+}
+.root[data-frame="desktop"] .device {
+  width: min(100%, 880px);
+  aspect-ratio: 250 / 160;
+  border-radius: 18px;
+}
+.root[data-frame="desktop"] .screen {
+  border-radius: 8px;
+}
+.root[data-frame="none"] .device {
+  width: min(100%, 880px);
+  aspect-ratio: 220 / 200;
+  padding: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+}
+.root[data-frame="none"] .screen {
+  border-radius: 10px;
+}
+
+/* iPad: CaseStudyTablet's phone frame. */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .root[data-frame="phone"] .device {
+    width: min(100%, 300px);
+    aspect-ratio: 300 / 520;
+    border-radius: 42px;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 30px 60px rgba(0, 0, 0, 0.5);
+  }
+  .root[data-frame="phone"] .screen {
+    border-radius: 32px;
+  }
+}
+
+/* ---- Poster ---- */
+.posterImage {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+.posterGround {
+  position: absolute;
+  inset: 0;
+  background: #f7f3ee;
+}
+/* CaseStudy: the dimmed screen with the round "Explore the prototype" button. */
+.dim {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(10, 6, 7, 0.35);
+}
+.bigPlay {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  padding: 0 0 0 4px;
+  border: 0;
+  border-radius: 50%;
+  background: #f2f1ee;
+  color: #0b0b0e;
+  cursor: pointer;
+  box-shadow: 0 0 0 10px rgba(242, 241, 238, 0.16);
+}
+/* PublicStates › Poster: the CTA over a fade at the foot of the stage. */
+.ctaStrip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  background: linear-gradient(transparent, rgba(11, 11, 14, 0.9));
+}
+.blockedNote {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--tx3);
+}
+
+/* ---- Loading (M-PROTO: spinner and label inside the frame) ---- */
+.status {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  background: #14080b;
+}
+.sheetBody .status {
+  position: static;
+  gap: 14px;
+  background: transparent;
+}
+.statusLabel {
+  color: #b9b7b1;
+}
+/* CaseStudyMobile `.cs-k` in --tx2. */
+.statusLabelPhone {
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx2);
+}
+.spin {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(242, 241, 238, 0.15);
+  border-top-color: #f2f1ee;
+  animation: protoSpin 0.8s linear infinite;
+}
+.spinBig {
+  width: 28px;
+  height: 28px;
+}
+@keyframes protoSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Running: the iframe fades in on load, 320ms ---- */
+.iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+  animation: protoFade 0.32s var(--eo) both;
+}
+.iframe[data-state="loading"] {
+  opacity: 0;
+  animation: none;
+}
+.runningStandIn {
+  position: absolute;
+  inset: 0;
+  animation: protoFade 0.32s var(--eo) both;
+}
+@keyframes protoFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---- Didn't load (role="alert") ---- */
+.error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #14080b;
+  text-align: center;
+  animation: protoFade 0.32s var(--eo) both;
+}
+.errorTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+.errorText {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b9b7b1;
+}
+.errorActions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.errorPhone {
+  position: static;
+  padding: 0 32px;
+  background: transparent;
+}
+.errorPhone .errorTitle {
+  font-size: 17px;
+}
+.errorPhone .errorText {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--tx2);
+}
+.errorPhone .errorActions {
+  margin-top: 18px;
+  gap: 10px;
+}
+
+/* ---- Phones and iPad portrait: the full-screen sheet ---- */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background: #0b0b0e;
+  color: var(--tx);
+  outline: none;
+  animation: csUp 0.3s var(--eo) both;
+}
+/* The catalogue draws the sheet inside its specimen at phone size. */
+.sheetInPlace {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  width: 390px;
+  max-width: 100%;
+  height: 844px;
+  border: 1px solid var(--ln);
+}
+.sheetHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 8px 0 16px;
+  border-bottom: 1px solid var(--ln);
+}
+.sheetTitle {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+}
+.sheetNewTab {
+  height: 44px;
+  border: 0;
+}
+.sheetClose {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+}
+.sheetBody {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  background: #14080b;
+}
+.sheetNote {
+  padding: 12px 16px 18px;
+  border-top: 1px solid var(--ln);
+  font-family: var(--fm);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+@keyframes csUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Reduced motion: the spinner turns once every 2.4s; no fade and no sheet rise ---- */
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation-duration: 2.4s;
+  }
+  .iframe,
+  .runningStandIn,
+  .error,
+  .sheet {
+    animation: none;
+  }
+}
+:global(html.still) .spin {
+  animation-duration: 2.4s;
+}
+:global(html.still) .iframe,
+:global(html.still) .runningStandIn,
+:global(html.still) .error,
+:global(html.still) .sheet {
+  animation: none;
+}

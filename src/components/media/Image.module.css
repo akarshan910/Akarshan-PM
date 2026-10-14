@@ -1,0 +1,78 @@
+/* C20 · Image. PublicStates.dc.html › Images; M-IMG-FADE (04 · Motion). */
+.box {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.32s var(--eo);
+}
+/* Hidden until loaded only when JavaScript runs (04 · Ground rules 7). */
+:global(html.js) .box[data-state="loading"] .img {
+  opacity: 0;
+}
+.instant .img {
+  transition: none;
+}
+
+/* PublicStates `.shim`: the slow sheen over the dominant colour. */
+.shim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(242, 241, 238, 0.07) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: psShim 1.6s linear infinite;
+}
+@keyframes psShim {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* "Didn't load": the alt text stands in, in the same box. */
+.failed {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: #16161c;
+  text-align: center;
+}
+.failedIcon {
+  display: block;
+  margin: 0 auto;
+  color: #8f8d87;
+}
+.alt {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b9b7b1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shim {
+    animation: none;
+  }
+  .img {
+    transition: none;
+  }
+}
+:global(html.still) .shim {
+  animation: none;
+}
+:global(html.still) .img {
+  transition: none;
+}
