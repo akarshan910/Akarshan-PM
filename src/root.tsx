@@ -12,6 +12,14 @@ import "./styles/base.css";
 import "./motion/keyframes.css";
 import "./motion/reveal.css";
 
+/**
+ * A neutral default title for pages without their own meta: the SPA fallback (Studio and unknown
+ * paths before JavaScript runs) would otherwise have none (WCAG 2.4.2). Route meta replaces it.
+ */
+export function meta(_: Route.MetaArgs) {
+  return [{ title: "Portfolio" }];
+}
+
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme="dark">
