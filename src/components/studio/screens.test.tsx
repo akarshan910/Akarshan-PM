@@ -55,7 +55,8 @@ describe("Shell", () => {
       expect(current[0]).toHaveAccessibleName(/Projects/);
     }
     expect(screen.getByText("9")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /View live site/ })).toHaveAttribute("target", "_blank");
+    for (const live of screen.getAllByRole("link", { name: /View live site/ }))
+      expect(live).toHaveAttribute("target", "_blank");
     expect(screen.getAllByText("Home")).toHaveLength(1);
   });
 

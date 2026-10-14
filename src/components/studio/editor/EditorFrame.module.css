@@ -1,0 +1,344 @@
+/* The Editor boards' frame (laptop), StudioTablet (iPad portrait), StudioMobile (phones). */
+
+.frame {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.tb {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--ln);
+  position: sticky;
+  top: 0;
+  z-index: 25;
+}
+.titleBox {
+  min-width: 0;
+}
+.crumb {
+  font-size: 11px;
+}
+.title {
+  margin-top: 3px;
+  font-size: 17px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 420px;
+}
+.chips {
+  display: inline-flex;
+  gap: 8px;
+}
+.chipsSm {
+  display: none;
+}
+.ok {
+  gap: 6px;
+  background: var(--okbg);
+  color: var(--ok);
+}
+.warn {
+  background: var(--warnbg);
+  color: var(--warn);
+}
+.draft {
+  background: #efeeea;
+  color: var(--tx2);
+}
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.save {
+  margin-left: 6px;
+}
+.phoneSave,
+.tb .previewIb,
+.pubShort {
+  display: none;
+}
+.spacer {
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--ln);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tx2);
+  white-space: nowrap;
+}
+.tab:hover,
+.tab[aria-current="page"] {
+  color: var(--tx);
+}
+.tab[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -1px;
+  height: 2px;
+  background: var(--tx);
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f5a524;
+}
+.retryNow {
+  height: 34px;
+  border-color: #f0b4ad;
+}
+
+.main {
+  flex: 1;
+  padding: 28px 32px 64px;
+}
+.sheet {
+  display: none;
+}
+.cols {
+  max-width: 1220px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: flex-start;
+}
+.fields {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: grid;
+  gap: 20px;
+}
+.aside {
+  flex: 1 1 340px;
+  max-width: 400px;
+  position: sticky;
+  top: 140px;
+  display: grid;
+  gap: 14px;
+}
+.tabletFoot,
+.phoneFoot {
+  display: none;
+}
+
+/* .card.sec */
+.sec {
+  padding: 24px;
+}
+.sec h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+.sub {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--tx3);
+}
+.secHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* iPad portrait (StudioTablet): a 64px bar, "Publish" short, the preview folds into a sheet,
+   and a footer with the save status and the last publish. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tb {
+    height: 64px;
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .crumb,
+  .chips,
+  .save,
+  .preview,
+  .pubLong {
+    display: none;
+  }
+  .title {
+    margin-top: 0;
+    font-size: 16px;
+  }
+  .chipsSm {
+    margin-top: 2px;
+    display: flex;
+    gap: 6px;
+  }
+  .chipSm {
+    height: 20px;
+    font-size: 11px;
+  }
+  .titleBox {
+    flex: 1;
+  }
+  .spacer {
+    display: none;
+  }
+  .tb .previewIb {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--ln2);
+  }
+  .pubShort {
+    display: inline;
+  }
+  .pub {
+    height: 40px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+  .tabs {
+    gap: 2px;
+    padding: 0 12px;
+  }
+  .tab {
+    height: 46px;
+    padding: 0 12px;
+    gap: 6px;
+  }
+  .tab[aria-current="page"]::after {
+    left: 8px;
+    right: 8px;
+  }
+  .main {
+    padding: 20px;
+  }
+  .sheet {
+    display: block;
+    max-width: 1220px;
+    margin: 0 auto 16px;
+  }
+  .aside {
+    display: none;
+  }
+  .fields {
+    gap: 16px;
+  }
+  .sec {
+    padding: 20px;
+  }
+  .sec h2 {
+    font-size: 16px;
+  }
+  .tabletFoot {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 20px;
+    background: #fff;
+    border-top: 1px solid var(--ln);
+    font-size: 13px;
+    color: var(--tx2);
+  }
+}
+
+/* Phones (StudioMobile › Editor): back, title and a save icon; tabs scroll sideways; Preview
+   and Publish stay in reach at the bottom. */
+@media (max-width: 767px) {
+  .tb {
+    height: auto;
+    gap: 8px;
+    padding: 18px 16px 10px;
+  }
+  .crumb,
+  .chips,
+  .chipsSm,
+  .save,
+  .preview,
+  .pub,
+  .spacer {
+    display: none;
+  }
+  .titleBox {
+    flex: 1;
+  }
+  .title {
+    margin-top: 0;
+    font-size: 16px;
+    max-width: none;
+  }
+  .phoneSave {
+    display: inline-flex;
+    color: var(--tx2);
+  }
+  .tabs {
+    gap: 2px;
+    padding: 0 10px;
+  }
+  .tab {
+    height: 44px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .tab[aria-current="page"]::after {
+    left: 6px;
+    right: 6px;
+  }
+  .main {
+    padding: 14px 16px 24px;
+  }
+  .sheet {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .aside {
+    display: none;
+  }
+  .fields {
+    gap: 10px;
+  }
+  .sec {
+    padding: 16px;
+  }
+  .phoneFoot {
+    position: sticky;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 10px;
+    padding: 12px 16px 28px;
+    background: #fff;
+    border-top: 1px solid var(--ln);
+  }
+  .phoneFoot > * {
+    height: 48px;
+  }
+}

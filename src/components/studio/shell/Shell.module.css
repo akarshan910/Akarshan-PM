@@ -124,6 +124,10 @@
 }
 .railEnd {
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 .tip {
   padding: 6px 10px;
@@ -185,13 +189,29 @@
     display: flex;
   }
 }
-/* The Website builder keeps the rail on laptops too (05 · Website builder). */
+/* The Website builder and the editors keep the rail on laptops too, at the boards' 72px with
+   48px items (EditorOverview, StudioSite); iPad's is 68px with 46px items (StudioTablet). */
 @media (min-width: 768px) {
   .shell[data-nav="rail"] .sidebar {
     display: none;
   }
   .shell[data-nav="rail"] .rail {
     display: flex;
+  }
+}
+@media (min-width: 1024px) {
+  .rail {
+    width: 72px;
+    padding: 16px 0;
+  }
+  .rl {
+    width: 48px;
+    height: 48px;
+  }
+  .railMark {
+    margin-bottom: 14px;
+    font-size: 26px;
+    line-height: 1;
   }
 }
 /* Phones: the bottom tab bar. */
@@ -208,6 +228,12 @@
   }
   .main {
     padding-bottom: 90px;
+  }
+  .shell[data-tabbar="off"] .tabbar {
+    display: none;
+  }
+  .shell[data-tabbar="off"] .main {
+    padding-bottom: 0;
   }
 }
 @media (min-width: 1024px) and (max-width: 1279px) {

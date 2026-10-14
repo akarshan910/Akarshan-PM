@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Outlet, redirect, useMatches, useNavigate, useLocation } from "react-router";
 
 import "~/styles/studio.css";
 import { StudioDataProvider, useQuery } from "~/components/studio/data";
 import { SessionExpired } from "~/components/studio/shell/SessionExpired";
+import { Inert } from "~/components/studio/Inert";
 import { ShellContext } from "~/components/studio/shell/ShellContext";
 import { Shell } from "~/components/studio/shell/Shell";
 import { ToastProvider } from "~/components/studio/Toast";
@@ -31,30 +32,20 @@ export function HydrateFallback() {
   return <div className="st" style={{ minHeight: "100vh" }} />;
 }
 
-/** Makes the page read-only behind a dialog (React 18 has no `inert` prop). */
-function Inert({ when, children }: { when: boolean; children: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    ref.current?.toggleAttribute("inert", when);
-  }, [when]);
-  return (
-    <div ref={ref} style={{ display: "contents" }}>
-      {children}
-    </div>
-  );
-}
-
 /** A route's `handle.studioNav` picks the rail on laptops (Website builder). */
-function useNavMode(): "auto" | "rail" {
+function useNavMode(): { nav: "auto" | "rail"; tabbar: boolean } {
   const matches = useMatches();
-  const rail = matches.some((m) => (m.handle as { studioNav?: string } | undefined)?.studioNav === "rail");
-  return rail ? "rail" : "auto";
+  const handles = matches.map((m) => (m.handle ?? {}) as { studioNav?: string; studioTabbar?: boolean });
+  return {
+    nav: handles.some((h) => h.studioNav === "rail") ? "rail" : "auto",
+    tabbar: !handles.some((h) => h.studioTabbar === false),
+  };
 }
 
 function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const nav = useNavMode();
+  const { nav, tabbar } = useNavMode();
   const projects = useQuery("projects", (r) => r.projects.list());
   const signingOut = useRef(false);
   const [expired, setExpired] = useState(false);
@@ -100,7 +91,13 @@ function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
 
   return (
     <ShellContext.Provider value={api}>
-      <Shell email={session.email} projectCount={projects.data?.length} nav={nav} onSignOut={signOut}>
+      <Shell
+        email={session.email}
+        projectCount={projects.data?.length}
+        nav={nav}
+        tabbar={tabbar}
+        onSignOut={signOut}
+      >
         <Inert when={expired}>
           <Outlet />
         </Inert>

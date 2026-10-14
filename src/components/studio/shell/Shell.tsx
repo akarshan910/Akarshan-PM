@@ -41,6 +41,8 @@ interface ShellProps {
   projectCount?: number | undefined;
   /** "rail" keeps the icon rail on laptops too (Website builder). */
   nav?: "auto" | "rail";
+  /** Phones hide the tab bar in the editors, which have their own bottom bar (StudioMobile). */
+  tabbar?: boolean;
   /** The live site's address, for "View live site ↗". */
   liveHref?: string;
   onSignOut: (scope: "local" | "global") => void;
@@ -59,6 +61,7 @@ export function Shell({
   email,
   projectCount,
   nav = "auto",
+  tabbar = true,
   liveHref = "/",
   onSignOut,
   children,
@@ -71,7 +74,7 @@ export function Shell({
 
   return (
     <Tooltip.Provider delayDuration={300}>
-      <div className={cx("st", styles.shell)} data-nav={nav}>
+      <div className={cx("st", styles.shell)} data-nav={nav} data-tabbar={tabbar ? undefined : "off"}>
         <aside className={styles.sidebar} aria-label="Studio">
           <div className={styles.brand}>
             <Wordmark />
@@ -106,9 +109,9 @@ export function Shell({
         </aside>
 
         <nav className={styles.rail} aria-label="Studio">
-          <span className={styles.railMark} aria-hidden="true">
+          <NavLink to="/studio" end className={cx(styles.railMark)} aria-label="Studio dashboard">
             S<span className={styles.dot}>.</span>
-          </span>
+          </NavLink>
           {items.map((item) => (
             <Tooltip.Root key={item.to}>
               <Tooltip.Trigger asChild>
@@ -130,6 +133,24 @@ export function Shell({
             </Tooltip.Root>
           ))}
           <div className={styles.railEnd}>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <a
+                  className={styles.rl}
+                  href={liveHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View live site (opens in a new tab)"
+                >
+                  <StudioIcon name="live" />
+                </a>
+              </Tooltip.Trigger>
+              <Tooltip.Portal>
+                <Tooltip.Content side="right" sideOffset={8} className={cx("st", styles.tip)}>
+                  View live site
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
             <AccountMenu email={email} onSignOut={onSignOut} variant="avatar" />
           </div>
         </nav>

@@ -213,12 +213,8 @@ export function projectIssues(draft: Project, ctx: CheckContext): ProjectIssue[]
         push("story", `block.${b.id}`, "An image in the story needs alt text.");
     }
   });
-  for (const { block, flag } of projectRiceFlags(draft))
-    push(
-      "story",
-      `block.${block.id}`,
-      `RICE table: ${flag.item} scores ${flag.computed} from its inputs but shows ${flag.shown}.`,
-    );
+  // A flagged RICE row is a warning, not a blocker: EditorCaseStudy's boardIssues() leaves it out
+  // and its boardChecks() lists it (the boards win over 06 · pm-publish here).
 
   // Outcomes
   draft.outcomes.forEach((m, i) => {

@@ -11,7 +11,7 @@ export function LoadError({
   onRetry,
 }: {
   title: string;
-  text?: string;
+  text?: string | undefined;
   onRetry: () => void;
 }) {
   return (

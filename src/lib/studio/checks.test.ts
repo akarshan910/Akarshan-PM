@@ -142,7 +142,6 @@ describe("projectIssues", () => {
       ["story", "Chapter 1 needs a title."],
       ["story", "An image in the story needs alt text."],
       ["story", "An image in the story needs alt text."],
-      ["story", "RICE table: Subscription packages scores 11.3 from its inputs but shows 5.7."],
       ["outcomes", "Fill in or delete result 1."],
       ["outcomes", "Result 2 is marked achieved but has no evidence note."],
       ["settings", "Page address: Add an address."],

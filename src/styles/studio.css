@@ -184,3 +184,34 @@
     animation: none;
   }
 }
+
+/*
+ * Previews drawn with the public components (card previews, the Website builder, Draft preview):
+ * the site's dark tokens again, because `.st` reuses the same names for Studio's light ones.
+ * Copied from tokens.css :root; keep the two in step.
+ */
+.st .site {
+  --bg: #0b0b0e;
+  --bg2: #111116;
+  --sf: #16161c;
+  --sf2: #1d1d24;
+  --ln: rgba(242, 241, 238, 0.09);
+  --ln2: rgba(242, 241, 238, 0.18);
+  --tx: #f2f1ee;
+  --tx2: #b9b7b1;
+  --tx3: #8f8d87;
+  --ac: #d61f33;
+  --act: #ff5a67;
+  --ok: #3ccb8b;
+  --okt: #9be7c4;
+  --nav: rgba(11, 11, 14, 0.94);
+  --tone: rgba(242, 241, 238, 0.14);
+  --fd: "Archivo", "Arial Narrow", sans-serif;
+  --fu: "Geist", system-ui, sans-serif;
+  --fm: "Geist Mono", ui-monospace, monospace;
+  --eo: cubic-bezier(0.2, 0.8, 0.2, 1);
+  color-scheme: dark;
+  background: var(--bg);
+  color: var(--tx);
+  font-family: var(--fu);
+}
