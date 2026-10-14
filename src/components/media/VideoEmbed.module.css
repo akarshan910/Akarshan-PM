@@ -1,0 +1,174 @@
+/*
+ * C20 · Video embed. PublicStates.dc.html › Video (Poster, Starting, Playing, Unavailable);
+ * M-VIDEO and the PublicStates spinner `.spinx` (04 · Motion).
+ */
+.stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0b0b0e;
+}
+.stage:focus {
+  outline: none;
+}
+
+.poster {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+.ground {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #2a0e14, #1c0c0f);
+}
+
+/* "[Video title] · [3:24]": 02 · Type sets mono labels at 12px, never smaller. */
+.meta {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 1;
+  max-width: calc(100% - 24px);
+  padding: 4px 7px;
+  background: rgba(11, 11, 14, 0.7);
+  color: #f2f1ee;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.host {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 1;
+  color: #b9b7b1;
+  pointer-events: none;
+}
+
+/* The whole poster is the play button's target; the visible button is the round `.play`. */
+.playArea {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f2f1ee;
+  cursor: pointer;
+}
+.playArea:focus-visible {
+  outline: none;
+}
+.play {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(11, 11, 14, 0.72);
+  border: 1px solid rgba(242, 241, 238, 0.3);
+  color: #f2f1ee;
+  transition: border-color 0.2s var(--eo);
+}
+.playArea:hover .play {
+  border-color: #f2f1ee;
+}
+.playArea:focus-visible .play {
+  outline: 2px solid var(--act);
+  outline-offset: 3px;
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+}
+/* PublicStates `.spinx`. */
+.spin {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(242, 241, 238, 0.15);
+  border-top-color: #f2f1ee;
+  animation: psSpin 0.8s linear infinite;
+}
+@keyframes psSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+/* The player loads behind the spinner, then replaces the poster at the same size. */
+.stage[data-state="starting"] .frame {
+  opacity: 0;
+}
+
+/* The catalogue's stand-in for the host's player (PublicStates › Playing). */
+.player {
+  position: absolute;
+  inset: 0;
+  background: #000;
+}
+.track {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.track span {
+  display: block;
+  width: 34%;
+  height: 4px;
+  border-radius: 2px;
+  background: #d61f33;
+}
+
+.message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #16161c;
+  text-align: center;
+}
+.title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.sub {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b9b7b1;
+}
+.action {
+  margin-top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation-duration: 2.4s;
+  }
+}
+:global(html.still) .spin {
+  animation-duration: 2.4s;
+}
