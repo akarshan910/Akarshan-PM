@@ -1,0 +1,155 @@
+/* C12 · Proof strip cells and the "Problem spaces" row, from Home*.dc.html › aria-label="Highlights". */
+.cells {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--ln);
+}
+
+.cell {
+  background: var(--bg);
+  padding: 32px 28px 30px;
+}
+.cell:first-child {
+  padding-left: 0;
+}
+.cell:last-child {
+  padding-right: 0;
+}
+
+.value {
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 800;
+  font-size: 52px;
+  line-height: 1;
+}
+
+.unit {
+  font-size: 30px;
+  color: var(--tx3);
+}
+
+.line {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--tx2);
+}
+
+.source {
+  margin-top: 10px;
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+
+.spaces {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 0 26px;
+}
+
+.spacesLabel {
+  margin-right: 6px;
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+
+/* A minimal C6 chip, as `.chip` on the Home board. Unify with C6 when the tracks merge. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--ln);
+  font-size: 13px;
+  color: var(--tx2);
+}
+
+/* iPad: 2 × 2 at 46px; chips without the label (HomeTablet.dc.html). */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .cells {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cell,
+  .cell:first-child,
+  .cell:last-child {
+    padding: 24px 20px 26px 0;
+  }
+  .cell:nth-child(even) {
+    padding-left: 20px;
+    padding-right: 0;
+  }
+  .cell:nth-child(-n + 2) {
+    padding-top: 26px;
+    padding-bottom: 24px;
+  }
+  .value {
+    font-size: 46px;
+  }
+  .unit {
+    font-size: 26px;
+  }
+  .line {
+    margin-top: 8px;
+    line-height: normal;
+  }
+  .source {
+    margin-top: 8px;
+  }
+  .spaces {
+    gap: 8px;
+    padding: 20px 0 24px;
+  }
+  .spacesLabel {
+    display: none;
+  }
+  .chip {
+    height: 32px;
+  }
+}
+
+/* Phone: 2 × 2 at 38px; no unit, no source, no chips row (HomeMobile.dc.html). */
+@media (max-width: 767px) {
+  .cells {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cell,
+  .cell:first-child,
+  .cell:last-child {
+    padding: 20px 12px 22px 0;
+  }
+  .cell:nth-child(even) {
+    padding-left: 14px;
+    padding-right: 0;
+  }
+  .cell:nth-child(-n + 2) {
+    padding-top: 22px;
+    padding-bottom: 20px;
+  }
+  .value {
+    font-size: 38px;
+  }
+  .unit,
+  .source,
+  .spaces {
+    display: none;
+  }
+  .line {
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}

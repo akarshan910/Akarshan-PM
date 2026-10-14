@@ -1,0 +1,71 @@
+/* C19 · Footer, from Home.dc.html, HomeTablet.dc.html and HomeMobile.dc.html. */
+.footer {
+  border-top: 1px solid var(--ln);
+}
+
+.inner {
+  max-width: 1312px;
+  height: 80px;
+  margin: 0 auto;
+  padding-left: clamp(20px, 4vw, 56px);
+  padding-right: clamp(20px, 4vw, 56px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  font-size: 13px;
+  color: var(--tx3);
+}
+
+.date {
+  font-family: var(--fm);
+  font-size: 12px;
+}
+
+.back {
+  color: var(--tx3);
+}
+.back:hover {
+  color: var(--tx);
+}
+
+.phoneOnly,
+.ipadOnly {
+  display: none;
+}
+
+/* iPad: "© year name" and "Updated date"; no credit. */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .inner {
+    max-width: none;
+    height: auto;
+    padding: 24px 32px;
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+  .credit,
+  .last {
+    display: none;
+  }
+  .ipadOnly {
+    display: inline;
+  }
+}
+
+/* Phone: one line, "© year name · Updated date". */
+@media (max-width: 767px) {
+  .inner {
+    max-width: none;
+    height: auto;
+    padding: 20px;
+    gap: 8px 16px;
+  }
+  .credit,
+  .right .date {
+    display: none;
+  }
+  .phoneOnly {
+    display: inline;
+  }
+}

@@ -1,0 +1,121 @@
+/*
+ * C11 · Floating preview card: `.fl` (the positioned layer) and `.tz` (the card), copied from
+ * Home.dc.html and HomeTablet.dc.html. M2's scheduler (04 · M-HERO-FLOATERS) drives the card through
+ * `--tx`, `--ty`, `opacity` and `transition` on the card element.
+ */
+.fl {
+  position: absolute;
+  z-index: 4;
+  width: 262px;
+  pointer-events: none;
+}
+
+.tz {
+  --fs: 0.9;
+  position: relative;
+  z-index: 4;
+  width: 262px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px 14px;
+  border: 1px solid var(--ln2);
+  border-radius: 14px;
+  background: var(--sf);
+  color: var(--tx);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(var(--fs));
+  transition: box-shadow 0.3s var(--eo);
+  will-change: opacity, transform;
+}
+.tz:hover {
+  box-shadow:
+    0 28px 56px rgba(0, 0, 0, 0.55),
+    0 0 0 1px var(--tx3);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vol {
+  padding: 3px 7px;
+  color: #0b0b0e;
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.kicker {
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+
+.title {
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.05;
+}
+
+.headline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.value {
+  font-family: var(--fd);
+  font-stretch: 70%;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+/* A minimal C5 result label, as `.tag-*` on the Home board. Unify with C5 when the tracks merge. */
+.tag {
+  flex: none;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--tx2);
+}
+.achieved {
+  background: rgba(60, 203, 139, 0.12);
+  color: var(--okt);
+}
+.target {
+  border: 1px solid var(--ln2);
+}
+.projected {
+  border: 1px dashed var(--ln2);
+}
+.baseline {
+  background: var(--sf2);
+}
+.output {
+  background: rgba(255, 90, 103, 0.12);
+  color: var(--act);
+}
+
+/* iPad: scale .88 (HomeTablet.dc.html). Phones have no floaters (03 · Hero). */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .tz {
+    --fs: 0.88;
+  }
+}
+@media (max-width: 767px) {
+  .fl {
+    display: none;
+  }
+}

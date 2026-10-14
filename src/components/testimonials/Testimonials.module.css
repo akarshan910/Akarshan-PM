@@ -1,0 +1,284 @@
+/*
+ * C16 · Testimonial card and its carousel, from Home.dc.html (three per page), HomeTablet.dc.html
+ * (460px rail) and HomeMobile.dc.html (312px rail) › #testimonials. Motion: M-TESTI-PAGE.
+ */
+@keyframes testiIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---- Header row ---- */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.counter {
+  font-family: var(--fm);
+  font-size: 13px;
+  color: var(--tx3);
+}
+.nav {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--ln2);
+  background: transparent;
+  color: var(--tx);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  transition: border-color 0.2s var(--eo);
+}
+.nav:hover:not(:disabled) {
+  border-color: var(--tx3);
+}
+.nav:disabled {
+  border-color: var(--ln);
+  color: var(--tx3);
+  cursor: default;
+}
+.swipe {
+  display: none;
+  font-family: var(--fm);
+  font-size: 13px;
+  color: var(--tx3);
+}
+
+/* ---- Cards ---- */
+.track {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  margin: 0;
+  padding: 28px;
+  border-radius: 18px;
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.quote {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--tx2);
+}
+.caption {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+.who {
+  flex: 1;
+  min-width: 0;
+}
+.name {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+}
+.role {
+  font-size: 13px;
+  color: var(--tx3);
+}
+.linkedin {
+  color: var(--tx3);
+  display: grid;
+  place-items: center;
+}
+.linkedin:hover {
+  color: var(--tx);
+}
+
+.dots {
+  display: none;
+  margin-top: 20px;
+  gap: 8px;
+}
+.dot {
+  min-width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.dot::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--ln2);
+  transition:
+    width 0.2s var(--eo),
+    background-color 0.2s var(--eo);
+}
+.dot[aria-current="true"]::before {
+  width: 24px;
+  background: var(--tx);
+}
+
+/* Laptop: three per page; cards off the page hide, and the page cross-fades. */
+@media (min-width: 1280px) {
+  .off {
+    display: none;
+  }
+  .out .card {
+    opacity: 0;
+    transition: opacity 0.2s var(--eo);
+  }
+  .in .card {
+    animation: testiIn 0.2s var(--eo) both;
+    animation-delay: calc(var(--k, 0) * 80ms);
+  }
+}
+
+/* iPad and phone: a snap-scrolling rail with dots; no avatar and no LinkedIn link. */
+@media (max-width: 1279px) {
+  .controls {
+    display: none;
+  }
+  .dots {
+    display: flex;
+    gap: 2px;
+  }
+  .track {
+    display: flex;
+    gap: 16px;
+    margin-top: 28px;
+    overflow-x: auto;
+    contain: inline-size;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+  .card {
+    flex: none;
+    width: 460px;
+    padding: 24px;
+    display: block;
+    scroll-snap-align: start;
+  }
+  .caption {
+    margin-top: 20px;
+    display: block;
+    font-size: 14px;
+  }
+  .avatar,
+  .linkedin {
+    display: none;
+  }
+  .name {
+    display: inline;
+    font-size: 14px;
+  }
+  .role {
+    font-size: 14px;
+  }
+  .role::before {
+    content: " · ";
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .head {
+    flex-wrap: nowrap;
+    margin-bottom: 0;
+    padding-right: var(--rail-end, 32px);
+  }
+  .swipe {
+    display: inline;
+  }
+}
+
+@media (max-width: 767px) {
+  .head {
+    margin-bottom: 0;
+  }
+  .track {
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .card {
+    width: 312px;
+    padding: 20px;
+    border-radius: 16px;
+  }
+  .quote {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .caption {
+    margin-top: 16px;
+  }
+  .role {
+    display: block;
+    font-size: 13px;
+  }
+  .role::before {
+    content: none;
+  }
+  .dots {
+    margin-top: 16px;
+    gap: 0;
+  }
+  .dot[aria-current="true"]::before {
+    width: 20px;
+  }
+}
+
+/* Reduced: instant swaps and no smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    scroll-behavior: auto;
+  }
+  .out .card,
+  .in .card,
+  .dot::before {
+    transition: none;
+    animation: none;
+  }
+}
+:global(html.still) .track {
+  scroll-behavior: auto;
+}
+:global(html.still) .out .card,
+:global(html.still) .in .card,
+:global(html.still) .dot::before {
+  transition: none;
+  animation: none;
+}

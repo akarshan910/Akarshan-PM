@@ -1,0 +1,240 @@
+/*
+ * C15 · Skills cloud, copied from Home*.dc.html › #skills (`.cloud`, `.cg`, `.cw`, `.sk-hint`).
+ * Motion: M-SKILLS-FOCUS (colour and opacity, kept under reduced motion) and M-SKILLS-REVEAL.
+ */
+@keyframes vaRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cloud {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px 30px;
+  padding: 40px 0 6px;
+}
+.cloud::before {
+  content: "";
+  position: absolute;
+  inset: -24px 0;
+  background-image: radial-gradient(var(--tone) 1.2px, transparent 1.5px);
+  background-size: 8px 8px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 0%, transparent 66%);
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 0%, transparent 66%);
+  pointer-events: none;
+}
+
+.cg,
+.cg ul {
+  display: contents;
+}
+.cg ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cw {
+  position: relative;
+  margin: 0;
+  transition:
+    opacity 0.2s var(--eo),
+    color 0.2s var(--eo);
+}
+
+.g {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.g button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: 104px;
+  line-height: 0.86;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--tx3);
+  transition:
+    color 0.2s var(--eo),
+    -webkit-text-stroke-color 0.2s var(--eo);
+}
+.g button:hover,
+.g.on button {
+  color: #d61f33;
+  -webkit-text-stroke-color: #d61f33;
+}
+.sub {
+  font-family: var(--fm);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--act);
+}
+
+.xl {
+  font-family: var(--fd);
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: 64px;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--tx);
+}
+.l {
+  font-family: var(--fd);
+  font-stretch: 68%;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--tx);
+}
+.m {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.15;
+  color: var(--tx2);
+}
+.m.alt {
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.s {
+  font-family: var(--fm);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+
+/* M-SKILLS-FOCUS */
+.lit .cw:not(.g) {
+  opacity: 0.16;
+}
+.lit .cw.on {
+  opacity: 1;
+  color: var(--tx);
+}
+.lit .cw.xl.on {
+  color: #ff5a67;
+}
+.lit .g:not(.on) button {
+  -webkit-text-stroke-color: var(--ln2);
+}
+.lit .g:not(.on) .sub {
+  opacity: 0.3;
+}
+
+.hint {
+  margin: 22px 0 0;
+  text-align: center;
+  font-family: var(--fm);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tx3);
+}
+.hintIpad,
+.hintPhone {
+  display: none;
+}
+
+/* M-SKILLS-REVEAL: hidden until M2's observer adds `go`, then five waves of words. */
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js:not(.still)) .pending .cw {
+    opacity: 0;
+  }
+}
+.go .cw {
+  animation: vaRise 0.56s var(--eo) both;
+  animation-delay: calc(var(--i5) * 80ms);
+}
+
+/* iPad (HomeTablet.dc.html) */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .cloud {
+    gap: 10px 20px;
+    padding: 28px 0 4px;
+  }
+  .g button {
+    font-size: 72px;
+  }
+  .xl {
+    font-size: 46px;
+  }
+  .l {
+    font-size: 30px;
+  }
+  .m {
+    font-size: 20px;
+  }
+  .s {
+    font-size: 12px;
+  }
+  .hintLaptop {
+    display: none;
+  }
+  .hintIpad {
+    display: inline;
+  }
+}
+
+/* Phone (HomeMobile.dc.html) */
+@media (max-width: 767px) {
+  .cloud {
+    gap: 8px 14px;
+    padding: 22px 0 2px;
+  }
+  .g button {
+    font-size: 50px;
+  }
+  .xl {
+    font-size: 34px;
+  }
+  .l {
+    font-size: 24px;
+  }
+  .m {
+    font-size: 17px;
+  }
+  .s {
+    font-size: 11px;
+  }
+  .hintLaptop {
+    display: none;
+  }
+  .hintPhone {
+    display: inline;
+  }
+}
+
+/* Reduced: the words are in place from the start; the highlight still changes colour. */
+@media (prefers-reduced-motion: reduce) {
+  .go .cw {
+    animation: none;
+  }
+}
+:global(html.still) .go .cw {
+  animation: none;
+}
