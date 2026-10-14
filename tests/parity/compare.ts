@@ -17,7 +17,19 @@ export const ALLOWED = 0.005;
  * scrolled to; it's hidden in section shots and compared once on its own.
  */
 const MASK_CSS = "iframe, time, [data-live] { visibility: hidden !important; }";
-const PILL = { board: ".pill", page: 'nav[aria-label="Primary"]' };
+const PILL: Section = { name: "nav", board: ".pill", page: 'nav[aria-label="Primary"]' };
+
+/**
+ * Home's boards draw "Work" highlighted at scroll 0, but M-NAV-PILL hides the highlight over the
+ * hero (04), so on Home the board's pill is compared with its highlight removed, as the page shows
+ * it at the top. Case studies keep it: "Work" is current there.
+ */
+const PILL_OVER_HERO: Section = {
+  ...PILL,
+  boardScript:
+    "document.querySelectorAll('.pill .on').forEach((e) => { e.classList.remove('on'); e.removeAttribute('aria-current'); })",
+  note: "highlight removed on the board: 04 · M-NAV-PILL hides it over the hero",
+};
 
 export type Section = {
   name: string;
@@ -30,6 +42,17 @@ export type Section = {
    * that include the page margins (WorkScale, WritingPublic) while the page element is `.wrap`.
    */
   band?: boolean;
+  /**
+   * Scripts run before the shots, on the board and on the page: to put a component in the page's
+   * state, or to mark one element for masking with `data-qa-mask` when CSS can't single it out.
+   */
+  boardScript?: string;
+  pageScript?: string;
+  /**
+   * Parts hidden on both sides before the shot, for content conflicts recorded in 09 (cite the
+   * decision in `note`). They compare as background, so the layout around them still counts.
+   */
+  mask?: { board: string[]; page: string[] };
   /** Raise to 0.01 only for glyph-antialiasing-only diffs, with a note (08 · Fonts). */
   allowed?: number;
   note?: string;
@@ -48,8 +71,8 @@ export type ParityCase = {
   /** The page width this case compares at; runs only in the parity project with that width. */
   width: number;
   path: string;
-  /** Compare the pill nav (pages that show it at the top of the board). */
-  pill?: boolean;
+  /** Compare the pill nav: as drawn, or "over-hero" (highlight hidden, M-NAV-PILL). */
+  pill?: boolean | "over-hero";
   sections: Section[];
 };
 
@@ -92,8 +115,12 @@ async function compareSection(
   info: TestInfo,
   hide: { board: string; page: string },
 ) {
-  const a = await shoot(boardPage, s.board, hide.board);
-  const b = await shoot(sitePage, s.page, hide.page, s.band);
+  if (s.boardScript) await boardPage.evaluate(s.boardScript);
+  if (s.pageScript) await sitePage.evaluate(s.pageScript);
+  const hidden = (list: string[] | undefined) =>
+    `${[...(list ?? []), "[data-qa-mask]"].join(", ")} { visibility: hidden !important; }`;
+  const a = await shoot(boardPage, s.board, `${hide.board} ${hidden(s.mask?.board)}`);
+  const b = await shoot(sitePage, s.page, `${hide.page} ${hidden(s.mask?.page)}`, s.band);
   const w = Math.min(a.width, b.width);
   const h = Math.min(a.height, b.height);
   const diff = new PNG({ width: w, height: h });
@@ -130,7 +157,8 @@ export function defineParity(cases: ParityCase[]) {
       test.beforeEach(({ page }) => {
         test.skip(page.viewportSize()?.width !== c.width, `${c.name} is compared at ${c.width}`);
       });
-      const sections = c.pill ? [{ name: "nav", ...PILL }, ...c.sections] : c.sections;
+      const pill = c.pill === "over-hero" ? PILL_OVER_HERO : PILL;
+      const sections = c.pill ? [pill, ...c.sections] : c.sections;
       for (const s of sections) {
         test(s.name, async ({ page, browser }, info) => {
           if (s.note) info.annotations.push({ type: "note", description: s.note });
