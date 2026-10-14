@@ -1,0 +1,334 @@
+/* 02 · S1 Topic picker, copied from StudioWriting (Post settings › Topics; .tpadd, .ms-*). */
+@keyframes msUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.lbl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.count {
+  font-size: 12px;
+  color: var(--tx3);
+}
+
+/* Up to 8 topics in the vocabulary: toggle chips. */
+.chips {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  position: relative;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid #d2d0ca;
+  border-radius: 999px;
+  background: #fff;
+  color: #4a4a51;
+  font: 500 12px/1 var(--fu);
+  cursor: pointer;
+}
+.chip[aria-pressed="true"] {
+  border-color: #141416;
+  background: #141416;
+  color: #fff;
+}
+.chip[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* M-ST-TOPIC-ADD: 118px, growing to 168px on focus. */
+.tpadd {
+  height: 30px;
+  width: 118px;
+  padding: 0 10px;
+  border: 1px dashed var(--ln2);
+  border-radius: 999px;
+  background: #fff;
+  font: 500 12px/1 var(--fu);
+  color: var(--tx);
+  transition: width 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tpadd::placeholder {
+  color: var(--tx2);
+}
+.tpadd:focus,
+.tpadd:focus-visible {
+  outline: none;
+  width: 168px;
+  border-style: solid;
+  border-color: var(--tx);
+  box-shadow: 0 0 0 1px var(--tx);
+}
+
+.hrow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--tx3);
+}
+
+/* More than 8: the multi-select. */
+.ms {
+  position: relative;
+  margin-top: 8px;
+}
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 6px 6px 8px;
+  border: 1px solid var(--ln2);
+  border-radius: 8px;
+  background: #fff;
+}
+.open {
+  border-color: var(--tx);
+  box-shadow: 0 0 0 1px var(--tx);
+}
+.msChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 26px;
+  padding: 0 3px 0 10px;
+  border-radius: 999px;
+  background: #141416;
+  color: #fff;
+  font: 500 12px/1 var(--fu);
+}
+.msChip button {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+.msChip button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.trig {
+  flex: 1;
+  min-width: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  height: 30px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tx2);
+  font: 500 13px/1 var(--fu);
+  cursor: pointer;
+}
+.trig:hover {
+  background: #f2f1ee;
+  color: var(--tx);
+}
+
+/* M-ST-POP: msUp .22s; closes instantly. */
+.pop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 30;
+  padding: 8px;
+  border: 1px solid var(--ln2);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(20, 20, 22, 0.16);
+  animation: msUp 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.search {
+  display: block;
+  width: 100%;
+  height: 36px;
+  margin: 0;
+  padding: 0 12px;
+  border: 1px solid var(--ln2);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--tx);
+  font: 400 13px/1.4 var(--fu);
+}
+.search::placeholder {
+  color: #8f8d87;
+}
+.search:focus,
+.search:focus-visible {
+  outline: none;
+  border-color: var(--tx);
+  box-shadow: 0 0 0 1px var(--tx);
+}
+.list {
+  max-height: 232px;
+  overflow: auto;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--tx);
+  cursor: pointer;
+}
+.opt:hover,
+.act {
+  background: #f4f4f2;
+}
+.opt[aria-disabled="true"] {
+  color: var(--tx3);
+  cursor: not-allowed;
+}
+.cbx {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border: 1.5px solid #8f8d87;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+}
+.opt[aria-selected="true"] .cbx {
+  background: #141416;
+  border-color: #141416;
+}
+.opt[aria-selected="true"] .cbx::after {
+  content: "";
+  width: 8px;
+  height: 4px;
+  margin-top: -2px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg);
+}
+.uses {
+  margin-left: auto;
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--tx3);
+}
+.empty {
+  margin: 10px 8px 4px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--tx3);
+}
+.create {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 38px;
+  margin-top: 4px;
+  padding: 0 8px;
+  border: 0;
+  border-top: 1px solid var(--ln);
+  background: none;
+  font: 500 13px/1 var(--fu);
+  color: var(--tx);
+  text-align: left;
+  cursor: pointer;
+}
+.create:hover {
+  background: #f4f4f2;
+}
+.create[aria-disabled="true"] {
+  color: var(--tx3);
+  cursor: not-allowed;
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 8px 4px 2px;
+  border-top: 1px solid var(--ln);
+  font-size: 12px;
+  color: var(--tx3);
+}
+.done {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: #141416;
+  color: #fff;
+  font: 500 12px/1 var(--fu);
+  cursor: pointer;
+}
+
+/* 44px touch targets on iPad and phones, without changing what's drawn. */
+@media (pointer: coarse) {
+  .chip::after,
+  .msChip button::after {
+    content: "";
+    position: absolute;
+    inset: -7px 0;
+  }
+  .msChip button::after {
+    inset: -12px;
+  }
+  .opt {
+    min-height: 44px;
+  }
+  .trig,
+  .done {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pop {
+    animation: none;
+  }
+  .tpadd {
+    transition: none;
+  }
+}
+:global(html.still) .pop {
+  animation: none;
+}
+:global(html.still) .tpadd {
+  transition: none;
+}
