@@ -9,7 +9,8 @@ permissions:
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  # Every push to the integration branch and main gets a complete run; agent branches cancel stale ones.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/claude/elegant-allen-xdmal0' && github.ref != 'refs/heads/main' }}
 
 jobs:
   checks:
