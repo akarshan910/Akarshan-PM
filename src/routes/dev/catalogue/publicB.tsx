@@ -7,6 +7,8 @@ import { AccordionRow } from "~/components/accordion/AccordionRow";
 import { ExperienceList, type ExperienceItem } from "~/components/experience/ExperienceList";
 import { SiteFooter } from "~/components/footer/SiteFooter";
 import { type SkillGroup, type SkillSize, SkillsCloud } from "~/components/skills/SkillsCloud";
+import type { Testimonial } from "~/components/testimonials/TestimonialCard";
+import { Testimonials } from "~/components/testimonials/Testimonials";
 import { ProofStrip } from "~/components/proof/ProofStrip";
 
 import { Specimen, State } from "./Specimen";
@@ -441,6 +443,84 @@ function SkillsSpecimen() {
   );
 }
 
+/** The Home board's three testimonials, repeated to show paging (illustrative). */
+const BOARD_TESTI: [Omit<Testimonial, "id">, Omit<Testimonial, "id">, Omit<Testimonial, "id">] = [
+  {
+    quote:
+      "Akarshan was my PM on multiple projects through the TV Integration with a leading OEM. He brought a lot of user first approaches to the table, which led to deep business as well as user impact. His ability to get everyone on the same page and turn the wheel is what really worked for the product.",
+    name: "Anmol Loonia",
+    role: "Design Leader, Consumer AI · Glance",
+    initials: "AL",
+    avatar: { background: "#2A2033", color: "#D9C2F7" },
+    linkedin: "https://www.linkedin.com/",
+  },
+  {
+    quote:
+      "Akarshan is one of the sharpest product minds I have had the pleasure of working with. His ability to break down complex problems, ask the right questions, and approach every decision with a data-driven mindset made a huge impact on our work.",
+    name: "Pallav Srivastava",
+    role: "SDE 4 (Android) · Glance",
+    initials: "PS",
+    avatar: { background: "#2C2A16", color: "#F3DE8A" },
+    linkedin: "https://www.linkedin.com/",
+  },
+  {
+    quote:
+      "The striking thing about working with him is his Conviction. The conviction that arises out of a detailed and thorough thought process. A great asset to work with.",
+    name: "Vishal Gopal",
+    role: "Product · Glance",
+    initials: "VG",
+    avatar: { background: "#10283A", color: "#9ADFFF" },
+  },
+];
+const TESTI: Testimonial[] = Array.from({ length: 7 }, (_, i) => ({
+  id: `t${i}`,
+  ...(BOARD_TESTI[i % 3] ?? BOARD_TESTI[0]),
+}));
+
+function TestiHeading({ count }: { count?: number }) {
+  return (
+    <>
+      <div className="mono" style={{ fontWeight: 500, color: "var(--act)" }}>
+        Testimonials{count ? ` · ${count}` : ""}
+      </div>
+      <h3
+        style={{
+          margin: "14px 0 0",
+          fontFamily: "var(--fd)",
+          fontStretch: "68%",
+          fontWeight: 800,
+          fontSize: "clamp(36px, 4.2vw, 54px)",
+          lineHeight: 0.95,
+          textTransform: "uppercase",
+        }}
+      >
+        What teammates say.
+      </h3>
+    </>
+  );
+}
+
+function TestimonialsSpecimen() {
+  return (
+    <Specimen title="C16 · Testimonial card" board="Home*.dc.html · #testimonials figure">
+      <Wide label="Seven: laptop pages 1–3 of 7; iPad and phone swipe with dots">
+        <div style={{ background: "var(--bg2)", padding: "24px 0 24px 24px" }}>
+          <TestimonialsHeadingless items={TESTI} />
+        </div>
+      </Wide>
+      <Wide label="Three: no paging; one without a LinkedIn link">
+        <div style={{ background: "var(--bg2)", padding: "24px 0 24px 24px" }}>
+          <Testimonials heading={<TestiHeading />} items={TESTI.slice(0, 3)} />
+        </div>
+      </Wide>
+    </Specimen>
+  );
+}
+
+function TestimonialsHeadingless({ items }: { items: Testimonial[] }) {
+  return <Testimonials heading={<TestiHeading count={items.length} />} items={items} />;
+}
+
 function FooterSpecimen() {
   return (
     <Specimen title="C19 · Footer" board="Home*.dc.html · footer">
@@ -470,6 +550,7 @@ export default function PublicBSpecimens() {
       <ProofSpecimen />
       <ExperienceSpecimen />
       <SkillsSpecimen />
+      <TestimonialsSpecimen />
       <FooterSpecimen />
     </>
   );
