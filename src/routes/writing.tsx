@@ -5,7 +5,7 @@ import { PageFooter } from "~/components/footer/PageFooter";
 import { WritingIndex } from "~/components/writing/WritingIndex";
 import { loadPublicContent } from "~/lib/content.server";
 import { buildChrome } from "~/lib/site";
-import { pageOf, writingIndex } from "~/lib/writing";
+import { writingAddress, writingIndex } from "~/lib/writing";
 
 import type { Route } from "./+types/writing";
 import { NotFoundPage } from "./not-found";
@@ -44,18 +44,9 @@ export default function Writing({ loaderData }: Route.ComponentProps) {
     () => true,
     () => false,
   );
-  const search = params.toString();
   // Until the address catches up, the chips show what was chosen (see /work).
   const [pending, setPending] = useState<{ from: string; topic: string | undefined } | null>(null);
-  const fromUrl = hydrated ? (params.get("topic") ?? undefined) : undefined;
-  const chosen = pending && pending.from === search ? pending.topic : fromUrl;
-  const topic = chosen && view?.topics.includes(chosen) ? chosen : undefined;
-  const total = view
-    ? topic
-      ? view.posts.filter((p) => p.topics.includes(topic)).length
-      : view.posts.length
-    : 0;
-  const page = hydrated && !pending ? pageOf(params.get("page"), total) : 1;
+  const { topic, page } = writingAddress(view, hydrated ? params : null, pending);
 
   const onTopic = useCallback(
     (next: string | undefined) => {

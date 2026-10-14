@@ -1,7 +1,7 @@
 import { Image } from "~/components/media/Image";
 import { ResultLabel } from "~/components/labels/ResultLabel";
 import { RichText } from "~/components/rich/RichText";
-import { safeHref } from "~/lib/links";
+import { isHttpsUrl } from "~/lib/schemas";
 import type { PostPublished } from "~/lib/published";
 
 import styles from "./Writing.module.css";
@@ -45,18 +45,17 @@ export function PostBody({ blocks }: { blocks: PostPublished["blocks"] }) {
                 <code>{block.body}</code>
               </pre>
             );
-          case "embed": {
-            const href = safeHref(block.url);
-            return href ? (
+          case "embed":
+            // Embeds are https-only (06); anything else isn't linked, and never breaks the page.
+            return isHttpsUrl(block.url) ? (
               <p key={block.id}>
-                <a href={href} target="_blank" rel="noopener noreferrer">
-                  {new URL(href).hostname}
+                <a href={block.url} target="_blank" rel="noopener noreferrer">
+                  {new URL(block.url).hostname}
                   <span aria-hidden="true"> ↗</span>
                   <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </p>
             ) : null;
-          }
         }
       })}
     </div>

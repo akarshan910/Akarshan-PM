@@ -6,7 +6,7 @@ import { publishPost } from "~/lib/published";
 import { buildHomeView } from "~/lib/site";
 import { loadLocalV0 } from "~/lib/sources/local-v0";
 import type { Section } from "~/lib/types";
-import { POSTS_PER_PAGE, pageOf, postView, writingIndex } from "~/lib/writing";
+import { POSTS_PER_PAGE, pageOf, postView, writingAddress, writingIndex } from "~/lib/writing";
 
 const v0 = loadLocalV0(new Date("2026-10-13T18:00:00Z"));
 
@@ -123,5 +123,31 @@ describe("pageOf", () => {
     expect(pageOf("0", 50)).toBe(1);
     expect(pageOf("1.5", 50)).toBe(1);
     expect(pageOf("x", 0)).toBe(1);
+  });
+});
+
+describe("writingAddress", () => {
+  const many = writingIndex(
+    withPosts(Array.from({ length: POSTS_PER_PAGE + 5 }, (_, i) => post(i + 1, i % 2 ? ["AI"] : ["Data"]))),
+  );
+  const q = (s: string) => new URLSearchParams(s);
+
+  it("is the first page under All before hydration or without posts", () => {
+    expect(writingAddress(many, null, null)).toEqual({ topic: undefined, page: 1 });
+    expect(writingAddress(null, q("page=2"), null)).toEqual({ topic: undefined, page: 1 });
+  });
+
+  it("follows the address, ignoring unknown topics", () => {
+    expect(writingAddress(many, q("page=2"), null)).toEqual({ topic: undefined, page: 2 });
+    expect(writingAddress(many, q("topic=Nope&page=2"), null)).toEqual({ topic: undefined, page: 2 });
+    // 12 posts on AI fit one page.
+    expect(writingAddress(many, q("topic=AI&page=2"), null)).toEqual({ topic: "AI", page: 1 });
+  });
+
+  it("shows a chosen topic until the address catches up, then follows ?page= again", () => {
+    const pending = { from: "", topic: "AI" };
+    expect(writingAddress(many, q(""), pending)).toEqual({ topic: "AI", page: 1 });
+    // The address changed since (the topic, then a later Older posts link): pending is stale.
+    expect(writingAddress(many, q("page=2"), pending)).toEqual({ topic: undefined, page: 2 });
   });
 });

@@ -182,7 +182,13 @@ describe("PostPage", () => {
   });
 
   it("uses the page's own address without a site URL, and hides empty parts", () => {
-    const bare = post(1, { blocks: [{ id: "x", type: "embed", url: "javascript:alert(1)" }] });
+    // Neither a script link nor a site path (which `new URL` can't parse alone) is linked or throws.
+    const bare = post(1, {
+      blocks: [
+        { id: "x", type: "embed", url: "javascript:alert(1)" },
+        { id: "y", type: "embed", url: "/a-path" },
+      ],
+    });
     render(
       <PostPage
         view={{ slug: bare.slug, publishedAt: bare.publishedAt, post: bare.post, byline: { name: "A" } }}

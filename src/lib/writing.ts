@@ -107,3 +107,21 @@ export function pageOf(value: string | null, total: number): number {
   const n = Number(value);
   return Number.isInteger(n) && n >= 1 ? Math.min(n, pages) : 1;
 }
+
+/**
+ * The topic and page /writing shows. `params` is null before hydration (the prerendered page is
+ * the first page under All). A topic just chosen (`pending`) wins only until the address catches
+ * up; after that the address is the truth, so a later `?page=` is followed.
+ */
+export function writingAddress(
+  view: WritingIndexView | null,
+  params: URLSearchParams | null,
+  pending: { from: string; topic: string | undefined } | null,
+): { topic: string | undefined; page: number } {
+  if (!view || !params) return { topic: undefined, page: 1 };
+  const waiting = pending !== null && pending.from === params.toString();
+  const chosen = waiting ? pending.topic : (params.get("topic") ?? undefined);
+  const topic = chosen && view.topics.includes(chosen) ? chosen : undefined;
+  const total = topic ? view.posts.filter((p) => p.topics.includes(topic)).length : view.posts.length;
+  return { topic, page: waiting ? 1 : pageOf(params.get("page"), total) };
+}
