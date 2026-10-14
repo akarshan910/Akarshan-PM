@@ -6,6 +6,8 @@ import type { Session } from "~/lib/studio/repo";
 export interface ShellApi {
   session: Session;
   signOut: (scope: "local" | "global") => void;
+  /** Speaks a message in the shell's polite live region. */
+  announce: (message: string) => void;
 }
 
 export const ShellContext = createContext<ShellApi | null>(null);

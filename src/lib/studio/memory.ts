@@ -79,6 +79,7 @@ export class MemoryRepo implements StudioRepo {
     string,
     { status: LinkStatus; detail: string | null; checkedAt: string }
   >();
+  private readonly unpublished = new Map<string, Pick<ProjectRow, "published" | "publishedAt">>();
   private session: Session | null;
   private readonly listeners = new Set<(s: Session | null) => void>();
   /** Set by tests and the dev toolbar to simulate a dropped connection. */
@@ -607,15 +608,25 @@ export class MemoryRepo implements StudioRepo {
           return { ok: true, publishedAt: at, deployed: true };
         }
         case "unpublish":
+          this.unpublished.set(row.id, { published: row.published, publishedAt: row.publishedAt });
           row.published = null;
           row.publishedAt = null;
           return { ok: true, publishedAt: at, deployed: true };
         case "delete":
           row.deletedAt = at;
           return { ok: true, publishedAt: at, deployed: true };
-        case "restore":
-          row.deletedAt = null;
+        case "restore": {
+          // Undo for a delete, or for an unpublish: the last live version comes back as it was,
+          // without re-running the checks (the latest project_revisions row).
+          const before = this.unpublished.get(row.id);
+          if (row.deletedAt) row.deletedAt = null;
+          else if (before && !row.published) {
+            row.published = before.published;
+            row.publishedAt = before.publishedAt;
+            this.unpublished.delete(row.id);
+          }
           return { ok: true, publishedAt: at, deployed: true };
+        }
         case "settings":
           if (req.visibility) row.visibility = req.visibility;
           if (req.indexAllowed !== undefined) row.indexAllowed = req.indexAllowed;

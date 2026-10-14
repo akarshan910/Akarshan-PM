@@ -129,7 +129,8 @@ export function useQuery<T>(
   const fresh = options.fresh ?? false;
   // A summary view (the dashboard) refetches every time it mounts, showing what it has meanwhile.
   useEffect(() => {
-    if (fresh) cache.invalidate(key);
+    const e = cache.get(key);
+    if (fresh && e && !e.promise) cache.invalidate(key);
   }, [cache, key, fresh]);
   useSyncExternalStore(cache.subscribe, cache.snapshot, cache.snapshot);
   const entry = cache.get(key);

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useId, useRef, useState, type FormEvent } from 
 
 import { Alert } from "../Banner";
 import buttons from "../Button.module.css";
-import { CodeInput, type CodeStatus } from "../CodeInput";
+import { CODE_LENGTH, CodeInput, type CodeStatus } from "../CodeInput";
 import { Icon } from "../../icons";
 import type { AuthPort } from "~/lib/studio/repo";
 import {
@@ -177,7 +177,7 @@ export function Login({
 
   const verify = useCallback(
     async (value: string) => {
-      if (value.length < 6 || phase === "checking" || locked) return;
+      if (value.length < CODE_LENGTH || phase === "checking" || locked) return;
       const address = normaliseEmail(email);
       setPhase("checking");
       const result = await auth.checkCode(address, value, sentAt);
@@ -339,8 +339,8 @@ export function Login({
             <form onSubmit={onSubmit} noValidate>
               <h2 className={styles.h2}>Sign in to Studio</h2>
               <p className={styles.intro}>
-                Studio is private. Enter the email address that owns this portfolio, and we’ll send you a
-                6-digit code.
+                Studio is private. Enter the email address that owns this portfolio, and we’ll send you a{" "}
+                {CODE_LENGTH}-digit code.
               </p>
               <label htmlFor="em" className={styles.label}>
                 Email
@@ -420,8 +420,8 @@ export function Login({
                 Check your email
               </h2>
               <p className={styles.intro}>
-                If <b className={styles.strong}>{maskEmail(normaliseEmail(email))}</b> owns this site, a
-                6-digit code is on its way. It expires in 10 minutes.
+                If <b className={styles.strong}>{maskEmail(normaliseEmail(email))}</b> owns this site, a{" "}
+                {CODE_LENGTH}-digit code is on its way. It expires in 10 minutes.
               </p>
               {shownPhase === "wrong" ? (
                 <div className={styles.gap}>
@@ -470,7 +470,7 @@ export function Login({
               <button
                 type="button"
                 className={buttons.pbtn}
-                aria-disabled={code.length < 6 || shownPhase === "locked"}
+                aria-disabled={code.length < CODE_LENGTH || shownPhase === "locked"}
                 aria-busy={shownPhase === "checking"}
                 style={{ marginTop: 18 }}
                 onClick={() => {

@@ -58,6 +58,7 @@ function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
   const projects = useQuery("projects", (r) => r.projects.list());
   const signingOut = useRef(false);
   const [expired, setExpired] = useState(false);
+  const [spoken, setSpoken] = useState({ text: "", n: 0 });
 
   useEffect(
     () =>
@@ -88,6 +89,10 @@ function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
         signingOut.current = true;
         void repo.auth.signOut(scope).then(() => navigate("/studio/signed-out", { replace: true }));
       },
+      // A trailing space alternates so the same message twice is still announced.
+      announce: (text: string) => {
+        setSpoken((s) => ({ text: s.n % 2 ? text : `${text}\u00a0`, n: s.n + 1 }));
+      },
     }),
     [repo, session, navigate],
   );
@@ -99,6 +104,9 @@ function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
         <Inert when={expired}>
           <Outlet />
         </Inert>
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+          {spoken.text}
+        </div>
         <SessionExpired
           open={expired}
           email={session.email}
