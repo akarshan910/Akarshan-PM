@@ -3,6 +3,7 @@
  * the Home shelves and the hero's floating previews.
  */
 import { ACCENT_COLOURS } from "~/lib/accents";
+import { PROJECT_KIND_LABELS } from "~/lib/schemas";
 import type { ProjectEntry } from "~/lib/site";
 
 import type { CardOutcome, ProjectCardData } from "../cards/ProjectCard";
@@ -53,5 +54,10 @@ export function toCardData(entry: ProjectEntry): ProjectCardData {
     headline: headline ? toOutcome(headline) : undefined,
     outcomes: results.map(toOutcome),
     prototype: visuals.hero.type === "prototype",
+    // C6: a shipped project without a prototype says so on its cover, with its sector.
+    status:
+      overview.kind === "shipped"
+        ? [PROJECT_KIND_LABELS.shipped, overview.sector].filter(Boolean).join(" · ")
+        : undefined,
   };
 }

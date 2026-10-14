@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { Icon } from "~/components/icons";
+import { isHttpsUrl } from "~/lib/schemas";
 
 import styles from "./Testimonials.module.css";
 import { cx } from "../cx";
@@ -47,8 +48,14 @@ export function TestimonialCard({
           <span className={styles.name}>{name}</span>
           {role ? <span className={styles.role}>{role}</span> : null}
         </span>
-        {linkedin ? (
-          <a className={styles.linkedin} href={linkedin} aria-label={`${name} on LinkedIn`}>
+        {linkedin && isHttpsUrl(linkedin) ? (
+          <a
+            className={styles.linkedin}
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${name} on LinkedIn`}
+          >
             <Icon name="arrow-out" />
           </a>
         ) : null}

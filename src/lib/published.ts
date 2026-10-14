@@ -4,6 +4,7 @@
  * hidden or empty parts are removed. Public components accept only these types, so a draft-only
  * field can never be rendered by accident.
  */
+import { richTextToPlain } from "./rich-text";
 import type { Block, MediaRef, Post, PostBlock, Profile, Project } from "./types";
 
 /** A resolved image (06): every variant the build copied into /media, plus its alt text. */
@@ -199,5 +200,79 @@ export function publishProfile(draft: Profile, resolveImg: ResolveImg): ProfileP
       // The number is published only when the owner chose to show it (06).
       ...(showPhone && phone ? { phone } : {}),
     },
+  };
+}
+
+/** Words per minute for the reading time (05 · Writing, 06 · Publishing). */
+export const WORDS_PER_MINUTE = 220;
+/** The excerpt's length when the owner didn't write one (06 · Published shape). */
+export const EXCERPT_LENGTH = 160;
+
+/** The words a reader reads, in order: text, headings, quotes, code and cited facts. */
+function postText(blocks: PostBlock[]): string[] {
+  return blocks.flatMap((b) => {
+    switch (b.type) {
+      case "text":
+        return [richTextToPlain(b.body)];
+      case "heading":
+      case "quote":
+      case "code":
+        return [b.body];
+      case "fact":
+        return [`${b.value} ${b.label}`];
+      case "image":
+        return b.caption ? [b.caption] : [];
+      default:
+        return [];
+    }
+  });
+}
+
+/** Words ÷ 220, rounded up, at least 1 (05 · Writing). */
+export function readingMinutes(blocks: PostBlock[]): number {
+  const words = postText(blocks)
+    .join(" ")
+    .split(/\s+/)
+    .filter((w) => w !== "").length;
+  return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
+}
+
+/** The post's own excerpt, or its first 160 characters of body text, cut at a word. */
+export function postExcerpt(post: Pick<Post, "excerpt" | "blocks">): string {
+  const own = post.excerpt?.trim();
+  if (own) return own;
+  const text = post.blocks
+    .filter((b) => b.type === "text")
+    .map((b) => richTextToPlain(b.body))
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (text.length <= EXCERPT_LENGTH) return text;
+  const cut = text.slice(0, EXCERPT_LENGTH - 1);
+  const space = cut.lastIndexOf(" ");
+  return `${(space > EXCERPT_LENGTH / 2 ? cut.slice(0, space) : cut).replace(/[\s.,;:–—-]+$/, "")}…`;
+}
+
+/** A draft post → what visitors get: resolved images, the reading time, excerpt and modified time. */
+export function publishPost(draft: Post, resolveImg: ResolveImg, modifiedAt: string): PostPublished {
+  const { cover, blocks, ...rest } = draft;
+  const img = resolve(cover, resolveImg);
+  const published: PostPublished["blocks"] = [];
+  for (const block of blocks) {
+    if (block.type === "image") {
+      const { id, type: _type, ...ref } = block;
+      const media = captioned(ref, resolveImg);
+      if (media) published.push({ id, type: "image", media });
+    } else {
+      published.push(block);
+    }
+  }
+  return {
+    ...rest,
+    ...(img ? { cover: img } : {}),
+    blocks: published,
+    readingMinutes: readingMinutes(blocks),
+    excerpt: postExcerpt(draft),
+    modifiedAt,
   };
 }

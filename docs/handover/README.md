@@ -114,29 +114,29 @@ Every component lives under `src/components/`, matches its board, and has a dev-
 
 Build every page against a local JSON copy of the V0 seed (from M0's extraction) before any backend exists.
 
-- [ ] Home with every section in the V0 order, at 1440, 834 and 390.
-- [ ] Hero: ink panel, layers, speed lines, brush, floating previews, tilt and drift.
-- [ ] Proof strip, Strategy & prototypes shelf (Shipped stays hidden in V0), About, Experience, Skills, Testimonials, Off duty, Contact, footer.
-- [ ] Motion layer, all of [04](04-motion.md), with reduced-motion variants.
-- [ ] `/work` list: filters, search, sort, load 24 at a time.
-- [ ] `/work/:slug` case study for all five V0 projects, every block type, at all three sizes.
-- [ ] `/writing` and `/writing/:slug`. V0 has no posts, so `/writing` returns the 404 page and the homepage section is hidden.
-- [ ] 404, error and empty states.
-- [ ] Redirect old `?open=<id>` links to `/work/<slug>`.
-- [ ] The parity fixture `tests/fixtures/board-content.ts`, the `CONTENT_SOURCE=fixture:boards` switch and `?qa=1`, so every page can be compared with its board ([08](08-qa.md#pixel-parity)).
+- [x] Home with every section in the V0 order, at 1440, 834 and 390.
+- [x] Hero: ink panel, layers, speed lines, brush, floating previews, tilt and drift.
+- [x] Proof strip, Strategy & prototypes shelf (Shipped stays hidden in V0), About, Experience, Skills, Testimonials, Off duty, Contact, footer.
+- [ ] Motion layer, all of [04](04-motion.md), with reduced-motion variants. _Built with the pages; waits for a motion audit against every entry in 04 (duration, easing, delay, reduced motion)._
+- [x] `/work` list: filters, search, sort, load 24 at a time.
+- [x] `/work/:slug` case study for all five V0 projects, every block type, at all three sizes.
+- [x] `/writing` and `/writing/:slug`. V0 has no posts, so `/writing` returns the 404 page and the homepage section is hidden.
+- [x] 404, error and empty states.
+- [x] Redirect old `?open=<id>` links to `/work/<slug>`.
+- [x] The parity fixture `tests/fixtures/board-content.ts`, the `CONTENT_SOURCE=fixture:boards` switch and `?qa=1`, so every page can be compared with its board ([08](08-qa.md#pixel-parity)).
 
 ### M3 · Supabase
 
-- [ ] Read [06 · The shared project](06-backend.md#the-shared-project). The Supabase project also runs lumina-photography.
-- [ ] `npm run db:migrate` and `supabase/pm/migrations/`: the `pm` schema with every table, policy, column grant and index in [06](06-backend.md#schema). Expose `pm` in the Data API settings.
-- [ ] The `pm-media-draft` and `pm-media-public` buckets, with the policies in [06](06-backend.md#storage).
+- [x] Read [06 · The shared project](06-backend.md#the-shared-project). The Supabase project also runs lumina-photography.
+- [ ] `npm run db:migrate` and `supabase/pm/migrations/`: the `pm` schema with every table, policy, column grant and index in [06](06-backend.md#schema). Expose `pm` in the Data API settings. _Built and tested locally (PGlite); waits for the owner's go-live steps in `supabase/README.md`._
+- [ ] The `pm-media-draft` and `pm-media-public` buckets, with the policies in [06](06-backend.md#storage). _Built and tested locally (PGlite); waits for the owner's go-live steps in `supabase/README.md`._
 - [ ] Sign-in by email code, as in [06](06-backend.md#auth):
   - sign-ups off;
   - the owner created by `npm run setup:owner`, reading `OWNER_EMAIL` from the local shell;
-  - the `pm.owners` table keyed by user id and the `pm.is_owner()` check ([09](09-decisions.md), D28);
+  - the `pm.owners` table keyed by user id and the `pm.is_owner()` check ([09](09-decisions.md), D28); built locally, with `setup:owner`;
   - Turnstile in Studio; Supabase's CAPTCHA protection switched on once lumina's login sends tokens ([09](09-decisions.md), Q8);
   - the code-only email template and custom SMTP.
-- [ ] V0 seed script (`npm run seed:v0`) loads profile, layout and projects from `src/legacy/content.ts`, with the covers from `design/covers/`. See [07](07-v0-content.md).
+- [ ] V0 seed script (`npm run seed:v0`) loads profile, layout and projects from `src/legacy/content.ts`, with the covers from `design/covers/`. See [07](07-v0-content.md). _Built and tested locally (PGlite); waits for the owner's go-live steps in `supabase/README.md`._
 - [ ] The build reads published content from Supabase at prerender time and stops using the local JSON.
 
 ### M4 · Studio

@@ -29,8 +29,8 @@ _Last updated: 15 Oct 2026._
 | --- | --- |
 | M0 · Foundation | **Done.** Stack, routing, tokens, fonts, CI, security gates, legacy content frozen, shared content core |
 | M1 · Components | **Done.** Every C1–C22, S1, S2 and Studio primitive, on `/dev/components` (dev only) |
-| M2 · Public site on local data | **In progress.** See below |
-| M3 · Supabase | Not started. Local-only work can start; owner input needed before the shared project is touched |
+| M2 · Public site on local data | **Done** (merged 15 Oct 2026), except the motion audit and the automated parity specs. See Next |
+| M3 · Supabase | **Built and tested locally** (merged 15 Oct 2026): `pm` schema with RLS, buckets, the six `pm-` Edge Functions, `db:migrate`, `db:lint`, `setup:owner`, `seed:v0`, PGlite tests (`npm run test:db`). Not done: the Supabase content source in `src/lib` (WP3.5), and every go-live step on the shared project, which the owner runs (`supabase/README.md`) |
 | M4 · Studio | Not started |
 | M5 · Publishing and SEO | Not started |
 | M6 · QA and launch | Not started |
@@ -56,40 +56,30 @@ _Last updated: 15 Oct 2026._
   - reading progress, prev/next, "More volumes" on phones, and every block type in `blocks/`.
   - It's checked by eye against the three boards with V0 content. Pixel parity waits for the board fixture (Next, item 4), and Playwright hasn't run on it yet (see Gotchas).
 
+Also merged: `/writing` and `/writing/:slug`, the 404, error and empty states, `?open=` legacy redirects, the boards fixture with `CONTENT_SOURCE=fixture:boards` and `?qa=1`, and the M2 QA pass (accepted differences in D60).
+
 **Remaining:** see **Next**.
 
-### Stopped tasks to restart
+### How the work is running (15 Oct 2026)
 
-The owner stopped the session on 14 Oct 2026 to save tokens. Nothing is running, and everything finished is pushed. A new session should restart these, in this order:
-
-1. **Case-study track.** Done on 15 Oct 2026, apart from the parity pass and an e2e spec for `/work/:slug`.
-2. **Writing, page states and parity track.** Next, items 2–4.
-
-Run each as one agent at a time in the main checkout, pushing after every commit to `claude/elegant-allen-xdmal0` (see How we work).
+Five agents work in parallel, each in its own git worktree and branch (`claude/agent-portfolio-*`, `-studio-*`, `-security-*`, `-qa-*`, `-review-*`). They coordinate through the git-ignored folder `.agents/` in the main checkout: each has a `progress.md` and an `inbox/`, so work survives a session ending. Only the review agent merges agent branches into `claude/elegant-allen-xdmal0`, after the full checks; the others merge the integration branch back. A new session resumes from its agent's `progress.md` and inbox.
 
 ## Next
 
 Pick up in this order. Each item lists the doc sections and boards to read.
 
-1. **Case study `/work/:slug`: what's left.** Add an e2e spec (axe at three sizes, the chapter sheet, no JavaScript), then the parity pass once the board fixture exists.
-2. **Writing.**
-   - Add `publishPost` to `src/lib/published.ts`: reading time is words ÷ 220, the excerpt is the post's own or its first 160 characters, plus `modifiedAt`.
-   - Build `/writing`, which returns the 404 page while there are no posts, and `/writing/:slug`.
-   - Build the homepage `WritingSection`; the stub is at `src/components/sections/WritingSection.tsx`.
-   - Sources: 03 · Writing pages; board `WritingPublic`.
-3. **Page states and legacy links.**
-   - Build `src/routes/not-found.tsx` with C21, and a root `ErrorBoundary` using `states/ErrorState`.
-   - On `/`, redirect `?open=` / `openCase` / `open_case` = 1–5 to `/work/<slug>` (07 · Legacy links). Derive the map from `src/lib/v0.ts`; don't hand-copy it.
-4. **Parity tooling (WP2.4, 08 · Pixel parity).**
-   - Fill `tests/fixtures/board-content.ts` with the boards' content as published documents: profile, layout, the nine board projects, and posts.
-   - Wire `?qa=1` through `src/lib/qa.ts` and add the `parity` Playwright project.
-   - The `tests/parity/*.spec.ts` specs need `pixelmatch` and `pngjs`. Add them as dev dependencies, with exact versions and the lockfile.
-5. **Close M2:** run the 08 QA pass for what M2 touched, tick the M2 boxes, then run a security review of M2's diff and fix what it finds (every phase so far ended this way).
-6. **M3 · Supabase, local first.** See [Environment gotchas](#environment-gotchas) for how to test without Docker images. **Before** anything touches the shared project, stop and ask the owner for Q3, Q4, Q6 and Q10. They must also expose the `pm` schema and run `npm run db:migrate` themselves (10 · Owner touchpoints).
+1. **Close M2.**
+   - Motion audit: every entry in [04](docs/handover/04-motion.md) against the code (duration, easing, delay, reduced motion), then tick "Motion layer" in the README.
+   - Automated parity: `tests/parity/*.spec.ts` (QA owns them) with `npm run parity`, against the boards fixture.
+   - A security review of M2's diff, then fix what it finds (every phase so far ended this way).
+2. **M4 · Studio.** On `claude/agent-studio-*`, through review's merge requests.
+3. **M3 · what's left.** The Supabase content source in `src/lib/sources/` (WP3.5) so the build reads published rows. The go-live steps in `supabase/README.md` are the owner's (expose `pm`, extensions, `db:migrate`, Vault, function secrets and deploys, `setup:owner`, Auth settings); nothing touches the shared project until the owner says so. Security follow-ups are in `.agents/security/inbox`.
+4. **M5 · Unknown `/work/<slug>` addresses.** Today a static server answers them with another page's prerendered HTML. React Router then finds no loader data for `routes/work.$slug` and shows the error state, not the 404. The fix follows [01 · Rendering](docs/handover/01-architecture.md#rendering): `scripts/write-vercel-config.ts` rewrites `/work/:slug` paths with no prerendered page to the `noindex` unlisted shell (`work.unlisted.tsx`). The shell shows the project or the 404 state. Every other unknown path gets `404.html` with status 404. Add the e2e case back to `tests/e2e/states.spec.ts` once the shell exists.
+5. **M5 · The RSS feed.** `RssLink` already points at `/writing/rss.xml`; the feed must exist before the first post is published.
 
 ## Decisions made during the build
 
-They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D48. Smaller deviations from the boards, already in the code:
+They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D59 (D49–D54 answer Q2, Q3, Q4, Q6, Q8 and Q10; D55–D59 are M3's). Smaller deviations from the boards, already in the code:
 
 - **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px. Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
 - **Accordion:** it rotates a plus 45°, per 02 and the board, not 04's chevron.
@@ -109,7 +99,7 @@ They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46
 
 ## How we work
 
-- **Checks before every commit:** `npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run build && npx playwright test`. Coverage floors: `src/lib` 90/85, `src/components` 80/70.
+- **Checks before every commit:** `npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run test:db && npm run db:lint && npm run build && npx playwright test`. CI also type-checks the Edge Functions with Deno. Coverage floors: `src/lib` 90/85, `src/components` 80/70.
 - **Push after every commit** to `claude/elegant-allen-xdmal0`. Cloud containers get reset, and unpushed work is lost.
 - **Small commits,** one milestone item at a time, ticking the README boxes in the same commit.
 - **Pixel parity:**
@@ -142,12 +132,13 @@ They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46
 | `src/components/**` | Components, one folder per area; `studio/` is Studio-only |
 | `src/motion/` | Keyframes, reduced motion, tilt, floaters, reveal, pause, speed lines |
 | `src/routes/` | Pages; `public-layout.tsx` is the shell; `dev/` is the catalogue (never ships) |
-| `scripts/` | `check-env.ts` (pre-build gates), `check-build.ts` (post-build gates), `copy-fonts.ts`, `copy-local-covers.ts` |
+| `scripts/` | `check-env.ts` (pre-build gates), `check-build.ts` (post-build gates), `copy-fonts.ts`, `copy-local-covers.ts`, `migrate.ts`, `migration-lint.ts`, `setup-owner.ts`, `seed-v0.ts`, `sync-functions-lib.ts` |
+| `supabase/` | `pm/migrations/` (schema, RLS, cron), `functions/` (the `pm-` Edge Functions and `_shared/`), `tests/` (PGlite), `README.md` (the owner's go-live steps) |
 | `tests/unit`, `tests/e2e`, `tests/fixtures` | Vitest, Playwright, fixtures |
 
 ## Environment gotchas
 
-- **Playwright on the owner's Mac:** the Playwright version in the lockfile needs `chromium_headless_shell-1194`, which isn't in `~/Library/Caches/ms-playwright` until `npx playwright install chromium` runs (ask the owner first: it's a download).
+- **Playwright on the owner's Mac:** `chromium_headless_shell-1194` is installed (the owner approved the download on 15 Oct 2026). Port 5173 there belongs to another project, so `playwright.config.ts` serves the preview on 4310 and the dev server on 4311. Set `PW_PORT_BASE` to run several worktrees at once, and `PW_REUSE=1` to reuse a server you started yourself.
 - **Playwright in the cloud sandbox:** Chromium is preinstalled at `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`, and `playwright.config.ts` uses it. Never run `playwright install`.
 - **The catalogue:** `/dev/components` exists in dev and typegen only. A production build leaves it out unless `CATALOGUE=1`, and `check-env` fails a production build where `CATALOGUE` or `CONTENT_SOURCE` is set.
 - **`ssr: false` + prerender:** every route with a `loader` needs at least one prerendered page, so `/writing/:slug` is registered only when posts exist (always for typegen). `/404` is prerendered for the host to serve; unknown SPA paths use the catch-all.

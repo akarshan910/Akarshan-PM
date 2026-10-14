@@ -1,6 +1,15 @@
 {
   "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
-  "exclude": [".claude", "node_modules", "build", "dist", "supabase/functions", "design", "public"],
+  "exclude": [
+    ".claude",
+    "node_modules",
+    "build",
+    "build-parity",
+    "dist",
+    "supabase/functions",
+    "design",
+    "public"
+  ],
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["DOM", "DOM.Iterable", "ES2023"],

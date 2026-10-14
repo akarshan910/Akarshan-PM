@@ -223,7 +223,7 @@ export function PillNav({
           <button
             ref={menuBtnRef}
             type="button"
-            className={styles.menuBtn}
+            className={cx(styles.menuBtn, "hit44")}
             aria-expanded={open}
             aria-controls={menuId}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -244,7 +244,7 @@ export function PillNav({
                     if (el) linkRefs.current.set(link.id, el);
                     else linkRefs.current.delete(link.id);
                   }}
-                  className={cx(styles.nl, link.id === activeLink && styles.on)}
+                  className={cx(styles.nl, "hit44", link.id === activeLink && styles.on)}
                   href={safeHref(link.href)}
                   aria-current={link.id === activeLink ? "true" : undefined}
                   onClick={(event) => {
@@ -260,7 +260,7 @@ export function PillNav({
             <>
               <span className={styles.sep} aria-hidden="true" />
               <a
-                className={cx(styles.contact, contactActive && styles.active)}
+                className={cx(styles.contact, "hit44", contactActive && styles.active)}
                 href={safeHref(letsTalk.href)}
                 onClick={onLetsTalk}
                 {...(letsTalk.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}

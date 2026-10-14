@@ -14,7 +14,7 @@ concurrency:
 jobs:
   checks:
     name: Typecheck, lint, test, build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # pinned: Playwright 1.56 --with-deps targets 24.04; ubuntu-latest moves to 26 on 19 Oct 2026
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -29,13 +29,16 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
       - run: npm run test:coverage
+      - run: npm run db:lint
+      - run: npm run test:db
+      - run: node scripts/sync-functions-lib.ts --check
       - run: npm run build
       - name: Dependency audit (production)
         run: npm audit --omit=dev --audit-level=high
 
   e2e:
     name: End-to-end
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # pinned: Playwright 1.56 --with-deps targets 24.04; ubuntu-latest moves to 26 on 19 Oct 2026
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -46,13 +49,27 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit firefox
       - run: npm run build
       - run: npm run e2e
 
+  functions:
+    name: Edge Functions type-check (Deno)
+    runs-on: ubuntu-24.04 # pinned: see the checks job
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: v2.x
+      - run: deno check --config deno.json */index.ts
+        working-directory: supabase/functions
+
   secrets:
     name: Secret scan (commits in the push or pull request)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # pinned: Playwright 1.56 --with-deps targets 24.04; ubuntu-latest moves to 26 on 19 Oct 2026
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

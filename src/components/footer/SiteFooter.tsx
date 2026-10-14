@@ -1,3 +1,5 @@
+import { safeHref } from "~/lib/links";
+
 import styles from "./SiteFooter.module.css";
 
 interface SiteFooterProps {
@@ -25,7 +27,7 @@ export function SiteFooter({ year, name, credit, updated, back }: SiteFooterProp
           {updated && !back ? <span className={styles.phoneOnly}> · Updated {updated}</span> : null}
         </span>
         {back ? (
-          <a className={styles.back} href={back.href}>
+          <a className={`${styles.back ?? ""} hit44`} href={safeHref(back.href)}>
             {back.label}
           </a>
         ) : updated ? (
