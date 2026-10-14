@@ -126,7 +126,7 @@ Every variable, where its value lives, and who can see it. Only the three `VITE_
 | Turnstile secret key | Supabase dashboard, Authentication › Attack protection | Supabase checks each `captchaToken` with Cloudflare |
 | SMTP host, user and password | Supabase dashboard, Authentication › SMTP | Sends the sign-in codes |
 | `OWNER_EMAIL`, plus `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` | The owner's local shell, only while running `npm run setup:owner`, `npm run seed:v0` or `npm run backup` (`OWNER_EMAIL` for `setup:owner` only) | Creates or finds the owner's account and adds the `pm.owners` row; loads the V0 seed; takes backups. Never written to a file in the repo |
-| `PM_DATABASE_URL` | The owner's local shell, only while running `npm run db:migrate` or `npm run backup` | Applies `supabase/pm/migrations/`. Never in Vercel, CI or a file |
+| `PM_DATABASE_URL` | The owner's local shell, only while running `npm run db:migrate` | Applies `supabase/pm/migrations/`. Never in Vercel, CI or a file |
 
 - Commit `.env.example` with the variable names and empty values. Never commit a value.
 - Local development uses `.env.local`, which `.gitignore` already covers.

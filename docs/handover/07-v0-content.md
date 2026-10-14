@@ -27,7 +27,7 @@ M0 moves the content out of `src/app/App.tsx` into `src/legacy/content.ts`, unch
 
 A unit test snapshots `content.ts`, so any later edit to it is deliberate.
 
-`scripts/seed-v0.ts` then builds the documents below and writes them through the same Zod schemas and the same publish logic as Studio, so V0 content passes the same checks. Two exceptions are allowed only in the seed: the Arcana summary length ([09](09-decisions.md), Q6) and the flagged RICE row ([Projects](#projects)). Both are listed in "Worth a check".
+`scripts/seed-v0.ts` then builds the documents below and writes them through the same Zod schemas and the same publish logic as Studio, so V0 content passes the same checks. Two exceptions are allowed only in the seed: the Arcana summary length ([09](09-decisions.md), Q6) and the flagged RICE row ([Projects](#projects)). Both are listed under "Needs input" on the dashboard, not as facts ([Worth a check](#worth-a-check)).
 
 **The seed's inputs:**
 
@@ -149,7 +149,7 @@ The `site_layout` document, in page order:
 | --- | --- | --- | --- | --- | --- |
 | `hero` | hero | Yes | — | — | All parts on. `motion: true`. Floating previews: the five projects, 3 at once |
 | `proof` | proof | Yes | — | — | The six proof ids, the last two hidden; `spaces` (empty, so it hides) |
-| `shipped` | shelf | **No** | — | · Shipped · | `name: 'Shipped'`, rows 2. The four Sugar.fit drafts ([09](09-decisions.md), D17) |
+| `shipped` | shelf | **No** | — | · Shipped · | `name: 'Shipped'`, rows 2. The four SugarFit drafts ([09](09-decisions.md), D17) |
 | `strategy` | shelf | Yes | Work | Projects · Decisions, · not features | `name: 'Strategy & prototypes'`, rows 2. The five projects in live order |
 | `writing` | writing | Yes | — | Latest posts · Writing · | Latest 3, RSS on. Hidden until the first post |
 | `about` | about | Yes | About | About · Building products that · matter. | text, points |
@@ -163,7 +163,7 @@ The `site_layout` document, in page order:
 - **Headers** come from the live site's headings, split where the live site changes colour ([09](09-decisions.md), D31). The live kickers' dashes ("— About") are dropped, because the design draws its own. CSS uppercases titles, so they're stored in sentence case.
 - **No intros.** The live sections have none, so `header.intro` is empty everywhere except Contact.
 - **The nav** shows Work, About, Exp, Skills, Testimonial, in page order: the live nav's labels.
-- **The Shipped shelf's** only header text is its name, "Shipped". The owner writes the rest when the first Sugar.fit project is ready.
+- **The Shipped shelf's** only header text is its name, "Shipped". The owner writes the rest when the first SugarFit project is ready.
 - **Writing's** kicker and title are the board's, because the live site has no Writing section. It stays hidden until a post is published.
 
 ## Projects
@@ -186,7 +186,7 @@ Five published projects in the `strategy` shelf, and four drafts in `shipped`.
 - **Accents** are the ones the Home board gives these five.
 - **Empty:** `cardLabel`, `problem`, `proposal`, `role`, `timeline` and `team`. The live site doesn't have them, and they hide.
 - **`prdUrl`:** Arcana's live `prdLink` (a Google Doc). The others are empty.
-- **`visuals.cover`:** `design/covers/<slug>.webp` with its alt text ([Covers](#covers)), focal point centre.
+- **`visuals.cover`:** `design/covers/<slug>.webp` with its alt text ([Covers](#covers)). The media row's focal point is the centre.
 - **`visuals.hero`:** the prototype, if it's deployed:
 
   | Project | Prototype | Frame |
@@ -197,7 +197,7 @@ Five published projects in the `strategy` shelf, and four drafts in `shipped`.
   | Revenue growth strategy | `farmville3_prototype.html`, once deployed | tablet (it's a landscape, 844px-wide prototype) |
   | GLP-1 digital scaffold | None | — |
 
-  `start: 'click'`, no separate poster (the cover is used). A project whose prototype isn't deployed yet gets `{ type: 'image' }` and appears under "Needs input" on the dashboard.
+  `start: 'click'`, no separate poster (the cover is used). A project whose prototype isn't deployed yet gets `{ type: 'image' }` and `todo: ['prototype-link']`, so it appears under "Needs input" on the dashboard. GLP-1 has no prototype and no `todo`.
 
 - **SEO:** empty, so the title and summary are used.
 - The live `content.tags` (for example "WhatsApp Business API", "Trust Design") and `volJp` aren't carried over ([09](09-decisions.md), D32).
@@ -266,9 +266,9 @@ That applies to Sri Mandir's "Feature Priority Ranking" and Word Trip's "Initiat
 
 Chapters are never hidden in V0. A chapter whose blocks are all empty doesn't exist in the live data.
 
-### The Sugar.fit drafts
+### The SugarFit drafts
 
-Four draft projects in the hidden `shipped` shelf, `kind: 'shipped'`, company "Sugar.fit", with titles only:
+Four draft projects in the hidden `shipped` shelf, `kind: 'shipped'`, company "SugarFit" (the live site's spelling), with titles only:
 
 1. 3D body scan for GLP-1 users
 2. Image-based food logging
@@ -335,7 +335,7 @@ The seed writes these keys into `profile.unconfirmed`, with the résumé's value
 - the Sri Mandir RICE row;
 - Arcana's summary length;
 - any project without its prototype link;
-- the four Sugar.fit drafts;
+- the four SugarFit drafts;
 - the skill sizes ("All skills are size M").
 
 The audit's full comparison is in [`docs/redesign/01-audit.md`](../redesign/01-audit.md#site-vs-résumé).
@@ -346,7 +346,7 @@ Nothing here blocks V0. It's what the owner does in Studio afterwards:
 
 1. Resolve every "Worth a check" item.
 2. Set skill sizes.
-3. Fill the Sugar.fit drafts and publish them; switch the Shipped shelf on.
+3. Fill the SugarFit drafts and publish them; switch the Shipped shelf on.
 4. Add role, timeline and team to each case study, and write "The problem" and "What I proposed".
 5. Add a profile photo, education, GitHub and testimonial LinkedIn links, if wanted.
 6. Write section intros.

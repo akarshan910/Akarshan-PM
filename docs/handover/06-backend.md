@@ -84,6 +84,16 @@ grant usage on schema pm to anon, authenticated, service_role;
 alter default privileges in schema pm revoke all on tables from anon, authenticated;
 alter default privileges in schema pm revoke execute on functions from public, anon, authenticated;
 create table pm.schema_migrations (version text primary key, applied_at timestamptz not null default now());
+alter table pm.schema_migrations enable row level security;   -- no policies: only the migration script's connection touches it
+revoke all on pm.schema_migrations from anon, authenticated;
+
+-- Supabase gives service_role nothing in a custom schema. The Edge Functions, cron, setup:owner, seed:v0 and backup need it.
+grant all on all tables in schema pm to service_role;
+grant all on all sequences in schema pm to service_role;
+grant execute on all functions in schema pm to service_role;
+alter default privileges in schema pm grant all on tables to service_role;
+alter default privileges in schema pm grant all on sequences to service_role;
+alter default privileges in schema pm grant execute on functions to service_role;
 ```
 
 **Expose the schema** once, in Project Settings › Data API › Exposed schemas: add `pm` next to `public`. Then supabase-js reaches it with `createClient(url, anonKey, { db: { schema: 'pm' } })`, and types are generated with `supabase gen types typescript --schema pm`.
@@ -129,7 +139,8 @@ create table site_revisions (
 
 create table projects (
   id uuid primary key default gen_random_uuid(),
-  slug text unique not null check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$' and length(slug) <= 80),
+  slug text unique not null check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$' and length(slug) <= 80),   -- the draft address, edited in URL & SEO
+  published_slug text unique,     -- the address of the live version; written only by pm-publish
   visibility text not null default 'public' check (visibility in ('public','unlisted')),
   index_allowed boolean not null default true,
   draft jsonb not null,
@@ -150,7 +161,8 @@ create table project_revisions (
 
 create table posts (
   id uuid primary key default gen_random_uuid(),
-  slug text unique not null check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$' and length(slug) <= 80),
+  slug text unique not null check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$' and length(slug) <= 80),   -- the draft address
+  published_slug text unique,     -- the address of the live version; written only by pm-publish
   draft jsonb not null,
   published jsonb,
   published_at timestamptz,       -- first publish: the post's date
@@ -170,19 +182,20 @@ create table post_revisions (
 
 create table media (
   id uuid primary key default gen_random_uuid(),
-  key text not null unique,       -- '<uuid>/<variant>.<ext>' in both buckets
+  rev int not null default 1,     -- bumped by "Replace file"; part of every file's key and URL
+  key text not null unique,       -- the files' prefix, '<uuid>/r<rev>' in both buckets; each file is '<key>/<variant>.<ext>'
   kind text not null check (kind in ('image','document')),
   mime text not null,
   bytes int not null,
   width int, height int,
   variants int[] not null default '{}',   -- widths generated: 480, 960, 1600
   has_og boolean not null default false,  -- a 1200×630 crop exists
-  focal jsonb,                            -- { x: 0..1, y: 0..1 }
+  focal jsonb,                            -- { x: 0..1, y: 0..1 }; the one focal point for every use of this image
   alt text,
   decorative boolean not null default false,
   dominant text,                          -- '#RRGGBB', the loading placeholder colour
   filename text not null,                 -- the original name, shown in Studio only
-  published boolean not null default false,  -- copied to media-public
+  published boolean not null default false,  -- copied to pm-media-public
   created_at timestamptz not null default now()
 );
 
@@ -227,7 +240,8 @@ create index on preview_links (expires_at);
 
 - `owners` is keyed by `user_id`, not `email`. An email can change; a user id can't, and `auth.uid()` is cheaper to check than a JWT claim.
 - `media` gains the variant, focal, dominant-colour and `published` columns that the upload and publish steps need.
-- `link_checks`, `deploys`, `schedule_error`, `first_published_at` and `site_revisions.changes` are new.
+- `link_checks`, `deploys`, `schedule_error`, `first_published_at`, `published_slug`, `media.rev` and `site_revisions.changes` are new.
+- `slug` is the draft address; `published_slug` is the live one. Editing the address in URL & SEO never changes the live site until the next publish ([09](09-decisions.md), D40).
 
 ### Timestamps and versions
 
@@ -258,9 +272,9 @@ type Profile = {
   title: string;                      // job title, max 60
   availability?: string;              // the hero chip, max 60; empty hides the chip
   location?: string;                  // max 40
-  positioning: Inline;                // the hero's main line, max 220; <strong> marks the brighter phrases
+  positioning: Inline;                // the hero's main line; Studio's counter warns over 100, Zod rejects over 220 (D39). <strong> marks the brighter phrases
   intro?: Inline;                     // max 320
-  heroButtons: { primary?: { label: string; href: string }; resume?: boolean };  // resume: show "Résumé (PDF)" from contact.resume
+  heroButtons: { primary?: { label: string; href: string }; resume?: boolean };  // label max 24; resume: show "Résumé (PDF)" from contact.resume
   about: { body: Inline[]; photo?: MediaRef; points?: { id: string; title: string; text: Inline }[] };   // the heading is the section header
   proof: { id: string; value: string; unit?: string; label: string; source?: string; type?: ResultType }[];  // no type for tenure and counts
   spaces?: { label: string; items: string[] };        // the chips under the proof strip
@@ -290,7 +304,7 @@ type Profile = {
 };
 ```
 
-**Differences from the design-phase doc:** section headers moved to the layout (below), so `about` loses its title and `contact` keeps only the links. `heroButtons`, `about.points`, `spaces`, `education`, the contact phone and "Let's Talk" settings, and the `id`s on highlight groups and items are new. Each is on a board; the earlier type just hadn't caught up.
+**Differences from the design-phase doc:** section headers moved to the layout (below), so `about` loses its title and `contact` keeps only the links. `heroButtons`, `about.points`, `spaces`, `education`, the contact phone and "Let's Talk" settings, and the `id`s on highlight groups and items are new. The contact phone and "Let's Talk" settings are on `StudioProfile`. `heroButtons`, `about.points`, `spaces`, `education` and the testimonial fields (quote, name, initials, role, tone, tag, LinkedIn) have no board editor: Studio gives each a plain form in Profile & facts, in the boards' field styles ([05 · More fields](05-studio.md#more-fields); [09](09-decisions.md), D38).
 
 **Fact keys** are JSON paths into the profile, for example `proof.p-users.value` or `experience.e-sugarfit.highlights.h1.items.i2.text`. Studio's "Worth a check" list reads `unconfirmed`, and shows `facts[key].alternative` next to the live value.
 
@@ -309,19 +323,19 @@ type Section = {
       | 'testimonials' | 'offduty' | 'contact' | 'text' | 'footer';
   visible: boolean;                   // the hero and footer are always true
   nav?: { label: string };            // set = linked in the pill nav, max 14 characters
-  header?: { kicker?: string; title: string; titleMuted?: string; intro?: Inline };   // titleMuted: the grey second half
+  header?: { kicker?: string; title?: string; titleMuted?: string; intro?: Inline };   // titleMuted: the grey second half. A kicker-only header is allowed (Contact)
   items: { id: string; visible: boolean }[];
-  shelf?: { name: string; rows: 1 | 2 | 3; lead?: string };   // name: used in /work filters and Studio; lead: the starred project id
+  shelf?: { name: string; rows: 1 | 2 | 3 };   // name: used in /work filters and Studio. The lead is derived: the first visible, published project in `items` (D37)
   writing?: { latest: 2 | 3 | 4; rss: boolean };
   text?: { body: Rich };
   hero?: { motion: boolean; floaters: { items: string[]; atOnce: 1 | 2 | 3 } };
-  contact?: { closing: string; closingAccent?: string };   // the big closing line, e.g. "Let's build" + "something impactful"
+  contact?: { closing: string; closingAccent?: string };   // the big closing line, e.g. "Let's build something" + "impactful"
 };
 ```
 
-**Differences:** `header` holds every section's kicker, two-tone title and intro, so the shelf's `title` and `intro` moved there, and the shelf keeps a short `name` for filters. `hero.motion` is the owner's motion switch ([04 · Ground rules](04-motion.md#ground-rules)). `shelf.lead` stores the star.
+**Differences:** `header` holds every section's kicker, two-tone title and intro, so the shelf's `title` and `intro` moved there, and the shelf keeps a short `name` for filters. `hero.motion` is the owner's motion switch ([04 · Ground rules](04-motion.md#ground-rules)). There's no stored lead: Studio's Star moves the project to the top of the shelf's `items`, and the lead is the first visible, published one ([09](09-decisions.md), D37). `header.title` is optional, so Contact can have a kicker only.
 
-Items per section kind are as in the design-phase doc, plus `proof` → also `spaces`, and `about` → `points`.
+Items per section kind are as in the design-phase doc, except that `hero` drops the `motion` and `floaters` items (use `hero.motion` and `hero.floaters`) and `writing` has no items (use `writing.latest` and `writing.rss`). Plus `proof` → also `spaces`, and `about` → `points`.
 
 #### Project
 
@@ -329,13 +343,14 @@ Items per section kind are as in the design-phase doc, plus `proof` → also `sp
 type Project = {
   schemaVersion: 1;
   overview: {
-    title: string;                    // required, max 80
+    title: string;                    // required; Studio's counter warns over 60, Zod rejects over 80 (D39)
     company: string;                  // required, max 60
+    sector?: string;                  // max 40: the case study's mono line after the company ("Sri Mandir · Devotional consumer app"); empty shows the company alone
     cardLabel?: string;               // max 40, e.g. 'Strategy + prototype'
     summary: string;                  // required, max 140 (publish check)
     problem?: Inline;                 // max 280: the case study's "The problem" column
     proposal?: Inline;                // max 280: "What I proposed"
-    kind: 'shipped' | 'study' | 'prototype';
+    kind: 'shipped' | 'study' | 'prototype';   // labels: "Shipped", "Strategy study", "Prototype". The case study's Type fact shows this label
     topics: string[];                 // max 8
     role?: string; timeline?: string; team?: string;   // max 80 each
     prdUrl?: string;                  // https only
@@ -344,15 +359,18 @@ type Project = {
     accent: Accent;                   // the project's colour, --pa
     hero:
       | { type: 'image' }
-      | { type: 'video'; url: string }
+      | { type: 'video'; url: string; title?: string }      // title: max 80, shown on the poster
       | { type: 'prototype'; url: string; poster?: MediaRef; frame: 'phone' | 'tablet' | 'desktop' | 'none'; start: 'click' | 'visible';
-          title?: string;                                   // "Seven screens from the PRD, built to be clicked."
-          note?: string;                                    // the small line under the frame
-          screens?: { label: string; startPath: string }[] }; // the screen shortcuts on the laptop case study
-    cover?: MediaRef & { focal?: { x: number; y: number } };  // none = the generated cover (C7)
+          title?: string;                                   // max 80: "Seven screens from the PRD, built to be clicked."
+          note?: string;                                    // max 120: the small line under the frame
+          screens?: { label: string; startPath: string }[] }; // max 8, label max 30: the screen shortcuts on the laptop case study,
+                                                              // and the choices for a prototype block's "Opens on"
+    cover?: MediaRef;                 // none = the generated cover (C7). The focal point is the media row's (`media.focal`)
     gallery: (MediaRef & { caption?: string })[];
   };
-  story: { id: string; title: string; hidden: boolean; blocks: Block[] }[];
+  story: { id: string; title: string; hidden: boolean; blocks: Block[];
+    prompts?: string[];               // Studio-only "Questions to answer" for an empty chapter; never published
+  }[];
   outcomes: {
     id: string; value: string; label: string; type: ResultType;
     credit?: 'mine' | 'team' | 'business';
@@ -361,6 +379,8 @@ type Project = {
   }[];
   headlineOutcomeId?: string;         // the number on cards, /work rows and floating previews
   seo: { title?: string; description?: string; ogImage?: 'cover' | MediaRef };
+  settings: { redirectOldSlug: boolean };   // "Redirect the old address here"; on by default once the project has been published (D40)
+  todo?: string[];                    // PRIVATE: "Needs input" notes for the dashboard, e.g. 'prototype-link'; never copied to `published`
 };
 
 type Block =
@@ -369,20 +389,20 @@ type Block =
   | { id: string; type: 'list'; body: Rich }                     // one <ul> or <ol>
   | { id: string; type: 'quote'; body: string; cite?: string }
   | { id: string; type: 'callout'; body: Rich; tone: 'neutral' | 'accent' }
-  | { id: string; type: 'metrics' }                              // renders the outcomes marked inStrip
+  | { id: string; type: 'metrics'; outcomeIds?: string[] }      // empty: the outcomes marked inStrip; set: just these, e.g. one inline stat
   | { id: string; type: 'table'; columns: string[]; rows: string[][]; formula?: 'rice';
-      checkFormula: boolean; sortByScore: boolean; highlightTop: number; phoneCards: boolean; reviewed?: string[] }
+      checkFormula: boolean; sortByScore: boolean; highlightTop: 0 | 3; phoneCards: boolean; reviewed?: string[] }   // highlightTop: the board's switch
   | { id: string; type: 'image'; media: MediaRef & { caption?: string } }
   | { id: string; type: 'gallery' | 'beforeafter'; media: (MediaRef & { caption?: string })[] }
   | { id: string; type: 'video'; url: string; title?: string }
   | { id: string; type: 'prototype'; startPath?: string }
   | { id: string; type: 'journey'; stages: { title: string; note?: string }[] }
   | { id: string; type: 'ownership'; mine: Inline; team?: Inline; business?: Inline; decision?: Inline }
-  | { id: string; type: 'cards'; columns: 2 | 3 | 4; items: { kicker?: string; title: string; note?: string }[] }
+  | { id: string; type: 'cards'; columns: 2 | 3 | 4; style?: 'cards' | 'chips'; items: { kicker?: string; title: string; note?: string }[] }   // chips: titles only, as pills
   | { id: string; type: 'divider' };
 ```
 
-**Differences:** every block has an `id` (for drag, links and the change list). `visuals.accent`, `overview.problem` and `overview.proposal` are new ([09](09-decisions.md), D25 and D26). The table gains the four switches from `EditorCaseStudy`'s table panel (check the formula, sort by score, highlight the top rows, cards on phones), plus `reviewed`: rows the owner marked as checked. Cards gain an optional `kicker`, as on the case-study board's priority cards. `ownership` gains the "Key decision and trade-off" row.
+**Differences:** every block has an `id` (for drag, links and the change list). `visuals.accent`, `overview.problem` and `overview.proposal` are new ([09](09-decisions.md), D25 and D26). The table gains the four switches from `EditorCaseStudy`'s table panel (check the formula, sort by score, highlight the top rows, cards on phones), plus `reviewed`: rows the owner marked as checked. Cards gain an optional `kicker`, as on the case-study board's priority cards. `ownership` gains the "Key decision and trade-off" row (`decision`); its four fields are "I owned" (`mine`), "I partnered on" (`team`), "Team or business" (`business`) and `decision`. `metrics` can name its outcomes (`outcomeIds`), for a single stat inside a chapter like the case study's "60s". Cards can render as pills (`style: 'chips'`), for the segment chips. `overview.sector`, `settings`, `todo`, chapter `prompts` and the hero video's `title` are new. The cover's focal point moved to the media row, so every use of an image shares one crop.
 
 **RICE tables.** With `formula: 'rice'`, the columns are `#`, the item name, `Reach`, `Impact`, `Conf.`, `Effort`, `RICE`. Cells hold text exactly as entered ("85%", "2 mo"). The score check parses the numbers: `reach × impact × (confidence / 100) ÷ effort`, rounded to one decimal, compared with the shown score. A row that differs by more than 0.05, and isn't in `reviewed`, is flagged in Studio ("1 row needs a look"). The site always shows the scores as entered.
 
@@ -397,10 +417,11 @@ As in the design-phase doc, plus `schemaVersion`, an `id` on each block, and `co
 Publishing turns a draft document into its published shape:
 
 - every `MediaRef` becomes an `Img`, using the media row's alt text unless the reference overrides it;
-- outcome `evidence` is removed, and so is any outcome or block the owner hid;
+- outcome `evidence`, `todo`, `settings` and chapter `prompts` are removed, and so is any outcome or block the owner hid;
+- a video hero or `video` block gets `poster: Img` (the host's thumbnail, stored as a media row at publish; for Drive, the cover) and `duration?: string` ('3:24', when the host's oEmbed gives it);
 - chapters that are hidden or empty are removed;
 - rich text is sanitised again, server-side;
-- a post gets `readingMinutes` and `excerpt` (its own, or its first 160 characters).
+- a post gets `readingMinutes`, `excerpt` (its own, or its first 160 characters) and `modifiedAt` (this publish's time, for `article:modified_time`).
 
 `src/lib/types.ts` exports both shapes: `ProjectDraft` and `ProjectPublished`, and so on. Public components only accept the published types, so a draft field can't be rendered by accident.
 
@@ -442,7 +463,7 @@ revoke all on function is_owner() from public;
 grant execute on function is_owner() to authenticated;
 ```
 
-**Owner policies.** On every table except `owners`:
+**Owner policies.** On every table except `owners` and `schema_migrations`, which have RLS on and no policies:
 
 ```sql
 alter table projects enable row level security;
@@ -459,11 +480,11 @@ create policy owner_all on projects for all to authenticated
 grant select, insert, update, delete on all tables in schema pm to authenticated;
 grant usage on all sequences in schema pm to authenticated;
 
-grant select (slug, published, published_at) on projects to anon;
+grant select (published_slug, published, published_at, first_published_at) on projects to anon;
 create policy public_read on projects for select to anon
   using (published is not null and deleted_at is null and visibility = 'public');
 
-grant select (slug, published, published_at) on posts to anon;
+grant select (published_slug, published, published_at) on posts to anon;
 create policy public_read on posts for select to anon
   using (published is not null and deleted_at is null);
 
@@ -471,6 +492,8 @@ grant select (published, published_at) on profile, site_layout to anon;
 create policy public_read on profile for select to anon using (published is not null);
 create policy public_read on site_layout for select to anon using (published is not null);
 ```
+
+Every later migration that creates a table repeats, for that table, the `grant select, insert, update, delete … to authenticated`, `enable row level security` and `owner_all` statements: line one's `on all tables` covers only the tables that exist when it runs.
 
 Nothing else is granted to `anon`: no media table, revisions, previews, link checks or deploys. Every function is created with `revoke all … from public` and an explicit grant, as below. Nothing here touches the `public` schema.
 
@@ -480,23 +503,23 @@ Nothing else is granted to `anon`: no media table, revisions, previews, link che
 create function public_redirects()
 returns table (old_path text, new_path text)
 language sql stable security definer set search_path = '' as $$
-  select r.old_path, '/work/' || p.slug from pm.slug_redirects r join pm.projects p on p.id = r.project_id
+  select r.old_path, '/work/' || p.published_slug from pm.slug_redirects r join pm.projects p on p.id = r.project_id
     where p.published is not null and p.deleted_at is null and p.visibility = 'public'
   union all
-  select r.old_path, '/writing/' || p.slug from pm.slug_redirects r join pm.posts p on p.id = r.post_id
+  select r.old_path, '/writing/' || p.published_slug from pm.slug_redirects r join pm.posts p on p.id = r.post_id
     where p.published is not null and p.deleted_at is null
   union all   -- pages that were public once and aren't any more: the "moved" note
-  select '/work/' || p.slug, '/work?moved=1' from pm.projects p
+  select '/work/' || p.published_slug, '/work?moved=1' from pm.projects p
     where p.first_published_at is not null and (p.published is null or p.deleted_at is not null) and p.visibility = 'public'
   union all
-  select '/writing/' || p.slug, '/writing?moved=1' from pm.posts p
+  select '/writing/' || p.published_slug, '/writing?moved=1' from pm.posts p
     where p.published_at is not null and (p.published is null or p.deleted_at is not null);
 $$;
 revoke all on function public_redirects() from public;
 grant execute on function public_redirects() to anon, authenticated;
 ```
 
-**Signed-in users who aren't the owner** match no policy and read nothing. The `authenticated` role has no column grants beyond what the owner policies allow, and the owner check fails for them.
+**Signed-in users who aren't the owner** match no policy, so RLS returns zero rows and rejects every write, even though `authenticated` holds table privileges. This includes lumina's admins.
 
 **Tests.** `tests/rls.test.ts` runs against a local Supabase (`supabase start`) and must pass in CI:
 
@@ -646,15 +669,15 @@ create policy pm_owner_draft on storage.objects for all to authenticated
 4. **Resize** with `createImageBitmap` and `OffscreenCanvas` to 480, 960 and 1600 wide (never upscaled), encoded as WebP at quality 0.82. GIFs keep their original file and get a WebP poster only.
 5. **Crop** a 1200×630 Open Graph image around the focal point when the image is used as a cover, and again whenever the focal point moves.
 6. **Upload** with the resumable (TUS) endpoint, so a lost connection pauses rather than fails.
-7. **Key** every file as `<media id>/<variant>.<ext>`: `orig.jpg`, `480.webp`, `960.webp`, `1600.webp`, `og.jpg`. Ids are random UUIDs; filenames never appear in URLs.
+7. **Key** every file as `<media id>/r<rev>/<variant>.<ext>`: `orig.jpg`, `480.webp`, `960.webp`, `1600.webp`, `og.jpg`. Ids are random UUIDs; filenames never appear in URLs.
 8. **Strip metadata.** Re-encoding drops EXIF, including location. The original is re-encoded too (JPG quality 0.9) rather than uploaded as is.
 
-**Visitors never load images from Supabase.** The published JSON stores each image's storage key. At build, `scripts/fetch-media.ts` downloads every image the published content uses from `pm-media-public` into `build/client/media/<id>/<variant>.webp`, and `Img.src` and `Img.srcset` point at `/media/…` on the site itself. That keeps the shared egress quota for lumina, and lets Vercel's CDN cache the files.
+**Visitors never load images from Supabase.** The published JSON stores each image's storage key. At build, `scripts/fetch-media.ts` downloads every image the published content uses from `pm-media-public` into `build/client/media/<id>/r<rev>/<variant>.webp`, and `Img.src` and `Img.srcset` point at `/media/…` on the site itself. That keeps the shared egress quota for lumina, and lets Vercel's CDN cache the files.
 
 - Only the draft preview and Studio load images from Supabase, through signed URLs.
 - The build caches downloads by key between deploys, so an unchanged image isn't fetched again.
 
-**Deleting.** A media row that any draft or published document uses can't be deleted; Studio shows where it's used ([05 · Media](05-studio.md#media)). "Replace file" uploads a new set of files under the same media id with a new cache-busting version, and the next publish of each document picks it up. Unused files leave `pm-media-public` in the nightly purge.
+**Deleting.** A media row that any draft or published document uses can't be deleted; Studio shows where it's used ([05 · Media](05-studio.md#media)). "Replace file" uploads a new set of files under the same media id and bumps `media.rev`, so the new files get new URLs and no cache serves the old ones. Drafts and Studio show the new file at once. Live pages show it after each document that uses it is published again: Studio lists those documents and offers "Publish all n", which calls `pm-publish` for each ([09](09-decisions.md), D41). The old revision's files leave both buckets in the nightly purge once nothing published uses them. Other unused files leave `pm-media-public` in the nightly purge.
 
 ## Rich text
 
@@ -681,7 +704,7 @@ where id = $2 and version = $3          -- $3: the version Studio last saw
 returning version;
 ```
 
-- **Zero rows** means another tab or device saved first. Studio shows the conflict dialog from `StudioStates` ("This changed in another tab"), with "Use theirs" and "Keep mine". "Keep mine" re-reads the version and saves again.
+- **Zero rows** means another tab or device saved first. Studio shows the conflict dialog from `StudioStates` ("This changed in another tab"), with "Load latest" and "Keep mine". "Keep mine" re-reads the version and saves again.
 - **Offline**, edits queue in IndexedDB (`idb-keyval`), one entry per document, newest wins. They sync in order on reconnect, with the same version check.
 - The same pattern applies to `profile`, `site_layout` and `posts`.
 
@@ -697,9 +720,9 @@ Every function that Studio calls:
 
 | Function | Called by | Does |
 | --- | --- | --- |
-| `pm-publish` | Studio | Publishes, unpublishes or deletes: `{ action: 'publish' \| 'unpublish' \| 'delete' \| 'restore', kind: 'site' \| 'project' \| 'post', id?, confirmUnconfirmed?: boolean }` |
+| `pm-publish` | Studio | Publishes, unpublishes or deletes: `{ action: 'publish' \| 'unpublish' \| 'delete' \| 'restore' \| 'settings', kind: 'site' \| 'project' \| 'post', id?, confirmUnconfirmed?: boolean, visibility?, indexAllowed? }`. `settings` (projects only) writes `visibility` and `index_allowed` and calls the deploy hook, because URL & SEO's "Who can find it" applies without a publish |
 | `pm-preview` | Visitors with a link; Studio to create links | `GET ?token=` returns the draft rendered data. `POST { kind, id }` (owner) creates a link and returns the token once. `DELETE { tokenHash }` revokes |
-| `pm-project` | The unlisted-page shell | `GET ?slug=` returns the published JSON of that project if it's published and not deleted. `404` otherwise |
+| `pm-project` | The unlisted-page shell | `GET ?slug=` matches `published_slug` and returns the published JSON of that project if it's published and not deleted. `404` otherwise |
 | `pm-check-link` | Studio, when a link is pasted; `pm-publish`; the nightly cron | `{ url, kind: 'video' \| 'prototype' \| 'prd' }` → `{ status, detail }`. Writes `link_checks` |
 | `pm-post-scheduler` | Cron, every 5 minutes | Publishes posts whose `scheduled_for` has passed |
 | `pm-purge` | Cron, nightly at 03:17 UTC | Removes soft-deleted rows older than 30 days, expired preview links older than 30 days, and files in either bucket that nothing uses |
@@ -718,10 +741,10 @@ For `kind: 'project'`, `action: 'publish'`:
    - a RICE table with a flagged row that isn't marked reviewed.
 3. Build the published shape (above), copying any media not yet in `pm-media-public`.
 4. In one transaction:
-   - write `published`, `published_at = now()`, and `first_published_at` if it's null;
+   - write `published`, `published_at = now()`, `published_slug = slug`, and `first_published_at` if it's null;
    - insert a `project_revisions` row;
    - on the first publish, place the project in the **published** layout, right after the nearest project before it in the draft layout that's already live, and insert a `site_revisions` row;
-   - if the slug changed since the last publish and the redirect switch was on, insert the `slug_redirects` row.
+   - if `published_slug` was set and differs from `slug`, and `draft.settings.redirectOldSlug` is true, insert `slug_redirects ('/work/' || old published_slug)` before overwriting it. Posts do the same with `/writing/` (posts redirect always).
 5. Call the deploy hook and insert a `deploys` row. If the hook fails, the publish still stands; Studio shows "Published. The site will update on the next deploy" and offers "Try again".
 
 For `kind: 'site'`, step 2 drops unknown ids, and returns `needsConfirm: [...]` if unconfirmed facts are visible and `confirmUnconfirmed` isn't true. Step 4 writes both `profile` and `site_layout` with one `site_revisions` row, whose `changes` lists the moves and switches computed with the longest-increasing-subsequence diff ([`docs/redesign/03`](../redesign/03-cms-architecture.md#website-builder)).
@@ -766,7 +789,7 @@ Set with `pg_cron` and `pg_net` in a migration, calling the functions with the s
 `src/lib/content.server.ts` is the only module the prerender loaders use. It creates a supabase-js client with the **anon** key and `db: { schema: 'pm' }`, and reads:
 
 - `profile.published` and `site_layout.published`;
-- `projects` and `posts`: `slug, published, published_at` (RLS returns public, live rows only);
+- `projects`: `published_slug, published, published_at, first_published_at`, and `posts`: `published_slug, published, published_at` (RLS returns public, live rows only). Pages are built at `published_slug`, never at the draft `slug`;
 - `public_redirects()`.
 
 If any read fails, the build fails. It never falls back to stale or local data in production.

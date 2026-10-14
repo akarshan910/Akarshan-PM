@@ -99,7 +99,7 @@ Board: `Home*.dc.html` › `aria-label="Highlights"`. Component: C12.
 
 Boards: `Home*.dc.html` › `#work`, `#strategy`; `WorkScale.dc.html` for the rules. Components: C7, C8, C9.
 
-- **Content:** the shelf's published, visible projects, in layout order. A starred project (`shelf.lead`) moves to the front.
+- **Content:** the shelf's published, visible projects, in layout order. The lead is the first visible, published project in the shelf's order; Studio's Star moves a project to the top ([09](09-decisions.md), D37).
 - **The cap:**
   - laptop shows the lead card plus `rows` rows of three;
   - if more projects are left, the last cell becomes "See all N" (to `/work?shelf=<id>`);
@@ -224,12 +224,12 @@ The page's accent is the project's: `--pa` and `--pg` are set on `<main>` from `
 | Back link "All work" | `/work` | — |
 | Volume tag | `VOL.nn` in the accent (C9) | Unlisted projects have no volume number, so the tag hides |
 | Chip | `overview.cardLabel`, in the outlined chip after the volume tag | Hidden |
-| Company line | `overview.company`, mono, after the chip. Laptop only | Hidden |
+| Company line | `overview.company` · `overview.sector`, mono, after the chip. Laptop only | The sector hides and the company shows alone; with neither, hidden |
 | Title | `overview.title`, as `<h1>` | Required |
 | Summary | `overview.summary` | Required |
 | Facts row | Company, Type (the `kind` label: "Shipped", "Strategy study" or "Prototype"), My role, Timeline, Focus (`topics` joined with " · "), Team, and a PRD link reading "Read the PRD". iPad uses a 3-column grid | Each fact hides on its own. The boards' "Add in Studio" placeholders appear only in Studio's preview |
 | Hero media | `visuals.hero`: the prototype frame, a video, or the cover image | The cover always exists, generated if none was uploaded |
-| Prototype heading | The kicker, then `hero.title` as an `h2`, the screens, the buttons, and `hero.note` under the frame. Per device, below | Each hides on its own |
+| Prototype heading | The kicker, then `hero.title` as an `h2`, the screens, the buttons, and `hero.note` under the frame (title max 80, note max 120, up to 8 screens; the screens also feed the Prototype block's "Opens on"). Per device, below | Each hides on its own |
 | Summary section | "The problem" (`problem`), "What I proposed" (`proposal`), "Success measures" (outcomes with `inStrip`, value, label and result label) | Each column hides on its own. With all three empty, the section hides |
 | Chapters | `story`: chapters that aren't hidden or empty, numbered in order | — |
 | Prev / next | The neighbouring projects in volume order, with their volume numbers and titles. Laptop: "← Previous · VOL.04" and "Next · VOL.06 →". iPad: "← VOL.04" and "VOL.06 →". Phone: a section labelled "More volumes" with "Previous" and "Next", then an "All work · N volumes" link | Each hides at its end |
@@ -264,7 +264,7 @@ Each block type has one component in `src/components/case-study/blocks/`. The bo
 | `list` | Chapter 01's assumption list | Bullets in the accent. The boxed variant is a `--bg2` box with a 1px `--ln` border, radius 14, a mono label ("Assumptions") and the list inside |
 | `quote` | `WritingPublic` post | With an optional cite |
 | `callout` | Chapter 04, the "top three" note | Neutral or accent tone |
-| `metrics` | The Summary's success measures | Renders the outcomes with `inStrip` |
+| `metrics` | The Summary's success measures | Renders the outcomes with `inStrip`; with `outcomeIds`, only those, such as chapter 05's "60s" stat |
 | `table` (RICE) | Chapter 04 "Prioritisation" | Rows highlighted for the top `highlightTop`, tinted with the accent. On phones, `phoneCards` turns each row into a card: rank, item, score, then the inputs ("R 9 · I 2.5 · C 85% · E 2 mo"), with "· In the plan" on highlighted rows. On iPad and phones only the top five rows show at first: iPad adds a "+ 4 more" row with "Show all nine"; phones add a full-width button with `aria-expanded`, "Show all nine" / "Show the top five". Scores and inputs show as entered |
 | `table` (plain) | The same table styles, without highlighting | Scrolls sideways inside its frame on phones, with a fade on the right edge |
 | `image`, `gallery`, `beforeafter` | Chapter 05's prototype screens ("Click to enlarge") | Lightbox (M-LIGHTBOX). Captions under the image |
@@ -272,7 +272,7 @@ Each block type has one component in `src/components/case-study/blocks/`. The bo
 | `prototype` | Chapter 05's inline prototype | The project's prototype URL plus `startPath` |
 | `journey` | Chapter 05 "Tap the menu → … → Confirmation" | Numbered stages; on phones, a vertical list |
 | `ownership` | Chapter 07 "My role and decisions" | Columns hide when empty; the "Key decision" row below |
-| `cards` | Chapter 02's priority cards and segments | 2, 3 or 4 columns on laptop; 2 on iPad; 1 on phones. Optional kicker line |
+| `cards` | Chapter 02's priority cards; with `style: 'chips'`, its segment pills | 2, 3 or 4 columns on laptop; 2 on iPad; 1 on phones. Optional kicker line |
 | `divider` | — | A hairline with 48px above and below |
 
 ## Work list: `/work`
@@ -285,7 +285,7 @@ Board: `WorkScale.dc.html` › "Laptop · the work page" and "Mobile · the work
   - **Shelf:** "All N", then one chip per shelf with its count ("Shipped 4"). Each chip is a button with `aria-pressed`.
   - **Company, Topic, Label:** dropdowns, and several can be picked.
   - **Search:** placeholder "Search work". It covers title, company, summary and topics. Case- and accent-insensitive, with a 150ms debounce.
-- **Sort:** Your order, Newest (first published), A–Z.
+- **Sort:** Your order, Newest (`first_published_at`), A–Z.
 - **The URL holds the state:** `/work?shelf=strategy&topic=Games&label=target&q=rice&sort=az`. "See all N" on a homepage shelf lands here with `shelf` set. Each change replaces the history entry, not pushes.
 - **Paging:** the first 24 rows are in the prerendered HTML. "Load 24 more" (fewer on the last page: "Load {n} more") adds the next ones on the client, and past 100 rows the list virtualises (`@tanstack/react-virtual`). "Showing N of M" is a polite live region.
 - **Phones:** the same list as stacked rows. "Filters (n)" opens a bottom sheet with every filter and "Clear filters" at its foot.
@@ -338,7 +338,7 @@ Board: `PublicStates.dc.html` › Images, Video, Prototypes. Motion: M-IMG-FADE,
 
 | State | Behaviour |
 | --- | --- |
-| Poster | A poster and a real play button, with the title, length and host ("Plays from YouTube · privacy mode"). Nothing loads from the host before the click |
+| Poster | The `poster` image stored at publish and a real play button, with the title (`hero.title`), length (`duration`, from the published shape) and host ("Plays from YouTube · privacy mode"). Nothing loads from the host before the click |
 | Starting | The player's iframe replaces the poster at the same size, with the spinner until it loads |
 | Playing | The host's player |
 | Unavailable | "This video isn't available right now." with "Watch on the host ↗". Studio's link check also flags it |
@@ -374,7 +374,7 @@ Board: `PublicStates.dc.html` › Pages (laptop), and "On phones". Every state k
 
 **On phones** every state stacks: the Menu + Let's Talk pill, one message, and full-width buttons. The preview bar wraps to two lines.
 
-**Unlisted projects** are served by the `noindex` shell at `/work/:slug` when no prerendered page exists ([01 · Rendering](01-architecture.md#rendering)). It shows the board's loading skeleton, then the project or the 404 state. An unlisted project has no volume number and no prev/next.
+**Unlisted projects** are served by the `noindex` shell at `/work/:slug` (always the `published_slug`, never the draft address) when no prerendered page exists ([01 · Rendering](01-architecture.md#rendering)). It shows the board's loading skeleton, then the project or the 404 state. An unlisted project has no volume number and no prev/next.
 
 ## Accessibility, everywhere
 
