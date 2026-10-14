@@ -740,7 +740,7 @@ For `kind: 'project'`, `action: 'publish'`:
    - an Achieved outcome without evidence;
    - a video link from an unsupported host, or a Drive video that isn't shared (`pm-check-link`);
    - a prototype link that asks for a login (`pm-check-link`);
-   - a RICE table with a flagged row that isn't marked reviewed.
+   - a RICE table with a flagged row that isn't marked reviewed is a **warning**, not a failure ([09](09-decisions.md), D61): the publish goes ahead and the response is `{ ok: true, …, warnings: [{ field, message, code: "rice-row" }] }`.
 3. Build the published shape (above), copying any media not yet in `pm-media-public`.
 4. In one transaction:
    - write `published`, `published_at = now()`, `published_slug = slug`, and `first_published_at` if it's null;

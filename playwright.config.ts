@@ -97,17 +97,11 @@ export default defineConfig({
         {
           name: "catalogue-laptop",
           testMatch: /catalogue/,
-          // After a fresh install, Vite re-optimises dependencies on the first visit and can load React
-          // twice for that one page; the retry gets the optimised copy.
-          retries: process.env.CI ? 1 : 0,
           use: { ...laptop, baseURL: `http://localhost:${devPort}` },
         },
         {
           name: "catalogue-phone",
           testMatch: /catalogue/,
-          // After a fresh install, Vite re-optimises dependencies on the first visit and can load React
-          // twice for that one page; the retry gets the optimised copy.
-          retries: process.env.CI ? 1 : 0,
           use: { ...phone, baseURL: `http://localhost:${devPort}` },
         },
       ],
