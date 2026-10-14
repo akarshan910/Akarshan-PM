@@ -27,7 +27,13 @@ function Lead({ post }: { post: PostCard }) {
   return (
     <Link to={post.href} className={cx(styles.lead, !post.cover && styles.noCover)}>
       {post.cover ? (
-        <Image image={post.cover} className={styles.cover} priority sizes="(max-width: 767px) 100vw, 640px" />
+        <Image
+          image={post.cover}
+          className={styles.cover}
+          ratio="16 / 9"
+          priority
+          sizes="(max-width: 767px) 100vw, 640px"
+        />
       ) : null}
       <div>
         <div className={cx(styles.mono, styles.latest)}>Latest</div>
