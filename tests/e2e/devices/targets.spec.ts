@@ -12,25 +12,23 @@ import { VIEWPORTS } from "./viewports";
  */
 const EXEMPT = [/^Skip to work$/, /^Show testimonial \d+ of \d+$/];
 
-/** Small targets QA has filed, by label. Each is re-checked below as an expected failure. */
-const KNOWN_SMALL: { id: string; label: RegExp; note: string }[] = [
-  {
-    id: "QA-D2",
-    label: /^(Open menu|Close menu|Let’s Talk →|Work|About|Exp|Skills|Testimonial)$/,
-    note: "pill nav on touch layouts is 29–34px tall",
-  },
-  {
-    id: "QA-D3",
-    label: /^(All work|Back to all work|Show all nine|Read the PRD ↗ \(opens in a new tab\))$/,
-    note: "case-study back links, the PRD link and 'Show all nine' are 17–19px tall",
-  },
-];
+/**
+ * Small targets QA has filed and that aren't fixed, by label: `{ id, label, note }`. Empty: QA-D2
+ * and QA-D3 were fixed with `hit44` (an ::after hit area, src/styles/base.css) and re-verified.
+ */
+const KNOWN_SMALL: { id: string; label: RegExp; note: string }[] = [];
 
+/**
+ * Every visible control whose hit area is under 44px in either direction. The hit area is found by
+ * hit-testing outwards from the centre, so a transparent `::after` that grows the target (the
+ * `hit44` class) counts, as it does for a finger, while the drawing stays as on the boards.
+ */
 async function smallTargets(page: Page) {
   return page.evaluate(() => {
     const out: { label: string; w: number; h: number }[] = [];
     const sel =
       "a[href], button, input:not([type=hidden]), select, textarea, summary, [role=button], [tabindex='0']";
+    const restore = { x: scrollX, y: scrollY };
     for (const el of Array.from(document.querySelectorAll<HTMLElement>(sel))) {
       const r = el.getBoundingClientRect();
       const cs = getComputedStyle(el);
@@ -46,8 +44,25 @@ async function smallTargets(page: Page) {
         continue;
       // A label wrapping a small checkbox makes the whole row the target.
       const hit = el.closest("label") ?? el;
-      const hr = hit.getBoundingClientRect();
+      let hr = hit.getBoundingClientRect();
       if (hr.width >= 44 && hr.height >= 44) continue;
+      hit.scrollIntoView({ block: "center", inline: "center", behavior: "instant" });
+      hr = hit.getBoundingClientRect();
+      const cx = hr.left + hr.width / 2;
+      const cy = hr.top + hr.height / 2;
+      const ours = (x: number, y: number) => {
+        const at = document.elementFromPoint(x, y);
+        return Boolean(at && (hit === at || hit.contains(at)));
+      };
+      // Walk out from the centre, 1px at a time, while the point still lands on the target.
+      const reach = (dx: number, dy: number) => {
+        let d = 0;
+        while (d < 40 && ours(cx + dx * (d + 1), cy + dy * (d + 1))) d++;
+        return d;
+      };
+      const w = Math.max(hr.width, reach(-1, 0) + reach(1, 0) + 1);
+      const h = Math.max(hr.height, reach(0, -1) + reach(0, 1) + 1);
+      if (w >= 44 && h >= 44) continue;
       const label = (
         el.getAttribute("aria-label") ??
         (el as HTMLInputElement).labels?.[0]?.textContent ??
@@ -55,8 +70,9 @@ async function smallTargets(page: Page) {
       )
         .trim()
         .replace(/\s+/g, " ");
-      out.push({ label, w: Math.round(hr.width), h: Math.round(hr.height) });
+      out.push({ label, w: Math.round(w), h: Math.round(h) });
     }
+    scrollTo({ left: restore.x, top: restore.y, behavior: "instant" });
     return out;
   });
 }
@@ -82,18 +98,18 @@ for (const vp of VIEWPORTS.filter((v) => v.touch)) {
   });
 }
 
-/** The filed ones, still small. When a fix lands this turns red: delete its KNOWN_SMALL entry. */
-test.describe("filed small targets", () => {
+/** QA-D2 and QA-D3, re-verified by hit-testing (fixed by portfolio in ffb88c7). */
+test.describe("fixed small targets stay 44×44", () => {
   test.use({ hasTouch: true, contextOptions: { reducedMotion: "reduce" } });
   const cases = [
     { id: "QA-D2", path: "/", width: 390, height: 844, labels: ["Open menu", "Let’s Talk →"] },
     { id: "QA-D2", path: "/", width: 834, height: 1194, labels: ["Work", "Let’s Talk →"] },
     { id: "QA-D3", path: "/work/arcana-workspace/", width: 390, height: 844, labels: ["All work"] },
     { id: "QA-D3", path: "/work/arcana-workspace/", width: 834, height: 1194, labels: ["Back to all work"] },
+    { id: "QA-D3", path: "/", width: 390, height: 844, labels: ["Product", "Data", "Design", "Tools"] },
   ];
   for (const c of cases) {
-    test(`${c.id} ${c.path} @${c.width}: ${c.labels.join(", ")} reach 44×44`, async ({ page }) => {
-      test.fail(true, `${c.id} is open`);
+    test(`${c.id} ${c.path} @${c.width}: ${c.labels.join(", ")}`, async ({ page }) => {
       await page.setViewportSize({ width: c.width, height: c.height });
       await page.goto(c.path);
       const small = (await smallTargets(page)).filter((t) => c.labels.includes(t.label));
