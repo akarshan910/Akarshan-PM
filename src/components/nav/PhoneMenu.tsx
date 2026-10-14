@@ -11,6 +11,7 @@ import { Button } from "../buttons/Button";
 import { cx } from "../cx";
 import { Icon } from "../icons";
 import styles from "./PhoneMenu.module.css";
+import { safeHref } from "~/lib/links";
 
 export interface MenuLink {
   id: string;
@@ -74,7 +75,7 @@ export function PhoneMenu({
           <a
             key={link.id}
             className={styles.l}
-            href={link.href}
+            href={safeHref(link.href)}
             aria-current={link.id === current ? "true" : "false"}
             style={{ animationDelay: `${Math.min(i, 4) * 80}ms` }}
             onClick={(event) => {
@@ -88,7 +89,7 @@ export function PhoneMenu({
       </nav>
       {letsTalk && (
         <Button
-          href={letsTalk.href}
+          href={safeHref(letsTalk.href)}
           newTab={letsTalk.newTab ?? false}
           size="menu"
           block
@@ -100,13 +101,13 @@ export function PhoneMenu({
       )}
       {(email ?? linkedin ?? resume) && (
         <div className={styles.foot}>
-          {email && <a href={`mailto:${email}`}>Email</a>}
+          {email && <a href={safeHref(`mailto:${email}`)}>Email</a>}
           {linkedin && (
-            <a href={linkedin} target="_blank" rel="noopener noreferrer">
+            <a href={safeHref(linkedin)} target="_blank" rel="noopener noreferrer">
               LinkedIn<span className="sr-only"> (opens in a new tab)</span>
             </a>
           )}
-          {resume && <a href={resume}>Résumé (PDF)</a>}
+          {resume && <a href={safeHref(resume)}>Résumé (PDF)</a>}
         </div>
       )}
       <button type="button" className={styles.x} onClick={onClose}>

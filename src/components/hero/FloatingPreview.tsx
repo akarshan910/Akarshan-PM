@@ -4,6 +4,7 @@ import type { ResultType } from "~/lib/types";
 
 import { ResultLabel } from "../labels/ResultLabel";
 import styles from "./FloatingPreview.module.css";
+import { safeHref } from "~/lib/links";
 
 export interface FloatingPreviewProps {
   /** The volume number, e.g. "01". */
@@ -61,7 +62,7 @@ export function FloatingPreview({
       <a
         ref={cardRef}
         className={styles.tz}
-        href={href}
+        href={safeHref(href)}
         tabIndex={-1}
         style={{ pointerEvents: "auto", ...cardStyle }}
         onMouseEnter={onMouseEnter}

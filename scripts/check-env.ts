@@ -4,7 +4,7 @@
  *     may not read import.meta.env as a whole, and the build config may not widen envPrefix.
  *  2. No environment value, from the shell or any .env file Vite loads, may be a Supabase secret
  *     key: a JWT whose role is service_role, or a new-style sb_secret_ key.
- *  3. The parity fixture can never feed a production build.
+ *  3. The parity fixture can never feed a production build, and the dev catalogue never ships.
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
@@ -64,6 +64,9 @@ export function findProblems(root: string, env: Record<string, string | undefine
   }
   if (env.CONTENT_SOURCE && env.VERCEL_ENV === "production") {
     problems.push("CONTENT_SOURCE is set in a production build");
+  }
+  if (env.CATALOGUE && env.VERCEL_ENV === "production") {
+    problems.push("CATALOGUE is set in a production build, which would ship the dev component catalogue");
   }
   return problems;
 }

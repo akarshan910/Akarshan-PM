@@ -9,6 +9,7 @@
 import { cx } from "../cx";
 import { Icon } from "../icons";
 import styles from "./ClosingTile.module.css";
+import { safeHref } from "~/lib/links";
 
 /** The spectrum bar's heights, cycled in project order (Home.dc.html). */
 const BAR_HEIGHTS = [100, 74, 88, 80, 94, 70, 84, 76, 90];
@@ -44,7 +45,7 @@ export function ClosingTile({
 
   if (layout === "row") {
     return (
-      <a className={cx(styles.row, className)} href={href}>
+      <a className={cx(styles.row, className)} href={safeHref(href)}>
         <span>
           <span className={styles.rowTitle}>{title}</span>
           {kind === "all-work" && (
@@ -59,7 +60,7 @@ export function ClosingTile({
   return (
     <a
       className={cx(styles.tile, className)}
-      href={href}
+      href={safeHref(href)}
       style={span > 1 ? { gridColumn: `span ${span}` } : undefined}
     >
       {spectrum.length > 0 && (

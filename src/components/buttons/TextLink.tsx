@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { cx } from "../cx";
 import { Icon, type IconName } from "../icons";
 import styles from "./TextLink.module.css";
+import { safeHref } from "~/lib/links";
 
 export interface TextLinkProps {
   href: string;
@@ -19,7 +20,7 @@ export interface TextLinkProps {
 export function TextLink({ href, children, variant = "underline", icon, newTab, className }: TextLinkProps) {
   return (
     <a
-      href={href}
+      href={safeHref(href)}
       className={cx(variant === "inline" ? styles.inline : styles.underline, className)}
       {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >

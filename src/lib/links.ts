@@ -5,7 +5,7 @@
  *   after a visitor presses play. YouTube always uses its privacy-enhanced youtube-nocookie.com.
  * - Only `https:` URLs on the allowed frame hosts are ever turned into iframe addresses.
  */
-import { isHttpsUrl, isRelativePath } from "./schemas";
+import { isHttpsUrl, isRelativePath, isSafeLink } from "./schemas";
 
 export type VideoHost = "youtube" | "vimeo" | "loom" | "drive";
 
@@ -177,4 +177,13 @@ export function prototypeUrl(base: string, startPath?: string): string | null {
     /* c8 ignore next */
     return null;
   }
+}
+
+/**
+ * The href to render for a link from content, or undefined when it breaks the 06 link rule
+ * (https, mailto, a /path or a #section). Every component that renders a link from props uses
+ * this, so a `javascript:` value can never reach the DOM even if it skipped schema validation.
+ */
+export function safeHref(href: string | undefined): string | undefined {
+  return href !== undefined && isSafeLink(href) ? href : undefined;
 }

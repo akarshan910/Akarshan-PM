@@ -12,6 +12,7 @@ import {
 import { cx } from "../cx";
 import { Icon } from "../icons";
 import styles from "./Toast.module.css";
+import { safeHref } from "~/lib/links";
 
 /** Undo and "View live ↗" stay for 7 seconds (05 · Shell, Website builder). */
 export const TOAST_DURATION = 7000;
@@ -42,7 +43,7 @@ export function Toast({ message, tone = "success", action, link, onDismiss }: To
       {tone === "error" ? <Icon name="alert-circle" className={cx("ico", styles.errIco)} /> : null}
       <span className={styles.msg}>{message}</span>
       {link ? (
-        <a className={styles.act} href={link.href} target="_blank" rel="noreferrer">
+        <a className={styles.act} href={safeHref(link.href)} target="_blank" rel="noopener noreferrer">
           {link.label}
         </a>
       ) : null}

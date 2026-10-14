@@ -5,6 +5,7 @@ import { cx } from "~/components/cx";
 import { Icon } from "~/components/icons";
 
 import styles from "./ContactBlock.module.css";
+import { safeHref } from "~/lib/links";
 
 /** "Copied" shows for 2 seconds (02 · C18). */
 export const COPIED_MS = 2000;
@@ -135,12 +136,12 @@ export function ContactBlock({
             {linkedin || github ? (
               <div className={styles.pair}>
                 {linkedin ? (
-                  <Button variant="secondary" href={linkedin} className={styles.pairBtn}>
+                  <Button variant="secondary" href={linkedin} newTab className={styles.pairBtn}>
                     LinkedIn
                   </Button>
                 ) : null}
                 {github ? (
-                  <Button variant="secondary" href={github} className={styles.pairBtn}>
+                  <Button variant="secondary" href={github} newTab className={styles.pairBtn}>
                     GitHub
                   </Button>
                 ) : null}
@@ -151,19 +152,19 @@ export function ContactBlock({
         {hasLinks ? (
           <div className={styles.links}>
             {linkedin ? (
-              <a className={styles.link} href={linkedin}>
+              <a className={styles.link} href={safeHref(linkedin)} target="_blank" rel="noopener noreferrer">
                 LinkedIn
                 <Icon name="arrow-out" className={cx("ico", styles.small)} />
               </a>
             ) : null}
             {github ? (
-              <a className={styles.link} href={github}>
+              <a className={styles.link} href={safeHref(github)} target="_blank" rel="noopener noreferrer">
                 GitHub
                 <Icon name="arrow-out" className={cx("ico", styles.small)} />
               </a>
             ) : null}
             {resume ? (
-              <a className={styles.link} href={resume}>
+              <a className={styles.link} href={safeHref(resume)}>
                 Résumé (PDF)
                 <Icon name="download" className={cx("ico", styles.small)} />
               </a>

@@ -91,24 +91,24 @@ Build in this order. Each milestone ends with the [QA](08-qa.md) pass for what i
 
 Every component lives under `src/components/`, matches its board, and has a dev-only catalogue page at `/dev/components`.
 
-- [ ] Pill nav, copied exactly from the live site:
+- [x] Pill nav, copied exactly from the live site:
   - glass, rotating ring and Let's Talk;
   - the sliding active highlight and scroll-spy;
   - the contact glow;
   - the phone pill with Menu, and the menu sheet.
-- [ ] Angled CTA (primary), secondary button, text link.
-- [ ] Section header: kicker, title with a two-tone second half, intro.
-- [ ] Result labels: Achieved, Target, Projected, Baseline, Output.
-- [ ] Volume tag, badge, chip, availability chip with pulse.
-- [ ] Project card: lead, standard, compact phone row, and the See all / All work tile.
-- [ ] Generated cover, used when a project has no cover image yet.
-- [ ] Shelf: header, lead, grid, closing tile, cap logic.
-- [ ] Experience entry, accordion row, testimonial card, contact block, footer.
-- [ ] Skills cloud: interleaved order, five tiers, group highlight by hover, focus and tap. See [02 · C15](02-tokens-and-components.md#c15--skills-cloud).
-- [ ] Off duty page: manga panels with the six art presets, caption boxes, the spine shelf, and the phone rail. See [02 · C17](02-tokens-and-components.md#c17--off-duty-page).
-- [ ] Topic picker: chips up to 8 topics, then a multi-select dropdown with search and create; shared by posts and projects. See [02 · S1](02-tokens-and-components.md#s1--topic-picker).
-- [ ] Media: image (loading, loaded, failed), lightbox, video embed (poster, starting, playing, unavailable), prototype embed (poster, loading, running, error, can't embed, phone sheet).
-- [ ] Page states: 404, moved project note, draft preview bar, expired preview, no results, error.
+- [x] Angled CTA (primary), secondary button, text link.
+- [x] Section header: kicker, title with a two-tone second half, intro.
+- [x] Result labels: Achieved, Target, Projected, Baseline, Output.
+- [x] Volume tag, badge, chip, availability chip with pulse.
+- [x] Project card: lead, standard, compact phone row, and the See all / All work tile.
+- [x] Generated cover, used when a project has no cover image yet.
+- [x] Shelf: header, lead, grid, closing tile, cap logic.
+- [x] Experience entry, accordion row, testimonial card, contact block, footer.
+- [x] Skills cloud: interleaved order, five tiers, group highlight by hover, focus and tap. See [02 · C15](02-tokens-and-components.md#c15--skills-cloud).
+- [x] Off duty page: manga panels with the six art presets, caption boxes, the spine shelf, and the phone rail. See [02 · C17](02-tokens-and-components.md#c17--off-duty-page).
+- [x] Topic picker: chips up to 8 topics, then a multi-select dropdown with search and create; shared by posts and projects. See [02 · S1](02-tokens-and-components.md#s1--topic-picker).
+- [x] Media: image (loading, loaded, failed), lightbox, video embed (poster, starting, playing, unavailable), prototype embed (poster, loading, running, error, can't embed, phone sheet).
+- [x] Page states: 404, moved project note, draft preview bar, expired preview, no results, error.
 
 ### M2 · Public site on local V0 data
 

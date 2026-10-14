@@ -13,6 +13,7 @@ import type { MouseEvent, ReactNode } from "react";
 import { cx } from "../cx";
 import { Icon, type IconName } from "../icons";
 import styles from "./Button.module.css";
+import { safeHref } from "~/lib/links";
 
 export type ButtonVariant = "primary" | "secondary" | "destructive" | "ghost";
 export type ButtonSize = "default" | "compact" | "menu" | "small";
@@ -114,7 +115,7 @@ export function Button({
         {...aria}
         {...state}
         className={classes}
-        href={inert ? undefined : href}
+        href={inert ? undefined : safeHref(href)}
         role={inert ? "link" : undefined}
         tabIndex={inert ? 0 : undefined}
         onClick={handle}

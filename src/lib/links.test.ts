@@ -5,6 +5,7 @@ import {
   isAllowedFrameUrl,
   isCrossOriginHttps,
   prototypeUrl,
+  safeHref,
   toEmbedUrl,
   toFigmaEmbedUrl,
   toVideoEmbedUrl,
@@ -191,5 +192,16 @@ describe("prototypeUrl", () => {
   it("rejects a base that isn't https", () => {
     expect(prototypeUrl("http://protos.vercel.app/a")).toBeNull();
     expect(prototypeUrl("")).toBeNull();
+  });
+});
+
+describe("safeHref", () => {
+  it("passes links that follow the 06 rule and drops everything else", () => {
+    for (const ok of ["https://x.com", "mailto:a@b.com", "/work", "#strategy", "/#about"]) {
+      expect(safeHref(ok), ok).toBe(ok);
+    }
+    for (const bad of ["javascript:alert(1)", "data:text/html,x", "//evil.com", undefined]) {
+      expect(safeHref(bad), String(bad)).toBeUndefined();
+    }
   });
 });

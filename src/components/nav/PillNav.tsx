@@ -14,6 +14,7 @@ import { Icon } from "../icons";
 import { PhoneMenu, type MenuLink } from "./PhoneMenu";
 import styles from "./PillNav.module.css";
 import { useScrollSpy } from "./scrollSpy";
+import { safeHref } from "~/lib/links";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -244,7 +245,7 @@ export function PillNav({
                     else linkRefs.current.delete(link.id);
                   }}
                   className={cx(styles.nl, link.id === activeLink && styles.on)}
-                  href={link.href}
+                  href={safeHref(link.href)}
                   aria-current={link.id === activeLink ? "true" : undefined}
                   onClick={(event) => {
                     onLink(event, link);
@@ -260,7 +261,7 @@ export function PillNav({
               <span className={styles.sep} aria-hidden="true" />
               <a
                 className={cx(styles.contact, contactActive && styles.active)}
-                href={letsTalk.href}
+                href={safeHref(letsTalk.href)}
                 onClick={onLetsTalk}
                 {...(letsTalk.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >

@@ -57,6 +57,11 @@ describe("check-env", () => {
     expect(findProblems(project(""), { SUPABASE_SECRET: "sb_secret_x" })).toHaveLength(1);
   });
 
+  it("fails when the dev catalogue would ship to production", () => {
+    expect(findProblems(project(""), { CATALOGUE: "1", VERCEL_ENV: "production" })).toHaveLength(1);
+    expect(findProblems(project(""), { CATALOGUE: "1" })).toEqual([]);
+  });
+
   it("fails when the fixture would feed production", () => {
     const env = { CONTENT_SOURCE: "fixture:boards", VERCEL_ENV: "production" };
     expect(findProblems(project(""), env)).toHaveLength(1);
