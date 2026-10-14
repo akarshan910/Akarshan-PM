@@ -1,14 +1,18 @@
 /**
  * Build-time guard (10 · Security gates, 08 · Security checks):
- *  1. Only the three public VITE_ variables may be referenced in src/.
- *  2. No environment value may be a service-role JWT.
+ *  1. Only the three public VITE_ variables may reach the browser: src/ may name no others,
+ *     may not read import.meta.env as a whole, and the build config may not widen envPrefix.
+ *  2. No environment value, from the shell or any .env file Vite loads, may be a Supabase secret
+ *     key: a JWT whose role is service_role, or a new-style sb_secret_ key.
  *  3. The parity fixture can never feed a production build.
  */
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import { loadEnv } from "vite";
 
 const ALLOWED = new Set(["VITE_SUPABASE_URL", "VITE_SUPABASE_ANON_KEY", "VITE_TURNSTILE_SITE_KEY"]);
+const CONFIG_FILES = ["vite.config.ts", "react-router.config.ts"];
 
 function walk(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -29,17 +33,33 @@ export function jwtRole(value: string): string | undefined {
   }
 }
 
-export function findProblems(srcDir: string, env: NodeJS.ProcessEnv): string[] {
+export function isSecretKey(value: string): boolean {
+  const v = value.trim();
+  return v.startsWith("sb_secret_") || jwtRole(v) === "service_role";
+}
+
+export function findProblems(root: string, env: Record<string, string | undefined>): string[] {
   const problems: string[] = [];
-  for (const file of walk(srcDir)) {
-    if (!/\.(ts|tsx|js|jsx|css)$/.test(file)) continue;
-    for (const [name] of readFileSync(file, "utf8").matchAll(/\bVITE_[A-Z0-9_]+/g)) {
+  const src = join(root, "src");
+  for (const file of existsSync(src) ? walk(src) : []) {
+    if (!/\.(ts|tsx|js|jsx|mts|css)$/.test(file)) continue;
+    const code = readFileSync(file, "utf8");
+    for (const [name] of code.matchAll(/\bVITE_[A-Z0-9_]+/g)) {
       if (!ALLOWED.has(name)) problems.push(`${file} reads ${name}, which isn't an allowed browser variable`);
+    }
+    if (/import\.meta\.env(?!\.VITE_[A-Z0-9_]+\b|\.(MODE|DEV|PROD|SSR|BASE_URL)\b)/.test(code)) {
+      problems.push(`${file} reads import.meta.env as a whole, which would inline every VITE_ variable`);
+    }
+  }
+  for (const name of CONFIG_FILES) {
+    const file = join(root, name);
+    if (existsSync(file) && /\benvPrefix\b/.test(readFileSync(file, "utf8"))) {
+      problems.push(`${name} sets envPrefix; only the default VITE_ prefix is allowed`);
     }
   }
   for (const [name, value] of Object.entries(env)) {
-    if (value && jwtRole(value) === "service_role") {
-      problems.push(`${name} holds a service-role key. It must never be present at build time`);
+    if (value && isSecretKey(value)) {
+      problems.push(`${name} holds a Supabase secret key. It must never be present at build time`);
     }
   }
   if (env.CONTENT_SOURCE && env.VERCEL_ENV === "production") {
@@ -49,7 +69,13 @@ export function findProblems(srcDir: string, env: NodeJS.ProcessEnv): string[] {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const problems = findProblems("src", process.env);
+  // Everything Vite would load for either mode, plus the shell, so a key in .env.local is caught too.
+  const env = {
+    ...loadEnv("development", process.cwd(), ""),
+    ...loadEnv("production", process.cwd(), ""),
+    ...process.env,
+  };
+  const problems = findProblems(process.cwd(), env);
   if (problems.length > 0) {
     console.error(["Environment check failed:", ...problems.map((p) => `  - ${p}`)].join("\n"));
     process.exit(1);

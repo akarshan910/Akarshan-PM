@@ -74,10 +74,40 @@ export const Inline = z.string();
 export const Rich = z.string();
 
 const id = z.string().min(1);
-const https = z.url({ protocol: /^https$/ });
+/** An absolute https URL with a host and no credentials, written exactly as https://… */
+export function isHttpsUrl(value: string): boolean {
+  if (!value.startsWith("https://")) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && url.hostname !== "" && url.username === "" && url.password === "";
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * The link rule in 06 · Rich text: https:, mailto:, a site path starting with one "/", or an
+ * in-page anchor such as "#strategy". Anything else (javascript:, data:, "//host") is rejected.
+ */
+export function isSafeLink(value: string): boolean {
+  if (/[\s\\]/.test(value)) return false;
+  return (
+    /^#[A-Za-z0-9_-]+$/.test(value) ||
+    /^\/(?!\/)/.test(value) ||
+    /^mailto:[^@]+@[^@]+$/.test(value) ||
+    isHttpsUrl(value)
+  );
+}
+
+/** A path inside a prototype: relative, with no scheme and no host. */
+export function isRelativePath(value: string): boolean {
+  return !/[\s\\:]/.test(value) && !value.startsWith("//");
+}
+
+const https = z.string().refine(isHttpsUrl, "Use a full https:// link.");
 /** Drafts may hold an empty link while the owner works; the publish checks require a value. */
 const httpsOrEmpty = z.union([z.literal(""), https]);
-const href = z.string();
+const href = z.string().refine(isSafeLink, "Use an https:// or mailto: link, a /path or a #section.");
 
 export const MediaRef = z.object({
   /** Empty while a new image block waits for its upload; the publish checks require it. */
@@ -271,7 +301,7 @@ export const Block = z.discriminatedUnion("type", [
   z.object({ id, type: z.literal("gallery"), media: z.array(Captioned) }),
   z.object({ id, type: z.literal("beforeafter"), media: z.array(Captioned) }),
   z.object({ id, type: z.literal("video"), url: httpsOrEmpty, title: z.string().optional() }),
-  z.object({ id, type: z.literal("prototype"), startPath: z.string().optional() }),
+  z.object({ id, type: z.literal("prototype"), startPath: z.string().refine(isRelativePath).optional() }),
   z.object({
     id,
     type: z.literal("journey"),
@@ -309,7 +339,7 @@ export const ProjectHero = z.discriminatedUnion("type", [
     title: z.string().max(80).optional(),
     note: z.string().max(120).optional(),
     screens: z
-      .array(z.object({ label: z.string().max(30), startPath: z.string() }))
+      .array(z.object({ label: z.string().max(30), startPath: z.string().refine(isRelativePath) }))
       .max(8)
       .optional(),
   }),

@@ -1,7 +1,16 @@
 import { describe, expect, it } from "vitest";
 
 import { defaultLayout, emptyProfile, newPost, newProject } from "~/lib/defaults";
-import { MAX_TOPICS, Post, Profile, Project, SiteLayout } from "~/lib/schemas";
+import {
+  isHttpsUrl,
+  isRelativePath,
+  isSafeLink,
+  MAX_TOPICS,
+  Post,
+  Profile,
+  Project,
+  SiteLayout,
+} from "~/lib/schemas";
 
 const issues = (result: { success: boolean; error?: { issues: { message: string }[] } }) =>
   result.success ? [] : (result.error?.issues.map((i) => i.message) ?? []);
@@ -68,5 +77,51 @@ describe("documented limits (06, D39)", () => {
     expect(Project.safeParse({ ...p, overview: { ...p.overview, prdUrl: "http://x.com" } }).success).toBe(
       false,
     );
+  });
+});
+
+describe("link rules (06 · Rich text)", () => {
+  it("accepts only https URLs without credentials", () => {
+    expect(isHttpsUrl("https://linkedin.com/in/someone")).toBe(true);
+    for (const bad of [
+      "http://x.com",
+      "HTTPS://x.com",
+      "https:alert(1)",
+      " https://x.com",
+      "https://u:p@x.com",
+      "//x.com",
+    ]) {
+      expect(isHttpsUrl(bad), bad).toBe(false);
+    }
+  });
+
+  it("accepts https, mailto, site paths and anchors as links, and nothing else", () => {
+    for (const ok of ["https://x.com", "mailto:a@b.com", "/work", "#strategy"])
+      expect(isSafeLink(ok), ok).toBe(true);
+    for (const bad of [
+      "javascript:alert(1)",
+      "JaVaScRiPt:alert(1)",
+      "data:text/html,x",
+      "//evil.com",
+      "/\\evil.com",
+      "# x",
+      "",
+    ]) {
+      expect(isSafeLink(bad), bad).toBe(false);
+    }
+  });
+
+  it("rejects a dangerous hero button link", () => {
+    const p = emptyProfile();
+    const withHref = (href: string) => ({ ...p, heroButtons: { primary: { label: "Go", href } } });
+    expect(Profile.safeParse(withHref("#strategy")).success).toBe(true);
+    expect(Profile.safeParse(withHref("javascript:alert(1)")).success).toBe(false);
+  });
+
+  it("keeps prototype start paths relative", () => {
+    for (const ok of ["", "/screens/2", "screens/2?tab=a#b"]) expect(isRelativePath(ok), ok).toBe(true);
+    for (const bad of ["javascript:alert(1)", "//evil.com", "https://evil.com", "/a b"]) {
+      expect(isRelativePath(bad), bad).toBe(false);
+    }
   });
 });

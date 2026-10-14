@@ -151,7 +151,8 @@ Every variable, where its value lives, and who can see it. Only the three `VITE_
 - **Video hosts:** `https://www.youtube-nocookie.com`, `https://player.vimeo.com`, `https://www.loom.com`, `https://drive.google.com`, `https://www.figma.com`.
 - **Prototype hosts** are computed at build: the origins of every published project's prototype link. A new host goes live with the publish that adds it.
 - `'unsafe-inline'` for styles is needed because the hero and cards set CSS variables inline (`--pa`, `--d`, positions).
-- The only inline script is the one-line bootstrap in `<head>` that adds `js` and, under reduced motion, `still` to `<html>` ([04 · Ground rules](04-motion.md#ground-rules)). It's allowed by its SHA-256 hash in `script-src`, which `write-vercel-config.ts` computes from the built HTML. Any other inline script fails the build.
+- **Inline scripts are allowed by hash, page by page.** Each prerendered page carries the one-line bootstrap in `<head>` (it adds `js` and, under reduced motion, `still` to `<html>`; [04 · Ground rules](04-motion.md#ground-rules)) plus React Router's own inline scripts: scroll restoration, the route context and the page's loader data. The loader data differs per page, so one global hash can't work. `write-vercel-config.ts` reads every HTML file in `build/client`, computes the SHA-256 of each inline script, and writes a `Content-Security-Policy` header per path with exactly those hashes. The SPA fallback (`/studio/*`, `/preview/*`, unlisted shells) gets its own. The build fails if an inline script has no matching header.
+- **`noindex` before JavaScript.** `/studio/*`, `/preview/*` and the unlisted shell are served from the SPA fallback, whose HTML has no robots meta until it hydrates, so the `X-Robots-Tag` header carries the `noindex`. `/preview/*` also gets `Referrer-Policy: no-referrer`, so the token never leaves in a `Referer`.
 
 ## Performance budget
 

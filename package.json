@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "react-router dev",
     "build": "node scripts/check-env.ts && node scripts/copy-fonts.ts && react-router build",
-    "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
@@ -21,7 +20,8 @@
     "setup:owner": "node scripts/not-yet.ts setup:owner",
     "seed:v0": "node scripts/not-yet.ts seed:v0",
     "backup": "node scripts/not-yet.ts backup",
-    "predev": "node scripts/copy-fonts.ts"
+    "predev": "node scripts/copy-fonts.ts",
+    "preview": "vite preview --outDir build/client"
   },
   "dependencies": {
     "@react-router/node": "7.18.4",

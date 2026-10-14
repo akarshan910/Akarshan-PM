@@ -51,7 +51,7 @@ jobs:
       - run: npm run e2e
 
   secrets:
-    name: Secret scan (full history)
+    name: Secret scan (commits in the push or pull request)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

@@ -3,15 +3,16 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { findProblems, jwtRole } from "../../scripts/check-env.ts";
+import { findProblems, isSecretKey, jwtRole } from "../../scripts/check-env.ts";
 
 const b64 = (o: object) => Buffer.from(JSON.stringify(o)).toString("base64url");
 const jwt = (role: string) => `${b64({ alg: "HS256" })}.${b64({ role })}.sig`;
 
-function srcWith(code: string): string {
+function project(code: string, files: Record<string, string> = {}): string {
   const dir = mkdtempSync(join(tmpdir(), "check-env-"));
-  mkdirSync(join(dir, "lib"));
-  writeFileSync(join(dir, "lib", "a.ts"), code);
+  mkdirSync(join(dir, "src", "lib"), { recursive: true });
+  writeFileSync(join(dir, "src", "lib", "a.ts"), code);
+  for (const [name, body] of Object.entries(files)) writeFileSync(join(dir, name), body);
   return dir;
 }
 
@@ -23,21 +24,41 @@ describe("check-env", () => {
     expect(jwtRole("a.b.c")).toBeUndefined();
   });
 
+  it("recognises both kinds of Supabase secret key", () => {
+    expect(isSecretKey(jwt("service_role"))).toBe(true);
+    expect(isSecretKey("sb_secret_abc123")).toBe(true);
+    expect(isSecretKey("sb_publishable_abc123")).toBe(false);
+    expect(isSecretKey(jwt("anon"))).toBe(false);
+  });
+
   it("passes the three public variables and an anon key", () => {
-    const src = srcWith("import.meta.env.VITE_SUPABASE_URL; import.meta.env.VITE_SUPABASE_ANON_KEY;");
-    expect(findProblems(src, { VITE_SUPABASE_ANON_KEY: jwt("anon") })).toEqual([]);
+    const dir = project(
+      "import.meta.env.VITE_SUPABASE_URL; import.meta.env.VITE_SUPABASE_ANON_KEY; import.meta.env.DEV;",
+    );
+    expect(findProblems(dir, { VITE_SUPABASE_ANON_KEY: jwt("anon") })).toEqual([]);
   });
 
   it("fails on any other VITE_ variable", () => {
-    expect(findProblems(srcWith("import.meta.env.VITE_SECRET"), {})).toHaveLength(1);
+    expect(findProblems(project("import.meta.env.VITE_SECRET"), {})).toHaveLength(1);
   });
 
-  it("fails when a service-role key is in the environment", () => {
-    expect(findProblems(srcWith(""), { SUPABASE_SERVICE_ROLE_KEY: jwt("service_role") })).toHaveLength(1);
+  it("fails on reading import.meta.env as a whole", () => {
+    expect(findProblems(project("console.log(import.meta.env)"), {})).toHaveLength(1);
+    expect(findProblems(project("const k = 'x'; import.meta.env[k];"), {})).toHaveLength(1);
+  });
+
+  it("fails when the build config widens envPrefix", () => {
+    const dir = project("", { "vite.config.ts": "export default { envPrefix: ['VITE_', 'SUPABASE_'] }" });
+    expect(findProblems(dir, {})).toHaveLength(1);
+  });
+
+  it("fails when a secret key is in the environment", () => {
+    expect(findProblems(project(""), { VITE_SUPABASE_ANON_KEY: jwt("service_role") })).toHaveLength(1);
+    expect(findProblems(project(""), { SUPABASE_SECRET: "sb_secret_x" })).toHaveLength(1);
   });
 
   it("fails when the fixture would feed production", () => {
     const env = { CONTENT_SOURCE: "fixture:boards", VERCEL_ENV: "production" };
-    expect(findProblems(srcWith(""), env)).toHaveLength(1);
+    expect(findProblems(project(""), env)).toHaveLength(1);
   });
 });

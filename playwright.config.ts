@@ -18,7 +18,7 @@ export default defineConfig({
     { name: "phone", use: { ...devices["Pixel 7"], viewport: { width: 390, height: 844 } } },
   ],
   webServer: {
-    command: "npx vite preview --port 4173 --outDir build/client",
+    command: "npm run preview -- --port 4173",
     port: 4173,
     reuseExistingServer: !process.env.CI,
   },

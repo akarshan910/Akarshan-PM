@@ -1,6 +1,5 @@
-# Secret scan for the whole history (10 · Security gates). Default rules, plus a rule that
-# catches any Supabase-style JWT. The anon key is public by design but never belongs in the
-# repo either: it lives in Vercel's environment.
+# Secret scan (10 · Security gates): gitleaks' default rules everywhere, plus two Supabase rules.
+# The anon key is public by design, but no key belongs in the repo: they live in Vercel and Supabase.
 [extend]
 useDefault = true
 
@@ -9,7 +8,10 @@ id = "supabase-jwt"
 description = "A JWT (Supabase anon or service-role key)"
 regex = '''eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}'''
 keywords = ["eyJ"]
+# Unit tests build fake, unsigned JWTs at run time; nothing in the repo is one.
 
-[allowlist]
-description = "Design boards and test fixtures hold no credentials"
-paths = ['''^tests/fixtures/''', '''^design/''']
+[[rules]]
+id = "supabase-secret-key"
+description = "A new-style Supabase secret key"
+regex = '''sb_secret_[A-Za-z0-9_-]{10,}'''
+keywords = ["sb_secret_"]
