@@ -2,6 +2,7 @@
 node_modules/
 dist/
 build/
+build-parity/
 .react-router/
 
 # secrets: never commit these. Real values live in Vercel and Supabase settings.

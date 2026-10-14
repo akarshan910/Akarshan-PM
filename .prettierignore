@@ -1,4 +1,5 @@
 build/
+build-parity/
 dist/
 coverage/
 .react-router/
