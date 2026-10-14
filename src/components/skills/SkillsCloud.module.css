@@ -136,8 +136,9 @@
   opacity: 0.3;
 }
 
+/* The board sets only margin-top, so the paragraph keeps its default 1em below. */
 .hint {
-  margin: 22px 0 0;
+  margin: 22px 0 1em;
   text-align: center;
   font-family: var(--fm);
   font-size: 12px;
