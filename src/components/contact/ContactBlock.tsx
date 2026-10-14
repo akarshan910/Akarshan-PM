@@ -156,12 +156,14 @@ export function ContactBlock({
               <a className={styles.link} href={safeHref(linkedin)} target="_blank" rel="noopener noreferrer">
                 LinkedIn
                 <Icon name="arrow-out" className={cx("ico", styles.small)} />
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             ) : null}
             {github ? (
               <a className={styles.link} href={safeHref(github)} target="_blank" rel="noopener noreferrer">
                 GitHub
                 <Icon name="arrow-out" className={cx("ico", styles.small)} />
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             ) : null}
             {resume ? (

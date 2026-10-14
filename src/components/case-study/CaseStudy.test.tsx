@@ -132,6 +132,13 @@ describe("CaseStudyPage", () => {
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 
+  it("shows a PRD link that isn't https as plain text", () => {
+    const base = project();
+    const p = { ...base, overview: { ...base.overview, prdUrl: "javascript:alert(1)" } };
+    render(<CaseStudyPage view={view(p)} />);
+    expect(screen.queryByRole("link", { name: /Read the PRD/ })).toBeNull();
+  });
+
   it("follows the reader: the current chapter and the reading progress", () => {
     const frames: FrameRequestCallback[] = [];
     vi.stubGlobal("requestAnimationFrame", (fn: FrameRequestCallback) => frames.push(fn));

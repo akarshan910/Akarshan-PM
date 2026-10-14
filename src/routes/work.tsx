@@ -1,4 +1,4 @@
-import { useCallback, useSyncExternalStore } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 import { type ShouldRevalidateFunctionArgs, useSearchParams } from "react-router";
 
 import { SiteFooter } from "~/components/footer/SiteFooter";
@@ -51,11 +51,17 @@ export default function Work({ loaderData }: Route.ComponentProps) {
     () => true,
     () => false,
   );
-  const query = hydrated ? parseWorkQuery(params) : EMPTY_QUERY;
+  const search = params.toString();
+  // The address updates after a navigation tick; until it does, the controls show what was chosen,
+  // so a checkbox never snaps back for a frame.
+  const [pending, setPending] = useState<{ from: string; query: WorkQuery } | null>(null);
+  const query =
+    pending && pending.from === search ? pending.query : hydrated ? parseWorkQuery(params) : EMPTY_QUERY;
   const moved = hydrated && params.get("moved") === "1";
 
   const onChange = useCallback(
     (next: WorkQuery) => {
+      setPending({ from: params.toString(), query: next });
       setParams(new URLSearchParams(workQueryString(next, params)), {
         replace: true,
         preventScrollReset: true,

@@ -1,0 +1,18 @@
+/* A page state's frame: PublicStates.dc.html › Pages (the message sits under the nav). */
+.page {
+  min-height: 72vh;
+  padding-top: 132px;
+  padding-bottom: 96px;
+}
+.center {
+  display: grid;
+  place-content: center;
+}
+
+@media (max-width: 767px) {
+  .page {
+    min-height: 80vh;
+    padding-top: 110px;
+    padding-bottom: 56px;
+  }
+}

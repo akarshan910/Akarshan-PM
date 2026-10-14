@@ -10,6 +10,8 @@
  */
 import type { CSSProperties } from "react";
 
+import { safeHref } from "~/lib/links";
+
 import { cx } from "../cx";
 import { Icon } from "../icons";
 import { ResultLabel, type ResultType } from "../labels/ResultLabel";
@@ -62,6 +64,8 @@ function metaLine(p: ProjectCardData): string {
 function Badge({ project, lead }: { project: ProjectCardData; lead?: boolean }) {
   if (project.prototype)
     return <StatusBadge kind="prototype" lead={lead ?? false} className={styles.badge} />;
+  // The dot-and-label status shows on the lead's cover only (Home, HomeTablet).
+  if (!lead) return null;
   return (
     <StatusBadge kind="status" label={project.status} accent={project.accent} className={styles.badge} />
   );
@@ -71,7 +75,7 @@ export function LeadCard({ project, lazy = true, className }: CardProps) {
   const meta = metaLine(project);
   const outcomes = (project.outcomes ?? []).slice(0, 2);
   return (
-    <a className={cx(styles.card, styles.lead, className)} href={project.href}>
+    <a className={cx(styles.card, styles.lead, className)} href={safeHref(project.href)}>
       <div className={styles.leadMedia}>
         <Cover
           image={project.cover}
@@ -142,7 +146,7 @@ function Headline({ outcome }: { outcome: CardOutcome | undefined }) {
 export function StandardCard({ project, lazy = true, className }: CardProps) {
   const meta = metaLine(project);
   return (
-    <a className={cx(styles.card, styles.std, className)} href={project.href}>
+    <a className={cx(styles.card, styles.std, className)} href={safeHref(project.href)}>
       <div className={styles.stdMedia}>
         <Cover
           image={project.cover}
@@ -169,7 +173,7 @@ export function StandardCard({ project, lazy = true, className }: CardProps) {
 export function CompactRow({ project, lazy = true, className }: CardProps) {
   const h = project.headline;
   return (
-    <a className={cx(styles.row, className)} href={project.href}>
+    <a className={cx(styles.row, className)} href={safeHref(project.href)}>
       <Cover
         image={project.cover}
         accent={project.accent}

@@ -112,6 +112,11 @@ const PROJECTS: Record<number, ProjectSpec> = {
   },
 };
 
+/** The live site's case ids → today's addresses, for its `?open=<id>` links (07 · Legacy links). */
+export const LEGACY_CASE_SLUGS: Readonly<Record<number, string>> = Object.fromEntries(
+  Object.entries(PROJECTS).map(([id, p]) => [Number(id), p.slug]),
+);
+
 /** Live filter tags → topics (07): the live filter label where there is one, else as shown. */
 const TOPIC_LABELS: Record<string, string> = {
   crm: "CRM",

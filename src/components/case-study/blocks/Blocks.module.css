@@ -504,6 +504,10 @@ abbr.short {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
+  /* One box takes the whole column (CaseStudyTablet › Assumptions). */
+  .box:only-child {
+    grid-column: 1 / -1;
+  }
   .metric {
     flex-wrap: nowrap;
     gap: 20px;
@@ -615,11 +619,14 @@ abbr.short {
     gap: 0;
     font-size: 15px;
   }
+  /* A block row: rich text puts bare text and <strong> straight into the li, so a flex row
+   * would turn each run into a column and overflow the page (QA-D1). */
   .list li {
-    display: flex;
-    gap: 10px;
+    display: block;
+    min-width: 0;
     padding: 12px 0;
     border-top: 1px solid var(--ln);
+    overflow-wrap: anywhere;
   }
   .boxes {
     grid-template-columns: 1fr;
@@ -627,6 +634,12 @@ abbr.short {
   }
   .box {
     padding: 14px 16px;
+  }
+  /* A lone box is a plain heading and list on phones (CaseStudyMobile › Assumptions). */
+  .box:only-child {
+    padding: 0;
+    border: 0;
+    background: none;
   }
   .box .heading {
     margin-bottom: 0;

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 
+import { isHttpsUrl } from "~/lib/schemas";
 import { caseStudyFacts, type CaseStudyView, companyLine, lastCardSpan } from "~/lib/case-study";
 
 import { cx } from "../cx";
@@ -16,7 +17,7 @@ export function CaseStudyHeader({ view }: { view: CaseStudyView }) {
   const company = companyLine(overview);
   return (
     <header className={cx("wrap", styles.wrapped, styles.head)}>
-      <a className={styles.back} href="/work">
+      <a className={cx(styles.back, "hit44")} href="/work">
         <Icon name="arrow-left" size={16} />
         All work
       </a>
@@ -39,8 +40,8 @@ export function CaseStudyHeader({ view }: { view: CaseStudyView }) {
             <div key={fact.label} className={cx(styles.fact, fact.label === "Focus" && styles.factWide)}>
               <dt className={styles.mono}>{fact.label}</dt>
               <dd>
-                {fact.href ? (
-                  <a href={fact.href} target="_blank" rel="noopener noreferrer">
+                {fact.href && isHttpsUrl(fact.href) ? (
+                  <a className="hit44" href={fact.href} target="_blank" rel="noopener noreferrer">
                     {fact.value}
                     <span aria-hidden="true"> ↗</span>
                     <span className="sr-only"> (opens in a new tab)</span>

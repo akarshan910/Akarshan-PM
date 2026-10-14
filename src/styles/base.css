@@ -70,3 +70,22 @@ button:focus-visible {
   white-space: nowrap;
   border: 0;
 }
+
+/*
+ * A 44px touch target around a smaller drawing (08 · Targets: 44×44 on touch layouts). The hit
+ * area grows, the drawing stays as on the boards. Touch layouts only (iPad and phones).
+ */
+@media (max-width: 1279px) {
+  .hit44 {
+    position: relative;
+  }
+  .hit44::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: max(44px, 100%);
+    transform: translateY(-50%);
+  }
+}

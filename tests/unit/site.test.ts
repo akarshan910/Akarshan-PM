@@ -45,6 +45,63 @@ describe("public views never carry drafts or private fields (10 · Security gate
   });
 });
 
+describe("hidden profile items stay out of the page's data", () => {
+  const leak = (marker: string) => ({
+    id: `t-${marker}`,
+    quote: marker,
+    name: "Someone",
+    initials: "S",
+    role: "Role",
+    tone: "teal" as const,
+  });
+  const withTestimonials = (visible: boolean, itemVisible: boolean) => {
+    const marker = `LEAK-${String(visible)}-${String(itemVisible)}`;
+    const c = {
+      ...content,
+      profile: { ...content.profile, testimonials: [...content.profile.testimonials, leak(marker)] },
+      layout: {
+        ...content.layout,
+        sections: content.layout.sections.map((s) =>
+          s.kind === "testimonials"
+            ? { ...s, visible, items: [...s.items, { id: `t-${marker}`, visible: itemVisible }] }
+            : s,
+        ),
+      },
+    };
+    return { marker, json: JSON.stringify(buildHomeView(c)) };
+  };
+
+  it("drops a hidden testimonial, and every testimonial of a hidden section", () => {
+    for (const [visible, item] of [
+      [true, false],
+      [false, true],
+    ] as const) {
+      const { marker, json } = withTestimonials(visible, item);
+      expect(json).not.toContain(marker);
+    }
+    const { marker, json } = withTestimonials(true, true);
+    expect(json).toContain(marker);
+  });
+
+  it("drops the about text, proof, experience, skills and off duty of hidden sections", () => {
+    const hidden = new Set(["about", "proof", "experience", "skills", "offduty"]);
+    const view = buildHomeView({
+      ...content,
+      layout: {
+        ...content.layout,
+        sections: content.layout.sections.map((s) => (hidden.has(s.kind) ? { ...s, visible: false } : s)),
+      },
+    });
+    expect(view.profile.about).toEqual({ body: [] });
+    expect(view.profile.proof).toEqual([]);
+    expect(view.profile.spaces).toBeUndefined();
+    expect(view.profile.experience).toEqual([]);
+    expect(view.profile.education).toBeUndefined();
+    expect(view.profile.skills).toEqual([]);
+    expect(view.profile.offDuty).toEqual([]);
+  });
+});
+
 describe("site chrome", () => {
   it("links the nav in page order with the live labels", () => {
     expect(home.chrome.nav.map((n) => [n.label, n.href])).toEqual([

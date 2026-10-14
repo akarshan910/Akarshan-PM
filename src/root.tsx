@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from "react-router";
 
+import { ErrorState } from "./components/states/ErrorState";
+import { NotFound } from "./components/states/NotFound";
+import { StatePage } from "./components/states/StatePage";
 import type { Route } from "./+types/root";
 import { BOOTSTRAP_SCRIPT } from "./lib/bootstrap";
 import "./styles/fonts.css";
@@ -46,11 +49,16 @@ export default function App() {
   return <Outlet />;
 }
 
+/** A 404 response shows the 404 page; anything else, the error state (03 · Page states, C21). */
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   const notFound = isRouteErrorResponse(error) && error.status === 404;
-  return (
-    <main>
-      <h1>{notFound ? "Page not found" : "Something went wrong"}</h1>
-    </main>
+  return notFound ? (
+    <StatePage>
+      <NotFound />
+    </StatePage>
+  ) : (
+    <StatePage center>
+      <ErrorState />
+    </StatePage>
   );
 }
