@@ -47,12 +47,9 @@ const CARDS: Record<834 | 390, Record<string, Card>> = {
     "image-based-food-logging": { cardLabel: "LLM", outcomes: [{ label: "of meal logs" }] },
     "the-cgm-journey-end-to-end": { outcomes: [{ value: "CSAT 42 → 72", label: "" }] },
     "the-glp-1-app-0-to-1": { outcomes: [{ label: "renewal" }] },
-    // HomeMobile's strategy lead has no summary line.
-    "puja-engagement-platform": {
-      cardLabel: "Strategy + prototype",
-      summary: "",
-      outcomes: [{ label: "orders per user" }],
-    },
+    // HomeMobile's lead has no summary line, but the same summary is CaseStudyMobile's dek: the
+    // two boards disagree, so the summary stays (D75).
+    "puja-engagement-platform": { cardLabel: "Strategy + prototype", outcomes: [{ label: "orders per user" }] },
     "arcana-workspace": { cardLabel: "Fintech B2B", outcomes: [{ label: "widgets in V1" }] },
     "glp-1-digital-scaffold": { outcomes: [{ label: "lose >1 kg today" }] },
     "word-games-monetisation-strategy": { cardLabel: "Word Trip", outcomes: [{ label: "MAU" }] },
