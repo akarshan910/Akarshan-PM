@@ -25,7 +25,7 @@ When two sources disagree, the higher one wins:
 
 Content is different: copy on the boards is illustrative.
 
-- **V0 content** comes from the current site (`src/app/App.tsx`), mapped as `docs/handover/07-v0-content.md` describes.
+- **V0 content** comes from the current site, frozen in `src/legacy/content.ts` (the old `App.tsx` is kept at `tests/fixtures/legacy-app.tsx.txt`), mapped as `docs/handover/07-v0-content.md` describes.
 - **Never invent** personal facts, numbers, roles, dates or outcomes. If something is missing, leave the field empty so it hides. Then list it in the handover's open items.
 
 ## When to ask the owner, and when not to

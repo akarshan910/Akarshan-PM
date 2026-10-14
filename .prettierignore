@@ -9,3 +9,4 @@ tests/fixtures/
 package-lock.json
 *.md
 *_prototype.html
+src/legacy/portfolio.css

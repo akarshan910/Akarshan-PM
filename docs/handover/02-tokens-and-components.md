@@ -4,7 +4,7 @@ Sources:
 
 - `System.dc.html`: the token swatches, type scale, grid and component states.
 - `Home.dc.html`: the CSS the site actually uses.
-- `src/styles/portfolio.css`: the live nav, which is copied exactly.
+- `src/legacy/portfolio.css`: the live site's stylesheet, kept read-only as the source for the live nav, which is copied exactly. Nothing imports it.
 
 Where this chapter quotes CSS, it is copied from those files. If a value here ever disagrees with its board, the board wins, except where [09-decisions](09-decisions.md) says otherwise.
 
@@ -215,7 +215,7 @@ Copy it exactly from the live site. The boards reproduce it.
 
 **Position.** `position: fixed; top: 28px; left: 50%; transform: translateX(-50%); z-index: 5000`. On phones, `top: 16px` and `max-width: calc(100vw - 24px)`.
 
-**CSS.** Copy it verbatim from `src/styles/portfolio.css`:
+**CSS.** Copy it verbatim from `src/legacy/portfolio.css`:
 
 - `#nav`, `#nav::before`, `#nav::after`, `@property --shimmer-angle`, `@keyframes navShimmer`;
 - `#nav.on-light-bg` and its children;
@@ -232,7 +232,7 @@ Where the boards and the live CSS differ, the live CSS wins:
 
 The phone pill gives its buttons `padding: 10px 18px` instead of 8px, for a 44px touch target (`HomeMobile.dc.html`).
 
-**Behaviour.** Port `updatePill` and `updateNavSection` from `src/app/App.tsx`:
+**Behaviour.** Port `updatePill` and `updateNavSection` from the old app, kept at `tests/fixtures/legacy-app.tsx.txt`:
 
 1. **Pill position.** `#nav-pill` sits under the `.nl.on` link: `left` = link left − nav left, `width` = link width.
    - It animates `left` and `width` over `.32s cubic-bezier(.34,1.26,.64,1)`.

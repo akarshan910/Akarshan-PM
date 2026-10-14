@@ -67,8 +67,8 @@ export default tseslint.config(
     rules: { "no-restricted-imports": "off" },
   },
   {
-    // Studio may import its own modules.
-    files: ["src/components/studio/**", "src/routes/studio/**"],
+    // Studio may import its own modules; the dev-only catalogue shows every component.
+    files: ["src/components/studio/**", "src/routes/studio/**", "src/routes/dev/**"],
     rules: { "import-x/no-restricted-paths": "off" },
   },
   {
