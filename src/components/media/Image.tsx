@@ -17,6 +17,8 @@ interface ImageProps {
   className?: string | undefined;
   /** Shows one state without loading anything. For the component catalogue and QA only. */
   state?: ImageState;
+  /** A fixed box ratio such as "16 / 9", cropping the image to it; by default the image's own. */
+  ratio?: string;
 }
 
 /**
@@ -24,7 +26,15 @@ interface ImageProps {
  * dominant colour with a slow sheen while loading, fades the image in over 320ms, and shows the
  * alt text in place if the file fails, never the browser's broken-image icon.
  */
-export function Image({ image, sizes, priority, fit = "cover", className, state: forced }: ImageProps) {
+export function Image({
+  image,
+  sizes,
+  priority,
+  fit = "cover",
+  className,
+  state: forced,
+  ratio,
+}: ImageProps) {
   const { ref, state: shown, instant, onLoad, onError } = useImageLoad(image.src, forced);
 
   const box = cx(styles.box, instant && styles.instant, className);
@@ -33,7 +43,7 @@ export function Image({ image, sizes, priority, fit = "cover", className, state:
     <span
       className={box}
       data-state={shown}
-      style={{ aspectRatio: `${image.width} / ${image.height}`, backgroundColor: image.dominant }}
+      style={{ aspectRatio: ratio ?? `${image.width} / ${image.height}`, backgroundColor: image.dominant }}
     >
       {shown === "failed" ? (
         <span className={styles.failed}>

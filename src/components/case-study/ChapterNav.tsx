@@ -137,9 +137,17 @@ export function ChapterBar({ chapters, current }: ChapterNavProps) {
               <a
                 href={`#${c.anchor}`}
                 aria-current={c.anchor === current ? "true" : undefined}
-                onClick={() => {
+                onClick={(event) => {
                   setOpen(false);
-                  // The link hides with the sheet; focus follows the reader to the chapter (QA-D5).
+                  // The link hides with the sheet, and the browser's own jump to a fragment would
+                  // drop focus to <body> after this handler; so the jump happens here and focus
+                  // follows the reader to the chapter's heading (QA-D5). Without JavaScript the
+                  // plain anchor still works.
+                  const section = document.getElementById(c.anchor);
+                  if (!section) return;
+                  event.preventDefault();
+                  window.history.pushState(window.history.state, "", `#${c.anchor}`);
+                  section.scrollIntoView({ block: "start" });
                   document.getElementById(`${c.anchor}-t`)?.focus({ preventScroll: true });
                 }}
               >

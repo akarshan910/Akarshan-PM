@@ -103,6 +103,7 @@ export function PostPage({ view, url }: PostPageProps) {
             <Image
               image={post.cover}
               className={styles.cover}
+              ratio="16 / 9"
               priority
               sizes="(max-width: 767px) 100vw, 720px"
             />

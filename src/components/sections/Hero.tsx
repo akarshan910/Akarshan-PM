@@ -48,6 +48,15 @@ function markIntroPlayed() {
   document.documentElement.classList.add("no-intro");
 }
 
+/** Restarts the ink panel's drift (M-HERO-DRIFT) from its first frame. */
+export function restartDrift(hero: HTMLElement) {
+  const ink = hero.querySelector<HTMLElement>("[data-ink]");
+  if (!ink) return;
+  ink.style.animationName = "none";
+  ink.getBoundingClientRect(); // a reflow applies the reset before the animation comes back
+  ink.style.animationName = "";
+}
+
 export function Hero({ section, profile, projects }: SectionProps) {
   const heroRef = useRef<HTMLElement>(null);
   const linesRef = useRef<SVGPathElement>(null);
@@ -80,6 +89,8 @@ export function Hero({ section, profile, projects }: SectionProps) {
     if (!hero) return;
     return watchVisibility(hero, (visible) => {
       setPaused(!visible);
+      // Back on screen, the drift starts again from its rest pose rather than mid-cycle.
+      if (visible) restartDrift(hero);
     });
   }, []);
 
