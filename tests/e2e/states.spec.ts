@@ -37,6 +37,13 @@ test.describe("page states", () => {
     await context.close();
   });
 
+  // HANDOFF Next item 7 (M5): unprerendered /work/<slug> needs the unlisted shell and the host's
+  // rewrites; until then it hydrates another page's HTML and shows the error state.
+  test.fixme("an unknown case study shows the 404 page", async ({ page }) => {
+    await page.goto("/work/not-a-project/");
+    await expect(notFound(page)).toBeVisible();
+  });
+
   test("a failed load shows the error state", async ({ page }) => {
     await page.route("**/work/broken.data**", (route) => route.fulfill({ status: 500, body: "" }));
     await page.goto("/work/");
