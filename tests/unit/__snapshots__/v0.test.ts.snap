@@ -1,0 +1,3555 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`buildV0Documents > is deterministic and matches the reviewed snapshot 1`] = `
+{
+  "covers": [
+    {
+      "alt": "A phone screen with a red header and a green booking button, over speed lines",
+      "file": "design/covers/puja-engagement-platform.webp",
+      "slug": "puja-engagement-platform",
+    },
+    {
+      "alt": "A row of letter tiles above a circle of linked letters",
+      "file": "design/covers/word-games-monetisation-strategy.webp",
+      "slug": "word-games-monetisation-strategy",
+    },
+    {
+      "alt": "A dashboard of panels with a rising price chart",
+      "file": "design/covers/arcana-workspace.webp",
+      "slug": "arcana-workspace",
+    },
+    {
+      "alt": "A falling weight curve towards a target line",
+      "file": "design/covers/glp-1-digital-scaffold.webp",
+      "slug": "glp-1-digital-scaffold",
+    },
+    {
+      "alt": "Bar chart where the last two bars are projected, rising to a target point",
+      "file": "design/covers/revenue-growth-strategy.webp",
+      "slug": "revenue-growth-strategy",
+    },
+  ],
+  "layout": {
+    "schemaVersion": 1,
+    "sections": [
+      {
+        "hero": {
+          "floaters": {
+            "atOnce": 3,
+            "items": [
+              "puja-engagement-platform",
+              "word-games-monetisation-strategy",
+              "arcana-workspace",
+              "glp-1-digital-scaffold",
+              "revenue-growth-strategy",
+            ],
+          },
+          "motion": true,
+        },
+        "id": "hero",
+        "items": [
+          {
+            "id": "availability",
+            "visible": true,
+          },
+          {
+            "id": "location",
+            "visible": true,
+          },
+          {
+            "id": "name",
+            "visible": true,
+          },
+          {
+            "id": "brush",
+            "visible": true,
+          },
+          {
+            "id": "positioning",
+            "visible": true,
+          },
+          {
+            "id": "intro",
+            "visible": true,
+          },
+          {
+            "id": "buttons",
+            "visible": true,
+          },
+        ],
+        "kind": "hero",
+        "visible": true,
+      },
+      {
+        "id": "proof",
+        "items": [
+          {
+            "id": "p-revenue",
+            "visible": true,
+          },
+          {
+            "id": "p-tenure",
+            "visible": true,
+          },
+          {
+            "id": "p-users",
+            "visible": true,
+          },
+          {
+            "id": "p-companies",
+            "visible": true,
+          },
+          {
+            "id": "p-arr",
+            "visible": false,
+          },
+          {
+            "id": "p-impressions",
+            "visible": false,
+          },
+          {
+            "id": "spaces",
+            "visible": true,
+          },
+        ],
+        "kind": "proof",
+        "visible": true,
+      },
+      {
+        "header": {
+          "title": "Shipped",
+        },
+        "id": "shipped",
+        "items": [
+          {
+            "id": "3d-body-scan-for-glp-1-users",
+            "visible": true,
+          },
+          {
+            "id": "image-based-food-logging",
+            "visible": true,
+          },
+          {
+            "id": "the-cgm-journey-end-to-end",
+            "visible": true,
+          },
+          {
+            "id": "the-glp-1-app-0-to-1",
+            "visible": true,
+          },
+        ],
+        "kind": "shelf",
+        "shelf": {
+          "name": "Shipped",
+          "rows": 2,
+        },
+        "visible": false,
+      },
+      {
+        "header": {
+          "kicker": "Projects",
+          "title": "Decisions,",
+          "titleMuted": "not features",
+        },
+        "id": "strategy",
+        "items": [
+          {
+            "id": "puja-engagement-platform",
+            "visible": true,
+          },
+          {
+            "id": "word-games-monetisation-strategy",
+            "visible": true,
+          },
+          {
+            "id": "arcana-workspace",
+            "visible": true,
+          },
+          {
+            "id": "glp-1-digital-scaffold",
+            "visible": true,
+          },
+          {
+            "id": "revenue-growth-strategy",
+            "visible": true,
+          },
+        ],
+        "kind": "shelf",
+        "nav": {
+          "label": "Work",
+        },
+        "shelf": {
+          "name": "Strategy & prototypes",
+          "rows": 2,
+        },
+        "visible": true,
+      },
+      {
+        "header": {
+          "kicker": "Latest posts",
+          "title": "Writing",
+        },
+        "id": "writing",
+        "items": [],
+        "kind": "writing",
+        "visible": true,
+        "writing": {
+          "latest": 3,
+          "rss": true,
+        },
+      },
+      {
+        "header": {
+          "kicker": "About",
+          "title": "Building products that",
+          "titleMuted": "matter.",
+        },
+        "id": "about",
+        "items": [
+          {
+            "id": "text",
+            "visible": true,
+          },
+          {
+            "id": "points",
+            "visible": true,
+          },
+          {
+            "id": "photo",
+            "visible": true,
+          },
+        ],
+        "kind": "about",
+        "nav": {
+          "label": "About",
+        },
+        "visible": true,
+      },
+      {
+        "header": {
+          "kicker": "Experience",
+          "title": "Where i've",
+          "titleMuted": "built",
+        },
+        "id": "experience",
+        "items": [
+          {
+            "id": "e-sugarfit",
+            "visible": true,
+          },
+          {
+            "id": "e-glance",
+            "visible": true,
+          },
+          {
+            "id": "e-razorpay",
+            "visible": true,
+          },
+          {
+            "id": "e-vedantu",
+            "visible": true,
+          },
+          {
+            "id": "e-wipro",
+            "visible": true,
+          },
+        ],
+        "kind": "experience",
+        "nav": {
+          "label": "Exp",
+        },
+        "visible": true,
+      },
+      {
+        "header": {
+          "kicker": "Skills",
+          "title": "What i",
+          "titleMuted": "bring",
+        },
+        "id": "skills",
+        "items": [
+          {
+            "id": "g-product",
+            "visible": true,
+          },
+          {
+            "id": "g-data",
+            "visible": true,
+          },
+          {
+            "id": "g-design",
+            "visible": true,
+          },
+          {
+            "id": "g-tools",
+            "visible": true,
+          },
+        ],
+        "kind": "skills",
+        "nav": {
+          "label": "Skills",
+        },
+        "visible": true,
+      },
+      {
+        "header": {
+          "kicker": "Testimonials",
+          "title": "What teammates",
+          "titleMuted": "say",
+        },
+        "id": "testimonials",
+        "items": [
+          {
+            "id": "t-shreyasi-ghosh",
+            "visible": true,
+          },
+          {
+            "id": "t-vishal-gopal",
+            "visible": true,
+          },
+          {
+            "id": "t-pallav-srivastava",
+            "visible": true,
+          },
+          {
+            "id": "t-rajesh-mainali",
+            "visible": true,
+          },
+          {
+            "id": "t-anmol-loonia",
+            "visible": true,
+          },
+          {
+            "id": "t-pranshu-singh",
+            "visible": true,
+          },
+          {
+            "id": "t-joseph-werede",
+            "visible": true,
+          },
+        ],
+        "kind": "testimonials",
+        "nav": {
+          "label": "Testimonial",
+        },
+        "visible": true,
+      },
+      {
+        "header": {
+          "kicker": "Hobbies",
+          "title": "When i'm",
+          "titleMuted": "not shipping",
+        },
+        "id": "offduty",
+        "items": [
+          {
+            "id": "o-anime",
+            "visible": true,
+          },
+          {
+            "id": "o-sketching",
+            "visible": true,
+          },
+          {
+            "id": "o-tt",
+            "visible": true,
+          },
+          {
+            "id": "o-cooking",
+            "visible": true,
+          },
+          {
+            "id": "o-travel",
+            "visible": true,
+          },
+          {
+            "id": "o-photo",
+            "visible": true,
+          },
+        ],
+        "kind": "offduty",
+        "visible": true,
+      },
+      {
+        "contact": {
+          "closing": "Let's build something",
+          "closingAccent": "impactful",
+        },
+        "header": {
+          "intro": "Open to <strong>senior PM roles</strong> in health tech, consumer, or fintech. Data fluency, clinical context, ability to ship — fast.",
+          "kicker": "Thanks for stopping by",
+        },
+        "id": "contact",
+        "items": [
+          {
+            "id": "closing",
+            "visible": true,
+          },
+          {
+            "id": "email",
+            "visible": true,
+          },
+          {
+            "id": "linkedin",
+            "visible": true,
+          },
+          {
+            "id": "github",
+            "visible": true,
+          },
+          {
+            "id": "resume",
+            "visible": true,
+          },
+        ],
+        "kind": "contact",
+        "visible": true,
+      },
+      {
+        "id": "footer",
+        "items": [
+          {
+            "id": "credit",
+            "visible": true,
+          },
+          {
+            "id": "updated",
+            "visible": true,
+          },
+        ],
+        "kind": "footer",
+        "visible": true,
+      },
+    ],
+  },
+  "profile": {
+    "about": {
+      "body": [
+        "I'm a PM at <strong>SugarFit</strong> — leading product & analytics for Type 2 diabetes, GLP, and Active Foods D2C. Before this, I spent 3 years at <strong>Glance (InMobi Group)</strong> owning Content Experience & Serving for GlanceTV, driving the NFL launch on Google NAB, and leading GDPR readiness for EU launch.",
+        "From <strong>Razorpay</strong> to <strong>Vedantu</strong> to <strong>Wipro</strong> — I've driven cross-functional impact across payments, edtech, and global operations.",
+        "My unfair advantage: <strong>8 years across consumer, health-tech, and D2C</strong> with a proven track record of driving 30 Cr+ in annual revenue, shipping 0→1 products, and scaling 1→100.",
+      ],
+      "points": [
+        {
+          "id": "pt-currently",
+          "text": "<strong>GLP, Active Foods D2C & Product Analytics</strong> at SugarFit. Scaling AOV by 7% via upsell/cross-sell, reducing RTO by 25%, and improving NPS from 35→52.",
+          "title": "Currently building",
+        },
+      ],
+    },
+    "availability": "Open to work · Seeking Senior / Lead PM Roles",
+    "contact": {
+      "email": "akarshan910@gmail.com",
+      "letsTalk": "contact",
+      "linkedin": "https://linkedin.com/in/akarshan910",
+      "resume": {
+        "url": "https://drive.google.com/file/d/1yAEh4CRz0KLLDPQs4FtfIUPB4fBWnLWq/view?usp=sharing",
+      },
+      "showPhone": false,
+    },
+    "experience": [
+      {
+        "company": "SugarFit",
+        "dates": "May 2025 — Present",
+        "highlights": [
+          {
+            "id": "h1",
+            "items": [
+              {
+                "id": "i1",
+                "text": "Leading product & analytics for Type 2 diabetes, GLP, and Active Foods D2C as primary SPOC for investors",
+              },
+              {
+                "id": "i2",
+                "text": "Scaled Active Foods D2C to 40L/month, improving AOV by 7% through upsell/cross-sell, reducing RTO by 25%",
+              },
+              {
+                "id": "i3",
+                "text": "Improved NPS from 35→52, reducing crash replacement from 20% to 6% (saving 3.2Cr YoY)",
+              },
+              {
+                "id": "i4",
+                "text": "Launched & scaled GLP-1 app to 50L MRR with 35% renewal rate, owning end-to-end app experience",
+              },
+              {
+                "id": "i5",
+                "text": "Revamped T2D renewals using VOC insights, driving 20% improvement and 17–20L MoM revenue uplift",
+              },
+            ],
+          },
+        ],
+        "id": "e-sugarfit",
+        "location": "Bengaluru",
+        "role": "Senior Product Manager",
+      },
+      {
+        "company": "Glance (InMobi Group)",
+        "dates": "May 2022 — May 2025",
+        "highlights": [
+          {
+            "id": "h1",
+            "items": [
+              {
+                "id": "i1",
+                "text": "Owned Content Experience & Serving for GlanceTV, partnering with DS, Engg, Design & Content",
+              },
+              {
+                "id": "i2",
+                "text": "Led market research & cross-functional execution to launch the NFL experience for Google NAB",
+              },
+              {
+                "id": "i3",
+                "text": "Drove GDPR readiness for EU launch — CMP integration, privacy disclosures, DSR workflows on 2.5M Airtel Xstream devices",
+              },
+              {
+                "id": "i4",
+                "text": "Generated $1.4M ARR by unlocking 110M lockscreen impressions via Tracfone Telco Partner, serving 5M users",
+              },
+              {
+                "id": "i5",
+                "text": "Launched GlanceTV's first nationwide brand campaign (Lakme, Women's Day) — 12M impressions, 470K reach, 64% higher ad recall",
+              },
+            ],
+          },
+        ],
+        "id": "e-glance",
+        "location": "Bengaluru",
+        "role": "Product Manager",
+      },
+      {
+        "company": "Razorpay",
+        "dates": "Jul 2021 — Sep 2021",
+        "highlights": [
+          {
+            "id": "h1",
+            "items": [
+              {
+                "id": "i1",
+                "text": "Drove +30% sign-ups and +23% MTU via homepage signup funnel & activation process redesign",
+              },
+              {
+                "id": "i2",
+                "text": "Awarded "Ace in the Race" for outstanding execution in data instrumentation & dashboards for GST, OCR & merchant verification",
+              },
+            ],
+          },
+        ],
+        "id": "e-razorpay",
+        "location": "Bengaluru",
+        "role": "Senior Product Analyst",
+      },
+      {
+        "company": "Vedantu Innovations",
+        "dates": "Jan 2021 — Jul 2021",
+        "highlights": [
+          {
+            "id": "h1",
+            "items": [
+              {
+                "id": "i1",
+                "text": "Drove +800 daily inbound leads by experimenting & optimising the "Book Online Demo" funnel across web and mobile",
+              },
+              {
+                "id": "i2",
+                "text": "Improved Micro-Concept video retention by +17% & revenue by 7L MoM; +4.3% MoM revenue via demo feedback analysis",
+              },
+            ],
+          },
+        ],
+        "id": "e-vedantu",
+        "location": "Bengaluru",
+        "role": "Senior Product Analyst",
+      },
+      {
+        "company": "Wipro Analytics",
+        "dates": "Aug 2017 — Jan 2021",
+        "highlights": [
+          {
+            "id": "h1",
+            "items": [
+              {
+                "id": "i1",
+                "text": "Led cross-functional data initiatives supporting Uber GSS operations across 64 languages with Product, Ops & Marketing",
+              },
+              {
+                "hidden": true,
+                "id": "i2",
+                "text": "Saved $XXXK by optimizing Uber Eats' language portfolio via cost-per-language analysis and Localisation vendor SLA",
+              },
+              {
+                "id": "i3",
+                "text": "Clients at Wipro included Lloyds Banking Group & CapitalOne",
+              },
+            ],
+          },
+        ],
+        "id": "e-wipro",
+        "location": "Bengaluru",
+        "role": "Senior Analyst",
+      },
+    ],
+    "facts": {
+      "availability": {
+        "source": "current-site",
+      },
+      "experience.e-sugarfit.highlights.h1.items.i2.text": {
+        "alternative": {
+          "source": "resume",
+          "value": "AOV +7%; returns −25% (COD) and −17% (prepaid); 5% of carts recovered",
+        },
+        "source": "current-site",
+      },
+      "experience.e-sugarfit.highlights.h1.items.i3.text": {
+        "alternative": {
+          "source": "resume",
+          "value": "Post-first-sensor CSAT 42 → 72 (of 100)",
+        },
+        "source": "current-site",
+      },
+      "experience.e-sugarfit.highlights.h1.items.i4.text": {
+        "alternative": {
+          "source": "resume",
+          "value": "₹3.6 Cr in month one, 52% renewal",
+        },
+        "source": "current-site",
+      },
+      "proof.p-arr.value": {
+        "alternative": {
+          "source": "resume",
+          "value": "$2M total: $1.4M via Tracfone, plus $600K from Japan and Brazil",
+        },
+        "source": "current-site",
+      },
+      "proof.p-revenue.value": {
+        "source": "current-site",
+      },
+      "proof.p-users.value": {
+        "alternative": {
+          "source": "resume",
+          "value": "230M+ lockscreen users",
+        },
+        "source": "current-site",
+      },
+      "title": {
+        "alternative": {
+          "source": "resume",
+          "value": "Product Manager",
+        },
+        "source": "current-site",
+      },
+    },
+    "footer": {
+      "credit": "Vibe coded with ♥ in Bengaluru",
+    },
+    "heroButtons": {
+      "primary": {
+        "href": "#strategy",
+        "label": "View My Work",
+      },
+      "resume": true,
+    },
+    "intro": "Proven track record in 0→1 and 1→100 product journeys across personalization, user experience, growth, and operations.",
+    "location": "Bengaluru, India",
+    "name": "Akarshan Kumar",
+    "offDuty": [
+      {
+        "accent": "coral",
+        "art": "kunai",
+        "id": "o-anime",
+        "label": "Passion",
+        "picks": [
+          {
+            "id": "pk1",
+            "note": "Action · Strategy",
+            "title": "Attack on Titan",
+          },
+          {
+            "id": "pk2",
+            "note": "Action · Visual Art",
+            "title": "Demon Slayer",
+          },
+          {
+            "id": "pk3",
+            "note": "Psychological · Thriller",
+            "title": "Death Note",
+          },
+          {
+            "id": "pk4",
+            "note": "Adventure · Deep",
+            "title": "Fullmetal Alchemist",
+          },
+          {
+            "id": "pk5",
+            "note": "Action · Current",
+            "title": "Jujutsu Kaisen",
+          },
+          {
+            "id": "pk6",
+            "note": "Comedy · Power",
+            "title": "One Punch Man",
+          },
+          {
+            "id": "pk7",
+            "note": "Historical · Epic",
+            "title": "Vinland Saga",
+          },
+          {
+            "id": "pk8",
+            "note": "Sports · Motivation",
+            "title": "Haikyuu!!",
+          },
+        ],
+        "tag": "Currently watching",
+        "text": "Big fan of layered storytelling — the kind where every detail from episode 1 pays off in the finale. AoT, Vinland Saga, FMA, and JJK are my benchmarks for what great narrative looks like.",
+        "title": "Anime",
+      },
+      {
+        "accent": "yellow",
+        "art": "pencil",
+        "id": "o-sketching",
+        "label": "Creative",
+        "tag": "Product flows",
+        "text": "I sketch to think — on notebooks, sticky notes, whatever's nearby. It's how I get ideas out of my head before they disappear. Mostly rough wireframes and random diagrams.",
+        "title": "Sketching",
+      },
+      {
+        "accent": "sky",
+        "art": "paddle",
+        "id": "o-tt",
+        "label": "Sport",
+        "tag": "Competitive player",
+        "text": "Been playing TT for years — it's the one sport where I genuinely enjoy losing because it means I'm playing someone better. Best stress relief I've found so far.",
+        "title": "Table Tennis",
+      },
+      {
+        "accent": "amber",
+        "art": "pan",
+        "id": "o-cooking",
+        "label": "At home",
+        "tag": "Weekend chef",
+        "text": "I cook mostly Indian and continental. Weekends I'll try something new — sometimes it's great, sometimes it's a disaster. The kitchen is the one place I'm happy either way.",
+        "title": "Cooking",
+      },
+      {
+        "accent": "green",
+        "art": "plane",
+        "id": "o-travel",
+        "label": "Explorer",
+        "tag": "Always planning next",
+        "text": "Love the feeling of landing somewhere new and figuring it out. No rigid itineraries — just a list of things worth seeing and room for whatever happens in between.",
+        "title": "Travel",
+      },
+      {
+        "accent": "violet",
+        "art": "camera",
+        "id": "o-photo",
+        "label": "Visual",
+        "tag": "Street & travel",
+        "text": "Street and travel photography on my phone mostly. Chasing light, interesting faces, and scenes that tell a story without a caption.",
+        "title": "Photography",
+      },
+    ],
+    "positioning": "Product Manager with <strong>8 years experience</strong> driving <strong>30 Cr+ in annual revenue</strong> across consumer, health-tech, and D2C platforms.",
+    "proof": [
+      {
+        "id": "p-revenue",
+        "label": "Annual Revenue Driven",
+        "unit": "Cr+",
+        "value": "30",
+      },
+      {
+        "id": "p-tenure",
+        "label": "Product Experience",
+        "unit": "yr",
+        "value": "8",
+      },
+      {
+        "id": "p-users",
+        "label": "Users Served",
+        "unit": "M+",
+        "value": "300",
+      },
+      {
+        "id": "p-companies",
+        "label": "Companies Built At",
+        "value": "5",
+      },
+      {
+        "id": "p-arr",
+        "label": "ARR generated via 110M lockscreen impressions",
+        "unit": "M",
+        "value": "$1.4",
+      },
+      {
+        "id": "p-impressions",
+        "label": "Impressions on nationwide brand campaigns",
+        "unit": "M",
+        "value": "12",
+      },
+    ],
+    "schemaVersion": 1,
+    "skills": [
+      {
+        "id": "g-product",
+        "items": [
+          {
+            "id": "g-product-1",
+            "size": "m",
+            "text": "User & Market Research",
+          },
+          {
+            "id": "g-product-2",
+            "size": "m",
+            "text": "Feature Prioritisation",
+          },
+          {
+            "id": "g-product-3",
+            "size": "m",
+            "text": "Road-mapping",
+          },
+          {
+            "id": "g-product-4",
+            "size": "m",
+            "text": "Stakeholder Management",
+          },
+          {
+            "id": "g-product-5",
+            "size": "m",
+            "text": "A/B Testing",
+          },
+          {
+            "id": "g-product-6",
+            "size": "m",
+            "text": "Experimentation",
+          },
+          {
+            "id": "g-product-7",
+            "size": "m",
+            "text": "Data-driven Development",
+          },
+        ],
+        "subtitle": "Strategy & execution",
+        "title": "Product",
+      },
+      {
+        "id": "g-data",
+        "items": [
+          {
+            "id": "g-data-1",
+            "size": "m",
+            "text": "SQL",
+          },
+          {
+            "id": "g-data-2",
+            "size": "m",
+            "text": "Web (Clickstream) Analytics",
+          },
+          {
+            "id": "g-data-3",
+            "size": "m",
+            "text": "Product & Data Analytics",
+          },
+          {
+            "id": "g-data-4",
+            "size": "m",
+            "text": "Visualization & Story Telling",
+          },
+          {
+            "id": "g-data-5",
+            "size": "m",
+            "text": "ETL",
+          },
+        ],
+        "subtitle": "My unfair advantage",
+        "title": "Data",
+      },
+      {
+        "id": "g-design",
+        "items": [
+          {
+            "id": "g-design-1",
+            "size": "m",
+            "text": "FigmaMake",
+          },
+          {
+            "id": "g-design-2",
+            "size": "m",
+            "text": "Prototyping",
+          },
+          {
+            "id": "g-design-3",
+            "size": "m",
+            "text": "Wireframing",
+          },
+          {
+            "id": "g-design-4",
+            "size": "m",
+            "text": "Napkin.ai",
+          },
+        ],
+        "subtitle": "Pixel-perfect craft",
+        "title": "Design",
+      },
+      {
+        "id": "g-tools",
+        "items": [
+          {
+            "id": "g-tools-1",
+            "size": "m",
+            "text": "Excel",
+          },
+          {
+            "id": "g-tools-2",
+            "size": "m",
+            "text": "Lovable",
+          },
+          {
+            "id": "g-tools-3",
+            "size": "m",
+            "text": "Mixpanel",
+          },
+          {
+            "id": "g-tools-4",
+            "size": "m",
+            "text": "Metabase",
+          },
+          {
+            "id": "g-tools-5",
+            "size": "m",
+            "text": "Tableau",
+          },
+          {
+            "id": "g-tools-6",
+            "size": "m",
+            "text": "Optimizely",
+          },
+          {
+            "id": "g-tools-7",
+            "size": "m",
+            "text": "Redash",
+          },
+          {
+            "id": "g-tools-8",
+            "size": "m",
+            "text": "Superset",
+          },
+          {
+            "id": "g-tools-9",
+            "size": "m",
+            "text": "Figma",
+          },
+          {
+            "id": "g-tools-10",
+            "size": "m",
+            "text": "JIRA",
+          },
+          {
+            "id": "g-tools-11",
+            "size": "m",
+            "text": "Amplitude",
+          },
+          {
+            "id": "g-tools-12",
+            "size": "m",
+            "text": "Airflow",
+          },
+        ],
+        "subtitle": "The full stack",
+        "title": "Tools",
+      },
+    ],
+    "testimonials": [
+      {
+        "id": "t-shreyasi-ghosh",
+        "initials": "SG",
+        "name": "Shreyasi Ghosh",
+        "quote": "Working with Akarshan has been incredibly motivating. He has this rare ability to combine sharp analytical thinking with a deep understanding of what makes a great product experience. Whether we’re fine-tuning the smallest details or tackling complex challenges, he always brings precision and purpose to the table. What I admire most is his perseverance, no matter how tricky a problem is, he never backs down.",
+        "role": "Product Designer · Glance AI for TV",
+        "tag": "Design",
+        "tone": "coral",
+      },
+      {
+        "id": "t-vishal-gopal",
+        "initials": "VG",
+        "name": "Vishal Gopal",
+        "quote": "Akarshan is an extremely passionate Product person. Once he sets his mind on a feature, he hardly shies away from utilising all resources and tools at his disposal — to ensure he delivers what is expected of him. The striking thing about working with him is his Conviction. The conviction that arises out of a detailed and thorough thought process. A great asset to work with.",
+        "role": "Product at Glance",
+        "tag": "Product",
+        "tone": "sky",
+      },
+      {
+        "id": "t-pallav-srivastava",
+        "initials": "PS",
+        "name": "Pallav Srivastava",
+        "quote": "Akarshan is one of the sharpest product minds I have had the pleasure of working with. I collaborated closely with him on multiple features across different products, and his depth of thinking always stood out. His ability to break down complex problems, ask the right questions, and approach every decision with a data-driven mindset made a huge impact on our work.",
+        "role": "SDE 4 (Android) · Glance (InMobi) · Ex-Blackbuck, Yatra",
+        "tag": "Engineering",
+        "tone": "amber",
+      },
+      {
+        "id": "t-rajesh-mainali",
+        "initials": "RM",
+        "name": "Rajesh Mainali",
+        "quote": "I’ve worked with Akarshan for about 3 years on TV projects. As a product manager, he thinks creatively and truly understands the user’s perspective. He’s been very helpful in explaining product workflows, which has made my implementation work much easier. He’s always flexible when facing challenges and finds practical solutions to meet our needs.",
+        "role": "SDE III at Glance · InMobi",
+        "tag": "Engineering",
+        "tone": "green",
+      },
+      {
+        "id": "t-anmol-loonia",
+        "initials": "AL",
+        "name": "Anmol Loonia",
+        "quote": "Akarshan was my PM on multiple projects through the TV Integration with a leading OEM. He brought a lot of user first approaches to the table, which led to deep business as well as user impact. His ability to get everyone on the same page and turn the wheel is what really worked for the product. He is the perfect team player.",
+        "role": "Design Leader · Consumer AI @ Glance · Ex Deloitte, Myntra",
+        "tag": "Design",
+        "tone": "violet",
+      },
+      {
+        "id": "t-pranshu-singh",
+        "initials": "PS",
+        "name": "Pranshu Singh",
+        "quote": "I had the pleasure of working closely with Akarshan during my time at Glance(InMobi Group), and I can wholeheartedly recommend him as an exceptional Product Manager and a teamplayer. He consistently demonstrated a deep understanding of product strategy, market dynamics, and customer needs. Akarshan’s commitment to excellence and his ability to drive results make him a valuable asset to any product management team.",
+        "role": "Product Manager · Birla Institute of Technology",
+        "tag": "Product",
+        "tone": "amber",
+      },
+      {
+        "id": "t-joseph-werede",
+        "initials": "JW",
+        "name": "Joseph Werede",
+        "quote": "Akarshan was a great asset to the team at Uber. His analytical skills and go getter attitude always made him a reliable person who gets things done in the most efficient manner. He is very pleasant and easy to work with and I believe that his next team will be very lucky to have him.",
+        "role": "Global Cultural Curator · Design culture-led experiences",
+        "tag": "Leadership",
+        "tone": "sky",
+      },
+    ],
+    "title": "Senior Product Manager",
+    "unconfirmed": [
+      "title",
+      "availability",
+      "proof.p-users.value",
+      "proof.p-revenue.value",
+      "proof.p-arr.value",
+      "experience.e-sugarfit.highlights.h1.items.i4.text",
+      "experience.e-sugarfit.highlights.h1.items.i3.text",
+      "experience.e-sugarfit.highlights.h1.items.i2.text",
+    ],
+  },
+  "projects": [
+    {
+      "document": {
+        "headlineOutcomeId": "o4",
+        "outcomes": [
+          {
+            "id": "o1",
+            "inStrip": true,
+            "label": "Monthly orders per user uplift target",
+            "type": "target",
+            "value": "30%",
+          },
+          {
+            "id": "o2",
+            "inStrip": true,
+            "label": "WhatsApp conversion rate goal",
+            "type": "target",
+            "value": "12%",
+          },
+          {
+            "id": "o3",
+            "inStrip": true,
+            "label": "Regional languages in Phase 1",
+            "type": "target",
+            "value": "5",
+          },
+          {
+            "id": "o4",
+            "inStrip": false,
+            "label": "monthly orders",
+            "type": "target",
+            "value": "+30%",
+          },
+        ],
+        "overview": {
+          "company": "Sri Mandir",
+          "kind": "study",
+          "summary": "WhatsApp-native puja booking with AI recommendations and spiritual calendar to increase repeat devotion",
+          "title": "Puja engagement platform",
+          "topics": [
+            "CRM",
+            "Personalization",
+            "Monetization",
+            "Engagement",
+            "Prototyping",
+          ],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [
+          {
+            "blocks": [
+              {
+                "body": "<p>Improve the <strong>order per user (Monthly order frequency)</strong> for the puja service at Sri Mandir.</p>",
+                "id": "c01-b1",
+                "style": "lead",
+                "type": "text",
+              },
+            ],
+            "hidden": false,
+            "id": "c01",
+            "title": "Assignment Objective",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<ul><li><strong>Core Puja Performance is Authentic:</strong> We assume the religious rituals are performed authentically by verified priests according to scriptures, and the challenge lies in communicating and ensuring this authenticity in the online format.</li><li><strong>Technological Infrastructure:</strong> Sri Mandir possesses or can acquire the necessary technological infrastructure to implement proposed digital enhancements, including localisation.</li><li><strong>Access to User Data:</strong> Basic user data regarding puja bookings, frequency, location (inferred), and stated preferences is accessible for analysis and personalisation efforts.</li><li><strong>Motivation Beyond One-Time Need:</strong> While specific needs might drive initial bookings, there's an underlying desire among users for ongoing spiritual connection, seeking blessings, and performing religious duties regularly.</li></ul>",
+                "id": "c02-b1",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c02",
+            "title": "Assumptions",
+          },
+          {
+            "blocks": [
+              {
+                "columns": 3,
+                "id": "c03-b1",
+                "items": [
+                  {
+                    "note": "Individuals who integrate technology into their lives and seek convenient ways to practice faith.",
+                    "title": "Tech-Savvy Devotees (Millennials & Gen Z)",
+                  },
+                  {
+                    "note": "Those living away from their preferred temples or countries, seeking to stay connected to their spiritual roots.",
+                    "title": "NRIs & Geographically Distant Devotees",
+                  },
+                  {
+                    "note": "Users with busy schedules who prioritise efficiency — seeking convenience & accessibility to easily book and participate from home.",
+                    "title": "Time-Constrained Individuals",
+                  },
+                  {
+                    "note": "Users booking for particular life events, astrological reasons, or personal challenges.",
+                    "title": "Individuals with Specific Needs",
+                  },
+                  {
+                    "note": "Tech-comfortable individuals who value consistency in spiritual rituals and seek regular puja participation.",
+                    "title": "Tech-informed Devotees Seeking Regular Practice",
+                  },
+                  {
+                    "note": "Older, tradition-focused individuals deeply devoted to puja but less comfortable with digital tools. Typically use WhatsApp or Facebook. May struggle with online payments.",
+                    "title": "Non-Technological Regular Devotees",
+                  },
+                  {
+                    "note": "A potentially underserved segment comfortable in regional Indian languages.",
+                    "title": "Non-Hindi/English Speaking Devotees",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c03",
+            "title": "Target User Segments",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Key Motivations",
+                "id": "c04-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Spiritual Connection & Fulfillment:</strong> Seeking blessings and maintaining religious practice. Staying connected to traditional roots — often through listening to aartis and bhajans.</li><li><strong>Convenience & Accessibility:</strong> Booking and participating from anywhere, anytime.</li><li><strong>Time & Effort Saving:</strong> Avoiding logistical hassles of offline pujas.</li><li><strong>Authenticity & Trust (Desired):</strong> Expectation that rituals are performed correctly by qualified priests.</li><li><strong>Bridging Distance:</strong> Connecting with specific temples or traditions from afar.</li><li><strong>Receiving Prasad & Blessings:</strong> The tangible outcome of the puja.</li></ul>",
+                "id": "c04-b2",
+                "type": "list",
+              },
+              {
+                "body": "Pain Points (from Google Play Reviews & App Usage)",
+                "id": "c04-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Lack of Personalisation & Context:</strong> The puja service page is generic, lacking recommendations based on user history, preferences, or local relevance (e.g., what others are booking in that location).</li><li><strong>Product Education:</strong> Low awareness & discoverability of the Puja service and its offerings.</li><li><strong>Lack of Trust Signals:</strong> Absence of trust on online payments. No social proofing (e.g., how many users viewed/booked). Concerns about divine box quality and missing items. Lack of clarity on puja venue. Critical issue of incorrect Gotra being used. Insufficient communication regarding venue changes or Prasad issues.</li><li><strong>Accessibility Limitations:</strong> Service primarily in Hindi and English alienates users comfortable only in regional languages.</li><li><strong>Learning Curve:</strong> Multiple steps and unfamiliar interactions differ from typical app flows (like FB, WhatsApp), creating a barrier especially for first-time users.</li><li><strong>Lack of Urgency/Timeliness Cues:</strong> No timer on critical pujas where timing is significant to create booking urgency.</li><li><strong>Limited Guidance on Options:</strong> Difficulty identifying the 'most picked plans' or best options without personalisation.</li></ul>",
+                "id": "c04-b4",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c04",
+            "title": "User Motivations & Pain Points",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>Opportunities lie in addressing identified pain points to build trust, enhance convenience, and create a more personalised and engaging experience that encourages repeat and more frequent bookings.</p>",
+                "id": "c05-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li><strong>Build and Communicate Trust:</strong> Proactively address concerns about authenticity, Prasad, Gotra, and venue transparency.</li><li><strong>Enhance Personalisation & Relevance:</strong> Make the puja discovery and booking process highly relevant based on profile, history, and context (location, auspicious dates).</li><li><strong>Product Education:</strong> Build awareness & product education experience for users.</li><li><strong>Subscriptions:</strong> Offer easy ways to book recurring pujas and manage spiritual obligations.</li><li><strong>Improve Accessibility:</strong> Cater to users in their preferred language & community (e.g., Bihari, Bengali).</li><li><strong>Optimise for Conversion:</strong> Use urgency cues wherever appropriate to reduce booking time.</li><li><strong>Improve Post-Booking Experience:</strong> Ensure smooth Prasad delivery and clear communication throughout the process.</li><li>Implement robust data collection for Gotra and integrate it clearly into booking and confirmation.</li><li>Develop a personalised dashboard showing recommended pujas, upcoming events, and loyalty status.</li><li>Display social proof metrics (e.g., 'X users viewing,' 'Y users booked this week').</li><li>Offer multiple language selection options for content and communication.</li><li>Streamline the booking flow, clearly presenting options like single booking vs. subscription.</li></ul>",
+                "id": "c05-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c05",
+            "title": "Opportunities for Improvement",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Time-Constrained Professional / Millennial / Gen Z",
+                "id": "c06-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Puja Recommendation Engine</li><li>Personalised Spiritual Calendar & Reminders</li><li>Subscription Packages</li><li><em>Metrics:</em> Puja Order ↑ · Subscription Adoption & Renewal % · Reminder Click Rate</li></ul>",
+                "id": "c06-b2",
+                "type": "list",
+              },
+              {
+                "body": "NRI / Geographically Distant Devotee",
+                "id": "c06-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Personalised Recommendations by region/tradition</li><li>Spiritual Calendar with local timezone</li><li>Gift a Puja</li><li><em>Metrics:</em> Repeat Booking Rate from NRIs · Gifting Feature Usage · NRI Engagement %</li></ul>",
+                "id": "c06-b4",
+                "type": "list",
+              },
+              {
+                "body": "Needs-Based / Occasional User",
+                "id": "c06-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Problem-Specific Recommendation Engine</li><li>Monthly Curated Focus Pujas</li><li><em>Metrics:</em> Engagement with Focus Pujas · Bounce Rate on Need-Based Pages ↓ · Booking Conversion Rate ↑</li></ul>",
+                "id": "c06-b6",
+                "type": "list",
+              },
+              {
+                "body": "Tech-informed Devotees Seeking Regular Practice",
+                "id": "c06-b7",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Subscription Packages</li><li>Personalised Spiritual Calendar & Reminders</li><li>Tiered Loyalty Rewards</li><li>Puja & Aashirvaad Box Authenticity</li><li>Complementary Puja Suggestions</li><li><em>Metrics:</em> Puja Users ↑ · Puja Booked ↑ · Loyalty Program Participation · Subscription Adoption & Renewal % · # Puja Box Complaints</li></ul>",
+                "id": "c06-b8",
+                "type": "list",
+              },
+              {
+                "body": "Non-Technological Regular Devotees",
+                "id": "c06-b9",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Product Education</li><li>Video feed of puja, chadhavs or rituals</li><li>WhatsApp Integration</li><li><em>Metrics:</em> Engagement Rate on Education · Video View Count · Engagement & retention on video feed · Conversion Rate via WhatsApp</li></ul>",
+                "id": "c06-b10",
+                "type": "list",
+              },
+              {
+                "body": "Skeptical / New Online Puja User",
+                "id": "c06-b11",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Post-Puja Transparency (video, photo, prasad)</li><li>Responsive Support</li><li>Social Proofing & User Testimonials</li><li><em>Metrics:</em> First-Time Booking Conversion Rate · Support Ticket Resolution Time ↓ · NPS / CSAT Score ↑</li></ul>",
+                "id": "c06-b12",
+                "type": "list",
+              },
+              {
+                "body": "Non-Hindi/English Speaking Devotees",
+                "id": "c06-b13",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Multi-Language UI & Booking Flow</li><li>Regional Language Video/Audio Mantras</li><li>Local Language Support Team</li><li>Puja Descriptions in Native Tongues</li><li><em>Metrics:</em> Drop-off Rate in Non-Hindi/English Regions ↓ · Increase in Bookings from Vernacular Users · Language Preference Opt-in Rate ↑</li></ul>",
+                "id": "c06-b14",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c06",
+            "title": "Proposed Solutions by Segment",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>To boost monthly orders per user, we will prioritise these key segments:</p>",
+                "id": "c07-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li><strong>1. Time-Constrained Professionals / Millennials / Gen Z:</strong> Their busy, tech-savvy nature makes them highly receptive to convenient, recurring digital solutions like subscriptions, offering the greatest potential for increased monthly frequency.</li><li><strong>2. Tech-informed Devotees Seeking Regular Practice:</strong> Already inclined towards regular practice, they will benefit from streamlined processes, personalisation and subscriptions to maintain or slightly increase their existing high frequency.</li><li><strong>3. Non-Technological Regular Devotees</strong> (like mothers and grandparents): Social media users who struggle with online payments due to trust issues. Their strong religious commitment drives high repeat engagement and potential for increased order frequency.</li></ul>",
+                "id": "c07-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c07",
+            "title": "Priority Segments",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Feature Priority Ranking",
+                "id": "c08-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Reach × Impact × Confidence ÷ Effort</p>",
+                "id": "c08-b2",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "checkFormula": true,
+                "columns": [
+                  "#",
+                  "Feature",
+                  "Reach",
+                  "Impact",
+                  "Conf.",
+                  "Effort",
+                  "RICE",
+                ],
+                "formula": "rice",
+                "highlightTop": 3,
+                "id": "c08-b3",
+                "phoneCards": true,
+                "reviewed": [],
+                "rows": [
+                  [
+                    "1",
+                    "WhatsApp Integration",
+                    "9",
+                    "2.5",
+                    "85%",
+                    "2 mo",
+                    "9.6",
+                  ],
+                  [
+                    "2",
+                    "Product Education",
+                    "7",
+                    "2",
+                    "65%",
+                    "1 mo",
+                    "9.1",
+                  ],
+                  [
+                    "3",
+                    "Puja Recommendation Engine",
+                    "9",
+                    "2.7",
+                    "90%",
+                    "3 mo",
+                    "7.3",
+                  ],
+                  [
+                    "4",
+                    "Video Feed",
+                    "9",
+                    "2.5",
+                    "95%",
+                    "3 mo",
+                    "7.1",
+                  ],
+                  [
+                    "5",
+                    "Personalised Spiritual Calendar & Reminders",
+                    "9",
+                    "2",
+                    "95%",
+                    "2.5 mo",
+                    "6.8",
+                  ],
+                  [
+                    "6",
+                    "Subscription Packages",
+                    "8",
+                    "2.5",
+                    "85%",
+                    "1.5 mo",
+                    "5.7",
+                  ],
+                  [
+                    "7",
+                    "Complementary Puja Suggestions",
+                    "6",
+                    "2",
+                    "65%",
+                    "2 mo",
+                    "3.9",
+                  ],
+                  [
+                    "8",
+                    "Tiered Loyalty Rewards",
+                    "6",
+                    "2",
+                    "65%",
+                    "3 mo",
+                    "2.6",
+                  ],
+                  [
+                    "9",
+                    "Puja & Aashirvaad Box Authenticity",
+                    "5",
+                    "1.5",
+                    "60%",
+                    "2 mo",
+                    "2.3",
+                  ],
+                ],
+                "sortByScore": false,
+                "type": "table",
+              },
+            ],
+            "hidden": false,
+            "id": "c08",
+            "title": "RICE Prioritisation",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>We'll leverage WhatsApp as a <strong>dual-purpose channel</strong> — first, to deliver bite-sized, conversational product education (interactive tutorials, rich media demos, and targeted tips) that helps devotees discover and understand all puja services; and second, to enable <strong>seamless inbound booking requests</strong> directly within the chat interface, so users can simply message or tap menu options to schedule, personalize, and confirm their puja without ever leaving WhatsApp.</p>",
+                "id": "c09-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li><strong>Product Education via WhatsApp:</strong> Bite-sized, conversational tutorials and rich media demos delivered in-chat to drive discovery and awareness.</li><li><strong>Puja Booking Service via WhatsApp:</strong> Users tap a menu → browse top pujas → select package → pay via deep-link → confirmation + tracking on WhatsApp. TAT from tap to confirmation: 60 seconds.</li></ul>",
+                "id": "c09-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c09",
+            "title": "WhatsApp Integration",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>Introducing a <strong>dedicated video section</strong> where devotees can endlessly scroll through immersive clips — creating session depth & improving engagement. By showcasing pujas, rituals, and Chadhavs in action, this video-led discovery format meets modern users' evolving browsing habits. Just as Meesho's in-app video feed lets shoppers see products in use and builds trust before purchase, our videos will foster <strong>authenticity and confidence</strong> in every puja experience.</p>",
+                "id": "c10-b1",
+                "style": "lead",
+                "type": "text",
+              },
+            ],
+            "hidden": false,
+            "id": "c10",
+            "title": "Video Feed",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>We'll gently collect key details — Gotra, birthdays, anniversaries, children's information — at right moments in the app (e.g., when user clicks on puja), always explaining the benefit. By collecting relevant info we deliver truly relevant puja recommendations, build trust, and avoid overload.</p>",
+                "id": "c11-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "Cold-Start (No User Data)",
+                "id": "c11-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Show local favorites:</strong> Detect the user's location to highlight the most-booked pujas in their city or region.</li><li><strong>Feature upcoming & seasonal events:</strong> Surface major monthly pujas and festivals (e.g., Navratri, Sankashti) so newcomers see timely, relevant offerings.</li><li><strong>Highlight platform trends:</strong> 'What's Trending' strip showcasing pujas with high view or booking counts across all users, building social proof and driving initial engagement.</li></ul>",
+                "id": "c11-b3",
+                "type": "list",
+              },
+              {
+                "body": "When User Data Is Available",
+                "id": "c11-b4",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Leverage profile attributes:</strong> Pull in Gotra, birthdates, anniversaries and astrological details to surface rituals that align with heritage and life events.</li><li><strong>Tailor to important dates:</strong> Analyse their important days and suggest relevant pujas.</li><li><strong>Build a dynamic 'For You' carousel:</strong> Continuously updated with new recommendations — 'Based on your last Ganesh Puja' or 'Anniversary special for 5 years of devotion.' Incorporates past booking data and app interaction.</li></ul>",
+                "id": "c11-b5",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c11",
+            "title": "Puja Recommendation Engine",
+          },
+        ],
+        "todo": [
+          "prototype-link",
+        ],
+        "visuals": {
+          "accent": "coral",
+          "cover": {
+            "mediaId": "cover-puja-engagement-platform",
+          },
+          "gallery": [],
+          "hero": {
+            "type": "image",
+          },
+        },
+      },
+      "publish": true,
+      "slug": "puja-engagement-platform",
+    },
+    {
+      "document": {
+        "headlineOutcomeId": "o4",
+        "outcomes": [
+          {
+            "id": "o1",
+            "inStrip": true,
+            "label": "Day 1 retention target (vs 35% baseline)",
+            "type": "target",
+            "value": "50%",
+          },
+          {
+            "id": "o2",
+            "inStrip": true,
+            "label": "IAP conversion (2.5% → 3.5%)",
+            "type": "target",
+            "value": "3.5%",
+          },
+          {
+            "id": "o3",
+            "inStrip": true,
+            "label": "MAU target (6.5M → 8.8M)",
+            "type": "target",
+            "value": "8.8M",
+          },
+          {
+            "id": "o4",
+            "inStrip": false,
+            "label": "MAU in 12mo",
+            "type": "target",
+            "value": "+1.35×",
+          },
+        ],
+        "overview": {
+          "company": "Word Trip · Playsimple",
+          "kind": "study",
+          "summary": "Streamlined onboarding + IAP optimization + retention mechanics to unlock #3 app store ranking and 1.35x MAU growth",
+          "title": "Word games monetisation strategy",
+          "topics": [
+            "Monetization",
+            "Retention",
+            "Mobile",
+            "Games",
+            "Engagement",
+          ],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [
+          {
+            "blocks": [
+              {
+                "body": "<p>WordTrip is a word puzzle game that combines elements of crosswords and word searches with travel-themed visuals and progression. The game primarily monetizes through <strong>in-app purchases and advertising</strong>. Current position: <strong>#5 by revenue (~$500K/mo) with 6.5M MAU</strong>. Word Escapes generates 4.4× more revenue with only 1.7M incremental users — this is not a user acquisition problem, it's a <strong>monetization and retention gap</strong>.</p>",
+                "id": "c01-b1",
+                "style": "lead",
+                "type": "text",
+              },
+            ],
+            "hidden": false,
+            "id": "c01",
+            "title": "Word Trip Overview",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Game Comparison",
+                "id": "c02-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<p>MAU · Monthly Revenue · App Store Ranking · Rating</p>",
+                "id": "c02-b2",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 3,
+                "id": "c02-b3",
+                "items": [
+                  {
+                    "note": "MAU: 6.5M · Revenue: ~$500K/mo · App Store: #62 · Play Store: #23 · Rating: 4.6/4.4
+Current baseline — lowest revenue per user in category",
+                    "title": "Word Trip",
+                  },
+                  {
+                    "note": "MAU: 8.2M · Revenue: ~$2.2M/mo · App Store: #6 · Play Store: #9 · Rating: 4.8/4.5
+Primary benchmark — 4.4× revenue on 1.7M more users",
+                    "title": "Word Escapes",
+                  },
+                  {
+                    "note": "MAU: 13.8M · Revenue: ~$2.7M/mo · App Store: #51 · Play Store: #21 · Rating: 4.5/3.5
+Largest MAU — strong social features and multi-format",
+                    "title": "Words With Friends (Zynga)",
+                  },
+                  {
+                    "note": "MAU: 7.5M · Revenue: ~$500K/mo · App Store: #23 · Play Store: #136 · Rating: 4.8/4.6
+Comparable MAU to Word Trip; similar revenue — sentence completion adds variety",
+                    "title": "Word Connect",
+                  },
+                  {
+                    "note": "MAU: 5.2M · Revenue: ~$400K/mo · App Store: #36 · Play Store: #56 · Rating: 4.5/4.5
+Lower MAU but better IAP strategy — milestone-based monetization",
+                    "title": "Word Cookies",
+                  },
+                  {
+                    "note": "MAU: N/A · Revenue: ~$300K/mo · App Store: #10 · Play Store: #8 · Rating: 4.9/4.8
+Highest rating — localization success story (60M installs in 18mo via Russia/Turkey)",
+                    "title": "Words of Wonders",
+                  },
+                ],
+                "type": "cards",
+              },
+              {
+                "body": "Top Performer Benchmarks",
+                "id": "c02-b4",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Industry benchmarks for mobile word games (GameAnalytics)</p>",
+                "id": "c02-b5",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 3,
+                "id": "c02-b6",
+                "items": [
+                  {
+                    "note": "Up to 43–50%
+Word Trip baseline: ~35%",
+                    "title": "Day 1 Retention",
+                  },
+                  {
+                    "note": "Up to 18–35%
+Word Trip baseline: ~18%",
+                    "title": "Day 7 Retention",
+                  },
+                  {
+                    "note": "Up to 20–29%
+Word Trip baseline: ~12%",
+                    "title": "Day 28 Retention",
+                  },
+                  {
+                    "note": "~3–5%
+Word Trip baseline: ~2.5%",
+                    "title": "IAP Conversion Rate",
+                  },
+                  {
+                    "note": "Up to 27–45 minutes
+Word Trip baseline: ~15 min",
+                    "title": "Session Length",
+                  },
+                  {
+                    "note": "Up to $10
+Mobile game analytics benchmark",
+                    "title": "ARPPU",
+                  },
+                  {
+                    "note": "~$0.60
+Word Trip baseline comparable",
+                    "title": "ARPU",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c02",
+            "title": "Competitive Landscape",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>Based on observations from Word Trip & competitor app usage over multiple days:</p>",
+                "id": "c03-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "1. High Onboarding Friction",
+                "id": "c03-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Word Trip shows 3 consecutive pop-ups (thank you message, iOS ads tracking, notifications) before even asking for login/account creation — then lands on the first product experience. This creates <strong>5+ clicks before first gameplay</strong>, the highest among all competitors.</li><li><strong>How competitors do it differently:</strong> Word Escapes: only EULA acceptance before product demo. Word Connect: iOS ad tracking then immediately starts gameplay. Word Cookies: just two pop-ups before gameplay.</li><li><strong>Why this matters:</strong> First-time UX directly impacts install-to-player conversion. Each additional click before gameplay increases drop-off by ~20% (GameAnalytics). Acquisition costs are wasted when users abandon before experiencing core gameplay. High friction creates negative first impressions leading to poor store ratings.</li></ul>",
+                "id": "c03-b3",
+                "type": "list",
+              },
+              {
+                "body": "2. Limited Game Formats",
+                "id": "c03-b4",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Word Trip offers only <strong>one format of word game</strong> unlocked at initial level. The travel theme with hidden bonus words is engaging but becomes repetitive without alternative modes.</li><li><strong>How competitors do it differently:</strong> Zynga Word With Friends: multiple game modes accessible at all levels — daily puzzle, match of the day, solo challenge, word wheel, social gaming, PvP, crosswords, Clubs. Word Connect: offers sentence completion. Word Escapes: crossword-style gameplay as an alternative format.</li><li><strong>Why this matters:</strong> Different formats appeal to various skill levels and play preferences. Udonis Research shows variety significantly reduces churn by preventing gameplay fatigue. Limited formats restrict session length. Multiple formats create cross-promotion opportunities.</li></ul>",
+                "id": "c03-b5",
+                "type": "list",
+              },
+              {
+                "body": "3. Suboptimal Monetization & IAP Strategy",
+                "id": "c03-b6",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Poor IAP Bundle Design:</strong> Best value packs are hidden; first item (600 INR) is neither popular nor best value. Most popular plan placed in the second fold. No restore plan option or mega sale timer.</li><li><strong>Ad Overload:</strong> Excessive ads during the second session, leading to a frustrating user experience.</li><li><strong>How competitors do it differently:</strong> Word Escapes: better bundling, exclusive time-sensitive bundling at start, red color to highlight value. Zynga: places 'most popular' first, uses time-associated offers with shimmer animation. Word Connect: 'one time offer' creating urgency, restore option. Word Cookies: sale timer, most popular bundles at top.</li><li><strong>Why this matters:</strong> IAP optimization impacts revenue without requiring additional users. Optimal IAP presentation can increase conversion by 25–35% (Liftoff). Early ad bombardment damages retention. Urgency mechanics (timers, limited offers) are proven psychological triggers.</li></ul>",
+                "id": "c03-b7",
+                "type": "list",
+              },
+              {
+                "body": "4. Missing Retention Mechanisms",
+                "id": "c03-b8",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Word Trip lacks <strong>leaderboards, daily/weekly milestones, temporal events</strong> (Holi, Diwali), and social gaming features like PvP. Engagement features like clubs and daily spelling bee only unlock at higher levels.</li><li><strong>How competitors do it differently:</strong> Word Escapes: leaderboards for competitive play. Zynga: leaderboards for global & friends, solo challenge, Clubs at all levels. Word Connect: daily tasks with progress promoting retention. Word Cookies: milestones with reward rates. Word With Friends: daily free claim section improving daily behaviour.</li><li><strong>Why this matters:</strong> Retention is the primary driver of LTV in free-to-play games. GameRefinery research shows games with robust retention features maintain 30–40% higher DAU/MAU ratios. Social features create organic growth. Seasonal events create reasons to return.</li></ul>",
+                "id": "c03-b9",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c03",
+            "title": "User Pain Points",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Initiative Priority Ranking",
+                "id": "c04-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Reach × Impact × Confidence ÷ Effort</p>",
+                "id": "c04-b2",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "checkFormula": true,
+                "columns": [
+                  "#",
+                  "Initiative",
+                  "Reach",
+                  "Impact",
+                  "Conf.",
+                  "Effort",
+                  "RICE",
+                ],
+                "formula": "rice",
+                "highlightTop": 3,
+                "id": "c04-b3",
+                "phoneCards": true,
+                "reviewed": [],
+                "rows": [
+                  [
+                    "1",
+                    "Streamline Onboarding",
+                    "10",
+                    "2",
+                    "90%",
+                    "1 mo",
+                    "18",
+                  ],
+                  [
+                    "2",
+                    "Optimize IAP Strategy",
+                    "8",
+                    "3",
+                    "85%",
+                    "3 mo",
+                    "6.8",
+                  ],
+                  [
+                    "3",
+                    "Add Multiple Game Formats",
+                    "8",
+                    "2.5",
+                    "80%",
+                    "4 mo",
+                    "4",
+                  ],
+                  [
+                    "4",
+                    "Implement Retention Features",
+                    "9",
+                    "2",
+                    "75%",
+                    "4 mo",
+                    "3.38",
+                  ],
+                  [
+                    "5",
+                    "Add Social Gaming",
+                    "6",
+                    "2",
+                    "70%",
+                    "3 mo",
+                    "2.8",
+                  ],
+                ],
+                "sortByScore": false,
+                "type": "table",
+              },
+            ],
+            "hidden": false,
+            "id": "c04",
+            "title": "RICE Prioritisation",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p><strong>Current Position:</strong> Word Trip is the #5 player in the word games category. <strong>Target Position:</strong> Reach #3 within 12 months. The strategy leverages Word Trip's unique travel theme as differentiation while filling competitive gaps in formats, retention, and monetization.</p>",
+                "id": "c05-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li><strong>Travel Companions:</strong> Friend system framed as 'travel buddies' who can assist with hints or play together. Ability to send postcards (messages/challenges) from unlocked destinations.</li><li><strong>Travel Rewards Economy:</strong> Convert traditional coins/gems into 'miles' redeemable for game benefits. Premium 'expeditions' for IAP purchases taking players to exclusive destinations. Travel-themed power-ups (e.g., 'Local Guide' for hints, 'Translation Book' for word reveals).</li><li><strong>Fill competitive gaps:</strong> Multiple game formats and retention mechanics to match top performers.</li><li><strong>Monetization innovation:</strong> Personalized IAP bundles based on user behaviour and spend patterns.</li><li><strong>New Market Expansion:</strong> Identify new markets for localized experiences — inspired by Words of Wonders gaining 60 million installs in 18 months through localization for Russia and Turkey.</li></ul>",
+                "id": "c05-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c05",
+            "title": "Market Share Positioning Strategy",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Growth Targets",
+                "id": "c06-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<p>6-Month vs 12-Month targets (relative to baseline)</p>",
+                "id": "c06-b2",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 3,
+                "id": "c06-b3",
+                "items": [
+                  {
+                    "note": "6-Month: 1.2× · 12-Month: 1.35×
+6.5M → 8.8M target",
+                    "title": "Monthly Active Users",
+                  },
+                  {
+                    "note": "6-Month: 1.25× · 12-Month: 1.44×
+$0.60 → $0.75 ARPU",
+                    "title": "Average Revenue Per User",
+                  },
+                  {
+                    "note": "6-Month: 1.5× · 12-Month: 1.1×
+App Store #62 → #30 target",
+                    "title": "Market Share Ranking",
+                  },
+                  {
+                    "note": "6-Month: 1.4× · 12-Month: 1.5×
+35% → 48% target",
+                    "title": "Day 1 Retention",
+                  },
+                  {
+                    "note": "6-Month: 1.1× · 12-Month: 1.15×
+12% → ~14% target",
+                    "title": "Day 30 Retention",
+                  },
+                  {
+                    "note": "6-Month: 1.2× · 12-Month: 1.4×
+2.5% → 3.5% target",
+                    "title": "IAP Conversion Rate",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c06",
+            "title": "Expected Growth Metrics",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Onboarding Optimization",
+                "id": "c07-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Reduce clicks from 5 to 2 (game demo → optional account creation)</li><li>A/B test streamlined flows</li><li>Implement progressive permission requests at different milestones</li><li><em>KPIs:</em> First-time user conversion: 65% → 85% · Day 1 retention</li></ul>",
+                "id": "c07-b2",
+                "type": "list",
+              },
+              {
+                "body": "IAP Strategy Revamp",
+                "id": "c07-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Reorganize IAP bundles (most popular/best value first)</li><li>Implement timed exclusive offers</li><li>Add 'Restore Purchase' option</li><li>Improve bundle naming focused on value</li><li><em>KPIs:</em> IAP conversion rate: 2.5% → 3.1% · Total IAP purchases</li></ul>",
+                "id": "c07-b4",
+                "type": "list",
+              },
+              {
+                "body": "Ad Strategy Optimization",
+                "id": "c07-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Reduce ad frequency in first 3 sessions</li><li>Implement rewarded video ads with valuable rewards</li><li>Optimize ad placement based on user journey & milestones</li><li><em>KPIs:</em> Ad revenue per DAU · 7-day retention</li></ul>",
+                "id": "c07-b6",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c07",
+            "title": "Q1 Roadmap: Onboarding & Monetization",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Multiple Game Format Introduction",
+                "id": "c08-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Add 'Word Puzzles' format from level 1</li><li>Introduce 'Daily Challenge' with rotating formats</li><li>Create seamless navigation between game types</li><li><em>KPIs:</em> Average session time · Average sessions per day</li></ul>",
+                "id": "c08-b2",
+                "type": "list",
+              },
+              {
+                "body": "Retention Mechanisms",
+                "id": "c08-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Implement global and friends leaderboards</li><li>Add daily milestone system with rewards encouraging users to login</li><li><em>KPIs:</em> 30-day retention · DAU/MAU ratio</li></ul>",
+                "id": "c08-b4",
+                "type": "list",
+              },
+              {
+                "body": "Social Features Phase 1",
+                "id": "c08-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Add word challenges between friends</li><li>Create social sharing for achievements</li><li><em>KPIs:</em> Average sessions duration · Social feature engagement</li></ul>",
+                "id": "c08-b6",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c08",
+            "title": "Q2 Roadmap: Game Expansion & Engagement",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Live Ops & Seasonal Events",
+                "id": "c09-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Implement seasonal event framework</li><li>Add limited-time rewards and collections</li><li><em>KPIs:</em> Event participation rate · Revenue during events</li></ul>",
+                "id": "c09-b2",
+                "type": "list",
+              },
+              {
+                "body": "Personalization Engine",
+                "id": "c09-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Implement user segmentation based on behaviour</li><li>Create personalized & dynamic IAP bundles</li><li><em>KPIs:</em> IAP conversion for targeted segments · Retention rate</li></ul>",
+                "id": "c09-b4",
+                "type": "list",
+              },
+              {
+                "body": "New Market Expansion Research",
+                "id": "c09-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Do market study of new markets for word games</li><li>Create capabilities to support localised experience</li><li>Formulate GTM for targeted new markets</li><li><em>KPIs:</em> Total addressable market expansion</li></ul>",
+                "id": "c09-b6",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c09",
+            "title": "Q3 Roadmap: Monetization & Live Ops",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Advanced Game Formats",
+                "id": "c10-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Add 'Word Wheel', 'Sentence Completion', 'Wordle' and other high-engaging word game formats</li><li><em>KPIs:</em> New user growth: +15% · Cross-format engagement: 30% of users</li></ul>",
+                "id": "c10-b2",
+                "type": "list",
+              },
+              {
+                "body": "Social Features Phase 2",
+                "id": "c10-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Implement PvP word battles</li><li>Add different game formats for PvP battles</li><li><em>KPIs:</em> Social feature engagement · Retention rate · Average session time</li></ul>",
+                "id": "c10-b4",
+                "type": "list",
+              },
+              {
+                "body": "Market Expansion 2",
+                "id": "c10-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Integrate Local Payment Methods</li><li>Run targeted regional campaigns</li><li>Launch localised leaderboards</li><li>Launch Regional Live Events</li><li>ASO for new markets</li><li><em>KPIs:</em> Total addressable market · Revenue · MAU · DAU</li></ul>",
+                "id": "c10-b6",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c10",
+            "title": "Q4 Roadmap: Advanced Features & Expansion",
+          },
+        ],
+        "todo": [
+          "prototype-link",
+        ],
+        "visuals": {
+          "accent": "yellow",
+          "cover": {
+            "mediaId": "cover-word-games-monetisation-strategy",
+          },
+          "gallery": [],
+          "hero": {
+            "type": "image",
+          },
+        },
+      },
+      "publish": true,
+      "slug": "word-games-monetisation-strategy",
+    },
+    {
+      "document": {
+        "headlineOutcomeId": "o4",
+        "outcomes": [
+          {
+            "id": "o1",
+            "inStrip": true,
+            "label": "Priority widgets designed",
+            "type": "output",
+            "value": "7",
+          },
+          {
+            "id": "o2",
+            "inStrip": true,
+            "label": "Full PRD → prototype shipped",
+            "type": "output",
+            "value": "V1",
+          },
+          {
+            "id": "o3",
+            "inStrip": true,
+            "label": "Workspace configurations possible",
+            "type": "output",
+            "value": "∞",
+          },
+          {
+            "id": "o4",
+            "inStrip": false,
+            "label": "shipped",
+            "type": "output",
+            "value": "0→1",
+          },
+        ],
+        "overview": {
+          "company": "Arcana · Workspace",
+          "kind": "prototype",
+          "prdUrl": "https://docs.google.com/document/d/1MZGAA0LmIOjF_hVQIMYgjWKM06vQP8Aq66b8-xf2xFQ/edit?tab=t.0#heading=h.su9f7jlfuspx",
+          "summary": "Bloomberg-style modular launchpad for institutional investors — grid-based workspaces with configurable widgets for real-time market monitoring",
+          "title": "Arcana Workspace",
+          "topics": [
+            "0→1",
+            "B2B",
+            "Prototyping",
+            "Workflows",
+            "Fintech",
+          ],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [
+          {
+            "blocks": [
+              {
+                "body": "<p>Institutional investors, analysts & researchers operate in a <strong>high frequency, high cognitive load environment</strong>. Their daily workflow involves simultaneously monitoring live prices, charts, news, alerts, and global market context while switching context across multiple asset classes.</p>",
+                "id": "c01-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li><strong>Fragmented Information</strong> — Prices, charts, news, alerts, and market hours live in separate views. Users must mentally stitch insights together by exploring each view independently.</li><li><strong>High Context Switching Cost</strong> — Switching between workflows (e.g., market open vs research) requires re-navigation. Analysts lose time reconstructing views multiple times a day.</li><li><strong>One-Size-Fits-All Interfaces</strong> — Different users track different assets, regions, and time horizons. A single default layout fails all of them.</li><li><strong>Poor State Persistence</strong> — Users expect their layouts, filters, and configurations to persist across sessions. Without this, they rework the same setup every time they log in.</li></ul>",
+                "id": "c01-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c01",
+            "title": "Problem Statement",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<ul><li>A modular workspace increases <strong>product stickiness</strong>. Custom dashboards directly correlate with higher retention and daily engagement by becoming the user’s <strong>first preference</strong> for daily monitoring.</li><li>There is <strong>already a market precedent</strong> set by <strong>Bloomberg Launchpad</strong> — one of the most heavily used terminal features — because it solves this exact problem through customizable, persistent widgets & workspaces.</li></ul>",
+                "id": "c02-b1",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c02",
+            "title": "Why This Is Worth Solving",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>Build <strong>Arcana Workspace</strong> — a modular, <strong>Bloomberg-style Launchpad</strong> that allows users to create, save, and switch between personalised workspaces composed of configurable widgets — optimised for real-time monitoring, clarity, and execution with speed, leading to repeat daily usage.</p>",
+                "id": "c03-b1",
+                "style": "lead",
+                "type": "text",
+              },
+            ],
+            "hidden": false,
+            "id": "c03",
+            "title": "Product Vision",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<ul><li>Enable users to build custom workspaces using modular widgets from scratch or premade templates</li><li>Templates are workspace formats with widgets designed for unique use cases (NEWS, Portfolio, Research) — with optional Global Settings that are must-haves (e.g., Portfolio template requires selecting an index/equity to power widgets)</li><li>Support adding, resizing, configuring, and saving widget layouts</li><li>Allow multiple tabs/pages per workspace</li><li>Ability to edit / copy / add / save / share workspace & pages, with fast switching between them</li><li>Preserve widget-level intelligence (e.g., Nvidia selected in index & performance widget persists)</li><li><strong>V1 = Signal intake + context + workflow persistence.</strong> V2 = Outcome measurement (performance, deep analytics, risk, attribution, order execution integration)</li></ul>",
+                "id": "c04-b1",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c04",
+            "title": "Goals for V1",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>A Bloomberg Launchpad user typically combines price monitors + charts + news feeds to correlate headlines with price reactions, uses alerts to catch significant moves without continuous hovering, and saves workflows by theme (commodity tracking, earnings day, global markets). This mirrors how users segment their day:</p>",
+                "id": "c05-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li><strong>Morning pre-open scan</strong> — Macro indices, overnight movers, news catch-up</li><li><strong>Live session monitoring</strong> — Real-time price action, alerts firing, chart patterns</li><li><strong>Post-close analysis</strong> — P&L review, sector performance, next-day prep</li></ul>",
+                "id": "c05-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c05",
+            "title": "Market Research",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>These cover the <strong>core workflows of watching prices & signals</strong> — the top job of users. We are launching the monitoring layer, not the outcome layer.</p>",
+                "id": "c06-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "columns": 3,
+                "id": "c06-b2",
+                "items": [
+                  {
+                    "note": "Most basic, most used — priority 1 for every workflow",
+                    "title": "Equity Price Monitor",
+                  },
+                  {
+                    "note": "Global indices (S&P, Nifty) — macro sentiment gauge widely used by analysts",
+                    "title": "Index Tracker",
+                  },
+                  {
+                    "note": "Critical for cross-asset views (similar to Bloomberg’s commodities widget)",
+                    "title": "Commodity Prices",
+                  },
+                  {
+                    "note": "Visual confirmation of trends & patterns — core to all workflows",
+                    "title": "Real-Time Chart",
+                  },
+                  {
+                    "note": "Provides context to price movements — heavily used across all personas",
+                    "title": "Live News Feed",
+                  },
+                  {
+                    "note": "Simple price threshold alerts — helps catch key events without always watching",
+                    "title": "Price Alerts",
+                  },
+                  {
+                    "note": "Supports a global view across regions and trading sessions",
+                    "title": "Timezone / Market Hours",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c06",
+            "title": "Prioritised Widgets",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Workspace",
+                "id": "c07-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Grid-based canvas (like Metabase dashboard layout) — chosen over free-form positioning to optimise for scale, stability, and cognitive clarity in high-load environments</li><li>Preset templates for core use cases (Portfolio Analysis, Single Stock Analysis, etc.) with pre-specified widgets and optional Global Settings</li><li>Workspaces can be copied, renamed, shared, rearranged, customised and managed from settings</li><li>Added workspaces appear side-by-side and switch instantly on click</li></ul>",
+                "id": "c07-b2",
+                "type": "list",
+              },
+              {
+                "body": "Widgets",
+                "id": "c07-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Modular, atomic blocks of the workspace with multiple responsive UI sizes (like Apple widgets — different UI for different grid sizes)</li><li>Can be configured (columns/filters/indicators/flags), added, resized, repositioned, renamed, or removed</li><li>Widgets retain their full capabilities inside the workspace (e.g., Summary widget retains % AUM & % Gross selections)</li><li>Users can add any widget from the terminal directly to a workspace page; widget lands in the next vacant grid area</li><li>Widgets cannot overlap. Option to export widget data in relevant Excel format</li></ul>",
+                "id": "c07-b4",
+                "type": "list",
+              },
+              {
+                "body": "Pages",
+                "id": "c07-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Each workspace supports multiple pages representing sub-contexts (e.g., Price, Valuation within a Portfolio template)</li><li>Pages visible side-by-side with add, delete, reorder, rename, copy, share capabilities</li><li>Pages can be managed from settings or via right-click context menu</li></ul>",
+                "id": "c07-b6",
+                "type": "list",
+              },
+              {
+                "body": "Group Components (V1 → V2)",
+                "id": "c07-b7",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>V1: Global Settings for presets — groupings are done during template creation (e.g., selecting a stock links all widgets)</li><li>V2: Fully-fledged Group Manager where users can map components to each other, change a security in one component and all grouped components update</li></ul>",
+                "id": "c07-b8",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c07",
+            "title": "Core Capabilities",
+          },
+          {
+            "blocks": [
+              {
+                "body": "First-Time User Experience",
+                "id": "c08-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<p><strong>Entry:</strong> No existing workspaces</p>",
+                "id": "c08-b2",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "id": "c08-b3",
+                "stages": [
+                  {
+                    "title": "User opens Arcana Workspace, clicks Create New → 3 options: optimised view for screen, sample view from manager, or blank canvas",
+                  },
+                  {
+                    "title": "On blank canvas: Launchpad toolbar appears with Page 1 and no widgets. Search bar available to add components or select templates",
+                  },
+                  {
+                    "title": "User adds first component or selects template, configures parameters/global settings, adjusts position & size",
+                  },
+                  {
+                    "title": "User saves the view and workspace",
+                  },
+                ],
+                "type": "journey",
+              },
+              {
+                "body": "<p><strong>Exit:</strong> Saved workspace with at least one page and widget</p>",
+                "id": "c08-b4",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "body": "Adding & Configuring a Widget",
+                "id": "c08-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<p><strong>Entry:</strong> Active workspace with at least one page</p>",
+                "id": "c08-b6",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "id": "c08-b7",
+                "stages": [
+                  {
+                    "title": "User clicks search → Component/Template Browser opens with categories and previews",
+                  },
+                  {
+                    "title": "Selects component → appears on canvas in default state",
+                  },
+                  {
+                    "title": "User configures columns/filters/indicators/flags, optionally renames widget",
+                  },
+                  {
+                    "title": "A widget can’t exist in the same state twice on a particular page",
+                  },
+                ],
+                "type": "journey",
+              },
+              {
+                "body": "<p><strong>Exit:</strong> Configured widget on active page</p>",
+                "id": "c08-b8",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "body": "Building a Multi-Page Workspace",
+                "id": "c08-b9",
+                "type": "heading",
+              },
+              {
+                "body": "<p><strong>Entry:</strong> Workspace with at least one saved page</p>",
+                "id": "c08-b10",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "id": "c08-b11",
+                "stages": [
+                  {
+                    "title": "User clicks +New Page, creates Page 2 inside the same workspace",
+                  },
+                  {
+                    "title": "Adds different widgets (e.g., Asia markets) or templates from search",
+                  },
+                  {
+                    "title": "Right-click options: copy, rename, rearrange, delete, share, customise",
+                  },
+                  {
+                    "title": "Pages appear side-by-side, switch instantly on click",
+                  },
+                ],
+                "type": "journey",
+              },
+              {
+                "body": "<p><strong>Exit:</strong> One workspace, multiple task-specific pages</p>",
+                "id": "c08-b12",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "body": "Returning User Daily Flow",
+                "id": "c08-b13",
+                "type": "heading",
+              },
+              {
+                "body": "<p><strong>Entry:</strong> Existing saved workspaces</p>",
+                "id": "c08-b14",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "id": "c08-b15",
+                "stages": [
+                  {
+                    "title": "User logs in → last-used workspace auto-opens (if no default set)",
+                  },
+                  {
+                    "title": "Scans monitors, switches pages/workspaces as needed",
+                  },
+                  {
+                    "title": "Makes minor edits → auto-save or manual save persists state",
+                  },
+                ],
+                "type": "journey",
+              },
+              {
+                "body": "<p><strong>Exit:</strong> Updated workspace state persisted for next session</p>",
+                "id": "c08-b16",
+                "style": "body",
+                "type": "text",
+              },
+            ],
+            "hidden": false,
+            "id": "c08",
+            "title": "User Journeys",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Adoption & Activation",
+                "id": "c09-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Is Workspace Valuable?</p>",
+                "id": "c09-b2",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 2,
+                "id": "c09-b3",
+                "items": [
+                  {
+                    "note": "% of active users who create ≥1 workspace within 7 days
+Indicates initial value discovery",
+                    "title": "Workspace Creation Rate",
+                  },
+                  {
+                    "note": "% of users who create a workspace, add ≥3 widgets & save it
+Confirms meaningful usage, not just exploration",
+                    "title": "Activation Rate",
+                  },
+                  {
+                    "note": "% of users using a template vs blank canvas
+Validates usefulness of templates",
+                    "title": "Template Usage Rate",
+                  },
+                  {
+                    "note": "% of users who abandon creation flow before saving
+Identifies friction in workspace creation",
+                    "title": "Creation Drop-off Rate",
+                  },
+                ],
+                "type": "cards",
+              },
+              {
+                "body": "Engagement & Habit Formation",
+                "id": "c09-b4",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Is It Becoming a Daily Tool?</p>",
+                "id": "c09-b5",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 3,
+                "id": "c09-b6",
+                "items": [
+                  {
+                    "note": "Workspace DAU ÷ Total DAU
+Indicates daily stickiness",
+                    "title": "Workspace DAU Ratio",
+                  },
+                  {
+                    "note": "% of sessions where Workspace opens by default
+Signals habit formation",
+                    "title": "Default Launch Rate",
+                  },
+                  {
+                    "note": "Avg workspace sessions per user per day ÷ total sessions
+Measures frequency of use",
+                    "title": "Repeat Usage Rate",
+                  },
+                  {
+                    "note": "Day-over-day retention for Workspace users
+Validates long-term platform stickiness",
+                    "title": "D1–D30 Retention",
+                  },
+                  {
+                    "note": "Average widgets added per workspace
+Indicates richness of setup",
+                    "title": "Avg Widgets per Workspace",
+                  },
+                  {
+                    "note": "% of users switching pages within a session
+Validates page-level value",
+                    "title": "Page Switching Rate",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c09",
+            "title": "Success Metrics",
+          },
+        ],
+        "visuals": {
+          "accent": "slate",
+          "cover": {
+            "mediaId": "cover-arcana-workspace",
+          },
+          "gallery": [],
+          "hero": {
+            "frame": "desktop",
+            "start": "click",
+            "type": "prototype",
+            "url": "https://workspace-nu-liard.vercel.app/",
+          },
+        },
+      },
+      "publish": true,
+      "slug": "arcana-workspace",
+    },
+    {
+      "document": {
+        "headlineOutcomeId": "o4",
+        "outcomes": [
+          {
+            "id": "o1",
+            "inStrip": true,
+            "label": "Users currently losing >1 kg — baseline to improve",
+            "type": "baseline",
+            "value": "64%",
+          },
+          {
+            "id": "o2",
+            "inStrip": true,
+            "label": "Additional loss for protocol followers vs non-followers",
+            "type": "baseline",
+            "value": "2.5kg",
+          },
+          {
+            "id": "o3",
+            "inStrip": true,
+            "label": "Fitness MAU — structural engagement gap to close",
+            "type": "baseline",
+            "value": "25%",
+          },
+          {
+            "id": "o4",
+            "inStrip": false,
+            "label": "lost by protocol followers",
+            "type": "baseline",
+            "value": "+2.5 kg",
+          },
+        ],
+        "overview": {
+          "company": "GLP Health",
+          "kind": "study",
+          "summary": "Repositioning a GLP app from activity tracker to outcome-driven metabolic platform for durable weight loss",
+          "title": "GLP-1 digital scaffold",
+          "topics": [
+            "Engagement",
+            "Personalization",
+            "Monetization",
+          ],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [
+          {
+            "blocks": [
+              {
+                "body": "<p>GLP-1 medications have redefined what is clinically possible in weight loss — but real-world outcomes remain fragile. The gap is no longer pharmacology; it is <strong>behavioral persistence, expectation management, and metabolic protection</strong>. Today's GLP app is optimised for <em>recording activity</em>, not <em>driving outcomes</em>.</p>",
+                "id": "c01-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li>The product does not help users <strong>interpret stalled progress</strong></li><li>The product does not help users <strong>understand body recomposition</strong></li><li>The product does not help users <strong>protect muscle mass</strong></li><li>The product does not help users <strong>stay adherent through plateaus and side effects</strong></li><li>As a result: only <strong>64% of users lose >1 kg</strong> · fitness engagement is <strong>~25% MAU</strong> · progress is perceived as binary ('weight down = success, else failure')</li><li>The next phase requires a strategic shift from <strong>tracking behaviour</strong> to <strong>owning outcomes</strong> — repositioning the GLP app as a <strong>Digital Scaffold</strong> that translates medication into durable metabolic outcomes.</li></ul>",
+                "id": "c01-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c01",
+            "title": "Summary",
+          },
+          {
+            "blocks": [
+              {
+                "body": "2.1 The GLP-1 Market Has Entered Its Second Act",
+                "id": "c02-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>2022–2024 optimised for access:</strong> Rapid prescriber onboarding · Consumer-led demand · Medication-first value propositions</li><li><strong>2025–2026 structural shifts forcing a reset:</strong> Medication prices are falling · Prescription access is commoditising · 'GLP-only' platforms are losing defensibility</li><li><strong>Differentiation has moved downstream</strong> — from getting users on medication to ensuring outcomes persist.</li><li>Across Noom, Omada, Found, and HealthifyMe, a consistent pattern: <em>'Medication enables weight loss. Engagement architecture determines durability.'</em></li></ul>",
+                "id": "c02-b2",
+                "type": "list",
+              },
+              {
+                "body": "2.2 The Persistence Crisis Is the Real Bottleneck",
+                "id": "c02-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Real-world GLP-1 programs show <strong>50–70% discontinuation within 12 months</strong>, with highest dropout in the <strong>first 90 days</strong>.</li><li>This is not due to lack of intent — it's due to unmanaged friction across <strong>The Attrition Triad</strong>:</li><li><strong>Biological:</strong> Nausea, GI distress, fatigue → Early dropout</li><li><strong>Psychological:</strong> Food identity shifts, stigma, confusion → Loss of confidence</li><li><strong>Metric:</strong> Scale plateaus despite fat loss → Motivation collapse</li><li>Most products fail because they treat weight loss as <strong>linear</strong>. Users experience it as <strong>non-linear, emotional, and confusing</strong>.</li></ul>",
+                "id": "c02-b4",
+                "type": "list",
+              },
+              {
+                "body": "2.3 What Winning Products Do Differently",
+                "id": "c02-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Outcome visibility beats activity logging</strong> — Users need interpretation, not raw data.</li><li><strong>Human + digital hybrids outperform pure automation</strong> — Coaching access materially improves adherence and persistence.</li><li><strong>Muscle preservation is emerging as the new moat</strong> — Fast weight loss without muscle protection leads to metabolic slowdown and rebound.</li><li>This creates a clear opening: <em>The next category leader will sell <strong>metabolic integrity</strong>, not just weight loss.</em></li></ul>",
+                "id": "c02-b6",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c02",
+            "title": "Market Research: Why the Old Model Is Breaking",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p><strong>The End of 'Prescription as Product':</strong> As GLP-1 access becomes ubiquitous, users will ask harder questions. A logging-centric app cannot answer them. An outcome-owning product can. This is the inflection point where <strong>clinical ownership becomes the product</strong>.</p>",
+                "id": "c03-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li>Does weight loss persist beyond 3 months?</li><li>Is muscle mass preserved?</li><li>Are side effects managed early?</li><li>Is cardiometabolic risk actually improving?</li></ul>",
+                "id": "c03-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c03",
+            "title": "Why Now",
+          },
+          {
+            "blocks": [
+              {
+                "body": "What's Working",
+                "id": "c04-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Strong foundational tracking primitives (weight, meals, fitness, side effects)</li><li>High engagement with human coaches (~<strong>80% M2 chat usage</strong>)</li><li>Embedded clinical access</li></ul>",
+                "id": "c04-b2",
+                "type": "list",
+              },
+              {
+                "body": "Where the Experience Breaks",
+                "id": "c04-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>No unified definition of 'progress'</li><li>Fitness treated as optional, not essential</li><li>Body composition invisible</li><li>Protocol adherence implicit, not explicit</li><li>Users log, but are not guided</li><li><em>The product records the journey — but does not <strong>direct</strong> it.</em></li></ul>",
+                "id": "c04-b4",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c04",
+            "title": "Current Product Reality",
+          },
+          {
+            "blocks": [
+              {
+                "body": "5.1 Progress Feels Invisible",
+                "id": "c05-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Users anchor success entirely to scale weight.</li><li>Users who lose ≥1 kg show <strong>–2 cm waist reduction</strong></li><li>Users who don't lose weight show <strong>+1 cm waist gain</strong></li><li>Waist tracking strongly correlates with perceived success</li><li>This does <strong>not</strong> imply waist logging causes weight loss. It shows that <strong>visible signals sustain motivation</strong> — and these signals need not be absolute weight loss.</li></ul>",
+                "id": "c05-b2",
+                "type": "list",
+              },
+              {
+                "body": "5.2 Expectation Mismatch With GLP-1",
+                "id": "c05-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>User belief:</strong> 'Medication will do the work. I can eat anything freely.'</li><li><strong>Clinical reality:</strong> GLP-1 reduces appetite — not muscle loss risk.</li><li>Without guidance: Exercise drops · Lean mass declines · RMR falls · Weight regain risk increases</li><li>The app does not currently reset expectations early enough.</li></ul>",
+                "id": "c05-b4",
+                "type": "list",
+              },
+              {
+                "body": "5.3 Fitness Avoidance Is a Structural Risk",
+                "id": "c05-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Fitness MAU ~25% · Majority complete only one session</li><li><strong>Clinical implication:</strong> Sarcopenic obesity risk · Unsustainable weight loss</li></ul>",
+                "id": "c05-b6",
+                "type": "list",
+              },
+              {
+                "body": "5.4 Gender-Based Outcome Gap (New Insight)",
+                "id": "c05-b7",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Men: <strong>1.66 kg</strong> average loss · Women: <strong>1.26 kg</strong> average loss</li><li><strong>Clinical context:</strong> Testosterone supports muscle preservation. Women require more intentional resistance training.</li><li><strong>Strategic implication:</strong> Fitness cannot be optional — especially for female users.</li></ul>",
+                "id": "c05-b8",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c05",
+            "title": "Core User Pain Points (Data-Backed)",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>These are correlations, not causal claims. But they clearly indicate: when protocol adherence is understood and maintained, outcomes improve. <strong>Engagement clusters around success</strong> — not the other way around. The product must make adherence <strong>visible, actionable, and reinforced</strong>.</p>",
+                "id": "c06-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li>Protocol followers lose <strong>~2.5 kg more</strong></li><li>Weight-loss cohort logs <strong>2× more meals</strong></li><li>Weight-loss cohort connects <strong>~30% more with doctors</strong></li><li>Non-weight-loss cohort shows <strong>waist gain</strong></li></ul>",
+                "id": "c06-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c06",
+            "title": "What the Data Is Actually Saying",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Pillar 1: Progress Visibility Beyond the Scale",
+                "id": "c07-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Smart scale integration (where available)</li><li>Waist and measurement trends surfaced prominently</li><li>Full-body scan to visualise recomposition</li><li>Explicit plateau education</li></ul>",
+                "id": "c07-b2",
+                "type": "list",
+              },
+              {
+                "body": "Pillar 2: Muscle Preservation & Fitness as a Core Outcome",
+                "id": "c07-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Resistance-first fitness programs</li><li>Proactive 1:1 fitness consultations</li><li>Clear framing: <em>fitness = metabolic protection</em></li><li>Gender-aware guidance (especially for women)</li></ul>",
+                "id": "c07-b4",
+                "type": "list",
+              },
+              {
+                "body": "Pillar 3: Clinical Adherence & Side-Effect Triage",
+                "id": "c07-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Structured side-effect monitoring</li><li>Rapid escalation to coach/doctor</li><li>Dosage expectation education</li><li>Early-week intervention loops</li></ul>",
+                "id": "c07-b6",
+                "type": "list",
+              },
+              {
+                "body": "Pillar 4: Protocol-Driven Experience",
+                "id": "c07-b7",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Clear weekly protocol</li><li>Visible adherence signals</li><li>Outcome-based milestones vs task completion</li></ul>",
+                "id": "c07-b8",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c07",
+            "title": "The Four Pillars of the GLP Digital Scaffold",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Primary Loop",
+                "id": "c08-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Progress clarity → confidence → adherence → outcomes</strong></li></ul>",
+                "id": "c08-b2",
+                "type": "list",
+              },
+              {
+                "body": "Secondary Loops",
+                "id": "c08-b3",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Human accountability loop:</strong> Coach touchpoints at risk moments (plateau weeks, side-effect spikes) — not reactive support. Leverages existing ~80% M2 chat engagement.</li><li><strong>Visual reinforcement loop:</strong> Body scans, composition change visualisations, and waist trend charts shown contextually — where users are already looking.</li><li><strong>Safety loop:</strong> Side-effect resolution workflows that proactively surface guidance and escalation options. Trust built through managed adversity.</li><li>These loops align with industry evidence that <strong>hybrid human + digital models materially improve persistence</strong>.</li></ul>",
+                "id": "c08-b4",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c08",
+            "title": "Engagement & Retention Loops",
+          },
+          {
+            "blocks": [
+              {
+                "body": "Outcome Improvement",
+                "id": "c09-b1",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Are users actually losing weight and keeping it off?</p>",
+                "id": "c09-b2",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 2,
+                "id": "c09-b3",
+                "items": [
+                  {
+                    "note": "64% baseline → 75% target
+Primary outcome signal — closes the gap between medication efficacy and real-world results",
+                    "title": "Users losing >1 kg",
+                  },
+                  {
+                    "note": "Close from 2.5 kg to <1 kg vs non-followers
+Protocol adherence is the primary causal lever",
+                    "title": "Protocol followers weight gap",
+                  },
+                  {
+                    "note": ">50% of active users logging waist measurements
+Non-scale visibility drives motivation through plateaus",
+                    "title": "Waist tracking adoption",
+                  },
+                ],
+                "type": "cards",
+              },
+              {
+                "body": "Fitness & Muscle Protection",
+                "id": "c09-b4",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Is the metabolic protection layer working?</p>",
+                "id": "c09-b5",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 2,
+                "id": "c09-b6",
+                "items": [
+                  {
+                    "note": "~25% baseline → 45% target
+Structural engagement gap — fitness is medically essential, not optional",
+                    "title": "Fitness MAU",
+                  },
+                  {
+                    "note": "Users completing ≥3 sessions: <5% baseline → 20% target
+Resistance training is the primary muscle preservation mechanism",
+                    "title": "Resistance sessions/week",
+                  },
+                  {
+                    "note": "Close the 0.4 kg gender outcome gap within 6 months
+Gender-blind fitness experience fails the majority of the user base",
+                    "title": "Female fitness engagement parity",
+                  },
+                ],
+                "type": "cards",
+              },
+              {
+                "body": "Adherence & Retention",
+                "id": "c09-b7",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Is the scaffold keeping users on protocol?</p>",
+                "id": "c09-b8",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 2,
+                "id": "c09-b9",
+                "items": [
+                  {
+                    "note": "30–50% baseline → 55% target
+50–70% discontinuation is the core problem this entire strategy addresses",
+                    "title": "12-month retention",
+                  },
+                  {
+                    "note": "Reduce by 30%
+Highest dropout in first 90 days — early intervention is highest leverage",
+                    "title": "First-90-day dropout",
+                  },
+                  {
+                    "note": ">80% escalation within 48hr of side-effect log
+Rapid escalation converts biological friction into trust-building moments",
+                    "title": "Coach escalation speed",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c09",
+            "title": "Success Metrics",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>The GLP market is shifting from <strong>access to accountability</strong>. Products that remain logging-centric will struggle to differentiate. Platforms that <strong>own outcomes, expectations, and persistence</strong> will define the category.</p>",
+                "id": "c10-b1",
+                "style": "lead",
+                "type": "text",
+              },
+            ],
+            "hidden": false,
+            "id": "c10",
+            "title": "Final Takeaway",
+          },
+        ],
+        "visuals": {
+          "accent": "green",
+          "cover": {
+            "mediaId": "cover-glp-1-digital-scaffold",
+          },
+          "gallery": [],
+          "hero": {
+            "type": "image",
+          },
+        },
+      },
+      "publish": true,
+      "slug": "glp-1-digital-scaffold",
+    },
+    {
+      "document": {
+        "headlineOutcomeId": "o4",
+        "outcomes": [
+          {
+            "id": "o1",
+            "inStrip": true,
+            "label": "Projected net incremental monthly revenue",
+            "type": "projected",
+            "value": "$50-65K",
+          },
+          {
+            "id": "o2",
+            "inStrip": true,
+            "label": "ARPU target (from $2.00 baseline)",
+            "type": "target",
+            "value": "$2.10+",
+          },
+          {
+            "id": "o3",
+            "inStrip": true,
+            "label": "Features across 4 player segments",
+            "type": "output",
+            "value": "5",
+          },
+          {
+            "id": "o4",
+            "inStrip": false,
+            "label": "monthly revenue (~$50K)",
+            "type": "projected",
+            "value": "+5%",
+          },
+        ],
+        "overview": {
+          "company": "FarmVille 3 · Zynga",
+          "kind": "study",
+          "summary": "Pain-point-driven monetization via subscription, consumables, and community events to unlock 5% monthly incremental revenue",
+          "title": "Revenue growth strategy",
+          "topics": [
+            "Monetization",
+            "Mobile",
+            "Games",
+            "Engagement",
+            "Retention",
+          ],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [
+          {
+            "blocks": [
+              {
+                "body": "<p>FarmVille 3 generates ~$1M/month from ~500K MAU with two revenue drivers: direct IAP purchases and gem spending. The strategy targets <strong>$50K incremental monthly revenue (5% lift)</strong> via IAP-only mechanics without any ads or partnerships. Three progression bottlenecks are identified — sticker scarcity, tree fatigue, and exotic quest walls — and five features are proposed across four player segments, from a $2.99 subscription to community-driven competitive events.</p>",
+                "id": "c01-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li><strong>Current Revenue:</strong> ~$1M/month · <strong>Target Lift:</strong> +5% · <strong>Projected Net Impact:</strong> $50–65K/mo · <strong>ARPU Target:</strong> $2.10+</li><li><strong>Revenue Driver 1: Direct Purchase</strong> — Loot boxes, DLC, bundles bought with real money</li><li><strong>Revenue Driver 2: Gem Purchases</strong> — More gem spending = more real-money top-ups</li><li><strong>Approach:</strong> New ways to spend real money directly + increasing gem spending on in-game items — driven by solving real player frustrations, not adding more friction.</li></ul>",
+                "id": "c01-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c01",
+            "title": "Executive Summary",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>FarmVille 3 under-monetizes vs. farming genre leaders. Its animal breeding (gacha) mechanic is its unique strength — it creates a high completionist drive. But the same mechanic creates the highest frustration when stickers or exotic animals are gated. <strong>The opportunity is to reduce this friction for a price.</strong></p>",
+                "id": "c02-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "Competitive Benchmark",
+                "id": "c02-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<p>FarmVille 3 vs. Farming Genre Leaders</p>",
+                "id": "c02-b3",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 3,
+                "id": "c02-b4",
+                "items": [
+                  {
+                    "note": "FarmVille 3: ~$1M · Hay Day: $15–20M · Township: $25–30M
+FarmVille 3 is significantly under-monetized relative to MAU",
+                    "title": "Est. Monthly Revenue",
+                  },
+                  {
+                    "note": "FarmVille 3: ~500K · Hay Day: 5–8M · Township: 10–15M
+Smaller audience but comparable ARPU opportunity",
+                    "title": "Est. MAU",
+                  },
+                  {
+                    "note": "FarmVille 3: $2.00 · Hay Day: $2.50–3.00 · Township: $2.00–2.50
+Target is to close the ARPU gap to $2.10+ via pain-point monetization",
+                    "title": "ARPU (Monthly)",
+                  },
+                  {
+                    "note": "FarmVille 3: 2–3% · Hay Day: 3–5% · Township: 3–4%
+Conversion gap is the primary revenue lever",
+                    "title": "IAP Conversion Rate",
+                  },
+                  {
+                    "note": "FarmVille 3: Gems + Farm Pass · Hay Day: Diamonds + trading · Township: Events + content depth
+Events and content depth are underutilized in FarmVille 3",
+                    "title": "Primary Monetization",
+                  },
+                  {
+                    "note": "FarmVille 3: Animal gacha/breeding · Hay Day: No forced tutorial · Township: City + farm hybrid
+Breeding mechanic is both the strength and the source of highest player frustration",
+                    "title": "Key Differentiator",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c02",
+            "title": "Market Context",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>Spend-behavior segmentation reveals the real revenue levers: 400K 'Never Spent' players are the largest conversion pool, while 30K 'Frequent Buyers' offer the deepest ARPU expansion. A Level 35 player who has never spent is fundamentally different from a Level 20 who buys every pass — level-based segmentation misses this.</p>",
+                "id": "c03-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "Segment Profiles & Monetization Strategies",
+                "id": "c03-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<p>4 Segments · Based on F2P Benchmarks (GameAnalytics 2024/2026)</p>",
+                "id": "c03-b3",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 2,
+                "id": "c03-b4",
+                "items": [
+                  {
+                    "note": "Play daily, social-heavy; never made a purchase
+Convert via low-friction subscription ($2.99/mo) — largest conversion pool",
+                    "title": "Never Spent (75–80% · ~400K)",
+                  },
+                  {
+                    "note": "Buy Farm Pass ($4.99) once or twice; use gems for level-ups
+Increase spend frequency via contextual bundles + XP boosters",
+                    "title": "Occasional Spender (12–15% · ~65K)",
+                  },
+                  {
+                    "note": "Spend on energy, time-skips, Sky Races; actively pursue exotic collections
+Deepen progression spend via sticker bundles, breeding boosters, event passes",
+                    "title": "Frequent Buyer (5–7% · ~30K)",
+                  },
+                  {
+                    "note": "Max out collections; buy every bundle; competitive status-driven
+Create prestige spend via animal showoffs and exclusive community events",
+                    "title": "Power Spender (1–2% · ~5K)",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c03",
+            "title": "Player Segmentation",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p><strong>Principle: Monetize the solution to player frustration, not the frustration itself.</strong></p>",
+                "id": "c04-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "The Sticker Bottleneck",
+                "id": "c04-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Players report extreme difficulty leveling up Farmhands due to rare sticker scarcity — the #1 complaint in app store reviews</li><li><strong>Opportunity:</strong> Sticker swap mechanics, targeted bundles</li><li><strong>Target:</strong> Occasional Spenders & Frequent Buyers</li></ul>",
+                "id": "c04-b3",
+                "type": "list",
+              },
+              {
+                "body": "Tree Fatigue",
+                "id": "c04-b4",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Trees wither after 3 harvests. Replacing costs coins/gems and high energy — creates negative friction that causes churn rather than spend</li><li><strong>Opportunity:</strong> Subscription that removes withering</li><li><strong>Target:</strong> Never Spent & Occasional Spenders</li></ul>",
+                "id": "c04-b5",
+                "type": "list",
+              },
+              {
+                "body": "Exotic Quest Walls",
+                "id": "c04-b6",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Many players are stuck on Chapter 10+ Exotic Quests because animal levels are too low — the gap feels unbridgeable</li><li><strong>Opportunity:</strong> Contextual bundles + breeding boosters</li><li><strong>Target:</strong> Frequent Buyers & Power Spenders</li></ul>",
+                "id": "c04-b7",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c04",
+            "title": "Growth Levers: Three Pain Points = Three Opportunities",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>A subscription + two consumables target the largest untapped revenue pool. Projected combined revenue (net of 30% store cut): <strong>$30K–$43K/month</strong>.</p>",
+                "id": "c05-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "Farm Hand Club @ $2.99/month",
+                "id": "c05-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Low-commitment entry below Farm Pass ($4.99) — priced to minimize friction for first-time buyers</li><li><strong>Infinite Tree Life</strong> — trees stop withering (solves #2 pain point)</li><li><strong>Weekly Sticker Swap</strong> — 3 dupes for 1 choice sticker (solves #1 pain point)</li><li><strong>+10% XP bonus</strong> on all farming activities</li><li>Exclusive 'Club Member' farm badge</li><li><strong>Target:</strong> Never Spent (400K) → 3–4% conversion · <strong>Projected:</strong> $25K–$34K/mo net</li></ul>",
+                "id": "c05-b3",
+                "type": "list",
+              },
+              {
+                "body": "Farm Master Tonic (XP Booster)",
+                "id": "c05-b4",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Consumable: doubles XP for 30 mins ($0.99) or 1 hr ($1.49)</li><li>Purchasable via gems OR real money (dual sink)</li><li><strong>Target:</strong> Occasional Spenders — helps level up faster</li></ul>",
+                "id": "c05-b5",
+                "type": "list",
+              },
+              {
+                "body": "Lucky Charm Serum (Breed Boost)",
+                "id": "c05-b6",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Applied during breeding: +30–40% rare animal chance</li><li>Priced at $1.49 / 30 gems per use</li><li><strong>Target:</strong> Occasional & Frequent — collection psychology</li><li><strong>Combined XP Booster + Breed Boost projected:</strong> $5K–$9K/mo net</li></ul>",
+                "id": "c05-b7",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c05",
+            "title": "Solutions: Converting 'Never Spent' & Accelerating Progression",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>Community events + showoffs + smart bundles capture the high-value segments. Projected combined revenue (net): <strong>$25K–$46K/month</strong>.</p>",
+                "id": "c06-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "Community Events",
+                "id": "c06-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Great Harvest Day:</strong> Seasonal localized crops, leaderboards, milestone skins</li><li><strong>World Fair Day:</strong> Team co-op, mini-games, coin gambling for farm items</li><li>Monetization: Community Day Pass @ $2.99 · 4 events/month</li><li><strong>Target:</strong> All segments · <strong>Projected:</strong> $12K–$22K/mo net</li></ul>",
+                "id": "c06-b3",
+                "type": "list",
+              },
+              {
+                "body": "Animal Showoffs",
+                "id": "c06-b4",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li><strong>Theme-Based Decoration:</strong> Seasonal packs (Christmas, Diwali) for animals — $1.99–$4.99</li><li><strong>Voting & Leaderboards:</strong> Weekly shows; players vote for best animal; winners get exclusive skins</li><li>Monetization: Entry fee 50 gems ($0.99) · Decoration packs $1.99–$4.99</li><li><strong>Target:</strong> Frequent & Power Spenders · <strong>Projected:</strong> $8K–$14K/mo net</li></ul>",
+                "id": "c06-b5",
+                "type": "list",
+              },
+              {
+                "body": "Contextual 'Missing Piece' Bundles",
+                "id": "c06-b6",
+                "type": "heading",
+              },
+              {
+                "body": "<ul><li>Trigger: fail Exotic Quest 3× or hit Farmhand level cap</li><li>Bundle contains exact stickers/food needed to bridge the gap</li><li>Monetization: $1.99–$7.99 per bundle · 30-min purchase window</li><li><strong>Target:</strong> Frequent & Power Spenders · <strong>Projected:</strong> $5K–$10K/mo net</li></ul>",
+                "id": "c06-b7",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c06",
+            "title": "Solutions: Engagement, Social & Contextual Spend",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>All figures net of 30% Apple/Google store cut. Conservative scenario delivers 5.5% lift; moderate scenario delivers 8.9% lift.</p>",
+                "id": "c07-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "Initiative-Level Revenue Breakdown",
+                "id": "c07-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Baseline: 500K MAU × $2.00 = $1.0M/mo → Target: $2.10 ARPU (+5%)</p>",
+                "id": "c07-b3",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 3,
+                "id": "c07-b4",
+                "items": [
+                  {
+                    "note": "Never Spent (400K) · 3–4% conv. · $25K–$34K net
++$0.05–$0.07 ARPU lift — biggest single lever",
+                    "title": "Farm Hand Club ($2.99/mo)",
+                  },
+                  {
+                    "note": "Occasional (265K) · 2–3% conv. · $5K–$9K net
++$0.01–$0.02 ARPU lift",
+                    "title": "XP Booster + Breed Boost",
+                  },
+                  {
+                    "note": "All active (500K) · 3–5% conv. · $12K–$22K net
++$0.02–$0.04 ARPU lift",
+                    "title": "Community Events ($2.99)",
+                  },
+                  {
+                    "note": "Frequent + Power (35K) · 15–20% conv. · $8K–$14K net
++$0.02–$0.03 ARPU lift",
+                    "title": "Animal Showoffs",
+                  },
+                  {
+                    "note": "Frequent + Power (35K) · 5–8% conv. · $5K–$10K net
++$0.01–$0.02 ARPU lift",
+                    "title": "Contextual Bundles",
+                  },
+                  {
+                    "note": "$55K–$89K/month incremental
++$0.11–$0.18 ARPU · Conservative: 5.5% lift · Moderate: 8.9% lift",
+                    "title": "TOTAL (net of 30% cut)",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c07",
+            "title": "Financial Model: ARPU Bridge $2.00 → $2.10+",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p>Ship quick wins first, validate before investing in complex infrastructure. 10-week rollout: P0+P1 Ship (Wk 1–3) → P2 Sub Launch (Wk 3–5) → P3 Events Build (Wk 5–8) → P4 Showoffs + Full Rollout (Wk 8–10).</p>",
+                "id": "c08-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "Feature Prioritization",
+                "id": "c08-b2",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Ordered by Impact-to-Effort ratio</p>",
+                "id": "c08-b3",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 3,
+                "id": "c08-b4",
+                "items": [
+                  {
+                    "note": "Impact: $5–9K · Effort: Low
+Fastest to validate; consumable pattern proven in category",
+                    "title": "P0 · XP Booster + Breed Boost",
+                  },
+                  {
+                    "note": "Impact: $5–10K · Effort: Low
+Trigger logic on existing quest system — minimal new infra",
+                    "title": "P1 · Contextual Bundles",
+                  },
+                  {
+                    "note": "Impact: $25–34K · Effort: Med
+Biggest single lever; creates recurring revenue base",
+                    "title": "P2 · Farm Hand Club",
+                  },
+                  {
+                    "note": "Impact: $12–22K · Effort: High
+Highest engagement ceiling; needs event infrastructure",
+                    "title": "P3 · Community Events",
+                  },
+                  {
+                    "note": "Impact: $8–14K · Effort: High
+Requires UGC system, voting, and moderation layer",
+                    "title": "P4 · Animal Showoffs",
+                  },
+                ],
+                "type": "cards",
+              },
+              {
+                "body": "Risk Register",
+                "id": "c08-b5",
+                "type": "heading",
+              },
+              {
+                "body": "<p>Key risks and mitigations</p>",
+                "id": "c08-b6",
+                "style": "body",
+                "type": "text",
+              },
+              {
+                "columns": 2,
+                "id": "c08-b7",
+                "items": [
+                  {
+                    "note": "A/B test Month 1
+Add Premium tier ($7.99) if >15% downgrade observed",
+                    "title": "Farm Pass cannibalization · MED",
+                  },
+                  {
+                    "note": "All items are progression aids or cosmetic
+No competitive advantage — preserve fairness perception",
+                    "title": "Pay-to-win perception · HIGH",
+                  },
+                  {
+                    "note": "Cap 4 events/month
+Monitor existing gem conversion 30 days post-launch",
+                    "title": "Event fatigue / gem sink · MED",
+                  },
+                ],
+                "type": "cards",
+              },
+            ],
+            "hidden": false,
+            "id": "c08",
+            "title": "Prioritization & Risks",
+          },
+          {
+            "blocks": [
+              {
+                "body": "<p><strong>Fix the pain, and the revenue follows.</strong></p>",
+                "id": "c09-b1",
+                "style": "lead",
+                "type": "text",
+              },
+              {
+                "body": "<ul><li><strong>01 · Ship P0/P1</strong> consumables + contextual bundles in Weeks 1–3 — validate spend appetite ($10–19K/mo net)</li><li><strong>02 · Launch Farm Hand Club</strong> ($2.99/mo) in Week 4 — biggest single lever at $25–34K/mo net, creates recurring revenue</li><li><strong>03 · Build Community Events + Animal Showoffs</strong> in parallel — highest engagement and social retention ceiling</li><li><strong>04 · Guard retention as a kill-switch</strong> — if D30 drops >2pp in any segment, pause and recalibrate immediately</li><li><strong>Success Metrics (30/60/90 Day):</strong> ARPU: $2.00 → $2.04 → $2.07 → $2.10+ · Conv. Rate: 2.5% → 3.0% → 3.5% · D30 Retention: No drop >2pp</li></ul>",
+                "id": "c09-b2",
+                "type": "list",
+              },
+            ],
+            "hidden": false,
+            "id": "c09",
+            "title": "Recommendation",
+          },
+        ],
+        "todo": [
+          "prototype-link",
+        ],
+        "visuals": {
+          "accent": "lime",
+          "cover": {
+            "mediaId": "cover-revenue-growth-strategy",
+          },
+          "gallery": [],
+          "hero": {
+            "type": "image",
+          },
+        },
+      },
+      "publish": true,
+      "slug": "revenue-growth-strategy",
+    },
+    {
+      "document": {
+        "outcomes": [],
+        "overview": {
+          "company": "SugarFit",
+          "kind": "shipped",
+          "summary": "",
+          "title": "3D body scan for GLP-1 users",
+          "topics": [],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [],
+        "visuals": {
+          "accent": "teal",
+          "gallery": [],
+          "hero": {
+            "type": "image",
+          },
+        },
+      },
+      "publish": false,
+      "slug": "3d-body-scan-for-glp-1-users",
+    },
+    {
+      "document": {
+        "outcomes": [],
+        "overview": {
+          "company": "SugarFit",
+          "kind": "shipped",
+          "summary": "",
+          "title": "Image-based food logging",
+          "topics": [],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [],
+        "visuals": {
+          "accent": "amber",
+          "gallery": [],
+          "hero": {
+            "type": "image",
+          },
+        },
+      },
+      "publish": false,
+      "slug": "image-based-food-logging",
+    },
+    {
+      "document": {
+        "outcomes": [],
+        "overview": {
+          "company": "SugarFit",
+          "kind": "shipped",
+          "summary": "",
+          "title": "The CGM journey, end to end",
+          "topics": [],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [],
+        "visuals": {
+          "accent": "sky",
+          "gallery": [],
+          "hero": {
+            "type": "image",
+          },
+        },
+      },
+      "publish": false,
+      "slug": "the-cgm-journey-end-to-end",
+    },
+    {
+      "document": {
+        "outcomes": [],
+        "overview": {
+          "company": "SugarFit",
+          "kind": "shipped",
+          "summary": "",
+          "title": "The GLP-1 app, 0→1",
+          "topics": [],
+        },
+        "schemaVersion": 1,
+        "seo": {},
+        "settings": {
+          "redirectOldSlug": false,
+        },
+        "story": [],
+        "visuals": {
+          "accent": "violet",
+          "gallery": [],
+          "hero": {
+            "type": "image",
+          },
+        },
+      },
+      "publish": false,
+      "slug": "the-glp-1-app-0-to-1",
+    },
+  ],
+}
+`;

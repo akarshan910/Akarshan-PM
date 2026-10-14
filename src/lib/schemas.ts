@@ -1,0 +1,396 @@
+/**
+ * Zod schemas for every JSON document (06 · JSON documents). The single definition of each
+ * data shape: types.ts infers from here, and Studio, the seed, the build and the Edge Functions
+ * all validate with these.
+ *
+ * Hard limits are `.max()` here, and only where 06 or 05 documents one. Soft limits (Studio's counters) are the `SOFT_LIMITS` constants.
+ * Publish checks such as "required" and the 140-character summary live with the publish logic,
+ * because drafts may be incomplete while the owner works.
+ */
+import { z } from "zod";
+
+export const SOFT_LIMITS = {
+  /** Project title: the counter warns over 60, Zod rejects over 80 (D39). */
+  projectTitle: 60,
+  /** Hero positioning line: the counter warns over 100, Zod rejects over 220 (D39). */
+  positioning: 100,
+  /** Card summary: a publish check, not a schema limit (06; Q6). */
+  summary: 140,
+  /** Search title and description: counters with a warning (05 · URL & SEO). */
+  seoTitle: 60,
+  seoDescription: 155,
+  /** Off duty text: "n/200", red past 200 (05). */
+  offDutyText: 200,
+  /** Alt text counter (05 · Visuals). */
+  alt: 250,
+} as const;
+
+export const ACCENTS = [
+  "teal",
+  "amber",
+  "sky",
+  "violet",
+  "coral",
+  "slate",
+  "green",
+  "yellow",
+  "lime",
+] as const;
+export const RESULT_TYPES = ["achieved", "target", "projected", "baseline", "output"] as const;
+export const SOURCES = ["current-site", "resume", "owner"] as const;
+export const SECTION_KINDS = [
+  "hero",
+  "proof",
+  "shelf",
+  "writing",
+  "about",
+  "experience",
+  "skills",
+  "testimonials",
+  "offduty",
+  "contact",
+  "text",
+  "footer",
+] as const;
+export const OFF_DUTY_ART = ["kunai", "pencil", "paddle", "pan", "plane", "camera"] as const;
+export const SKILL_SIZES = ["xl", "l", "m", "s"] as const;
+export const PROJECT_KINDS = ["shipped", "study", "prototype"] as const;
+export const MAX_TOPICS = 8;
+
+/** The labels the case study's Type fact shows for each kind (03, 05, 06). */
+export const PROJECT_KIND_LABELS: Record<(typeof PROJECT_KINDS)[number], string> = {
+  shipped: "Shipped",
+  study: "Strategy study",
+  prototype: "Prototype",
+};
+
+export const Accent = z.enum(ACCENTS);
+export const ResultType = z.enum(RESULT_TYPES);
+export const Source = z.enum(SOURCES);
+
+/** Sanitised inline HTML: <strong>, <em>, <a href> only. Sanitising happens on save and render. */
+export const Inline = z.string();
+/** Sanitised block HTML (06 · Rich text). */
+export const Rich = z.string();
+
+const id = z.string().min(1);
+const https = z.url({ protocol: /^https$/ });
+/** Drafts may hold an empty link while the owner works; the publish checks require a value. */
+const httpsOrEmpty = z.union([z.literal(""), https]);
+const href = z.string();
+
+export const MediaRef = z.object({
+  /** Empty while a new image block waits for its upload; the publish checks require it. */
+  mediaId: z.string().max(64),
+  alt: z.string().optional(),
+  decorative: z.boolean().optional(),
+});
+const CaptionedMedia = MediaRef.extend({ caption: z.string().optional() });
+
+// ---------------------------------------------------------------------------------------------
+// Profile
+// ---------------------------------------------------------------------------------------------
+
+export const Profile = z.object({
+  schemaVersion: z.literal(1),
+  name: z.string().max(60),
+  title: z.string().max(60),
+  availability: z.string().max(60).optional(),
+  location: z.string().max(40).optional(),
+  positioning: Inline.max(220),
+  intro: Inline.max(320).optional(),
+  heroButtons: z.object({
+    primary: z.object({ label: z.string().max(24), href }).optional(),
+    resume: z.boolean().optional(),
+  }),
+  about: z.object({
+    body: z.array(Inline),
+    photo: MediaRef.optional(),
+    points: z.array(z.object({ id, title: z.string(), text: Inline })).optional(),
+  }),
+  proof: z.array(
+    z.object({
+      id,
+      value: z.string(),
+      unit: z.string().optional(),
+      label: z.string(),
+      source: z.string().optional(),
+      type: ResultType.optional(),
+    }),
+  ),
+  spaces: z.object({ label: z.string(), items: z.array(z.string()) }).optional(),
+  experience: z.array(
+    z.object({
+      id,
+      company: z.string(),
+      role: z.string(),
+      location: z.string().optional(),
+      dates: z.string(),
+      summary: Inline.optional(),
+      highlights: z.array(
+        z.object({
+          id,
+          group: z.string().optional(),
+          items: z.array(z.object({ id, text: Inline, hidden: z.boolean().optional() })),
+        }),
+      ),
+    }),
+  ),
+  education: z
+    .array(z.object({ id, school: z.string(), degree: z.string(), dates: z.string().optional() }))
+    .optional(),
+  skills: z.array(
+    z.object({
+      id,
+      title: z.string(),
+      subtitle: z.string().optional(),
+      items: z.array(z.object({ id, text: z.string(), size: z.enum(SKILL_SIZES) })),
+    }),
+  ),
+  testimonials: z.array(
+    z.object({
+      id,
+      quote: z.string(),
+      name: z.string(),
+      initials: z.string(),
+      role: z.string(),
+      tone: Accent,
+      tag: z.string().optional(),
+      linkedin: https.optional(),
+    }),
+  ),
+  offDuty: z.array(
+    z.object({
+      id,
+      label: z.string(),
+      title: z.string(),
+      text: z.string(),
+      tag: z.string().optional(),
+      accent: Accent,
+      art: z.enum(OFF_DUTY_ART),
+      picks: z.array(z.object({ id, title: z.string(), note: z.string().optional() })).optional(),
+    }),
+  ),
+  contact: z.object({
+    email: z.email().optional(),
+    linkedin: https.optional(),
+    github: https.optional(),
+    phone: z.string().optional(),
+    showPhone: z.boolean(),
+    resume: z.object({ mediaId: id.optional(), url: https.optional() }).optional(),
+    letsTalk: z.enum(["contact", "email", "linkedin", "booking"]),
+    booking: https.optional(),
+  }),
+  footer: z.object({ credit: z.string().optional() }),
+  facts: z.record(
+    z.string(),
+    z.object({ source: Source, alternative: z.object({ value: z.string(), source: Source }).optional() }),
+  ),
+  unconfirmed: z.array(z.string()),
+});
+
+// ---------------------------------------------------------------------------------------------
+// Site layout
+// ---------------------------------------------------------------------------------------------
+
+export const Section = z.object({
+  id,
+  kind: z.enum(SECTION_KINDS),
+  visible: z.boolean(),
+  nav: z.object({ label: z.string().min(1).max(14) }).optional(),
+  header: z
+    .object({
+      kicker: z.string().optional(),
+      title: z.string().optional(),
+      titleMuted: z.string().optional(),
+      intro: Inline.optional(),
+    })
+    .optional(),
+  items: z.array(z.object({ id, visible: z.boolean() })),
+  shelf: z
+    .object({ name: z.string().min(1), rows: z.union([z.literal(1), z.literal(2), z.literal(3)]) })
+    .optional(),
+  writing: z
+    .object({ latest: z.union([z.literal(2), z.literal(3), z.literal(4)]), rss: z.boolean() })
+    .optional(),
+  text: z.object({ body: Rich }).optional(),
+  hero: z
+    .object({
+      motion: z.boolean(),
+      floaters: z.object({
+        items: z.array(id),
+        atOnce: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+      }),
+    })
+    .optional(),
+  contact: z.object({ closing: z.string(), closingAccent: z.string().optional() }).optional(),
+});
+
+export const SiteLayout = z
+  .object({ schemaVersion: z.literal(1), sections: z.array(Section) })
+  .superRefine((layout, ctx) => {
+    const { sections } = layout;
+    if (sections[0]?.kind !== "hero") ctx.addIssue({ code: "custom", message: "The hero is always first." });
+    if (sections.at(-1)?.kind !== "footer")
+      ctx.addIssue({ code: "custom", message: "The footer is always last." });
+    const ids = new Set<string>();
+    for (const s of sections) {
+      if (ids.has(s.id)) ctx.addIssue({ code: "custom", message: `Duplicate section id "${s.id}".` });
+      ids.add(s.id);
+      if (s.kind === "hero" && !s.visible)
+        ctx.addIssue({ code: "custom", message: "The hero always shows." });
+    }
+  });
+
+// ---------------------------------------------------------------------------------------------
+// Project
+// ---------------------------------------------------------------------------------------------
+
+const Captioned = CaptionedMedia;
+
+export const Block = z.discriminatedUnion("type", [
+  z.object({ id, type: z.literal("text"), body: Rich, style: z.enum(["body", "lead"]) }),
+  z.object({ id, type: z.literal("heading"), body: z.string() }),
+  z.object({ id, type: z.literal("list"), body: Rich }),
+  z.object({ id, type: z.literal("quote"), body: z.string(), cite: z.string().optional() }),
+  z.object({ id, type: z.literal("callout"), body: Rich, tone: z.enum(["neutral", "accent"]) }),
+  z.object({ id, type: z.literal("metrics"), outcomeIds: z.array(id).optional() }),
+  z.object({
+    id,
+    type: z.literal("table"),
+    columns: z.array(z.string()),
+    rows: z.array(z.array(z.string())),
+    formula: z.literal("rice").optional(),
+    checkFormula: z.boolean(),
+    sortByScore: z.boolean(),
+    highlightTop: z.union([z.literal(0), z.literal(3)]),
+    phoneCards: z.boolean(),
+    reviewed: z.array(z.string()).optional(),
+  }),
+  z.object({ id, type: z.literal("image"), media: Captioned }),
+  z.object({ id, type: z.literal("gallery"), media: z.array(Captioned) }),
+  z.object({ id, type: z.literal("beforeafter"), media: z.array(Captioned) }),
+  z.object({ id, type: z.literal("video"), url: httpsOrEmpty, title: z.string().optional() }),
+  z.object({ id, type: z.literal("prototype"), startPath: z.string().optional() }),
+  z.object({
+    id,
+    type: z.literal("journey"),
+    stages: z.array(z.object({ title: z.string(), note: z.string().optional() })),
+  }),
+  z.object({
+    id,
+    type: z.literal("ownership"),
+    mine: Inline,
+    team: Inline.optional(),
+    business: Inline.optional(),
+    decision: Inline.optional(),
+  }),
+  z.object({
+    id,
+    type: z.literal("cards"),
+    columns: z.union([z.literal(2), z.literal(3), z.literal(4)]),
+    style: z.enum(["cards", "chips"]).optional(),
+    items: z.array(
+      z.object({ kicker: z.string().optional(), title: z.string(), note: z.string().optional() }),
+    ),
+  }),
+  z.object({ id, type: z.literal("divider") }),
+]);
+
+export const ProjectHero = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("image") }),
+  z.object({ type: z.literal("video"), url: httpsOrEmpty, title: z.string().max(80).optional() }),
+  z.object({
+    type: z.literal("prototype"),
+    url: httpsOrEmpty,
+    poster: MediaRef.optional(),
+    frame: z.enum(["phone", "tablet", "desktop", "none"]),
+    start: z.enum(["click", "visible"]),
+    title: z.string().max(80).optional(),
+    note: z.string().max(120).optional(),
+    screens: z
+      .array(z.object({ label: z.string().max(30), startPath: z.string() }))
+      .max(8)
+      .optional(),
+  }),
+]);
+
+export const Outcome = z.object({
+  id,
+  value: z.string(),
+  label: z.string(),
+  type: ResultType,
+  credit: z.enum(["mine", "team", "business"]).optional(),
+  evidence: z.string().optional(),
+  inStrip: z.boolean(),
+});
+
+export const Project = z.object({
+  schemaVersion: z.literal(1),
+  overview: z.object({
+    title: z.string().max(80),
+    company: z.string().max(60),
+    sector: z.string().max(40).optional(),
+    cardLabel: z.string().max(40).optional(),
+    summary: z.string(),
+    problem: Inline.max(280).optional(),
+    proposal: Inline.max(280).optional(),
+    kind: z.enum(PROJECT_KINDS),
+    topics: z.array(z.string().min(1)).max(MAX_TOPICS),
+    role: z.string().max(80).optional(),
+    timeline: z.string().max(80).optional(),
+    team: z.string().max(80).optional(),
+    prdUrl: https.optional(),
+  }),
+  visuals: z.object({
+    accent: Accent,
+    hero: ProjectHero,
+    cover: MediaRef.optional(),
+    gallery: z.array(Captioned),
+  }),
+  story: z.array(
+    z.object({
+      id,
+      title: z.string(),
+      hidden: z.boolean(),
+      blocks: z.array(Block),
+      prompts: z.array(z.string()).optional(),
+    }),
+  ),
+  outcomes: z.array(Outcome),
+  headlineOutcomeId: id.optional(),
+  seo: z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    ogImage: z.union([z.literal("cover"), MediaRef]).optional(),
+  }),
+  settings: z.object({ redirectOldSlug: z.boolean() }),
+  todo: z.array(z.string()).optional(),
+});
+
+// ---------------------------------------------------------------------------------------------
+// Post (redesign/03 · Post JSON, plus schemaVersion, block ids and cover)
+// ---------------------------------------------------------------------------------------------
+
+export const PostBlock = z.discriminatedUnion("type", [
+  z.object({ id, type: z.literal("text"), body: Rich }),
+  z.object({ id, type: z.literal("heading"), body: z.string() }),
+  z.object({ id, type: z.literal("quote"), body: z.string() }),
+  z.object({ id, type: z.literal("image"), ...CaptionedMedia.shape }),
+  z.object({ id, type: z.literal("embed"), url: https }),
+  z.object({ id, type: z.literal("code"), language: z.string().optional(), body: z.string() }),
+  z.object({ id, type: z.literal("fact"), value: z.string(), label: z.string(), resultType: ResultType }),
+]);
+
+export const Post = z.object({
+  schemaVersion: z.literal(1),
+  title: z.string(),
+  subtitle: z.string().optional(),
+  cover: MediaRef.optional(),
+  blocks: z.array(PostBlock),
+  excerpt: z.string().max(160).optional(),
+  topics: z.array(z.string().min(1)).max(MAX_TOPICS),
+  showOnHome: z.boolean(),
+  canonicalUrl: https.optional(),
+  seo: z.object({ title: z.string().optional(), description: z.string().optional() }),
+});

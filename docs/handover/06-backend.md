@@ -249,7 +249,7 @@ A trigger on `profile`, `site_layout`, `projects` and `posts` sets `updated_at =
 
 ### JSON documents
 
-The TypeScript types live in `src/lib/types.ts`, and the matching Zod schemas in `src/lib/schemas.ts`. Studio, the Edge Functions (`supabase/functions/_shared/schemas.ts`, a copy kept in sync by a unit test) and the build all validate with them. Every document carries `schemaVersion: 1`.
+The TypeScript types live in `src/lib/types.ts`, and the matching Zod schemas in `src/lib/schemas.ts`. Studio, the Edge Functions (`supabase/functions/_shared/schemas.ts`, a copy kept in sync by a unit test) and the build all validate with them. Every document carries `schemaVersion: 1`. New documents and blocks are created by the factories in `src/lib/defaults.ts` ([10 · Default values](10-execution-plan.md#default-values)), and the V0 documents by `buildV0Documents()` in `src/lib/v0.ts`.
 
 ```ts
 type ResultType = 'achieved' | 'target' | 'projected' | 'baseline' | 'output';

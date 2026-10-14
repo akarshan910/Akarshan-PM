@@ -1,0 +1,20 @@
+/** Document types, inferred from the Zod schemas so the two can never disagree (06 · JSON documents). */
+import type { z } from "zod";
+
+import type * as S from "./schemas";
+
+export type Accent = z.infer<typeof S.Accent>;
+export type ResultType = z.infer<typeof S.ResultType>;
+export type MediaRef = z.infer<typeof S.MediaRef>;
+export type Profile = z.infer<typeof S.Profile>;
+export type Section = z.infer<typeof S.Section>;
+export type SectionKind = Section["kind"];
+export type SiteLayout = z.infer<typeof S.SiteLayout>;
+export type Block = z.infer<typeof S.Block>;
+export type BlockType = Block["type"];
+export type ProjectHero = z.infer<typeof S.ProjectHero>;
+export type Outcome = z.infer<typeof S.Outcome>;
+export type Project = z.infer<typeof S.Project>;
+export type Chapter = Project["story"][number];
+export type PostBlock = z.infer<typeof S.PostBlock>;
+export type Post = z.infer<typeof S.Post>;

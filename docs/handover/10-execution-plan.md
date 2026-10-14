@@ -185,12 +185,15 @@ Content comes in four layers. Each layer has one source and one home in the repo
 
 | Factory | Creates |
 | --- | --- |
-| `newProject(shelfId)` | A draft with a generated id and slug `untitled-n`, on the shelf it was started from, with `visibility: 'public'` and `index_allowed: true`. `settings.redirectOldSlug` is false until the first publish, then true (D40). Overview, Visuals, Story and Outcomes are empty, so every section hides |
-| `newPost()` | A draft with an empty title and no topics. The reading time is computed from the text (words ÷ 220) |
-| `newTextSection(n)` | "Text section {n}", inserted before Contact, visible, not in the nav |
-| `newChapter()` | An empty chapter, which shows "Questions to answer" and the three starters in Studio |
-| `newBlock(type)` | The block's settings at the values Studio shows first: Style Body, Tone Neutral, and the column count the board shows first for that block |
+| `newProject({ kind, accent })` | An empty draft: no title, summary, story or outcomes, so every section hides. `kind` defaults to `study`. `accent` is `firstFreeAccent()` of the shelf it was started from: the first of the nine accents in 02's order that no project on that shelf uses yet (D26). `visibility: 'public'` and `index_allowed: true` are the row's column defaults. `settings.redirectOldSlug` starts false; the first publish turns it on (D40) |
+| `nextUntitledSlug(taken)` | `untitled-n`, one more than the highest `untitled-n` already taken |
+| `newPost()` | A draft with an empty title, no topics and `showOnHome: true`. The reading time is computed at publish (words ÷ 220) |
+| `newTextSection(n)` | "Text section {n}" (id `text-n`), visible, not in the nav, with an empty body. Studio inserts it before Contact |
+| `newChapter()` | An empty, visible chapter, which shows "Questions to answer" and the three starters in Studio |
+| `newBlock(type)` | The block at the settings Studio shows first: text in Body style, callout in Neutral tone, cards in 3 columns, a table with every switch off except cards on phones, and empty media or links waiting for the owner |
 | `emptyProfile()`, `defaultLayout()` | Every field empty, in the section order of [07 · Layout](07-v0-content.md#layout). Used for a blank install and in tests |
+
+Drafts may hold empty media ids and empty links while the owner works; the publish checks require them. Every factory has a unit test that its output passes its schema (`tests/unit/defaults.test.ts`).
 
 The rules hold in every layer:
 
