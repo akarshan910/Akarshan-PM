@@ -615,11 +615,14 @@ abbr.short {
     gap: 0;
     font-size: 15px;
   }
+  /* A block row: rich text puts bare text and <strong> straight into the li, so a flex row
+   * would turn each run into a column and overflow the page (QA-D1). */
   .list li {
-    display: flex;
-    gap: 10px;
+    display: block;
+    min-width: 0;
     padding: 12px 0;
     border-top: 1px solid var(--ln);
+    overflow-wrap: anywhere;
   }
   .boxes {
     grid-template-columns: 1fr;

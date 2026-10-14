@@ -86,7 +86,7 @@ export function TableBlock({ block }: Props) {
                 <td colSpan={block.columns.length - 1}>
                   <button
                     type="button"
-                    className={styles.moreButton}
+                    className={cx(styles.moreButton, "hit44")}
                     aria-expanded={expanded}
                     onClick={() => {
                       setExpanded(true);

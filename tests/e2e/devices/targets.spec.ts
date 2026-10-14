@@ -24,7 +24,6 @@ const KNOWN_SMALL: { id: string; label: RegExp; note: string }[] = [
     label: /^(All work|Back to all work|Show all nine|Read the PRD ↗ \(opens in a new tab\))$/,
     note: "case-study back links, the PRD link and 'Show all nine' are 17–19px tall",
   },
-  { id: "QA-D3", label: /^(Product|Data|Design|Tools)$/, note: "skill group words are 43px tall on phones" },
 ];
 
 async function smallTargets(page: Page) {
@@ -91,7 +90,6 @@ test.describe("filed small targets", () => {
     { id: "QA-D2", path: "/", width: 834, height: 1194, labels: ["Work", "Let’s Talk →"] },
     { id: "QA-D3", path: "/work/arcana-workspace/", width: 390, height: 844, labels: ["All work"] },
     { id: "QA-D3", path: "/work/arcana-workspace/", width: 834, height: 1194, labels: ["Back to all work"] },
-    { id: "QA-D3", path: "/", width: 390, height: 844, labels: ["Product", "Data", "Design", "Tools"] },
   ];
   for (const c of cases) {
     test(`${c.id} ${c.path} @${c.width}: ${c.labels.join(", ")} reach 44×44`, async ({ page }) => {

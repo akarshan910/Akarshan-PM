@@ -61,7 +61,7 @@ export function CaseStudyPage({ view }: { view: CaseStudyView }) {
                     <span className={styles.chn} aria-hidden="true">
                       {chapterNumber(i)}
                     </span>
-                    <h2 id={`${anchor}-t`} className={styles.cht}>
+                    <h2 id={`${anchor}-t`} className={styles.cht} tabIndex={-1}>
                       {chapter.title}
                     </h2>
                     <div className={styles.blocks}>

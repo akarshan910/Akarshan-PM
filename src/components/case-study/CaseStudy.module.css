@@ -474,6 +474,10 @@
   line-height: 1;
   color: var(--pa);
 }
+/* Focused when chosen from the chapter sheet (QA-D5); a heading isn't a control, so no ring. */
+.cht:focus {
+  outline: none;
+}
 .cht {
   margin: 10px 0 0;
   font-family: var(--fd);

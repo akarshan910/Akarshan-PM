@@ -139,6 +139,8 @@ export function ChapterBar({ chapters, current }: ChapterNavProps) {
                 aria-current={c.anchor === current ? "true" : undefined}
                 onClick={() => {
                   setOpen(false);
+                  // The link hides with the sheet; focus follows the reader to the chapter (QA-D5).
+                  document.getElementById(`${c.anchor}-t`)?.focus({ preventScroll: true });
                 }}
               >
                 <span className={styles.sheetNum}>{chapterNumber(i)}</span>
