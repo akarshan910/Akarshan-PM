@@ -114,16 +114,16 @@ Every component lives under `src/components/`, matches its board, and has a dev-
 
 Build every page against a local JSON copy of the V0 seed (from M0's extraction) before any backend exists.
 
-- [ ] Home with every section in the V0 order, at 1440, 834 and 390.
-- [ ] Hero: ink panel, layers, speed lines, brush, floating previews, tilt and drift.
-- [ ] Proof strip, Strategy & prototypes shelf (Shipped stays hidden in V0), About, Experience, Skills, Testimonials, Off duty, Contact, footer.
-- [ ] Motion layer, all of [04](04-motion.md), with reduced-motion variants.
-- [ ] `/work` list: filters, search, sort, load 24 at a time.
-- [ ] `/work/:slug` case study for all five V0 projects, every block type, at all three sizes.
-- [ ] `/writing` and `/writing/:slug`. V0 has no posts, so `/writing` returns the 404 page and the homepage section is hidden.
-- [ ] 404, error and empty states.
-- [ ] Redirect old `?open=<id>` links to `/work/<slug>`.
-- [ ] The parity fixture `tests/fixtures/board-content.ts`, the `CONTENT_SOURCE=fixture:boards` switch and `?qa=1`, so every page can be compared with its board ([08](08-qa.md#pixel-parity)).
+- [x] Home with every section in the V0 order, at 1440, 834 and 390.
+- [x] Hero: ink panel, layers, speed lines, brush, floating previews, tilt and drift.
+- [x] Proof strip, Strategy & prototypes shelf (Shipped stays hidden in V0), About, Experience, Skills, Testimonials, Off duty, Contact, footer.
+- [ ] Motion layer, all of [04](04-motion.md), with reduced-motion variants. _Built with the pages; waits for a motion audit against every entry in 04 (duration, easing, delay, reduced motion)._
+- [x] `/work` list: filters, search, sort, load 24 at a time.
+- [x] `/work/:slug` case study for all five V0 projects, every block type, at all three sizes.
+- [x] `/writing` and `/writing/:slug`. V0 has no posts, so `/writing` returns the 404 page and the homepage section is hidden.
+- [x] 404, error and empty states.
+- [x] Redirect old `?open=<id>` links to `/work/<slug>`.
+- [x] The parity fixture `tests/fixtures/board-content.ts`, the `CONTENT_SOURCE=fixture:boards` switch and `?qa=1`, so every page can be compared with its board ([08](08-qa.md#pixel-parity)).
 
 ### M3 · Supabase
 

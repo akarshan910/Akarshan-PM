@@ -71,6 +71,7 @@ The reasoning behind the bigger decisions is in [`docs/story/02-decisions.md`](.
 | D57 | 15 Oct 2026 | **The cron jobs need a second Vault secret, `pm_project_url`,** next to `pm_service_role_key`. The owner switches on `pg_cron` and `pg_net` (Database › Extensions); no migration creates an extension on the shared project | [06 · Cron](06-backend.md#cron) |
 | D58 | 15 Oct 2026 | **The V0 seed uploads each cover at 1600 px WebP only;** Studio's Replace file makes the other sizes. No image library is added | [07](07-v0-content.md) |
 | D59 | 15 Oct 2026 | **Edge Functions reach Postgres through `SUPABASE_DB_URL`** (publishing runs in one transaction), and Auth and Storage through supabase-js. `pm-preview` and `pm-project` deploy with `--no-verify-jwt`; the other four keep JWT verification | [06 · Functions](06-backend.md#edge-functions) |
+| D60 | 15 Oct 2026 | **Accepted differences from the boards after M2's QA pass,** all content conflicts between boards or Studio-only parts: the Home lead card shows two results where the boards differ on the summary; the case-study facts' "Add in Studio" cells (My role, Timeline) hide on the site; chapters 07 and 08 are Studio prompts, so the site shows six; generated covers stand in for board artwork; the post byline draws no dashed avatar placeholder | [08 · Pixel parity](08-qa.md#pixel-parity) |
 
 ## Open questions
 
