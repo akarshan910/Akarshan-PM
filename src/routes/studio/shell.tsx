@@ -37,20 +37,27 @@ export function HydrateFallback() {
   return <div className="st" style={{ minHeight: "100vh" }} />;
 }
 
-/** A route's `handle.studioNav` picks the rail on laptops (Website builder). */
-function useNavMode(): { nav: "auto" | "rail"; tabbar: boolean } {
+/**
+ * A route's `handle.studioNav` picks the rail on laptops (Website builder); `studioTabbar: false`
+ * hides the phone tab bar (editors); `studioChrome: false` drops the Studio nav altogether (Draft
+ * preview, which has its own bar).
+ */
+function useNavMode(): { nav: "auto" | "rail"; tabbar: boolean; chrome: boolean } {
   const matches = useMatches();
-  const handles = matches.map((m) => (m.handle ?? {}) as { studioNav?: string; studioTabbar?: boolean });
+  const handles = matches.map(
+    (m) => (m.handle ?? {}) as { studioNav?: string; studioTabbar?: boolean; studioChrome?: boolean },
+  );
   return {
     nav: handles.some((h) => h.studioNav === "rail") ? "rail" : "auto",
     tabbar: !handles.some((h) => h.studioTabbar === false),
+    chrome: !handles.some((h) => h.studioChrome === false),
   };
 }
 
 function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { nav, tabbar } = useNavMode();
+  const { nav, tabbar, chrome } = useNavMode();
   const projects = useQuery("projects", (r) => r.projects.list());
   const signingOut = useRef(false);
   const [expired, setExpired] = useState(false);
@@ -94,29 +101,38 @@ function Frame({ repo, session }: { repo: StudioRepo; session: Session }) {
   );
   const signOut = api.signOut;
 
+  const body = (
+    <>
+      <Inert when={expired}>
+        <Outlet />
+      </Inert>
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {spoken.text}
+      </div>
+      <SessionExpired
+        open={expired}
+        email={session.email}
+        onSignIn={() => {
+          void navigate(loginPath(pathname, "signed-out"));
+        }}
+      />
+    </>
+  );
   return (
     <ShellContext.Provider value={api}>
-      <Shell
-        email={session.email}
-        projectCount={projects.data?.length}
-        nav={nav}
-        tabbar={tabbar}
-        onSignOut={signOut}
-      >
-        <Inert when={expired}>
-          <Outlet />
-        </Inert>
-        <div className="sr-only" aria-live="polite" aria-atomic="true">
-          {spoken.text}
-        </div>
-        <SessionExpired
-          open={expired}
+      {chrome ? (
+        <Shell
           email={session.email}
-          onSignIn={() => {
-            void navigate(loginPath(pathname, "signed-out"));
-          }}
-        />
-      </Shell>
+          projectCount={projects.data?.length}
+          nav={nav}
+          tabbar={tabbar}
+          onSignOut={signOut}
+        >
+          {body}
+        </Shell>
+      ) : (
+        <div className="st">{body}</div>
+      )}
     </ShellContext.Provider>
   );
 }

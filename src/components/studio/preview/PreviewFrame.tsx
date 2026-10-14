@@ -4,7 +4,7 @@
  * page's stylesheets are mirrored into the frame, including ones added later (lazy chunks, HMR),
  * and `<html>`'s classes (`still` for reduced motion) follow along.
  */
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 const BLANK = '<!doctype html><html lang="en"><head><meta charset="utf-8"></head><body></body></html>';
@@ -17,18 +17,22 @@ export function PreviewFrame({
   width,
   height,
   scale,
+  onWindow,
   children,
 }: {
   title: string;
   width: number;
   height: number;
   scale: number;
+  /** The frame's window once it loads (for scrolling two previews together), and null on unmount. */
+  onWindow?: (w: Window | null) => void;
   children: ReactNode;
 }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const [body, setBody] = useState<HTMLElement | null>(null);
 
-  useEffect(() => {
+  // Before paint, so the frame never shows the page unstyled.
+  useLayoutEffect(() => {
     const doc = frame.current?.contentDocument;
     if (!body || !doc) return;
     const copies = new Map<Node, Node>();
@@ -86,6 +90,7 @@ export function PreviewFrame({
         }}
         onLoad={(e) => {
           setBody(e.currentTarget.contentDocument?.body ?? null);
+          onWindow?.(e.currentTarget.contentWindow);
         }}
       />
       {body ? createPortal(children, body) : null}

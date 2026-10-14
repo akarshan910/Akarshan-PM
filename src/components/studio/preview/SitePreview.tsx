@@ -29,6 +29,7 @@ export function SitePreview({
   ghost,
   selected,
   onSelect,
+  selectable = true,
 }: {
   content: PublicContent;
   /** The draft layout, with hidden sections, in page order. */
@@ -38,6 +39,8 @@ export function SitePreview({
   ghost: boolean;
   selected: string | null;
   onSelect: (id: string) => void;
+  /** Off in Draft preview: no click-to-select layer, and the page stays interactive. */
+  selectable?: boolean;
 }) {
   const view = useMemo(() => buildHomeView(content), [content]);
   const shown = new Map(view.sections.map((s) => [s.id, s]));
@@ -57,7 +60,7 @@ export function SitePreview({
   return (
     <HomeContext.Provider value={context}>
       {draftCss ? <style>{draftCss}</style> : null}
-      <Inert>
+      <Inert when={selectable}>
         <PillNav
           links={view.chrome.nav}
           letsTalk={view.chrome.letsTalk}
@@ -78,18 +81,20 @@ export function SitePreview({
           const Section = SECTIONS[s.kind];
           return (
             <div key={s.id} className={styles.psec} data-selected={isSel || undefined}>
-              <button
-                type="button"
-                className={styles.hit}
-                aria-label={`Edit ${name}`}
-                aria-pressed={isSel}
-                onClick={() => {
-                  onSelect(s.id);
-                }}
-              />
+              {selectable ? (
+                <button
+                  type="button"
+                  className={styles.hit}
+                  aria-label={`Edit ${name}`}
+                  aria-pressed={isSel}
+                  onClick={() => {
+                    onSelect(s.id);
+                  }}
+                />
+              ) : null}
               {isSel ? <span className={styles.tag}>{name}</span> : null}
               {v ? (
-                <Inert>
+                <Inert when={selectable}>
                   <Section section={v} profile={view.profile} projects={view.projects} posts={view.posts} />
                 </Inert>
               ) : (
