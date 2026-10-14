@@ -1,0 +1,68 @@
+/* M-ST-SPIN: stSpin .8s linear infinite; 2.4s under reduced motion (04 · Studio). */
+@keyframes stSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  display: inline-block;
+  flex: none;
+  border-radius: 50%;
+  border-style: solid;
+  animation: stSpin 0.8s linear infinite;
+}
+
+/* "Saving…" (StudioStates › Saving, every editor header). */
+.save {
+  width: 13px;
+  height: 13px;
+  border-width: 2px;
+  border-color: #d2d0ca;
+  border-top-color: var(--tx2);
+}
+
+/* Inside the angled publish button (Editor* publish dialog). */
+.cta {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+}
+
+/* Inside `.pbtn` (StudioLogin `.spin`). */
+.light {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+}
+
+/* StudioLogin `.spin.dk`. */
+.dark {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-color: rgba(20, 20, 22, 0.15);
+  border-top-color: #141416;
+}
+
+/* StudioLogin `.spin.dk.lg`. */
+.large {
+  width: 34px;
+  height: 34px;
+  border-width: 3px;
+  border-color: rgba(20, 20, 22, 0.15);
+  border-top-color: #141416;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation-duration: 2.4s;
+  }
+}
+:global(html.still) .spin {
+  animation-duration: 2.4s;
+}
