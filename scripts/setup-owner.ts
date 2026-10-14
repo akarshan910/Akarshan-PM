@@ -15,7 +15,7 @@ import { pathToFileURL } from "node:url";
 
 import { createClient } from "@supabase/supabase-js";
 
-/** `a•••••••0@gmail.com`: first and last character of the local part. */
+/** `o•••r@example.test`: the first and last character of the local part. */
 export function maskEmail(email: string): string {
   const [local = "", domain = ""] = email.split("@");
   if (local.length <= 2) return `${local.slice(0, 1)}•@${domain}`;
