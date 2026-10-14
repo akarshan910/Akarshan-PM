@@ -1,0 +1,510 @@
+/* StudioDashboard (laptop), StudioTablet (iPad landscape dashboard), StudioMobile (app bar). */
+
+.cta {
+  composes: cta from "../Button.module.css";
+}
+.btn {
+  composes: btn from "../Button.module.css";
+}
+
+.main {
+  padding: 28px clamp(20px, 3vw, 40px) 48px;
+}
+.appbar {
+  display: none;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.h1 {
+  margin: 8px 0 0;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.lede {
+  margin: 6px 0 0;
+  font-size: 15px;
+  color: var(--tx2);
+}
+.acts {
+  display: flex;
+  gap: 10px;
+}
+
+.stats {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+.stat {
+  padding: 18px 20px;
+}
+.num {
+  margin-top: 10px;
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.numRow {
+  margin-top: 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.numRow .num {
+  margin-top: 0;
+}
+.live {
+  background: var(--okbg);
+  color: var(--ok);
+}
+.private {
+  background: #efeeea;
+  color: var(--tx2);
+}
+.when {
+  margin-top: 14px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.viewLive {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--tx2);
+}
+.shortLabel {
+  display: none;
+}
+
+.cols {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+.needs {
+  flex: 999 1 520px;
+  min-width: 0;
+  overflow: hidden;
+}
+.secHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--ln);
+}
+.secHeadSm {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--ln);
+}
+.h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+.none {
+  margin: 0;
+  padding: 18px 20px;
+  font-size: 14px;
+  color: var(--tx2);
+}
+
+.need {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 140px 96px;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--ln);
+}
+.need:last-child {
+  border-bottom: 0;
+}
+.alertRow {
+  grid-template-columns: 52px minmax(0, 1fr) 236px;
+  background: #fffbf5;
+}
+.thumb {
+  width: 52px;
+  height: 40px;
+  border-radius: 8px;
+}
+.alertIcon {
+  background: var(--errbg);
+  color: var(--err);
+  display: grid;
+  place-items: center;
+}
+.needTitle {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+}
+.needText {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--tx2);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.warnChip {
+  background: var(--warnbg);
+  color: var(--warn);
+}
+.chipLine {
+  display: none;
+}
+.bar {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: #efeeea;
+}
+.bar > span {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--tx);
+}
+.pct {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--tx3);
+}
+.pctShort {
+  display: none;
+  font-size: 13px;
+}
+.go,
+.goWide {
+  justify-self: end;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.side {
+  flex: 1 1 300px;
+  display: grid;
+  gap: 24px;
+}
+.recent {
+  overflow: hidden;
+}
+.recentList {
+  padding: 6px 0;
+}
+.recentRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+.recentTitle {
+  font-weight: 500;
+}
+.ago {
+  color: var(--tx3);
+  white-space: nowrap;
+}
+.quick {
+  padding: 18px 20px;
+}
+.quickH {
+  margin-bottom: 12px;
+}
+.quickList {
+  display: grid;
+  gap: 8px;
+}
+.quickBtn {
+  justify-content: flex-start;
+}
+
+/* Empty */
+.empty {
+  margin-top: 24px;
+  padding: 56px 32px;
+  text-align: center;
+}
+.spines {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+}
+.spineA,
+.spineB,
+.spineC {
+  width: 28px;
+  border-radius: 4px;
+}
+.spineA {
+  height: 96px;
+  border: 2px dashed var(--ln2);
+}
+.spineB {
+  height: 120px;
+  background: var(--ac);
+}
+.spineC {
+  height: 84px;
+  border: 2px dashed var(--ln2);
+}
+.emptyTitle {
+  margin: 22px 0 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+.emptyText {
+  margin: 10px auto 0;
+  max-width: 520px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--tx2);
+}
+.emptyActs {
+  margin-top: 24px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.main > .h1:first-child {
+  margin-top: 0;
+}
+
+/* Loading */
+.skStats {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* iPad (StudioTablet › landscape dashboard): tighter type, four stats in a row, the input list
+   without chips and the recent edits side by side. */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .main {
+    padding: 24px 28px;
+  }
+  .h1 {
+    margin-top: 6px;
+    font-size: 26px;
+  }
+  .lede,
+  .acts .btn {
+    display: none;
+  }
+  .acts .cta {
+    height: 40px;
+    font-size: 13px;
+  }
+  .stats {
+    margin-top: 18px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .stat {
+    padding: 14px 16px;
+  }
+  .stat :global(.mono) {
+    font-size: 11px;
+  }
+  .num {
+    margin-top: 8px;
+    font-size: 28px;
+    letter-spacing: normal;
+  }
+  .numRow {
+    margin-top: 8px;
+  }
+  .live,
+  .private,
+  .viewLive {
+    display: none;
+  }
+  .when {
+    margin-top: 12px;
+    font-size: 16px;
+  }
+  .longLabel {
+    display: none;
+  }
+  .shortLabel {
+    display: inline;
+  }
+  .cols {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 16px;
+  }
+  .side {
+    gap: 16px;
+  }
+  .quick {
+    display: none;
+  }
+  .secHead,
+  .secHeadSm {
+    padding: 14px 18px;
+  }
+  .secHead :global(.mono) {
+    display: none;
+  }
+  .h2 {
+    font-size: 16px;
+  }
+  .need,
+  .alertRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 18px;
+  }
+  .needMain {
+    flex: 1;
+    min-width: 0;
+  }
+  .thumb {
+    width: 44px;
+    height: 34px;
+    border-radius: 7px;
+    flex: none;
+  }
+  .needTitle {
+    font-size: 14px;
+  }
+  .chips,
+  .progress,
+  .go,
+  .goWide {
+    display: none;
+  }
+  .chipLine {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--warn);
+  }
+  .needText {
+    margin-top: 3px;
+    font-size: 12px;
+  }
+  .pctShort {
+    display: inline;
+  }
+  .recentRow {
+    padding: 10px 18px;
+  }
+  .recentTitle {
+    font-weight: 400;
+  }
+}
+
+/* Phones: an app bar (StudioMobile), one column, full-width actions. */
+@media (max-width: 767px) {
+  .appbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 16px 12px;
+    background: #fff;
+    border-bottom: 1px solid var(--ln);
+  }
+  .appTitle {
+    flex: 1;
+    font-family: var(--fd);
+    font-stretch: 62%;
+    font-weight: 900;
+    font-size: 24px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .main {
+    padding: 18px 16px 24px;
+  }
+  .h1 {
+    font-size: 24px;
+  }
+  .acts {
+    width: 100%;
+  }
+  .acts > * {
+    flex: 1;
+    height: 48px;
+  }
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .stat {
+    padding: 14px 16px;
+  }
+  .num {
+    font-size: 28px;
+  }
+  .cols {
+    gap: 16px;
+  }
+  .needs,
+  .side {
+    flex-basis: 100%;
+  }
+  .need,
+  .alertRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .needMain {
+    flex: 1;
+    min-width: 0;
+  }
+  .thumb {
+    flex: none;
+    width: 44px;
+    height: 34px;
+  }
+  .chips,
+  .progress,
+  .go,
+  .goWide {
+    display: none;
+  }
+  .chipLine {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--warn);
+  }
+  .pctShort {
+    display: inline;
+  }
+  .skStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

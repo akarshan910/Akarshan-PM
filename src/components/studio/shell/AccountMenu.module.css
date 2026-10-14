@@ -1,0 +1,106 @@
+/* The account card (StudioDashboard sidebar) and its menu (StudioAuthFlow › Path 7). */
+.card {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ln);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.avatar {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #eae9e4;
+  display: grid;
+  place-items: center;
+  color: var(--tx3);
+}
+.who {
+  min-width: 0;
+}
+.email {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.link {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: 400 12px/1.4 var(--fu);
+  color: var(--tx3);
+  cursor: pointer;
+}
+.link:hover {
+  color: var(--tx);
+}
+.avatarBtn {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: #eae9e4;
+  display: grid;
+  place-items: center;
+  color: var(--tx3);
+  cursor: pointer;
+}
+.avatarBtn:hover {
+  color: var(--tx);
+}
+
+.menu {
+  z-index: 50;
+  width: 260px;
+  padding: 14px 16px 4px;
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 26px rgba(20, 20, 22, 0.16);
+  animation: global(stUp) 0.22s var(--eo) both;
+}
+.head {
+  padding-bottom: 10px;
+}
+.how {
+  font: 400 13px/1.4 var(--fu);
+  color: var(--tx3);
+}
+.role {
+  font: 600 14px/1.4 var(--fu);
+  color: var(--tx);
+}
+.addr {
+  margin-top: 2px;
+  font: 400 13px/1.4 var(--fu);
+  color: var(--tx2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.item {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  border-top: 1px solid var(--ln);
+  font: 500 14px/1 var(--fu);
+  color: var(--tx);
+  cursor: pointer;
+  outline: none;
+}
+.item[data-highlighted] {
+  color: var(--ac);
+}
+.item:focus-visible {
+  outline: 2px solid var(--tx);
+  outline-offset: 2px;
+}
+:global(html.still) .menu {
+  animation: none;
+}

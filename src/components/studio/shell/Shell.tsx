@@ -1,0 +1,158 @@
+/**
+ * The Studio shell (05 · Shell; boards StudioDashboard, StudioTablet, StudioMobile):
+ *
+ * - laptop and iPad landscape (≥ 1024): the sidebar, with the account card at the bottom;
+ * - iPad portrait (768–1023): the 68px icon rail, labels as tooltips;
+ * - phones (< 768): the five-tab bottom bar. The account menu is under Home.
+ *
+ * The Website builder uses the rail at every width above phones (`nav="rail"`).
+ */
+import * as Tooltip from "@radix-ui/react-tooltip";
+import type { ReactNode } from "react";
+import { NavLink, useLocation } from "react-router";
+
+import { cx } from "../../cx";
+import { StudioIcon, type StudioIconName } from "../StudioIcon";
+import { AccountMenu } from "./AccountMenu";
+import styles from "./Shell.module.css";
+
+export interface NavItem {
+  to: string;
+  label: string;
+  /** The phone tab's label, where it differs ("Home"). */
+  tab?: string;
+  icon: StudioIconName;
+  end?: boolean;
+  count?: number | undefined;
+}
+
+export function navItems(projectCount?: number): NavItem[] {
+  return [
+    { to: "/studio", label: "Dashboard", tab: "Home", icon: "dashboard", end: true },
+    { to: "/studio/website", label: "Website", icon: "website" },
+    { to: "/studio/projects", label: "Projects", icon: "projects", count: projectCount },
+    { to: "/studio/writing", label: "Writing", icon: "writing" },
+    { to: "/studio/media", label: "Media", icon: "media" },
+  ];
+}
+
+interface ShellProps {
+  email: string;
+  projectCount?: number | undefined;
+  /** "rail" keeps the icon rail on laptops too (Website builder). */
+  nav?: "auto" | "rail";
+  /** The live site's address, for "View live site ↗". */
+  liveHref?: string;
+  onSignOut: (scope: "local" | "global") => void;
+  children: ReactNode;
+}
+
+function Wordmark({ small }: { small?: boolean }) {
+  return (
+    <span className={small ? styles.markSm : styles.mark}>
+      Studio<span className={styles.dot}>.</span>
+    </span>
+  );
+}
+
+export function Shell({
+  email,
+  projectCount,
+  nav = "auto",
+  liveHref = "/",
+  onSignOut,
+  children,
+}: ShellProps) {
+  const items = navItems(projectCount);
+  const { pathname } = useLocation();
+  // The editor and post routes keep their parent's item current.
+  const current = (item: NavItem) =>
+    item.end ? pathname === item.to || pathname === `${item.to}/` : pathname.startsWith(item.to);
+
+  return (
+    <Tooltip.Provider delayDuration={300}>
+      <div className={cx("st", styles.shell)} data-nav={nav}>
+        <aside className={styles.sidebar} aria-label="Studio">
+          <div className={styles.brand}>
+            <Wordmark />
+            <span className="mono" style={{ fontSize: 11 }}>
+              CMS
+            </span>
+          </div>
+          <nav aria-label="Studio" className={styles.sideNav}>
+            {items.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end ?? false}
+                className={() => cx(styles.nav, current(item) && styles.on)}
+                aria-current={current(item) ? "page" : undefined}
+              >
+                <StudioIcon name={item.icon} />
+                {item.label}
+                {item.count !== undefined ? <span className={styles.count}>{item.count}</span> : null}
+              </NavLink>
+            ))}
+            <div className={styles.divider} />
+            <a className={styles.nav} href={liveHref} target="_blank" rel="noopener noreferrer">
+              <StudioIcon name="live" />
+              View live site
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </nav>
+          <div className={styles.account}>
+            <AccountMenu email={email} onSignOut={onSignOut} variant="card" />
+          </div>
+        </aside>
+
+        <nav className={styles.rail} aria-label="Studio">
+          <span className={styles.railMark} aria-hidden="true">
+            S<span className={styles.dot}>.</span>
+          </span>
+          {items.map((item) => (
+            <Tooltip.Root key={item.to}>
+              <Tooltip.Trigger asChild>
+                <NavLink
+                  to={item.to}
+                  end={item.end ?? false}
+                  className={() => cx(styles.rl, current(item) && styles.on)}
+                  aria-label={item.label}
+                  aria-current={current(item) ? "page" : undefined}
+                >
+                  <StudioIcon name={item.icon} />
+                </NavLink>
+              </Tooltip.Trigger>
+              <Tooltip.Portal>
+                <Tooltip.Content side="right" sideOffset={8} className={cx("st", styles.tip)}>
+                  {item.label}
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
+          ))}
+          <div className={styles.railEnd}>
+            <AccountMenu email={email} onSignOut={onSignOut} variant="avatar" />
+          </div>
+        </nav>
+
+        <div className={styles.main} id="studio-main">
+          {children}
+        </div>
+
+        <nav className={styles.tabbar} aria-label="Studio">
+          {items.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end ?? false}
+              className={() => cx(styles.tbi, current(item) && styles.on)}
+              aria-current={current(item) ? "page" : undefined}
+            >
+              <StudioIcon name={item.icon} size={22} />
+              {item.tab ?? item.label}
+            </NavLink>
+          ))}
+        </nav>
+      </div>
+    </Tooltip.Provider>
+  );
+}
