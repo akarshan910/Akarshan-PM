@@ -1,0 +1,32 @@
+/*
+ * C3 · Text links.
+ * `underline`: "All work →" (WorkScale) and "All posts →" (WritingPublic), with the red rule.
+ * `inline`: Contact's LinkedIn / GitHub / Résumé row (Home.dc.html #contact).
+ */
+.underline {
+  display: inline-block;
+  font-family: var(--fd);
+  font-stretch: 75%;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--tx);
+  text-decoration: none;
+  border-bottom: 2px solid #d61f33;
+  padding-bottom: 4px;
+}
+.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--tx2);
+  text-decoration: none;
+}
+.inline :global(.ico) {
+  width: 15px;
+  height: 15px;
+}

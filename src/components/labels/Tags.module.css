@@ -1,0 +1,186 @@
+/* C6 · Tags, badges and chips. Values from Home*.dc.html and System.dc.html. */
+
+/* Volume tag: accent fill, #0B0B0E text (D13). The cover places it. */
+.vol {
+  display: inline-block;
+  border-radius: 6px;
+  color: #0b0b0e;
+  font-family: var(--fm);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: normal;
+  white-space: nowrap;
+}
+.volLead {
+  padding: 6px 10px;
+}
+.volStandard {
+  padding: 5px 9px;
+}
+/* Phone rows: the compact `NN` at 11px (HomeMobile `.row`). */
+.volCompact {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  letter-spacing: normal;
+}
+/* The iPad and phone boards draw the tag without letter-spacing. */
+@media (max-width: 1279px) {
+  .vol {
+    letter-spacing: normal;
+  }
+}
+@media (max-width: 767px) {
+  .volLead {
+    padding: 5px 9px;
+  }
+}
+
+/* Status badge (cover, top right): `.badge`, play icon plus "Prototype". */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f2f1ee;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  white-space: nowrap;
+}
+.badge svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+  stroke: none;
+}
+/* The lead cover's badges: 13px text (Home, HomeTablet); a 14px play icon on laptop. */
+.badgeLead {
+  font-size: 13px;
+}
+@media (min-width: 1280px) {
+  .badgeLead svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+/* A dot plus a label, e.g. "Shipped · AI": padding 6px 10px, fill .45, 7px accent dot. */
+.badgeStatus {
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.45);
+  font-size: 13px;
+}
+.dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+@media (max-width: 767px) {
+  .badgeLead,
+  .badgeStatus {
+    font-size: 12px;
+  }
+  .badgeLead svg {
+    width: 12px;
+    height: 12px;
+  }
+  .badgeStatus {
+    padding: 5px 9px;
+  }
+}
+
+/* Chip: Problem spaces, segments. 30px (32 on iPad). */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--ln);
+  font-size: 13px;
+  color: var(--tx2);
+  white-space: nowrap;
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+  .chip {
+    height: 32px;
+  }
+}
+
+/* Availability chip, with the M-AVAIL-PULSE dot. */
+.avail {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 32px;
+  padding: 0 14px 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(60, 203, 139, 0.35);
+  background: rgba(60, 203, 139, 0.08);
+  color: var(--okt);
+  font-size: 13px;
+  font-weight: 500;
+}
+.live {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ok);
+  animation: vaPulse 2.4s ease-in-out infinite;
+}
+@keyframes vaPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(60, 203, 139, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(60, 203, 139, 0);
+  }
+}
+@media (max-width: 767px) {
+  .avail {
+    height: 30px;
+    font-size: 12px;
+  }
+}
+/* Reduced: the dot only. Off screen, the hero adds `.paused` (04 · Ground rules 5). */
+@media (prefers-reduced-motion: reduce) {
+  .live {
+    animation: none;
+  }
+}
+:global(html.still) .live {
+  animation: none;
+}
+:global(.paused) .live {
+  animation-play-state: paused;
+}
+
+/* Filter chip (System board: All / Shipped / Strategy). */
+.filter {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--ln2);
+  background: transparent;
+  color: var(--tx2);
+  font-family: var(--fu);
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.filter[aria-pressed="true"] {
+  border: 0;
+  background: var(--tx);
+  color: var(--bg);
+  font-weight: 500;
+}
