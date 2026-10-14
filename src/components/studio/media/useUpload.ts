@@ -4,7 +4,7 @@
  * StudioStates › Upload problems messages. Images are measured first; HEIC is converted to JPG
  * where the browser can decode it.
  */
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import { useRepo } from "../data";
 import type { MediaRow } from "~/lib/studio/repo";
@@ -20,7 +20,13 @@ export interface UploadItem {
   /** "was converted to JPG so every browser can show it." */
   converted?: boolean;
   row?: MediaRow;
+  /** The upload itself failed (not the file): Retry sends it again. */
+  retry?: boolean;
 }
+
+type Verdict = Extract<ReturnType<typeof checkFile>, { ok: true }>;
+
+const offlineNow = () => typeof navigator !== "undefined" && "onLine" in navigator && !navigator.onLine;
 
 async function measure(file: Blob): Promise<{ width?: number; height?: number }> {
   if (typeof createImageBitmap !== "function") return {};
@@ -60,13 +66,68 @@ export function useUpload(options: { images?: boolean } = {}) {
     setItems((list) => list.map((i) => (i.key === key ? { ...i, ...p } : i)));
   };
 
+  const failedFiles = useRef(new Map<string, { f: File; verdict: Verdict }>());
+
+  /** Converts, measures and uploads one accepted file; the row, or null when it failed. */
+  const send = useCallback(
+    async (key: string, f: File, verdict: Verdict): Promise<MediaRow | null> => {
+      let blob: Blob = f;
+      let name = f.name;
+      let mime = f.type;
+      if (verdict.heic) {
+        const jpg = await heicToJpeg(f);
+        if (!jpg) {
+          patch(key, {
+            state: "failed",
+            message: "This HEIC photo couldn’t be converted. Export it as JPG and try again.",
+          });
+          return null;
+        }
+        blob = jpg;
+        name = name.replace(/\.hei[cf]$/i, ".jpg");
+        mime = "image/jpeg";
+      }
+      const size = verdict.kind === "image" ? await measure(blob) : {};
+      try {
+        const row = await repo.media.upload(
+          { file: blob, filename: name, kind: verdict.kind, mime, ...size },
+          (fraction) => {
+            patch(key, { fraction });
+          },
+        );
+        failedFiles.current.delete(key);
+        patch(key, {
+          state: "done",
+          fraction: 1,
+          row,
+          retry: false,
+          ...(verdict.heic ? { converted: true } : {}),
+        });
+        return row;
+      } catch (e) {
+        failedFiles.current.set(key, { f, verdict });
+        patch(key, {
+          state: "failed",
+          retry: true,
+          message: offlineNow()
+            ? "You’re offline. Retry once you’re back."
+            : e instanceof Error && e.message
+              ? e.message
+              : "Couldn’t upload this file. Try again.",
+        });
+        return null;
+      }
+    },
+    [repo],
+  );
+
   const upload = useCallback(
     async (files: FileList | File[]): Promise<MediaRow[]> => {
       const done: MediaRow[] = [];
       const list = [...files];
       const start = list.map((f, n) => ({
         f,
-        key: `${Date.now()}-${n}-${f.name}`,
+        key: `${String(Date.now())}-${String(n)}-${f.name}`,
         verdict: checkFile(f, { images }),
       }));
       setItems((prev) => [
@@ -82,44 +143,36 @@ export function useUpload(options: { images?: boolean } = {}) {
       ]);
       for (const { f, key, verdict } of start) {
         if (!verdict.ok) continue;
-        let blob: Blob = f;
-        let name = f.name;
-        let mime = f.type;
-        if (verdict.heic) {
-          const jpg = await heicToJpeg(f);
-          if (!jpg) {
-            patch(key, {
-              state: "failed",
-              message: "This HEIC photo couldn’t be converted. Export it as JPG and try again.",
-            });
-            continue;
-          }
-          blob = jpg;
-          name = name.replace(/\.hei[cf]$/i, ".jpg");
-          mime = "image/jpeg";
-        }
-        const size = verdict.kind === "image" ? await measure(blob) : {};
-        try {
-          const row = await repo.media.upload(
-            { file: blob, filename: name, kind: verdict.kind, mime, ...size },
-            (fraction) => {
-              patch(key, { fraction });
-            },
-          );
-          patch(key, { state: "done", fraction: 1, row, ...(verdict.heic ? { converted: true } : {}) });
-          done.push(row);
-        } catch {
-          patch(key, { state: "failed", message: "Paused. It resumes on its own when you’re back online." });
-        }
+        const row = await send(key, f, verdict);
+        if (row) done.push(row);
       }
       return done;
     },
-    [images, repo],
+    [images, send],
+  );
+
+  /** Sends a failed upload again; the rows that made it (none or one). */
+  const retry = useCallback(
+    async (key: string): Promise<MediaRow[]> => {
+      const entry = failedFiles.current.get(key);
+      if (!entry) return [];
+      setItems((list) =>
+        list.map((i) => {
+          if (i.key !== key) return i;
+          const { message: _m, ...rest } = i;
+          return { ...rest, state: "uploading" as const, fraction: 0, retry: false };
+        }),
+      );
+      const row = await send(key, entry.f, entry.verdict);
+      return row ? [row] : [];
+    },
+    [send],
   );
 
   const dismiss = useCallback((key: string) => {
+    failedFiles.current.delete(key);
     setItems((list) => list.filter((i) => i.key !== key));
   }, []);
 
-  return { items, upload, dismiss };
+  return { items, upload, retry, dismiss };
 }

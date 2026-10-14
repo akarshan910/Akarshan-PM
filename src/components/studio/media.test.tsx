@@ -142,4 +142,17 @@ describe("Media", { timeout: 20_000 }, () => {
       expect(within(sheet).queryByLabelText(/Alt text for screen-09\.png/)).not.toBeInTheDocument();
     });
   });
+
+  it("says why an upload failed, and retries it", async () => {
+    const user = userEvent.setup({ applyAccept: false });
+    const { repo } = await renderMedia();
+    repo.offline = true;
+    const input = document.querySelector<HTMLInputElement>('input[type="file"][multiple]');
+    await user.upload(must(input), [file("retry-me.png", "image/png")]);
+    expect(await screen.findByText(/^offline$|Retry once you’re back|offline/)).toBeInTheDocument();
+    repo.offline = false;
+    await user.click(screen.getByRole("button", { name: "Retry" }));
+    expect(await screen.findByDisplayValue("retry-me.png")).toBeInTheDocument();
+    expect((await repo.media.list()).some((m) => m.filename === "retry-me.png")).toBe(true);
+  });
 });

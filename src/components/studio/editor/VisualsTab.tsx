@@ -412,7 +412,19 @@ export function VisualsTab() {
             />
           </label>
         )}
-        <UploadProblems items={coverUpload.items} onDismiss={coverUpload.dismiss} />
+        <UploadProblems
+          items={coverUpload.items}
+          onDismiss={coverUpload.dismiss}
+          onRetry={(k) => {
+            void coverUpload.retry(k).then(async (rows) => {
+              const row = rows[0];
+              if (!row) return;
+              await addRows(rows);
+              setFocal(row.focal ?? { x: 0.5, y: 0.5 });
+              setVisuals((vis) => ({ ...vis, cover: { mediaId: row.id } }));
+            });
+          }}
+        />
       </Sec>
 
       <Sec
@@ -490,6 +502,21 @@ export function VisualsTab() {
                 >
                   {i.state === "failed" ? "Failed" : "Uploading"}
                 </span>
+                {i.state === "failed" && i.retry ? (
+                  <button
+                    type="button"
+                    className={styles.retry}
+                    onClick={() => {
+                      void upload.retry(i.key).then(async (rows) => {
+                        if (rows.length === 0) return;
+                        await addRows(rows);
+                        setGallery((g) => [...g, ...rows.map((r) => ({ mediaId: r.id }))]);
+                      });
+                    }}
+                  >
+                    Retry
+                  </button>
+                ) : null}
                 {i.state === "failed" ? (
                   <button
                     type="button"
@@ -528,9 +555,11 @@ export function VisualsTab() {
 function UploadProblems({
   items,
   onDismiss,
+  onRetry,
 }: {
   items: ReturnType<typeof useUpload>["items"];
   onDismiss: (k: string) => void;
+  onRetry: (k: string) => void;
 }) {
   const failed = items.filter((i) => i.state === "failed");
   if (failed.length === 0) return null;
@@ -542,6 +571,17 @@ function UploadProblems({
           <span>
             <strong>{i.name}</strong> {i.message}
           </span>
+          {i.retry ? (
+            <button
+              type="button"
+              className={styles.retry}
+              onClick={() => {
+                onRetry(i.key);
+              }}
+            >
+              Retry
+            </button>
+          ) : null}
           <button
             type="button"
             className="ib"

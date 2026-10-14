@@ -567,3 +567,16 @@
     display: none;
   }
 }
+
+/* Retry on a failed upload (StudioStates › Connection lost). */
+.retry {
+  flex: none;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--ln2);
+  border-radius: 8px;
+  background: #fff;
+  font: 500 13px/1 var(--fu);
+  color: var(--tx);
+  cursor: pointer;
+}

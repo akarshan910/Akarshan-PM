@@ -70,7 +70,13 @@ export function SettingsTab({ ownerName }: { ownerName: string }) {
     setCheck({ state: "checking" });
     timer.current = setTimeout(() => {
       void (async () => {
-        await e.autosave.flush();
+        if (!(await e.autosave.flush())) {
+          setCheck({
+            state: "bad",
+            message: "Your last change hasn’t saved yet. The address is checked once it has.",
+          });
+          return;
+        }
         // The flush may have bumped the version, so read the row's current one.
         const current = await repo.projects.get(row.id);
         const r = await repo.projects.setSlug(row.id, value, current?.version ?? e.autosave.row.version);
@@ -671,7 +677,17 @@ export function SettingsTab({ ownerName }: { ownerName: string }) {
                 aria-disabled={!delOk}
                 onClick={() => {
                   if (!delOk) return;
-                  void repo.publish({ action: "delete", kind: "project", id: row.id }).then(async () => {
+                  void repo.publish({ action: "delete", kind: "project", id: row.id }).then(async (r) => {
+                    if (!r.ok) {
+                      toast.show({
+                        message:
+                          r.reason === "offline"
+                            ? "You’re offline. Delete once you’re back online."
+                            : "Couldn’t delete the project. Nothing was changed.",
+                        tone: "error",
+                      });
+                      return;
+                    }
                     const l = await repo.layout.get();
                     cache.set("layout", l);
                     cache.invalidate("projects");

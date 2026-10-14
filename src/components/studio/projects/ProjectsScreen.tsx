@@ -10,7 +10,7 @@ import { useShell } from "../shell/ShellContext";
 import { ConflictDialog } from "../states/ConflictDialog";
 import { UnconfirmedDialog } from "../states/UnconfirmedDialog";
 import { useToast } from "../Toast";
-import { useAutosave } from "../useAutosave";
+import { UNSAVED_MESSAGE, useAutosave } from "../useAutosave";
 import { ProjectsList } from "./ProjectsList";
 import { restoreShelfOrder, shelfOrderChanged } from "~/lib/studio/diff";
 import { createProject } from "~/lib/studio/projects";
@@ -55,7 +55,11 @@ export function ProjectsScreen({
 
   const publishSite = async (confirmUnconfirmed: boolean) => {
     setPublishing(true);
-    await layout.flush();
+    if (!(await layout.flush())) {
+      setPublishing(false);
+      toast.show({ message: UNSAVED_MESSAGE, tone: "error" });
+      return;
+    }
     const result = await repo.publish({ action: "publish", kind: "site", confirmUnconfirmed });
     setPublishing(false);
     if (result.ok) {

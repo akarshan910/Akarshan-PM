@@ -17,7 +17,7 @@ import { useShell } from "../shell/ShellContext";
 import { ConflictDialog } from "../states/ConflictDialog";
 import { useToast } from "../Toast";
 import { TopicPicker, type TopicUse } from "../TopicPicker";
-import { useAutosave } from "../useAutosave";
+import { UNSAVED_MESSAGE, useAutosave } from "../useAutosave";
 import { useStudioTitle } from "../useStudioTitle";
 import { useUpload } from "../media/useUpload";
 import styles from "./Writing.module.css";
@@ -105,7 +105,8 @@ export function PostEditor({
     if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(next)) return;
     slugTimer.current = setTimeout(() => {
       void (async () => {
-        await a.flush();
+        // The address waits until the last edit has saved, so it can't overwrite it.
+        if (!(await a.flush())) return;
         // The flush may have bumped the version, so read the row's current one.
         const current = await repo.posts.get(row.id);
         if (!current) return;
@@ -193,7 +194,11 @@ export function PostEditor({
   const publish = async () => {
     if (issues.length > 0) return;
     setPublishing(true);
-    await a.flush();
+    if (!(await a.flush())) {
+      setPublishing(false);
+      toast.show({ message: UNSAVED_MESSAGE, tone: "error" });
+      return;
+    }
     const r = await repo.publish({
       action: "publish",
       kind: "post",
@@ -225,6 +230,10 @@ export function PostEditor({
   };
 
   const unschedule = async () => {
+    if (!(await a.flush())) {
+      toast.show({ message: UNSAVED_MESSAGE, tone: "error" });
+      return;
+    }
     const r = await repo.publish({ action: "publish", kind: "post", id: row.id, scheduleFor: null });
     if (r.ok) {
       const fresh = await repo.posts.get(row.id);

@@ -14,6 +14,7 @@ import {
   useRef,
   useState,
   type ClipboardEvent,
+  type DragEvent,
   type CSSProperties,
   type KeyboardEvent,
 } from "react";
@@ -124,9 +125,18 @@ export function RichArea({
   // Writes the value into the editor only when it changed from outside (load, undo, conflict).
   useEffect(() => {
     if (!el.current || value === last.current) return;
+    // A first value (null) is the load; anything later replaced what was here (Load latest,
+    // Undo elsewhere), so this field's own history no longer applies.
+    if (last.current !== null) {
+      past.current = [];
+      future.current = [];
+    }
     el.current.innerHTML = cleanRich(value, kind);
     last.current = value;
   }, [value, kind]);
+
+  // The caret before an edit, so undo puts it back where it was rather than after the change.
+  const caretBefore = useRef<number | null>(null);
 
   /** Records the value before a change; typing within a moment counts as one step. */
   const remember = (typing: boolean) => {
@@ -134,9 +144,13 @@ export function RichArea({
     const prev = last.current ?? cleanRich(value, kind);
     const top = past.current.at(-1);
     if (!(typing && now - lastPush.current < COALESCE_MS && top)) {
-      past.current.push({ html: prev, caret: el.current ? caretOffset(el.current) : null });
+      past.current.push({
+        html: prev,
+        caret: caretBefore.current ?? (el.current ? caretOffset(el.current) : null),
+      });
       if (past.current.length > HISTORY) past.current.shift();
     }
+    caretBefore.current = null;
     lastPush.current = typing ? now : 0;
     future.current = [];
   };
@@ -276,10 +290,70 @@ export function RichArea({
 
   const onPaste = (e: ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const html = pasteHtml(
-      { html: e.clipboardData.getData("text/html"), text: e.clipboardData.getData("text/plain") },
-      kind,
+    insert(
+      pasteHtml(
+        { html: e.clipboardData.getData("text/html"), text: e.clipboardData.getData("text/plain") },
+        kind,
+      ),
     );
+  };
+
+  // A drop goes through the same allowlist as a paste, at the point where it lands.
+  const onDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const pos = (
+      document as {
+        caretPositionFromPoint?: (x: number, y: number) => { offsetNode: Node; offset: number } | null;
+      }
+    ).caretPositionFromPoint?.(e.clientX, e.clientY);
+    const sel = document.getSelection();
+    if (pos && sel && el.current?.contains(pos.offsetNode)) {
+      const at = document.createRange();
+      at.setStart(pos.offsetNode, pos.offset);
+      at.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(at);
+    }
+    insert(
+      pasteHtml(
+        { html: e.dataTransfer.getData("text/html"), text: e.dataTransfer.getData("text/plain") },
+        kind,
+      ),
+    );
+  };
+
+  // The browser's own formatting and history would change the field behind the stored value:
+  // its undo and redo use this field's history, and its formatting commands are refused.
+  const beforeInput = useRef<(e: InputEvent) => void>(() => undefined);
+  useEffect(() => {
+    beforeInput.current = (e: InputEvent) => {
+      if (e.inputType === "historyUndo" || e.inputType === "historyRedo") {
+        e.preventDefault();
+        if (e.inputType === "historyUndo") step(past, future);
+        else step(future, past);
+        return;
+      }
+      if (e.inputType.startsWith("format") || e.inputType === "insertFromDrop") {
+        e.preventDefault();
+        return;
+      }
+      if (el.current && Date.now() - lastPush.current >= COALESCE_MS)
+        caretBefore.current = caretOffset(el.current);
+    };
+  });
+  useEffect(() => {
+    const node = el.current;
+    if (!node) return;
+    const on = (e: Event) => {
+      beforeInput.current(e as InputEvent);
+    };
+    node.addEventListener("beforeinput", on);
+    return () => {
+      node.removeEventListener("beforeinput", on);
+    };
+  }, []);
+
+  function insert(html: string) {
     const sel = document.getSelection();
     if (!sel || sel.rangeCount === 0 || !el.current) return;
     const range = sel.getRangeAt(0);
@@ -297,7 +371,7 @@ export function RichArea({
       sel.addRange(range);
     }
     emit();
-  };
+  }
 
   return (
     <div className={styles.wrap}>
@@ -324,6 +398,7 @@ export function RichArea({
           emit(true);
         }}
         onPaste={onPaste}
+        onDrop={onDrop}
         onKeyDown={onKey}
         onFocus={onFocus}
       />

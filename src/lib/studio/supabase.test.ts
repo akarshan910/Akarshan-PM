@@ -341,6 +341,13 @@ describe("supabaseRepo", () => {
     expect(await repo.projects.slugOwner(second.slug, first.id)).toMatchObject({ id: second.id });
     expect(await repo.projects.slugOwner("old-arcana")).toMatchObject({ title: "an earlier address" });
     expect(await repo.projects.slugOwner("free-one")).toBeNull();
+    // Never into the filter: "a,id.neq.x" would widen the query.
+    expect(await repo.projects.slugOwner("a,id.neq.x")).toEqual({ id: "", title: "an invalid address" });
+    expect(await repo.projects.setSlug(first.id, "Bad Slug", 2)).toEqual({
+      ok: false,
+      reason: "error",
+      message: "Not a valid address.",
+    });
     expect(await repo.projects.setSlug(first.id, second.slug, 2)).toMatchObject({
       ok: false,
       reason: "taken",

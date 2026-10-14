@@ -35,6 +35,7 @@ import type {
 import { mediaUses } from "./usage";
 
 const DRAFT_BUCKET = "pm-media-draft";
+const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 /** The shared project's storage quota (free plan), used by lumina too. */
 const QUOTA = 1024 * 1024 * 1024;
 const SIGNED_FOR = 3600;
@@ -236,6 +237,8 @@ export function supabaseRepo(url: string, anonKey: string): StudioRepo {
       return r.data ? map(r.data) : null;
     };
     const slugOwner = async (slug: string, exceptId?: string) => {
+      // Only valid addresses reach the filter below (it is built from the slug).
+      if (!SLUG.test(slug)) return { id: "", title: "an invalid address" };
       const both = await sb
         .from(table)
         .select("id, slug, published_slug, draft")
@@ -295,6 +298,8 @@ export function supabaseRepo(url: string, anonKey: string): StudioRepo {
         map(must(await sb.from(table).insert({ slug, draft }).select(cols).single())),
       save: (id: string, draft: D, seen: number) => versioned(id, { draft }, seen),
       setSlug: async (id: string, slug: string, seen: number) => {
+        if (!SLUG.test(slug))
+          return { ok: false as const, reason: "error" as const, message: "Not a valid address." };
         const owner = await slugOwner(slug, id);
         if (owner) return { ok: false as const, reason: "taken" as const, by: owner.title };
         return versioned(id, { slug }, seen);

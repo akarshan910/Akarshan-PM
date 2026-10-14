@@ -265,4 +265,50 @@ describe("RichArea", () => {
     fireEvent.keyDown(box, { key: "z", ctrlKey: true });
     expect(onChange).toHaveBeenLastCalledWith("Title");
   });
+
+  it("sanitises a drop, refuses native formatting, and uses its own history for native undo", () => {
+    const onChange = vi.fn();
+    render(<Harness initial="<p>Drop</p>" onChange={onChange} />);
+    const box = screen.getByRole("textbox", { name: "Body" });
+    caretAtEnd(box);
+    fireEvent.drop(box, {
+      dataTransfer: {
+        getData: (t: string) => (t === "text/html" ? " <img src=x onerror=alert(1)><strong>in</strong>" : ""),
+      },
+    });
+    expect(onChange).toHaveBeenLastCalledWith("<p>Drop<strong>in</strong></p>");
+    expect(box.innerHTML).not.toContain("img");
+
+    const fmt = new InputEvent("beforeinput", { inputType: "formatUnderline", cancelable: true });
+    box.dispatchEvent(fmt);
+    expect(fmt.defaultPrevented).toBe(true);
+    const drop = new InputEvent("beforeinput", { inputType: "insertFromDrop", cancelable: true });
+    box.dispatchEvent(drop);
+    expect(drop.defaultPrevented).toBe(true);
+    const typing = new InputEvent("beforeinput", { inputType: "insertText", cancelable: true });
+    box.dispatchEvent(typing);
+    expect(typing.defaultPrevented).toBe(false);
+
+    const undo = new InputEvent("beforeinput", { inputType: "historyUndo", cancelable: true });
+    box.dispatchEvent(undo);
+    expect(undo.defaultPrevented).toBe(true);
+    expect(onChange).toHaveBeenLastCalledWith("<p>Drop</p>");
+    box.dispatchEvent(new InputEvent("beforeinput", { inputType: "historyRedo", cancelable: true }));
+    expect(onChange).toHaveBeenLastCalledWith("<p>Drop<strong>in</strong></p>");
+  });
+
+  it("forgets its history when the value changes from outside", () => {
+    const onChange = vi.fn();
+    const { rerender } = render(<RichArea label="Body" value="<p>A</p>" onChange={onChange} />);
+    const box = screen.getByRole("textbox", { name: "Body" });
+    caretAtEnd(box);
+    paste(box, "", " B");
+    expect(onChange).toHaveBeenLastCalledWith("<p>A B</p>");
+    // Load latest: a value from elsewhere.
+    rerender(<RichArea label="Body" value="<p>Theirs</p>" onChange={onChange} />);
+    expect(box.innerHTML).toBe("<p>Theirs</p>");
+    const calls = onChange.mock.calls.length;
+    fireEvent.keyDown(box, { key: "z", ctrlKey: true });
+    expect(onChange.mock.calls.length).toBe(calls);
+  });
 });
