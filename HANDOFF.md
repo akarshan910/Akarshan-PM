@@ -50,14 +50,24 @@ _Last updated: 14 Oct 2026._
 - **Home.** `src/routes/home.tsx` and `src/components/sections/*` render every section at 1440/834/390. The hero motion (rise, brush, tilt, drift, floaters, pause) is in `src/motion/*`, and scroll reveals are included.
 - **Rich text.** `src/lib/rich-text.ts` and `src/components/rich/RichText.tsx` form the only path for `Inline`/`Rich` strings. The renderer is allowlist-based and tested with XSS payloads.
 - **/work list.** Commit `4885a85`: filters, search, sort and paging. See `src/lib/work-list.ts` and `src/components/work/`.
+- **Case-study view helper, started.** `src/lib/case-study.ts` has the view logic for `/work/:slug` (finding the project by slug, prev/next and so on), with unit tests. The route and its components aren't built yet.
 
 **Remaining:** see **Next**.
+
+### Stopped tasks to restart
+
+The owner stopped the session on 14 Oct 2026 to save tokens. Nothing is running, and everything finished is pushed. A new session should restart these, in this order:
+
+1. **Case-study track.** Finish `/work/:slug` (Next, item 1) on top of `src/lib/case-study.ts`. Check that the `/work` list needs nothing more (03 · Work list).
+2. **Writing, page states and parity track.** Next, items 2–4.
+
+Run each as one agent at a time in the main checkout, pushing after every commit to `claude/elegant-allen-xdmal0` (see How we work).
 
 ## Next
 
 Pick up in this order. Each item lists the doc sections and boards to read.
 
-1. **Case study `/work/:slug`.** `src/routes/work.$slug.tsx` is still a placeholder; `src/lib/case-study.ts` may have a start.
+1. **Case study `/work/:slug`.** `src/routes/work.$slug.tsx` is still a placeholder. Build on the view logic in `src/lib/case-study.ts`.
    - **Header and per-device prototype heading:** the header rows, the facts (Type = `PROJECT_KIND_LABELS`), and the prototype heading for each device.
    - **Chapter content:** summary and success measures, then every block type in `src/components/case-study/`.
    - **Chapter navigation:** the chapter rail, the iPad chapter bar, the phone sheet, and the reading progress bar.

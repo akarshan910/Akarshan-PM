@@ -207,3 +207,46 @@ export function readingProgress(top: number, height: number, viewport: number): 
   if (travel <= 0) return top <= 0 ? 1 : 0;
   return Math.min(1, Math.max(0, -top / travel));
 }
+
+/** "Whose result" on an outcome (EditorOutcomes.dc.html), shown under it when set (02 · C5). */
+export const CREDIT_LABELS: Record<NonNullable<Outcome["credit"]>, string> = {
+  mine: "My ownership",
+  team: "Team result",
+  business: "Business outcome",
+};
+
+type HeadingBlock = Extract<BlockPublished, { type: "heading" }>;
+type ListBlock = Extract<BlockPublished, { type: "list" }>;
+
+export type BlockGroup =
+  | { kind: "block"; block: BlockPublished }
+  | { kind: "boxes"; id: string; boxes: { heading: HeadingBlock; list: ListBlock }[] };
+
+/**
+ * A heading directly followed by a list draws as one box: the heading as its mono label and the
+ * list inside (03 · Blocks › list, the boxed variant; CaseStudy.dc.html chapter 01's
+ * "Assumptions" and chapter 06's mono card headings). Neighbouring boxes share a grid.
+ */
+export function groupBlocks(blocks: readonly BlockPublished[]): BlockGroup[] {
+  const out: BlockGroup[] = [];
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+    const after = blocks[i + 1];
+    if (block?.type === "heading" && after?.type === "list") {
+      const box = { heading: block, list: after };
+      const last = out.at(-1);
+      if (last?.kind === "boxes") last.boxes.push(box);
+      else out.push({ kind: "boxes", id: block.id, boxes: [box] });
+      i += 1;
+    } else if (block) {
+      out.push({ kind: "block", block });
+    }
+  }
+  return out;
+}
+
+/** The empty cells of a hairline card grid's last row go to its last card, so no gap shows. */
+export function lastCardSpan(count: number, columns: number): number {
+  if (count <= 0 || columns <= 1) return 1;
+  return columns - ((count - 1) % columns);
+}

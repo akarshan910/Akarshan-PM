@@ -7,6 +7,9 @@ import {
   chapterNumber,
   companyLine,
   countWord,
+  CREDIT_LABELS,
+  groupBlocks,
+  lastCardSpan,
   currentChapter,
   metricsOutcomes,
   readingProgress,
@@ -209,5 +212,34 @@ describe("scroll", () => {
     expect(readingProgress(-5000, 3000, 900)).toBe(1);
     expect(readingProgress(-10, 500, 900)).toBe(1);
     expect(readingProgress(10, 500, 900)).toBe(0);
+  });
+});
+
+describe("block grouping", () => {
+  const h = (id: string) => ({ id, type: "heading" as const, body: id });
+  const l = (id: string) => ({ id, type: "list" as const, body: "<ul><li>x</li></ul>" });
+  const t = (id: string) => ({ id, type: "text" as const, body: "<p>x</p>", style: "body" as const });
+
+  it("boxes a heading followed by a list, and puts neighbouring boxes in one grid", () => {
+    const groups = groupBlocks([t("a"), h("b"), l("c"), h("d"), l("e"), h("f"), t("g"), l("h")]);
+    expect(groups.map((g) => (g.kind === "boxes" ? `boxes:${g.boxes.length}` : g.block.id))).toEqual([
+      "a",
+      "boxes:2",
+      "f",
+      "g",
+      "h",
+    ]);
+  });
+
+  it("spans the last hairline card over the empty cells", () => {
+    expect(lastCardSpan(6, 3)).toBe(1);
+    expect(lastCardSpan(7, 3)).toBe(3);
+    expect(lastCardSpan(5, 2)).toBe(2);
+    expect(lastCardSpan(4, 1)).toBe(1);
+    expect(lastCardSpan(0, 3)).toBe(1);
+  });
+
+  it("labels whose result an outcome is", () => {
+    expect(CREDIT_LABELS.business).toBe("Business outcome");
   });
 });

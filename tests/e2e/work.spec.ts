@@ -60,6 +60,8 @@ test.describe("/work", () => {
 
     // The topic dropdown: a disclosure with checkboxes; Esc closes it.
     await page.getByRole("searchbox", { name: "Search work" }).fill("");
+    await expect(page).not.toHaveURL(/q=/);
+    await expect(rows(page)).toHaveCount(5);
     const topic = page.getByRole("button", { name: /^Topic/ });
     await topic.click();
     await expect(topic).toHaveAttribute("aria-expanded", "true");
