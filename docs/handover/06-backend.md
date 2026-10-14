@@ -530,7 +530,7 @@ grant execute on function public_redirects() to anon, authenticated;
 
 ## Auth
 
-Studio signs in with a **6-digit code sent by email**. Decided 13 Oct 2026 ([09](09-decisions.md), D8). The screens and every state are in [05 · Sign-in](05-studio.md#sign-in). This section is the plumbing.
+Studio signs in with an **8-digit code sent by email**. Decided 13 Oct 2026 ([09](09-decisions.md), D8), with 8 digits from 15 Oct 2026 (D66). The screens and every state are in [05 · Sign-in](05-studio.md#sign-in). This section is the plumbing.
 
 ### Supabase settings
 
@@ -540,7 +540,7 @@ Set in the dashboard. **Every one of these is project-wide, so it also applies t
 | --- | --- | --- |
 | Authentication › Sign In / Providers › Email | Email provider on. Confirm email on | None: lumina already needs both |
 | Same page | **Allow new users to sign up: off** | Lumina's admins are created by hand, so nothing breaks. It also stops anyone creating an account through lumina's password or SMS forms. Confirm with the owner before switching it |
-| Same page | Email OTP length: 6 | None: lumina doesn't use email codes |
+| Same page | Email OTP length: 8 ([09](09-decisions.md), D66) | None: lumina doesn't use email codes |
 | Same page | Email OTP expiration: 600 seconds | Lumina's password-reset links also expire after 10 minutes instead of an hour |
 | Authentication › Sign In / Providers › Phone | Leave as it is | Lumina's SMS codes (Twilio) keep working |
 | Same page | No other providers. Anonymous sign-ins off | None |

@@ -77,6 +77,7 @@ The reasoning behind the bigger decisions is in [`docs/story/02-decisions.md`](.
 | D63 | 15 Oct 2026 | **The editor header's "More actions" (⋯) button isn't built:** the boards don't say what it holds. Unpublish and Delete live in URL & SEO, as 05 says | [05](05-studio.md) |
 | D64 | 15 Oct 2026 | **A project's first publish** uses the dialog kicker "Publish" and the title "Publish “{title}”?"; the boards draw only the update case | [05](05-studio.md) |
 | D65 | 15 Oct 2026 | **Studio's own data layer instead of TanStack Query and idb-keyval:** a small query cache (`components/studio/data.tsx`) and a 60-line IndexedDB wrapper do what 05 and 06 · Autosave ask. dnd-kit and TipTap stay, as 01 · Stack names them | [01 · Stack](01-architecture.md), [06 · Autosave](06-backend.md#autosave) |
+| D66 | 15 Oct 2026 | **Sign-in codes are 8 digits (Q9),** because CAPTCHA stays off (D54): guessing gets 100 times harder. Supabase's Email OTP length is 8, applied with the owner alongside D52 (lumina doesn't use email codes); the code input shows 8 boxes. This updates D8's "6-digit" and the copy in 02 and 05 | [06 · Auth](06-backend.md#auth), [05 · Sign-in](05-studio.md#sign-in) |
 
 ## Open questions
 
@@ -90,7 +91,7 @@ The reasoning behind the bigger decisions is in [`docs/story/02-decisions.md`](.
 | Q6 | M3 | ~~Arcana's live summary is 143 characters; the limit is 140. Publish it as is, or trim it?~~ Answered, D51. | Publish as is: the seed allows it, Studio flags it, and the owner trims it in Studio. Trimming in the seed would change the owner's words | Publish as is |
 | Q7 | M4 | Which Cloudflare account holds the Turnstile widget? | The owner's free Cloudflare account. One widget lists the portfolio's domain, lumina's domain and `localhost` | Turnstile's test keys in development |
 | Q8 | Launch | ~~Change lumina-photography's login and forgot-password pages to send Turnstile tokens, so CAPTCHA protection can be switched on for the shared project?~~ Answered at the default for now, D54. | Yes. It's a small change in that repo, and it protects both sites' sign-ins. It needs its own session on that repository and the owner's usual local check before deploying | CAPTCHA protection stays off; sign-in relies on the rate limits |
-| Q9 | M4 | Sign-in codes: 6 digits (as designed) or 8? | 6 with CAPTCHA on (Q8). Choose 8 if Q8 is declined: guessing gets 100 times harder, and the code input shows 8 boxes | 6 |
+| Q9 | M4 | ~~Sign-in codes: 6 digits (as designed) or 8?~~ Answered, D66. | 6 with CAPTCHA on (Q8). Choose 8 if Q8 is declined: guessing gets 100 times harder, and the code input shows 8 boxes | 6 |
 | Q10 | M3 | ~~The shared Auth settings change lumina too: sign-ups off (lumina's admins are created by hand), and password-reset links that last 10 minutes instead of an hour. Is that fine for lumina?~~ Answered, D52. | Yes. Both make lumina safer, and nothing in lumina relies on sign-ups | Don't change any shared Auth setting until the owner says yes |
 
 ## Launch checklist (owner)
