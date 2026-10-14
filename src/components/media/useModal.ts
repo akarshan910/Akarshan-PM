@@ -3,13 +3,6 @@ import { type RefObject, useEffect, useRef } from "react";
 const FOCUSABLE =
   'a[href], button:not([disabled]), iframe, input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
 
-/** True under the visitor's reduced-motion setting, or when the bootstrap marked `<html>` still. */
-export function prefersReducedMotion(): boolean {
-  if (typeof document === "undefined") return false;
-  if (document.documentElement.classList.contains("still")) return true;
-  return typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
 /**
  * Modal behaviour for the lightbox and the prototype sheet: while `open`, Tab stays inside
  * `ref`, Escape calls `onEscape`, the page behind doesn't scroll, and on close focus returns to

@@ -7,6 +7,8 @@
  */
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type MouseEvent } from "react";
 
+import { prefersReducedMotion } from "~/motion/reduced-motion";
+
 import { cx } from "../cx";
 import { Icon } from "../icons";
 import { PhoneMenu, type MenuLink } from "./PhoneMenu";
@@ -38,13 +40,6 @@ export interface PillNavProps {
   position?: "fixed" | "static";
 }
 
-function reducedMotion(): boolean {
-  return (
-    document.documentElement.classList.contains("still") ||
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
 /** Scrolls to a same-page section. Smooth scrolling is off under reduced motion. */
 function scrollToHash(href: string): boolean {
   const hash = href.slice(href.indexOf("#") + 1);
@@ -52,7 +47,7 @@ function scrollToHash(href: string): boolean {
   if (href.startsWith("/") && !href.startsWith(`${window.location.pathname}#`)) return false;
   const target = document.getElementById(hash);
   if (!target) return false;
-  target.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth" });
+  target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
   return true;
 }
 

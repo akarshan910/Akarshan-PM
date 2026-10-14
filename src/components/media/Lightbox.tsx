@@ -5,7 +5,9 @@ import { Icon } from "../icons";
 import { Image } from "./Image";
 import styles from "./Lightbox.module.css";
 import type { ImageData } from "./types";
-import { prefersReducedMotion, useModal } from "./useModal";
+import { prefersReducedMotion } from "~/motion/reduced-motion";
+
+import { useModal } from "./useModal";
 
 export interface LightboxItem {
   image: ImageData;

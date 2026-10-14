@@ -1,6 +1,7 @@
 import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 
 import { Icon } from "~/components/icons";
+import { prefersReducedMotion } from "~/motion/reduced-motion";
 
 import { type Testimonial, TestimonialCard } from "./TestimonialCard";
 import styles from "./Testimonials.module.css";
@@ -17,14 +18,6 @@ interface TestimonialsProps {
   items: Testimonial[];
   /** The iPad hint beside the title. */
   swipeHint?: string;
-}
-
-function still(): boolean {
-  if (typeof document === "undefined") return true;
-  return (
-    document.documentElement.classList.contains("still") ||
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
 }
 
 /** "1–3 of 7", or "7 of 7" for a single card. */
@@ -59,7 +52,7 @@ export function Testimonials({ heading, items, swipeHint = "Swipe →" }: Testim
   const go = (next: number) => {
     if (next < 0 || next >= pages || next === page) return;
     clearTimeout(timer.current);
-    if (still()) {
+    if (prefersReducedMotion()) {
       setPage(next);
       setPhase("idle");
       return;
@@ -83,7 +76,10 @@ export function Testimonials({ heading, items, swipeHint = "Swipe →" }: Testim
     const card = cards()[i];
     setCurrent(i);
     if (el && card)
-      el.scrollTo({ left: card.offsetLeft - el.offsetLeft, behavior: still() ? "auto" : "smooth" });
+      el.scrollTo({
+        left: card.offsetLeft - el.offsetLeft,
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+      });
   };
 
   const track = cx(styles.track, phase === "out" && styles.out, phase === "in" && styles.in);
