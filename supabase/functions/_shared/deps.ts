@@ -16,6 +16,8 @@ export type Bucket = "pm-media-draft" | "pm-media-public";
 export interface StoragePort {
   /** Object names under `prefix` (e.g. `<id>/r1/`) in a bucket; with `before`, only older objects. */
   list(bucket: Bucket, prefix: string, before?: Date): Promise<string[]>;
+  /** Stores a file the functions made (a video poster) in the draft bucket. */
+  upload(name: string, bytes: Uint8Array, contentType: string): Promise<void>;
   /** Copies one object from the draft bucket into the public one, overwriting. */
   publish(name: string): Promise<void>;
   remove(bucket: Bucket, names: string[]): Promise<void>;
