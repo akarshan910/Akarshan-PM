@@ -107,6 +107,17 @@ describe("media pipeline", () => {
     const gif = await runPipeline(gifFile, "image/gif");
     expect(gif.files.at(-1)).toEqual({ name: "orig.gif", blob: gifFile, type: "image/gif" });
 
+    // Re-encoded bigger than the limit: refused before anything uploads.
+    class BigPng extends Canvas {
+      override convertToBlob(o: { type: string }) {
+        const size = o.type === "image/png" ? 11 * 1024 * 1024 : 10;
+        return Promise.resolve(new Blob([new Uint8Array(size)], { type: o.type }));
+      }
+    }
+    vi.stubGlobal("OffscreenCanvas", BigPng);
+    await expect(runPipeline(new Blob([PNG]), "image/png")).rejects.toThrow(/After converting, it’s 11/);
+    vi.stubGlobal("OffscreenCanvas", Canvas);
+
     vi.stubGlobal("createImageBitmap", () =>
       Promise.resolve({ width: 8000, height: 6000, close: () => undefined }),
     );

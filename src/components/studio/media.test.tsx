@@ -93,6 +93,11 @@ describe("Media", { timeout: 20_000 }, () => {
     await user.click(within(details).getByRole("button", { name: "OK" }));
     const input = document.querySelector<HTMLInputElement>('input[type="file"][multiple]');
     await user.upload(must(input), [file("loose.png", "image/png")]);
+    await user.upload(must(input), [file("cv.pdf", "application/pdf")]);
+    expect(
+      await screen.findByText(/PDFs go up as they are, so they keep their own details/),
+    ).toBeInTheDocument();
+    await user.click(must(screen.getAllByRole("button", { name: /loose\.png/ })[0]));
     await screen.findByDisplayValue("loose.png");
     await user.click(within(details).getByRole("button", { name: "Delete…" }));
     expect(

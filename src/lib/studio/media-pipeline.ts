@@ -8,6 +8,8 @@
  * names pm-publish copies (supabase/functions/_shared/media.ts).
  */
 
+import { formatBytes, MAX_BYTES } from "./upload";
+
 export const WIDTHS = [480, 960, 1600] as const;
 
 export interface PipelineFile {
@@ -193,6 +195,12 @@ export async function runPipeline(file: Blob, claimed: string): Promise<Pipeline
   }
   bitmap.close();
   const orig = files[files.length - 1];
+  // Re-encoding can make a file bigger (a PNG at full quality): check before anything uploads.
+  const big = files.find((f) => f.blob.size > MAX_BYTES);
+  if (big)
+    throw new Error(
+      `After converting, it’s ${formatBytes(big.blob.size)}. Images can be up to 10 MB. Resize it and upload again.`,
+    );
   return {
     kind: "image",
     mime: stored,
