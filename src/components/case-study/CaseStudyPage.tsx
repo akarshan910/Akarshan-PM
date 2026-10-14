@@ -1,6 +1,6 @@
 import { type CSSProperties, useMemo, useRef } from "react";
 
-import { chapterAnchor, chapterNumber, type CaseStudyView, groupBlocks } from "~/lib/case-study";
+import { chapterAnchors, chapterNumber, type CaseStudyView, groupBlocks } from "~/lib/case-study";
 
 import { cx } from "../cx";
 import { Block } from "./blocks/Block";
@@ -22,16 +22,15 @@ export function CaseStudyPage({ view }: { view: CaseStudyView }) {
   const { project } = view;
   const root = useRef<HTMLElement>(null);
   const article = useRef<HTMLElement>(null);
-  const chapters = useMemo(
-    () =>
-      project.story.map((chapter, i) => ({
-        chapter,
-        anchor: chapterAnchor(i),
-        title: chapter.title,
-        groups: groupBlocks(chapter.blocks),
-      })),
-    [project.story],
-  );
+  const chapters = useMemo(() => {
+    const ids = chapterAnchors(project.story.map((c) => c.title));
+    return project.story.map((chapter, i) => ({
+      chapter,
+      anchor: ids[i] ?? `chapter-${chapterNumber(i)}`,
+      title: chapter.title,
+      groups: groupBlocks(chapter.blocks),
+    }));
+  }, [project.story]);
   const anchors = useMemo(() => chapters.map((c) => c.anchor), [chapters]);
   const current = useChapterSpy(root, article, anchors);
   const context = useMemo(() => ({ project }), [project]);
@@ -81,7 +80,13 @@ function Chapter({
 }) {
   const ref = useReveal<HTMLElement>({ blocks: ":scope > span, :scope > h2, :scope > div > *" });
   return (
-    <section ref={ref} id={anchor} className={styles.chapter} aria-labelledby={`${anchor}-t`}>
+    <section
+      ref={ref}
+      id={anchor}
+      data-chapter={chapterNumber(index)}
+      className={styles.chapter}
+      aria-labelledby={`${anchor}-t`}
+    >
       <span className={styles.chn} aria-hidden="true">
         {chapterNumber(index)}
       </span>

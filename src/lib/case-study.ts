@@ -105,9 +105,33 @@ export function chapterNumber(index: number): string {
   return String(index + 1).padStart(2, "0");
 }
 
-/** The chapter's DOM id, also its link target in the rail and the sheet. */
-export function chapterAnchor(index: number): string {
-  return `ch-${chapterNumber(index)}`;
+/** Ids the page itself uses, which a chapter anchor must never take. */
+const RESERVED_IDS = new Set(["main", "top", "summary"]);
+
+/**
+ * The chapters' DOM ids, which are also their links (05 · Story › "Link to this chapter",
+ * /work/{slug}#{anchor}): the title as a slug, so a link survives reordering and changes when the
+ * chapter is renamed. Titles that slug to nothing fall back to `chapter-01`; clashes get `-2`, `-3`.
+ * Studio's "Link to this chapter" calls this too, so the two always agree.
+ */
+export function chapterAnchors(titles: readonly string[]): string[] {
+  const used = new Set<string>(RESERVED_IDS);
+  return titles.map((title, i) => {
+    const base =
+      title
+        .normalize("NFKD")
+        .toLowerCase()
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/→/g, " to ")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 60)
+        .replace(/-+$/, "") || `chapter-${chapterNumber(i)}`;
+    let anchor = /^[a-z]/.test(base) ? base : `ch-${base}`;
+    for (let n = 2; used.has(anchor); n++) anchor = `${base}-${String(n)}`;
+    used.add(anchor);
+    return anchor;
+  });
 }
 
 type Outcome = ProjectPublished["outcomes"][number];

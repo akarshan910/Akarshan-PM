@@ -9,7 +9,7 @@ const chapters = (board: (i: number) => string): Section[] =>
   [1, 2, 3, 4, 5, 6].map((i) => ({
     name: `chapter-0${i}`,
     board: board(i),
-    page: `#ch-0${i}`,
+    page: `[data-chapter="0${i}"]`,
   }));
 
 /**
