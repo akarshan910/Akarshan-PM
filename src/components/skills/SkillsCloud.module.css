@@ -156,8 +156,10 @@
     opacity: 0;
   }
 }
+/* `backwards`, not `both`: holding the end frame would pin opacity at 1 and override the group
+ * highlight's dimming (M-SKILLS-FOCUS) after a scroll-triggered entrance. */
 .go .cw {
-  animation: global(vaRise) 0.56s var(--eo) both;
+  animation: global(vaRise) 0.56s var(--eo) backwards;
   animation-delay: calc(var(--i5) * 80ms);
 }
 

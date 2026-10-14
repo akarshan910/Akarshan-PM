@@ -476,15 +476,17 @@ create policy owner_all on projects for all to authenticated
 **Visitor reads.** Column grants first, then a row policy:
 
 ```sql
--- The owner works through RLS, so authenticated gets table privileges and the policies decide.
-grant select, insert, update, delete on all tables in schema pm to authenticated;
-grant usage on all sequences in schema pm to authenticated;
+-- The owner works through RLS, and writes drafts only (D55): published columns, revisions, redirects,
+-- previews, link checks and deploys are written by the pm- functions. 0001_init.sql has the full list.
+grant select on pm.profile, pm.site_layout, pm.projects, pm.posts, pm.media /* …every Studio table */ to authenticated;
+grant update (draft, version) on profile, site_layout to authenticated;
+grant insert (slug, draft), update (slug, draft, version) on projects, posts to authenticated;
 
-grant select (published_slug, published, published_at, first_published_at) on projects to anon;
+grant select (id, published_slug, published, published_at, first_published_at) on projects to anon;   -- id: D56
 create policy public_read on projects for select to anon
   using (published is not null and deleted_at is null and visibility = 'public');
 
-grant select (published_slug, published, published_at) on posts to anon;
+grant select (id, published_slug, published, published_at) on posts to anon;
 create policy public_read on posts for select to anon
   using (published is not null and deleted_at is null);
 
@@ -493,7 +495,7 @@ create policy public_read on profile for select to anon using (published is not 
 create policy public_read on site_layout for select to anon using (published is not null);
 ```
 
-Every later migration that creates a table repeats, for that table, the `grant select, insert, update, delete … to authenticated`, `enable row level security` and `owner_all` statements: line one's `on all tables` covers only the tables that exist when it runs.
+Every later migration that creates a table adds, for that table, its grants to `authenticated` (select, and writes on draft columns only), `enable row level security` and `owner_all`, in the same migration; `npm run db:lint` fails otherwise. `db:migrate` also records each file's SHA-256 (from `0003`) and refuses to run when an applied file has changed: a change always goes in a new migration.
 
 Nothing else is granted to `anon`: no media table, revisions, previews, link checks or deploys. Every function is created with `revoke all … from public` and an explicit grant, as below. Nothing here touches the `public` schema.
 
@@ -530,7 +532,7 @@ grant execute on function public_redirects() to anon, authenticated;
 
 ## Auth
 
-Studio signs in with a **6-digit code sent by email**. Decided 13 Oct 2026 ([09](09-decisions.md), D8). The screens and every state are in [05 · Sign-in](05-studio.md#sign-in). This section is the plumbing.
+Studio signs in with an **8-digit code sent by email**. Decided 13 Oct 2026 ([09](09-decisions.md), D8), with 8 digits from 15 Oct 2026 (D66). The screens and every state are in [05 · Sign-in](05-studio.md#sign-in). This section is the plumbing.
 
 ### Supabase settings
 
@@ -540,7 +542,7 @@ Set in the dashboard. **Every one of these is project-wide, so it also applies t
 | --- | --- | --- |
 | Authentication › Sign In / Providers › Email | Email provider on. Confirm email on | None: lumina already needs both |
 | Same page | **Allow new users to sign up: off** | Lumina's admins are created by hand, so nothing breaks. It also stops anyone creating an account through lumina's password or SMS forms. Confirm with the owner before switching it |
-| Same page | Email OTP length: 6 | None: lumina doesn't use email codes |
+| Same page | Email OTP length: 8 ([09](09-decisions.md), D66) | None: lumina doesn't use email codes |
 | Same page | Email OTP expiration: 600 seconds | Lumina's password-reset links also expire after 10 minutes instead of an hour |
 | Authentication › Sign In / Providers › Phone | Leave as it is | Lumina's SMS codes (Twilio) keep working |
 | Same page | No other providers. Anonymous sign-ins off | None |
@@ -639,9 +641,9 @@ export async function checkCode(email: string, token: string, captchaToken: stri
 | Owner-only data | RLS with `is_owner()` |
 | 5 wrong codes lock that device for 15 minutes | Studio (convenience, not security) |
 
-**What's left.** Supabase limits code checks per IP address, not per email address, and doesn't lock a code after wrong guesses. An attacker with many IP addresses could request a fresh code every minute and spread guesses across addresses. With 6 digits, that becomes a real risk only for a sustained, well-resourced attack. It would also flood the owner's inbox with a code a minute, which is easy to notice.
+**What's left.** Supabase limits code checks per IP address, not per email address, and doesn't lock a code after wrong guesses. An attacker with many IP addresses could request a fresh code every minute and spread guesses across addresses. With 8 digits (D66) and CAPTCHA off (D54), it stays impractical even for a sustained attack: 100 million codes, a fresh one each minute. It would also flood the owner's inbox with a code a minute, which is easy to notice.
 
-If that risk matters, set Email OTP length to 8. That's one dashboard setting, and makes guessing 100 times harder. The code input then shows 8 boxes instead of 6 ([09](09-decisions.md), Q9). The 6-digit design ships unless the owner chooses 8.
+The owner chose 8 digits over the boards' 6 (Q9, D66): one dashboard setting that makes guessing 100 times harder. The code input shows 8 boxes.
 
 ## Storage
 
@@ -738,7 +740,7 @@ For `kind: 'project'`, `action: 'publish'`:
    - an Achieved outcome without evidence;
    - a video link from an unsupported host, or a Drive video that isn't shared (`pm-check-link`);
    - a prototype link that asks for a login (`pm-check-link`);
-   - a RICE table with a flagged row that isn't marked reviewed.
+   - a RICE table with a flagged row that isn't marked reviewed is a **warning**, not a failure ([09](09-decisions.md), D61): the publish goes ahead and the response is `{ ok: true, …, warnings: [{ field, message, code: "rice-row" }] }`.
 3. Build the published shape (above), copying any media not yet in `pm-media-public`.
 4. In one transaction:
    - write `published`, `published_at = now()`, `published_slug = slug`, and `first_published_at` if it's null;

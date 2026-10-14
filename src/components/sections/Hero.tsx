@@ -93,14 +93,18 @@ export function Hero({ section, profile, projects }: SectionProps) {
       ? profile.contact.resume
       : undefined;
 
-  // Each visible line rises 80ms after the one before; hidden lines are skipped.
+  // Each visible line rises 80ms after the one before; hidden lines are skipped. Phones hide the
+  // location and the intro, so they count their own steps (`--ip`).
   let line = 0;
-  const rise = (): CSSProperties => ({ animationDelay: `${line++ * 80}ms` });
+  let phoneLine = 0;
+  const rise = (onPhone = true): CSSProperties =>
+    ({ "--i": line++, "--ip": onPhone ? phoneLine++ : phoneLine }) as CSSProperties;
+  const rowOnPhone = parts.has("availability") && Boolean(profile.availability);
 
   const lines: ReactNode[] = [];
   if (showRow)
     lines.push(
-      <div key="row" className={cx(styles.rise, styles.row)} style={rise()}>
+      <div key="row" data-intro="" className={cx(styles.rise, styles.row)} style={rise(rowOnPhone)}>
         {parts.has("availability") ? <AvailabilityChip>{profile.availability}</AvailabilityChip> : null}
         {parts.has("location") && profile.location ? (
           <span className={styles.location}>{profile.location}</span>
@@ -108,7 +112,7 @@ export function Hero({ section, profile, projects }: SectionProps) {
       </div>,
     );
   lines.push(
-    <h1 key="name" className={cx(styles.rise, styles.name)} style={rise()}>
+    <h1 key="name" data-intro="" className={cx(styles.rise, styles.name)} style={rise()}>
       {name[0]}
       {name[1] ? (
         <>
@@ -121,20 +125,20 @@ export function Hero({ section, profile, projects }: SectionProps) {
   );
   if (parts.has("brush")) lines.push(<Brush key="brush" />);
   lines.push(
-    <p key="positioning" className={cx(styles.rise, styles.positioning)} style={rise()}>
+    <p key="positioning" data-intro="" className={cx(styles.rise, styles.positioning)} style={rise()}>
       <RichText inline html={profile.positioning} />
     </p>,
   );
   if (showIntro) {
     lines.push(
-      <p key="intro" className={cx(styles.rise, styles.intro)} style={rise()}>
+      <p key="intro" data-intro="" className={cx(styles.rise, styles.intro)} style={rise(false)}>
         <RichText inline html={profile.intro ?? ""} />
       </p>,
     );
   }
   if (primary || resume) {
     lines.push(
-      <div key="buttons" className={cx(styles.rise, styles.buttons)} style={rise()}>
+      <div key="buttons" data-intro="" className={cx(styles.rise, styles.buttons)} style={rise()}>
         {primary ? (
           <Button href={primary.href} iconEnd={primary.href.startsWith("#") ? "arrow-down" : "arrow-right"}>
             {primary.label}
@@ -148,14 +152,19 @@ export function Hero({ section, profile, projects }: SectionProps) {
       </div>,
     );
   }
-  const riseCount = line;
-
-  // The entrance is done once every line and the brush have finished.
+  // The entrance is done once every line and the brush that's on screen have finished. A hidden
+  // line (display: none) never fires animationend, so only the visible ones are counted.
   const ended = useRef(new Set<EventTarget>());
-  const onAnimationEnd = (e: AnimationEvent) => {
+  const onAnimationEnd = (e: AnimationEvent<HTMLElement>) => {
     if (e.animationName !== "vaRise" && e.animationName !== "vaInkDraw") return;
     ended.current.add(e.target);
-    if (ended.current.size >= riseCount + (parts.has("brush") ? 1 : 0)) markIntroPlayed();
+    const shown = [...e.currentTarget.querySelectorAll<HTMLElement | SVGElement>("[data-intro]")].filter(
+      (el) =>
+        typeof el.checkVisibility === "function"
+          ? el.checkVisibility()
+          : getComputedStyle(el).display !== "none",
+    );
+    if (shown.every((el) => ended.current.has(el))) markIntroPlayed();
   };
 
   const volumes = Object.values(projects).filter((p) => p.volume).length;

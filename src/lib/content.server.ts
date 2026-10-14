@@ -13,8 +13,18 @@ async function source(): Promise<ContentSource> {
       const { boardsFixture } = await import("../../tests/fixtures/board-content");
       return boardsFixture;
     }
-    case "supabase":
-      throw new Error("The Supabase content source arrives in M3 (10 · Phase 3).");
+    case "supabase": {
+      // The build reads with the public URL and anon key, the same two values the browser gets.
+      const url = process.env.VITE_SUPABASE_URL;
+      const key = process.env.VITE_SUPABASE_ANON_KEY;
+      if (!url || !key)
+        throw new Error("CONTENT_SOURCE=supabase needs VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+      const [{ publicReader }, { supabaseSource }] = await Promise.all([
+        import("./supabase"),
+        import("./sources/supabase"),
+      ]);
+      return supabaseSource(publicReader(url, key));
+    }
   }
 }
 

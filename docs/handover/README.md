@@ -137,7 +137,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
   - Turnstile in Studio; Supabase's CAPTCHA protection switched on once lumina's login sends tokens ([09](09-decisions.md), Q8);
   - the code-only email template and custom SMTP.
 - [ ] V0 seed script (`npm run seed:v0`) loads profile, layout and projects from `src/legacy/content.ts`, with the covers from `design/covers/`. See [07](07-v0-content.md). _Built and tested locally (PGlite); waits for the owner's go-live steps in `supabase/README.md`._
-- [ ] The build reads published content from Supabase at prerender time and stops using the local JSON.
+- [ ] The build reads published content from Supabase at prerender time and stops using the local JSON. _`CONTENT_SOURCE=supabase` is built and tested on the real migrations (PGlite, as anon); the build switches to it when the owner's project is live._
 
 ### M4 · Studio
 
@@ -146,10 +146,10 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
   - the account menu;
   - save status.
 - [ ] Sign-in by email code and every path on `StudioAuthFlow`. See [05](05-studio.md#sign-in).
-- [ ] Dashboard.
+- [x] Dashboard.
 - [ ] Website builder: outline, order, show or hide, nav labels, section settings, floating previews, skill sizes, off duty items, add section, live preview, publish website.
 - [ ] Profile & facts, with confirm states.
-- [ ] Projects list: order, lead star, menu, filters, layout publish bar.
+- [x] Projects list: order, lead star, menu, filters, layout publish bar.
 - [ ] Project editor: Overview, Visuals, Story, Outcomes, URL & SEO, with autosave, conflict, offline and publish checks.
 - [ ] Writing: list, editor, settings with the topic picker, schedule, publish.
 - [ ] Media library.

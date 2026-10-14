@@ -62,8 +62,14 @@ export function findProblems(root: string, env: Record<string, string | undefine
       problems.push(`${name} holds a Supabase secret key. It must never be present at build time`);
     }
   }
-  if (env.CONTENT_SOURCE && env.VERCEL_ENV === "production") {
-    problems.push("CONTENT_SOURCE is set in a production build");
+  // Any Vercel build (preview or production) is public: the parity fixture never feeds one, and
+  // production reads only Supabase (06 · Build-time data) once CONTENT_SOURCE is set at all.
+  if (env.VERCEL_ENV && env.CONTENT_SOURCE === "fixture:boards") {
+    problems.push(`CONTENT_SOURCE=fixture:boards is set in a Vercel ${env.VERCEL_ENV} build`);
+  } else if (env.CONTENT_SOURCE && env.CONTENT_SOURCE !== "supabase" && env.VERCEL_ENV === "production") {
+    problems.push(
+      `CONTENT_SOURCE=${env.CONTENT_SOURCE} is set in a production build; only supabase is allowed`,
+    );
   }
   if (env.CATALOGUE && env.VERCEL_ENV === "production") {
     problems.push("CATALOGUE is set in a production build, which would ship the dev component catalogue");

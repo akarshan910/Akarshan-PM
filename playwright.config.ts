@@ -108,7 +108,9 @@ export default defineConfig({
   webServer: parity
     ? [
         {
-          command: `PM_BUILD_DIR=build-parity CONTENT_SOURCE=fixture:boards npx react-router build && npx vite preview --outDir build-parity/client --port ${parityPort} --strictPort`,
+          command: `npx react-router build && npx vite preview --outDir build-parity/client --port ${parityPort} --strictPort`,
+          // Both commands need these: vite preview reads buildDirectory from react-router.config.ts.
+          env: { PM_BUILD_DIR: "build-parity", CONTENT_SOURCE: "fixture:boards" },
           port: parityPort,
           reuseExistingServer,
           timeout: 180_000,

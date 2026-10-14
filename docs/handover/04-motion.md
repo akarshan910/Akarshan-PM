@@ -281,7 +281,7 @@ The SVG is `viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid slice"`, `fill=
 
 **Where:**
 
-- laptop, wider than 1100px: 1, 2 or 3 at once, set in Studio, default 3. The Home boards hide `.tz` at `max-width: 1100px`;
+- laptop, wider than 1100px: 1, 2 or 3 at once, set in Studio, default 3. The Home boards hide `.tz` at `max-width: 1100px`, so the laptop set starts at 1101px, not at 02's 1280px laptop breakpoint ([09](09-decisions.md), D67);
 - iPad: 1, the single floater on `HomeTablet.dc.html`, where `.fl .tz` overrides that rule;
 - phones: none.
 
@@ -457,7 +457,7 @@ transition: left .32s cubic-bezier(.34,1.26,.64,1), width .32s cubic-bezier(.34,
 
 There's no board timing for this, so these are decided values:
 
-- the chevron rotates 180° over 200ms `--eo`;
+- the plus rotates 45° over 200ms `--eo`, as [02 · C14](02-tokens-and-components.md) and `HomeMobile` draw it (a plus, not a chevron);
 - the panel opens at once, and its content fades in over 200ms;
 - height is never animated.
 

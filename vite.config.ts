@@ -26,4 +26,18 @@ export default defineConfig({
   resolve: {
     alias: { "~": fileURLToPath(new URL("./src", import.meta.url)) },
   },
+  // Lazy routes (the catalogue, Studio) import these after the first page loads. Discovered that late,
+  // Vite re-optimises and reloads mid-visit, and a page can end up with two copies of React. Listing them
+  // makes the dev server bundle them before the first request.
+  optimizeDeps: {
+    include: [
+      "zod",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-switch",
+      "@radix-ui/react-tabs",
+      "@radix-ui/react-tooltip",
+    ],
+  },
 });

@@ -31,7 +31,7 @@ The owner's email address for Studio is supplied as `OWNER_EMAIL` when the one-t
 
 **Studio sign-in:**
 
-- Studio signs in with a 6-digit code sent by email. Sign-ups are off, so only the owner's existing account can get a code.
+- Studio signs in with an 8-digit code sent by email. Sign-ups are off, so only the owner's existing account can get a code.
 - Codes expire after 10 minutes and work once.
 - One code can be requested per minute.
 - Cloudflare Turnstile guards code requests once Supabase's CAPTCHA protection is switched on. That setting is project-wide, so it waits until the photography site's login sends tokens too. Until then, rate limits protect sign-in, and Supabase always limits how many codes can be checked from one IP address.

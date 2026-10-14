@@ -63,6 +63,7 @@ Phones show the wordmark above the form, without the panel (`StudioAuthFlow` ›
 **Step 2, code:**
 
 - "Use a different email" is a back link above the heading.
+- (Codes are 8 digits since D66: read "6-digit" and "six" below as 8 and eight.)
 - "Check your email", then "If **{masked}** owns this site, a 6-digit code is on its way. It expires in 10 minutes." The address is masked as the board's `mask()` does: `a••••••••0@gmail.com` (up to 8 dots).
 - The label "6-digit code", the six code boxes, and the hint "Paste the code, or type it. It signs you in as soon as all six digits are in."
 - "Sign in".
