@@ -1019,14 +1019,36 @@ test.describe("Studio (dev server) @1440", () => {
     }
   });
 
-  test("M-ST-ENTER: Draft preview's share popover enters at .22s --eo", async ({ page }) => {
-    // Known defect, reported to studio (portfolio → studio inbox, 15 Oct): .share is .18s ease-out,
-    // the board's value, where 04 says to build every entrance at .22s --eo.
-    test.fail(true, "studio: DraftPreview .share is .18s ease-out");
-    await signIn(page);
-    await screen(page, "/studio/preview/project/puja-engagement-platform");
-    for (const u of await keyframeUsers(page, "stUp"))
-      expect(u, u.selector).toMatchObject({ name: "stUp", duration: "0.22s", easing: EO });
+  test("M-ST-ENTER: Draft preview's share popover enters at .22s --eo; reduced: none", async ({ page }) => {
+    // The board draws popovers at .18s; 04 builds every entrance at .22s --eo (D20).
+    for (const reduced of [false, true]) {
+      await signIn(page, reduced);
+      await screen(page, "/studio/preview/project/puja-engagement-platform");
+      const users = await keyframeUsers(page, "stUp");
+      expect(users.length).toBeGreaterThan(0);
+      for (const u of users)
+        expect(u, u.selector).toMatchObject(
+          reduced ? { name: "none" } : { name: "stUp", duration: "0.22s", easing: EO },
+        );
+    }
+  });
+
+  test("M-ST-FLASH: a RICE row a fix changed flashes 1.2s ease-out; reduced: none", async ({ page }) => {
+    for (const reduced of [false, true]) {
+      await signIn(page, reduced);
+      await screen(page, `${EDIT}/story`);
+      // The story tab's own flash classes (a CSS module), beside Studio's global 1s .flashA/.flashB.
+      for (const keyframe of ["stFlashA", "stFlashB"]) {
+        const block = (await keyframeUsers(page, keyframe)).filter((u) => /\._flash[AB]_/.test(u.selector));
+        expect(block.length, keyframe).toBeGreaterThan(0);
+        for (const u of block)
+          expect(u, u.selector).toMatchObject(
+            reduced
+              ? { name: "none" }
+              : { name: keyframe, duration: "1.2s", easing: "ease-out", iterations: "1" },
+          );
+      }
+    }
   });
 
   test("M-ST-FLASH and M-ST-RING: a moved row flashes 1s, a keyboard move rings 1.1s, both ease-out", async ({
@@ -1165,7 +1187,8 @@ test.describe("Studio (dev server) @1440", () => {
       await signIn(page, reduced);
       await screen(page, `${EDIT}/overview`);
       const add = page.locator(m("tpadd")).first();
-      await expect(add).toHaveCount(1);
+      // The dev server compiles the overview tab on its first visit.
+      await expect(add).toHaveCount(1, { timeout: 15_000 });
       if (reduced) expect(await transitionSeconds(add)).toBe(0);
       else expect(await transitions(add)).toEqual({ width: { duration: "0.2s", easing: EO, delay: "0s" } });
     }
