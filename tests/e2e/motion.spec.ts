@@ -935,6 +935,8 @@ test.describe("catalogue (dev server) @1440", () => {
  * computed values, with and without reduced motion.
  */
 test.describe("Studio (dev server) @1440", () => {
+  // Each test signs in and opens several screens on the dev server, twice with reduced motion.
+  test.describe.configure({ timeout: 120_000 });
   test.use(LAPTOP);
   const OWNER = "owner@example.test";
   const CODE = process.env.STUDIO_CODE ?? "12345678";
@@ -946,16 +948,20 @@ test.describe("Studio (dev server) @1440", () => {
     await page.getByLabel("Email").fill(OWNER, { timeout: 30_000 });
     await page.getByRole("button", { name: "Email me a code" }).click();
     const code = page.getByRole("group", { name: /digit code/ });
-    await expect(code).toBeVisible({ timeout: 15_000 });
+    await expect(code).toBeVisible({ timeout: 30_000 });
     await code.locator("input").first().focus();
     await page.keyboard.type(CODE);
-    await page.waitForURL(/\/studio\/?$/, { timeout: 20_000 });
+    await page.waitForURL(/\/studio\/?$/, { timeout: 30_000 });
   }
 
+  /**
+   * Opens a Studio screen and waits for its heading. Under load the dev server compiles each route
+   * on its first visit, and the SPA renders only after the repo loads, so the wait is generous.
+   */
   async function screen(page: Page, path: string) {
     await page.goto(`${DEV}${path}`);
-    await expect(page.locator("h1").filter({ visible: true }).first()).toBeVisible({ timeout: 20_000 });
     await page.waitForLoadState("load");
+    await expect(page.locator("h1").filter({ visible: true }).first()).toBeVisible({ timeout: 30_000 });
   }
 
   /** Every loaded rule that runs `keyframe`, probed as an element inside `.st`. */
