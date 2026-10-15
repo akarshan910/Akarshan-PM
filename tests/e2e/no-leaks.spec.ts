@@ -3,13 +3,12 @@ import { join } from "node:path";
 
 import { createClient } from "@supabase/supabase-js";
 import { expect, test } from "@playwright/test";
-import postgres from "postgres";
 
 /**
  * Drafts never leak, at the build level (08 · Drafts never leak; 10 · Security gates › Drafts). The data
  * level is supabase/tests/no-leaks.test.ts. This half runs in CI's `no-leaks` job against a local Supabase
  * stack seeded by `npm run seed:leaks` (scripts/seed-leak-markers.ts), whose manifest it reads from
- * NO_LEAKS_MANIFEST. The stack's URL, demo anon key and database URL come from `supabase status`.
+ * NO_LEAKS_MANIFEST. The stack's URL and demo anon key come from `supabase status`.
  * Without a manifest it skips.
  */
 interface Manifest {
@@ -24,7 +23,14 @@ interface Manifest {
   /** A live post, to prove the build did read the seeded content. */
   livePost: string;
   /** A live preview link; `marker` is in its draft. */
-  preview: { token: string; tokenHash: string; marker: string };
+  preview: {
+    token: string;
+    tokenHash: string;
+    marker: string;
+    /** pm-preview's DELETE, with a signed-in local owner's session (the seed signs one in). */
+    revokeUrl: string;
+    revokeHeaders: Record<string, string>;
+  };
 }
 
 const manifestPath = process.env.NO_LEAKS_MANIFEST;
@@ -33,7 +39,6 @@ const manifest: Manifest | null = manifestPath
   : null;
 const supabaseUrl = process.env.SUPABASE_URL ?? "";
 const anonKey = process.env.SUPABASE_ANON_KEY ?? "";
-const databaseUrl = process.env.PM_DATABASE_URL ?? "";
 
 /** Every pm table; RLS and the column grants decide what anon gets. */
 const TABLES = [
@@ -140,10 +145,8 @@ test.describe("drafts never leak (build)", () => {
     expect(live.headers()["cache-control"]).toContain("no-store");
     expect(live.headers()["x-robots-tag"] ?? "").toContain("noindex");
     expect(await live.text()).toContain(m.preview.marker);
-    // Revoking needs the owner's session; the service role does the same write.
-    const sql = postgres(databaseUrl, { max: 1 });
-    await sql`update pm.preview_links set revoked_at = now() where token_hash = ${m.preview.tokenHash}`;
-    await sql.end();
+    const revoked = await request.delete(m.preview.revokeUrl, { headers: m.preview.revokeHeaders });
+    expect(revoked.ok()).toBe(true);
     expect((await request.get(url)).status()).toBe(410);
   });
 });
