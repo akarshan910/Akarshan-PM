@@ -613,3 +613,10 @@
     opacity: 1;
   }
 }
+
+/* Touch layouts: the tabs are 44px tall (their ::after is the underline, so no hit area). */
+@media (max-width: 1279px) {
+  .tabs2 button {
+    min-height: 44px;
+  }
+}

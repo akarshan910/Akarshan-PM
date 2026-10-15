@@ -66,11 +66,24 @@ export function PreviewFrame({
       }
     });
     heads.observe(document.head, { childList: true, subtree: true, characterData: true });
+    // Chromium doesn't match :focus on an iframe whose page has focus, so mark it for the ring
+    // (QA-S10).
+    const frameEl = frame.current;
+    const onIn = () => {
+      frameEl.setAttribute("data-focused", "");
+    };
+    const onOut = () => {
+      frameEl.removeAttribute("data-focused");
+    };
+    doc.addEventListener("focusin", onIn);
+    doc.addEventListener("focusout", onOut);
     const html = new MutationObserver(sync);
     html.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => {
       heads.disconnect();
       html.disconnect();
+      doc.removeEventListener("focusin", onIn);
+      doc.removeEventListener("focusout", onOut);
     };
   }, [body]);
 

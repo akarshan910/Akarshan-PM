@@ -596,3 +596,10 @@
     display: none;
   }
 }
+
+/* Touch layouts: 28px swatches 16px apart, so each has its own 44px hit area (QA-S9). */
+@media (max-width: 1279px) {
+  .swatches {
+    gap: 16px;
+  }
+}

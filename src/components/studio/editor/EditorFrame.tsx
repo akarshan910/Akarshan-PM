@@ -118,6 +118,8 @@ export function EditorFrame(p: EditorFrameProps) {
             key={t}
             to={`/studio/projects/${p.projectId}/${t}`}
             className={cx(styles.tab)}
+            // Its ::after is the current-tab underline; at 46–48px it needs no hit area.
+            data-hit="off"
             aria-current={t === p.tab ? "page" : undefined}
           >
             {TAB_LABELS[t]}

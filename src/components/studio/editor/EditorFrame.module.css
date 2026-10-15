@@ -346,3 +346,20 @@
     height: 48px;
   }
 }
+
+/* Phones: StudioMobile's tab strip (44px tabs, 10px padding, 2px gaps). */
+@media (max-width: 767px) {
+  .tabs {
+    gap: 2px;
+    padding: 0 10px;
+  }
+  .tab {
+    height: 44px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .tab[aria-current="page"]::after {
+    left: 6px;
+    right: 6px;
+  }
+}

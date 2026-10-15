@@ -193,10 +193,21 @@
   overflow: hidden;
   background: #0b0b0e;
 }
+.main {
+  min-width: 0;
+  overflow: hidden;
+}
 @media (max-width: 1023px) {
   .main {
     padding: 20px 16px;
-    flex-wrap: wrap;
-    overflow-x: auto;
+  }
+}
+
+/* Touch layouts: the angled Publish changes clips any hit area outside it, so the bar's buttons are 44px tall (QA-S9). */
+@media (max-width: 1279px) {
+  .pubc,
+  .pbtn,
+  .back {
+    height: 44px;
   }
 }

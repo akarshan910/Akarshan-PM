@@ -134,7 +134,15 @@ describe("Media", { timeout: 20_000 }, () => {
   it("offers the phone upload sheet", async () => {
     const user = userEvent.setup({ applyAccept: false });
     await renderMedia();
-    await user.click(must(screen.getAllByRole("button", { name: "Upload" })[0]));
+    const opener = must(screen.getAllByRole("button", { name: "Upload" })[0]);
+    // Esc closes it and puts focus back on Upload (QA-S8).
+    await user.click(opener);
+    await screen.findByRole("dialog", { name: "Add to your media" });
+    await user.keyboard("{Escape}");
+    await waitFor(() => {
+      expect(opener).toHaveFocus();
+    });
+    await user.click(opener);
     const sheet = await screen.findByRole("dialog", { name: "Add to your media" });
     expect(within(sheet).getByText("Photo library")).toBeInTheDocument();
     expect(within(sheet).getByText("Take a photo")).toBeInTheDocument();
