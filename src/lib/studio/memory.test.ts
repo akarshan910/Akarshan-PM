@@ -133,12 +133,20 @@ describe("MemoryRepo · projects", () => {
 
     draft.overview = { ...draft.overview, title: "A title", company: "Co", summary: "Short." };
     const saved = await repo.projects.save(row.id, draft, row.version);
-    expect(await repo.publish({ action: "publish", kind: "project", id: row.id })).toMatchObject({
-      ok: true,
-    });
+    const first = await repo.publish({ action: "publish", kind: "project", id: row.id });
     let now = must(await repo.projects.get(row.id));
     expect(now.publishedSlug).toBe("untitled-1");
+    // The first publish turns the redirect on in the draft and says the row's new version (D40).
     expect(now.draft.settings.redirectOldSlug).toBe(true);
+    expect(first).toEqual({
+      ok: true,
+      publishedAt: expect.any(String) as string,
+      deployed: true,
+      version: now.version,
+    });
+    expect(await repo.publish({ action: "publish", kind: "project", id: row.id })).not.toHaveProperty(
+      "version",
+    );
 
     if (!saved.ok) throw new Error("save failed");
     await repo.projects.setSlug(row.id, "a-title", now.version);

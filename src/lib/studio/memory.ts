@@ -612,11 +612,13 @@ export class MemoryRepo implements StudioRepo {
           row.publishedSlug = row.slug;
           row.publishedAt = at;
           row.firstPublishedAt ??= at;
+          let version: number | undefined;
           if (!row.draft.settings.redirectOldSlug && row.firstPublishedAt === at) {
             row.draft.settings.redirectOldSlug = true;
+            version = ++row.version;
           }
           row.updatedAt = at;
-          return { ok: true, publishedAt: at, deployed: true };
+          return { ok: true, publishedAt: at, deployed: true, ...(version === undefined ? {} : { version }) };
         }
         case "unpublish":
           this.unpublished.set(row.id, { published: row.published, publishedAt: row.publishedAt });
