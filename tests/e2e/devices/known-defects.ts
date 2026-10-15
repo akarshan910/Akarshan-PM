@@ -27,21 +27,9 @@ export const KNOWN: Known[] = [
   },
   {
     id: "QA-S7",
-    note: "Studio pages scroll sideways (1.4.10): editor cards at 320, URL & SEO at ≤390",
-    pages: ["studio editor overview overflow", "studio editor visuals overflow"],
+    note: "Studio pages scroll sideways (1.4.10): Visuals cards at 320",
+    pages: ["studio editor visuals overflow"],
     when: (w) => w <= 320,
-  },
-  {
-    id: "QA-S7",
-    note: "Studio pages scroll sideways (1.4.10): URL & SEO cards 426px wide at 390",
-    pages: ["studio editor url-seo overflow"],
-    when: (w) => w <= 390,
-  },
-  {
-    id: "QA-S7",
-    note: "Studio pages scroll sideways (1.4.10): Media's buttons run to 537px on phones",
-    pages: ["studio media overflow"],
-    when: (w) => w < 768,
   },
   {
     id: "QA-S7",
