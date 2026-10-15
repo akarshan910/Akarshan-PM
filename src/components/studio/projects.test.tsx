@@ -273,4 +273,18 @@ describe("useAutosave", { timeout: 20_000 }, () => {
     expect(result.current.draft).toEqual({ n: 5 });
     vi.useRealTimers();
   });
+
+  it("opens search from the header button (phones)", async () => {
+    const user = userEvent.setup();
+    await renderScreen();
+    const button = screen.getByRole("button", { name: "Search" });
+    expect(button).toHaveAttribute("aria-expanded", "false");
+    await user.click(button);
+    expect(button).toHaveAttribute("aria-expanded", "true");
+    await waitFor(() => {
+      expect(screen.getByRole("searchbox", { name: "Search projects" })).toHaveFocus();
+    });
+    await user.tab();
+    expect(button).toHaveAttribute("aria-expanded", "false");
+  });
 });

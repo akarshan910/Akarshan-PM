@@ -20,6 +20,7 @@ import { CODE_LENGTH, CodeInput, type CodeStatus } from "../CodeInput";
 import { Icon } from "../../icons";
 import type { AuthPort } from "~/lib/studio/repo";
 import {
+  CODE_ARTICLE,
   CODE_TTL_MS,
   RESEND_WAIT,
   clearLock,
@@ -360,8 +361,8 @@ export function Login({
             <form onSubmit={onSubmit} noValidate>
               <FormTitle>Sign in to Studio</FormTitle>
               <p className={styles.intro}>
-                Studio is private. Enter the email address that owns this portfolio, and we’ll send you a{" "}
-                {CODE_LENGTH}-digit code.
+                Studio is private. Enter the email address that owns this portfolio, and we’ll send you{" "}
+                {CODE_ARTICLE} {CODE_LENGTH}-digit code.
               </p>
               <label htmlFor="em" className={styles.label}>
                 Email
@@ -456,8 +457,8 @@ export function Login({
               </button>
               <FormTitle style={{ marginTop: 18 }}>Check your email</FormTitle>
               <p className={styles.intro}>
-                If <b className={styles.strong}>{maskEmail(normaliseEmail(email))}</b> owns this site, a{" "}
-                {CODE_LENGTH}-digit code is on its way. It expires in 10 minutes.
+                If <b className={styles.strong}>{maskEmail(normaliseEmail(email))}</b> owns this site,{" "}
+                {CODE_ARTICLE} {CODE_LENGTH}-digit code is on its way. It expires in 10 minutes.
               </p>
               {shownPhase === "wrong" ? (
                 <div className={styles.gap}>
