@@ -167,14 +167,14 @@
   font-size: 15px;
   line-height: 1.5;
 }
-.btn36 {
+:global(.st) .btn36 {
   height: 36px;
 }
-.addBtn {
+:global(.st) .addBtn {
   margin-top: 12px;
   height: 36px;
 }
-.danger {
+:global(.st) .danger {
   color: var(--err);
 }
 

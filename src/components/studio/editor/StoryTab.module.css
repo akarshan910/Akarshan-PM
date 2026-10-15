@@ -101,7 +101,7 @@
 .chSub {
   font-size: 12px;
 }
-.addCh {
+:global(.st) .addCh {
   width: 100%;
   margin-top: 8px;
 }
