@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import { isHttpsUrl } from "~/lib/schemas";
+import { isHttpsUrl } from "~/lib/link-rules";
 import { caseStudyFacts, type CaseStudyView, companyLine, lastCardSpan } from "~/lib/case-study";
 
 import { cx } from "../cx";

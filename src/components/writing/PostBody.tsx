@@ -1,7 +1,7 @@
 import { Image } from "~/components/media/Image";
 import { ResultLabel } from "~/components/labels/ResultLabel";
 import { RichText } from "~/components/rich/RichText";
-import { isHttpsUrl } from "~/lib/schemas";
+import { isHttpsUrl } from "~/lib/link-rules";
 import type { PostPublished } from "~/lib/published";
 
 import styles from "./Writing.module.css";

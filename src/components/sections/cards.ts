@@ -3,7 +3,7 @@
  * the Home shelves and the hero's floating previews.
  */
 import { ACCENT_COLOURS } from "~/lib/accents";
-import { PROJECT_KIND_LABELS } from "~/lib/schemas";
+import { PROJECT_KIND_LABELS } from "~/lib/vocab";
 import type { ProjectEntry } from "~/lib/site";
 
 import type { CardOutcome, ProjectCardData } from "../cards/ProjectCard";

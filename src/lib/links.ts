@@ -5,7 +5,7 @@
  *   after a visitor presses play. YouTube always uses its privacy-enhanced youtube-nocookie.com.
  * - Only `https:` URLs on the allowed frame hosts are ever turned into iframe addresses.
  */
-import { isHttpsUrl, isRelativePath, isSafeLink } from "./schemas";
+import { isHttpsUrl, isRelativePath, isSafeLink } from "./link-rules";
 
 export type VideoHost = "youtube" | "vimeo" | "loom" | "drive";
 

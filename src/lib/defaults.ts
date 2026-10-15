@@ -3,7 +3,7 @@
  * something. Every factory returns a document that passes its schema. New things start empty,
  * so they hide on the site until the owner fills them; nothing here is content.
  */
-import { ACCENTS } from "./schemas";
+import { ACCENTS } from "./vocab";
 import type { Accent, Block, BlockType, Chapter, Post, Profile, Project, Section, SiteLayout } from "./types";
 
 /** A short random id for blocks, chapters and items. Ids only need to be unique within a document. */

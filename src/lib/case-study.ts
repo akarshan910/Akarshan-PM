@@ -9,7 +9,7 @@
 import { ACCENT_COLOURS } from "./accents";
 import type { PublicContent } from "./content-source";
 import type { BlockPublished, ProjectPublished } from "./published";
-import { PROJECT_KIND_LABELS } from "./schemas";
+import { PROJECT_KIND_LABELS } from "./vocab";
 import { listedProjects } from "./site";
 
 export interface Neighbour {
