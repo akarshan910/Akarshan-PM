@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { act, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { must } from "~/lib/studio/test-helpers";
 import { OverviewTab } from "./editor/OverviewTab";
@@ -113,6 +113,22 @@ describe("Project editor · frame", { timeout: 20_000 }, () => {
       },
       { timeout: 4000 },
     );
+  });
+
+  it("scrolls a focused tab into view in the sideways tab strip (320px and narrower)", async () => {
+    const spy = vi.fn();
+    Element.prototype.scrollIntoView = spy;
+    try {
+      await renderEditor(live, "overview", <OverviewTab />);
+      const tabs = screen.getByRole("navigation", { name: "Project sections" });
+      act(() => {
+        within(tabs).getByRole("link", { name: "URL & SEO" }).focus();
+      });
+      expect(spy).toHaveBeenCalledWith({ inline: "nearest", block: "nearest" });
+      expect(spy.mock.contexts.at(-1)).toBe(within(tabs).getByRole("link", { name: "URL & SEO" }));
+    } finally {
+      delete (Element.prototype as { scrollIntoView?: unknown }).scrollIntoView;
+    }
   });
 
   it("blocks publishing with each problem linked to its tab", async () => {
