@@ -60,6 +60,12 @@ export type Section = {
    */
   collapse?: { board?: string[]; page?: string[] };
   /**
+   * 09 · D75 copy that wraps to a different number of lines: the page element takes the board
+   * element's height (overflow hidden) before the shot; mask its text too. Its margins and
+   * everything around it keep their real values, unlike `collapse`.
+   */
+  matchHeight?: { board: string; page: string };
+  /**
    * Crop each side at the bottom of this element (selector inside the section, per side), to
    * compare the top of a section whose lower part is D75 content.
    */
@@ -164,6 +170,33 @@ async function shoot(page: Page, selector: string, opts: { band?: boolean; until
   return PNG.sync.read(await page.screenshot({ ...options, fullPage: true, clip: box }));
 }
 
+/**
+ * Content above a section can differ in height by a fraction of a pixel (masked D75 copy), so the
+ * same layout would start at y = .27 on the board and .61 on the page and rasterize half a pixel
+ * apart. Nudge the page section (CSS `translate`, under 1px) so its fractional offset matches the
+ * board's; the clip then rounds both edges the same way.
+ */
+async function alignSubpixel(boardPage: Page, boardSel: string, sitePage: Page, pageSel: string) {
+  const frac = (p: Page, sel: string) =>
+    p
+      .locator(sel)
+      .filter({ visible: true })
+      .first()
+      .evaluate((e) => {
+        const t = e.getBoundingClientRect().top + scrollY;
+        return t - Math.floor(t);
+      });
+  const delta = (await frac(boardPage, boardSel)) - (await frac(sitePage, pageSel));
+  if (Math.abs(delta) < 0.01) return;
+  await sitePage
+    .locator(pageSel)
+    .filter({ visible: true })
+    .first()
+    .evaluate((e, d) => {
+      (e as HTMLElement).style.translate = `0 ${d}px`;
+    }, delta);
+}
+
 /** Copies the top-left w×h of a PNG, so differently sized crops can still be diffed. */
 function crop(png: PNG, w: number, h: number) {
   const out = new PNG({ width: w, height: h });
@@ -192,6 +225,20 @@ async function compareSection(
   await boardPage.addStyleTag({ content: css(s.mask?.board, hide.board) });
   await sitePage.addStyleTag({ content: css(s.mask?.page, hide.page) });
   await images(sitePage);
+  if (s.matchHeight) {
+    const { board, page } = s.matchHeight;
+    const h = await boardPage
+      .locator(board)
+      .first()
+      .evaluate((e) => e.getBoundingClientRect().height);
+    await sitePage
+      .locator(page)
+      .first()
+      .evaluate((e, height) => {
+        Object.assign((e as HTMLElement).style, { height: `${height}px`, overflow: "hidden" });
+      }, h);
+  }
+  await alignSubpixel(boardPage, s.board, sitePage, s.page);
   const a = await shoot(boardPage, s.board, { ...(s.until ? { until: s.until.board } : {}) });
   const b = await shoot(sitePage, s.page, {
     ...(s.band ? { band: true } : {}),
@@ -224,6 +271,18 @@ async function compareSection(
     differing: `${(ratio * 100).toFixed(2)}%`,
     pass,
   };
+}
+
+/**
+ * 08 · Fonts: when a section's diff is only glyph antialiasing (outlines of letters, not shifted
+ * blocks) and every box inside it matches the board, its allowance may rise to 1%, with a note.
+ */
+export function antialiasOnly(sections: Section[], names: string[], why: string): Section[] {
+  return sections.map((x) =>
+    names.includes(x.name)
+      ? { ...x, allowed: 0.01, note: `${x.note ? `${x.note}; ` : ""}08 · Fonts 1%: ${why}` }
+      : x,
+  );
 }
 
 /** One test per section, each comparing the board's crop with the page's, at the case's width. */

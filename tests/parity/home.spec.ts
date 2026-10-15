@@ -1,4 +1,4 @@
-import { defineParity, type Section } from "./compare";
+import { antialiasOnly, defineParity, type Section } from "./compare";
 
 /** Home against Home, HomeTablet and HomeMobile (08 · What's compared), with the boards fixture. */
 
@@ -30,16 +30,27 @@ const firstCardType = (board: string): Section => ({
 });
 
 /**
+ * 09 · D60 at iPad and phone: generated covers stand in for the boards' drawn cover art. The
+ * boards draw each cover as the card's first block; the page's is `_cv_`. Covers only: the
+ * cards around them are compared.
+ */
+const COVERS_D60 = {
+  board: ["#strategy a > div:first-child"],
+  page: ['#strategy [class*="_cv_"]'],
+};
+
+/**
  * 09 · D75, phone: HomeMobile's strategy lead draws no summary (CaseStudyMobile uses it as the dek)
  * and words the result "orders per user" where the fixture says "monthly orders per user".
  */
 const markResult =
   "[...document.querySelectorAll('#strategy *')].find((e) => !e.children.length && /orders per user/.test(e.textContent))?.setAttribute('data-qa-mask', '')";
 const STRATEGY_PHONE_D75: Partial<Section> = {
+  mask: COVERS_D60,
   collapse: { page: ['#strategy [class*="_leadSummary_"]'] },
   boardScript: markResult,
   pageScript: markResult,
-  note: "09 · D75: lead summary removed (page), result label masked",
+  note: "09 · D75: lead summary removed (page), result label masked; D60: covers masked",
 };
 
 const sections = (
@@ -79,7 +90,15 @@ defineParity([
     path: "/",
     pill: "over-hero",
     // HomeTablet's testimonials section has no id.
-    sections: sections('section:has(h2:has-text("What teammates say"))', {}, TESTIMONIALS_D75),
+    sections: antialiasOnly(
+      sections(
+        'section:has(h2:has-text("What teammates say"))',
+        { mask: COVERS_D60, note: "09 · D60: covers masked" },
+        TESTIMONIALS_D75,
+      ),
+      ["offduty"],
+      "every box matches the board to 0.01px (portfolio's round 4 measurement); the diff is glyph outlines",
+    ),
   },
   {
     name: "home-390",
@@ -89,6 +108,10 @@ defineParity([
     width: 390,
     path: "/",
     pill: "over-hero",
-    sections: sections("section#testimonials", STRATEGY_PHONE_D75, TESTIMONIALS_D75),
+    sections: antialiasOnly(
+      sections("section#testimonials", STRATEGY_PHONE_D75, TESTIMONIALS_D75),
+      ["experience"],
+      "every box matches the board to 0.01px (portfolio's round 4 measurement); the diff is glyph outlines",
+    ),
   },
 ]);
