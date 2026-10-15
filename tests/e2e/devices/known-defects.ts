@@ -8,6 +8,12 @@ export type Known = { id: string; note: string; pages: string[]; when: (width: n
 
 export const KNOWN: Known[] = [
   {
+    id: "QA-P1",
+    note: "zod 4's `allowsEval` probe (`new Function`) triggers a script-src 'eval' CSP violation on every page; links.ts → schemas.ts → zod. Fix: z.config({ jitless: true }) or keep zod off public pages",
+    pages: ["csp"],
+    when: () => true,
+  },
+  {
     id: "QA-S5",
     note: "Website builder: pin, count and 'off' labels fail colour contrast (1.4.3)",
     pages: ["studio website axe"],

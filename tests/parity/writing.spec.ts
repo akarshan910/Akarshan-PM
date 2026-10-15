@@ -46,8 +46,12 @@ defineParity([
           ],
           page: ["main article h1", 'main article > div[class*="_mono_"]'],
         },
-        collapse: { page: ['main article [class*="_postCover_"]'] },
-        note: "09 · D75: cover removed, title and meta masked",
+        // 09 · D60: the post byline draws no dashed avatar placeholder; the board's is removed.
+        collapse: {
+          board: [".r3 > section:nth-of-type(3) article > div:nth-of-type(2) > span:first-child"],
+          page: ['main article [class*="_postCover_"]'],
+        },
+        note: "09 · D75: cover removed, title and meta masked; D60: board avatar removed",
       },
     ],
   },

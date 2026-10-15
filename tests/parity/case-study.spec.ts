@@ -104,6 +104,14 @@ defineParity([
         name: "prototype",
         board: 'section[aria-label="Interactive prototype"]',
         page: 'section[aria-label="Interactive prototype"]',
+        // 09 · D60: the poster's phone screen is board art; the page shows the project's poster.
+        mask: {
+          board: [
+            'section[aria-label="Interactive prototype"] > div > div > div:first-child > div:first-child',
+          ],
+          page: ['section[aria-label="Interactive prototype"] [class*="_device_"] > [class*="_screen_"]'],
+        },
+        note: "09 · D60: poster screen masked",
       },
       { name: "summary", board: 'section[aria-label="Summary"]', page: 'section[aria-label="Summary"]' },
       {
@@ -133,6 +141,12 @@ defineParity([
         name: "prototype",
         board: 'section[aria-label="Prototype"]',
         page: 'section[aria-label="Interactive prototype"]',
+        // 09 · D60: the board draws the poster as illustrative phone art; the page shows the poster.
+        mask: {
+          board: ['section[aria-label="Prototype"] > div > div:first-child'],
+          page: ['section[aria-label="Interactive prototype"] [class*="_protoPoster_"]'],
+        },
+        note: "09 · D60: poster art masked",
       },
       { name: "chapter-bar", board: "button.cbar", page: 'button[aria-label="Jump to chapter"]' },
       ...withoutFigure(
