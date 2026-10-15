@@ -89,6 +89,11 @@ export type ParityCase = {
   /** Compare the pill nav: as drawn, or "over-hero" (highlight hidden, M-NAV-PILL). */
   pill?: boolean | "over-hero";
   sections: Section[];
+  /**
+   * Runs before the page is opened, e.g. to sign in to Studio. Studio's data is dev-only, so its
+   * cases use an absolute `path` on the dev server; `setup` may skip the test when it isn't up.
+   */
+  setup?: (page: Page) => Promise<void>;
 };
 
 /** The computed type of the first visible match, for `type` sections. */
@@ -218,6 +223,7 @@ export function defineParity(cases: ParityCase[]) {
           const boardPage = await ctx.newPage();
           await boardPage.goto(pathToFileURL(file).href);
           await settle(boardPage);
+          if (c.setup) await c.setup(page);
           await page.goto(`${c.path}${c.path.includes("?") ? "&" : "?"}qa=1`);
           await settle(page);
           const isPill = s.name === "nav";
