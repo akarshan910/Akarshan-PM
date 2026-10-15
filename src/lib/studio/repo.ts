@@ -115,7 +115,8 @@ export interface PublishIssue {
 }
 
 export type PublishKind = "site" | "project" | "post";
-export type PublishAction = "publish" | "unpublish" | "delete" | "restore" | "settings";
+/** `deploy` (site only): rebuild after a failed deploy hook, publishing nothing. */
+export type PublishAction = "publish" | "unpublish" | "delete" | "restore" | "settings" | "deploy";
 
 /** The `pm-publish` request body, exactly as 06 · Edge Functions types it. */
 export interface PublishRequest {
@@ -130,7 +131,13 @@ export interface PublishRequest {
 }
 
 export type PublishResult =
-  | { ok: true; publishedAt: string; deployed: boolean }
+  | {
+      ok: true;
+      publishedAt: string;
+      deployed: boolean;
+      /** Things to fix that don't block, e.g. a RICE row whose score doesn't match its inputs. */
+      warnings?: { field: string; message: string; code: string }[];
+    }
   | { ok: false; reason: "blocked"; issues: PublishIssue[] }
   | { ok: false; reason: "needs-confirm"; unconfirmed: string[] }
   | { ok: false; reason: "offline" | "error"; message?: string };

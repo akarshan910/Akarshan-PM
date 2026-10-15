@@ -584,6 +584,10 @@ export class MemoryRepo implements StudioRepo {
     const at = this.iso();
     const resolve = this.resolver();
 
+    if (req.action === "deploy") {
+      if (req.kind !== "site" || req.id) return { ok: false, reason: "error", message: "bad-request" };
+      return { ok: true, publishedAt: at, deployed: true };
+    }
     if (req.kind === "site") {
       const unconfirmed = siteNeedsConfirm(this.profileRow.draft, this.layoutRow.draft);
       if (unconfirmed.length > 0 && !req.confirmUnconfirmed)
