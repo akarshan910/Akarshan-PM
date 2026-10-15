@@ -65,7 +65,9 @@ async function create(req: Request, deps: Deps): Promise<Response> {
 
 async function revoke(req: Request, deps: Deps): Promise<Response> {
   await requireOwner(req, deps);
-  const parsed = RevokeBody.safeParse(await readJson(req));
+  // `{ tokenHash }` as JSON, or `?tokenHash=` for clients that can't send a DELETE body.
+  const fromQuery = new URL(req.url).searchParams.get("tokenHash");
+  const parsed = RevokeBody.safeParse(fromQuery !== null ? { tokenHash: fromQuery } : await readJson(req));
   if (!parsed.success) throw new HttpError(400, "bad-request");
   await deps.sql.query(
     "update pm.preview_links set revoked_at = now() where token_hash = $1 and revoked_at is null",

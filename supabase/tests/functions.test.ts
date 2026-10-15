@@ -610,6 +610,33 @@ describe("pm-preview", () => {
     );
     const t = (await body<{ url: string }>(res)).url.split("/preview/")[1] ?? "";
     expect((await previewHandler(request("GET", `pm-preview?token=${t}`), world.deps)).status).toBe(200);
+    // Revoking by query string works too, for clients that can't send a DELETE body.
+    const t2 =
+      (
+        await body<{ url: string }>(
+          await previewHandler(
+            request("POST", "pm-preview", { token: OWNER_TOKEN, body: { kind: "site" } }),
+            world.deps,
+          ),
+        )
+      ).url.split("/preview/")[1] ?? "";
+    const q = await previewHandler(
+      request("DELETE", `pm-preview?tokenHash=${await sha256Hex(t2)}`, { token: OWNER_TOKEN }),
+      world.deps,
+    );
+    expect(q.status).toBe(204);
+    expect((await previewHandler(request("GET", `pm-preview?token=${t2}`), world.deps)).status).toBe(410);
+    expect(
+      (
+        await previewHandler(
+          request("DELETE", "pm-preview?tokenHash=nothex", { token: OWNER_TOKEN }),
+          world.deps,
+        )
+      ).status,
+    ).toBe(400);
+    expect(
+      (await previewHandler(request("DELETE", `pm-preview?tokenHash=${"a".repeat(64)}`), world.deps)).status,
+    ).toBe(401);
     await db.query(
       "update pm.preview_links set expires_at = now() - interval '1 second' where token_hash = $1",
       [await sha256Hex(t)],
