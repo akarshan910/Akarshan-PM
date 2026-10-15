@@ -20,6 +20,7 @@ import { ConflictDialog } from "../states/ConflictDialog";
 import { UnconfirmedDialog } from "../states/UnconfirmedDialog";
 import { useToast } from "../Toast";
 import { UNSAVED_MESSAGE, useAutosave } from "../useAutosave";
+import { deployToast } from "../deployToast";
 import { Inspector } from "./Inspector";
 import { Outline, type Sel } from "./Outline";
 import styles from "./Website.module.css";
@@ -294,7 +295,7 @@ export function WebsiteBuilder({ data }: { data: WebsiteData }) {
     cache.set("profile", fp);
     cache.set("layout", fl);
     cache.invalidate("dashboard");
-    toast.show({
+    deployToast(toast, repo, result.deployed, {
       message: "Homepage published. It updates within a minute.",
       link: { label: "View live ↗", href: "/" },
     });

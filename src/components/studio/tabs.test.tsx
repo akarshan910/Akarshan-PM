@@ -100,11 +100,30 @@ describe("Visuals", { timeout: 20_000 }, () => {
     });
   });
 
+  it("opens the upload sheet for the gallery on phones", async () => {
+    const user = userEvent.setup({ applyAccept: false });
+    await renderEditor(live, "visuals", <VisualsTab />);
+    await user.click(screen.getByRole("button", { name: "Add images" }));
+    const sheet = await screen.findByRole("dialog", { name: /^Add to the .+ gallery$/ });
+    expect(within(sheet).getByText("Photo library")).toBeInTheDocument();
+    expect(within(sheet).getByText("Files · images")).toBeInTheDocument();
+    await user.upload(
+      within(sheet).getByLabelText("Files · images"),
+      new File(["x"], "s.png", { type: "image/png" }),
+    );
+    const alt = await within(sheet).findByLabelText(/Alt text for s\.png/);
+    await user.type(alt, "A screen");
+    await user.click(within(sheet).getByRole("button", { name: "Save" }));
+    await waitFor(() => {
+      expect(within(sheet).queryByLabelText(/Alt text for s\.png/)).not.toBeInTheDocument();
+    });
+  });
+
   it("uploads gallery images, edits the selected one, and refuses files that are too large", async () => {
     const user = userEvent.setup({ applyAccept: false });
     const { repo, id } = await renderEditor(live, "visuals", <VisualsTab />);
     expect(screen.getByText("Select a gallery image to edit its alt text and caption.")).toBeInTheDocument();
-    const input = screen.getByLabelText(/Add images/);
+    const input = screen.getByLabelText(/^Add images/, { selector: "input" });
     const big = new File(["x"], "flow.png", { type: "image/png" });
     Object.defineProperty(big, "size", { value: 14.2 * 1024 * 1024 });
     await user.upload(input, [
