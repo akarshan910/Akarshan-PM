@@ -29,6 +29,10 @@ z.config({ jitless: true });
 export * from "./link-rules.ts";
 export * from "./vocab.ts";
 
+// zod 4 probes `new Function("")` to pick its JIT parsers; the site's CSP blocks eval, so the probe
+// only logs a violation (QA-P1). Jitless parsing skips it.
+z.config({ jitless: true });
+
 export const Accent = z.enum(ACCENTS);
 export const ResultType = z.enum(RESULT_TYPES);
 export const Source = z.enum(SOURCES);
