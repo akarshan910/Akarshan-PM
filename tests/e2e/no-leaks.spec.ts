@@ -126,6 +126,8 @@ test.describe("drafts never leak (build)", () => {
    */
   const UNLISTED_1 =
     "UNLISTED-1: /work/<slug> without a page shows the error state (SPA fallback has no layout data)";
+  /** NOTFOUND-1 (portfolio, open): 404.html at /writing/<slug> matches writing.$slug, whose data it lacks. */
+  const NOTFOUND_1 = "NOTFOUND-1: 404.html served at /writing/<slug> shows the error state, not the 404";
 
   for (const kind of ["draft project", "scheduled post"] as const) {
     test(`a ${kind} shows the 404 and carries no marker`, async ({ page, baseURL }) => {
@@ -140,7 +142,7 @@ test.describe("drafts never leak (build)", () => {
       expect(found((await res?.text()) ?? "", m.markers), path).toEqual([]);
       await page.waitForTimeout(1_000);
       expect(found(await page.content(), m.markers), path).toEqual([]);
-      if (kind === "draft project") test.fail(true, UNLISTED_1);
+      test.fail(true, kind === "draft project" ? UNLISTED_1 : NOTFOUND_1);
       // The unlisted shell asks pm-project before it shows the 404 state (C21), so allow for the call.
       const state = page.getByRole("heading", { level: 1, name: /doesn.t exist/i });
       await state.waitFor({ timeout: 20_000 }).catch(() => undefined);
