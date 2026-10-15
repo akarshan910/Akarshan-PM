@@ -6,14 +6,7 @@
  */
 export type Known = { id: string; note: string; pages: string[]; when: (width: number) => boolean };
 
-export const KNOWN: Known[] = [
-  {
-    id: "QA-P1",
-    note: "zod 4's `allowsEval` probe (`new Function`) triggers a script-src 'eval' CSP violation on every page; links.ts → schemas.ts → zod. Fix: z.config({ jitless: true }) or keep zod off public pages",
-    pages: ["csp"],
-    when: () => true,
-  },
-];
+export const KNOWN: Known[] = [];
 
 export function knownDefect(page: string, width: number) {
   return KNOWN.find((k) => k.pages.includes(page) && k.when(width));

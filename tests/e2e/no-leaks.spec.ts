@@ -4,6 +4,8 @@ import { join } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import { expect, test } from "@playwright/test";
 
+import { resolveLikeVercel, serveLikeVercel } from "./vercel-routing";
+
 /**
  * Drafts never leak, at the build level (08 · Drafts never leak; 10 · Security gates › Drafts). The data
  * level is supabase/tests/no-leaks.test.ts. This half runs in CI's `no-leaks` job against a local Supabase
@@ -118,6 +120,8 @@ test.describe("drafts never leak (build)", () => {
 
   test("a draft project and a scheduled post show the 404", async ({ page }) => {
     const m = manifest as Manifest;
+    // As the host serves them (D83): vite preview would answer with another page's HTML.
+    await serveLikeVercel(page);
     for (const path of m.notFound) {
       const res = await page.goto(path);
       expect(found((await res?.text()) ?? "", m.markers), path).toEqual([]);
@@ -132,6 +136,8 @@ test.describe("drafts never leak (build)", () => {
 
   test("the unlisted project renders with noindex and isn't linked", async ({ page }) => {
     const m = manifest as Manifest;
+    expect(resolveLikeVercel(m.unlisted.path).headers["X-Robots-Tag"]).toContain("noindex");
+    await serveLikeVercel(page);
     await page.goto(m.unlisted.path);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/, {
       timeout: 20_000,
