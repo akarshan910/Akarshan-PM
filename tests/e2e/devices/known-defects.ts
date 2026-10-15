@@ -58,7 +58,6 @@ export const KNOWN: Known[] = [
       "studio writing targets",
       "studio media targets",
       "studio website targets",
-      "studio editor overview targets",
       "studio editor url-seo targets",
       "studio profile targets",
       "studio preview targets",
@@ -68,7 +67,12 @@ export const KNOWN: Known[] = [
   {
     id: "QA-S9",
     note: "Studio targets under 44px at iPad landscape: .t44 stops at 1023px",
-    pages: ["studio projects targets", "studio editor story targets", "studio editor outcomes targets"],
+    pages: [
+      "studio projects targets",
+      "studio editor overview targets",
+      "studio editor story targets",
+      "studio editor outcomes targets",
+    ],
     when: (w) => w >= 1024 && w < 1280,
   },
   {
