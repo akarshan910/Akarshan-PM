@@ -88,13 +88,16 @@ jobs:
       - uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
         with:
           version: 2.119.0
-      - name: Start the local stack
-        # Public ECR rate-limits shared runners ("Data limit exceeded"); the same images are on Docker Hub.
+      # PostgREST's health check needs the pm schema, which only our runner creates (D36: no CLI
+      # migrations). So: start without PostgREST, seed (migrations included), then restart with it.
+      # `supabase stop` without --no-backup keeps the database volume.
+      - name: Start the local stack (database, auth, storage)
         env:
+          # Public ECR rate-limits shared runners ("Data limit exceeded"); the same images are on Docker Hub.
           SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
         run: |
           for attempt in 1 2 3; do
-            supabase start -x studio,mailpit,imgproxy,logflare,vector,supavisor,edge-runtime && exit 0
+            supabase start -x studio,mailpit,imgproxy,logflare,vector,supavisor,edge-runtime,postgrest && exit 0
             supabase stop --no-backup || true
             sleep $((attempt * 20))
           done
@@ -110,6 +113,16 @@ jobs:
             echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
             echo "PM_DATABASE_URL=$DB_URL"
           } >> "$GITHUB_ENV"
+      - name: Seed the markers
+        run: npm run seed:leaks
+        env:
+          LEAK_MANIFEST_OUT: ${{ runner.temp }}/leaks.json
+      - name: Restart with PostgREST
+        env:
+          SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
+        run: |
+          supabase stop
+          supabase start -x studio,mailpit,imgproxy,logflare,vector,supavisor,edge-runtime
       - name: Serve the pm- functions
         env:
           SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
@@ -121,10 +134,6 @@ jobs:
             sleep 2
           done
           cat /tmp/functions.log; exit 1
-      - name: Seed the markers
-        run: npm run seed:leaks
-        env:
-          LEAK_MANIFEST_OUT: ${{ runner.temp }}/leaks.json
       - name: Build from the local stack
         run: npm run build
         env:
