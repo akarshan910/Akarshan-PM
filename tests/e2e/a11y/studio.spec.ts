@@ -273,3 +273,69 @@ for (const width of [390, 320]) {
     });
   });
 }
+
+/**
+ * Wider text, narrow screens. Text metrics differ by platform (Linux renders a little wider than
+ * macOS), so a layout that fits with 0px to spare on one machine scrolls sideways on another (CI run
+ * 38682699085: the editor's tab strip at 320). With every glyph widened by .03em, nothing may scroll
+ * sideways and no tab stop may end up fully covered.
+ */
+const WIDER_TEXT = "*, *::before, *::after { letter-spacing: 0.03em !important; }";
+for (const width of [390, 320]) {
+  test.describe(`Studio with wider text @${width}`, () => {
+    test.use({ viewport: { width, height: heightOf(width) }, hasTouch: true });
+    for (const s of SCREENS) {
+      test(`${s.name}: no horizontal scroll, tabs reachable`, async ({ page }) => {
+        expectKnown(`studio ${s.name} wider text`, width);
+        test.skip(!(await studioBuilt(page)), "Studio isn't on this branch yet");
+        await signIn(page);
+        await open(page, s.path);
+        await page.addStyleTag({ content: WIDER_TEXT });
+        await page.waitForTimeout(400);
+        const o = await overflowing(page);
+        expect(o.offenders).toEqual([]);
+        expect(o.scrollWidth).toBeLessThanOrEqual(o.clientWidth);
+        // Every tab stop scrolls into view when focused (a strip that clips must scroll itself).
+        const covered: string[] = [];
+        const seen = new Set<string>();
+        for (let i = 0; i < 80; i++) {
+          await page.keyboard.press("Tab");
+          await page.waitForTimeout(60);
+          const f = await page.evaluate(() => {
+            const el = document.activeElement as HTMLElement | null;
+            if (!el || el === document.body) return null;
+            // Fully covered (2.4.11) = none of five probe points lands on the control.
+            const r = el.getBoundingClientRect();
+            const control = el.closest("label") ?? el;
+            const clampX = (x: number) => Math.min(Math.max(x, 1), innerWidth - 1);
+            const clampY = (y: number) => Math.min(Math.max(y, 1), innerHeight - 1);
+            const pts: [number, number][] = [
+              [r.left + 3, r.top + 3],
+              [r.right - 3, r.top + 3],
+              [r.left + 3, r.bottom - 3],
+              [r.right - 3, r.bottom - 3],
+              [r.left + r.width / 2, r.top + r.height / 2],
+            ];
+            const hit = pts.some(([x, y]) => {
+              const at = document.elementFromPoint(clampX(x), clampY(y));
+              return Boolean(at && (at === control || control.contains(at)));
+            });
+            const visible = r.right > 0 && r.left < innerWidth && r.bottom > 0 && r.top < innerHeight;
+            return {
+              id: `${el.tagName.toLowerCase()} "${(el.getAttribute("aria-label") ?? el.textContent).trim().slice(0, 30)}"`,
+              ok: visible && hit,
+            };
+          });
+          if (!f) {
+            if (seen.size) break;
+            continue;
+          }
+          if (seen.has(f.id) && i > 2) break;
+          seen.add(f.id);
+          if (!f.ok) covered.push(f.id);
+        }
+        expect(covered).toEqual([]);
+      });
+    }
+  });
+}
