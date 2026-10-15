@@ -96,7 +96,11 @@ describe("the migration runner", () => {
     const db = new PGlite();
     await db.exec(SUPABASE_STUBS);
     const all = loadMigrations().filter((m) => !m.version.endsWith("_cron"));
-    expect(await runMigrations(migrationTarget(db), all)).toEqual(["0001_init", "0003_migration_checksums"]);
+    expect(await runMigrations(migrationTarget(db), all)).toEqual([
+      "0001_init",
+      "0003_migration_checksums",
+      "0004_anon_index_allowed",
+    ]);
     expect(await runMigrations(migrationTarget(db), all)).toEqual([]);
     await db.close();
   });
@@ -108,7 +112,7 @@ describe("the migration runner", () => {
     const [init, sums] = all;
     if (!init || !sums) throw new Error("migrations");
     await runMigrations(migrationTarget(db), [init]); // as on a project migrated before 0003
-    await runMigrations(migrationTarget(db), all);
+    await runMigrations(migrationTarget(db), [init, sums]);
     const rows = await db.query<{ version: string; checksum: string }>(
       "select version, checksum from pm.schema_migrations order by 1",
     );

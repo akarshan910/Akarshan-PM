@@ -482,7 +482,7 @@ grant select on pm.profile, pm.site_layout, pm.projects, pm.posts, pm.media /* â
 grant update (draft, version) on profile, site_layout to authenticated;
 grant insert (slug, draft), update (slug, draft, version) on projects, posts to authenticated;
 
-grant select (id, published_slug, published, published_at, first_published_at) on projects to anon;   -- id: D56
+grant select (id, published_slug, published, published_at, first_published_at, index_allowed) on projects to anon;   -- id: D56; index_allowed: 0004, for noindex and the sitemap
 create policy public_read on projects for select to anon
   using (published is not null and deleted_at is null and visibility = 'public');
 
