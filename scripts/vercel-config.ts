@@ -21,6 +21,26 @@ export type Route =
   | { src: string; dest: string; status?: number; headers?: Record<string, string> }
   | { handle: "filesystem" };
 
+/** The live site's prototype files and the projects they belong to (07 · Legacy links). */
+export const LEGACY_PROTOTYPES: Record<string, string> = {
+  "/sri_mandir_prototype.html": "puja-engagement-platform",
+  "/word_trip_prototype.html": "word-games-monetisation-strategy",
+  "/farmville3_prototype.html": "revenue-growth-strategy",
+};
+
+/**
+ * Old prototype paths → their deployed addresses (`scripts/v0-prototypes.json`), permanently. The files
+ * themselves never ship: prototypes don't run on the site's origin (D11). Unknown or non-https entries
+ * are skipped, so until the file exists those paths are 404s.
+ */
+export function prototypeRedirects(deployed: Record<string, unknown>): VercelRedirect[] {
+  return Object.entries(LEGACY_PROTOTYPES).flatMap(([source, slug]) => {
+    const url = deployed[slug];
+    if (typeof url !== "string" || !/^https:\/\/[^\s"']+$/.test(url)) return [];
+    return [{ source, destination: url, permanent: true }];
+  });
+}
+
 /** `<script>` bodies the browser runs: everything inline except JSON-LD, which is data. */
 export function inlineScripts(html: string): string[] {
   const out: string[] = [];

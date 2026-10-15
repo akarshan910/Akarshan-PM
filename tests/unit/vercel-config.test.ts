@@ -4,6 +4,7 @@ import {
   buildRoutes,
   inlineScripts,
   pathOf,
+  prototypeRedirects,
   publicCsp,
   scriptHash,
   studioCsp,
@@ -126,5 +127,21 @@ describe("vercel-config", () => {
   it("refuses a build without the fallback or the 404 page", () => {
     expect(() => buildRoutes(pages.slice(0, 2), [], inputs)).toThrow(/__spa-fallback/);
     expect(() => buildRoutes(pages.slice(0, 3), [], inputs)).toThrow(/404/);
+  });
+
+  it("redirects the old prototype paths only to deployed https addresses", () => {
+    expect(prototypeRedirects({})).toEqual([]);
+    expect(
+      prototypeRedirects({
+        "puja-engagement-platform": "https://proto.example.test/sri-mandir/",
+        "word-games-monetisation-strategy": "javascript:alert(1)",
+      }),
+    ).toEqual([
+      {
+        source: "/sri_mandir_prototype.html",
+        destination: "https://proto.example.test/sri-mandir/",
+        permanent: true,
+      },
+    ]);
   });
 });
