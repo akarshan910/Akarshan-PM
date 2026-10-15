@@ -1,7 +1,9 @@
 import { useSyncExternalStore } from "react";
+import { isRouteErrorResponse, useParams } from "react-router";
 
 import { CaseStudyNeighbours } from "~/components/case-study/CaseStudyNeighbours";
 import { CaseStudyPage } from "~/components/case-study/CaseStudyPage";
+import { UnlistedProject } from "~/components/case-study/UnlistedProject";
 import { SiteFooter } from "~/components/footer/SiteFooter";
 import { formatDate } from "~/components/sections/Footer";
 import { NotFound } from "~/components/states/NotFound";
@@ -27,9 +29,10 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  if (!loaderData.view || !loaderData.seo)
-    return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
-  return seoMeta(loaderData.seo);
+  // No prerendered data: the unlisted shell (or a 404), never indexed.
+  const seo = loaderData?.seo;
+  if (!loaderData?.view || !seo) return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
+  return seoMeta(seo);
 }
 
 const noSubscribe = () => () => undefined;
@@ -61,4 +64,18 @@ export default function CaseStudy({ loaderData }: Route.ComponentProps) {
       />
     </>
   );
+}
+
+/**
+ * An address with no prerendered page (01 · Rendering, D24): the host serves the SPA shell, the
+ * route finds no data for it, and the shell asks pm-project for an unlisted project with that exact
+ * slug. A real load failure on a prerendered page shows the error state instead.
+ */
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  const { slug = "" } = useParams();
+  const missing =
+    (isRouteErrorResponse(error) && error.status === 404) ||
+    (error instanceof Error && /No result found for routeId/.test(error.message));
+  if (!missing) throw error;
+  return <UnlistedProject slug={slug} />;
 }
