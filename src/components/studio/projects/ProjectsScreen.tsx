@@ -11,6 +11,7 @@ import { ConflictDialog } from "../states/ConflictDialog";
 import { UnconfirmedDialog } from "../states/UnconfirmedDialog";
 import { useToast } from "../Toast";
 import { UNSAVED_MESSAGE, useAutosave } from "../useAutosave";
+import { deployToast } from "../deployToast";
 import { ProjectsList } from "./ProjectsList";
 import { restoreShelfOrder, shelfOrderChanged } from "~/lib/studio/diff";
 import { createProject } from "~/lib/studio/projects";
@@ -68,7 +69,7 @@ export function ProjectsScreen({
       setPublished(fresh.published);
       layout.reset(fresh);
       cache.set("layout", fresh);
-      toast.show({ message: "Homepage layout is live." });
+      deployToast(toast, repo, result.deployed, { message: "Homepage layout is live." });
       announce("Homepage layout is live.");
       return;
     }

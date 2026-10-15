@@ -108,7 +108,7 @@ export async function publishSite(
     await tx.query("insert into pm.site_revisions (profile, layout, changes) values ($1, $2, $3)", [
       published,
       layout,
-      JSON.stringify(changes),
+      changes,
     ]);
     return row?.at ?? deps.now().toISOString();
   });
@@ -209,7 +209,7 @@ export async function publishProjectRow(
         await tx.query("insert into pm.site_revisions (profile, layout, changes) values ($1, $2, $3)", [
           site.profile,
           placed,
-          JSON.stringify([`Added ${draft.overview.title} to the homepage`]),
+          [`Added ${draft.overview.title} to the homepage`],
         ]);
       }
     }

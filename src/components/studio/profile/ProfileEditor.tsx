@@ -24,6 +24,7 @@ import { UnconfirmedDialog } from "../states/UnconfirmedDialog";
 import { StudioIcon } from "../StudioIcon";
 import { useToast } from "../Toast";
 import { UNSAVED_MESSAGE, useAutosave } from "../useAutosave";
+import { deployToast } from "../deployToast";
 import styles from "./Profile.module.css";
 import { newId } from "~/lib/defaults";
 import type { ProfilePublished } from "~/lib/published";
@@ -229,7 +230,9 @@ export function ProfileEditor({ data }: { data: ProfileData }) {
     cache.set("profile", fp);
     cache.set("layout", fl);
     cache.invalidate("dashboard");
-    toast.show({ message: "Profile published. The homepage updates within a minute." });
+    deployToast(toast, repo, result.deployed, {
+      message: "Profile published. The homepage updates within a minute.",
+    });
     announce("Profile published.");
   };
 

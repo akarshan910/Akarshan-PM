@@ -11,6 +11,7 @@
  * Nothing here names the owner's address: sign-in takes whatever the form sends.
  */
 import { createClient, type AuthError } from "@supabase/supabase-js";
+import { Upload } from "tus-js-client";
 
 import type { Post, Profile, Project, SiteLayout } from "../types";
 import type { PostPublished, ProfilePublished, ProjectPublished } from "../published";
@@ -41,6 +42,8 @@ const validSlug = (s: string) => s.length <= 80 && SLUG.test(s);
 /** The shared project's storage quota (free plan), used by lumina too. */
 const QUOTA = 1024 * 1024 * 1024;
 const SIGNED_FOR = 3600;
+/** Supabase’s resumable uploads take 6 MB chunks, exactly. */
+const TUS_CHUNK = 6 * 1024 * 1024;
 
 // ---- errors
 
@@ -319,15 +322,66 @@ export function supabaseRepo(url: string, anonKey: string): StudioRepo {
   const mediaGet = async (id: string) =>
     media(must(await sb.from("media").select(MEDIA_COLS).eq("id", id).single<MediaCols>()));
 
+  /**
+   * One file to `pm-media-draft` over Supabase's resumable (TUS) endpoint, in its required 6 MB
+   * chunks (06 · Storage, step 6). A lost connection pauses the upload; it carries on from the
+   * last chunk when the browser is back online, and an upload interrupted earlier resumes too.
+   */
+  async function sendFile(path: string, blob: Blob, type: string, onProgress: (sent: number) => void) {
+    const { data } = await sb.auth.getSession();
+    const token = data.session?.access_token;
+    if (!token) throw new Error("You’re signed out. Sign in again to upload.");
+    await new Promise<void>((resolve, reject) => {
+      const upload = new Upload(blob, {
+        endpoint: `${url}/storage/v1/upload/resumable`,
+        retryDelays: [0, 3000, 5000, 10000, 20000],
+        chunkSize: TUS_CHUNK,
+        uploadDataDuringCreation: true,
+        removeFingerprintOnSuccess: true,
+        headers: { authorization: `Bearer ${token}`, apikey: anonKey, "x-upsert": "true" },
+        metadata: { bucketName: DRAFT_BUCKET, objectName: path, contentType: type, cacheControl: "3600" },
+        onProgress: (sent) => {
+          onProgress(sent);
+        },
+        onSuccess: () => {
+          resolve();
+        },
+        onError: (e) => {
+          if (isOffline(e)) {
+            window.addEventListener(
+              "online",
+              () => {
+                upload.start();
+              },
+              { once: true },
+            );
+            return;
+          }
+          reject(e);
+        },
+      });
+      void upload
+        .findPreviousUploads()
+        .then((previous) => {
+          const last = previous[0];
+          if (last) upload.resumeFromPreviousUpload(last);
+          upload.start();
+        })
+        .catch(() => {
+          upload.start();
+        });
+    });
+  }
+
   async function store(key: string, out: PipelineResult, onProgress?: (f: number) => void) {
-    let done = 0;
+    const total = out.files.reduce((n, f) => n + f.blob.size, 0) || 1;
+    let before = 0;
     for (const f of out.files) {
-      const { error } = await sb.storage
-        .from(DRAFT_BUCKET)
-        .upload(`${key}/${f.name}`, f.blob, { contentType: f.type, upsert: true, cacheControl: "3600" });
-      if (error) throw error;
-      done++;
-      onProgress?.(done / out.files.length);
+      await sendFile(`${key}/${f.name}`, f.blob, f.type, (sent) => {
+        onProgress?.(Math.min(1, (before + sent) / total));
+      });
+      before += f.blob.size;
+      onProgress?.(Math.min(1, before / total));
     }
   }
 

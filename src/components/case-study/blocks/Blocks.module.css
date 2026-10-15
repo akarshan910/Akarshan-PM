@@ -728,13 +728,32 @@ abbr.short {
   .metric > span:first-child {
     display: inline;
   }
+  /* CaseStudyMobile: the value and its line read as one run of text (a space between, on the same
+   * baseline), the result label sits centred at the end; 14px under the journey, 12px under the text. */
+  .metric {
+    align-items: baseline;
+    gap: 0;
+  }
   .metricValue {
     font-stretch: 70%;
     font-size: 30px;
+    line-height: normal;
   }
   .metricLabel {
     flex: 1;
+    margin-left: 4px;
     font-size: 14px;
+    line-height: normal;
+  }
+  .metric > :last-child {
+    align-self: center;
+    margin-left: 12px;
+  }
+  div > * + .journey {
+    margin-top: 12px;
+  }
+  div > .journey + .metrics {
+    margin-top: 14px;
   }
   .tableFrame {
     position: relative;

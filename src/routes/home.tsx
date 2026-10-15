@@ -4,21 +4,19 @@ import { useNavigate } from "react-router";
 import { HomeContext, legacyAnchors, SECTIONS } from "~/components/sections";
 import { loadPublicContent } from "~/lib/content.server";
 import { legacyCaseRedirect } from "~/lib/legacy-links";
-import { richTextToPlain } from "~/lib/rich-text";
+import { homeSeo, seoMeta, siteUrl } from "~/lib/seo";
 import { buildHomeView } from "~/lib/site";
 
 import type { Route } from "./+types/home";
 
 export async function loader() {
-  return buildHomeView(await loadPublicContent());
+  const content = await loadPublicContent();
+  return { ...buildHomeView(content), seo: homeSeo(content, siteUrl(process.env.SITE_URL)) };
 }
 
-/** Title and description from the profile; full SEO arrives in M5. */
+/** Title, description, canonical, Open Graph and Person JSON-LD (06 · SEO). */
 export function meta({ loaderData }: Route.MetaArgs) {
-  const { profile } = loaderData;
-  const title = profile.title ? `${profile.name} · ${profile.title}` : profile.name;
-  const description = richTextToPlain(profile.positioning);
-  return [{ title }, ...(description ? [{ name: "description", content: description }] : [])];
+  return seoMeta(loaderData.seo);
 }
 
 /** Home (03 · Home): the published layout's sections, in order. The footer sits after `<main>`. */

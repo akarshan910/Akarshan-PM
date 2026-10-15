@@ -12,6 +12,7 @@ export default tseslint.config(
       ".claude/",
       "build/",
       "build-parity*/",
+      ".vercel/",
       "dist/",
       "coverage/",
       ".react-router/",

@@ -19,6 +19,7 @@ Each entry records the context, the options considered, what was chosen, and wha
 - **Context.** Targets and projections looked like results, and the site and résumé disagreed.
 - **Chosen.** Every number carries one of five labels: Achieved, Target, Projected, Baseline or Output. An Achieved result can't be published without a private evidence note. Tenure and counts carry no label.
 - **Trade-off.** Some numbers look less impressive with a "Target" label. Trust is worth more to a hiring manager.
+- **In the build.** The five labels are component C5. `publishProject` drops every outcome's evidence before anything reaches a page, and a test checks that published views never carry `evidence`, `todo` or `facts`.
 
 ### V0: new design, current content, published
 - **Context.** The owner wanted the new design live without first rewriting everything.
@@ -30,6 +31,7 @@ Each entry records the context, the options considered, what was chosen, and wha
 
 ### Never invent
 - **Chosen.** No personal facts, numbers, dates or outcomes are made up. Missing content shows as a clearly marked placeholder in drafts and hides on the live site. This is why the skill sizes start at M: which skills look biggest is the owner's call.
+- **In the build.** The rule held under pressure from pixel parity: the boards' illustrative copy lives only in a test fixture (`tests/fixtures/board-content.ts`), never in V0. Where the boards were silent, the gap was recorded as a decision instead of filled in, for example "Use the résumé figure" opening an edit rather than overwriting (D76).
 
 ## Design
 
@@ -44,6 +46,7 @@ Each entry records the context, the options considered, what was chosen, and wha
 ### Keep the live nav exactly
 - **Chosen.** The glass pill, its rotating ring and the red Let's Talk, copied from the live CSS. Phones get Menu plus Let's Talk, and Menu opens a full-screen menu.
 - **Why.** It's the old site's signature, and the owner asked for it explicitly.
+- **In the build.** Copied from `src/legacy/portfolio.css`. The boards drew the links without the live site's 2px gap and Let's Talk at 10px on phones; the boards won (D74).
 
 ### Shelves that cap, and a list that scales
 - **Chosen.** Each homepage shelf shows a lead card plus 1–3 rows, then "See all". `/work` lists everything, with filters, search and paging.
@@ -73,12 +76,14 @@ Each entry records the context, the options considered, what was chosen, and wha
   - Full reduced-motion parity.
   - Transform and opacity only.
 - **Trade-off.** Less freedom per animation, much more consistency and a predictable performance budget.
+- **In the build.** Every ID in 04 was audited against the code before M2 closed. The audit found four real gaps, among them a skills entrance whose held end frame broke the group highlight, and a phone hero entrance that replayed on every visit because a hidden line never finished animating.
 
 ## Architecture
 
 ### Prerendered public site, client-only Studio
 - **Chosen.** React Router 7 in framework mode. Public routes are prerendered at build. `/studio` is a single-page app. A publish triggers a rebuild through a Vercel deploy hook.
 - **Trade-off.** Edits take about a minute to go live. In return there's no server to run, pages load fast, and real HTML reaches search engines and link previews.
+- **In the build.** With nothing rendered on a server, two gaps had to be closed in the client: a `/work/<slug>` with no prerendered page now asks the `pm-project` function for an unlisted project (D24) or shows the 404, and the SPA fallback page got a default title so Studio is never untitled before JavaScript runs.
 
 ### Draft and published copies on the same row
 - **Chosen.** Each content row has a `draft` and a `published` JSON column, plus a revisions table.
@@ -93,6 +98,7 @@ Each entry records the context, the options considered, what was chosen, and wha
 ### Prototypes and videos are links
 - **Chosen.** Prototypes are deployed separately (e.g. Vercel) and framed on click in a sandbox. Videos come from YouTube, Vimeo, Loom or Google Drive.
 - **Trade-off.** It relies on other hosts, and Drive videos can't autoplay. In return the site stays light, there are no storage costs, and nothing a prototype runs can read the site.
+- **In the build.** Video posters are made at publish from the host's thumbnail (D81), so a video page shows an image before anyone presses play.
 
 ## Security
 
@@ -108,6 +114,7 @@ Each entry records the context, the options considered, what was chosen, and wha
   - A code can be phished, so the email says where it may be used.
   - Guessing is the main risk, which is why the limits are required and CAPTCHA protection is switched on as soon as lumina supports it (Q8).
   - In return there's no Google Cloud project or OAuth consent screen, and no window where anyone could sign up.
+- **In the build.** CAPTCHA protection stays off for now, because lumina's sign-in doesn't send Turnstile tokens yet (D54). To make guessing harder without it, codes are 8 digits instead of 6 (D66).
 
 ### Share one Supabase project with the photography site
 - **Context.** Supabase's free plan allows two active projects, and the owner already uses both. One of them runs lumina-photography, the owner's photography site.
@@ -122,6 +129,7 @@ Each entry records the context, the options considered, what was chosen, and wha
   - Turning on CAPTCHA protection needs a small change to lumina's login first.
   - The Supabase CLI's migration history can't be used, so the portfolio runs its own migrations.
   - In return there's no new account and no cost, and lumina's traffic keeps the free project from pausing.
+- **In the build.** Everything was built and tested without touching the shared project: migrations, RLS and the Edge Functions run against PGlite with Supabase's roles stubbed, and a lint fails any migration that reaches outside `pm`. The owner's session writes drafts only (D55); visitors read published columns, plus `id` (D56) and `index_allowed` (D82).
 
 ### A public repository with nothing to steal
 - **Chosen.**
@@ -131,6 +139,7 @@ Each entry records the context, the options considered, what was chosen, and wha
   - The service-role key lives only in Supabase (Edge Functions and Vault, for cron) and in the owner's shell for one-off scripts.
   - `SECURITY.md` explains it all.
 - **Trade-off.** Setup needs a few manual steps in dashboards, which are documented in the handover.
+- **In the build.** Every phase ended with a security review of its diff, and findings went to the owning agent's inbox. Examples: the homepage's data once carried hidden profile items even though the page didn't render them, and a few content links skipped the safe-link check; both were fixed before merging.
 
 ## Process
 
@@ -143,3 +152,4 @@ Each entry records the context, the options considered, what was chosen, and wha
   - Every resolved conflict is recorded.
   - A list of what to ask the owner: architecture, blockers and core product decisions only.
 - **Trade-off.** A large up-front writing effort, which buys a build that doesn't stall on questions.
+- **In the build.** It worked as intended: five agents built in parallel and asked the owner only about accounts, the domain and the shared project (the Q-items in 09). When sources disagreed, the precedence order settled it, and each resolution became a dated decision (D46–D82).

@@ -11,6 +11,7 @@ import { useShell } from "../shell/ShellContext";
 import { ConflictDialog } from "../states/ConflictDialog";
 import { useToast } from "../Toast";
 import { UNSAVED_MESSAGE, useAutosave, type Autosave } from "../useAutosave";
+import { deployToast } from "../deployToast";
 import { EditorFrame } from "./EditorFrame";
 import { PublishDialog } from "./PublishDialog";
 import { ACCENT_COLOURS } from "~/lib/accents";
@@ -208,10 +209,8 @@ export function ProjectEditor({
     setRows(await repo.projects.list());
     cache.invalidate("projects");
     cache.invalidate("dashboard");
-    toast.show({
-      message: result.deployed
-        ? "Published. The live page updates within a minute."
-        : "Published. The site will update on the next deploy",
+    deployToast(toast, repo, result.deployed, {
+      message: "Published. The live page updates within a minute.",
       link: { label: "View live page ↗", href: `/work/${fresh?.publishedSlug ?? row.slug}` },
     });
     announce("Published.");

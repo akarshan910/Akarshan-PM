@@ -62,7 +62,8 @@ export default defineConfig({
         },
         {
           name: "phone",
-          testIgnore: /catalogue|\/a11y\/|\/devices\//,
+          // no-leaks checks the build and the database, not a layout: once, on laptop.
+          testIgnore: /catalogue|no-leaks|\/a11y\/|\/devices\//,
           use: { ...phone, baseURL: `http://localhost:${previewPort}` },
         },
         // QA's sweeps set their own viewport, touch and motion, so they run once each (08 · QA).

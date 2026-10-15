@@ -691,7 +691,7 @@ Rich text is stored as HTML from a small allowlist, and sanitised twice: in Stud
 | `Rich` | `p`, `strong`, `em`, `a`, `ul`, `ol`, `li`, `br` | `href` |
 
 - **Links:** `https:` and `mailto:` only, and relative links starting with `/`. Every external link gets `rel="noopener noreferrer"` and `target="_blank"` at render.
-- **The sanitiser:** DOMPurify with `ALLOWED_TAGS`, `ALLOWED_ATTR: ['href']` and a hook that drops any other URL scheme. In Edge Functions, the same config with `isomorphic-dompurify`. `src/lib/rich-text.ts` exports one `sanitize(kind, html)` used everywhere.
+- **The sanitiser:** the site's own allowlist parser in `src/lib/rich-text.ts` (the tags above, `href` only, any other URL scheme dropped through `safeHref`), shared with the Edge Functions as `_shared/sanitize.ts` ([09](09-decisions.md), D84; it replaced the DOMPurify plan).
 - **TipTap** in Studio is configured with only the matching extensions (StarterKit with headings, code, blockquote, strike and horizontal rule off; Link with `protocols: ['https', 'mailto']`), so the editor can't produce anything the sanitiser would remove.
 - **Code blocks** in posts are plain text, escaped at render.
 - **The legacy content** uses `<strong>` and plain text only, so it passes the allowlist unchanged ([07](07-v0-content.md#extraction)).

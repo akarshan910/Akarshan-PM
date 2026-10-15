@@ -1,0 +1,77 @@
+# The LOCAL Supabase stack only (`supabase start`), for CI's no-leaks job and local testing.
+#
+# Never `supabase link` this folder: the real project is shared with lumina-photography, and nothing
+# here names it. There is no project ref in this repository, and CI has no SUPABASE_ACCESS_TOKEN.
+# The pm schema is migrated by `npm run seed:leaks` (scripts/migrate.ts), not by the CLI: the CLI's
+# own `supabase/migrations/` folder doesn't exist here, on purpose.
+
+project_id = "akarshan-pm-local"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public", "pm"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+
+[db.seed]
+enabled = false
+
+[studio]
+enabled = false
+
+[local_smtp]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "10MiB"
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:4173"
+additional_redirect_urls = []
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+# 06 · Supabase settings: no sign-ups, no anonymous sign-ins.
+enable_signup = false
+enable_anonymous_sign_ins = false
+
+[auth.rate_limit]
+email_sent = 30
+token_verifications = 30
+
+[auth.email]
+enable_signup = false
+enable_confirmations = true
+# D66: 8-digit codes that expire after 10 minutes.
+otp_length = 8
+otp_expiry = 600
+max_frequency = "60s"
+
+[auth.sms]
+enable_signup = false
+
+[edge_runtime]
+enabled = true
+policy = "per_worker"
+
+# Each pm- function checks its caller itself; visitors call these two without a session (D59).
+[functions.pm-publish]
+import_map = "./functions/deno.json"
+[functions.pm-check-link]
+import_map = "./functions/deno.json"
+[functions.pm-post-scheduler]
+import_map = "./functions/deno.json"
+[functions.pm-purge]
+import_map = "./functions/deno.json"
+[functions.pm-preview]
+verify_jwt = false
+import_map = "./functions/deno.json"
+[functions.pm-project]
+verify_jwt = false
+import_map = "./functions/deno.json"

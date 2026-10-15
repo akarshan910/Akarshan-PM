@@ -4,7 +4,8 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { loadMigrations } from "../../scripts/migrate.ts";
-import { seedV0, type SeedInputs } from "../../scripts/seed-v0.ts";
+import { describeError, pgParam, seedV0, step, type SeedInputs } from "../../scripts/seed-v0-core.ts";
+import { isLocal } from "../../scripts/seed-leak-markers.ts";
 import { maskEmail, normaliseEmail } from "../../scripts/setup-owner.ts";
 import type { Deps, Sql } from "../functions/_shared/deps.ts";
 import { DEPLOY_HOOK, fakeWorld } from "./fakes.ts";
@@ -88,6 +89,37 @@ describe("seed:v0", () => {
 
   it("refuses a second run", async () => {
     await expect(seedInTransaction()).rejects.toThrow(/already has content/);
+  });
+});
+
+describe("seed:leaks", () => {
+  it("runs only against this machine", () => {
+    expect(isLocal("http://127.0.0.1:54321")).toBe(true);
+    expect(isLocal("postgresql://postgres:postgres@localhost:54322/postgres")).toBe(true);
+    expect(isLocal("https://abcdefghijkl.supabase.co")).toBe(false);
+    expect(isLocal("postgresql://postgres.ref:pw@aws-0-eu-west-1.pooler.supabase.com:5432/postgres")).toBe(
+      false,
+    );
+    expect(isLocal("not a url")).toBe(false);
+  });
+});
+
+describe("script parameters", () => {
+  it("go to postgres.js as native values, so jsonb is encoded once, by the driver", () => {
+    const doc = { a: 1 };
+    expect(pgParam(doc)).toBe(doc);
+    expect(pgParam(["x", "y"])).toEqual(["x", "y"]);
+    expect(pgParam(undefined)).toBeNull();
+  });
+
+  it("name the failing step and a blocked publish's issues", async () => {
+    const blocked = Object.assign(new Error("blocked"), {
+      extra: { issues: [{ field: "f", message: "m" }] },
+    });
+    await expect(step("publishing x", () => Promise.reject(blocked))).rejects.toThrow(
+      'publishing x failed: blocked: {"issues":[{"field":"f","message":"m"}]}',
+    );
+    expect(describeError(new Error("plain"))).toBe("plain");
   });
 });
 

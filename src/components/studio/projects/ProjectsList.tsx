@@ -79,6 +79,7 @@ export function ProjectsList(props: ProjectsListProps) {
   const [drag, setDrag] = useState<{ shelf: string; id: string } | null>(null);
   const [moved, setMoved] = useState<{ id: string; flip: number } | null>(null);
   const [reorder, setReorder] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [confirm, setConfirm] = useState<ProjectRow | null>(null);
   const focusAfter = useRef<string | null>(null);
 
@@ -152,7 +153,13 @@ export function ProjectsList(props: ProjectsListProps) {
           type="button"
           className="ib"
           aria-label="Search"
-          onClick={() => document.getElementById("project-search")?.focus()}
+          aria-expanded={searchOpen}
+          aria-controls="project-search"
+          onClick={() => {
+            // On phones the field opens from here (StudioMobile); it's always shown on larger screens.
+            setSearchOpen(true);
+            requestAnimationFrame(() => document.getElementById("project-search")?.focus());
+          }}
         >
           <StudioIcon name="search" />
         </button>
@@ -215,7 +222,7 @@ export function ProjectsList(props: ProjectsListProps) {
               </button>
             ))}
           </div>
-          <label className={cx(styles.search, "t44")}>
+          <label className={cx(styles.search, "t44")} data-open={searchOpen || query !== "" || undefined}>
             <span className="sr-only">Search projects</span>
             <StudioIcon name="search" className={cx("ico", styles.searchIco)} />
             <input
@@ -224,6 +231,9 @@ export function ProjectsList(props: ProjectsListProps) {
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
+              }}
+              onBlur={() => {
+                if (!query) setSearchOpen(false);
               }}
               placeholder="Search by title or company"
             />

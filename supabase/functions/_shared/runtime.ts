@@ -15,11 +15,13 @@ function required(name: string): string {
   return value;
 }
 
-/** jsonb parameters go as JSON text; plain arrays of scalars stay arrays (uuid[], text[]). */
+/**
+ * Parameters go as native values. postgres.js asks the server for each parameter's type and encodes
+ * it (a jsonb object or array as JSON, a uuid[] as an array), so pre-encoding JSON here would store
+ * a JSON *string* in a jsonb column.
+ */
 function param(v: unknown): unknown {
-  if (v === null || v === undefined || typeof v !== "object") return v ?? null;
-  if (Array.isArray(v) && v.every((x) => x === null || typeof x !== "object")) return v;
-  return JSON.stringify(v);
+  return v ?? null;
 }
 
 type Pg = ReturnType<typeof postgres>;

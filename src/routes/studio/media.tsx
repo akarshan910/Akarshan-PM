@@ -11,7 +11,9 @@ export default function StudioMedia() {
   const q = useQuery(
     "media-screen",
     async (r) => {
-      const [rows, storage] = await Promise.all([r.media.list(), r.media.storageUsed()]);
+      const [all, storage] = await Promise.all([r.media.list(), r.media.storageUsed()]);
+      // Video posters (poster-*.jpg) are made and managed by publishing, so they stay out of the library.
+      const rows = all.filter((m) => !m.filename.startsWith("poster-"));
       const uses: Record<string, MediaUse[]> = {};
       await Promise.all(
         rows.map(async (m) => {

@@ -22,6 +22,8 @@ export interface ReadResult {
  */
 export interface PublicReader {
   select(table: "profile" | "site_layout" | "projects" | "posts", columns: string): Promise<ReadResult>;
+  /** `pm.public_redirects()`, the one function anon may call (06 · Row-level security). */
+  redirects?(): Promise<ReadResult>;
 }
 
 interface SingletonRow<T> {
@@ -35,6 +37,8 @@ interface ProjectRow {
   published: ProjectPublished | null;
   published_at: string | null;
   first_published_at: string | null;
+  /** 0004 grants it to anon: false keeps the page out of search and the sitemap. */
+  index_allowed: boolean | null;
 }
 
 interface PostRow {
@@ -73,7 +77,11 @@ export async function readPublicContent(reader: PublicReader): Promise<PublicCon
   const [profile, layout, projectRows, postRows] = await Promise.all([
     singleton<ProfilePublished>(reader, "profile"),
     singleton<unknown>(reader, "site_layout"),
-    rows<ProjectRow>(reader, "projects", "id, published_slug, published, published_at, first_published_at"),
+    rows<ProjectRow>(
+      reader,
+      "projects",
+      "id, published_slug, published, published_at, first_published_at, index_allowed",
+    ),
     rows<PostRow>(reader, "posts", "id, published_slug, published, published_at"),
   ]);
 
@@ -92,6 +100,7 @@ export async function readPublicContent(reader: PublicReader): Promise<PublicCon
             listed: true,
             publishedAt: r.published_at,
             firstPublishedAt: r.first_published_at ?? r.published_at,
+            ...(r.index_allowed === false ? { indexAllowed: false } : {}),
             project: r.published,
           },
         ]

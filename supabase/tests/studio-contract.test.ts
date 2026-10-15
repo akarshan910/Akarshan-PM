@@ -19,7 +19,7 @@ const POST_COLS =
   "id, slug, published_slug, draft, published, published_at, scheduled_for, schedule_error, version, updated_at, deleted_at";
 const DOC_COLS = "draft, published, published_at, version, updated_at";
 const MEDIA_COLS =
-  "id, rev, key, kind, mime, bytes, width, height, variants, focal, alt, decorative, dominant, filename, published, created_at";
+  "id, rev, key, kind, mime, bytes, width, height, variants, has_og, focal, alt, decorative, dominant, filename, published, created_at";
 
 let db: Db;
 
@@ -109,6 +109,8 @@ describe("Studio's Supabase repo, as the owner", () => {
          has_og = false, dominant = '#000000', filename = 'c.png' where id = $1 returning ${MEDIA_COLS}`,
       [MEDIA, `${MEDIA}/r2`],
     );
+    // The Open Graph crop, written after its upload.
+    await run("update pm.media set has_og = true where id = $1", [MEDIA]);
     await run("insert into storage.objects (bucket_id, name) values ('pm-media-draft', $1)", [
       `${MEDIA}/r2/480.webp`,
     ]);
