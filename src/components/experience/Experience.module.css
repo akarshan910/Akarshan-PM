@@ -253,6 +253,10 @@
   .cardList {
     gap: 8px;
   }
+  /* HomeTablet only colours the term; the laptop board also sets 500. */
+  .cardList strong {
+    font-weight: inherit;
+  }
   .hideIpad {
     display: none;
   }

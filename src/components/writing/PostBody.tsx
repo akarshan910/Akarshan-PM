@@ -35,7 +35,7 @@ export function PostBody({ blocks }: { blocks: PostPublished["blocks"] }) {
                 <span className={styles.fact}>
                   <span className={styles.factValue}>{block.value}</span>
                   <span className={styles.factLabel}>{block.label}</span>
-                  <ResultLabel type={block.resultType} />
+                  <ResultLabel type={block.resultType} className={styles.factTag} />
                 </span>
               </div>
             );
