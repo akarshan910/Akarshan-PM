@@ -1182,15 +1182,62 @@ test.describe("Studio (dev server) @1440", () => {
     }
   });
 
+  /**
+   * A CSS-module class's transitions, read from a probe element inside `.st`, or null until the
+   * module's stylesheet is loaded. For parts a screen draws only in some states.
+   */
+  async function ruleTransitions(page: Page, local: string) {
+    return page.evaluate((name) => {
+      const cls = (() => {
+        for (const sheet of document.styleSheets) {
+          let rules: CSSRuleList;
+          try {
+            rules = sheet.cssRules;
+          } catch {
+            continue;
+          }
+          for (const rule of rules) {
+            if (!(rule instanceof CSSStyleRule)) continue;
+            const hit = new RegExp(`\\.(_${name}_[\\w-]+)$`).exec(rule.selectorText.trim());
+            if (hit) return hit[1];
+          }
+        }
+        return null;
+      })();
+      if (!cls) return null;
+      const probe = document.createElement("input");
+      probe.className = cls;
+      (document.querySelector(".st") ?? document.body).append(probe);
+      const cs = getComputedStyle(probe);
+      const out = {
+        property: cs.transitionProperty,
+        duration: cs.transitionDuration,
+        easing: cs.transitionTimingFunction,
+      };
+      probe.remove();
+      return out;
+    }, local);
+  }
+
   test("M-ST-TOPIC-ADD: the + Add field grows over .2s --eo; reduced: none", async ({ page }) => {
     for (const reduced of [false, true]) {
       await signIn(page, reduced);
       await screen(page, `${EDIT}/overview`);
-      const add = page.locator(m("tpadd")).first();
-      // The dev server compiles the overview tab on its first visit.
-      await expect(add).toHaveCount(1, { timeout: 15_000 });
-      if (reduced) expect(await transitionSeconds(add)).toBe(0);
-      else expect(await transitions(add)).toEqual({ width: { duration: "0.2s", easing: EO, delay: "0s" } });
+      // The picker draws "+ Add" only while the vocabulary fits as chips (CHIP_LIMIT); a larger one,
+      // loaded a moment later, swaps in the search popover. So the field's rule is read once the
+      // picker's stylesheet is in, whichever layout shows, and the live field too when it's there.
+      await expect.poll(() => ruleTransitions(page, "tpadd"), { timeout: 30_000 }).not.toBeNull();
+      const rule = await ruleTransitions(page, "tpadd");
+      if (reduced) expect(rule?.duration).toBe("0s");
+      else expect(rule).toEqual({ property: "width", duration: "0.2s", easing: EO });
+      const field = page.getByRole("textbox", { name: "Add a topic" });
+      if ((await field.count()) > 0) {
+        if (reduced) expect(await transitionSeconds(field.first())).toBe(0);
+        else
+          expect(await transitions(field.first())).toEqual({
+            width: { duration: "0.2s", easing: EO, delay: "0s" },
+          });
+      }
     }
   });
 
