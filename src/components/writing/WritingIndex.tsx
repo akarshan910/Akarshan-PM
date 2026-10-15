@@ -31,7 +31,7 @@ function Lead({ post }: { post: PostCard }) {
           image={post.cover}
           className={styles.cover}
           ratio="16 / 9"
-          priority
+          lcp
           sizes="(max-width: 767px) 100vw, 640px"
         />
       ) : null}

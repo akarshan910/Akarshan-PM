@@ -101,7 +101,7 @@
 .chSub {
   font-size: 12px;
 }
-.addCh {
+:global(.st) .addCh {
   width: 100%;
   margin-top: 8px;
 }
@@ -525,6 +525,23 @@
 .riceTable {
   min-width: 560px;
 }
+/* M-ST-FLASH: a row a RICE fix changed, 1.2s; two names so a second fix replays it. */
+.flashA {
+  animation: global(stFlashA) 1.2s ease-out;
+}
+.flashB {
+  animation: global(stFlashB) 1.2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flashA,
+  .flashB {
+    animation: none;
+  }
+}
+:global(html.still) .flashA,
+:global(html.still) .flashB {
+  animation: none;
+}
 .tr {
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr) 56px 58px 82px 60px 58px;
@@ -838,10 +855,10 @@
     padding: 12px 14px;
   }
   .own {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .tableWrap {
     display: none;

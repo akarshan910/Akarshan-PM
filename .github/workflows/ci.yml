@@ -38,9 +38,14 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
 
   e2e:
-    name: End-to-end
-    runs-on: ubuntu-24.04 # pinned: Playwright 1.56 --with-deps targets 24.04; ubuntu-latest moves to 26 on 19 Oct 2026
-    timeout-minutes: 20
+    name: End-to-end (${{ matrix.shard }}/4)
+    runs-on: ubuntu-24.04 # pinned: see the checks job
+    # The suite (900+ tests on three engines) outgrew one 20-minute job: four shards run side by side.
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -52,8 +57,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit firefox
       - run: npm run build
-      - run: npm run e2e
-
+      - run: npm run e2e -- --shard=${{ matrix.shard }}/4
   functions:
     name: Edge Functions type-check (Deno)
     runs-on: ubuntu-24.04 # pinned: see the checks job
@@ -72,9 +76,6 @@ jobs:
     name: Drafts never leak (local Supabase)
     runs-on: ubuntu-24.04 # pinned: see the checks job
     timeout-minutes: 25
-    # TEMPORARY: seed:leaks is refused by pm-publish on the real stack (security is fixing it). Remove this
-    # line as soon as the job passes; it must block merges (10 · Security gates).
-    continue-on-error: true
     env:
       # A local stack only (supabase/config.toml): never linked, no access token, demo keys from `supabase status`.
       PM_SITE_URL: http://localhost:4310
@@ -110,14 +111,17 @@ jobs:
           supabase status -o env > /tmp/sb.env
           . /tmp/sb.env
           echo "::add-mask::$SERVICE_ROLE_KEY"
+          # Only the public pair goes job-wide: check-env refuses a build that can see a secret key.
           {
             echo "SUPABASE_URL=$API_URL"
             echo "SUPABASE_ANON_KEY=$ANON_KEY"
-            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
-            echo "PM_DATABASE_URL=$DB_URL"
           } >> "$GITHUB_ENV"
       - name: Seed the markers
-        run: npm run seed:leaks
+        # The service-role key and database URL exist for this step only.
+        run: |
+          . /tmp/sb.env
+          SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY" PM_DATABASE_URL="$DB_URL" npm run seed:leaks
+          rm -f /tmp/sb.env
         env:
           LEAK_MANIFEST_OUT: ${{ runner.temp }}/leaks.json
       - name: Restart with PostgREST
@@ -133,7 +137,9 @@ jobs:
           printf 'PM_SITE_URL=%s\nPM_ALLOWED_ORIGINS=%s\n' "$PM_SITE_URL" "$PM_ALLOWED_ORIGINS" > supabase/functions/.env
           nohup supabase functions serve --env-file supabase/functions/.env > /tmp/functions.log 2>&1 &
           for i in $(seq 1 60); do
-            curl -s -o /dev/null -w '%{http_code}' "$SUPABASE_URL/functions/v1/pm-project?slug=none" | grep -qv '^000$' && exit 0
+            # pm-project answers 404 for an unknown slug once the function has booted (not 000 or 5xx).
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$SUPABASE_URL/functions/v1/pm-project?slug=none" || true)
+            case "$code" in 2*|4*) exit 0 ;; esac
             sleep 2
           done
           cat /tmp/functions.log; exit 1

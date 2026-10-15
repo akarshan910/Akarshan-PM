@@ -62,7 +62,7 @@
     color: var(--tx2);
   }
   .sub::before {
-    content: " · ";
+    content: "· ";
   }
 }
 

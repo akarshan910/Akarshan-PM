@@ -25,7 +25,7 @@
 .hint {
   color: var(--tx3);
 }
-.small {
+:global(.st) .small {
   height: 34px;
   padding: 0 12px;
 }
@@ -265,7 +265,7 @@
   font-size: 12px;
   color: var(--tx3);
 }
-.replace {
+:global(.st) .replace {
   margin-top: 16px;
   height: 36px;
 }
@@ -594,5 +594,12 @@
   }
   .notPhone {
     display: none;
+  }
+}
+
+/* Touch layouts: 28px swatches 16px apart, so each has its own 44px hit area (QA-S9). */
+@media (max-width: 1279px) {
+  .swatches {
+    gap: 16px;
   }
 }

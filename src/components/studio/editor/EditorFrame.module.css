@@ -3,6 +3,9 @@
 .frame {
   flex: 1;
   min-width: 0;
+  /* Nothing in the editor may scroll the page sideways, whatever the font metrics (1.4.10). Clip,
+     not hidden: it isn't a scroll container, so the sticky bars still stick. */
+  overflow-x: clip;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -83,10 +86,16 @@
   padding: 0 24px;
   background: #fff;
   border-bottom: 1px solid var(--ln);
+  min-width: 0;
+  flex-wrap: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
 }
+.tabs::-webkit-scrollbar {
+  display: none;
+}
 .tab {
+  flex: none;
   position: relative;
   display: flex;
   align-items: center;
@@ -117,7 +126,7 @@
   border-radius: 50%;
   background: #f5a524;
 }
-.retryNow {
+:global(.st) .retryNow {
   height: 34px;
   border-color: #f0b4ad;
 }
@@ -221,7 +230,7 @@
   .pubShort {
     display: inline;
   }
-  .pub {
+  :global(.st) .pub {
     height: 40px;
     padding: 0 14px;
     font-size: 13px;
@@ -282,13 +291,15 @@
     gap: 8px;
     padding: 18px 16px 10px;
   }
-  .crumb,
-  .chips,
-  .chipsSm,
-  .save,
-  .preview,
-  .pub,
-  .spacer {
+  /* Scoped under .tb so they win over the Button classes these also carry, whatever order the
+     stylesheets load in (QA-S12): on phones these actions live in the bottom bar. */
+  .tb .crumb,
+  .tb .chips,
+  .tb .chipsSm,
+  .tb .save,
+  .tb .preview,
+  .tb .pub,
+  .tb .spacer {
     display: none;
   }
   .titleBox {
@@ -344,5 +355,22 @@
   }
   .phoneFoot > * {
     height: 48px;
+  }
+}
+
+/* Phones: StudioMobile's tab strip (44px tabs, 10px padding, 2px gaps). */
+@media (max-width: 767px) {
+  .tabs {
+    gap: 2px;
+    padding: 0 10px;
+  }
+  .tab {
+    height: 44px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .tab[aria-current="page"]::after {
+    left: 6px;
+    right: 6px;
   }
 }

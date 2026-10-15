@@ -267,6 +267,11 @@
   line-height: 1.5;
   color: #8f8d87;
 }
+/* The boards draw the new-tab arrow at 16px (CaseStudy, CaseStudyTablet). */
+.newTab :global(.ico) {
+  width: 16px;
+  height: 16px;
+}
 .frame {
   flex: 999 1 420px;
   display: flex;
@@ -513,7 +518,8 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 0;
+  /* CaseStudyTablet's bar never resets the button's UA padding (1px 6px); the height is fixed. */
+  padding: 0 6px;
   border: 0;
   background: transparent;
   color: var(--tx);
@@ -772,6 +778,8 @@
   }
   .fixed {
     margin-top: 14px;
+    /* CaseStudyTablet's note sets no line-height, so it's normal: 17px at 13px. */
+    line-height: normal;
   }
   .summarySection {
     padding-top: 28px;

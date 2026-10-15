@@ -15,8 +15,15 @@
   transition: opacity 0.32s var(--eo);
 }
 /* Hidden until loaded only when JavaScript runs (04 · Ground rules 7). */
-:global(html.js) .box[data-state="loading"] .img {
+:global(html.js) .box[data-state="loading"]:not([data-lcp]) .img {
   opacity: 0;
+}
+/* Above the fold, the image never waits for hydration (01 · motion must not delay LCP): no fade,
+   and it sits above the shim, so it covers the sheen as soon as it paints. */
+.box[data-lcp] .img {
+  position: relative;
+  z-index: 1;
+  transition: none;
 }
 .instant .img {
   transition: none;

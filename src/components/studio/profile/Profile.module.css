@@ -82,7 +82,7 @@
 .two,
 .three {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 18px 16px;
   align-items: start;
 }
@@ -146,7 +146,7 @@
   margin-top: 8px;
 }
 .titleCards > div {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
 }
 .rich {
@@ -167,14 +167,14 @@
   font-size: 15px;
   line-height: 1.5;
 }
-.btn36 {
+:global(.st) .btn36 {
   height: 36px;
 }
-.addBtn {
+:global(.st) .addBtn {
   margin-top: 12px;
   height: 36px;
 }
-.danger {
+:global(.st) .danger {
   color: var(--err);
 }
 
@@ -517,7 +517,7 @@
 .pvProof {
   margin-top: 14px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
 }
 .pvProof > div {
@@ -658,5 +658,16 @@
   }
   .side {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Touch layouts: room for each ↑ ↓ and each wrapped flag button's 44px hit area (QA-S9). */
+@media (max-width: 1279px) {
+  .arrows,
+  .pointEnd {
+    gap: 14px;
+  }
+  .flag {
+    row-gap: 12px;
   }
 }

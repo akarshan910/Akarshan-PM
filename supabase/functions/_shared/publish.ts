@@ -173,7 +173,7 @@ export async function publishProjectRow(
   for (const row of withPosters.rows) media.set(row.id, row);
   await publishMedia(deps.sql, deps.storage, usedMedia(media, published));
 
-  const at = await deps.sql.transaction(async (tx) => {
+  const done = await deps.sql.transaction(async (tx) => {
     const [cur] = await tx.query<{ published_slug: string | null; first: string | null }>(
       "select published_slug, first_published_at::text as first from pm.projects where id = $1 for update",
       [id],
@@ -199,7 +199,17 @@ export async function publishProjectRow(
       published,
     ]);
 
+    let version: number | undefined;
     if (!cur?.first) {
+      // D40: "Redirect the old address here" is on once the project has been published. The draft
+      // changes, so its version moves too; Studio adopts the returned version instead of conflicting.
+      const [v] = await tx.query<{ version: number }>(
+        `update pm.projects set draft = jsonb_set(draft, '{settings,redirectOldSlug}', 'true'::jsonb, true),
+           version = version + 1
+         where id = $1 returning version`,
+        [id],
+      );
+      version = v?.version;
       const [site] = await tx.query<{ draft: Layout; published: Layout | null; profile: unknown }>(
         "select l.draft, l.published, p.published as profile from pm.site_layout l, pm.profile p where l.id = 1 and p.id = 1",
       );
@@ -213,10 +223,16 @@ export async function publishProjectRow(
         ]);
       }
     }
-    return saved?.at ?? deps.now().toISOString();
+    return { at: saved?.at ?? deps.now().toISOString(), version };
   });
   const deployed = options.deploy === false ? false : await deploy(deps, `project:${row.slug}`);
-  return { ok: true, publishedAt: at, deployed, ...(warnings.length > 0 ? { warnings } : {}) };
+  return {
+    ok: true,
+    publishedAt: done.at,
+    deployed,
+    ...(done.version !== undefined ? { version: done.version } : {}),
+    ...(warnings.length > 0 ? { warnings } : {}),
+  };
 }
 
 interface PostRow {

@@ -2,9 +2,10 @@
 .fld {
   margin-top: 20px;
 }
+/* minmax(0, …): a field's content can't push the pair wider than the card (QA-S13). */
 .two {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 16px;
 }
 .lbl {
@@ -121,7 +122,7 @@
 
 @media (max-width: 767px) {
   .two {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
   .fld {

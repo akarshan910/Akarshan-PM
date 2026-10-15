@@ -83,6 +83,14 @@ describe("StandardCard and CompactRow (C7)", () => {
 });
 
 describe("Cover (M-IMG-FADE)", () => {
+  it("the LCP cover loads eagerly at high priority, with no fade to wait for", () => {
+    render(<Cover image={{ src: "/c.webp", alt: "Cover" }} accent="#fff" ground="#000" lcp />);
+    const img = screen.getByRole("img", { name: "Cover" });
+    expect(img).toHaveAttribute("fetchpriority", "high");
+    expect(img).toHaveAttribute("loading", "eager");
+    expect(img).toHaveAttribute("data-lcp", "");
+  });
+
   const image = { src: "/c.webp", alt: "The booking app", focal: { x: 0.25, y: 0.5 } };
 
   it("loads, then fades in, at the focal point", () => {

@@ -206,6 +206,12 @@ export function ProjectEditor({
       autosave.reset(fresh);
       cache.set(`project:${fresh.id}`, fresh);
     }
+    // A first publish turned "Redirect the old address" on in the stored draft (D40). An edit typed
+    // while it published is kept by reset, so carry the setting into it or the next save turns it off.
+    if (result.version !== undefined)
+      autosave.update((d) =>
+        d.settings.redirectOldSlug ? d : { ...d, settings: { ...d.settings, redirectOldSlug: true } },
+      );
     setRows(await repo.projects.list());
     cache.invalidate("projects");
     cache.invalidate("dashboard");

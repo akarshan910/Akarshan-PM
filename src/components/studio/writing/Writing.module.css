@@ -138,7 +138,7 @@
   line-height: 1.5;
   color: var(--tx3);
 }
-.newIcon {
+:global(.st) .newIcon {
   width: 44px;
   height: 44px;
   padding: 0;
@@ -209,7 +209,7 @@
   height: 100%;
   object-fit: cover;
 }
-.coverRemove {
+:global(.st) .coverRemove {
   position: absolute;
   right: 12px;
   top: 12px;
@@ -611,5 +611,12 @@
   .blockDel {
     right: 0;
     opacity: 1;
+  }
+}
+
+/* Touch layouts: the tabs are 44px tall (their ::after is the underline, so no hit area). */
+@media (max-width: 1279px) {
+  .tabs2 button {
+    min-height: 44px;
   }
 }

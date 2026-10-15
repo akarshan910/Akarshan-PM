@@ -104,7 +104,16 @@
   background: #fff;
   color: #141416;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-  animation: global(stUp) 0.18s ease-out;
+  /* M-ST-ENTER: every entrance at .22s var(--eo) (D20). */
+  animation: global(stUp) 0.22s var(--eo) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .share {
+    animation: none;
+  }
+}
+:global(html.still) .share {
+  animation: none;
 }
 .shareTitle {
   font-size: 15px;
@@ -193,10 +202,21 @@
   overflow: hidden;
   background: #0b0b0e;
 }
+.main {
+  min-width: 0;
+  overflow: hidden;
+}
 @media (max-width: 1023px) {
   .main {
     padding: 20px 16px;
-    flex-wrap: wrap;
-    overflow-x: auto;
+  }
+}
+
+/* Touch layouts: the angled Publish changes clips any hit area outside it, so the bar's buttons are 44px tall (QA-S9). */
+@media (max-width: 1279px) {
+  .pubc,
+  .pbtn,
+  .back {
+    height: 44px;
   }
 }

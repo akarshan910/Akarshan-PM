@@ -4,7 +4,7 @@
  * breadcrumb, status chips, save status, Preview and the angled publish button; the tabs with
  * their unpublished-edit dots; the offline and save-failed banners; and the two-column body.
  */
-import type { ReactNode } from "react";
+import { useEffect, useRef, type FocusEvent, type ReactNode } from "react";
 import { Link, NavLink } from "react-router";
 
 import { cx } from "../../cx";
@@ -38,6 +38,22 @@ interface EditorFrameProps {
 
 export function EditorFrame(p: EditorFrameProps) {
   const pub = p.publish;
+  // The tab strip scrolls sideways on narrow screens: keep the current tab, and a focused one, in view.
+  const tabsRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const nav = tabsRef.current;
+    const cur = nav?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!nav || !cur) return;
+    const n = nav.getBoundingClientRect();
+    const c = cur.getBoundingClientRect();
+    if (c.right > n.right) nav.scrollLeft += c.right - n.right;
+    else if (c.left < n.left) nav.scrollLeft -= n.left - c.left;
+  }, [p.tab]);
+  const revealTab = (e: FocusEvent<HTMLElement>) => {
+    if (e.target !== e.currentTarget && typeof e.target.scrollIntoView === "function")
+      e.target.scrollIntoView({ inline: "nearest", block: "nearest" });
+  };
+
   return (
     <div className={styles.frame}>
       <header className={styles.tb}>
@@ -112,12 +128,14 @@ export function EditorFrame(p: EditorFrameProps) {
           <span className={styles.pubShort}>{pub.label === "Publish changes" ? "Publish" : pub.label}</span>
         </button>
       </header>
-      <nav className={styles.tabs} aria-label="Project sections">
+      <nav ref={tabsRef} className={styles.tabs} aria-label="Project sections" onFocus={revealTab}>
         {EDITOR_TABS.map((t) => (
           <NavLink
             key={t}
             to={`/studio/projects/${p.projectId}/${t}`}
             className={cx(styles.tab)}
+            // Its ::after is the current-tab underline; at 46–48px it needs no hit area.
+            data-hit="off"
             aria-current={t === p.tab ? "page" : undefined}
           >
             {TAB_LABELS[t]}

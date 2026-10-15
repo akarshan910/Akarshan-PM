@@ -486,7 +486,7 @@
   font: 600 14px/1 var(--fu);
   cursor: pointer;
 }
-.newIcon {
+:global(.st) .newIcon {
   width: 44px;
   height: 44px;
   padding: 0;

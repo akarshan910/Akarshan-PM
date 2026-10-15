@@ -29,9 +29,11 @@ export default [
     ...(hasPosts ? [route("writing/:slug", "routes/writing.$slug.tsx")] : []),
     // Prerendered as 404.html's source; the host serves it with status 404 for unknown paths (M5).
     route("404", "routes/not-found.tsx", { id: "not-found" }),
+    // 404.html hydrates at the unknown address itself, so the catch-all sits inside the layout: the
+    // page keeps its nav and footer (C21). Inside the SPA (a mistyped Studio link), the layout reads
+    // its chrome from layout.json.
+    route("*", "routes/not-found.tsx", { id: "catch-all" }),
   ]),
-  // Unknown paths reached inside the SPA (e.g. a mistyped link in Studio) render the same page.
-  route("*", "routes/not-found.tsx", { id: "catch-all" }),
   route("preview/:token", "routes/preview.$token.tsx"),
   // Studio (05 · Routes): client-only, every screen a lazy route chunk.
   ...prefix("studio", [

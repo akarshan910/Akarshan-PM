@@ -2,25 +2,27 @@ import { Outlet, type ShouldRevalidateFunctionArgs, useLocation } from "react-ro
 
 import { PillNav } from "~/components/nav/PillNav";
 import { loadPublicContent } from "~/lib/content.server";
-import { buildChrome, publicSections } from "~/lib/site";
+import { LAYOUT_DATA_PATH, layoutData, type LayoutData } from "~/lib/site";
 
 import type { Route } from "./+types/public-layout";
 
 export async function loader() {
-  const content = await loadPublicContent();
-  const sections = publicSections(content);
-  return {
-    chrome: buildChrome(content, sections),
-    /** "Skip to work" jumps to the first shelf on Home (03 · The page shell). */
-    firstShelf: sections.find((s) => s.kind === "shelf")?.id,
-    /** On a case study, the nav's Work link is the current one. */
-    workLink: sections.find((s) => s.kind === "shelf" && s.nav)?.id,
-    /** On Writing pages, the nav's Writing link, when the section is in the nav. */
-    writingLink: sections.find((s) => s.kind === "writing" && s.nav)?.id,
-    heroId: sections.find((s) => s.kind === "hero")?.id,
-    /** The 404 page offers Writing only once a post is published (03 · Page states). */
-    hasPosts: content.posts.length > 0,
-  };
+  return layoutData(await loadPublicContent());
+}
+
+/**
+ * Prerendered pages hydrate with the loader's data. The SPA fallback (an unlisted /work/<slug>, D83)
+ * has none and no `.data` file to fetch, so the chrome comes from the build's layout.json, and the
+ * page's own boundary (the unlisted shell, the 404) can render inside the nav and footer.
+ */
+export async function clientLoader({ serverLoader }: Route.ClientLoaderArgs): Promise<LayoutData> {
+  try {
+    return await serverLoader();
+  } catch (error) {
+    const res = await fetch(LAYOUT_DATA_PATH).catch(() => null);
+    if (!res?.ok) throw error;
+    return (await res.json()) as LayoutData;
+  }
 }
 
 /** The chrome never changes with the query string (a /work filter, a legacy ?open= link). */

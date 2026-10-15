@@ -189,6 +189,7 @@ export function useAutosave<D, R extends Versioned<D>>(options: {
   const update = useCallback(
     (fn: (d: D) => D) => {
       const next = fn(latest.current.draft);
+      if (next === latest.current.draft) return;
       latest.current.draft = next;
       latest.current.dirty = true;
       setDraft(next);

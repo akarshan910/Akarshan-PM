@@ -6,7 +6,7 @@
 import { ACCENT_COLOURS } from "./accents";
 import type { CaseStudyView } from "./case-study";
 import type { ProjectPublished } from "./published";
-import { ACCENTS } from "./schemas";
+import { ACCENTS } from "./vocab";
 
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 

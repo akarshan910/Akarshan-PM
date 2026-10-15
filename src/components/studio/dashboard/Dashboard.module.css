@@ -508,3 +508,11 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Touch layouts: stacked rows are 44px tall, so each one is a whole target (QA-S9). */
+@media (max-width: 1279px) {
+  .recentRow {
+    min-height: 44px;
+    align-items: center;
+  }
+}

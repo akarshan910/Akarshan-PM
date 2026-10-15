@@ -1,7 +1,7 @@
 import { Image } from "~/components/media/Image";
 import { ResultLabel } from "~/components/labels/ResultLabel";
 import { RichText } from "~/components/rich/RichText";
-import { isHttpsUrl } from "~/lib/schemas";
+import { isHttpsUrl } from "~/lib/link-rules";
 import type { PostPublished } from "~/lib/published";
 
 import styles from "./Writing.module.css";
@@ -35,7 +35,7 @@ export function PostBody({ blocks }: { blocks: PostPublished["blocks"] }) {
                 <span className={styles.fact}>
                   <span className={styles.factValue}>{block.value}</span>
                   <span className={styles.factLabel}>{block.label}</span>
-                  <ResultLabel type={block.resultType} />
+                  <ResultLabel type={block.resultType} className={styles.factTag} />
                 </span>
               </div>
             );

@@ -104,14 +104,22 @@ export default defineConfig({
         },
       ],
   webServer: parity
-    ? parityWidths.map((w) => ({
-        command: `npx react-router build && npx vite preview --outDir ${w.dir}/client --port ${w.port} --strictPort`,
-        // Both commands need these: vite preview reads buildDirectory from react-router.config.ts.
-        env: { PM_BUILD_DIR: w.dir, CONTENT_SOURCE: "fixture:boards", PM_FIXTURE_WIDTH: String(w.width) },
-        port: w.port,
-        reuseExistingServer,
-        timeout: 300_000,
-      }))
+    ? [
+        // Studio's parity cases need its dev-only data, so the dev server runs too (base + 1).
+        {
+          command: `npx react-router dev --port ${devPort} --strictPort`,
+          port: devPort,
+          reuseExistingServer,
+        },
+        ...parityWidths.map((w) => ({
+          command: `npx react-router build && npx vite preview --outDir ${w.dir}/client --port ${w.port} --strictPort`,
+          // Both commands need these: vite preview reads buildDirectory from react-router.config.ts.
+          env: { PM_BUILD_DIR: w.dir, CONTENT_SOURCE: "fixture:boards", PM_FIXTURE_WIDTH: String(w.width) },
+          port: w.port,
+          reuseExistingServer,
+          timeout: 300_000,
+        })),
+      ]
     : [
         {
           command: `npm run preview -- --port ${previewPort} --strictPort`,

@@ -47,7 +47,13 @@ export function AccordionRow({
       >
         <span>
           {title}
-          {subtitle ? <span className={styles.sub}>{subtitle}</span> : null}
+          {/* The space belongs to the title's font, as on HomeTablet ("Razorpay <span>· …"). */}
+          {subtitle ? (
+            <>
+              {" "}
+              <span className={styles.sub}>{subtitle}</span>
+            </>
+          ) : null}
         </span>
         <Icon name="plus" className={cx("ico", styles.icon)} />
       </button>
