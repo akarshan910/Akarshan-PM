@@ -237,8 +237,20 @@ describe("Story", { timeout: 20_000 }, () => {
     await user.click(screen.getByRole("button", { name: "Use 11.3 and re-rank" }));
     expect(announce).toHaveBeenLastCalledWith("Score set to 11.3. Subscription Packages now ranks first.");
     expect(screen.getByText(/Subscription Packages now ranks first\./)).toBeInTheDocument();
+    // The changed row flashes once (M-ST-FLASH, 1.2s); the next fix uses the other name to replay it.
+    const flashing = () =>
+      screen
+        .getAllByRole("row")
+        .filter((r) => /flash[AB]/.test(r.className))
+        .map((r) => [r.textContent, /flashA/.test(r.className)]);
+    const first = flashing();
+    expect(first).toHaveLength(1);
+    expect(String(first[0]?.[0])).toContain("Subscription Packages");
     await user.click(screen.getByRole("button", { name: "Undo" }));
+    expect(flashing()).toHaveLength(0);
     await user.click(screen.getByRole("button", { name: "Set effort to 3 mo" }));
+    expect(flashing()).toHaveLength(1);
+    expect(flashing()[0]?.[1]).not.toBe(first[0]?.[1]);
     expect(
       screen.getByText("Effort set to 3 months, so the score of 5.7 now matches its inputs."),
     ).toBeInTheDocument();
