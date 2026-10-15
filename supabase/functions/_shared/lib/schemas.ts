@@ -22,10 +22,6 @@ import {
   SOURCES,
 } from "./vocab.ts";
 
-// No `new Function` probe or compiled fast paths: Studio's CSP has no `unsafe-eval` (01 · Headers), and the
-// browser reports even a caught probe as a violation.
-z.config({ jitless: true });
-
 export * from "./link-rules.ts";
 export * from "./vocab.ts";
 
