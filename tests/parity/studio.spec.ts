@@ -63,6 +63,10 @@ const editor: Section[] = [
     board: `${frame(2)} > nav.tabs`,
     page: "nav[aria-label='Project sections']",
     boardScript: NO_BEZEL,
+    // 09 · D75: the board's Story tab carries the unpublished-changes dot (board state); the test
+    // project has no unpublished Story edits, so the dot is removed and the tabs compare in place.
+    collapse: { board: [`${frame(2)} > nav.tabs .dot`] },
+    note: "09 · D75: unpublished-changes dot removed from the board",
   },
   {
     name: "publish-bar",
