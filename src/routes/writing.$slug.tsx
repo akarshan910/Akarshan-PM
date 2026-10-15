@@ -1,3 +1,5 @@
+import { isRouteErrorResponse } from "react-router";
+
 import { PageFooter } from "~/components/footer/PageFooter";
 import { PostPage } from "~/components/writing/PostPage";
 import { loadPublicContent } from "~/lib/content.server";
@@ -25,7 +27,8 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  if (!loaderData.view || !("seo" in loaderData))
+  // No data at all: the host's 404.html, hydrating at an unpublished post's address.
+  if (!loaderData?.view || !("seo" in loaderData))
     return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
   return seoMeta(loaderData.seo);
 }
@@ -39,4 +42,17 @@ export default function Post({ loaderData }: Route.ComponentProps) {
       <PageFooter footer={loaderData.footer} />
     </>
   );
+}
+
+/**
+ * An address with no prerendered post (a draft or a scheduled one): the host serves 404.html with a
+ * 404 status (D83), which hydrates here with no data for this route. That's the 404 state, not an
+ * error. A real load failure on a published post still shows the error state.
+ */
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  const missing =
+    (isRouteErrorResponse(error) && error.status === 404) ||
+    (error instanceof Error && /No result found for routeId/.test(error.message));
+  if (!missing) throw error;
+  return <NotFoundPage />;
 }
