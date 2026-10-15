@@ -89,7 +89,16 @@ jobs:
         with:
           version: 2.119.0
       - name: Start the local stack
-        run: supabase start -x studio,inbucket,imgproxy,logflare,vector,supavisor,edge-runtime
+        # Public ECR rate-limits shared runners ("Data limit exceeded"); the same images are on Docker Hub.
+        env:
+          SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
+        run: |
+          for attempt in 1 2 3; do
+            supabase start -x studio,mailpit,imgproxy,logflare,vector,supavisor,edge-runtime && exit 0
+            supabase stop --no-backup || true
+            sleep $((attempt * 20))
+          done
+          exit 1
       - name: Read the local keys
         run: |
           supabase status -o env > /tmp/sb.env
@@ -102,6 +111,8 @@ jobs:
             echo "PM_DATABASE_URL=$DB_URL"
           } >> "$GITHUB_ENV"
       - name: Serve the pm- functions
+        env:
+          SUPABASE_INTERNAL_IMAGE_REGISTRY: docker.io
         run: |
           printf 'PM_SITE_URL=%s\nPM_ALLOWED_ORIGINS=%s\n' "$PM_SITE_URL" "$PM_ALLOWED_ORIGINS" > supabase/functions/.env
           nohup supabase functions serve --env-file supabase/functions/.env > /tmp/functions.log 2>&1 &
