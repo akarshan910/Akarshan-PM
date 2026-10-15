@@ -79,6 +79,7 @@ export function WritingList({
             <button
               key={t}
               type="button"
+              data-hit="off"
               aria-pressed={tab === t}
               onClick={() => {
                 setTab(t);

@@ -39,7 +39,9 @@
 .st *::after {
   box-sizing: border-box;
 }
-.st a {
+/* Zero specificity for the element part, so a module class on a link (the tab bar's grey items,
+   QA-S11) sets its colour; this only resets links that have none. */
+:where(.st) a {
   color: inherit;
   text-decoration: none;
 }
@@ -114,6 +116,11 @@
   padding: 3px;
   border-radius: 10px;
   background: #eae9e4;
+  /* Wraps rather than run past a narrow screen (QA-S7, 320px). */
+  max-width: 100%;
+  flex-wrap: wrap;
+  /* Wrapped rows stay far enough apart for each option's 44px hit area. */
+  row-gap: 12px;
 }
 .st .seg button {
   height: 34px;
@@ -225,10 +232,10 @@
   }
 }
 
-/* Touch layouts (iPad and phones): 44px hit areas without changing the drawing (08 · Targets;
-   QA-S4). `t44` grows a control vertically only, so side-by-side chips don't overlap; icon
-   buttons grow both ways. */
-@media (max-width: 1023px) {
+/* Touch layouts (iPad portrait and landscape, phones): 44px hit areas without changing the
+   drawing (08 · Targets; QA-S4, S9). `t44` grows a control vertically only, so side-by-side chips
+   don't overlap; icon buttons grow both ways. */
+@media (max-width: 1279px) {
   /* Zero specificity, so a control placed absolutely (a block's delete button) stays put. */
   :where(.st .t44, .st .ib, .st .mono a) {
     position: relative;
@@ -252,4 +259,49 @@
     height: max(44px, 100%);
     transform: translate(-50%, -50%);
   }
+}
+
+/* Preview frames: focus inside the iframe shows the ring on its box (QA-S10). Drawn inside, since
+   the device views clip. */
+.st .pvFrameBox {
+  position: relative;
+}
+.st .pvFrameBox:focus-within {
+  box-shadow: inset 0 0 0 2px #ff5a67;
+}
+/* The iframe covers its box, so the ring that people see is drawn on top of it. */
+.st .pvFrameBox:focus-within::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 2px #ff5a67;
+  pointer-events: none;
+}
+
+/* Every other control on touch layouts (QA-S9): a 44×44 hit area centred on it, set with inset only
+   and at zero specificity, so controls that draw with their own ::after (or place it themselves,
+   like the topic chips) keep theirs. The underlined tabs opt out with data-hit="off". */
+@media (max-width: 1279px) {
+  :where(.st)
+    :where(button, a[href], select, [role="switch"], [role="radio"], [role="tab"]):where(
+      :not([data-hit="off"])
+    ) {
+    position: relative;
+  }
+  :where(.st)
+    :where(button, a[href], select, [role="switch"], [role="radio"], [role="tab"]):where(
+      :not([data-hit="off"])
+    )::after {
+    content: "";
+    position: absolute;
+    top: min(0px, calc((100% - 44px) / 2));
+    bottom: min(0px, calc((100% - 44px) / 2));
+    left: min(0px, calc((100% - 44px) / 2));
+    right: min(0px, calc((100% - 44px) / 2));
+  }
+}
+.st .pvFrameBox iframe:focus,
+.st .pvFrameBox iframe[data-focused] {
+  outline: 2px solid #ff5a67;
+  outline-offset: -4px;
 }

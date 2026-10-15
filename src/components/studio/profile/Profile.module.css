@@ -660,3 +660,14 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Touch layouts: room for each ↑ ↓ and each wrapped flag button's 44px hit area (QA-S9). */
+@media (max-width: 1279px) {
+  .arrows,
+  .pointEnd {
+    gap: 14px;
+  }
+  .flag {
+    row-gap: 12px;
+  }
+}

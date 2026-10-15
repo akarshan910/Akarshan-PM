@@ -59,7 +59,27 @@ export function DraftPreview({ kind, id, source }: { kind: PreviewKind; id: stri
   const notes = useMemo(() => studioNotes(source, kind, id), [source, kind, id]);
   const links = previewLinks(kind, id);
   const d = DEVICES[device];
-  const scale = compare ? d.compare : 1;
+  // The device view shrinks to fit the screen, so the page never scrolls sideways (QA-S6, S7).
+  const mainRef = useRef<HTMLElement>(null);
+  const [avail, setAvail] = useState<number | null>(null);
+  useEffect(() => {
+    const el = mainRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(([entry]) => {
+      if (!entry) return;
+      // contentRect is inside the padding already.
+      setAvail(entry.contentRect.width);
+    });
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+    };
+  }, []);
+  const count = compare && live ? 2 : 1;
+  const gaps = (count - 1) * 28;
+  const wanted = compare ? d.compare : 1;
+  const fits = avail ? (avail - gaps) / count / (d.w + d.bez * 2) : wanted;
+  const scale = Math.max(0.2, Math.min(wanted, fits));
 
   // Compare: the two pages scroll together.
   useEffect(() => {
@@ -242,7 +262,7 @@ export function DraftPreview({ kind, id, source }: { kind: PreviewKind; id: stri
           Publish changes
         </Link>
       </header>
-      <main className={styles.main} id="main">
+      <main className={styles.main} id="main" ref={mainRef}>
         {views.map((v) => (
           <div key={`${v.which}-${device}`} className={styles.view}>
             {compare ? (

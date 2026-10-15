@@ -786,3 +786,41 @@
     height: 900px;
   }
 }
+
+/* Small labels on the outline keep 4.5:1 (QA-S5): #5C5C63 on the selected row's #EAE9E4 is 5.6:1,
+   and the struck-through "off" names use #6A6A72 (5.3:1 on white). */
+.tr.sel .pin,
+.tr.sel .count,
+.tr.sel .off {
+  color: #5c5c63;
+}
+.off {
+  color: #6a6a72;
+}
+
+/* Touch layouts: outline rows and their handle, chevron and eye are 44px, as they sit too close for overlapping hit areas (QA-S9). */
+@media (max-width: 1279px) {
+  .tr,
+  .kidRow {
+    min-height: 44px;
+  }
+  .hd,
+  .hdKid,
+  .chev,
+  .eye,
+  .eyeKid {
+    width: 44px;
+    height: 44px;
+  }
+  /* The larger controls need the room: the outline and inspector share the row. */
+  .outline {
+    flex: 3 1 380px;
+    width: auto;
+    min-width: 0;
+  }
+  .inspector {
+    flex: 2 1 300px;
+    width: auto;
+    min-width: 0;
+  }
+}

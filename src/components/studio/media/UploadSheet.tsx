@@ -4,7 +4,7 @@
  * what was added, asked for right away.
  */
 import * as RadixDialog from "@radix-ui/react-dialog";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { cx } from "../../cx";
 import buttons from "../Button.module.css";
@@ -36,6 +36,9 @@ export function UploadSheet({
   onAlt: (id: string, alt: string) => void;
 }) {
   const [alts, setAlts] = useState<Record<string, string>>({});
+  // Studio opens the sheet from its own buttons (not a Radix trigger): remember which, so Esc and
+  // closing put focus back there (QA-S8).
+  const opener = useRef<HTMLElement | null>(null);
   const waiting = items
     .filter((i) => i.state === "done" && i.row?.kind === "image")
     .map((i) => rows.find((r) => r.id === i.row?.id))
@@ -58,7 +61,17 @@ export function UploadSheet({
       <RadixDialog.Portal>
         <div className="st" style={{ background: "none" }}>
           <RadixDialog.Overlay className={styles.sheetOverlay} />
-          <RadixDialog.Content className={styles.sheet} aria-describedby={undefined}>
+          <RadixDialog.Content
+            className={styles.sheet}
+            aria-describedby={undefined}
+            onOpenAutoFocus={() => {
+              if (document.activeElement instanceof HTMLElement) opener.current = document.activeElement;
+            }}
+            onCloseAutoFocus={(e) => {
+              e.preventDefault();
+              opener.current?.focus();
+            }}
+          >
             <div className={styles.grab} aria-hidden="true" />
             <RadixDialog.Title className={styles.sheetTitle}>{title}</RadixDialog.Title>
             <div className={styles.opts}>
