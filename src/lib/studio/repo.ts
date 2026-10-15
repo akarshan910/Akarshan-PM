@@ -137,6 +137,11 @@ export type PublishResult =
       deployed: boolean;
       /** Things to fix that don't block, e.g. a RICE row whose score doesn't match its inputs. */
       warnings?: { field: string; message: string; code: string }[];
+      /**
+       * A project's first publish turns on "Redirect the old address" in the draft (D40), which
+       * bumps the row: the new version. Absent when the draft wasn't touched.
+       */
+      version?: number;
     }
   | { ok: false; reason: "blocked"; issues: PublishIssue[] }
   | { ok: false; reason: "needs-confirm"; unconfirmed: string[] }

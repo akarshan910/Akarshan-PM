@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
@@ -51,6 +51,68 @@ describe("Project editor · frame", { timeout: 20_000 }, () => {
       await screen.findByText("Published. The live page updates within a minute.", { selector: "span" }),
     ).toBeInTheDocument();
     expect((await repo.projects.get(id))?.published?.overview.title).toBe("A new title");
+  });
+
+  it("keeps the redirect a first publish turns on when an edit lands while it publishes", async () => {
+    const user = userEvent.setup();
+    const { repo, id, clock } = await renderEditor(live, "overview", <OverviewTab />);
+    clock.now += 60_000;
+    const before = must(await repo.projects.get(id));
+    expect(before.draft.settings.redirectOldSlug).toBe(false);
+    // Stand in for pm-publish's first publish: it writes the redirect into the draft (D40).
+    const original = repo.publish.bind(repo);
+    let release!: () => void;
+    const gate = new Promise<void>((r) => {
+      release = r;
+    });
+    repo.publish = async (req) => {
+      await gate;
+      const r = await original(req);
+      const row = must(await repo.projects.get(id));
+      const saved = await repo.projects.save(
+        id,
+        { ...row.draft, settings: { ...row.draft.settings, redirectOldSlug: true } },
+        row.version,
+      );
+      return r.ok && saved.ok ? { ...r, version: saved.row.version } : r;
+    };
+    const title = screen.getByRole("textbox", { name: /^Title/ });
+    await fill(user, title, " edited");
+    await waitFor(
+      () => {
+        expect(screen.getAllByText("Saved just now").length).toBeGreaterThan(0);
+      },
+      { timeout: 3000 },
+    );
+    await user.click(screen.getAllByRole("button", { name: /Publish changes/ })[0] as HTMLElement);
+    const dialog = await screen.findByRole("dialog", { name: /^Update the live page/ });
+    await user.click(within(dialog).getByRole("button", { name: "Publish now" }));
+    // An edit while pm-publish runs (the dialog covers the form, so not by pointer): reset keeps
+    // it, so it must carry the redirect too.
+    fireEvent.change(title, { target: { value: `${(title as HTMLInputElement).value} again` } });
+    await act(async () => {
+      release();
+      await gate;
+    });
+    await waitFor(
+      async () => {
+        const now = must(await repo.projects.get(id));
+        expect(now.draft.overview.title).toMatch(/ again$/);
+        expect(now.draft.settings.redirectOldSlug).toBe(true);
+      },
+      { timeout: 4000 },
+    );
+    expect(screen.queryByRole("dialog", { name: /changed somewhere else/i })).not.toBeInTheDocument();
+    // And the next edit saves on the new version, without a conflict.
+    await fill(user, title, " once more");
+    await waitFor(
+      async () => {
+        const now = must(await repo.projects.get(id));
+        expect(now.draft.overview.title).toMatch(/ once more$/);
+        expect(now.draft.settings.redirectOldSlug).toBe(true);
+      },
+      { timeout: 4000 },
+    );
   });
 
   it("blocks publishing with each problem linked to its tab", async () => {
