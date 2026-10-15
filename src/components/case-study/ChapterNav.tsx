@@ -123,7 +123,7 @@ export function ChapterBar({ chapters, current }: ChapterNavProps) {
         <span className={styles.barTitle}>{chapters[index]?.title}</span>
         <span className={styles.barMore}>
           <span className={styles.barMoreLabel}>Chapters</span>
-          <Icon name="chevron-down" size={16} className={styles.chev} />
+          <Icon name="chevron-down" size={16} className={cx("ico", styles.chev)} />
         </span>
       </button>
       <div className={styles.line} aria-hidden="true">
