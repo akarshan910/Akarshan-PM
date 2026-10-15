@@ -68,6 +68,68 @@ jobs:
       - run: deno check --config deno.json */index.ts
         working-directory: supabase/functions
 
+  no-leaks:
+    name: Drafts never leak (local Supabase)
+    runs-on: ubuntu-24.04 # pinned: see the checks job
+    timeout-minutes: 25
+    env:
+      # A local stack only (supabase/config.toml): never linked, no access token, demo keys from `supabase status`.
+      PM_SITE_URL: http://localhost:4310
+      PM_ALLOWED_ORIGINS: http://localhost:4310,http://127.0.0.1:4310
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
+        with:
+          version: 2.119.0
+      - name: Start the local stack
+        run: supabase start -x studio,inbucket,imgproxy,logflare,vector,supavisor,edge-runtime
+      - name: Read the local keys
+        run: |
+          supabase status -o env > /tmp/sb.env
+          . /tmp/sb.env
+          echo "::add-mask::$SERVICE_ROLE_KEY"
+          {
+            echo "SUPABASE_URL=$API_URL"
+            echo "SUPABASE_ANON_KEY=$ANON_KEY"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
+            echo "PM_DATABASE_URL=$DB_URL"
+          } >> "$GITHUB_ENV"
+      - name: Serve the pm- functions
+        run: |
+          printf 'PM_SITE_URL=%s\nPM_ALLOWED_ORIGINS=%s\n' "$PM_SITE_URL" "$PM_ALLOWED_ORIGINS" > supabase/functions/.env
+          nohup supabase functions serve --env-file supabase/functions/.env > /tmp/functions.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -s -o /dev/null -w '%{http_code}' "$SUPABASE_URL/functions/v1/pm-project?slug=none" | grep -qv '^000$' && exit 0
+            sleep 2
+          done
+          cat /tmp/functions.log; exit 1
+      - name: Seed the markers
+        run: npm run seed:leaks
+        env:
+          LEAK_MANIFEST_OUT: ${{ runner.temp }}/leaks.json
+      - name: Build from the local stack
+        run: npm run build
+        env:
+          CONTENT_SOURCE: supabase
+          VITE_SUPABASE_URL: ${{ env.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ env.SUPABASE_ANON_KEY }}
+          SITE_URL: http://localhost:4310
+      - run: npx playwright install --with-deps chromium
+      - name: Look for leaks
+        run: npx playwright test tests/e2e/no-leaks.spec.ts --project laptop
+        env:
+          NO_LEAKS_MANIFEST: ${{ runner.temp }}/leaks.json
+      - name: Functions log
+        if: failure()
+        run: cat /tmp/functions.log || true
+
   secrets:
     name: Secret scan (commits in the push or pull request)
     runs-on: ubuntu-24.04 # pinned: Playwright 1.56 --with-deps targets 24.04; ubuntu-latest moves to 26 on 19 Oct 2026
