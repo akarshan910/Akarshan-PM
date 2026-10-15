@@ -116,7 +116,14 @@ function PrototypeHeading({ view, hero }: { view: CaseStudyView; hero: Prototype
 
   const title = hero.title ? <h2 className={styles.protoTitle}>{hero.title}</h2> : null;
   const newTab = (label: string, block: boolean) => (
-    <Button variant="secondary" href={src} newTab iconEnd="arrow-out" block={block} className={styles.onDark}>
+    <Button
+      variant="secondary"
+      href={src}
+      newTab
+      iconEnd="arrow-out"
+      block={block}
+      className={cx(styles.onDark, styles.newTab)}
+    >
       {label}
     </Button>
   );
