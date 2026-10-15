@@ -29,11 +29,11 @@ _Last updated: 15 Oct 2026._
 | --- | --- |
 | M0 · Foundation | **Done.** Stack, routing, tokens, fonts, CI, security gates, legacy content frozen, shared content core |
 | M1 · Components | **Done.** Every C1–C22, S1, S2 and Studio primitive, on `/dev/components` (dev only) |
-| M2 · Public site on local data | **Done** (merged 15 Oct 2026), except closing the pixel-parity sections (65 of 80 checks pass). See Next |
+| M2 · Public site on local data | **Done** (merged 15 Oct 2026), with pixel parity at 80 of 80 (D60/D75 masks and 08's 1% glyph allowances documented in the specs). See Next |
 | M3 · Supabase | **Built and tested locally** (merged 15 Oct 2026): `pm` schema with RLS, buckets, the six `pm-` Edge Functions, `db:migrate`, `db:lint`, `setup:owner`, `seed:v0`, PGlite tests (`npm run test:db`). The Supabase content source (`CONTENT_SOURCE=supabase`, WP3.5) is built and tested; local-v0 stays the default until go-live. Not done: every go-live step on the shared project, which the owner runs (`supabase/README.md`) |
 | M4 · Studio | **Built** (merged 15 Oct 2026): every screen, the review fixes and the Supabase-backed repo (security-reviewed against the real migrations). Studio's iPad and phone pass is merged and waits for QA's verdict; resumable uploads are in (D80) |
 | M5 · Publishing and SEO | **Built** (merged 15 Oct 2026): the `pm-` functions with posters and deploy-only retry, cron, per-page metadata, sitemap, robots, RSS, media copied at build, redirects, the unlisted shell, and the host's routes and headers as Vercel Build Output (per-page CSP hashes, D83). The cron and deploy hook switch on with the owner's go-live |
-| M6 · QA and launch | **In progress.** The no-leaks CI job against a local Supabase, the full 08 pass (QA: accessibility, devices, parity, performance; security: no-leaks and security checks), then the owner's launch checklist below |
+| M6 · QA and launch | **In progress.** CI is green on every job: the blocking no-leaks job against a local Supabase, four end-to-end shards (WebKit and Firefox included), the Deno check and the secret scan. 08's pass: accessibility, devices, reduced motion, motion timings, CSP in the browser and parity 80/80 pass; Home's JavaScript (132 kB vs 110) waits for the owner (Q11). Manual before launch: real devices, VoiceOver/NVDA, text-only zoom |
 | M7 · Wiki | **Drafted** (merged 15 Oct 2026): `docs/wiki/` (14 pages), the root README and the story's "The build". Refreshed after launch, then pushed to the GitHub wiki |
 
 ### M2 in detail
