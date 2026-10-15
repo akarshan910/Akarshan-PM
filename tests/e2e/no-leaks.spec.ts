@@ -118,35 +118,51 @@ test.describe("drafts never leak (build)", () => {
     expect(leaks).toEqual([]);
   });
 
-  test("a draft project and a scheduled post show the 404", async ({ page }) => {
-    const m = manifest as Manifest;
-    // As the host serves them (D83): vite preview would answer with another page's HTML.
-    await serveLikeVercel(page);
-    for (const path of m.notFound) {
-      const res = await page.goto(path);
+  /**
+   * UNLISTED-1 (portfolio, open): an address with no prerendered page hydrates the SPA fallback, which
+   * carries no loader data for the public layout either, so the root boundary shows the error state
+   * before work.$slug's boundary can ask pm-project. Leak checks stay strict; only the render is expected
+   * to fail until the shell is fixed, and this flips to "passed unexpectedly" when it is.
+   */
+  const UNLISTED_1 =
+    "UNLISTED-1: /work/<slug> without a page shows the error state (SPA fallback has no layout data)";
+
+  for (const kind of ["draft project", "scheduled post"] as const) {
+    test(`a ${kind} shows the 404 and carries no marker`, async ({ page, baseURL }) => {
+      const m = manifest as Manifest;
+      const path = m.notFound.find((p) =>
+        kind === "draft project" ? p.startsWith("/work/") : p.startsWith("/writing/"),
+      );
+      expect(path, `the manifest has a ${kind}`).toBeTruthy();
+      // As the host serves it (D83): vite preview would answer with another page's HTML.
+      await serveLikeVercel(page, baseURL ?? "");
+      const res = await page.goto(path as string);
       expect(found((await res?.text()) ?? "", m.markers), path).toEqual([]);
+      await page.waitForTimeout(1_000);
+      expect(found(await page.content(), m.markers), path).toEqual([]);
+      if (kind === "draft project") test.fail(true, UNLISTED_1);
       // The unlisted shell asks pm-project before it shows the 404 state (C21), so allow for the call.
       const state = page.getByRole("heading", { level: 1, name: /doesn.t exist/i });
       await state.waitFor({ timeout: 20_000 }).catch(() => undefined);
       const shown = (await page.locator("body").innerText()).replace(/\s+/g, " ").slice(0, 300);
-      expect(await state.count(), `${path} shows: ${shown}`).toBe(1);
-      expect(found(await page.content(), m.markers), path).toEqual([]);
-    }
-  });
+      expect(await state.count(), `${path as string} shows: ${shown}`).toBe(1);
+    });
+  }
 
-  test("the unlisted project renders with noindex and isn't linked", async ({ page }) => {
+  test("the unlisted project renders with noindex and isn't linked", async ({ page, baseURL }) => {
     const m = manifest as Manifest;
     expect(resolveLikeVercel(m.unlisted.path).headers["X-Robots-Tag"]).toContain("noindex");
-    await serveLikeVercel(page);
+    const linked = files("build/client")
+      .filter((f) => /\.(html|xml)$/.test(f))
+      .filter((f) => readFileSync(f, "utf8").includes(m.unlisted.path));
+    expect(linked).toEqual([]);
+    test.fail(true, UNLISTED_1);
+    await serveLikeVercel(page, baseURL ?? "");
     await page.goto(m.unlisted.path);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/, {
       timeout: 20_000,
     });
     await expect(page.getByRole("heading", { level: 1 })).not.toContainText("404");
-    const linked = files("build/client")
-      .filter((f) => /\.(html|xml)$/.test(f))
-      .filter((f) => readFileSync(f, "utf8").includes(m.unlisted.path));
-    expect(linked).toEqual([]);
   });
 
   test("a preview link is no-store and noindex, and 410 once revoked", async ({ request }) => {

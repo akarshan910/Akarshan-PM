@@ -72,8 +72,6 @@ jobs:
     name: Drafts never leak (local Supabase)
     runs-on: ubuntu-24.04 # pinned: see the checks job
     timeout-minutes: 25
-    # TEMPORARY until this job has passed once: remove continue-on-error then (10 · Security gates).
-    continue-on-error: true
     env:
       # A local stack only (supabase/config.toml): never linked, no access token, demo keys from `supabase status`.
       PM_SITE_URL: http://localhost:4310

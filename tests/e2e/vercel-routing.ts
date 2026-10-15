@@ -60,12 +60,21 @@ export function resolveLikeVercel(path: string) {
   return { status: 404, headers, file: join(OUTPUT, "static", "404.html") };
 }
 
-/** Routes the page's document requests through `resolveLikeVercel`. */
-export async function serveLikeVercel(page: Page) {
+/**
+ * Routes the page's own-origin requests through `resolveLikeVercel`: documents always, and any other
+ * request with no file of its own (React Router's `.data` fetches for an address that was never
+ * prerendered get 404.html with status 404, as on the host). Files that exist go to the preview server.
+ */
+export async function serveLikeVercel(page: Page, baseURL: string) {
+  const site = new URL(baseURL).origin;
   await page.route("**/*", async (route) => {
     const req = route.request();
-    if (req.resourceType() !== "document") return route.continue();
-    const { status, headers, file } = resolveLikeVercel(new URL(req.url()).pathname);
+    const url = new URL(req.url());
+    if (url.origin !== site) return route.continue();
+    const document = req.resourceType() === "document";
+    if (!document && staticFile(url.pathname)) return route.continue();
+    const { status, headers, file } = resolveLikeVercel(url.pathname);
+    if (!document && status === 200 && file.endsWith("__spa-fallback.html")) return route.continue();
     await route.fulfill({
       status,
       headers: { ...headers, "Content-Type": "text/html; charset=utf-8" },
