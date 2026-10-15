@@ -9,6 +9,10 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
+import { robotsTxt, rssXml, sitemapXml } from "../../src/lib/feeds";
+import { publishedMediaPaths } from "../../src/lib/media-files";
+import { readRedirects, vercelRedirects } from "../../src/lib/redirects";
+import { homeSeo, postSeo, projectSeo, workSeo, writingSeo } from "../../src/lib/seo";
 import { readPublicContent, type PublicReader } from "../../src/lib/sources/supabase";
 import { caseStudyView } from "../../src/lib/case-study";
 import { buildChrome, buildHomeView, listedProjects } from "../../src/lib/site";
@@ -18,7 +22,7 @@ import { loadMigrations } from "../../scripts/migrate.ts";
 import { addLeakMarkers, LEAK, type LeakManifest } from "../../scripts/leak-markers.ts";
 import { seedV0 } from "../../scripts/seed-v0-core.ts";
 import type { Deps, Sql } from "../functions/_shared/deps.ts";
-import { fakeWorld } from "./fakes.ts";
+import { fakeWorld, SITE } from "./fakes.ts";
 import { as, freshProject, type Db } from "./harness.ts";
 
 const OWNER = "00000000-0000-4000-8000-000000000001";
@@ -33,7 +37,17 @@ const anonReader: PublicReader = {
   async select(table, columns) {
     try {
       const r = await as(db, { role: "anon" }, () => db.query(`select ${columns} from pm.${table}`));
-      return { data: r.rows, error: null };
+      // PostgREST answers in JSON: timestamps arrive as ISO strings, as here.
+      return { data: JSON.parse(JSON.stringify(r.rows)) as unknown[], error: null };
+    } catch (e) {
+      return { data: null, error: { message: e instanceof Error ? e.message : String(e) } };
+    }
+  },
+  async redirects() {
+    try {
+      const r = await as(db, { role: "anon" }, () => db.query("select * from pm.public_redirects()"));
+      // PostgREST answers in JSON: timestamps arrive as ISO strings, as here.
+      return { data: JSON.parse(JSON.stringify(r.rows)) as unknown[], error: null };
     } catch (e) {
       return { data: null, error: { message: e instanceof Error ? e.message : String(e) } };
     }
@@ -80,8 +94,20 @@ describe("no marker reaches a visitor", () => {
       workRows(content),
       writingIndex(content),
     ];
-    for (const p of listedProjects(content)) views.push(caseStudyView(content, p.slug));
-    for (const p of content.posts) views.push(postView(content, p.slug));
+    for (const p of listedProjects(content))
+      views.push(caseStudyView(content, p.slug), projectSeo(content, p, SITE));
+    for (const p of content.posts) views.push(postView(content, p.slug), postSeo(content, p, SITE));
+    // What the build writes besides pages: sitemap, RSS, robots, the media list, the host's redirects.
+    views.push(
+      sitemapXml(content, SITE),
+      rssXml(content, SITE),
+      robotsTxt(SITE),
+      homeSeo(content, SITE),
+      workSeo(content, SITE),
+      writingSeo(content, SITE),
+      publishedMediaPaths(content),
+      vercelRedirects(await readRedirects(anonReader)),
+    );
     const text = JSON.stringify(views);
     for (const marker of manifest.markers) expect(text).not.toContain(marker);
     expect(text).not.toMatch(/"(evidence|todo|facts|unconfirmed|prompts|reviewed)"/);
