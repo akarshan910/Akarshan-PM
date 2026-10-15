@@ -72,8 +72,7 @@ jobs:
     name: Drafts never leak (local Supabase)
     runs-on: ubuntu-24.04 # pinned: see the checks job
     timeout-minutes: 25
-    # TEMPORARY: seed:leaks is refused by pm-publish on the real stack (security is fixing it). Remove this
-    # line as soon as the job passes; it must block merges (10 · Security gates).
+    # TEMPORARY until this job has passed once: remove continue-on-error then (10 · Security gates).
     continue-on-error: true
     env:
       # A local stack only (supabase/config.toml): never linked, no access token, demo keys from `supabase status`.
@@ -110,14 +109,17 @@ jobs:
           supabase status -o env > /tmp/sb.env
           . /tmp/sb.env
           echo "::add-mask::$SERVICE_ROLE_KEY"
+          # Only the public pair goes job-wide: check-env refuses a build that can see a secret key.
           {
             echo "SUPABASE_URL=$API_URL"
             echo "SUPABASE_ANON_KEY=$ANON_KEY"
-            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
-            echo "PM_DATABASE_URL=$DB_URL"
           } >> "$GITHUB_ENV"
       - name: Seed the markers
-        run: npm run seed:leaks
+        # The service-role key and database URL exist for this step only.
+        run: |
+          . /tmp/sb.env
+          SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY" PM_DATABASE_URL="$DB_URL" npm run seed:leaks
+          rm -f /tmp/sb.env
         env:
           LEAK_MANIFEST_OUT: ${{ runner.temp }}/leaks.json
       - name: Restart with PostgREST
