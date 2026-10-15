@@ -7,28 +7,40 @@ import { expect, test } from "@playwright/test";
 /**
  * Drafts never leak, at the build level (08 · Drafts never leak; 10 · Security gates › Drafts). The data
  * level is supabase/tests/no-leaks.test.ts. This half runs in CI's `no-leaks` job against a local Supabase
- * stack seeded by scripts/seed-leak-markers.ts, which writes the manifest below; without one it skips.
+ * stack seeded by `npm run seed:leaks` (scripts/seed-leak-markers.ts), whose manifest it reads from
+ * NO_LEAKS_MANIFEST. The stack's URL and demo anon key come from `supabase status`.
+ * Without a manifest it skips.
  */
 interface Manifest {
-  /** Every marker string seeded where a visitor must never see it. */
+  /** Every marker string, seeded where a visitor must never see it. */
   markers: string[];
-  /** The local stack: its URL and the demo anon key `supabase status` prints. */
-  supabaseUrl: string;
-  anonKey: string;
-  /** Addresses of drafts, scheduled posts and other things that must 404. */
-  missingPaths: string[];
-  /** The unlisted project's address: it renders with noindex and isn't linked. */
-  unlistedPath?: string;
-  /** A live preview link (pm-preview) and how to revoke it. */
-  preview?: { url: string; revokeUrl: string; revokeHeaders: Record<string, string>; marker: string };
+  /** Draft, unlisted and scheduled ids: never in built files (anon may read them in the published layout). */
+  privateIds: string[];
+  /** A draft project's and a scheduled post's addresses: the 404 page. */
+  notFound: string[];
+  /** The unlisted project: rendered by the shell through pm-project, noindex, linked from nowhere. */
+  unlisted: { path: string; slug: string };
+  /** A live post, to prove the build did read the seeded content. */
+  livePost: string;
+  /** A live preview link; `marker` is in its draft. */
+  preview: {
+    token: string;
+    tokenHash: string;
+    marker: string;
+    /** pm-preview's DELETE, with a signed-in local owner's session (the seed signs one in). */
+    revokeUrl: string;
+    revokeHeaders: Record<string, string>;
+  };
 }
 
 const manifestPath = process.env.NO_LEAKS_MANIFEST;
 const manifest: Manifest | null = manifestPath
   ? (JSON.parse(readFileSync(manifestPath, "utf8")) as Manifest)
   : null;
+const supabaseUrl = process.env.SUPABASE_URL ?? "";
+const anonKey = process.env.SUPABASE_ANON_KEY ?? "";
 
-/** Tables anon can be asked about; RLS and column grants decide what comes back. */
+/** Every pm table; RLS and the column grants decide what anon gets. */
 const TABLES = [
   "profile",
   "site_layout",
@@ -44,6 +56,8 @@ const TABLES = [
   "link_checks",
   "deploys",
 ];
+/** `select *` is refused where anon has column grants only, so each column is also tried alone. */
+const COLUMNS = ["id", "published", "draft", "slug", "published_slug", "visibility", "token_hash", "url"];
 const RPCS = ["public_redirects", "topic_counts"];
 
 function files(dir: string): string[] {
@@ -53,42 +67,45 @@ function files(dir: string): string[] {
   });
 }
 
-const found = (text: string, markers: string[]) => markers.filter((m) => text.includes(m));
+const found = (text: string, needles: string[]) => needles.filter((n) => text.includes(n));
 
 test.describe("drafts never leak (build)", () => {
-  test.skip(!manifest, "Runs in CI's no-leaks job, with NO_LEAKS_MANIFEST from the seed script");
+  test.skip(!manifest, "Runs in CI's no-leaks job, with NO_LEAKS_MANIFEST from npm run seed:leaks");
 
-  test("no marker in any built file", () => {
+  test("the build read the seeded content", () => {
     const m = manifest as Manifest;
-    const leaks = files("build/client")
-      .filter((f) => /\.(html|js|json|data|xml|txt)$/.test(f))
-      .flatMap((f) => found(readFileSync(f, "utf8"), m.markers).map((marker) => `${f}: ${marker}`));
-    const vercel = (() => {
+    expect(statSync(join("build/client", m.livePost, "index.html")).isFile()).toBe(true);
+  });
+
+  test("no marker or private id in any built file", () => {
+    const m = manifest as Manifest;
+    const needles = [...m.markers, ...m.privateIds];
+    const built = files("build/client").filter((f) => /\.(html|js|json|data|xml|txt)$/.test(f));
+    const extra = ["vercel.json"].filter((f) => {
       try {
-        return readFileSync("vercel.json", "utf8");
+        return statSync(f).isFile();
       } catch {
-        return "";
+        return false;
       }
-    })();
-    leaks.push(...found(vercel, m.markers).map((marker) => `vercel.json: ${marker}`));
+    });
+    const leaks = [...built, ...extra].flatMap((f) =>
+      found(readFileSync(f, "utf8"), needles).map((n) => `${f}: ${n}`),
+    );
     expect(leaks).toEqual([]);
   });
 
   test("anon gets no marker from any table or function", async () => {
     const m = manifest as Manifest;
-    const anon = createClient(m.supabaseUrl, m.anonKey, {
+    const anon = createClient(supabaseUrl, anonKey, {
       db: { schema: "pm" },
       auth: { persistSession: false, autoRefreshToken: false },
     });
     const leaks: string[] = [];
     for (const table of TABLES) {
-      // `*` is refused where anon has column grants only; then each published column is tried alone.
-      const { data } = await anon.from(table).select("*");
-      leaks.push(...found(JSON.stringify(data ?? []), m.markers).map((x) => `${table}: ${x}`));
-      for (const column of ["published", "draft", "slug", "published_slug", "body", "token_hash"]) {
-        const one = await anon.from(table).select(column);
+      for (const columns of ["*", ...COLUMNS]) {
+        const result: { data: unknown } = await anon.from(table).select(columns);
         leaks.push(
-          ...found(JSON.stringify(one.data ?? []), m.markers).map((x) => `${table}.${column}: ${x}`),
+          ...found(JSON.stringify(result.data ?? []), m.markers).map((x) => `${table}(${columns}): ${x}`),
         );
       }
     }
@@ -99,12 +116,11 @@ test.describe("drafts never leak (build)", () => {
     expect(leaks).toEqual([]);
   });
 
-  test("drafts and scheduled posts are not found", async ({ page }) => {
+  test("a draft project and a scheduled post show the 404", async ({ page }) => {
     const m = manifest as Manifest;
-    for (const path of m.missingPaths) {
+    for (const path of m.notFound) {
       const res = await page.goto(path);
-      const html = (await res?.text()) ?? "";
-      expect(found(html, m.markers), path).toEqual([]);
+      expect(found((await res?.text()) ?? "", m.markers), path).toEqual([]);
       await expect(page.getByRole("heading", { level: 1 }), path).toContainText("404");
       expect(found(await page.content(), m.markers), path).toEqual([]);
     }
@@ -112,26 +128,25 @@ test.describe("drafts never leak (build)", () => {
 
   test("the unlisted project renders with noindex and isn't linked", async ({ page }) => {
     const m = manifest as Manifest;
-    // The unlisted shell (work.unlisted.tsx) arrives in M5; HANDOFF Next item 4.
-    test.fixme(!m.unlistedPath, "The seed manifest has no unlisted path yet");
-    await page.goto(m.unlistedPath as string);
+    await page.goto(m.unlisted.path);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+    await expect(page.getByRole("heading", { level: 1 })).not.toContainText("404");
     const linked = files("build/client")
-      .filter((f) => f.endsWith(".html"))
-      .filter((f) => readFileSync(f, "utf8").includes(`href="${m.unlistedPath as string}"`));
+      .filter((f) => /\.(html|xml)$/.test(f))
+      .filter((f) => readFileSync(f, "utf8").includes(m.unlisted.path));
     expect(linked).toEqual([]);
   });
 
   test("a preview link is no-store and noindex, and 410 once revoked", async ({ request }) => {
     const m = manifest as Manifest;
-    test.fixme(!m.preview, "The seed manifest has no preview link yet");
-    const p = m.preview as NonNullable<Manifest["preview"]>;
-    const live = await request.get(p.url);
+    const url = `${supabaseUrl}/functions/v1/pm-preview?token=${encodeURIComponent(m.preview.token)}`;
+    const live = await request.get(url);
+    expect(live.status()).toBe(200);
     expect(live.headers()["cache-control"]).toContain("no-store");
     expect(live.headers()["x-robots-tag"] ?? "").toContain("noindex");
-    expect(await live.text()).toContain(p.marker);
-    const revoke = await request.delete(p.revokeUrl, { headers: p.revokeHeaders });
-    expect(revoke.ok()).toBe(true);
-    expect((await request.get(p.url)).status()).toBe(410);
+    expect(await live.text()).toContain(m.preview.marker);
+    const revoked = await request.delete(m.preview.revokeUrl, { headers: m.preview.revokeHeaders });
+    expect(revoked.ok()).toBe(true);
+    expect((await request.get(url)).status()).toBe(410);
   });
 });

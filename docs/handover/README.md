@@ -159,28 +159,28 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 
 ### M5 · Publishing and SEO
 
-- [ ] Edge Functions, all named `pm-…` ([06](06-backend.md#edge-functions)):
+- [x] Edge Functions, all named `pm-…` ([06](06-backend.md#edge-functions)), built and tested; the owner deploys them at go-live:
   - `pm-publish` (site, project, post);
   - `pm-preview`;
   - `pm-project` (unlisted pages);
   - `pm-check-link`;
   - `pm-post-scheduler`;
   - `pm-purge`.
-- [ ] Cron jobs `pm-scheduled-posts`, `pm-link-check` and `pm-purge`.
-- [ ] `scripts/fetch-media.ts` copies published images into the build.
-- [ ] A Vercel deploy hook rebuilds after every publish.
-- [ ] Per-page metadata:
+- [ ] Cron jobs `pm-scheduled-posts`, `pm-link-check` and `pm-purge`. _Built and tested locally; the owner's go-live steps in `supabase/README.md` switch it on._
+- [x] `scripts/fetch-media.ts` copies published images into the build.
+- [ ] A Vercel deploy hook rebuilds after every publish. _Built and tested locally; the owner's go-live steps in `supabase/README.md` switch it on._
+- [x] Per-page metadata:
   - title, description and canonical;
   - Open Graph image;
   - `BlogPosting` data for posts.
-- [ ] `sitemap.xml`, `robots.txt`, `/writing/rss.xml`.
-- [ ] `noindex` on drafts, previews, unlisted pages and `/studio`.
-- [ ] Slug redirects.
+- [x] `sitemap.xml`, `robots.txt`, `/writing/rss.xml`.
+- [x] `noindex` on drafts, previews, unlisted pages and `/studio`.
+- [x] Slug redirects.
 
 ### M6 · QA and launch
 
 - [ ] The full [QA](08-qa.md) pass at all three sizes, motion, accessibility and performance, including the parity fixture (`tests/fixtures/board-content.ts`) and the no-leaks test.
-- [ ] The owner's launch checklist in [09-decisions](09-decisions.md#launch-checklist-owner):
+- [ ] The owner's launch checklist, in order in [HANDOFF](../../HANDOFF.md#launch-checklist-the-owner-in-order) (from [09-decisions](09-decisions.md#launch-checklist-owner)):
   - domain;
   - SMTP sender and Turnstile keys;
   - `npm run setup:owner`, then a first sign-in;

@@ -5,6 +5,7 @@
     "node_modules",
     "build",
     "build-parity-*",
+    ".vercel",
     "dist",
     "supabase/functions",
     "design",

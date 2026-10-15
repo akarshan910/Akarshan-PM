@@ -9,7 +9,7 @@
  * 4. adds every 08 marker (scripts/leak-markers.ts), publishes through pm-publish's handler, makes a
  *    preview link, and prints the manifest as JSON (also to $LEAK_MANIFEST_OUT when set).
  *
- *   SUPABASE_URL=http://127.0.0.1:54321 SUPABASE_SERVICE_ROLE_KEY=<from supabase status> \
+ *   SUPABASE_URL=http://127.0.0.1:54321 SUPABASE_SERVICE_ROLE_KEY=… SUPABASE_ANON_KEY=… (supabase status) \
  *   PM_DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres npm run seed:leaks
  *
  * The local stack's keys are the CLI's public demo keys, read from `supabase status` at run time.
@@ -47,6 +47,7 @@ async function main(): Promise<void> {
   const url = required("SUPABASE_URL");
   const key = required("SUPABASE_SERVICE_ROLE_KEY");
   const dbUrl = required("PM_DATABASE_URL");
+  const anonKey = required("SUPABASE_ANON_KEY");
   if (!isLocal(url) || !isLocal(dbUrl)) {
     console.error(
       "seed:leaks runs only against a local stack (127.0.0.1 or localhost). Nothing was changed.",
@@ -99,7 +100,39 @@ async function main(): Promise<void> {
       });
       return addLeakMarkers(deps, owner);
     });
-    const text = JSON.stringify(manifest, null, 2);
+    // tests/e2e/no-leaks.spec.ts also wants the stack's address and anon key, the draft addresses, and a
+    // preview it can revoke with a real owner session (signed in here with a one-time code).
+    const { data: link, error: linkError } = await admin.auth.admin.generateLink({
+      type: "magiclink",
+      email: TEST_OWNER,
+    });
+    if (linkError) throw new Error("Couldn't make a sign-in code for the local test owner.");
+    const anon = createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+    const { data: signedIn, error: otpError } = await anon.auth.verifyOtp({
+      email: TEST_OWNER,
+      token: link.properties.email_otp,
+      type: "email",
+    });
+    const jwt = signedIn.session?.access_token;
+    if (otpError || !jwt) throw new Error("Couldn't sign the local test owner in.");
+    const fn = `${url.replace(/\/$/, "")}/functions/v1`;
+    const text = JSON.stringify(
+      {
+        ...manifest,
+        supabaseUrl: url,
+        anonKey,
+        missingPaths: manifest.notFound,
+        unlistedPath: manifest.unlisted.path,
+        preview: {
+          ...manifest.preview,
+          url: `${fn}/pm-preview?token=${manifest.preview.token}`,
+          revokeUrl: `${fn}/pm-preview?tokenHash=${manifest.preview.tokenHash}`,
+          revokeHeaders: { authorization: `Bearer ${jwt}`, apikey: anonKey },
+        },
+      },
+      null,
+      2,
+    );
     if (process.env.LEAK_MANIFEST_OUT) writeFileSync(process.env.LEAK_MANIFEST_OUT, text);
     console.log(text);
   } catch (error) {
