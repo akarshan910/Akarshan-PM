@@ -8,7 +8,7 @@ import { randomUUID } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 
 import type { Sql } from "../supabase/functions/_shared/deps.ts";
-import { coverUploader, nodeDeps, pgParam, seedV0 } from "./seed-v0-core.ts";
+import { coverUploader, describeError, nodeDeps, pgParam, seedV0 } from "./seed-v0-core.ts";
 
 const PROTOTYPES_FILE = "scripts/v0-prototypes.json";
 
@@ -52,7 +52,7 @@ async function main(): Promise<void> {
     );
     console.log("Next: deploy the site (or publish once in Studio) so the build reads the new content.");
   } catch (error) {
-    console.error(error instanceof Error ? error.message : "The seed failed; nothing was written.");
+    console.error(`${describeError(error)} Nothing was written.`);
     process.exitCode = 1;
   } finally {
     await pg.end();

@@ -20,7 +20,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import type { Sql } from "../supabase/functions/_shared/deps.ts";
 import { addLeakMarkers } from "./leak-markers.ts";
 import { loadMigrations, runMigrations, type MigrationTarget, type Query } from "./migrate.ts";
-import { coverUploader, nodeDeps, pgParam, seedV0 } from "./seed-v0-core.ts";
+import { coverUploader, describeError, nodeDeps, pgParam, seedV0, step } from "./seed-v0-core.ts";
 
 export const TEST_OWNER = "owner@example.test";
 const LOCAL_HOSTS = new Set(["127.0.0.1", "localhost", "[::1]", "::1"]);
@@ -76,7 +76,7 @@ async function main(): Promise<void> {
         );
       },
     };
-    await runMigrations(target, loadMigrations());
+    await step("migrating", () => runMigrations(target, loadMigrations()));
 
     let userId: string | undefined;
     const { data: list } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
@@ -92,13 +92,15 @@ async function main(): Promise<void> {
     const manifest = await pg.begin(async (tx) => {
       const sql: Sql = { query: over(tx), transaction: (fn) => fn(sql) };
       const deps = nodeDeps(sql, admin, process.env.PM_SITE_URL ?? "http://127.0.0.1:4173", owner);
-      await seedV0(deps, {
-        readCover: (path) => readFileSync(path),
-        upload: coverUploader(admin),
-        prototypes: {},
-        uuid: randomUUID,
-      });
-      return addLeakMarkers(deps, owner);
+      await step("the V0 seed", () =>
+        seedV0(deps, {
+          readCover: (path) => readFileSync(path),
+          upload: coverUploader(admin),
+          prototypes: {},
+          uuid: randomUUID,
+        }),
+      );
+      return step("adding the markers", () => addLeakMarkers(deps, owner));
     });
     // tests/e2e/no-leaks.spec.ts also wants the stack's address and anon key, the draft addresses, and a
     // preview it can revoke with a real owner session (signed in here with a one-time code).
@@ -136,7 +138,7 @@ async function main(): Promise<void> {
     if (process.env.LEAK_MANIFEST_OUT) writeFileSync(process.env.LEAK_MANIFEST_OUT, text);
     console.log(text);
   } catch (error) {
-    console.error(error instanceof Error ? error.message : "seed:leaks failed.");
+    console.error(`seed:leaks failed: ${describeError(error)}`);
     process.exitCode = 1;
   } finally {
     await pg.end();

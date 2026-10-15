@@ -25,6 +25,24 @@ import { buildV0Documents } from "../src/lib/v0";
 import type { Deps, Sql } from "../supabase/functions/_shared/deps.ts";
 import { publishProjectRow, publishSite } from "../supabase/functions/_shared/publish.ts";
 
+/** A failure's whole story: a blocked publish carries its issues (field and message), not just "blocked". */
+export function describeError(error: unknown): string {
+  if (!(error instanceof Error)) return String(error);
+  const extra = (error as { extra?: unknown }).extra;
+  return extra && typeof extra === "object" && Object.keys(extra).length > 0
+    ? `${error.message}: ${JSON.stringify(extra)}`
+    : error.message;
+}
+
+/** Runs one seed step, naming it in any error. */
+export async function step<T>(name: string, fn: () => Promise<T>): Promise<T> {
+  try {
+    return await fn();
+  } catch (error) {
+    throw new Error(`${name} failed: ${describeError(error)}`, { cause: error });
+  }
+}
+
 export const COVER_SIZE = { width: 1600, height: 1000 };
 
 export interface SeedInputs {
@@ -99,11 +117,15 @@ export async function seedV0(deps: Deps, inputs: SeedInputs): Promise<SeedResult
   const allow = new Set(["summary-long", "rice-row"] as const);
   const published: string[] = [];
   for (const p of v0.projects.filter((x) => x.publish)) {
-    await publishProjectRow(deps, id(p.slug, ids), { allow, deploy: false });
+    await step(`publishing project ${p.slug}`, () =>
+      publishProjectRow(deps, id(p.slug, ids), { allow, deploy: false }),
+    );
     published.push(p.slug);
   }
   // The live site already shows every "Worth a check" fact; the owner confirms them in Studio.
-  await publishSite(deps, { confirmUnconfirmed: true }, { deploy: false });
+  await step("publishing the website", () =>
+    publishSite(deps, { confirmUnconfirmed: true }, { deploy: false }),
+  );
   return {
     projects: v0.projects.length,
     published,
@@ -158,11 +180,13 @@ export function nodeDeps(
   };
 }
 
-/** jsonb parameters as JSON text; arrays of scalars stay arrays. */
+/**
+ * Parameters for postgres.js: native values, never pre-encoded JSON. postgres.js reads each
+ * parameter's type from the server and encodes jsonb itself; a JSON string would be stored as a jsonb
+ * string, not an object (the bug the first CI no-leaks run caught).
+ */
 export function pgParam(v: unknown): unknown {
-  return v !== null && typeof v === "object" && !(Array.isArray(v) && v.every((x) => typeof x !== "object"))
-    ? JSON.stringify(v)
-    : v;
+  return v ?? null;
 }
 
 /** Cover uploads for seedV0, through supabase-js. */

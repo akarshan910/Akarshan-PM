@@ -4,7 +4,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { loadMigrations } from "../../scripts/migrate.ts";
-import { seedV0, type SeedInputs } from "../../scripts/seed-v0-core.ts";
+import { describeError, pgParam, seedV0, step, type SeedInputs } from "../../scripts/seed-v0-core.ts";
 import { isLocal } from "../../scripts/seed-leak-markers.ts";
 import { maskEmail, normaliseEmail } from "../../scripts/setup-owner.ts";
 import type { Deps, Sql } from "../functions/_shared/deps.ts";
@@ -101,6 +101,25 @@ describe("seed:leaks", () => {
       false,
     );
     expect(isLocal("not a url")).toBe(false);
+  });
+});
+
+describe("script parameters", () => {
+  it("go to postgres.js as native values, so jsonb is encoded once, by the driver", () => {
+    const doc = { a: 1 };
+    expect(pgParam(doc)).toBe(doc);
+    expect(pgParam(["x", "y"])).toEqual(["x", "y"]);
+    expect(pgParam(undefined)).toBeNull();
+  });
+
+  it("name the failing step and a blocked publish's issues", async () => {
+    const blocked = Object.assign(new Error("blocked"), {
+      extra: { issues: [{ field: "f", message: "m" }] },
+    });
+    await expect(step("publishing x", () => Promise.reject(blocked))).rejects.toThrow(
+      'publishing x failed: blocked: {"issues":[{"field":"f","message":"m"}]}',
+    );
+    expect(describeError(new Error("plain"))).toBe("plain");
   });
 });
 
