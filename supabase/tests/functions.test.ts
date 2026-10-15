@@ -523,6 +523,52 @@ describe("pm-publish · video posters", () => {
   });
 });
 
+describe("pm-publish · D40, the old address redirects by default", () => {
+  it("turns the redirect on at the first publish, so a later rename redirects without the toggle", async () => {
+    const id = uuid("10000000", 700);
+    const base = reviewed(await draftOf("glp-1-digital-scaffold"));
+    await db.query("insert into pm.projects (id, slug, draft) values ($1, 'd40-first', $2)", [
+      id,
+      { ...base, settings: { redirectOldSlug: false } },
+    ]);
+    const first = await body<{ ok: boolean; version?: number }>(
+      await publish({ action: "publish", kind: "project", id }),
+    );
+    const [row] = (
+      await db.query<{ draft: Project; version: number }>(
+        "select draft, version from pm.projects where id = $1",
+        [id],
+      )
+    ).rows;
+    expect(row?.draft.settings.redirectOldSlug).toBe(true);
+    expect(first.version).toBe(row?.version);
+    expect(row?.version).toBe(2);
+
+    await db.query("update pm.projects set slug = 'd40-renamed' where id = $1", [id]);
+    const second = await body<{ ok: boolean; version?: number }>(
+      await publish({ action: "publish", kind: "project", id }),
+    );
+    expect(second.version).toBeUndefined(); // not a first publish: the draft is untouched
+    const redirects = (
+      await db.query<{ old_path: string; new_path: string }>("select * from pm.public_redirects()")
+    ).rows;
+    expect(redirects).toContainEqual({ old_path: "/work/d40-first", new_path: "/work/d40-renamed" });
+
+    // The owner can still switch it off: a later rename then doesn't redirect.
+    const current = (await db.query<{ draft: Project }>("select draft from pm.projects where id = $1", [id]))
+      .rows[0]?.draft;
+    if (!current) throw new Error("row");
+    await db.query("update pm.projects set slug = 'd40-third', draft = $2 where id = $1", [
+      id,
+      { ...current, settings: { redirectOldSlug: false } },
+    ]);
+    await publish({ action: "publish", kind: "project", id });
+    const after = (await db.query<{ old_path: string }>("select old_path from pm.public_redirects()")).rows;
+    expect(after.map((r) => r.old_path)).not.toContain("/work/d40-renamed");
+    await publish({ action: "unpublish", kind: "project", id });
+  });
+});
+
 describe("pm-publish · site", () => {
   it("asks before publishing unconfirmed facts, then publishes with hidden parts left out", async () => {
     const [p] = (
