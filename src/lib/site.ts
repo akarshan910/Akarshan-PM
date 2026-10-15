@@ -231,3 +231,28 @@ export function listedProjects(content: PublicContent): ProjectEntry[] {
 
 /** Layout type re-exported for page modules. */
 export type { SiteLayout };
+
+/**
+ * Where the build writes `layoutData` (scripts/build-feeds.ts). The host's SPA fallback, served at an
+ * address with no page (an unlisted /work/<slug>, D83), carries no loader data, so the public layout
+ * reads its chrome from here instead and the page's own boundary can run.
+ */
+export const LAYOUT_DATA_PATH = "/layout.json";
+
+/** The public layout's data: the nav, the footer and the anchors every public page shares. */
+export function layoutData(content: PublicContent) {
+  const sections = publicSections(content);
+  return {
+    chrome: buildChrome(content, sections),
+    /** "Skip to work" jumps to the first shelf on Home (03 · The page shell). */
+    firstShelf: sections.find((s) => s.kind === "shelf")?.id,
+    /** On a case study, the nav's Work link is the current one. */
+    workLink: sections.find((s) => s.kind === "shelf" && s.nav)?.id,
+    /** On Writing pages, the nav's Writing link, when the section is in the nav. */
+    writingLink: sections.find((s) => s.kind === "writing" && s.nav)?.id,
+    heroId: sections.find((s) => s.kind === "hero")?.id,
+    /** The 404 page offers Writing only once a post is published (03 · Page states). */
+    hasPosts: content.posts.length > 0,
+  };
+}
+export type LayoutData = ReturnType<typeof layoutData>;

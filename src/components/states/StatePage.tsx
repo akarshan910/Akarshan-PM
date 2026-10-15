@@ -2,18 +2,12 @@ import type { ReactNode } from "react";
 import { useRouteLoaderData } from "react-router";
 
 import { PageFooter } from "~/components/footer/PageFooter";
-import type { SiteChrome } from "~/lib/site";
+import type { LayoutData } from "~/lib/site";
 
 import { cx } from "../cx";
 import styles from "./StatePage.module.css";
 
-/** What the public layout's loader shares with the pages under it. */
-interface LayoutData {
-  chrome: SiteChrome;
-  hasPosts?: boolean;
-}
-
-/** The public layout's data, when the page is inside it (the SPA catch-all isn't). */
+/** The public layout's data (every public page and the 404 sit inside it). */
 export function useLayoutData(): LayoutData | undefined {
   return useRouteLoaderData<LayoutData>("routes/public-layout");
 }
