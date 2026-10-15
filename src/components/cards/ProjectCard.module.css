@@ -410,6 +410,31 @@
   .resultText {
     font-size: 14px;
   }
+  /* A lead without a summary is the compact one (HomeMobile › the strategy lead): 14px above the
+   * meta, a 28px title, and the result as one plain line, the value in the display face. */
+  .leadBody:not(:has(.leadSummary)) {
+    padding-top: 14px;
+  }
+  .leadBody:not(:has(.leadSummary)) .leadTitle {
+    font-size: 28px;
+  }
+  .leadBody:not(:has(.leadSummary)) .results {
+    margin-top: 10px;
+    border: 0;
+    border-radius: 0;
+  }
+  .leadBody:not(:has(.leadSummary)) .result {
+    padding: 0;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .leadBody:not(:has(.leadSummary)) .value {
+    font-family: var(--fd);
+    font-stretch: 70%;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--tx);
+  }
 }
 
 /* Reduced motion: colour and border changes only (M-CARD, M-ROW). */
