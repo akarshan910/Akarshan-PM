@@ -52,6 +52,11 @@ export interface Deps {
   resolveHost(host: string): Promise<string[]>;
   now(): Date;
   randomBytes(n: number): Uint8Array;
+  /**
+   * Local scripts only (the seeds): hears an unexpected error's message. The deployed functions leave
+   * it unset and log the error's name alone, so no data reaches a log.
+   */
+  onUnexpected?: (error: unknown) => void;
 }
 
 export type Handler = (req: Request, deps: Deps) => Promise<Response>;

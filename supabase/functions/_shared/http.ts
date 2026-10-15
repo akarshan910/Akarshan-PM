@@ -132,6 +132,7 @@ export function handle(
       if (error instanceof HttpError)
         return json(req, deps, error.status, { error: error.code, ...error.extra });
       console.error(`${name}: unexpected ${error instanceof Error ? error.name : "error"}`);
+      deps.onUnexpected?.(error);
       return json(req, deps, 500, { error: "server" });
     }
   };
