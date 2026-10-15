@@ -190,7 +190,7 @@ Build every page against a local JSON copy of the V0 seed (from M0's extraction)
 
 ### M7 · The wiki
 
-Written last, once the site and Studio are live and stable. The plan and the page list are in [`docs/story/03-wiki-plan.md`](../story/03-wiki-plan.md).
+Written last, once the site and Studio are live and stable. The plan and the page list are in [`docs/story/03-wiki-plan.md`](../story/03-wiki-plan.md). _Drafted before launch (15 Oct 2026): every page in `docs/wiki/`, the root README and "The build" in the story. The boxes are ticked after the post-launch refresh._
 
 - [ ] Add "The build" entries to [`docs/story/01-evolution.md`](../story/01-evolution.md): what was built, what changed from the plan, and why.
 - [ ] Update [`docs/story/02-decisions.md`](../story/02-decisions.md) with how each decision played out.
