@@ -121,8 +121,11 @@ test.describe("drafts never leak (build)", () => {
     for (const path of m.notFound) {
       const res = await page.goto(path);
       expect(found((await res?.text()) ?? "", m.markers), path).toEqual([]);
-      // The unlisted shell asks pm-project before it shows the 404, so allow for a cold function.
-      await expect(page.getByRole("heading", { level: 1 }), path).toContainText("404", { timeout: 20_000 });
+      // The unlisted shell asks pm-project before it shows the 404 state (C21), so allow for the call.
+      const state = page.getByRole("heading", { level: 1, name: /doesn.t exist/i });
+      await state.waitFor({ timeout: 20_000 }).catch(() => undefined);
+      const shown = (await page.locator("body").innerText()).replace(/\s+/g, " ").slice(0, 300);
+      expect(await state.count(), `${path} shows: ${shown}`).toBe(1);
       expect(found(await page.content(), m.markers), path).toEqual([]);
     }
   });
