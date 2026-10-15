@@ -259,7 +259,7 @@ describe("no marker reaches a visitor", () => {
   it("in anything anon can query", async () => {
     await as(db, { role: "anon" }, async () => {
       for (const q of [
-        "select id, published_slug, published, published_at, first_published_at from pm.projects",
+        "select id, published_slug, published, published_at, first_published_at, index_allowed from pm.projects",
         "select id, published_slug, published, published_at from pm.posts",
         "select published, published_at from pm.profile",
         "select published, published_at from pm.site_layout",
