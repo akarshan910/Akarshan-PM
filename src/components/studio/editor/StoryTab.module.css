@@ -855,10 +855,10 @@
     padding: 12px 14px;
   }
   .own {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .tableWrap {
     display: none;
