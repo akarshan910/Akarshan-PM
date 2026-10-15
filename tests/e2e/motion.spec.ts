@@ -1020,9 +1020,6 @@ test.describe("Studio (dev server) @1440", () => {
   });
 
   test("M-ST-ENTER: Draft preview's share popover enters at .22s --eo", async ({ page }) => {
-    // Known defect, reported to studio (portfolio → studio inbox, 15 Oct): .share is .18s ease-out,
-    // the board's value, where 04 says to build every entrance at .22s --eo.
-    test.fail(true, "studio: DraftPreview .share is .18s ease-out");
     await signIn(page);
     await screen(page, "/studio/preview/project/puja-engagement-platform");
     for (const u of await keyframeUsers(page, "stUp"))

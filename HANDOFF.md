@@ -84,6 +84,7 @@ Everything else is built and checked; these steps need the owner's accounts or d
    - the sign-in email sender (D53): lumina's existing Resend SMTP (recommended) or Supabase's built-in sender (development only);
    - Studio's own rich-text field and reordering instead of TipTap and dnd-kit (D69, recommended: keep);
    - the three nav reds (Q5): keep the live values with an accessibility exception, or the slightly darker AA values;
+   - Home's JavaScript budget (Q11): 132 kB against 110; recommended: set Home to 135 kB, keep 110 elsewhere;
    - optional: HEIC conversion outside Safari (D80; today Studio asks for a JPG).
 2. **Prototypes:** deploy the three prototypes as one Vercel project and fill `scripts/v0-prototypes.json` (`seed:v0` reads it in step 4).
 3. **Vercel site project:** the "Other" preset with `npm run build` (the build writes `.vercel/output`, D83). Its production branch is `main`.
