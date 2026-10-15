@@ -10,6 +10,11 @@
  */
 .root {
   position: relative;
+  /* Fill the column, even as a flex item (the case-study hero's frame): the device's
+     min(100%, …) then resolves against a definite width, not the poster's, so a poster that
+     fails to load can't collapse it (QA, 15 Oct). */
+  width: 100%;
+  min-width: 0;
 }
 
 /* ---- Bar: New tab ↗ and Exit ✕ while it runs (PublicStates › Running) ---- */
