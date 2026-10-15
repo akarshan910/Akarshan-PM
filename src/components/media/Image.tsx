@@ -1,3 +1,4 @@
+import { FETCH_HIGH } from "../cards/Cover";
 import { cx } from "../cx";
 import { Icon } from "../icons";
 import styles from "./Image.module.css";
@@ -12,6 +13,11 @@ interface ImageProps {
   sizes?: string;
   /** Above the fold: load eagerly instead of lazily. */
   priority?: boolean;
+  /**
+   * The page's largest image (01 · Performance budget: motion must not delay LCP): eager, high
+   * fetch priority, and never hidden waiting for JavaScript, so there's no fade.
+   */
+  lcp?: boolean;
   /** How the image fills its box. */
   fit?: "cover" | "contain";
   className?: string | undefined;
@@ -30,6 +36,7 @@ export function Image({
   image,
   sizes,
   priority,
+  lcp,
   fit = "cover",
   className,
   state: forced,
@@ -43,6 +50,7 @@ export function Image({
     <span
       className={box}
       data-state={shown}
+      data-lcp={lcp ? "" : undefined}
       style={{ aspectRatio: ratio ?? `${image.width} / ${image.height}`, backgroundColor: image.dominant }}
     >
       {shown === "failed" ? (
@@ -64,8 +72,9 @@ export function Image({
               width={image.width}
               height={image.height}
               alt={image.alt}
-              loading={priority ? "eager" : "lazy"}
-              decoding="async"
+              loading={priority || lcp ? "eager" : "lazy"}
+              decoding={lcp ? "auto" : "async"}
+              {...(lcp ? FETCH_HIGH : {})}
               style={fit === "contain" ? { objectFit: "contain" } : undefined}
               onLoad={onLoad}
               onError={onError}

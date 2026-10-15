@@ -9,60 +9,20 @@
  */
 import { z } from "zod";
 
-export const SOFT_LIMITS = {
-  /** Project title: the counter warns over 60, Zod rejects over 80 (D39). */
-  projectTitle: 60,
-  /** Hero positioning line: the counter warns over 100, Zod rejects over 220 (D39). */
-  positioning: 100,
-  /** Card summary: a publish check, not a schema limit (06; Q6). */
-  summary: 140,
-  /** Search title and description: counters with a warning (05 · URL & SEO). */
-  seoTitle: 60,
-  seoDescription: 155,
-  /** Off duty text: "n/200", red past 200 (05). */
-  offDutyText: 200,
-  /** Alt text counter (05 · Visuals). */
-  alt: 250,
-} as const;
+import { isHttpsUrl, isRelativePath, isSafeLink } from "./link-rules";
+import {
+  ACCENTS,
+  MAX_TOPICS,
+  OFF_DUTY_ART,
+  PROJECT_KINDS,
+  RESULT_TYPES,
+  SECTION_KINDS,
+  SKILL_SIZES,
+  SOURCES,
+} from "./vocab";
 
-export const ACCENTS = [
-  "teal",
-  "amber",
-  "sky",
-  "violet",
-  "coral",
-  "slate",
-  "green",
-  "yellow",
-  "lime",
-] as const;
-export const RESULT_TYPES = ["achieved", "target", "projected", "baseline", "output"] as const;
-export const SOURCES = ["current-site", "resume", "owner"] as const;
-export const SECTION_KINDS = [
-  "hero",
-  "proof",
-  "shelf",
-  "writing",
-  "about",
-  "experience",
-  "skills",
-  "testimonials",
-  "offduty",
-  "contact",
-  "text",
-  "footer",
-] as const;
-export const OFF_DUTY_ART = ["kunai", "pencil", "paddle", "pan", "plane", "camera"] as const;
-export const SKILL_SIZES = ["xl", "l", "m", "s"] as const;
-export const PROJECT_KINDS = ["shipped", "study", "prototype"] as const;
-export const MAX_TOPICS = 8;
-
-/** The labels the case study's Type fact shows for each kind (03, 05, 06). */
-export const PROJECT_KIND_LABELS: Record<(typeof PROJECT_KINDS)[number], string> = {
-  shipped: "Shipped",
-  study: "Strategy study",
-  prototype: "Prototype",
-};
+export * from "./link-rules";
+export * from "./vocab";
 
 export const Accent = z.enum(ACCENTS);
 export const ResultType = z.enum(RESULT_TYPES);
@@ -74,36 +34,6 @@ export const Inline = z.string();
 export const Rich = z.string();
 
 const id = z.string().min(1);
-/** An absolute https URL with a host and no credentials, written exactly as https://… */
-export function isHttpsUrl(value: string): boolean {
-  if (!value.startsWith("https://")) return false;
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" && url.hostname !== "" && url.username === "" && url.password === "";
-  } catch {
-    return false;
-  }
-}
-
-/**
- * The link rule in 06 · Rich text: https:, mailto:, a site path starting with one "/", or an
- * in-page anchor such as "#strategy". Anything else (javascript:, data:, "//host") is rejected.
- */
-export function isSafeLink(value: string): boolean {
-  if (/[\s\\]/.test(value)) return false;
-  return (
-    /^#[A-Za-z0-9_-]+$/.test(value) ||
-    /^\/(?!\/)/.test(value) ||
-    /^mailto:[^@]+@[^@]+$/.test(value) ||
-    isHttpsUrl(value)
-  );
-}
-
-/** A path inside a prototype: relative, with no scheme and no host. */
-export function isRelativePath(value: string): boolean {
-  return !/[\s\\:]/.test(value) && !value.startsWith("//");
-}
-
 const https = z.string().refine(isHttpsUrl, "Use a full https:// link.");
 /** Drafts may hold an empty link while the owner works; the publish checks require a value. */
 const httpsOrEmpty = z.union([z.literal(""), https]);

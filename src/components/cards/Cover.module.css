@@ -16,8 +16,12 @@
   object-fit: cover;
   transition: opacity 0.32s var(--eo);
 }
-:global(html.js) .img[data-state="loading"] {
+:global(html.js) .img[data-state="loading"]:not([data-lcp]) {
   opacity: 0;
+}
+/* The LCP image never waits for hydration: no fade, it paints over the shim as it decodes. */
+.img[data-lcp] {
+  transition: none;
 }
 .img[data-instant] {
   transition: none;

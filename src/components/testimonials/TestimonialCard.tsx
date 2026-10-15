@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { Icon } from "~/components/icons";
-import { isHttpsUrl } from "~/lib/schemas";
+import { isHttpsUrl } from "~/lib/link-rules";
 
 import styles from "./Testimonials.module.css";
 import { cx } from "../cx";

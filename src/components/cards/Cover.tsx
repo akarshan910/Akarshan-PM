@@ -29,12 +29,29 @@ export interface CoverProps {
   /** The generated cover's outlined number. Left out where the card draws its own. */
   number?: string | undefined;
   lazy?: boolean;
+  /**
+   * The page's largest image (01 · Performance budget: motion must not delay LCP). Loads eagerly at
+   * high priority and is never hidden waiting for JavaScript; it paints over the ground as it arrives.
+   */
+  lcp?: boolean;
   className?: string | undefined;
   /** Overlays: the volume tag, the badge, the lead card's big number. */
   children?: ReactNode;
 }
 
-export function Cover({ image, accent, ground, number, lazy = true, className, children }: CoverProps) {
+/** React 18 passes the lowercase attribute through; it doesn't know `fetchPriority`. */
+export const FETCH_HIGH = { fetchpriority: "high" } as Record<string, string>;
+
+export function Cover({
+  image,
+  accent,
+  ground,
+  number,
+  lazy = true,
+  lcp = false,
+  className,
+  children,
+}: CoverProps) {
   // The same load states as C20's Image (M-IMG-FADE); only the markup differs.
   const { ref, state, instant, onLoad, onError } = useImageLoad(image?.src ?? "");
   const style = { "--pa": accent, "--pg": ground } as CSSProperties;
@@ -56,9 +73,11 @@ export function Cover({ image, accent, ground, number, lazy = true, className, c
               alt={image.alt}
               width={image.width}
               height={image.height}
-              loading={lazy ? "lazy" : "eager"}
-              decoding="async"
+              loading={lazy && !lcp ? "lazy" : "eager"}
+              decoding={lcp ? "auto" : "async"}
+              {...(lcp ? FETCH_HIGH : {})}
               data-state={state}
+              data-lcp={lcp ? "" : undefined}
               data-instant={instant ? "" : undefined}
               style={
                 image.focal

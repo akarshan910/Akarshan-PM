@@ -37,6 +37,20 @@ describe("Image", () => {
     expect(container.querySelector(".instant")).toBeNull();
   });
 
+  it("loads the page's largest image first and never gates it on hydration (lcp)", () => {
+    const warn = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const { container } = render(<Image image={IMG} lcp />);
+    const img = screen.getByRole("img");
+    expect(img).toHaveAttribute("fetchpriority", "high");
+    expect(img).toHaveAttribute("loading", "eager");
+    expect(img).toHaveAttribute("decoding", "auto");
+    expect((container.firstElementChild as HTMLElement).dataset.lcp).toBe("");
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+    render(<Image image={IMG} priority />);
+    expect(screen.getAllByRole("img")[1]).not.toHaveAttribute("fetchpriority");
+  });
+
   it("shows the alt text in place when the file fails, never a broken image", () => {
     const { container } = render(<Image image={IMG} />);
     fireEvent.error(screen.getByRole("img"));

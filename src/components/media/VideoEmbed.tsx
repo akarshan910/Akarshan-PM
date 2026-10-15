@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { toVideoEmbedUrl, videoHost, videoHostLabel } from "~/lib/links";
-import { isHttpsUrl } from "~/lib/schemas";
+import { isHttpsUrl } from "~/lib/link-rules";
 
 import { Icon } from "../icons";
 import actions from "../states/actions.module.css";

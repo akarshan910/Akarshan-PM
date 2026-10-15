@@ -55,7 +55,7 @@ export function CaseStudyHero({ view }: { view: CaseStudyView }) {
         accent={view.accent}
         ground={view.ground}
         number={view.volume}
-        lazy={false}
+        lcp
         className={styles.heroCover}
       />
     </div>

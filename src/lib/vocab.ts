@@ -1,0 +1,59 @@
+/**
+ * The content vocabulary: accents, result labels, section kinds, soft limits. Plain constants with
+ * no zod, so public pages can import them without loading the schemas (01 · Performance budget).
+ * `schemas.ts` builds its enums from these and re-exports them.
+ */
+export const SOFT_LIMITS = {
+  /** Project title: the counter warns over 60, Zod rejects over 80 (D39). */
+  projectTitle: 60,
+  /** Hero positioning line: the counter warns over 100, Zod rejects over 220 (D39). */
+  positioning: 100,
+  /** Card summary: a publish check, not a schema limit (06; Q6). */
+  summary: 140,
+  /** Search title and description: counters with a warning (05 · URL & SEO). */
+  seoTitle: 60,
+  seoDescription: 155,
+  /** Off duty text: "n/200", red past 200 (05). */
+  offDutyText: 200,
+  /** Alt text counter (05 · Visuals). */
+  alt: 250,
+} as const;
+
+export const ACCENTS = [
+  "teal",
+  "amber",
+  "sky",
+  "violet",
+  "coral",
+  "slate",
+  "green",
+  "yellow",
+  "lime",
+] as const;
+export const RESULT_TYPES = ["achieved", "target", "projected", "baseline", "output"] as const;
+export const SOURCES = ["current-site", "resume", "owner"] as const;
+export const SECTION_KINDS = [
+  "hero",
+  "proof",
+  "shelf",
+  "writing",
+  "about",
+  "experience",
+  "skills",
+  "testimonials",
+  "offduty",
+  "contact",
+  "text",
+  "footer",
+] as const;
+export const OFF_DUTY_ART = ["kunai", "pencil", "paddle", "pan", "plane", "camera"] as const;
+export const SKILL_SIZES = ["xl", "l", "m", "s"] as const;
+export const PROJECT_KINDS = ["shipped", "study", "prototype"] as const;
+export const MAX_TOPICS = 8;
+
+/** The labels the case study's Type fact shows for each kind (03, 05, 06). */
+export const PROJECT_KIND_LABELS: Record<(typeof PROJECT_KINDS)[number], string> = {
+  shipped: "Shipped",
+  study: "Strategy study",
+  prototype: "Prototype",
+};

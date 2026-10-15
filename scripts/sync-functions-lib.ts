@@ -11,7 +11,15 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-export const SHARED_MODULES = ["schemas", "types", "published", "rich-text", "links"] as const;
+export const SHARED_MODULES = [
+  "schemas",
+  "vocab",
+  "link-rules",
+  "types",
+  "published",
+  "rich-text",
+  "links",
+] as const;
 export const SOURCE_DIR = "src/lib";
 export const TARGET_DIR = "supabase/functions/_shared/lib";
 
