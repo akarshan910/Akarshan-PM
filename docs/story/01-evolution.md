@@ -105,6 +105,55 @@ Each round of the owner's comments on the canvas changed the product. In order:
 - milestones with a definition of done;
 - an explicit list of what to ask the owner and what never to ask.
 
-## The build (to be written)
+## The build (14–15 Oct 2026)
 
-Add entries here as milestones land: what was built, what changed from the plan, and why.
+The rebuild ran on the branch `claude/elegant-allen-xdmal0`, while `main` kept serving the old site ([D46](../handover/09-decisions.md)). It's recorded here milestone by milestone, from the commit history, [`HANDOFF.md`](../../HANDOFF.md) and the [decision log](../handover/09-decisions.md). Status is as of 15 Oct 2026: the site isn't launched yet (M6).
+
+### M0 · Foundation (14 Oct)
+
+| What was built | What changed from the plan, and why |
+| --- | --- |
+| The live site's content frozen verbatim in `src/legacy/content.ts`, with a test that traces every string back to the old `App.tsx` (kept at `tests/fixtures/legacy-app.tsx.txt`) | Done first, before anything was deleted, so no content could be lost |
+| React Router 7 (prerendered public routes, a client-only `/studio`), Vite, strict TypeScript, ESLint layer rules, Vitest and Playwright | The Figma Make scaffolding went at its default answer (Q1, [D47](../handover/09-decisions.md)); the old stylesheet stays read-only for the pill nav |
+| Design tokens and self-hosted fonts; CI with gitleaks and the build-time security gates | — |
+| The shared content core: Zod schemas, the defaults registry and `buildV0Documents()` | Pulled forward so the site, Studio, the seed and the Edge Functions share one implementation |
+
+### M1 · Components (14 Oct)
+
+Every component C1–C22, the topic picker and the code input, built in parallel tracks into a dev-only catalogue at `/dev/components` (never shipped). The tracks were then unified: one icon set, one keyframes file, one reduced-motion module. Both M0 and M1 closed with a security review of their diff.
+
+### M2 · The public site on local data (14–15 Oct)
+
+| What was built | What changed from the plan, and why |
+| --- | --- |
+| Home, every section at 1440, 834 and 390, with the Ink & Depth hero's motion | The laptop floaters start at 1101px, as the boards say, not at the 1280px layout breakpoint ([D67](../handover/09-decisions.md)) |
+| `/work` with filters, search, sort and paging; the case study at three sizes; Writing; page states; the `?open=` legacy redirects | The board's details won over the written chapters in several small places: plain list bullets (D71), "Search N volumes" (D72), 16:9 post covers (D73), Let's Talk at 10px on phones (D74), no back link in the phone case-study footer (D78), the prototype note on laptop only (D79) |
+| A motion audit of every ID in 04, which found and fixed four gaps (a skills entrance that broke the group highlight, the phone hero entrance replaying every visit, the tilt's vanishing point, chapter reveals) | 04's accordion said a chevron; the board draws a plus, so 04 was corrected (D68) |
+| Pixel parity against the boards, with a fixture of the boards' own copy | The iPad and phone boards condense their copy, so the fixture got a variant per width (D70). Where two boards draw the same content differently, parity masks it (D60, D75). By 15 Oct, about 65 of 80 compared sections passed; most of the rest differ by under 2% |
+
+### M3 · Supabase, built locally (15 Oct)
+
+The `pm` schema with row-level security and column grants, the two buckets, the six Edge Functions, the cron jobs and the V0 seed, all tested on PGlite (Postgres in WebAssembly) with Supabase's roles stubbed, because pulling Supabase's Docker images failed. Nothing has touched the shared project: the owner applies the migrations at go-live ([`supabase/README.md`](../../supabase/README.md)). Along the way:
+
+- the owner's session writes drafts only; publishing is the functions' job (D55);
+- visitors read a project's `id` (D56) and, later, its `index_allowed` (D82), beyond 06's column list;
+- the build reads published content as a visitor (WP3.5), and the result matches the local V0 content exactly in a test.
+
+### M4 · Studio (15 Oct)
+
+The shell, sign-in by email code, the dashboard, the projects list, the five-tab editor, Writing, Media, Profile & facts, the Website builder, draft preview and every system state. Changes from the plan:
+
+- **Codes are 8 digits, not 6** (D66): CAPTCHA protection stays off on the shared project for now (D54), so guessing had to be harder.
+- **Fewer dependencies:** Studio's own small query cache and IndexedDB wrapper instead of TanStack Query (D65), and, provisionally, its own reorder and rich-text field instead of dnd-kit and TipTap (D69).
+- **No `heic2any`** (unmaintained, and its bundle ships LGPL code without a notice); resumable uploads use `tus-js-client` (D80).
+- Board gaps were decided rather than guessed: "Use the résumé figure" opens an edit (D76), proof rows get an Edit button (D77), the undrawn "More actions" menu isn't built (D63).
+
+The iPad and phone layouts were checked against the StudioTablet and StudioMobile boards in the last M4 pass.
+
+### M5 · Publishing and SEO (15 Oct)
+
+Per-page metadata and Open Graph images, `sitemap.xml`, `robots.txt` and the RSS feed, the copy of published images into the build, the slug and legacy redirects as data, and the unlisted-project shell. The host's routes and headers ship as Vercel Build Output, with per-page CSP hashes, rather than a `vercel.json`, which Vercel would read before the build ran (D83). What's left before launch is the go-live steps the owner runs on the shared project.
+
+### How the build was run
+
+Five AI agents worked in parallel, each in its own git worktree and branch: the public site, Studio, security (the backend and every security review), QA (accessibility, devices and pixel parity), and a reviewer who merged everything into the integration branch. They coordinated through progress logs and inboxes, so work survived a session ending. Each agent owned a set of files; shared files went through the reviewer.

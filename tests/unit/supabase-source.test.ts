@@ -111,6 +111,18 @@ describe("the supabase content source (06 · Build-time data)", () => {
     expect(JSON.stringify(content)).not.toContain(LEAK);
   });
 
+  it("reads index_allowed as a visitor (0004), so the page can be noindex and left out of the sitemap", async () => {
+    const slug = v0.projects[1]?.slug ?? "";
+    await db.query("update pm.projects set index_allowed = false where published_slug = $1", [slug]);
+    try {
+      const content = await supabaseSource(anonReader(db)).load();
+      expect(content.projects.find((p) => p.slug === slug)?.indexAllowed).toBe(false);
+      expect(content.projects.filter((p) => "indexAllowed" in p)).toHaveLength(1);
+    } finally {
+      await db.query("update pm.projects set index_allowed = true where published_slug = $1", [slug]);
+    }
+  });
+
   it("reads the redirects as a visitor: renames and once-public pages, never drafts", async () => {
     const live = v0.projects[0]?.slug ?? "";
     await db.query(

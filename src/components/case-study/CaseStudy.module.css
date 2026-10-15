@@ -1019,6 +1019,10 @@
   .barMoreLabel {
     display: none;
   }
+  /* On phones the chevron sits alone at the end of the bar, in the bar's text colour. */
+  .barMore .chev {
+    color: var(--tx);
+  }
   .barWrap .line {
     margin: 0;
   }
