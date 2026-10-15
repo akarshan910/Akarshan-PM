@@ -135,7 +135,9 @@ jobs:
           printf 'PM_SITE_URL=%s\nPM_ALLOWED_ORIGINS=%s\n' "$PM_SITE_URL" "$PM_ALLOWED_ORIGINS" > supabase/functions/.env
           nohup supabase functions serve --env-file supabase/functions/.env > /tmp/functions.log 2>&1 &
           for i in $(seq 1 60); do
-            curl -s -o /dev/null -w '%{http_code}' "$SUPABASE_URL/functions/v1/pm-project?slug=none" | grep -qv '^000$' && exit 0
+            # pm-project answers 404 for an unknown slug once the function has booted (not 000 or 5xx).
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$SUPABASE_URL/functions/v1/pm-project?slug=none" || true)
+            case "$code" in 2*|4*) exit 0 ;; esac
             sleep 2
           done
           cat /tmp/functions.log; exit 1

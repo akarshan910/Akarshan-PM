@@ -121,7 +121,8 @@ test.describe("drafts never leak (build)", () => {
     for (const path of m.notFound) {
       const res = await page.goto(path);
       expect(found((await res?.text()) ?? "", m.markers), path).toEqual([]);
-      await expect(page.getByRole("heading", { level: 1 }), path).toContainText("404");
+      // The unlisted shell asks pm-project before it shows the 404, so allow for a cold function.
+      await expect(page.getByRole("heading", { level: 1 }), path).toContainText("404", { timeout: 20_000 });
       expect(found(await page.content(), m.markers), path).toEqual([]);
     }
   });
@@ -129,7 +130,9 @@ test.describe("drafts never leak (build)", () => {
   test("the unlisted project renders with noindex and isn't linked", async ({ page }) => {
     const m = manifest as Manifest;
     await page.goto(m.unlisted.path);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/, {
+      timeout: 20_000,
+    });
     await expect(page.getByRole("heading", { level: 1 })).not.toContainText("404");
     const linked = files("build/client")
       .filter((f) => /\.(html|xml)$/.test(f))
