@@ -19,7 +19,7 @@ import { useShell } from "../shell/ShellContext";
 import { ConflictDialog } from "../states/ConflictDialog";
 import { UnconfirmedDialog } from "../states/UnconfirmedDialog";
 import { useToast } from "../Toast";
-import { useAutosave } from "../useAutosave";
+import { UNSAVED_MESSAGE, useAutosave } from "../useAutosave";
 import { Inspector } from "./Inspector";
 import { Outline, type Sel } from "./Outline";
 import styles from "./Website.module.css";
@@ -36,6 +36,7 @@ import {
   placeSection,
   previewContent,
   removeSection,
+  restoreSection,
   sectionName,
   setKidVisible,
   setSectionVisible,
@@ -236,7 +237,7 @@ export function WebsiteBuilder({ data }: { data: WebsiteData }) {
     );
   };
   const deleteSection = (s: Section) => {
-    const before = layout;
+    const at = layout.sections.findIndex((x) => x.id === s.id);
     lay.update((l) => removeSection(l, s.id));
     setSel({ kind: "sec", id: "hero" });
     toast.show({
@@ -245,7 +246,8 @@ export function WebsiteBuilder({ data }: { data: WebsiteData }) {
       action: {
         label: "Undo",
         onAction: () => {
-          lay.update(() => before);
+          // Back at its place in the layout as it is now, keeping edits made since.
+          lay.update((l) => restoreSection(l, s, at));
           setSel({ kind: "sec", id: s.id });
         },
       },
@@ -255,8 +257,11 @@ export function WebsiteBuilder({ data }: { data: WebsiteData }) {
   // ---- publish and discard
   const publish = async (confirmUnconfirmed = false) => {
     setPublishing(true);
-    await prof.flush();
-    await lay.flush();
+    if (!(await prof.flush()) || !(await lay.flush())) {
+      setPublishing(false);
+      toast.show({ message: UNSAVED_MESSAGE, tone: "error" });
+      return;
+    }
     const result = await repo.publish({
       action: "publish",
       kind: "site",

@@ -248,6 +248,7 @@ describe("the catalogue", () => {
       "profile.published_at:SELECT",
       "projects.first_published_at:SELECT",
       "projects.id:SELECT",
+      "projects.index_allowed:SELECT",
       "projects.published:SELECT",
       "projects.published_at:SELECT",
       "projects.published_slug:SELECT",
@@ -271,7 +272,11 @@ describe("the catalogue", () => {
 
   it("records every migration in pm.schema_migrations, with its checksum", async () => {
     const applied = await rows("select version, checksum from pm.schema_migrations order by 1");
-    expect(applied.map((r) => r.version)).toEqual(["0001_init", "0003_migration_checksums"]);
+    expect(applied.map((r) => r.version)).toEqual([
+      "0001_init",
+      "0003_migration_checksums",
+      "0004_anon_index_allowed",
+    ]);
     for (const r of applied) expect(String(r.checksum)).toMatch(/^[0-9a-f]{64}$/);
   });
 });
@@ -312,7 +317,7 @@ describe("as a visitor (anon)", () => {
   it("gets no marker from anything it can reach", async () => {
     await as(db, anon, async () => {
       const reachable = [
-        "select id, published_slug, published, published_at, first_published_at from pm.projects",
+        "select id, published_slug, published, published_at, first_published_at, index_allowed from pm.projects",
         "select id, published_slug, published, published_at from pm.posts",
         "select published, published_at from pm.profile",
         "select published, published_at from pm.site_layout",

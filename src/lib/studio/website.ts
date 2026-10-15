@@ -283,6 +283,14 @@ export function removeSection(layout: SiteLayout, id: string): SiteLayout {
   return { ...layout, sections: layout.sections.filter((s) => s.id !== id || pinned(s)) };
 }
 
+/** Puts a deleted section back at `index`, inside the pinned ends, unless it's already there. */
+export function restoreSection(layout: SiteLayout, section: Section, index: number): SiteLayout {
+  if (layout.sections.some((s) => s.id === section.id)) return layout;
+  const list = [...layout.sections];
+  list.splice(Math.min(Math.max(index, 1), list.length - 1), 0, section);
+  return { ...layout, sections: list };
+}
+
 /** The nav, in page order: the sections linked in it, visible ones only. */
 export function navLinks(layout: SiteLayout): { id: string; label: string }[] {
   return layout.sections

@@ -73,6 +73,12 @@ function makeDeps(): Deps {
         );
         return rows.map((r) => r.name);
       },
+      async upload(name, bytes, contentType) {
+        const { error } = await admin.storage
+          .from("pm-media-draft")
+          .upload(name, bytes, { contentType, upsert: true });
+        if (error) throw new Error("Couldn't store a file in pm-media-draft.");
+      },
       async publish(name) {
         const from = admin.storage.from("pm-media-draft");
         let { error } = await from.copy(name, name, { destinationBucket: "pm-media-public" });

@@ -165,6 +165,12 @@ async function main(): Promise<void> {
             if (error) throw new Error("Couldn't copy a cover to pm-media-public.");
           },
           remove: () => Promise.resolve(),
+          async upload(name, bytes, contentType) {
+            const { error } = await admin.storage
+              .from("pm-media-draft")
+              .upload(name, bytes, { contentType, upsert: true });
+            if (error) throw new Error("Couldn't store a video poster in pm-media-draft.");
+          },
           signedUrl: () => Promise.resolve(""),
         },
         fetch,

@@ -22,6 +22,7 @@ import {
   placeKid,
   placeSection,
   removeSection,
+  restoreSection,
   RSS,
   sectionCount,
   sectionName,
@@ -158,6 +159,15 @@ describe("website model", () => {
     expect(again.id).toBe("text-2");
     expect(removeSection(again.layout, "text-1").sections.some((s) => s.id === "text-1")).toBe(false);
     expect(removeSection(layout, "hero").sections[0]?.id).toBe("hero");
+    const gone = removeSection(again.layout, "text-1");
+    const back = restoreSection(
+      setSectionVisible(gone, "skills", false),
+      must(again.layout.sections.find((x) => x.id === "text-1")),
+      10,
+    );
+    expect(back.sections[10]?.id).toBe("text-1");
+    expect(back.sections.find((x) => x.id === "skills")?.visible).toBe(false);
+    expect(restoreSection(back, must(back.sections[10]), 3)).toBe(back);
     const noContact = { ...layout, sections: layout.sections.filter((s) => s.kind !== "contact") };
     expect(addTextSection(noContact).layout.sections.at(-2)?.id).toBe("text-1");
     expect(patchSection(layout, "nope", (s) => s)).toEqual(layout);

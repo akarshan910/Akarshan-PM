@@ -121,18 +121,17 @@ async function shoot(page: Page, selector: string, opts: { band?: boolean; until
   await expect(el, `${selector} is missing`).toBeAttached();
   await el.scrollIntoViewIfNeeded();
   const options = { animations: "disabled", caret: "hide", style: MASK_CSS } as const;
-  if (!opts.band && !opts.until) return PNG.sync.read(await el.screenshot(options));
+  // One clip for every shot, with each edge rounded on its own: a section at a fractional y (a
+  // 16px × 1.65 dek above it) would otherwise come out 1px taller or shorter on one side.
   const box = await el.evaluate(
     (e, { band, until }) => {
       const r = e.getBoundingClientRect();
-      const end = until ? e.querySelector(until)?.getBoundingClientRect().bottom : undefined;
-      if (until && end === undefined) throw new Error(`${until} is missing`);
-      return {
-        x: band ? 0 : r.left + scrollX,
-        y: r.top + scrollY,
-        width: band ? document.documentElement.clientWidth : r.width,
-        height: Math.round((end ?? r.bottom) - r.top),
-      };
+      const end = until ? e.querySelector(until)?.getBoundingClientRect().bottom : r.bottom;
+      if (end === undefined) throw new Error(`${until ?? ""} is missing`);
+      const top = Math.round(r.top + scrollY);
+      const left = band ? 0 : Math.round(r.left + scrollX);
+      const right = band ? document.documentElement.clientWidth : Math.round(r.right + scrollX);
+      return { x: left, y: top, width: right - left, height: Math.round(end + scrollY) - top };
     },
     { band: Boolean(opts.band), until: opts.until },
   );

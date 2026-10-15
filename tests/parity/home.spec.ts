@@ -13,7 +13,40 @@ const STRATEGY_D60: Partial<Section> = {
   note: "09 · D60: covers and the lead card's results masked",
 };
 
-const sections = (testimonials: string, strategy: Partial<Section> = {}): Section[] => [
+/**
+ * 09 · D75, iPad and phone: the boards draw 2 short testimonial cards; the rail stretches every card to
+ * the tallest of all 7 (full quotes). Compared to the heading's bottom, plus the first card's type.
+ */
+const TESTIMONIALS_D75: Partial<Section> = {
+  until: { board: "h2", page: "h2" },
+  note: "09 · D75: card heights follow quotes the boards don't draw; compared to the heading",
+};
+const firstCardType = (board: string): Section => ({
+  name: "testimonials-card-type",
+  board: `${board} figure`,
+  page: "#testimonials figure",
+  type: true,
+  note: "09 · D75: card copy differs; its type is compared",
+});
+
+/**
+ * 09 · D75, phone: HomeMobile's strategy lead draws no summary (CaseStudyMobile uses it as the dek)
+ * and words the result "orders per user" where the fixture says "monthly orders per user".
+ */
+const markResult =
+  "[...document.querySelectorAll('#strategy *')].find((e) => !e.children.length && /orders per user/.test(e.textContent))?.setAttribute('data-qa-mask', '')";
+const STRATEGY_PHONE_D75: Partial<Section> = {
+  collapse: { page: ['#strategy [class*="_leadSummary_"]'] },
+  boardScript: markResult,
+  pageScript: markResult,
+  note: "09 · D75: lead summary removed (page), result label masked",
+};
+
+const sections = (
+  testimonials: string,
+  strategy: Partial<Section> = {},
+  testimonialsExtra: Partial<Section> = {},
+): Section[] => [
   { name: "hero", board: 'section[aria-label="Introduction"]', page: "#hero" },
   { name: "proof", board: 'section[aria-label="Highlights"]', page: "#proof" },
   { name: "shipped", board: "section#work", page: "#shipped" },
@@ -21,7 +54,8 @@ const sections = (testimonials: string, strategy: Partial<Section> = {}): Sectio
   { name: "about", board: "section#about", page: "#about" },
   { name: "experience", board: "section#experience", page: "#experience" },
   { name: "skills", board: "section#skills", page: "#skills" },
-  { name: "testimonials", board: testimonials, page: "#testimonials" },
+  { name: "testimonials", board: testimonials, page: "#testimonials", ...testimonialsExtra },
+  ...(testimonialsExtra.until ? [firstCardType(testimonials)] : []),
   { name: "offduty", board: "section#offduty", page: "#offduty" },
   { name: "contact", board: "section#contact", page: "#contact" },
   { name: "footer", board: "footer", page: "body footer" },
@@ -45,7 +79,7 @@ defineParity([
     path: "/",
     pill: "over-hero",
     // HomeTablet's testimonials section has no id.
-    sections: sections('section:has(h2:has-text("What teammates say"))'),
+    sections: sections('section:has(h2:has-text("What teammates say"))', {}, TESTIMONIALS_D75),
   },
   {
     name: "home-390",
@@ -55,6 +89,6 @@ defineParity([
     width: 390,
     path: "/",
     pill: "over-hero",
-    sections: sections("section#testimonials"),
+    sections: sections("section#testimonials", STRATEGY_PHONE_D75, TESTIMONIALS_D75),
   },
 ]);

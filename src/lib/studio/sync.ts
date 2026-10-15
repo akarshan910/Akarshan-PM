@@ -31,6 +31,9 @@ export async function syncPending(repo: StudioRepo): Promise<{ synced: number; l
     if (result.ok) {
       synced++;
       await dropPending(p.key);
+    } else if (result.reason === "error" && result.message === "Not found.") {
+      // Deleted since: drop it rather than retry forever.
+      await dropPending(p.key);
     } else left++;
   }
   return { synced, left };
