@@ -152,6 +152,60 @@ const fake = {
 };
 
 vi.mock("@supabase/supabase-js", () => ({ createClient: () => fake }));
+
+// tus-js-client: records each upload and plays back what the test asks for.
+const tus = {
+  mode: "ok" as "ok" | "offline-once" | "fail",
+  previous: false,
+  started: 0,
+  resumed: 0,
+  options: [] as {
+    endpoint?: string;
+    chunkSize?: number;
+    headers?: Record<string, string>;
+    metadata?: Record<string, string>;
+  }[],
+};
+vi.mock("tus-js-client", () => ({
+  Upload: class {
+    private failedOnce = false;
+    constructor(
+      private file: Blob,
+      private o: {
+        endpoint?: string;
+        chunkSize?: number;
+        headers?: Record<string, string>;
+        metadata: Record<string, string>;
+        onProgress?: (sent: number, total: number) => void;
+        onSuccess?: () => void;
+        onError?: (e: Error) => void;
+      },
+    ) {
+      tus.options.push(o);
+    }
+    findPreviousUploads() {
+      return Promise.resolve(tus.previous ? [{ uploadUrl: "u" }] : []);
+    }
+    resumeFromPreviousUpload() {
+      tus.resumed++;
+    }
+    start() {
+      tus.started++;
+      if (tus.mode === "fail") {
+        this.o.onError?.(new Error("tus: unexpected response 413"));
+        return;
+      }
+      if (tus.mode === "offline-once" && !this.failedOnce) {
+        this.failedOnce = true;
+        this.o.onError?.(new Error("tus: failed to fetch"));
+        return;
+      }
+      this.o.onProgress?.(this.file.size, this.file.size);
+      files.set(this.o.metadata.objectName ?? "", this.file);
+      this.o.onSuccess?.();
+    }
+  },
+}));
 vi.mock("./media-pipeline", async (orig) => {
   const real = await orig<typeof Pipeline>();
   return {
@@ -377,7 +431,12 @@ describe("supabaseRepo", () => {
       (f) => progress.push(f),
     );
     expect(row.key).toBe(`${row.id}/r1`);
-    expect(progress).toEqual([0.5, 1]);
+    expect(progress.at(-1)).toBe(1);
+    const o = must(tus.options[0]);
+    expect(o.endpoint).toBe("https://project.example/storage/v1/upload/resumable");
+    expect(o.chunkSize).toBe(6 * 1024 * 1024);
+    expect(o.headers?.authorization).toBe("Bearer tok");
+    expect(o.metadata).toMatchObject({ bucketName: "pm-media-draft", objectName: `${row.id}/r1/480.webp` });
     expect([...files.keys()]).toEqual([`${row.id}/r1/480.webp`, `${row.id}/r1/orig.jpg`]);
     expect(await repo.media.url(row, "480")).toBe(`https://signed.example/${row.id}/r1/480.webp`);
     expect(await repo.media.url(row, "480")).toBe(`https://signed.example/${row.id}/r1/480.webp`);
@@ -519,5 +578,38 @@ describe("supabaseRepo", () => {
       { url: "https://x.example", status: "gone", detail: "404", checkedAt: "t" },
     ]);
     expect(await repo.topics("post")).toEqual([{ topic: "t-post", uses: 2 }]);
+  });
+
+  it("resumes uploads, waits out a lost connection, and reports real failures", async () => {
+    const repo = await seed();
+    const img = {
+      file: new Blob(["img"], { type: "image/png" }),
+      filename: "a.png",
+      kind: "image" as const,
+      mime: "image/png",
+    };
+    tus.previous = true;
+    tus.resumed = 0;
+    await repo.media.upload(img);
+    expect(tus.resumed).toBeGreaterThan(0);
+    tus.previous = false;
+
+    // Offline mid-upload: it pauses, then carries on when the browser is back online.
+    tus.mode = "offline-once";
+    vi.stubGlobal("navigator", { onLine: false });
+    vi.stubGlobal("window", Object.assign(new EventTarget(), {}));
+    const pending = repo.media.upload(img);
+    await new Promise((r) => setTimeout(r, 0));
+    vi.stubGlobal("navigator", { onLine: true });
+    tus.mode = "ok";
+    (globalThis.window as unknown as EventTarget).dispatchEvent(new Event("online"));
+    await expect(pending).resolves.toMatchObject({ filename: "a.png" });
+
+    tus.mode = "fail";
+    await expect(repo.media.upload(img)).rejects.toThrow("413");
+    tus.mode = "ok";
+
+    auth.session = null;
+    await expect(repo.media.upload(img)).rejects.toThrow("signed out");
   });
 });
