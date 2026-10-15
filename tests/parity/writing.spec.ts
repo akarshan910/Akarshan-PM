@@ -43,8 +43,16 @@ defineParity([
           board: [
             ".r3 > section:nth-of-type(3) article h1",
             ".r3 > section:nth-of-type(3) article > div.mono",
+            // The reading-progress bar's state, and the figure's art (D75 / D60).
+            ".r3 > section:nth-of-type(3) > div:first-child",
+            ".r3 > section:nth-of-type(3) article figure > :first-child",
           ],
-          page: ["main article h1", 'main article > div[class*="_mono_"]'],
+          page: [
+            "main article h1",
+            'main article > div[class*="_mono_"]',
+            'main > [class*="_progress_"]',
+            "main article figure > :first-child",
+          ],
         },
         // 09 · D60: the post byline draws no dashed avatar placeholder; the board's is removed.
         collapse: {
