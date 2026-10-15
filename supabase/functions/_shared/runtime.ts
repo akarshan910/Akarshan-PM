@@ -8,6 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 import postgres from "postgres";
 
 import type { Bucket, Deps, Handler, Sql } from "./deps.ts";
+import { copyToPublic } from "./storage.ts";
 
 function required(name: string): string {
   const value = Deno.env.get(name);
@@ -81,15 +82,7 @@ function makeDeps(): Deps {
           .upload(name, bytes, { contentType, upsert: true });
         if (error) throw new Error("Couldn't store a file in pm-media-draft.");
       },
-      async publish(name) {
-        const from = admin.storage.from("pm-media-draft");
-        let { error } = await from.copy(name, name, { destinationBucket: "pm-media-public" });
-        if (error) {
-          await admin.storage.from("pm-media-public").remove([name]);
-          ({ error } = await from.copy(name, name, { destinationBucket: "pm-media-public" }));
-        }
-        if (error) throw new Error("Couldn't copy a file to pm-media-public.");
-      },
+      publish: (name) => copyToPublic(admin, name),
       async remove(bucket, names) {
         if (names.length === 0) return;
         const { error } = await admin.storage.from(bucket).remove(names);

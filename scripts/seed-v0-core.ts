@@ -23,6 +23,7 @@ import * as legacy from "../src/legacy/content";
 import { ACCENT_COLOURS } from "../src/lib/accents";
 import { buildV0Documents } from "../src/lib/v0";
 import type { Deps, Sql } from "../supabase/functions/_shared/deps.ts";
+import { copyToPublic } from "../supabase/functions/_shared/storage.ts";
 import { publishProjectRow, publishSite } from "../supabase/functions/_shared/publish.ts";
 
 /** A failure's whole story: a blocked publish carries its issues (field and message), not just "blocked". */
@@ -155,12 +156,7 @@ export function nodeDeps(
         );
         return rows.map((r) => r.name);
       },
-      async publish(name) {
-        const { error } = await admin.storage
-          .from("pm-media-draft")
-          .copy(name, name, { destinationBucket: "pm-media-public" });
-        if (error) throw new Error("Couldn't copy a file to pm-media-public.");
-      },
+      publish: (name) => copyToPublic(admin, name),
       remove: () => Promise.resolve(),
       async upload(name, bytes, contentType) {
         const { error } = await admin.storage
@@ -177,6 +173,10 @@ export function nodeDeps(
     },
     now: () => new Date(),
     randomBytes: (n) => crypto.getRandomValues(new Uint8Array(n)),
+    // A local script: show what went wrong instead of a bare 500.
+    onUnexpected: (error) => {
+      console.error(`  cause: ${error instanceof Error ? error.message : String(error)}`);
+    },
   };
 }
 

@@ -20,6 +20,7 @@ import type { Project } from "../functions/_shared/lib/types.ts";
 import { previewHandler, sha256Hex } from "../functions/_shared/preview.ts";
 import { publishHandler } from "../functions/_shared/publish.ts";
 import { sanitizeInline, sanitizeRich } from "../functions/_shared/sanitize.ts";
+import { copyToPublic } from "../functions/_shared/storage.ts";
 import { body, DEPLOY_HOOK, fakeWorld, request, SERVICE_KEY, SITE, type FakeWorld } from "./fakes.ts";
 import { freshProject, type Db } from "./harness.ts";
 
@@ -159,6 +160,43 @@ describe("shared code", () => {
     };
     expect(riceMismatches(table)).toEqual([1]);
     expect(riceMismatches({ ...table, reviewed: ["B"] })).toEqual([]);
+  });
+});
+
+describe("copying to pm-media-public", () => {
+  /** Supabase Storage refuses to copy onto an existing object. */
+  function strictStorage() {
+    const buckets: Record<string, Set<string>> = {
+      "pm-media-draft": new Set(["k/r1/480.webp"]),
+      "pm-media-public": new Set(),
+    };
+    return {
+      buckets,
+      storage: {
+        from: (bucket: string) => ({
+          copy: (from: string, to: string, o: { destinationBucket: string }) => {
+            const dest = buckets[o.destinationBucket];
+            if (!buckets[bucket]?.has(from)) return Promise.resolve({ error: new Error("not found") });
+            if (!dest || dest.has(to))
+              return Promise.resolve({ error: new Error("The resource already exists") });
+            dest.add(to);
+            return Promise.resolve({ error: null });
+          },
+          remove: (paths: string[]) => {
+            for (const p of paths) buckets[bucket]?.delete(p);
+            return Promise.resolve({ error: null });
+          },
+        }),
+      },
+    };
+  }
+
+  it("copies, and copies again on a republish by replacing the old copy", async () => {
+    const s = strictStorage();
+    await copyToPublic(s, "k/r1/480.webp");
+    await copyToPublic(s, "k/r1/480.webp");
+    expect([...(s.buckets["pm-media-public"] ?? [])]).toEqual(["k/r1/480.webp"]);
+    await expect(copyToPublic(s, "missing/r1/480.webp")).rejects.toThrow(/Couldn't copy/);
   });
 });
 
