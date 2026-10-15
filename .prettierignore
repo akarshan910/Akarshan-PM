@@ -12,3 +12,4 @@ package-lock.json
 *_prototype.html
 src/legacy/portfolio.css
 .claude/
+.vercel/

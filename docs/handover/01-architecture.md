@@ -135,7 +135,7 @@ Every variable, where its value lives, and who can see it. Only the three `VITE_
 
 ## Headers
 
-`scripts/write-vercel-config.ts` writes these into `vercel.json` at build, together with the redirects.
+`scripts/write-vercel-config.ts` writes these, with the redirects, into Vercel's Build Output config (`.vercel/output/config.json`) at build ([09](09-decisions.md), D83).
 
 | Header | Public pages | `/studio/*` |
 | --- | --- | --- |
