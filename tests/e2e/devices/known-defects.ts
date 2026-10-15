@@ -13,68 +13,6 @@ export const KNOWN: Known[] = [
     pages: ["csp"],
     when: () => true,
   },
-  {
-    id: "QA-S5",
-    note: "Website builder: pin, count and 'off' labels fail colour contrast (1.4.3)",
-    pages: ["studio website axe"],
-    when: () => true,
-  },
-  {
-    id: "QA-S6",
-    note: "Preview: the scrolling main isn't keyboard-focusable on iPad and phones (2.1.1, axe scrollable-region-focusable)",
-    pages: ["studio preview axe"],
-    when: (w) => w <= 834,
-  },
-  {
-    id: "QA-S7",
-    note: "Studio pages scroll sideways (1.4.10): Visuals cards at 320",
-    pages: ["studio editor visuals overflow"],
-    when: (w) => w <= 320,
-  },
-  {
-    id: "QA-S7",
-    note: "Studio pages scroll sideways (1.4.10): Preview's device view is 1152px wide at iPad landscape",
-    pages: ["studio preview overflow"],
-    when: (w) => w >= 1024 && w < 1280,
-  },
-  {
-    id: "QA-S8",
-    note: "Phone upload sheet: Esc drops focus to <body> instead of the Upload button (2.4.3)",
-    pages: ["studio media upload sheet"],
-    when: (w) => w < 768,
-  },
-  {
-    id: "QA-S9",
-    note: "Studio targets under 44px on touch layouts (08): iPad landscape misses .t44; swatches, toggles, chips, builder rows",
-    pages: [
-      "studio dashboard targets",
-      "studio editor visuals targets",
-      "studio writing targets",
-      "studio media targets",
-      "studio website targets",
-      "studio editor url-seo targets",
-      "studio profile targets",
-      "studio preview targets",
-    ],
-    when: (w) => w < 1280,
-  },
-  {
-    id: "QA-S9",
-    note: "Studio targets under 44px at iPad landscape: .t44 stops at 1023px",
-    pages: [
-      "studio projects targets",
-      "studio editor overview targets",
-      "studio editor story targets",
-      "studio editor outcomes targets",
-    ],
-    when: (w) => w >= 1024 && w < 1280,
-  },
-  {
-    id: "QA-S10",
-    note: "No focus indicator on the website builder's and preview's iframes (2.4.7)",
-    pages: ["studio website focus", "studio preview focus"],
-    when: () => true,
-  },
 ];
 
 export function knownDefect(page: string, width: number) {
