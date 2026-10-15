@@ -374,6 +374,13 @@
   font-size: 15px;
   color: var(--tx2);
 }
+/* WritingPublic's `.tag`: 22px tall, padding 0 7px, centred (C5 elsewhere is 3px 8px). */
+.fact .factTag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 7px;
+}
 .body blockquote {
   margin: 34px 0 0;
   padding: 4px 0 4px 26px;

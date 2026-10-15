@@ -586,12 +586,20 @@ abbr.short {
   .table[data-collapsed] .moreRow {
     display: table-row;
   }
+  /* CaseStudyTablet keeps every row's rule, the "+ 4 more" row's included. */
+  .table[data-collapsed] .moreRow td {
+    border-bottom: 1px solid var(--ln);
+  }
   .journey {
     grid-template-columns: repeat(var(--stages), minmax(0, 1fr));
     gap: 8px;
   }
   .stage {
     padding: 14px 12px;
+  }
+  /* CaseStudyTablet's number inherits the step's line-height 1.35 (16.2px). */
+  .stageNum {
+    line-height: 1.35;
   }
   .stageTitle {
     margin-top: 0;

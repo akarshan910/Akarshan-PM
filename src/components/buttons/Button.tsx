@@ -96,11 +96,14 @@ export function Button({
     }
     onClick?.(event);
   };
+  // The boards draw a button's play triangle filled, at 16px (CaseStudy*, "Explore the prototype").
+  const glyph = (name: IconName) =>
+    name === "play" ? <Icon name={name} filled size={16} /> : <Icon name={name} />;
   const content = (
     <>
-      {loading ? <span className={styles.spinner} aria-hidden="true" /> : icon && <Icon name={icon} />}
+      {loading ? <span className={styles.spinner} aria-hidden="true" /> : icon && glyph(icon)}
       {loading && loadingLabel ? loadingLabel : children}
-      {!loading && iconEnd && <Icon name={iconEnd} />}
+      {!loading && iconEnd && glyph(iconEnd)}
       {newTab && <span className="sr-only"> (opens in a new tab)</span>}
     </>
   );
