@@ -172,6 +172,9 @@ for (const width of WIDTHS) {
         test.skip(!(await studioBuilt(page)), "Studio isn't on this branch yet");
         await signIn(page);
         await open(page, s.path);
+        // Some controls (the topic picker) render and size after the data loads; let the screen
+        // settle. (networkidle never comes: the builder and preview keep iframes loading.)
+        await page.waitForTimeout(1000);
         expect(await smallTargets(page)).toEqual([]);
       });
 

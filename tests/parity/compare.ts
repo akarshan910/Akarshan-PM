@@ -54,8 +54,9 @@ export type Section = {
    */
   mask?: { board: string[]; page: string[] };
   /**
-   * Parts removed (`display: none`) before the shot, for 09 · D75 content that one side draws and
-   * the other doesn't (a figure, a cover, a pager): masking can't help when the heights differ.
+   * Parts removed from the DOM before the shot, for 09 · D75 content that one side draws and the
+   * other doesn't (a figure, a cover, a pager): masking can't help when the heights differ. Removed,
+   * not hidden, so CSS that reacts to absence (`:has()`, `:empty`) lays out as it would without it.
    */
   collapse?: { board?: string[]; page?: string[] };
   /**
@@ -118,7 +119,27 @@ async function typeOf(page: Page, selector: string) {
 
 async function settle(page: Page) {
   await page.evaluate(() => Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 4000))]));
+  await images(page);
   await page.waitForTimeout(250);
+}
+
+/** Waits for every image to load and decode, so a cover still arriving doesn't flip a diff. */
+async function images(page: Page) {
+  await page.evaluate(() =>
+    Promise.race([
+      Promise.all(
+        Array.from(document.images).map((img) =>
+          (img.complete
+            ? Promise.resolve()
+            : new Promise((r) => {
+                img.addEventListener("load", r, { once: true });
+              })
+          ).then(() => img.decode().catch(() => undefined)),
+        ),
+      ),
+      new Promise((r) => setTimeout(r, 8000)),
+    ]),
+  );
 }
 
 async function shoot(page: Page, selector: string, opts: { band?: boolean; until?: string } = {}) {
@@ -160,15 +181,17 @@ async function compareSection(
 ) {
   if (s.boardScript) await boardPage.evaluate(s.boardScript);
   if (s.pageScript) await sitePage.evaluate(s.pageScript);
-  // Masks and collapses go in before measuring, so crops see the final layout.
-  const css = (mask: string[] | undefined, collapse: string[] | undefined, extra: string) =>
-    [
-      extra,
-      `${[...(mask ?? []), "[data-qa-mask]"].join(", ")} { visibility: hidden !important; }`,
-      collapse?.length ? `${collapse.join(", ")} { display: none !important; }` : "",
-    ].join("\n");
-  await boardPage.addStyleTag({ content: css(s.mask?.board, s.collapse?.board, hide.board) });
-  await sitePage.addStyleTag({ content: css(s.mask?.page, s.collapse?.page, hide.page) });
+  // Removals and masks go in before measuring, so crops see the final layout.
+  const remove = (selectors: string[]) => {
+    for (const el of Array.from(document.querySelectorAll(selectors.join(", ")))) el.remove();
+  };
+  if (s.collapse?.board?.length) await boardPage.evaluate(remove, s.collapse.board);
+  if (s.collapse?.page?.length) await sitePage.evaluate(remove, s.collapse.page);
+  const css = (mask: string[] | undefined, extra: string) =>
+    `${extra}\n${[...(mask ?? []), "[data-qa-mask]"].join(", ")} { visibility: hidden !important; }`;
+  await boardPage.addStyleTag({ content: css(s.mask?.board, hide.board) });
+  await sitePage.addStyleTag({ content: css(s.mask?.page, hide.page) });
+  await images(sitePage);
   const a = await shoot(boardPage, s.board, { ...(s.until ? { until: s.until.board } : {}) });
   const b = await shoot(sitePage, s.page, {
     ...(s.band ? { band: true } : {}),
