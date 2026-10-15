@@ -8,7 +8,9 @@
   },
   "scripts": {
     "dev": "react-router dev",
-    "build": "node scripts/check-env.ts && react-router build && node scripts/check-build.ts",
+    "build": "node scripts/check-env.ts && react-router build && npm run build:feeds && npm run build:media && node scripts/check-build.ts",
+    "build:feeds": "vite-node -c supabase/vitest.config.ts scripts/build-feeds.ts",
+    "build:media": "vite-node -c supabase/vitest.config.ts scripts/fetch-media.ts",
     "typecheck": "react-router typegen && tsc",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",

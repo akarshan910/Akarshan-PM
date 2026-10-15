@@ -22,6 +22,8 @@ export interface ReadResult {
  */
 export interface PublicReader {
   select(table: "profile" | "site_layout" | "projects" | "posts", columns: string): Promise<ReadResult>;
+  /** `pm.public_redirects()`, the one function anon may call (06 · Row-level security). */
+  redirects?(): Promise<ReadResult>;
 }
 
 interface SingletonRow<T> {

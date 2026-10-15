@@ -6,6 +6,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import type { PublicContent } from "~/lib/content-source";
+import { readRedirects, vercelRedirects } from "~/lib/redirects";
 import {
   ContentReadError,
   readPublicContent,
@@ -36,6 +37,12 @@ function anonReader(db: Db): PublicReader {
       } catch (error) {
         return { data: null, error: { message: error instanceof Error ? error.message : String(error) } };
       }
+    },
+    async redirects() {
+      const res = await as(db, { role: "anon" }, () =>
+        db.query<Record<string, unknown>>("select old_path, new_path from pm.public_redirects() order by 1"),
+      );
+      return { data: res.rows, error: null };
     },
   };
 }
@@ -102,6 +109,28 @@ describe("the supabase content source (06 · Build-time data)", () => {
     // The later of the profile's and the layout's publish.
     expect(content.updatedAt).toBe(AT);
     expect(JSON.stringify(content)).not.toContain(LEAK);
+  });
+
+  it("reads the redirects as a visitor: renames and once-public pages, never drafts", async () => {
+    const live = v0.projects[0]?.slug ?? "";
+    await db.query(
+      `insert into pm.slug_redirects (old_path, project_id)
+       select '/work/old-name', id from pm.projects where published_slug = $1`,
+      [live],
+    );
+    await db.query(
+      `insert into pm.slug_redirects (old_path, project_id)
+       select '/work/old-draft', id from pm.projects where slug = 'draft-only'`,
+    );
+    const rows = await readRedirects(anonReader(db));
+    expect(rows).toContainEqual({ old_path: "/work/old-name", new_path: `/work/${live}` });
+    expect(rows.map((r) => r.old_path)).not.toContain("/work/old-draft");
+    expect(vercelRedirects(rows)).toContainEqual({
+      source: "/work/old-name",
+      destination: `/work/${live}`,
+      permanent: true,
+    });
+    expect(JSON.stringify(rows)).not.toContain(LEAK);
   });
 
   it("can't read anything but the published columns", async () => {

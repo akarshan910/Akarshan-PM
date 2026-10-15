@@ -37,16 +37,19 @@ test.describe("page states", () => {
     await context.close();
   });
 
-  // HANDOFF Next item 7 (M5): unprerendered /work/<slug> needs the unlisted shell and the host's
-  // rewrites; until then it hydrates another page's HTML and shows the error state.
-  test.fixme("an unknown case study shows the 404 page", async ({ page }) => {
+  // A /work/<slug> with no prerendered page is the unlisted shell (D24): with no such project it shows
+  // the 404 page, noindex.
+  test("an unknown case study shows the 404 page, noindex", async ({ page }) => {
     await page.goto("/work/not-a-project/");
     await expect(notFound(page)).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex");
   });
 
   test("a failed load shows the error state", async ({ page }) => {
     await page.route("**/work/broken.data**", (route) => route.fulfill({ status: 500, body: "" }));
     await page.goto("/work/");
+    // Navigate inside the hydrated app; before hydration the page would load /work/broken itself.
+    await page.waitForLoadState("networkidle");
     await page.evaluate(() => {
       window.history.pushState({}, "", "/work/broken");
       window.dispatchEvent(new PopStateEvent("popstate"));

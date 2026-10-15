@@ -6,6 +6,7 @@ import { formatDate } from "~/components/sections/Footer";
 import { WorkList } from "~/components/work/WorkList";
 import { loadPublicContent } from "~/lib/content.server";
 import { isQa, QA_NOW } from "~/lib/qa";
+import { seoMeta, siteUrl, workSeo } from "~/lib/seo";
 import { buildChrome } from "~/lib/site";
 import { EMPTY_QUERY, parseWorkQuery, workQueryString, workRows, type WorkQuery } from "~/lib/work-list";
 
@@ -17,7 +18,7 @@ export async function loader() {
   const content = await loadPublicContent();
   const { rows, shelves } = workRows(content);
   const { footer } = buildChrome(content);
-  return { rows, shelves, footer };
+  return { rows, shelves, footer, seo: workSeo(content, siteUrl(process.env.SITE_URL)) };
 }
 
 /** Filters live in the address; changing them never refetches the prerendered data. */
@@ -30,13 +31,7 @@ export function shouldRevalidate({
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  return [
-    { title: `Work · ${loaderData.footer.name}` },
-    {
-      name: "description",
-      content: `Every project by ${loaderData.footer.name}, with filters by shelf, company, topic and label.`,
-    },
-  ];
+  return seoMeta(loaderData.seo);
 }
 
 const noSubscribe = () => () => undefined;

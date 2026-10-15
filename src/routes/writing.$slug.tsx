@@ -1,6 +1,7 @@
 import { PageFooter } from "~/components/footer/PageFooter";
 import { PostPage } from "~/components/writing/PostPage";
 import { loadPublicContent } from "~/lib/content.server";
+import { postSeo, seoMeta, siteUrl } from "~/lib/seo";
 import { buildChrome } from "~/lib/site";
 import { postView } from "~/lib/writing";
 
@@ -12,21 +13,21 @@ export async function loader({ params }: Route.LoaderArgs) {
   const content = await loadPublicContent();
   const view = postView(content, params.slug);
   if (!view) return { view: null, footer: buildChrome(content).footer };
-  // SITE_URL is the canonical origin (01 · Environment); without it the page uses its own address.
-  const site = process.env.SITE_URL?.replace(/\/+$/, "");
+  const entry = content.posts.find((p) => p.slug === view.slug);
+  const site = siteUrl(process.env.SITE_URL);
   return {
     view,
     footer: buildChrome(content).footer,
-    ...(site ? { url: `${site}/writing/${view.slug}` } : {}),
+    // The share links use the site's own address, even when the canonical points elsewhere.
+    url: `${site}/writing/${view.slug}`,
+    ...(entry ? { seo: postSeo(content, entry, site) } : {}),
   };
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  if (!loaderData.view) return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
-  const { post } = loaderData.view;
-  const title = post.seo.title ?? `${post.title} · ${loaderData.footer.name}`;
-  const description = post.seo.description ?? post.excerpt;
-  return [{ title }, ...(description ? [{ name: "description", content: description }] : [])];
+  if (!loaderData.view || !("seo" in loaderData))
+    return [{ title: "Page not found" }, { name: "robots", content: "noindex" }];
+  return seoMeta(loaderData.seo);
 }
 
 /** /writing/:slug (03 · Writing pages). */

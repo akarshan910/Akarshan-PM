@@ -16,5 +16,11 @@ export function publicReader(url: string, anonKey: string): PublicReader {
       const { data, error } = await client.from(table).select(columns);
       return { data: data as unknown[] | null, error };
     },
+    async redirects(): Promise<ReadResult> {
+      // Untyped client: the rpc's result type is unknown until it's narrowed here.
+      const result: { data: unknown; error: { message: string } | null } =
+        await client.rpc("public_redirects");
+      return { data: Array.isArray(result.data) ? (result.data as unknown[]) : null, error: result.error };
+    },
   };
 }
