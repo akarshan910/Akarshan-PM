@@ -32,8 +32,8 @@ _Last updated: 15 Oct 2026._
 | M2 · Public site on local data | **Done** (merged 15 Oct 2026), except closing the pixel-parity sections (about 49 of 75 pass). See Next |
 | M3 · Supabase | **Built and tested locally** (merged 15 Oct 2026): `pm` schema with RLS, buckets, the six `pm-` Edge Functions, `db:migrate`, `db:lint`, `setup:owner`, `seed:v0`, PGlite tests (`npm run test:db`). The Supabase content source (`CONTENT_SOURCE=supabase`, WP3.5) is built and tested; local-v0 stays the default until go-live. Not done: every go-live step on the shared project, which the owner runs (`supabase/README.md`) |
 | M4 · Studio | **Built** (merged 16 Oct 2026): every screen, the review fixes and the Supabase-backed repo (security-reviewed against the real migrations). Open: iPad and phone (QA's pass); resumable uploads before launch (D80) |
-| M5 · Publishing and SEO | Not started |
-| M6 · QA and launch | Not started |
+| M5 · Publishing and SEO | **Built** (merged 16 Oct 2026): the `pm-` functions with posters and deploy-only retry, cron, per-page metadata, sitemap, robots, RSS, media copied at build, redirects, the unlisted shell, and the host's routes and headers as Vercel Build Output (per-page CSP hashes, D83). The cron and deploy hook switch on with the owner's go-live |
+| M6 · QA and launch | **In progress.** The no-leaks CI job against a local Supabase, the full 08 pass (QA: accessibility, devices, parity, performance; security: no-leaks and security checks), then the owner's launch checklist below |
 | M7 · Wiki | Not started |
 
 ### M2 in detail
@@ -66,18 +66,37 @@ Five agents work in parallel, each in its own git worktree and branch (`claude/a
 
 ## Next
 
-Pick up in this order. Each item lists the doc sections and boards to read.
+Pick up in this order. Each item lists the doc sections to read.
 
-1. **Close M2.**
-   - Pixel parity: `npm run parity` (QA's specs, one build per width, D70) passes about 49 of 75 pixel sections (plus the dek type checks); portfolio closes the rest, with per-width fixture copy.
-2. **M4 · Studio, what's left.** iPad and phone layouts, through QA's pass. Before launch: resumable uploads with `tus-js-client` (D80; no `heic2any`, so non-Safari HEIC asks for a JPG). Security's review of the Supabase repo is closed (contract test `supabase/tests/studio-contract.test.ts`). PDFs and GIFs keep their metadata (an open item for the owner's résumé PDF).
-3. **M3 · what's left.** Reading `public_redirects()` for M5's `write-vercel-config`. The go-live steps in `supabase/README.md` are the owner's (expose `pm`, extensions, `db:migrate`, Vault, function secrets and deploys, `setup:owner`, Auth settings); nothing touches the shared project until the owner says so. Security follow-ups are in `.agents/security/inbox`.
-4. **M5 · Unknown `/work/<slug>` addresses.** Today a static server answers them with another page's prerendered HTML. React Router then finds no loader data for `routes/work.$slug` and shows the error state, not the 404. The fix follows [01 · Rendering](docs/handover/01-architecture.md#rendering): `scripts/write-vercel-config.ts` rewrites `/work/:slug` paths with no prerendered page to the `noindex` unlisted shell (`work.unlisted.tsx`). The shell shows the project or the 404 state. Every other unknown path gets `404.html` with status 404. Add the e2e case back to `tests/e2e/states.spec.ts` once the shell exists.
-5. **M5 · The RSS feed.** `RssLink` already points at `/writing/rss.xml`; the feed must exist before the first post is published.
+1. **M6 · the full 08 pass**, split by owner:
+   - QA: accessibility, devices (including Studio at 834 and 390, the last M4 box), performance budgets (01 · Performance budget) and pixel parity with `npm run parity`; portfolio closes the parity sections still failing.
+   - Security: the no-leaks job (CI `no-leaks`, against a local Supabase) and 08 · Security checks, including a CSP check against `.vercel/output/config.json`.
+   - Review: keeps every CI job green, merges, ticks the M6 boxes.
+2. **Dev dependencies:** move vitest 3 to the current major with `@vitest/coverage-v8` (dev-only advisories; `npm audit --omit=dev` is clean).
+3. **M7 · the wiki**, once the site is live and stable (portfolio).
+4. **The owner's launch checklist** below.
+
+## Launch checklist (the owner, in order)
+
+Everything else is built and checked; these steps need the owner's accounts or decisions. Details for steps 4–5 are in [`supabase/README.md`](supabase/README.md) › Going live and › Check it works; the reasons are in [09](docs/handover/09-decisions.md).
+
+1. **Decide the open items:**
+   - the sign-in email sender (D53): lumina's existing Resend SMTP (recommended) or Supabase's built-in sender (development only);
+   - Studio's own rich-text field and reordering instead of TipTap and dnd-kit (D69, recommended: keep);
+   - the three nav reds (Q5): keep the live values with an accessibility exception, or the slightly darker AA values;
+   - optional: HEIC conversion outside Safari (D80; today Studio asks for a JPG).
+2. **Prototypes:** deploy the three prototypes as one Vercel project and fill `scripts/v0-prototypes.json` (`seed:v0` reads it in step 4).
+3. **Vercel site project:** the "Other" preset with `npm run build` (the build writes `.vercel/output`, D83). Its production branch is `main`.
+4. **Supabase, the 18 go-live steps** in `supabase/README.md`, in order: expose `pm`, switch on `pg_cron` and `pg_net`, `db:migrate` (dry run first), Vault, the deploy hook, function secrets, deploy the six functions by name, Auth settings (sign-ups off, 8-digit codes, 10-minute links, the template, the sender from step 1), rate limits with CAPTCHA off (D54), `setup:owner`, `seed:v0`, the Vercel environment variables (`CONTENT_SOURCE=supabase`), redeploy.
+5. **Check it works** (`supabase/README.md`): cron runs, an 8-digit code arrives, a publish rebuilds the site, a preview link works and revokes, lumina's sign-in still works.
+6. **Launch:** approve merging `claude/elegant-allen-xdmal0` into `main` (D46). Review does the merge; `main` deploys.
+7. **Content:** sign in to Studio and work through every "Worth a check" item on the dashboard.
+8. **Accounts:** GitHub secret scanning with push protection, Dependabot, private vulnerability reporting and branch protection on `main`; 2-Step Verification on the owner's mailbox (it's the key to Studio).
+9. **After launch:** remove `dist/` from git, delete the old prototype copies in `public/` and at the repo root, take down the old site's Vercel project if it's separate, and check the résumé PDF's own metadata (PDFs upload unchanged).
 
 ## Decisions made during the build
 
-They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D82 (D49–D54 and D66 answer Q2, Q3, Q4, Q6, Q8, Q9 and Q10; D55–D59 are M3's; D61–D65 are M4's). Smaller deviations from the boards, already in the code:
+They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D83 (D49–D54 and D66 answer Q2, Q3, Q4, Q6, Q8, Q9 and Q10; D55–D59 are M3's; D61–D65 are M4's). Smaller deviations from the boards, already in the code:
 
 - **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px, except Let's Talk on phones (10px, D74). Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
 - **Accordion:** it rotates a plus 45°, per 02 and the board, not 04's chevron.
