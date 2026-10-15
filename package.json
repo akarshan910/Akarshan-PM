@@ -21,6 +21,7 @@
     "db:migrate": "node scripts/migrate.ts",
     "setup:owner": "node scripts/setup-owner.ts",
     "seed:v0": "vite-node -c supabase/vitest.config.ts scripts/seed-v0.ts",
+    "seed:leaks": "vite-node -c supabase/vitest.config.ts scripts/seed-leak-markers.ts",
     "backup": "node scripts/not-yet.ts backup",
     "preview": "vite preview --outDir build/client",
     "db:lint": "node scripts/migration-lint.ts"
