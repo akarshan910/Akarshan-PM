@@ -580,3 +580,19 @@
   color: var(--tx);
   cursor: pointer;
 }
+
+/* "Add images": the upload sheet on phones (StudioMobile), the file picker elsewhere. */
+.phoneOnly {
+  display: none;
+  width: 100%;
+  font: inherit;
+  cursor: pointer;
+}
+@media (max-width: 767px) {
+  .phoneOnly {
+    display: flex;
+  }
+  .notPhone {
+    display: none;
+  }
+}

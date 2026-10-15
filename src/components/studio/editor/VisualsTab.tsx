@@ -13,6 +13,7 @@ import { TextArea, TextField } from "../Field";
 import { useShell } from "../shell/ShellContext";
 import { StudioIcon } from "../StudioIcon";
 import { useToast } from "../Toast";
+import { UploadSheet } from "../media/UploadSheet";
 import { useUpload } from "../media/useUpload";
 import { EditorCols, Sec } from "./EditorFrame";
 import { useEditor } from "./ProjectEditor";
@@ -166,6 +167,7 @@ export function VisualsTab() {
     setGallery((g) => [...g, ...rows.map((r) => ({ mediaId: r.id }))]);
     setSel(rows[0]?.id ?? null);
   };
+  const [sheet, setSheet] = useState(false);
   const altOf = (g: MediaRef) => g.alt ?? byId.get(g.mediaId)?.alt ?? "";
   const missing = gallery.filter((g) => !g.decorative && !altOf(g).trim()).length;
   const selIdx = gallery.findIndex((g) => g.mediaId === sel);
@@ -531,7 +533,18 @@ export function VisualsTab() {
                 ) : null}
               </div>
             ))}
-          <label className={styles.addTile}>
+          {/* Phones open the upload sheet (StudioMobile); larger screens pick files directly. */}
+          <button
+            type="button"
+            className={cx(styles.addTile, styles.phoneOnly)}
+            onClick={() => {
+              setSheet(true);
+            }}
+          >
+            <StudioIcon name="upload" size={22} />
+            Add images
+          </button>
+          <label className={cx(styles.addTile, styles.notPhone)}>
             <StudioIcon name="upload" size={22} />
             Add images
             <span className={styles.addNote}>PNG, JPG, WebP or GIF · up to 10 MB</span>
@@ -546,6 +559,20 @@ export function VisualsTab() {
               }}
             />
           </label>
+          <UploadSheet
+            title={`Add to the ${e.draft.overview.title.split(/\s+/)[0] || "project"} gallery`}
+            imagesOnly
+            open={sheet}
+            onOpenChange={setSheet}
+            items={upload.items}
+            rows={e.media}
+            onFiles={(f) => void addImages(f)}
+            onAlt={(id, alt) => {
+              void repo.media.update(id, { alt }).then((row) => {
+                e.setMedia((m) => m.map((x) => (x.id === row.id ? row : x)));
+              });
+            }}
+          />
         </div>
       </Sec>
     </EditorCols>

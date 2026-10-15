@@ -18,6 +18,7 @@ import { ConflictDialog } from "../states/ConflictDialog";
 import { useToast } from "../Toast";
 import { TopicPicker, type TopicUse } from "../TopicPicker";
 import { UNSAVED_MESSAGE, useAutosave } from "../useAutosave";
+import { deployToast } from "../deployToast";
 import { useStudioTitle } from "../useStudioTitle";
 import { useUpload } from "../media/useUpload";
 import styles from "./Writing.module.css";
@@ -225,7 +226,9 @@ export function PostEditor({
       later && scheduledIso
         ? `Scheduled for ${scheduleLabel(scheduledIso).long}.`
         : `Published at /writing/${fresh?.publishedSlug ?? slug} and added to your RSS feed.`;
-    toast.show({ message: msg });
+    // A scheduled post isn't live yet, so there's no rebuild to report.
+    if (later) toast.show({ message: msg });
+    else deployToast(toast, repo, r.deployed, { message: msg });
     announce(later ? "Scheduled." : "Published.");
   };
 
