@@ -101,7 +101,7 @@
 .chSub {
   font-size: 12px;
 }
-.addCh {
+:global(.st) .addCh {
   width: 100%;
   margin-top: 8px;
 }
@@ -524,6 +524,23 @@
 }
 .riceTable {
   min-width: 560px;
+}
+/* M-ST-FLASH: a row a RICE fix changed, 1.2s; two names so a second fix replays it. */
+.flashA {
+  animation: global(stFlashA) 1.2s ease-out;
+}
+.flashB {
+  animation: global(stFlashB) 1.2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flashA,
+  .flashB {
+    animation: none;
+  }
+}
+:global(html.still) .flashA,
+:global(html.still) .flashB {
+  animation: none;
 }
 .tr {
   display: grid;

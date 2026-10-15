@@ -91,7 +91,11 @@ export function StoryTab() {
     before: TableBlock;
     text: string;
     kind: "use" | "ok";
+    /** The row a fix changed: it flashes once (M-ST-FLASH, 1.2s). */
+    row?: number;
+    flip: number;
   } | null>(null);
+  const riceFlip = useRef(0);
   const focusAfter = useRef<string | null>(null);
 
   // ?block= from the dashboard opens that block's chapter and selects it.
@@ -431,6 +435,8 @@ export function StoryTab() {
                       block: b.id,
                       before,
                       kind: "use",
+                      row: problem.flag.row,
+                      flip: ++riceFlip.current,
                       text: `${problem.flag.item} now ranks ${r.rank === 1 ? "first" : `#${r.rank}`}.${
                         stale.length
                           ? ` ${stale.map((t) => `“${t}”`).join(" and ")} still mention ${previousTop} first. Update them, or undo.`
@@ -445,6 +451,8 @@ export function StoryTab() {
                       block: b.id,
                       before,
                       kind: "ok",
+                      row: problem.flag.row,
+                      flip: ++riceFlip.current,
                       text: `Effort set to ${problem.flag.effortForShown} months, so the score of ${problem.flag.shown} now matches its inputs.`,
                     });
                   } else {
@@ -454,6 +462,7 @@ export function StoryTab() {
                       block: b.id,
                       before,
                       kind: "ok",
+                      flip: ++riceFlip.current,
                       text: `Marked as reviewed. The score stays ${problem.flag.shown}.`,
                     });
                   }
@@ -768,7 +777,7 @@ function BlockCard({
   last: boolean;
   selected: boolean;
   ring: string;
-  rice: { kind: "use" | "ok"; text: string } | null;
+  rice: { kind: "use" | "ok"; text: string; row?: number; flip: number } | null;
   onSelect: () => void;
   onChange: (fn: (b: Block) => Block) => void;
   onMove: (dir: -1 | 1) => void;
@@ -998,7 +1007,7 @@ function TableView({
   onUndo,
 }: {
   block: TableBlock;
-  rice: { kind: "use" | "ok"; text: string } | null;
+  rice: { kind: "use" | "ok"; text: string; row?: number; flip: number } | null;
   onRice: (kind: "use" | "effort" | "keep") => void;
   onUndo: () => void;
 }) {
@@ -1120,11 +1129,12 @@ function TableView({
           {rows.map((r) => {
             const i = Number(r.key.split("-").pop());
             const bad = flagged.has(i);
+            const flash = rice?.row === i ? (rice.flip % 2 ? styles.flashA : styles.flashB) : undefined;
             const [rank = "", item = "", reach = "", imp = "", conf = "", eff = "", score = ""] = r.cells;
             return (
               <div
                 key={r.key}
-                className={styles.tr}
+                className={cx(styles.tr, flash)}
                 role="row"
                 style={{ background: bad ? "#FFFBF0" : r.top ? "#F6F5F2" : undefined }}
               >

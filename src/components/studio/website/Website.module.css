@@ -229,7 +229,7 @@
   width: 28px;
   height: 28px;
 }
-.add {
+:global(.st) .add {
   flex: 1;
   height: 38px;
 }
@@ -310,7 +310,7 @@
   align-items: center;
   gap: 10px;
 }
-.backBtn {
+:global(.st) .backBtn {
   height: 30px;
   padding: 0 10px;
   font-size: 12px;
@@ -514,10 +514,10 @@
   font-family: var(--fm);
   font-size: 13px;
 }
-.danger {
+:global(.st) .danger {
   color: var(--err);
 }
-.h38 {
+:global(.st) .h38 {
   height: 38px;
 }
 .ib30 {
