@@ -231,6 +231,7 @@
 }
 .mt {
   position: relative;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -618,7 +619,8 @@
     margin-left: 0;
   }
   .grid {
-    grid-template-columns: 1fr 1fr;
+    /* minmax(0, …): long file names shrink inside the tile instead of widening the column. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   .side {

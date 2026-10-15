@@ -8,6 +8,8 @@
 /** The sign-in code's length: 8, the owner's answer to Q9. Everything reads this one value. */
 export const CODE_LENGTH: number = 8;
 /** The length in words, for "all eight digits are in". */
+/** "an 8-digit code", "a 6-digit code": the article the number takes when read aloud. */
+export const CODE_ARTICLE = /^(8|11|18)$/.test(String(CODE_LENGTH)) ? "an" : "a";
 export const CODE_LENGTH_WORD = CODE_LENGTH === 8 ? "eight" : CODE_LENGTH === 6 ? "six" : String(CODE_LENGTH);
 
 export const RESEND_WAIT = 60;

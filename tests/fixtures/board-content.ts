@@ -612,6 +612,8 @@ const profile: Profile = {
         }
       : t;
   }),
+  // The boards set Off duty's copy with typographic apostrophes; the live text has straight ones.
+  offDuty: v0.profile.offDuty.map((o) => ({ ...o, text: o.text.replace(/'/g, "’") })),
   contact: { ...v0.profile.contact, github: "https://github.com/example" },
   footer: { credit: "Vibe-coded in Bengaluru" },
 };
@@ -772,7 +774,7 @@ const POST_BODY: Post["blocks"] = [
     body: "<p>[More of your post. Headings use the condensed display face; body stays in Geist.]</p>",
   },
   { id: "pb6", type: "quote", body: "[A line worth quoting.]" },
-  { id: "pb7", type: "image", mediaId: "cover-word-games-monetisation-strategy", caption: "[Image caption. Alt text is required in Studio.]" },
+  { id: "pb7", type: "image", mediaId: "figure-word-games-monetisation-strategy", caption: "[Image caption. Alt text is required in Studio.]" },
   { id: "pb8", type: "text", body: "<p>[Your closing paragraph.]</p>" },
 ];
 
@@ -797,7 +799,15 @@ function coverImg(slug: string, accent: Accent): Img | undefined {
   };
 }
 
-const byMediaId = (ref: { mediaId: string }, accent: Accent) => coverImg(ref.mediaId.replace(/^cover-/, ""), accent);
+const byMediaId = (ref: { mediaId: string }, accent: Accent): Img | undefined => {
+  // WritingPublic's in-body figure is a 16:9 frame; the stand-in cover is 16:10, so the fixture
+  // describes it at 16:9 (the image crops to its box) to compare layout like for like.
+  if (ref.mediaId.startsWith("figure-")) {
+    const img = coverImg(ref.mediaId.replace(/^figure-/, ""), accent);
+    return img ? { ...img, height: 900 } : undefined;
+  }
+  return coverImg(ref.mediaId.replace(/^cover-/, ""), accent);
+};
 
 /**
  * The fixture for one parity width (D70): `PM_FIXTURE_WIDTH` picks 834 or 390's condensed copy;

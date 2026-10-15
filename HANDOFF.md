@@ -29,12 +29,12 @@ _Last updated: 15 Oct 2026._
 | --- | --- |
 | M0 · Foundation | **Done.** Stack, routing, tokens, fonts, CI, security gates, legacy content frozen, shared content core |
 | M1 · Components | **Done.** Every C1–C22, S1, S2 and Studio primitive, on `/dev/components` (dev only) |
-| M2 · Public site on local data | **Done** (merged 15 Oct 2026), except closing the pixel-parity sections (about 49 of 75 pass). See Next |
+| M2 · Public site on local data | **Done** (merged 15 Oct 2026), except closing the pixel-parity sections (65 of 80 checks pass). See Next |
 | M3 · Supabase | **Built and tested locally** (merged 15 Oct 2026): `pm` schema with RLS, buckets, the six `pm-` Edge Functions, `db:migrate`, `db:lint`, `setup:owner`, `seed:v0`, PGlite tests (`npm run test:db`). The Supabase content source (`CONTENT_SOURCE=supabase`, WP3.5) is built and tested; local-v0 stays the default until go-live. Not done: every go-live step on the shared project, which the owner runs (`supabase/README.md`) |
-| M4 · Studio | **Built** (merged 16 Oct 2026): every screen, the review fixes and the Supabase-backed repo (security-reviewed against the real migrations). Open: iPad and phone (QA's pass); resumable uploads before launch (D80) |
-| M5 · Publishing and SEO | **Built** (merged 16 Oct 2026): the `pm-` functions with posters and deploy-only retry, cron, per-page metadata, sitemap, robots, RSS, media copied at build, redirects, the unlisted shell, and the host's routes and headers as Vercel Build Output (per-page CSP hashes, D83). The cron and deploy hook switch on with the owner's go-live |
+| M4 · Studio | **Built** (merged 15 Oct 2026): every screen, the review fixes and the Supabase-backed repo (security-reviewed against the real migrations). Studio's iPad and phone pass is merged and waits for QA's verdict; resumable uploads are in (D80) |
+| M5 · Publishing and SEO | **Built** (merged 15 Oct 2026): the `pm-` functions with posters and deploy-only retry, cron, per-page metadata, sitemap, robots, RSS, media copied at build, redirects, the unlisted shell, and the host's routes and headers as Vercel Build Output (per-page CSP hashes, D83). The cron and deploy hook switch on with the owner's go-live |
 | M6 · QA and launch | **In progress.** The no-leaks CI job against a local Supabase, the full 08 pass (QA: accessibility, devices, parity, performance; security: no-leaks and security checks), then the owner's launch checklist below |
-| M7 · Wiki | Not started |
+| M7 · Wiki | **Drafted** (merged 15 Oct 2026): `docs/wiki/` (14 pages), the root README and the story's "The build". Refreshed after launch, then pushed to the GitHub wiki |
 
 ### M2 in detail
 
@@ -96,7 +96,7 @@ Everything else is built and checked; these steps need the owner's accounts or d
 
 ## Decisions made during the build
 
-They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D83 (D49–D54 and D66 answer Q2, Q3, Q4, Q6, Q8, Q9 and Q10; D55–D59 are M3's; D61–D65 are M4's). Smaller deviations from the boards, already in the code:
+They're all in [09](docs/handover/09-decisions.md); the build-phase ones are D46–D84 (D49–D54 and D66 answer Q2, Q3, Q4, Q6, Q8, Q9 and Q10; D55–D59 are M3's; D61–D65 are M4's). Smaller deviations from the boards, already in the code:
 
 - **Type and touch targets:** type is never under 12px (11 on phones) where boards used 10px, except Let's Talk on phones (10px, D74). Lightbox buttons, testimonial dots and phone-menu footer links got 44px or 24px targets, to pass axe.
 - **Accordion:** it rotates a plus 45°, per 02 and the board, not 04's chevron.

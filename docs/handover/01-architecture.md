@@ -119,6 +119,7 @@ Every variable, where its value lives, and who can see it. Only the three `VITE_
 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` | Vercel env; the client bundle | Public. RLS protects the data |
 | `VITE_TURNSTILE_SITE_KEY` | Vercel env; the Studio bundle | Public. Renders the Turnstile check on the sign-in page |
 | `SITE_URL` | Vercel env | Canonical URLs, sitemap, RSS |
+| `CONTENT_SOURCE` | Vercel env, `supabase` in Production (go-live step 17); unset locally means `local-v0` | Where the build reads published content. `check-env` refuses the boards fixture on any Vercel build |
 | `SUPABASE_SERVICE_ROLE_KEY` | Provided to Edge Functions by Supabase | Publishing, previews, link checks. Never in Vercel, never in the client. It's the shared project's key, so it also opens lumina's data |
 | `pm_service_role_key` | Supabase Vault | The cron jobs' calls to `pm-` functions ([06 · Cron](06-backend.md#cron)) |
 | `PM_DEPLOY_HOOK_URL` | Supabase Edge Function secrets | Rebuild after a publish |
@@ -127,7 +128,7 @@ Every variable, where its value lives, and who can see it. Only the three `VITE_
 | Turnstile secret key | Supabase dashboard, Authentication › Attack protection | Supabase checks each `captchaToken` with Cloudflare |
 | SMTP host, user and password | Supabase dashboard, Authentication › SMTP | Sends the sign-in codes |
 | `OWNER_EMAIL`, plus `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` | The owner's local shell, only while running `npm run setup:owner`, `npm run seed:v0` or `npm run backup` (`OWNER_EMAIL` for `setup:owner` only) | Creates or finds the owner's account and adds the `pm.owners` row; loads the V0 seed; takes backups. Never written to a file in the repo |
-| `PM_DATABASE_URL` | The owner's local shell, only while running `npm run db:migrate` | Applies `supabase/pm/migrations/`. Never in Vercel, CI or a file |
+| `PM_DATABASE_URL` | The owner's local shell, only while running `npm run db:migrate` or `npm run seed:v0` | Applies `supabase/pm/migrations/`. Never in Vercel, CI or a file |
 
 - Commit `.env.example` with the variable names and empty values. Never commit a value.
 - Local development uses `.env.local`, which `.gitignore` already covers.
